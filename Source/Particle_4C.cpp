@@ -84,8 +84,8 @@ bool Particle_4C::UpdateFloatingParticle_state_6_15_16_17()
 
     if (new_z.GetFracValue() > kFpThreeQuarters_6FD55C &&
         gMap_0x370->IsBlockNonAirType(mpOwnSprite->mXy.x.ToInt(),
-                                                    mpOwnSprite->mXy.y.ToInt(),
-                                                    new_z.ToInt()))
+                                      mpOwnSprite->mXy.y.ToInt(),
+                                      new_z.ToInt()))
     {
         new_z = mpOwnSprite->mZpos; // blocked above: stay at the current height
         Fix16 r1;

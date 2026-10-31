@@ -1656,9 +1656,9 @@ void PoliceCrew::HandleChaseInCarObjective()
     {
         Fix16 dist;
         dist = Fix16::MaxAbsDistance(sCurrentCrewPed->get_cam_x(),
-                                            sCurrentCrewPed->get_cam_y(),
-                                            mpPursuitTarget->mCriminalPed->get_cam_x(),
-                                            mpPursuitTarget->mCriminalPed->get_cam_y());
+                                     sCurrentCrewPed->get_cam_y(),
+                                     mpPursuitTarget->mCriminalPed->get_cam_x(),
+                                     mpPursuitTarget->mCriminalPed->get_cam_y());
         if (dist < kFpTwo_6FECF0 + kFpHalf_6FEBF4)
         {
             sCurrentCrewPed->SetObjective(objectives_enum::wait_in_car_27);
@@ -1677,9 +1677,9 @@ void PoliceCrew::HandleChaseInCarObjective()
     {
         Fix16 dist;
         dist = Fix16::MaxAbsDistance(sCurrentCrewPed->get_cam_x(),
-                                            sCurrentCrewPed->get_cam_y(),
-                                            mpPursuitTarget->mCriminalPed->get_cam_x(),
-                                            mpPursuitTarget->mCriminalPed->get_cam_y());
+                                     sCurrentCrewPed->get_cam_y(),
+                                     mpPursuitTarget->mCriminalPed->get_cam_x(),
+                                     mpPursuitTarget->mCriminalPed->get_cam_y());
 
         Car* pCar = mSubObj->mCar;
         CarChaseTask* pChase = pCar->mpChaseTask;
@@ -2217,9 +2217,9 @@ void PoliceRoadblock::Update()
                 }
                 Ped* pPlayerPed = gGame_0x40->mLocalPlayer->mPlayerPed;
                 if (Fix16::MaxAbsDistance(pPlayerPed->get_cam_x(),
-                                                 pPlayerPed->get_cam_y(),
-                                                 Fix16(mX),
-                                                 Fix16(mY)) > kFpTen)
+                                          pPlayerPed->get_cam_y(),
+                                          Fix16(mX),
+                                          Fix16(mY)) > kFpTen)
                 {
                     PoliceRoadblock::RemoveRoadblock();
                     return;
@@ -2607,10 +2607,10 @@ bool PoliceRoadblock::CreateRoadblock(u8 x, u8 y, u8 z, s32 orientation)
             return false;
         }
         if (gMap_0x370->HasWallInArea((x_left - kFpHalf_6FEBF4).ToInt(),
-                                                    (x_right + kFpHalf_6FEBF4 - kFpOne64th_6FEDA0).ToInt(),
-                                                    y_top.ToInt(),
-                                                    (y_bottom - kFpOne64th_6FEDA0).ToInt(),
-                                                    zpos.ToInt()))
+                                      (x_right + kFpHalf_6FEBF4 - kFpOne64th_6FEDA0).ToInt(),
+                                      y_top.ToInt(),
+                                      (y_bottom - kFpOne64th_6FEDA0).ToInt(),
+                                      zpos.ToInt()))
         {
             return false;
         }
@@ -2723,15 +2723,15 @@ bool PoliceRoadblock::CreateRoadblock(u8 x, u8 y, u8 z, s32 orientation)
                 if (sRoadblockLaneHasBarriers)
                 {
                     Object* pBarrier1 = gObject_5C->NewPhysicsObj(objects::roadblock_21,
-                                                                                Fix16(x_start) + kFpPoint2_6FEB50,
-                                                                                Fix16(y_start + lane) + kFpHalf_6FEBF4,
-                                                                                z,
-                                                                                kAng90_6FEB74);
+                                                                  Fix16(x_start) + kFpPoint2_6FEB50,
+                                                                  Fix16(y_start + lane) + kFpHalf_6FEBF4,
+                                                                  z,
+                                                                  kAng90_6FEB74);
                     Object* pBarrier2 = gObject_5C->NewPhysicsObj(objects::roadblock_21,
-                                                                                Fix16(x_start) + kFpPoint8_6FEB68,
-                                                                                Fix16(y_start + lane) + kFpHalf_6FEBF4,
-                                                                                z,
-                                                                                kAng90_6FEB74);
+                                                                  Fix16(x_start) + kFpPoint8_6FEB68,
+                                                                  Fix16(y_start + lane) + kFpHalf_6FEBF4,
+                                                                  z,
+                                                                  kAng90_6FEB74);
                     if (!mBarrier1)
                     {
                         mBarrier1 = pBarrier1;
@@ -2922,10 +2922,10 @@ bool PoliceRoadblock::CreateRoadblock(u8 x, u8 y, u8 z, s32 orientation)
             return false;
         }
         if (gMap_0x370->HasWallInArea(x_left.ToInt(),
-                                                    (x_right - kFpOne64th_6FEDA0).ToInt(),
-                                                    (y_top - kFpHalf_6FEBF4).ToInt(),
-                                                    (y_bottom + kFpHalf_6FEBF4 - kFpOne64th_6FEDA0).ToInt(),
-                                                    zpos.ToInt()))
+                                      (x_right - kFpOne64th_6FEDA0).ToInt(),
+                                      (y_top - kFpHalf_6FEBF4).ToInt(),
+                                      (y_bottom + kFpHalf_6FEBF4 - kFpOne64th_6FEDA0).ToInt(),
+                                      zpos.ToInt()))
         {
             return false;
         }
@@ -3033,15 +3033,15 @@ bool PoliceRoadblock::CreateRoadblock(u8 x, u8 y, u8 z, s32 orientation)
                 if (sRoadblockLaneHasBarriers)
                 {
                     Object* pBarrier1 = gObject_5C->NewPhysicsObj(objects::roadblock_21,
-                                                                                Fix16(x_start + lane) + kFpHalf_6FEBF4,
-                                                                                Fix16(y_start) + kFpPoint2_6FEB50,
-                                                                                z,
-                                                                                kAng0_6FEE30);
+                                                                  Fix16(x_start + lane) + kFpHalf_6FEBF4,
+                                                                  Fix16(y_start) + kFpPoint2_6FEB50,
+                                                                  z,
+                                                                  kAng0_6FEE30);
                     Object* pBarrier2 = gObject_5C->NewPhysicsObj(objects::roadblock_21,
-                                                                                Fix16(x_start + lane) + kFpHalf_6FEBF4,
-                                                                                Fix16(y_start) + kFpPoint8_6FEB68,
-                                                                                z,
-                                                                                kAng0_6FEE30);
+                                                                  Fix16(x_start + lane) + kFpHalf_6FEBF4,
+                                                                  Fix16(y_start) + kFpPoint8_6FEB68,
+                                                                  z,
+                                                                  kAng0_6FEE30);
                     if (!mBarrier1)
                     {
                         mBarrier1 = pBarrier1;

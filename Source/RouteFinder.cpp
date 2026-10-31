@@ -92,7 +92,7 @@ void RouteFinder::ShowJunctionIds()
                                              Fix16(pJunction->mMinX),
                                              Fix16(pJunction->mMinY),
                                              gMap_0x370->FindGroundZForCoord(Fix16(pJunction->mMinX),
-                                                                                           Fix16(pJunction->mMinY)),
+                                                                             Fix16(pJunction->mMinY)),
                                              &screen_x,
                                              &screen_y);
 

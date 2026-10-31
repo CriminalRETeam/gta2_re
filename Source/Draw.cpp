@@ -72,28 +72,28 @@ MATCH_FUNC(0x5D7720)
 void __stdcall DrawStringScaledPalette(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, const s32& palette_type, u16 palette, s32 alpha, u8 alpha_flag)
 {
     DrawString(pStr,
-                    xoff * gViewCamera->mUiScale,
-                    yoff * gViewCamera->mUiScale,
-                    fontType,
-                    gViewCamera->mUiScale,
-                    palette_type,
-                    palette,
-                    alpha,
-                    alpha_flag);
+               xoff * gViewCamera->mUiScale,
+               yoff * gViewCamera->mUiScale,
+               fontType,
+               gViewCamera->mUiScale,
+               palette_type,
+               palette,
+               alpha,
+               alpha_flag);
 }
 
 MATCH_FUNC(0x5D77A0)
 void __stdcall DrawStringScaled(const wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type)
 {
     DrawString(pText,
-                    xpos * gViewCamera->mUiScale,
-                    ypos * gViewCamera->mUiScale,
-                    font_type,
-                    gViewCamera->mUiScale,
-                    palette_types_enum::sprites_2,
-                    0,
-                    0,
-                    0);
+               xpos * gViewCamera->mUiScale,
+               ypos * gViewCamera->mUiScale,
+               font_type,
+               gViewCamera->mUiScale,
+               palette_types_enum::sprites_2,
+               0,
+               0,
+               0);
 }
 
 // The original is a tail-call thunk into the body at 0x5D7CC0 (9.6f: 0x4CAEB0 -> 0x4CADE0)
@@ -354,14 +354,14 @@ s32 __stdcall CountLineSpacing(const wchar_t* pStr, u16 font_type)
 // https://decomp.me/scratch/HX0q9
 MATCH_FUNC(0x5D8A10)
 void __stdcall DrawString(const wchar_t* pText,
-                               Fix16 xpos_fp,
-                               Fix16 ypos_fp,
-                               u16 font_type,
-                               Fix16 scale_fp,
-                               const s32& og_palette_type,
-                               u16 og_palette,
-                               s32 alpha_value,
-                               u8 flags)
+                          Fix16 xpos_fp,
+                          Fix16 ypos_fp,
+                          u16 font_type,
+                          Fix16 scale_fp,
+                          const s32& og_palette_type,
+                          u16 og_palette,
+                          s32 alpha_value,
+                          u8 flags)
 {
     s32 quad_flags = CalcQuadFlags(alpha_value, flags) | quad_flag::texture_filtering;
 

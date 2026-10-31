@@ -820,7 +820,7 @@ MATCH_FUNC(0x565310)
 void Player::TeleportToDebugCam()
 {
     mPlayerPed->TeleportToCoord(this->mViewCamera.mCurPos.mX,
-                                                 this->mViewCamera.mCurPos.mY);
+                                this->mViewCamera.mCurPos.mY);
     memcpy(&this->mGameCamera, &this->mViewCamera, sizeof(this->mGameCamera));
     this->mInDebugCamMode = 0;
     this->mCameraMode = 0;
@@ -1497,13 +1497,13 @@ void Player::DoCarControlInputs(Car* pCar)
     }
 
     pCar->HandleUserInput(this->mNowForwardPressed,
-                                 this->mNowDownPressed,
-                                 this->mNowLeftPressed,
-                                 this->mNowRightPressed,
-                                 this->mNowHandBrakeOrJumpPressed,
-                                 this->mNowSpecial1Pressed,
-                                 this->mSpecial1Changed,
-                                 bAttackPressed);
+                          this->mNowDownPressed,
+                          this->mNowLeftPressed,
+                          this->mNowRightPressed,
+                          this->mNowHandBrakeOrJumpPressed,
+                          this->mNowSpecial1Pressed,
+                          this->mSpecial1Changed,
+                          bAttackPressed);
 }
 
 MATCH_FUNC(0x566C80)
@@ -1971,9 +1971,9 @@ void Player::UpdateCamera(Camera* pCam)
     if (this->mNowSpecial2Pressed)
     {
         pCam->HandlePanning(this->mNowForwardPressed,
-                                   this->mNowDownPressed,
-                                   this->mNowLeftPressed,
-                                   this->mNowRightPressed);
+                            this->mNowDownPressed,
+                            this->mNowLeftPressed,
+                            this->mNowRightPressed);
         this->mNowLeftPressed = false;
         this->mNowRightPressed = false;
         this->mNowForwardPressed = false;
@@ -2029,7 +2029,7 @@ void Player::Service()
     mCrimeStats.Service();
 
     Player::SelectNextOrPrevWeapon(this->mNextWeaponChanged && this->mNowNextWeaponPressed,
-                                          this->mPrevWeaponChanged && this->mNowPrevWeaponPressed);
+                                   this->mPrevWeaponChanged && this->mNowPrevWeaponPressed);
 
     if (this->mBlockAttack)
     {
@@ -2515,7 +2515,7 @@ void Player::InitializePlayerState()
     if (!gMap_0x370->GetFirstZoneOfType(Restart_16))
     {
         FatalError(Gta2Error::NoRestartZone, "C:\\Splitting\\Gta2\\Source\\player.cpp",
-                          2905); // No Restart Zone
+                   2905); // No Restart Zone
     }
     mFinishScoreReached = 0;
     mAuxPedDying = false;

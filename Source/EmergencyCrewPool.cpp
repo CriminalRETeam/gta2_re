@@ -232,9 +232,9 @@ void EmergencyCrew::UpdateStateMachine()
                     }
 
                     if (Fix16::MaxAbsDistance(mPed->get_cam_x(),
-                                                     mPed->get_cam_y(),
-                                                     mCar->mCarSprite->mXy.x,
-                                                     mCar->mCarSprite->mXy.y) > kFpFour_706148)
+                                              mPed->get_cam_y(),
+                                              mCar->mCarSprite->mXy.x,
+                                              mCar->mCarSprite->mXy.y) > kFpFour_706148)
                     {
                         bCarGone = true;
                     }

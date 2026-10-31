@@ -456,7 +456,7 @@ EXPORT void __stdcall NoRefs_sub()
     gmp_block_info block;
     gGtx_0x106C->get_sprite_index(
         gGtx_0x106C->GetSpriteTrueIndex(sprite_types_enum::font_7,
-                                                      gGtx_0x106C->GetSpriteIdxFromFont(gKanjiSmallFont, 0)));
+                                        gGtx_0x106C->GetSpriteIdxFromFont(gKanjiSmallFont, 0)));
     block.init();
     block.mLeft = 7206;
     block.mRight = 7206;
@@ -500,10 +500,10 @@ EXPORT void __stdcall NoRefs_sub()
     gTestTrailer->mTruckCab->IncrementCarStats(car_kind::mission_car_8);
     gWeapon_8->add_car_weapon(15, 1, gTestTrailer->mTruckCab);
     gTestCar2 = gCarManager_6C->SpawnCarAtCorrectZ_Scaled(Fix16(92) + kFpQuarter_704420,
-                                                                        Fix16(175),
-                                                                        kAng90_70420C,
-                                                                        car_model_enum::MONSTER,
-                                                                        kFpOne_7043AC);
+                                                          Fix16(175),
+                                                          kAng90_70420C,
+                                                          car_model_enum::MONSTER,
+                                                          kFpOne_7043AC);
     gTestCar2->IncrementCarStats(car_kind::mission_car_8);
     gTestCar3 =
         gCarManager_6C->SpawnCarAtCorrectZ_Scaled(Fix16(97), Fix16(178), kAng90_70420C, car_model_enum::EDSELFBI, kFpOne_7043AC);
@@ -537,10 +537,10 @@ EXPORT void __stdcall NoRefs_sub()
     gTestCar3->AttachGangIcon(6);
     gTestCar3->IncrementCarStats(car_kind::mission_car_8);
     gTestCar3 = gCarManager_6C->SpawnCarAtCorrectZ_Scaled(Fix16(98) + kFpQuarter_704420,
-                                                                        Fix16(178),
-                                                                        kAng90_70420C,
-                                                                        car_model_enum::STRATOSB,
-                                                                        kFpOne_7043AC);
+                                                          Fix16(178),
+                                                          kAng90_70420C,
+                                                          car_model_enum::STRATOSB,
+                                                          kFpOne_7043AC);
     gTestCar3->mCarSprite->SetRemap(10);
     gTestCar3->AttachGangIcon(5);
     gTestCar3->IncrementCarStats(car_kind::mission_car_8);
@@ -553,28 +553,28 @@ EXPORT void __stdcall NoRefs_sub()
     gTestCar3->AttachGangIcon(7);
     gTestCar3->IncrementCarStats(car_kind::mission_car_8);
     gTestCar3 = gCarManager_6C->SpawnCarAtCorrectZ_Scaled(Fix16(102) + kFpHalf_7041F0,
-                                                                        Fix16(178),
-                                                                        kAng90_70420C,
-                                                                        car_model_enum::boxtruck,
-                                                                        kFpOne_7043AC);
+                                                          Fix16(178),
+                                                          kAng90_70420C,
+                                                          car_model_enum::boxtruck,
+                                                          kFpOne_7043AC);
     gTestCar3->IncrementCarStats(car_kind::mission_car_8);
     gTestCar3 = gCarManager_6C->SpawnCarAtCorrectZ_Scaled(Fix16(104) + kFpHalf_7041F0,
-                                                                        Fix16(178),
-                                                                        kAng90_70420C,
-                                                                        car_model_enum::TRUKCAB1,
-                                                                        kFpOne_7043AC);
+                                                          Fix16(178),
+                                                          kAng90_70420C,
+                                                          car_model_enum::TRUKCAB1,
+                                                          kFpOne_7043AC);
     gTestCar3->IncrementCarStats(car_kind::mission_car_8);
     gTestCar3 = gCarManager_6C->SpawnCarAtCorrectZ_Scaled(Fix16(106) + kFpHalf_7041F0,
-                                                                        Fix16(178),
-                                                                        kAng90_70420C,
-                                                                        car_model_enum::TRUKCAB2,
-                                                                        kFpOne_7043AC);
+                                                          Fix16(178),
+                                                          kAng90_70420C,
+                                                          car_model_enum::TRUKCAB2,
+                                                          kFpOne_7043AC);
     gTestCar3->IncrementCarStats(car_kind::mission_car_8);
     gTestCar3 = gCarManager_6C->SpawnCarAtCorrectZ_Scaled(Fix16(108) + kFpHalf_7041F0,
-                                                                        Fix16(178),
-                                                                        kAng90_70420C,
-                                                                        car_model_enum::bank_van,
-                                                                        kFpOne_7043AC);
+                                                          Fix16(178),
+                                                          kAng90_70420C,
+                                                          car_model_enum::bank_van,
+                                                          kFpOne_7043AC);
     gTestCar3->IncrementCarStats(car_kind::mission_car_8);
     gObject_5C->NewPhysicsObj(objects::bollard_2, 97, 181, 2, kAng0_704500);
     gObject_5C->NewPhysicsObj(objects::power_generator_281, 98, 181, 2, kAng0_704500);
@@ -1923,10 +1923,10 @@ void CC ImGuiDebugDraw()
                     Char* pPlayerChar = pPlayerPed->mGameObject;
                     Sprite* pSprite = pPlayerChar->mSpritePtr;
                     spawned_obj = gObject_5C->NewPhysicsObj(spawnObjectType,
-                                                                          pSprite->mXy.x + Fix16(1),
-                                                                          pSprite->mXy.y,
-                                                                          pSprite->mZpos,
-                                                                          0);
+                                                            pSprite->mXy.x + Fix16(1),
+                                                            pSprite->mXy.y,
+                                                            pSprite->mZpos,
+                                                            0);
                 }
             }
             if (spawned_obj != NULL && spawned_obj->mSprite)
@@ -2523,10 +2523,10 @@ void CC ImGuiDebugDraw()
                         Char* pPlayerChar = pPlayerPed->mGameObject;
                         Sprite* pPlayerSprite = pPlayerChar->mSpritePtr;
                         gPedManager->SpawnPedAt(pPlayerSprite->mXy.x,
-                                                       pPlayerSprite->mXy.y,
-                                                       pPlayerSprite->mZpos,
-                                                       pPlayerChar->mRemap,
-                                                       pPlayerPed->mRotation);
+                                                pPlayerSprite->mXy.y,
+                                                pPlayerSprite->mZpos,
+                                                pPlayerChar->mRemap,
+                                                pPlayerPed->mRotation);
                     }
                 }
 
@@ -2936,33 +2936,33 @@ void CC ImGuiDebugDraw()
 
                 // Drowning peds/cars in water etc
                 gParticle_8->EmitWaterSplash(pPlayerSprite->mXy.x,
-                                                           pPlayerSprite->mXy.y,
-                                                           pPlayerSprite->mZpos,
-                                                           0,
-                                                           false);
+                                             pPlayerSprite->mXy.y,
+                                             pPlayerSprite->mZpos,
+                                             0,
+                                             false);
 
                 gParticle_8->GunMuzzelFlash(pPlayerSprite);
 
                 // The electro gun's arc segments (DrawElectricArc)
                 gParticle_8->EmitElectricArcParticle(pPlayerSprite->mXy.x,
-                                                            pPlayerSprite->mXy.y,
-                                                            pPlayerSprite->mZpos,
-                                                            0);
+                                                     pPlayerSprite->mXy.y,
+                                                     pPlayerSprite->mZpos,
+                                                     0);
 
                 gParticle_8->EmitFireTruckSprayParticle(pPlayerSprite);
                 gParticle_8->EmitFlameStreamSegment(pPlayerSprite);
 
                 // When being shot etc
                 gParticle_8->EmitBloodBurst(pPlayerSprite->mXy.x,
-                                                          pPlayerSprite->mXy.y,
-                                                          pPlayerSprite->mZpos,
-                                                          0);
+                                            pPlayerSprite->mXy.y,
+                                            pPlayerSprite->mZpos,
+                                            0);
 
                 // Like when a car crashes
                 gParticle_8->EmitImpactParticles(pPlayerSprite->mXy.x,
-                                                               pPlayerSprite->mXy.y,
-                                                               pPlayerSprite->mZpos,
-                                                               Fix16_Point(0, 0));
+                                                 pPlayerSprite->mXy.y,
+                                                 pPlayerSprite->mZpos,
+                                                 Fix16_Point(0, 0));
             }
             ImGui::TreePop();
         }

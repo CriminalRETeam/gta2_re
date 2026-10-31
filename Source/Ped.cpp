@@ -974,9 +974,9 @@ bool Ped::CloseDoorIfCarApproaching(Car* pCar)
     pDoor->Close();
 
     mGameObject->HandleGenericImpact(kAng45_6784FC + pCar->mCarSprite->mRotation,
-                                                      kFpPoint05_678634 + kFpPoint1_678480,
-                                                      kFpZero_678660,
-                                                      1);
+                                     kFpPoint05_678634 + kFpPoint1_678480,
+                                     kFpZero_678660,
+                                     1);
     Ped::ChangeNextPedState1(ped_state_1::walking_0);
     Ped::ChangeNextPedState2(ped_state_2::ped2_walking_0);
     return false;
@@ -1536,9 +1536,9 @@ Ang16 Ped::ComputeAimAngle()
     if (PedTypeIs(ped_type::player_2))
     {
         Ped* best = gThreateningPedsList.FindClosestPedInViewCone(this->mCam.x,
-                                                                                this->mCam.y,
-                                                                                this->mFacingAngle,
-                                                                                kAng16_6784E4);
+                                                                  this->mCam.y,
+                                                                  this->mFacingAngle,
+                                                                  kAng16_6784E4);
 
         if (!best)
         {
@@ -2334,18 +2334,18 @@ void Ped::SpawnWeaponOnDeath()
                 {
                     case weapon_type::pistol:
                         pWeaponObj = gObject_5C->NewPhysicsObj(objects::pistol_weapon_200,
-                                                                             mCam.x,
-                                                                             mCam.y,
-                                                                             mCam.z,
-                                                                             gDummyPedAng);
+                                                               mCam.x,
+                                                               mCam.y,
+                                                               mCam.z,
+                                                               gDummyPedAng);
                         break;
 
                     case weapon_type::smg:
                         pWeaponObj = gObject_5C->NewPhysicsObj(objects::machine_gun_weapon_201,
-                                                                             mCam.x,
-                                                                             mCam.y,
-                                                                             mCam.z,
-                                                                             gDummyPedAng);
+                                                               mCam.x,
+                                                               mCam.y,
+                                                               mCam.z,
+                                                               gDummyPedAng);
                         break;
 
                     case weapon_type::rocket:
@@ -2358,10 +2358,10 @@ void Ped::SpawnWeaponOnDeath()
 
                     case weapon_type::molotov:
                         pWeaponObj = gObject_5C->NewPhysicsObj(objects::molotov_weapon_204,
-                                                                             mCam.x,
-                                                                             mCam.y,
-                                                                             mCam.z,
-                                                                             gDummyPedAng);
+                                                               mCam.x,
+                                                               mCam.y,
+                                                               mCam.z,
+                                                               gDummyPedAng);
                         break;
 
                     case weapon_type::grenade:
@@ -2370,26 +2370,26 @@ void Ped::SpawnWeaponOnDeath()
 
                     case weapon_type::shotgun:
                         pWeaponObj = gObject_5C->NewPhysicsObj(objects::shotgun_weapon_206,
-                                                                             mCam.x,
-                                                                             mCam.y,
-                                                                             mCam.z,
-                                                                             gDummyPedAng);
+                                                               mCam.x,
+                                                               mCam.y,
+                                                               mCam.z,
+                                                               gDummyPedAng);
                         break;
 
                     case weapon_type::electro_batton:
                         pWeaponObj = gObject_5C->NewPhysicsObj(objects::pistol_weapon_200,
-                                                                             mCam.x,
-                                                                             mCam.y,
-                                                                             mCam.z,
-                                                                             gDummyPedAng);
+                                                               mCam.x,
+                                                               mCam.y,
+                                                               mCam.z,
+                                                               gDummyPedAng);
                         break;
 
                     case weapon_type::flamethrower:
                         pWeaponObj = gObject_5C->NewPhysicsObj(objects::flamethrower_weapon_208,
-                                                                             mCam.x,
-                                                                             mCam.y,
-                                                                             mCam.z,
-                                                                             gDummyPedAng);
+                                                               mCam.x,
+                                                               mCam.y,
+                                                               mCam.z,
+                                                               gDummyPedAng);
                         break;
 
                     case weapon_type::silence_smg:
@@ -3090,9 +3090,9 @@ void Ped::TaxiCustomer_AI()
                     {
                         Fix16 dist;
                         dist = Fix16::MaxAbsDistance(this->mCam.x,
-                                                            this->mCam.y,
-                                                            pTaxi->mCarSprite->mXy.x,
-                                                            pTaxi->mCarSprite->mXy.y);
+                                                     this->mCam.y,
+                                                     pTaxi->mCarSprite->mXy.x,
+                                                     pTaxi->mCarSprite->mXy.y);
                         if (dist < kFpTwo_678658)
                         {
                             SetVoiceEventIfNotOnFire(5);
@@ -4899,11 +4899,11 @@ void Ped::ProcessMainObjective()
             else
             {
                 CarDoorAlignmentSolver(0,
-                                              mTargetObjectiveCar,
-                                              mTargetCarDoor,
-                                              mTargetX,
-                                              mTargetY,
-                                              door_angle);
+                                       mTargetObjectiveCar,
+                                       mTargetCarDoor,
+                                       mTargetX,
+                                       mTargetY,
+                                       door_angle);
                 mTargetZ = mTargetObjectiveCar->mCarSprite->mZpos;
             }
         }
@@ -5123,11 +5123,11 @@ void Ped::ProcessInternalObjective()
             if (mInternalObjective == objectives_enum::walk_to_car_door_18 || mInternalObjective > objectives_enum::leave_car_and_flee_34 && mInternalObjective <= objectives_enum::leave_train_38)
             {
                 CarDoorAlignmentSolver(0,
-                                              this->mTargetToEnter,
-                                              mTargetCarDoor,
-                                              this->mMoveTargetX,
-                                              this->mMoveTargetY,
-                                              door_angle);
+                                       this->mTargetToEnter,
+                                       mTargetCarDoor,
+                                       this->mMoveTargetX,
+                                       this->mMoveTargetY,
+                                       door_angle);
                 this->mMoveTargetZ = this->mTargetToEnter->mCarSprite->mZpos;
             }
             else
@@ -6522,20 +6522,20 @@ Ped* Ped::FindBestTargetPed(s32 max_x_check)
     if (mGameObject)
     {
         pNear = gSpriteGrid_1->FindNearestSprite_SpiralSearch(sprite_types_enum::ped_3,
-                                                                            sprite_types_enum::car_2,
-                                                                            mGameObject->mSpritePtr,
-                                                                            max_x_check,
-                                                                            0,
-                                                                            0);
+                                                              sprite_types_enum::car_2,
+                                                              mGameObject->mSpritePtr,
+                                                              max_x_check,
+                                                              0,
+                                                              0);
     }
     else
     {
         pNear = gSpriteGrid_1->FindNearestSprite_SpiralSearch(sprite_types_enum::ped_3,
-                                                                            sprite_types_enum::car_2,
-                                                                            mCar->mCarSprite,
-                                                                            max_x_check,
-                                                                            0,
-                                                                            0);
+                                                              sprite_types_enum::car_2,
+                                                              mCar->mCarSprite,
+                                                              max_x_check,
+                                                              0,
+                                                              0);
     }
 
     if (!pNear)
@@ -6589,9 +6589,9 @@ Ped* Ped::FindBestTargetPed(s32 max_x_check)
             dz = Fix16::Abs(mCam.z - pClosest->mCam.z);
             if (dz < kFpOne_678664 && pClosest != gSearchingPed &&
                 Fix16::MaxAbsDistance(pClosest->get_cam_x(),
-                                             pClosest->get_cam_y(),
-                                             gSearchingPed->get_cam_x(),
-                                             gSearchingPed->get_cam_y()) < kFpFour_678670)
+                                      pClosest->get_cam_y(),
+                                      gSearchingPed->get_cam_x(),
+                                      gSearchingPed->get_cam_y()) < kFpFour_678670)
             {
                 if (pClosest->PedTypeIs(ped_type::player_2))
                 {
@@ -6642,11 +6642,11 @@ Ped* Ped::FindNearestPed(u8 max_x_check)
 {
     gSearchingPed = this;
     Sprite* pSprite = gSpriteGrid_1->FindNearestSprite_SpiralSearch(sprite_types_enum::ped_3,
-                                                                                  sprite_types_enum::car_2,
-                                                                                  mGameObject->mSpritePtr,
-                                                                                  max_x_check,
-                                                                                  0,
-                                                                                  0);
+                                                                    sprite_types_enum::car_2,
+                                                                    mGameObject->mSpritePtr,
+                                                                    max_x_check,
+                                                                    0,
+                                                                    0);
     if (pSprite)
     {
         // @OG_BUG: Null de-ref
@@ -6661,11 +6661,11 @@ Ped* Ped::FindNearbyPed()
     gTargetSearchMode = threat_search_enum::area_player_threat_only_3;
     gSearchingPed = this;
     Sprite* pNearest = gSpriteGrid_1->FindNearestSprite_SpiralSearch(sprite_types_enum::ped_3,
-                                                                                   sprite_types_enum::car_2,
-                                                                                   mGameObject->mSpritePtr,
-                                                                                   3u,
-                                                                                   1,
-                                                                                   0);
+                                                                     sprite_types_enum::car_2,
+                                                                     mGameObject->mSpritePtr,
+                                                                     3u,
+                                                                     1,
+                                                                     0);
     if (pNearest)
     {
         if (Fix16::MaxAbsDistance(mCam.x, mCam.y, pNearest->mXy.x, pNearest->mXy.y) <
@@ -6773,7 +6773,7 @@ Sprite* Ped::ResetAnimAndFindNearestSprite()
 
     this->mHealth = 50;
     return gSpriteGrid_1->FindCollidingSpritePreferType(this->mGameObject->mSpritePtr,
-                                                                      sprite_types_enum::car_2);
+                                                        sprite_types_enum::car_2);
 }
 
 // https://decomp.me/scratch/ec0hn
@@ -8842,7 +8842,7 @@ void Ped::AimVehicleTurretStateMachine()
         Fix16 y = pAttached->mpSprite->mXy.y;
         Ang16 angle;
         angle = Fix16::atan2_fixed(mTargetObjectiveCar->mCarSprite->mXy.y - y,
-                                          mTargetObjectiveCar->mCarSprite->mXy.x - x);
+                                   mTargetObjectiveCar->mCarSprite->mXy.x - x);
         if (mCar->RotateRoofObjectTowardTarget(angle))
         {
             mBf21C.bAttacking = true;
@@ -9422,7 +9422,7 @@ void Ped::MeleeAttackStateMachine()
         if (mPedState2 == ped_state_2::carjack_pulling_out_9)
         {
             Sprite* pNearestSprt = gSpriteGrid_1->FindCollidingSpritePreferType(mGameObject->mSpritePtr,
-                                                                                              sprite_types_enum::car_2);
+                                                                                sprite_types_enum::car_2);
             if (pNearestSprt && pNearestSprt->GetType() == sprite_types_enum::car_2)
             {
                 mPedState1 = ped_state_1::immobilized_8;
@@ -9843,8 +9843,8 @@ void Ped::ExitCarStateMachine()
             {
                 mTargetToEnter->GetDoorWorldPosition(mTargetCarDoor, &char_x, &char_y);
                 AllocCharB4(char_x,
-                                   char_y,
-                                   gMap_0x370->FindGroundZAboveCoord(char_x,
+                            char_y,
+                            gMap_0x370->FindGroundZAboveCoord(char_x,
                                                                   char_y,
                                                                   this->mTargetToEnter->mCarSprite->mZpos));
 
@@ -9863,8 +9863,8 @@ void Ped::ExitCarStateMachine()
 
             {
                 if (!AllocCharB4(mTargetToEnter->mCarSprite->mXy.x,
-                                        mTargetToEnter->mCarSprite->mXy.y,
-                                        gMap_0x370->FindGroundZAboveCoord(mTargetToEnter->mCarSprite->mXy.x,
+                                 mTargetToEnter->mCarSprite->mXy.y,
+                                 gMap_0x370->FindGroundZAboveCoord(mTargetToEnter->mCarSprite->mXy.x,
                                                                        mTargetToEnter->mCarSprite->mXy.y,
                                                                        mTargetToEnter->mCarSprite->mZpos)))
                 {
@@ -9900,8 +9900,8 @@ void Ped::ExitCarStateMachine()
                     mTargetToEnter->GetDoorWorldPosition(mTargetCarDoor, &char_x, &char_y);
 
                     AllocCharB4(char_x,
-                                       char_y,
-                                       gMap_0x370->FindGroundZAboveCoord(char_x,
+                                char_y,
+                                gMap_0x370->FindGroundZAboveCoord(char_x,
                                                                       char_y,
                                                                       this->mTargetToEnter->mCarSprite->mZpos));
                     {
@@ -9927,8 +9927,8 @@ void Ped::ExitCarStateMachine()
 
                 {
                     AllocCharB4(mTargetToEnter->mCarSprite->mXy.x,
-                                       mTargetToEnter->mCarSprite->mXy.y,
-                                       gMap_0x370->FindGroundZAboveCoord(mTargetToEnter->mCarSprite->mXy.x,
+                                mTargetToEnter->mCarSprite->mXy.y,
+                                gMap_0x370->FindGroundZAboveCoord(mTargetToEnter->mCarSprite->mXy.x,
                                                                       mTargetToEnter->mCarSprite->mXy.y,
                                                                       mTargetToEnter->mCarSprite->mZpos));
                 }
@@ -10163,8 +10163,8 @@ void Ped::StartPedCrossingAtTrafficLight_Y_Backward()
             y_iter -= kFpOne_678664;
             u8 ypos = y_iter.ToInt();
             if (gMap_0x370->IsBlockPavementTypeInlined_433530(mCam.x.ToInt(),
-                                                                     ypos,
-                                                                     (mCam.z - kFpOne_678664).ToInt()))
+                                                              ypos,
+                                                              (mCam.z - kFpOne_678664).ToInt()))
             {
                 SetObjective2(objectives_enum::crossing_road_48);
                 Fix16 t = Fix16(ypos) + kFpHalf_67853C;
@@ -10188,8 +10188,8 @@ void Ped::StartPedCrossingAtTrafficLight_X_Forwards()
             x_iter += kFpOne_678664;
             u8 x = x_iter.ToUInt8();
             if (gMap_0x370->IsBlockPavementTypeInlined_433530(x,
-                                                                     mCam.y.ToInt(),
-                                                                     (mCam.z - kFpOne_678664).ToInt()))
+                                                              mCam.y.ToInt(),
+                                                              (mCam.z - kFpOne_678664).ToInt()))
             {
                 Ped::SetObjective2(objectives_enum::crossing_road_48);
                 Fix16 xpos(x);
@@ -10214,8 +10214,8 @@ void Ped::StartPedCrossingAtTrafficLight_Y_Forwards()
             y_iter += kFpOne_678664;
             u8 y = y_iter.ToUInt8();
             if (gMap_0x370->IsBlockPavementTypeInlined_433530(mCam.x.ToInt(),
-                                                                     y,
-                                                                     (mCam.z - kFpOne_678664).ToInt()))
+                                                              y,
+                                                              (mCam.z - kFpOne_678664).ToInt()))
             {
                 Ped::SetObjective2(objectives_enum::crossing_road_48);
                 Fix16 ypos(y);
@@ -10240,8 +10240,8 @@ void Ped::StartPedCrossingAtTrafficLight_X_Backwards()
             x_iter -= kFpOne_678664;
             u8 x = x_iter.ToUInt8();
             if (gMap_0x370->IsBlockPavementTypeInlined_433530(x,
-                                                                     mCam.y.ToInt(),
-                                                                     (mCam.z - kFpOne_678664).ToInt()))
+                                                              mCam.y.ToInt(),
+                                                              (mCam.z - kFpOne_678664).ToInt()))
             {
                 Ped::SetObjective2(objectives_enum::crossing_road_48);
                 Fix16 xpos(x);

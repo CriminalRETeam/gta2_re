@@ -72,16 +72,16 @@ EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr, 2);
 static inline void DrawFigureScaled_4C71B0(s32 sprite_type, s16 sprite_idx, Fix16 x_pos, Fix16 y_pos, const Ang16& rotation, const s32& palette_type, s16 palette, s32 alpha_value, u8 flags)
 {
     DrawFigure(sprite_type,
-                      sprite_idx,
-                      x_pos * gViewCamera->mUiScale,
-                      y_pos * gViewCamera->mUiScale,
-                      rotation,
-                      gViewCamera->mUiScale,
-                      palette_type,
-                      palette,
-                      alpha_value,
-                      flags,
-                      false);
+               sprite_idx,
+               x_pos * gViewCamera->mUiScale,
+               y_pos * gViewCamera->mUiScale,
+               rotation,
+               gViewCamera->mUiScale,
+               palette_type,
+               palette,
+               alpha_value,
+               flags,
+               false);
 }
 
 // Camera::WorldToScreen (9.6f 0x40CFC0: x/y/z by value, writes through two out pointers)
@@ -98,14 +98,14 @@ static inline void WorldToScreen_Hud_40CFC0(Camera* pCam, Fix16 x, Fix16 y, Fix1
 static inline void DrawTextScaled_4C7280(const wchar_t* pStr, Fix16 x, Fix16 y, u16 font, const s32& palette_type, u16 palette, s32 alpha, u8 flags)
 {
     DrawString(pStr,
-                    x * gViewCamera->mUiScale,
-                    y * gViewCamera->mUiScale,
-                    font,
-                    gViewCamera->mUiScale,
-                    palette_type,
-                    palette,
-                    alpha,
-                    flags);
+               x * gViewCamera->mUiScale,
+               y * gViewCamera->mUiScale,
+               font,
+               gViewCamera->mUiScale,
+               palette_type,
+               palette,
+               alpha,
+               flags);
 }
 
 // Camera::ProjectWorldToScreen_4B90E0 (9.6f 0x4B90E0, inlined in 10.5) with this file's copies of the
@@ -288,34 +288,34 @@ void Hud_GangRespectBars::DrawGangRespectBars()
 
         s32 arrow_colour = pGang->mArrowColour - 1;
         DrawFigureScaled(sprite_types_enum::user_6,
-                                arrow_colour + 64,
-                                16,
-                                static_cast<u32>(ypos + 2),
-                                kAngZero_706610,
-                                palette_types_enum::sprites_2,
-                                0,
-                                0,
-                                0);
+                         arrow_colour + 64,
+                         16,
+                         static_cast<u32>(ypos + 2),
+                         kAngZero_706610,
+                         palette_types_enum::sprites_2,
+                         0,
+                         0,
+                         0);
 
         DrawFigureScaled(sprite_types_enum::user_6,
-                                arrow_colour + 78,
-                                64u,
-                                static_cast<u32>(ypos + 2),
-                                kAngZero_706610,
-                                palette_types_enum::sprites_2,
-                                0,
-                                0,
-                                0);
+                         arrow_colour + 78,
+                         64u,
+                         static_cast<u32>(ypos + 2),
+                         kAngZero_706610,
+                         palette_types_enum::sprites_2,
+                         0,
+                         0,
+                         0);
 
         DrawFigureScaled(sprite_types_enum::user_6,
-                                arrow_colour + 71,
-                                64u,
-                                ypos + 1,
-                                kAngZero_706610,
-                                palette_types_enum::sprites_2,
-                                0,
-                                0,
-                                0);
+                         arrow_colour + 71,
+                         64u,
+                         ypos + 1,
+                         kAngZero_706610,
+                         palette_types_enum::sprites_2,
+                         0,
+                         0,
+                         0);
 
         // Draw positive respect
         s32 respect_i = respect;
@@ -323,14 +323,14 @@ void Hud_GangRespectBars::DrawGangRespectBars()
         for (s32 i = 69; i <= 84 && respect_i >= curr_bar_respect; i += 5)
         {
             DrawFigureScaled(sprite_types_enum::user_6,
-                                    arrow_colour + 71,
-                                    static_cast<u32>(i),
-                                    ypos + 1,
-                                    kAngZero_706610,
-                                    palette_types_enum::sprites_2,
-                                    0,
-                                    0,
-                                    0);
+                             arrow_colour + 71,
+                             static_cast<u32>(i),
+                             ypos + 1,
+                             kAngZero_706610,
+                             palette_types_enum::sprites_2,
+                             0,
+                             0,
+                             0);
             curr_bar_respect += 20;
         }
 
@@ -339,14 +339,14 @@ void Hud_GangRespectBars::DrawGangRespectBars()
         for (s32 j = 59; j >= 44 && respect_i <= curr_bar_respect; j -= 5)
         {
             DrawFigureScaled(sprite_types_enum::user_6,
-                                    arrow_colour + 71,
-                                    static_cast<u32>(j),
-                                    ypos + 1,
-                                    kAngZero_706610,
-                                    palette_types_enum::sprites_2,
-                                    0,
-                                    0,
-                                    0);
+                             arrow_colour + 71,
+                             static_cast<u32>(j),
+                             ypos + 1,
+                             kAngZero_706610,
+                             palette_types_enum::sprites_2,
+                             0,
+                             0,
+                             0);
             curr_bar_respect -= 20;
         }
 
@@ -355,14 +355,14 @@ void Hud_GangRespectBars::DrawGangRespectBars()
             if (respect > -100 || !bPlusSignDark)
             {
                 DrawFigureScaled(sprite_types_enum::user_6,
-                                        2 * arrow_colour + 50,
-                                        34,
-                                        ypos + 1,
-                                        kAngZero_706610,
-                                        palette_types_enum::sprites_2,
-                                        0,
-                                        0,
-                                        0);
+                                 2 * arrow_colour + 50,
+                                 34,
+                                 ypos + 1,
+                                 kAngZero_706610,
+                                 palette_types_enum::sprites_2,
+                                 0,
+                                 0,
+                                 0);
             }
         }
         else
@@ -370,14 +370,14 @@ void Hud_GangRespectBars::DrawGangRespectBars()
             if (respect < 100 || !bPlusSignDark)
             {
                 DrawFigureScaled(sprite_types_enum::user_6,
-                                        2 * arrow_colour + 51,
-                                        93,
-                                        ypos + 1,
-                                        kAngZero_706610,
-                                        palette_types_enum::sprites_2,
-                                        0,
-                                        0,
-                                        0);
+                                 2 * arrow_colour + 51,
+                                 93,
+                                 ypos + 1,
+                                 kAngZero_706610,
+                                 palette_types_enum::sprites_2,
+                                 0,
+                                 0,
+                                 0);
             }
 
             // green mission respect
@@ -385,14 +385,14 @@ void Hud_GangRespectBars::DrawGangRespectBars()
             if (-19 <= respect)
             {
                 DrawFigureScaled(sprite_types_enum::user_6,
-                                        46,
-                                        64u,
-                                        ypos + 9,
-                                        kAngZero_706610,
-                                        palette_types_enum::sprites_2,
-                                        0,
-                                        0,
-                                        0);
+                                 46,
+                                 64u,
+                                 ypos + 9,
+                                 kAngZero_706610,
+                                 palette_types_enum::sprites_2,
+                                 0,
+                                 0,
+                                 0);
             }
         }
 
@@ -790,7 +790,7 @@ void Hud_Arrow::UpdateScreenPos()
 
     gGame_0x40->mLocalPlayer->get_pos(&player_xpos, &player_ypos, &player_zpos);
     displacement.SetXY(player_xpos - mTargets.mCurrTarget->mAimX,
-                              player_ypos - mTargets.mCurrTarget->mAimY);
+                       player_ypos - mTargets.mCurrTarget->mAimY);
 
     mRotation = displacement.GetAngle();
 
@@ -920,16 +920,16 @@ void Hud_Arrow::DrawArrow()
             pCam = pPlayer->get_camera();
 
             DrawFigure(sprite_types_enum::user_6,
-                              mTargets.mArrowSprtIdx,
-                              mScreenPosX,
-                              mScreenPosY,
-                              mRotation,
-                              pCam->mUiScale,
-                              arrow_palette_type,
-                              0,
-                              1,
-                              14u,
-                              true);
+                       mTargets.mArrowSprtIdx,
+                       mScreenPosX,
+                       mScreenPosY,
+                       mRotation,
+                       pCam->mUiScale,
+                       arrow_palette_type,
+                       0,
+                       1,
+                       14u,
+                       true);
 
             s16 colour_related;
             switch (this->mTargets.mArrowColour)
@@ -957,16 +957,16 @@ void Hud_Arrow::DrawArrow()
             pCam = pPlayer->get_camera();
 
             DrawFigure(sprite_types_enum::user_6,
-                              colour_related + 8,
-                              mScreenPosX,
-                              mScreenPosY,
-                              mRotation,
-                              pCam->mUiScale,
-                              palette_type,
-                              0,
-                              1,
-                              14u,
-                              true);
+                       colour_related + 8,
+                       mScreenPosX,
+                       mScreenPosY,
+                       mRotation,
+                       pCam->mUiScale,
+                       palette_type,
+                       0,
+                       1,
+                       14u,
+                       true);
         }
     }
 }
@@ -1208,12 +1208,12 @@ void Hud_Arrow_7C_Array::place_gang_phone(Object* pPhoneInfo)
         sPhoneY = pPhoneInfo->mSprite->GetYPos();
         sPhoneZ = 0;
         FatalError(Gta2Error::PlacingGangPhoneWhenNoGang, // Placing gang phone when no gang at: (%.4f, %.4f)
-                          "C:\\Splitting\\Gta2\\Source\\user.cpp",
-                          1509,
-                          0,
-                          &sPhoneX,
-                          &sPhoneY,
-                          &sPhoneZ);
+                   "C:\\Splitting\\Gta2\\Source\\user.cpp",
+                   1509,
+                   0,
+                   &sPhoneX,
+                   &sPhoneY,
+                   &sPhoneZ);
     }
     Hud_Arrow* pExistingArrow = Hud_Arrow_7C_Array::FindGangPhoneArrow(pZone, phone_type);
     if (pExistingArrow)
@@ -1223,10 +1223,10 @@ void Hud_Arrow_7C_Array::place_gang_phone(Object* pPhoneInfo)
             strcpy(gErrStr, get_phone_colour(phone_type));
             strcpy(gErrStr2, pZone->mName);
             FatalError(Gta2Error::TooManyPhonesForGang, // Too many %s phones for %s gang
-                              "C:\\Splitting\\Gta2\\Source\\user.cpp",
-                              1513,
-                              gErrStr,
-                              gErrStr2);
+                       "C:\\Splitting\\Gta2\\Source\\user.cpp",
+                       1513,
+                       gErrStr,
+                       gErrStr2);
         }
         pExistingArrow->mTargets.mSecondaryTarget.mObj = pPhoneInfo;
         pExistingArrow->mTargets.mSecondaryTarget.mTargetType = ArrowTargetType::Object_4;
@@ -1379,37 +1379,37 @@ void Hud_QuitMessage::DrawQuitMessage()
         s32 line2_ypos = ((3 * (160 - line_spacing_added)) / 2);
 
         DrawStringScaledPalette(pQuitText,
-                        static_cast<u32>((640 - max_text_width) / 2),
-                        line2_ypos - line_spacing_added,
-                        word_7064D8,
-                        palette_types_enum::sprites_2,
-                        0,
-                        0,
-                        0);
+                                static_cast<u32>((640 - max_text_width) / 2),
+                                line2_ypos - line_spacing_added,
+                                word_7064D8,
+                                palette_types_enum::sprites_2,
+                                0,
+                                0,
+                                0);
 
         wchar_t* pQuitText2 = gText_0x14->Find("quit2");
         s32 max_text_width_2 = Frontend::GetMaxTextWidth(pQuitText2, word_7064D8);
 
         DrawStringScaledPalette(pQuitText2,
-                        static_cast<u32>((640 - max_text_width_2) / 2),
-                        static_cast<u32>(line2_ypos),
-                        word_7064D8,
-                        palette_types_enum::sprites_2,
-                        0,
-                        0,
-                        0);
+                                static_cast<u32>((640 - max_text_width_2) / 2),
+                                static_cast<u32>(line2_ypos),
+                                word_7064D8,
+                                palette_types_enum::sprites_2,
+                                0,
+                                0,
+                                0);
 
         wchar_t* pQuitText3 = gText_0x14->Find("quit3");
         s32 max_text_width_3 = Frontend::GetMaxTextWidth(pQuitText3, word_7064D8);
 
         DrawStringScaledPalette(pQuitText3,
-                        static_cast<u32>((640 - max_text_width_3) / 2),
-                        line2_ypos + line_spacing_added,
-                        word_7064D8,
-                        palette_types_enum::sprites_2,
-                        0,
-                        0,
-                        0);
+                                static_cast<u32>((640 - max_text_width_3) / 2),
+                                line2_ypos + line_spacing_added,
+                                word_7064D8,
+                                palette_types_enum::sprites_2,
+                                0,
+                                0,
+                                0);
     }
 }
 
@@ -1650,13 +1650,13 @@ MATCH_FUNC(0x5d1d00)
 void Hud_TextEntry::Draw()
 {
     DrawStringScaledPalette(mStrBuf,
-                    mX,
-                    mY,
-                    mFontType,
-                    mDrawKind,
-                    mPalette,
-                    mAlpha,
-                    mAlphaFlag);
+                            mX,
+                            mY,
+                            mFontType,
+                            mDrawKind,
+                            mPalette,
+                            mAlpha,
+                            mAlphaFlag);
 }
 
 MATCH_FUNC(0x5d1db0)
@@ -1829,24 +1829,24 @@ void Hud_Pager::DrawDigits(s32 xpos, s32 ypos)
     s32 minutes = (mTimer / 30) / 60;
     s32 seconds = (mTimer / 30) % 60;
     DrawFigureScaled(sprite_types_enum::user_6,
-                            123 + minutes / 10,
-                            xpos - 13,
-                            ypos + 3,
-                            kAngZero_706610,
-                            palette_types_enum::sprites_2,
-                            0,
-                            0,
-                            0);
+                     123 + minutes / 10,
+                     xpos - 13,
+                     ypos + 3,
+                     kAngZero_706610,
+                     palette_types_enum::sprites_2,
+                     0,
+                     0,
+                     0);
 
     DrawFigureScaled(sprite_types_enum::user_6,
-                            123 + minutes % 10,
-                            xpos - 6,
-                            ypos + 3,
-                            kAngZero_706610,
-                            palette_types_enum::sprites_2,
-                            0,
-                            0,
-                            0);
+                     123 + minutes % 10,
+                     xpos - 6,
+                     ypos + 3,
+                     kAngZero_706610,
+                     palette_types_enum::sprites_2,
+                     0,
+                     0,
+                     0);
 
     if (mTimer % 15 <= 7)
     {
@@ -1855,14 +1855,14 @@ void Hud_Pager::DrawDigits(s32 xpos, s32 ypos)
         if (mTimer < 300) // less than 10 seconds: draw flashing light
         {
             DrawFigureScaled(sprite_types_enum::user_6,
-                                    133,
-                                    xpos + 20,
-                                    ypos + 14,
-                                    kAngZero_706610,
-                                    palette_types_enum::sprites_2,
-                                    0,
-                                    0,
-                                    0);
+                             133,
+                             xpos + 20,
+                             ypos + 14,
+                             kAngZero_706610,
+                             palette_types_enum::sprites_2,
+                             0,
+                             0,
+                             0);
         }
     }
     else
@@ -1871,24 +1871,24 @@ void Hud_Pager::DrawDigits(s32 xpos, s32 ypos)
     }
 
     DrawFigureScaled(sprite_types_enum::user_6,
-                            123 + seconds / 10,
-                            xpos + 4,
-                            ypos + 3,
-                            kAngZero_706610,
-                            palette_types_enum::sprites_2,
-                            0,
-                            0,
-                            0);
+                     123 + seconds / 10,
+                     xpos + 4,
+                     ypos + 3,
+                     kAngZero_706610,
+                     palette_types_enum::sprites_2,
+                     0,
+                     0,
+                     0);
 
     DrawFigureScaled(sprite_types_enum::user_6,
-                            123 + seconds % 10,
-                            xpos + 11,
-                            ypos + 3,
-                            kAngZero_706610,
-                            palette_types_enum::sprites_2,
-                            0,
-                            0,
-                            0);
+                     123 + seconds % 10,
+                     xpos + 11,
+                     ypos + 3,
+                     kAngZero_706610,
+                     palette_types_enum::sprites_2,
+                     0,
+                     0,
+                     0);
 }
 
 // https://decomp.me/scratch/3IY3c
@@ -2278,25 +2278,25 @@ void Hud_Brief::DrawBrief()
     if (mCurrBriefs)
     {
         DrawFigureScaled(sprite_types_enum::user_6,
-                                mFaceVariant + 3 * mFaceIdx + 16,
-                                (32), // x
-                                (443), // y
-                                kAngZero_706610, // rot
-                                palette_types_enum::sprites_2,
-                                0,
-                                0,
-                                0);
+                         mFaceVariant + 3 * mFaceIdx + 16,
+                         (32), // x
+                         (443), // y
+                         kAngZero_706610, // rot
+                         palette_types_enum::sprites_2,
+                         0,
+                         0,
+                         0);
 
         // u32: converts with the Fix16(u32) constructor, whose out-of-line copy is 0x4926F0
         u32 first_line_ypos = 480 - GetLineSpacingFromFontType_5D7700_inlined(gBriefFont) * mNumLines;
         DrawStringScaledPalette(mStr, // str
-                        (64), // x
-                        first_line_ypos, // y
-                        gBriefFont, // fontType
-                        palette_types_enum::sprites_2,
-                        0, // palette
-                        0, // alpha
-                        0); // alpha_flag
+                                (64), // x
+                                first_line_ypos, // y
+                                gBriefFont, // fontType
+                                palette_types_enum::sprites_2,
+                                0, // palette
+                                0, // alpha
+                                0); // alpha_flag
     }
 }
 
@@ -2501,53 +2501,53 @@ void Hud_CarName::DrawCarName()
         if (mTextWidth > static_cast<s32>(sprite_w * 2 - 10))
         {
             DrawFigureScaled(sprite_types_enum::user_6,
-                                    13,
-                                    320 + sprite_w,
-                                    static_cast<u32>(mYpos),
-                                    kAngZero_706610,
-                                    palette_types_enum::sprites_2,
-                                    0,
-                                    0,
-                                    0);
+                             13,
+                             320 + sprite_w,
+                             static_cast<u32>(mYpos),
+                             kAngZero_706610,
+                             palette_types_enum::sprites_2,
+                             0,
+                             0,
+                             0);
             DrawFigureScaled(sprite_types_enum::user_6,
-                                    12,
-                                    320,
-                                    static_cast<u32>(mYpos),
-                                    kAngZero_706610,
-                                    palette_types_enum::sprites_2,
-                                    0,
-                                    0,
-                                    0);
+                             12,
+                             320,
+                             static_cast<u32>(mYpos),
+                             kAngZero_706610,
+                             palette_types_enum::sprites_2,
+                             0,
+                             0,
+                             0);
             DrawFigureScaled(sprite_types_enum::user_6,
-                                    11,
-                                    320 - sprite_w,
-                                    static_cast<u32>(mYpos),
-                                    kAngZero_706610,
-                                    palette_types_enum::sprites_2,
-                                    0,
-                                    0,
-                                    0);
+                             11,
+                             320 - sprite_w,
+                             static_cast<u32>(mYpos),
+                             kAngZero_706610,
+                             palette_types_enum::sprites_2,
+                             0,
+                             0,
+                             0);
         }
         else
         {
             DrawFigureScaled(sprite_types_enum::user_6,
-                                    11,
-                                    320 - (static_cast<s32>(sprite_w) / 2),
-                                    static_cast<u32>(mYpos),
-                                    kAngZero_706610,
-                                    palette_types_enum::sprites_2,
-                                    0,
-                                    0,
-                                    0);
+                             11,
+                             320 - (static_cast<s32>(sprite_w) / 2),
+                             static_cast<u32>(mYpos),
+                             kAngZero_706610,
+                             palette_types_enum::sprites_2,
+                             0,
+                             0,
+                             0);
             DrawFigureScaled(sprite_types_enum::user_6,
-                                    13,
-                                    320 + (static_cast<s32>(sprite_w) / 2),
-                                    static_cast<u32>(mYpos),
-                                    kAngZero_706610,
-                                    palette_types_enum::sprites_2,
-                                    0,
-                                    0,
-                                    0);
+                             13,
+                             320 + (static_cast<s32>(sprite_w) / 2),
+                             static_cast<u32>(mYpos),
+                             kAngZero_706610,
+                             palette_types_enum::sprites_2,
+                             0,
+                             0,
+                             0);
         }
 
         DrawStringScaled(mCarName, ((640 - mTextWidth) / 2), (mYpos - GetLineSpacingFromFontType(sCarNameFont) / 2), sCarNameFont);
@@ -2658,13 +2658,13 @@ void Hud_MpMessage::Draw()
     if (this->mTimer)
     {
         DrawStringScaledPalette(this->mStr,
-                        static_cast<u32>((640 - this->mTextWidth) / 2),
-                        static_cast<u32>(16),
-                        word_7064D8,
-                        palette_types_enum::font_remaps_8,
-                        5,
-                        0,
-                        0);
+                                static_cast<u32>((640 - this->mTextWidth) / 2),
+                                static_cast<u32>(16),
+                                word_7064D8,
+                                palette_types_enum::font_remaps_8,
+                                5,
+                                0,
+                                0);
     }
 }
 
@@ -2738,53 +2738,53 @@ void Hud_MapZone::DrawZoneName()
         s32 width = get_user_sprite_width(159);
 
         DrawFigureScaled(sprite_types_enum::user_6,
-                                159,
-                                static_cast<u32>(320 - (width / 2) - width),
-                                static_cast<u32>(27),
-                                kAngZero_706610,
-                                palette_types_enum::sprites_2,
-                                0,
-                                mAlphaFlag,
-                                mTransparency);
+                         159,
+                         static_cast<u32>(320 - (width / 2) - width),
+                         static_cast<u32>(27),
+                         kAngZero_706610,
+                         palette_types_enum::sprites_2,
+                         0,
+                         mAlphaFlag,
+                         mTransparency);
 
         DrawFigureScaled(sprite_types_enum::user_6,
-                                160,
-                                320 - (width / 2),
-                                static_cast<u32>(27),
-                                kAngZero_706610,
-                                palette_types_enum::sprites_2,
-                                0,
-                                mAlphaFlag,
-                                mTransparency);
+                         160,
+                         320 - (width / 2),
+                         static_cast<u32>(27),
+                         kAngZero_706610,
+                         palette_types_enum::sprites_2,
+                         0,
+                         mAlphaFlag,
+                         mTransparency);
 
         DrawFigureScaled(sprite_types_enum::user_6,
-                                161,
-                                (width / 2) + 320,
-                                static_cast<u32>(27),
-                                kAngZero_706610,
-                                palette_types_enum::sprites_2,
-                                0,
-                                mAlphaFlag,
-                                mTransparency);
+                         161,
+                         (width / 2) + 320,
+                         static_cast<u32>(27),
+                         kAngZero_706610,
+                         palette_types_enum::sprites_2,
+                         0,
+                         mAlphaFlag,
+                         mTransparency);
 
         DrawFigureScaled(sprite_types_enum::user_6,
-                                162,
-                                static_cast<u32>((width / 2) + width + 320),
-                                static_cast<u32>(27),
-                                kAngZero_706610,
-                                palette_types_enum::sprites_2,
-                                0,
-                                mAlphaFlag,
-                                mTransparency);
+                         162,
+                         static_cast<u32>((width / 2) + width + 320),
+                         static_cast<u32>(27),
+                         kAngZero_706610,
+                         palette_types_enum::sprites_2,
+                         0,
+                         mAlphaFlag,
+                         mTransparency);
 
         DrawStringScaledPalette(mWstr,
-                        (640 - mTextWidth) / 2,
-                        27 - (GetLineSpacingFromFontType(sZoneNameFont) / 2),
-                        sZoneNameFont,
-                        palette_types_enum::sprites_2,
-                        0,
-                        mAlphaFlag,
-                        mTransparency);
+                                (640 - mTextWidth) / 2,
+                                27 - (GetLineSpacingFromFontType(sZoneNameFont) / 2),
+                                sZoneNameFont,
+                                palette_types_enum::sprites_2,
+                                0,
+                                mAlphaFlag,
+                                mTransparency);
     }
 }
 
@@ -2923,40 +2923,40 @@ void Hud_PlayerStats::DrawPlayerStats()
     if (bStartNetworkGame)
     {
         DrawFigureScaled(sprite_types_enum::user_6,
-                                16,
-                                dollar_sign_xpos - 8,
-                                14,
-                                kAngZero_706610,
-                                pPlayer->mHudPaletteType,
-                                pPlayer->mHudPalette,
-                                0,
-                                0);
+                         16,
+                         dollar_sign_xpos - 8,
+                         14,
+                         kAngZero_706610,
+                         pPlayer->mHudPaletteType,
+                         pPlayer->mHudPalette,
+                         0,
+                         0);
     }
     else
     {
         if (pPlayer->mFinishScoreReached == 0)
         {
             DrawFigureScaled(sprite_types_enum::user_6,
-                                    16,
-                                    dollar_sign_xpos - 8,
-                                    14,
-                                    kAngZero_706610,
-                                    palette_types_enum::sprites_2,
-                                    0,
-                                    0,
-                                    0); // default color
+                             16,
+                             dollar_sign_xpos - 8,
+                             14,
+                             kAngZero_706610,
+                             palette_types_enum::sprites_2,
+                             0,
+                             0,
+                             0); // default color
         }
         else
         {
             DrawFigureScaled(sprite_types_enum::user_6,
-                                    16,
-                                    dollar_sign_xpos - 8,
-                                    14,
-                                    kAngZero_706610,
-                                    palette_types_enum::user_remaps_7,
-                                    6,
-                                    0,
-                                    0); // red color
+                             16,
+                             dollar_sign_xpos - 8,
+                             14,
+                             kAngZero_706610,
+                             palette_types_enum::user_remaps_7,
+                             6,
+                             0,
+                             0); // red color
         }
     }
 
@@ -2990,14 +2990,14 @@ void Hud_PlayerStats::DrawPlayerStats()
                 s32 score_end_xpos = pMultiScoreDigits->DrawDigitsLeftAligned(16, ypos);
 
                 DrawFigureScaled(sprite_types_enum::user_6,
-                                        16,
-                                        8,
-                                        ypos + 10,
-                                        kAngZero_706610,
-                                        pMultiPlayer->mHudPaletteType,
-                                        pMultiPlayer->mHudPalette,
-                                        0,
-                                        0);
+                                 16,
+                                 8,
+                                 ypos + 10,
+                                 kAngZero_706610,
+                                 pMultiPlayer->mHudPaletteType,
+                                 pMultiPlayer->mHudPalette,
+                                 0,
+                                 0);
 
                 if (IsTagGame())
                 {
@@ -3025,14 +3025,14 @@ void Hud_PlayerStats::DrawPlayerStats()
 
         s32 multiplier_xpos = pPlayer->mMultipliers.DrawDigitsRightAligned(523, 11);
         DrawFigureScaled(sprite_types_enum::user_6,
-                                18,
-                                multiplier_xpos - 7,
-                                18,
-                                kAngZero_706610,
-                                palette_types_enum::sprites_2,
-                                0,
-                                0,
-                                0);
+                         18,
+                         multiplier_xpos - 7,
+                         18,
+                         kAngZero_706610,
+                         palette_types_enum::sprites_2,
+                         0,
+                         0,
+                         0);
     }
 }
 
@@ -3045,14 +3045,14 @@ void __stdcall DrawAmmo(s16 ammo_idx, u8 ammo_count)
         s32 height = get_user_sprite_height(ammo_idx + 85);
 
         DrawFigureScaled(sprite_types_enum::user_6,
-                                ammo_idx + 85,
-                                638 - width / 2,
-                                height / 2 + 44,
-                                kAngZero_706610,
-                                palette_types_enum::sprites_2,
-                                0,
-                                0,
-                                0);
+                         ammo_idx + 85,
+                         638 - width / 2,
+                         height / 2 + 44,
+                         kAngZero_706610,
+                         palette_types_enum::sprites_2,
+                         0,
+                         0,
+                         0);
 
         if (ammo_idx != 21 && ammo_idx != 20)
         {
@@ -3065,13 +3065,13 @@ void __stdcall DrawAmmo(s16 ammo_idx, u8 ammo_count)
                 swprintf(tmpBuff, L"%d", ammo_count);
             }
             DrawStringScaledPalette(tmpBuff,
-                            static_cast<u32>(638 - Frontend::GetMaxTextWidth(tmpBuff, sPlayerStatsFont)),
-                            82,
-                            sPlayerStatsFont,
-                            palette_types_enum::font_remaps_8,
-                            6,
-                            0,
-                            0);
+                                    static_cast<u32>(638 - Frontend::GetMaxTextWidth(tmpBuff, sPlayerStatsFont)),
+                                    82,
+                                    sPlayerStatsFont,
+                                    palette_types_enum::font_remaps_8,
+                                    6,
+                                    0,
+                                    0);
         }
     }
 }
@@ -3090,14 +3090,14 @@ s32 __stdcall DrawPlayerStatsHelper(s32 powerup_idx, s32 base_xpos, u16 optional
     u16 sprite_idx = GetUserSpriteIndex(gGtx_0x106C, powerup_idx + 141);
     s32 width = gGtx_0x106C->get_sprite_width(sprite_idx);
     DrawFigureScaled(sprite_types_enum::user_6,
-                            powerup_idx + 141,
-                            base_xpos - (width / 2),
-                            117,
-                            kAngZero_706610,
-                            palette_types_enum::sprites_2,
-                            0,
-                            0,
-                            0);
+                     powerup_idx + 141,
+                     base_xpos - (width / 2),
+                     117,
+                     kAngZero_706610,
+                     palette_types_enum::sprites_2,
+                     0,
+                     0,
+                     0);
 
     if (powerup_idx == power_up_indices::Armor_3)
     {
@@ -3106,13 +3106,13 @@ s32 __stdcall DrawPlayerStatsHelper(s32 powerup_idx, s32 base_xpos, u16 optional
         // computed before the y constructor call, so it is a local
         s32 x_offset = optional_number < 10 ? 18 : 22;
         DrawStringScaledPalette(tmpBuff,
-                        static_cast<u32>(base_xpos - x_offset),
-                        127,
-                        sPlayerStatsFont,
-                        palette_types_enum::font_remaps_8,
-                        6,
-                        0,
-                        0);
+                                static_cast<u32>(base_xpos - x_offset),
+                                127,
+                                sPlayerStatsFont,
+                                palette_types_enum::font_remaps_8,
+                                6,
+                                0,
+                                0);
     }
     return base_xpos - width;
 }
@@ -3331,14 +3331,14 @@ void Hud_PauseScreen::DrawPause()
                 s32 icon_width = gGtx_0x106C->get_sprite_width(sprite_idx) + 10;
                 text_xpos = (640 - icon_width - max_width_2) / 2;
                 DrawFigureScaled(sprite_type,
-                                        sprite_pal,
-                                        text_xpos + icon_width / 2,
-                                        235,
-                                        kAngZero_706610,
-                                        palette_types_enum::sprites_2,
-                                        0,
-                                        0,
-                                        0);
+                                 sprite_pal,
+                                 text_xpos + icon_width / 2,
+                                 235,
+                                 kAngZero_706610,
+                                 palette_types_enum::sprites_2,
+                                 0,
+                                 0,
+                                 0);
                 text_xpos += icon_width;
             }
             else

@@ -717,10 +717,10 @@ void Map_0x370::SpawnMapObjects()
         rotation.Normalize();
 
         gObject_5C->NewPhysicsObj(pMapObjects->mObjectType,
-                                                x_pos,
-                                                y_pos,
-                                                Map_0x370::FindGroundZForCoord(x_pos, y_pos),
-                                                rotation);
+                                  x_pos,
+                                  y_pos,
+                                  Map_0x370::FindGroundZForCoord(x_pos, y_pos),
+                                  rotation);
     }
 }
 
@@ -1881,8 +1881,8 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
         if (!IsZOnGround(gMapCollisionSprite->mXy.x, gMapCollisionSprite->mXy.y, gMapCollisionSprite->mZpos))
         {
             if (!IsGradientSlopeAt(gMapCollisionSprite->mXy.x.ToInt(),
-                                          gMapCollisionSprite->mXy.y.ToInt(),
-                                          gMapCollisionSprite->mZpos.ToInt()))
+                                   gMapCollisionSprite->mXy.y.ToInt(),
+                                   gMapCollisionSprite->mZpos.ToInt()))
             {
                 return SpriteHitsBlockFacesInArea(regionLeft, regionRight, regionTop, regionBottom, zLevel);
             }
@@ -3026,12 +3026,12 @@ bool Map_0x370::IsProbePathClear(Fix16 width, Fix16 height, Fix16 depth, Fix16 f
 
                 if (!(pProbe->mZpos < kFpSeven_6F6128) ||
                     gMap_0x370->GetBlockTypeAtCoord(pProbe->mXy.x.ToInt(),
-                                                                  pProbe->mXy.y.ToInt(),
-                                                                  (pProbe->mZpos + kFpHalf_6F5FE0).ToInt()))
+                                                    pProbe->mXy.y.ToInt(),
+                                                    (pProbe->mZpos + kFpHalf_6F5FE0).ToInt()))
                 {
                     if (!gMap_0x370->IsGradientSlopeAt(pProbe->mXy.x.ToInt(),
-                                                                     pProbe->mXy.y.ToInt(),
-                                                                     pProbe->mZpos.ToInt()))
+                                                       pProbe->mXy.y.ToInt(),
+                                                       pProbe->mZpos.ToInt()))
                     {
                         return false;
                     }
@@ -3052,12 +3052,12 @@ bool Map_0x370::IsProbePathClear(Fix16 width, Fix16 height, Fix16 depth, Fix16 f
                                               pProbe->mZpos + step_dz);
 
                 if (gMap_0x370->IsGradientSlopeAt(pProbe->mXy.x.ToInt(),
-                                                                pProbe->mXy.y.ToInt(),
-                                                                pProbe->mZpos.ToInt()))
+                                                  pProbe->mXy.y.ToInt(),
+                                                  pProbe->mZpos.ToInt()))
                 {
                     if (gMap_0x370->GetBlockTypeAtCoord(pProbe->mXy.x.ToInt(),
-                                                                      pProbe->mXy.y.ToInt(),
-                                                                      pProbe->mZpos.ToInt()))
+                                                        pProbe->mXy.y.ToInt(),
+                                                        pProbe->mZpos.ToInt()))
                     {
                         ground_z = gMap_0x370->FindGroundZBelowCoord(pProbe->mXy.x,
                                                                             pProbe->mXy.y,
@@ -4631,9 +4631,9 @@ void Map_0x370::load_dmap(u32 len)
     if ((mpDmap->mColumnWords + 1024) > 0x20000u)
     {
         FatalError(Gta2Error::MapHasTooManyColumns,
-                          "C:\\Splitting\\Gta2\\Source\\map.cpp",
-                          6150,
-                          mpDmap->mColumnWords - 0x1FC00);
+                   "C:\\Splitting\\Gta2\\Source\\map.cpp",
+                   6150,
+                   mpDmap->mColumnWords - 0x1FC00);
     }
 
     mColumnWordExtra = mpDmap->mColumnWords + 1024;
@@ -4653,9 +4653,9 @@ void Map_0x370::load_dmap(u32 len)
     if ((mpDmap->mNumBlocks + 200) > 0x20000u)
     {
         FatalError(Gta2Error::MapHasTooManyBlocks,
-                          "C:\\Splitting\\Gta2\\Source\\map.cpp",
-                          6161,
-                          mpDmap->mNumBlocks - 130872);
+                   "C:\\Splitting\\Gta2\\Source\\map.cpp",
+                   6161,
+                   mpDmap->mNumBlocks - 130872);
     }
     mNumBlocksExtra = mpDmap->mNumBlocks + 200;
 

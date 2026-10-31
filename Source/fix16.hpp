@@ -510,9 +510,9 @@ class Fix16
 };
 
 EXPORT bool __stdcall IntervalIntersectsRange(const Fix16& intervalStart,
-                                                     const Fix16& intervalEnd,
-                                                     const Fix16& rangeMin,
-                                                     const Fix16& rangeMax);
+                                              const Fix16& intervalEnd,
+                                              const Fix16& rangeMin,
+                                              const Fix16& rangeMax);
 
 class Ang16;
 EXPORT Ang16 __stdcall ArcTanLookup(const Fix16& targetTan);

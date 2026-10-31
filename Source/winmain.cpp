@@ -492,11 +492,11 @@ EXPORT void __stdcall SetFullScreenMode()
              (bcheckModeRet = pVid_CheckMode(gVidSys, 640, 480, 16)) == 0))
         {
             FatalError(Gta2Error::VideomodeNotAvailable,
-                              "C:\\Splitting\\Gta2\\Source\\video.cpp",
-                              1359,
-                              sFullWidth,
-                              sFullHeight,
-                              16);
+                       "C:\\Splitting\\Gta2\\Source\\video.cpp",
+                       1359,
+                       sFullWidth,
+                       sFullHeight,
+                       16);
         }
     }
 
@@ -1094,10 +1094,10 @@ EXPORT void Net_Receive_Players_Inputs()
                             sCurrentNetInputs.mInputs[sNetworkPlayerIdx].mRng)
                     {
                         FatalError(Gta2Error::SyncErrorRandom,
-                                          "C:\\Splitting\\Gta2\\Source\\main.cpp",
-                                          822,
-                                          sCurrentNetInputs.mInputs[player_idx].mRng,
-                                          sCurrentNetInputs.mInputs[sNetworkPlayerIdx].mRng);
+                                   "C:\\Splitting\\Gta2\\Source\\main.cpp",
+                                   822,
+                                   sCurrentNetInputs.mInputs[player_idx].mRng,
+                                   sCurrentNetInputs.mInputs[sNetworkPlayerIdx].mRng);
                     }
                     break;
                 default:

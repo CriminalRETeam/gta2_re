@@ -13,12 +13,12 @@
 // Forward declarations: the functions below are in address order
 EXPORT void __stdcall SmoothApproach(Fix16& Coord_1, Fix16& Velocity_1, Fix16& Coord_2, Fix16& Velocity_2, Fix16& Velocity_3);
 EXPORT void __stdcall SmoothApproachClamped(Fix16* target_coord,
-                                                   Fix16* coord_velocity,
-                                                   Fix16* curr_coord,
-                                                   Fix16* velocity_1,
-                                                   Fix16* velocity_2,
-                                                   Fix16* velocity_3,
-                                                   Fix16* max_neg_velocity);
+                                            Fix16* coord_velocity,
+                                            Fix16* curr_coord,
+                                            Fix16* velocity_1,
+                                            Fix16* velocity_2,
+                                            Fix16* velocity_3,
+                                            Fix16* max_neg_velocity);
 
 DEFINE_GLOBAL(Camera*, gViewCamera, 0x676978);
 DEFINE_GLOBAL_INIT(Fix16, kFpEight_676840, Fix16(8), 0x676840);
@@ -136,9 +136,9 @@ bool Camera::IsSpriteInView(Sprite* pSprite, s32 wide_view)
     Fix16_Rect rect;
     rect.SetHiLowZ(pSprite->mZpos, pSprite->mZpos);
     rect.SetBounds(mCurPos.mX - half_width,
-                        mCurPos.mX + half_width,
-                        mCurPos.mY - half_height,
-                        mCurPos.mY + half_height);
+                   mCurPos.mX + half_width,
+                   mCurPos.mY - half_height,
+                   mCurPos.mY + half_height);
 
     Fix16_Rect* pBox = &pSprite->mpCollisionShape->mBoundingBox;
     if (rect.mLeft.IntervalIntersectsRange_438FB0_inline(rect.mRight, pBox->mLeft, pBox->mRight) &&
@@ -505,27 +505,27 @@ void Camera::Update()
     {
         case camera_follow_mode::smooth_1:
             SmoothApproach(mTargetPos.mX,
-                                  mCamVelocity.mX,
-                                  mCurPos.mX,
-                                  kFpOne64th_676740,
-                                  scale);
+                           mCamVelocity.mX,
+                           mCurPos.mX,
+                           kFpOne64th_676740,
+                           scale);
             SmoothApproach(mTargetPos.mY,
-                                  mCamVelocity.mY,
-                                  mCurPos.mY,
-                                  kFpOne64th_676740,
-                                  scale);
+                           mCamVelocity.mY,
+                           mCurPos.mY,
+                           kFpOne64th_676740,
+                           scale);
             SmoothApproachClamped(&mTargetPos.mZ,
-                                         &mCamVelocity.mZ,
-                                         &mCurPos.mZ,
-                                         &kFpOne128th,
-                                         &kFpFiveEighths,
-                                         &kFpOne640th,
-                                         &kFpFiveSixtyFourths);
+                                  &mCamVelocity.mZ,
+                                  &mCurPos.mZ,
+                                  &kFpOne128th,
+                                  &kFpFiveEighths,
+                                  &kFpOne640th,
+                                  &kFpFiveSixtyFourths);
             SmoothApproach(mTargetPos.mZoom,
-                                  mCamVelocity.mZoom,
-                                  mCurPos.mZoom,
-                                  kFpOne64th_6766FC,
-                                  kFpOneSixteenth);
+                           mCamVelocity.mZoom,
+                           mCurPos.mZoom,
+                           kFpOne64th_6766FC,
+                           kFpOneSixteenth);
             break;
         case camera_follow_mode::snap_2:
             mCurPos.mX = mTargetPos.mX;
@@ -848,12 +848,12 @@ EXPORT void __stdcall SmoothApproach(Fix16& Coord_1, Fix16& Velocity_1, Fix16& C
 // https://decomp.me/scratch/kwM8W
 MATCH_FUNC(0x4F75D0)
 EXPORT void __stdcall SmoothApproachClamped(Fix16* target_coord,
-                                                   Fix16* coord_velocity,
-                                                   Fix16* curr_coord,
-                                                   Fix16* velocity_1,
-                                                   Fix16* velocity_2,
-                                                   Fix16* velocity_3,
-                                                   Fix16* max_neg_velocity)
+                                            Fix16* coord_velocity,
+                                            Fix16* curr_coord,
+                                            Fix16* velocity_1,
+                                            Fix16* velocity_2,
+                                            Fix16* velocity_3,
+                                            Fix16* max_neg_velocity)
 {
     Fix16 DeltaCoord = *target_coord - *curr_coord;
     if (DeltaCoord > kZero_6F6C50)

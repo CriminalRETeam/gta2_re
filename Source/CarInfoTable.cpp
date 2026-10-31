@@ -574,10 +574,10 @@ void CarInfo_2C::CalculateCarInfo(s32 idx)
     this->mRearWheelOffset = gPixelsToFix16.SignedPixelsToFix16(pCarInfo->rear_wheel_offset);
     Fix16 com_offset_y;
     this->mMomentOfInertia = ComputeCarMassAndInertia(gPixelsToFix16.list[pCarInfo->w],
-                                                                      gPixelsToFix16.list[pCarInfo->h],
-                                                                      pModelPhysics->mMass,
-                                                                      pModelPhysics->mFrontMassBias,
-                                                                      &com_offset_y);
+                                                      gPixelsToFix16.list[pCarInfo->h],
+                                                      pModelPhysics->mMass,
+                                                      pModelPhysics->mFrontMassBias,
+                                                      &com_offset_y);
     this->mCenterOfMassOffset.x = 0;
     this->mCenterOfMassOffset.y = com_offset_y;
     this->mHalfThrust = pModelPhysics->mThrust / 2;
@@ -661,11 +661,11 @@ void CarInfoTable::LoadModelPhysics()
     if (data_size != number_of_cars * sizeof(ModelPhysics))
     {
         FatalError(Gta2Error::ModelCountMismatchInStyleFile,
-                          "C:\\Splitting\\Gta2\\Source\\carinfo.cpp",
-                          0xbe,
-                          data_size / sizeof(ModelPhysics),
-                          sFileName,
-                          number_of_cars);
+                   "C:\\Splitting\\Gta2\\Source\\carinfo.cpp",
+                   0xbe,
+                   data_size / sizeof(ModelPhysics),
+                   sFileName,
+                   number_of_cars);
     }
 
     for (u32 i = 0; i < number_of_cars; i++)

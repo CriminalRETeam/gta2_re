@@ -643,10 +643,10 @@ void Char::DrownPed()
     mStateInitPending = true;
 
     gParticle_8->EmitWaterSplash(mSpritePtr->mXy.x,
-                                               mSpritePtr->mXy.y,
-                                               mSpritePtr->mZpos,
-                                               kAng180_6FD936 + mSpritePtr->mRotation,
-                                               1);
+                                 mSpritePtr->mXy.y,
+                                 mSpritePtr->mZpos,
+                                 kAng180_6FD936 + mSpritePtr->mRotation,
+                                 1);
     mpPed->SetVoiceEventIfNotOnFire(28);
     s32 ped_killer_id = mpPed->mKillerId;
     if (ped_killer_id)
@@ -933,11 +933,11 @@ void Char::UpdateAnimState()
                             mFrameDelay = 0;
                         }
                         CarDoorAlignmentSolver(mAnimationFrame,
-                                                      pCar,
-                                                      mpPed->get_target_car_door(),
-                                                      newx,
-                                                      newy,
-                                                      mRotation);
+                                               pCar,
+                                               mpPed->get_target_car_door(),
+                                               newx,
+                                               newy,
+                                               mRotation);
                         newId = mAnimationFrame + baseId + 24;
                         frame_limit = 5;
                     }
@@ -951,22 +951,22 @@ void Char::UpdateAnimState()
                     {
                         frame_limit = 1;
                         CarDoorAlignmentSolver(7 - mAnimationFrame,
-                                                      pCar,
-                                                      mpPed->get_target_car_door(),
-                                                      newx,
-                                                      newy,
-                                                      mRotation);
+                                               pCar,
+                                               mpPed->get_target_car_door(),
+                                               newx,
+                                               newy,
+                                               mRotation);
                         mSpritePtr->SetDrawLayer(9);
                         newId = baseId + mAnimationFrame;
                     }
                     else
                     {
                         CarDoorAlignmentSolver(mAnimationFrame,
-                                                      pCar,
-                                                      mpPed->get_target_car_door(),
-                                                      newx,
-                                                      newy,
-                                                      mRotation);
+                                               pCar,
+                                               mpPed->get_target_car_door(),
+                                               newx,
+                                               newy,
+                                               mRotation);
                         frame_limit = 3;
                         newId = mAnimationFrame + baseId + 24;
                     }
@@ -980,22 +980,22 @@ void Char::UpdateAnimState()
                     {
                         frame_limit = 1;
                         CarDoorAlignmentSolver(7 - mAnimationFrame,
-                                                      pCar,
-                                                      mpPed->get_target_car_door(),
-                                                      newx,
-                                                      newy,
-                                                      mRotation);
+                                               pCar,
+                                               mpPed->get_target_car_door(),
+                                               newx,
+                                               newy,
+                                               mRotation);
                         newId = baseId + mAnimationFrame;
                         mSpritePtr->SetDrawLayer(9);
                     }
                     else
                     {
                         CarDoorAlignmentSolver(mAnimationFrame,
-                                                      pCar,
-                                                      mpPed->get_target_car_door(),
-                                                      newx,
-                                                      newy,
-                                                      mRotation);
+                                               pCar,
+                                               mpPed->get_target_car_door(),
+                                               newx,
+                                               newy,
+                                               mRotation);
                         frame_limit = 1;
                         mSpritePtr->SetDrawLayer(9);
                         newId = mAnimationFrame + baseId + 28;
@@ -1004,11 +1004,11 @@ void Char::UpdateAnimState()
 
                 case 8:
                     CarDoorAlignmentSolver(mAnimationFrame,
-                                                  pCar,
-                                                  mpPed->get_target_car_door(),
-                                                  newx,
-                                                  newy,
-                                                  mRotation);
+                                           pCar,
+                                           mpPed->get_target_car_door(),
+                                           newx,
+                                           newy,
+                                           mRotation);
                     mSpritePtr->SetDrawLayer(9);
                     mpPed->ChangeNextPedState2(ped_state_2::ped2_driving_10);
                     mpPed->ChangeNextPedState1(ped_state_1::in_car_10);
@@ -1096,11 +1096,11 @@ void Char::UpdateAnimState()
                         }
                     }
                     CarDoorAlignmentSolver(mAnimationFrame,
-                                                  pCar,
-                                                  mpPed->get_target_car_door(),
-                                                  newx,
-                                                  newy,
-                                                  mRotation);
+                                           pCar,
+                                           mpPed->get_target_car_door(),
+                                           newx,
+                                           newy,
+                                           mRotation);
                     break;
                 }
 
@@ -1108,11 +1108,11 @@ void Char::UpdateAnimState()
                 case 11:
                 case 12:
                     CarDoorAlignmentSolver(mAnimationFrame,
-                                                  pCar,
-                                                  mpPed->get_target_car_door(),
-                                                  newx,
-                                                  newy,
-                                                  mRotation);
+                                           pCar,
+                                           mpPed->get_target_car_door(),
+                                           newx,
+                                           newy,
+                                           mRotation);
                     newId = mAnimationFrame + baseId + 19;
                     frame_limit = 2;
                     break;
@@ -1392,10 +1392,10 @@ void Char::UpdateAnimState()
                     mAnimationFrame = 0;
                     s16 landId = baseId + 23;
                     groundZ = gMap_0x370->FindGroundZForCoord(mSpritePtr->mXy.x,
-                                                                            mSpritePtr->mXy.y);
+                                                              mSpritePtr->mXy.y);
                     gMap_0x370->UpdateZFromSlopeAtCoord(mSpritePtr->mXy.x,
-                                                                      mSpritePtr->mXy.y,
-                                                                      groundZ);
+                                                        mSpritePtr->mXy.y,
+                                                        groundZ);
                     Fix16 fall = mSpritePtr->mZpos - groundZ;
                     if (fall > kFP16Zero_6FD9E4)
                     {
@@ -1411,8 +1411,8 @@ void Char::UpdateAnimState()
                     if (mSpritePtr->mZpos < mJumpBaseZ)
                     {
                         mSpritePtr->set_xyz_lazy(mSpritePtr->mXy.x,
-                                                                 mSpritePtr->mXy.y,
-                                                                 mJumpBaseZ);
+                                                 mSpritePtr->mXy.y,
+                                                 mJumpBaseZ);
                     }
                     mSpritePtr->set_id_lazy(landId);
                     return;
@@ -1422,10 +1422,10 @@ void Char::UpdateAnimState()
                 case 7:
                 {
                     groundZ = gMap_0x370->FindGroundZForCoord(mSpritePtr->mXy.x,
-                                                                            mSpritePtr->mXy.y);
+                                                              mSpritePtr->mXy.y);
                     gMap_0x370->UpdateZFromSlopeAtCoord(mSpritePtr->mXy.x,
-                                                                      mSpritePtr->mXy.y,
-                                                                      groundZ);
+                                                        mSpritePtr->mXy.y,
+                                                        groundZ);
                     Fix16 fall = (mSpritePtr->mZpos - groundZ) / gFix16_Two;
                     if (fall > kFP16Zero_6FD9E4)
                     {
@@ -1483,7 +1483,7 @@ void Char::UpdateAnimState()
             if (static_cast<u8>(mJumpScaleCounter) < 12)
             {
                 mSpritePtr->ApplyScaleToDimensions(kFP16One_6FD9E8 + Fix16(static_cast<u8>(mJumpScaleCounter)) * kFpPoint03,
-                                                                   0);
+                                                   0);
             }
             else if (static_cast<u8>(mJumpScaleCounter) < 24)
             {
@@ -2210,8 +2210,8 @@ void Char::HandleGenericCollision(Car* pCar, Object* pObj, Char* pChar)
                     mRotation = pSprt->mRotation;
                     Ang16::PolarToCartesian_41FC20(mRotation, mVelocity, step_x, step_y);
                     mSpritePtr->set_xyz_lazy(mSpritePtr->mXy.x + step_x,
-                                                             mSpritePtr->mXy.y + step_y,
-                                                             mSpritePtr->mZpos);
+                                             mSpritePtr->mXy.y + step_y,
+                                             mSpritePtr->mZpos);
                 }
             }
             else
@@ -2250,12 +2250,12 @@ void Char::HandleGenericCollision(Car* pCar, Object* pObj, Char* pChar)
 
         // Work out which side of the obstacle we hit, in the obstacle's local space
         RotateAndTranslatePoint(mSpritePtr->mXy.x,
-                                       mSpritePtr->mXy.y,
-                                       -pSprt->mRotation,
-                                       pSprt->mXy.x,
-                                       pSprt->mXy.y,
-                                       rot_x,
-                                       rot_y);
+                                mSpritePtr->mXy.y,
+                                -pSprt->mRotation,
+                                pSprt->mXy.x,
+                                pSprt->mXy.y,
+                                rot_x,
+                                rot_y);
         hit_ang = Fix16::atan2_fixed(rot_y, rot_x);
 
         target_x = mpPed->GetMoveTargetX();
@@ -2371,8 +2371,8 @@ void Char::HandleGenericCollision(Car* pCar, Object* pObj, Char* pChar)
 
         Ang16::PolarToCartesian_41FC20(mSlideRotation, mVelocity, step_x, step_y);
         mSpritePtr->set_xyz_lazy(mSpritePtr->mXy.x + step_x,
-                                                 mSpritePtr->mXy.y + step_y,
-                                                 mSpritePtr->mZpos);
+                                 mSpritePtr->mXy.y + step_y,
+                                 mSpritePtr->mZpos);
         Char::DispatchCollision(sCharB4IgnorePeds);
 
         if (mCollidedEntity != NULL)
@@ -2489,8 +2489,8 @@ bool Char::ContinueMovementAfterCollision()
         mSlideState = 1;
         PolarToCartesian_OutOfLineMul(mRotation, mVelocity, x_vec, y_vec);
         mSpritePtr->set_xyz_lazy(mSpritePtr->mXy.x + x_vec,
-                                                 mSpritePtr->mXy.y + y_vec,
-                                                 mSpritePtr->mZpos);
+                                 mSpritePtr->mXy.y + y_vec,
+                                 mSpritePtr->mZpos);
         Char::DispatchCollision(sCharB4IgnorePeds);
         if (mCollidedEntity)
         {
@@ -2499,8 +2499,8 @@ bool Char::ContinueMovementAfterCollision()
             mSlideRotation.Normalize_406C20();
             PolarToCartesian_OutOfLineMul(mRotation, mVelocity, x_vec, y_vec);
             mSpritePtr->set_xyz_lazy(mSpritePtr->mXy.x + x_vec,
-                                                     mSpritePtr->mXy.y + y_vec,
-                                                     mSpritePtr->mZpos);
+                                     mSpritePtr->mXy.y + y_vec,
+                                     mSpritePtr->mZpos);
             Char::DispatchCollision(sCharB4IgnorePeds);
             if (mCollidedEntity)
             {
@@ -2514,8 +2514,8 @@ bool Char::ContinueMovementAfterCollision()
     {
         PolarToCartesian_OutOfLineMul(mRotation, mVelocity * gFix16_Two, x_vec, y_vec);
         mSpritePtr->set_xyz_lazy(mSpritePtr->mXy.x + x_vec,
-                                                 mSpritePtr->mXy.y + y_vec,
-                                                 mSpritePtr->mZpos);
+                                 mSpritePtr->mXy.y + y_vec,
+                                 mSpritePtr->mZpos);
         Char::DispatchCollision(sCharB4IgnorePeds);
         if (mCollidedEntity)
         {
@@ -2526,8 +2526,8 @@ bool Char::ContinueMovementAfterCollision()
             Ang16 back_angle = AddAngles_ool_54B8F0(kAng180_6FD936, AddAngles_ool_54B8F0(mSlideRotation, mSlideTurn));
             PolarToCartesian_OutOfLineMul(back_angle, mVelocity * kFP16Four_6FD9F4, x_vec, y_vec);
             mSpritePtr->set_xyz_lazy(mSpritePtr->mXy.x + x_vec,
-                                                     mSpritePtr->mXy.y + y_vec,
-                                                     mSpritePtr->mZpos);
+                                     mSpritePtr->mXy.y + y_vec,
+                                     mSpritePtr->mZpos);
             Char::DispatchCollision(sCharB4IgnorePeds);
             if (!mCollidedEntity && mSlideState != 2)
             {
@@ -2539,8 +2539,8 @@ bool Char::ContinueMovementAfterCollision()
                 mRotation = mSlideRotation;
                 PolarToCartesian_OutOfLineMul(mRotation, mVelocity * gFix16_Two, x_vec, y_vec);
                 mSpritePtr->set_xyz_lazy(mSpritePtr->mXy.x + x_vec,
-                                                         mSpritePtr->mXy.y + y_vec,
-                                                         mSpritePtr->mZpos);
+                                         mSpritePtr->mXy.y + y_vec,
+                                         mSpritePtr->mZpos);
                 Char::DispatchCollision(sCharB4IgnorePeds);
                 if (mCollidedEntity)
                 {
@@ -2551,8 +2551,8 @@ bool Char::ContinueMovementAfterCollision()
                     mRotation = mSlideRotation;
                     PolarToCartesian_OutOfLineMul(mRotation, mVelocity, x_vec, y_vec);
                     mSpritePtr->set_xyz_lazy(mSpritePtr->mXy.x + x_vec,
-                                                             mSpritePtr->mXy.y + y_vec,
-                                                             mSpritePtr->mZpos);
+                                             mSpritePtr->mXy.y + y_vec,
+                                             mSpritePtr->mZpos);
                     bMoved = true;
                     Char::DispatchCollision(sCharB4IgnorePeds);
                     if (mCollidedEntity)
@@ -2567,8 +2567,8 @@ bool Char::ContinueMovementAfterCollision()
                 mSpritePtr->set_xy_lazy(gCharB4_Saved_Xpos, gCharB4_Saved_Ypos);
                 PolarToCartesian_OutOfLineMul(mRotation, mVelocity, x_vec, y_vec);
                 mSpritePtr->set_xyz_lazy_451950(mSpritePtr->mXy.x + x_vec,
-                                                         mSpritePtr->mXy.y + y_vec,
-                                                         mSpritePtr->mZpos);
+                                                mSpritePtr->mXy.y + y_vec,
+                                                mSpritePtr->mZpos);
                 Char::DispatchCollision(sCharB4IgnorePeds);
                 if (mCollidedEntity)
                 {
@@ -2583,8 +2583,8 @@ bool Char::ContinueMovementAfterCollision()
             mSpritePtr->setxy_lazy(gCharB4_Saved_Xpos, gCharB4_Saved_Ypos);
             Ang16::PolarToCartesian_451730(mRotation, mVelocity, x_vec, y_vec);
             mSpritePtr->set_xyz_lazy_451950(mSpritePtr->mXy.x + x_vec,
-                                                     mSpritePtr->mXy.y + y_vec,
-                                                     mSpritePtr->mZpos);
+                                            mSpritePtr->mXy.y + y_vec,
+                                            mSpritePtr->mZpos);
             Char::DispatchCollision(sCharB4IgnorePeds);
             if (mCollidedEntity)
             {
@@ -3080,8 +3080,8 @@ void Char::ApplyMovement()
                     {
                         PolarToCartesian_OutOfLineMul(kAng270, mVelocity / gFix16_Two, xpos, ypos);
                         mSpritePtr->set_xyz_lazy(mSpritePtr->mXy.x + xpos,
-                                                                 mSpritePtr->mXy.y + ypos,
-                                                                 mSpritePtr->mZpos);
+                                                 mSpritePtr->mXy.y + ypos,
+                                                 mSpritePtr->mZpos);
                     }
                     else
                     {
@@ -3093,8 +3093,8 @@ void Char::ApplyMovement()
                         {
                             PolarToCartesian_OutOfLineMul(kAng0, mVelocity / gFix16_Two, xpos, ypos);
                             mSpritePtr->set_xyz_lazy(mSpritePtr->mXy.x + xpos,
-                                                                     mSpritePtr->mXy.y + ypos,
-                                                                     mSpritePtr->mZpos);
+                                                     mSpritePtr->mXy.y + ypos,
+                                                     mSpritePtr->mZpos);
                         }
                     }
                     break;
@@ -3110,8 +3110,8 @@ void Char::ApplyMovement()
                     {
                         PolarToCartesian_OutOfLineMul(kAng90_6FDA64, mVelocity / gFix16_Two, xpos, ypos);
                         mSpritePtr->set_xyz_lazy(mSpritePtr->mXy.x + xpos,
-                                                                 mSpritePtr->mXy.y + ypos,
-                                                                 mSpritePtr->mZpos);
+                                                 mSpritePtr->mXy.y + ypos,
+                                                 mSpritePtr->mZpos);
                     }
                     else
                     {
@@ -3123,8 +3123,8 @@ void Char::ApplyMovement()
                         {
                             PolarToCartesian_OutOfLineMul(kAng0, mVelocity / gFix16_Two, xpos, ypos);
                             mSpritePtr->set_xyz_lazy(mSpritePtr->mXy.x + xpos,
-                                                                     mSpritePtr->mXy.y + ypos,
-                                                                     mSpritePtr->mZpos);
+                                                     mSpritePtr->mXy.y + ypos,
+                                                     mSpritePtr->mZpos);
                         }
                     }
                     break;
@@ -3148,8 +3148,8 @@ void Char::ApplyMovement()
                     {
                         PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, mVelocity / gFix16_Two, xpos, ypos);
                         mSpritePtr->set_xyz_lazy(mSpritePtr->mXy.x + xpos,
-                                                                 mSpritePtr->mXy.y + ypos,
-                                                                 mSpritePtr->mZpos);
+                                                 mSpritePtr->mXy.y + ypos,
+                                                 mSpritePtr->mZpos);
                     }
                     break;
                 case 0:
@@ -3164,8 +3164,8 @@ void Char::ApplyMovement()
                     {
                         PolarToCartesian_OutOfLineMul(kAng0, mVelocity / gFix16_Two, xpos, ypos);
                         mSpritePtr->set_xyz_lazy(mSpritePtr->mXy.x + xpos,
-                                                                 mSpritePtr->mXy.y + ypos,
-                                                                 mSpritePtr->mZpos);
+                                                 mSpritePtr->mXy.y + ypos,
+                                                 mSpritePtr->mZpos);
                     }
                     break;
                 default:
@@ -3188,8 +3188,8 @@ void Char::ApplyMovement()
                     {
                         PolarToCartesian_OutOfLineMul(kAng90_6FDA64, mVelocity / gFix16_Two, xpos, ypos);
                         mSpritePtr->set_xyz_lazy(mSpritePtr->mXy.x + xpos,
-                                                                 mSpritePtr->mXy.y + ypos,
-                                                                 mSpritePtr->mZpos);
+                                                 mSpritePtr->mXy.y + ypos,
+                                                 mSpritePtr->mZpos);
                     }
                     else
                     {
@@ -3201,8 +3201,8 @@ void Char::ApplyMovement()
                         {
                             PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, mVelocity / gFix16_Two, xpos, ypos);
                             mSpritePtr->set_xyz_lazy(mSpritePtr->mXy.x + xpos,
-                                                                     mSpritePtr->mXy.y + ypos,
-                                                                     mSpritePtr->mZpos);
+                                                     mSpritePtr->mXy.y + ypos,
+                                                     mSpritePtr->mZpos);
                         }
                     }
                     break;
@@ -3218,8 +3218,8 @@ void Char::ApplyMovement()
                     {
                         PolarToCartesian_OutOfLineMul(kAng270, mVelocity / gFix16_Two, xpos, ypos);
                         mSpritePtr->set_xyz_lazy(mSpritePtr->mXy.x + xpos,
-                                                                 mSpritePtr->mXy.y + ypos,
-                                                                 mSpritePtr->mZpos);
+                                                 mSpritePtr->mXy.y + ypos,
+                                                 mSpritePtr->mZpos);
                     }
                     else
                     {
@@ -3231,8 +3231,8 @@ void Char::ApplyMovement()
                         {
                             PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, mVelocity / gFix16_Two, xpos, ypos);
                             mSpritePtr->set_xyz_lazy(mSpritePtr->mXy.x + xpos,
-                                                                     mSpritePtr->mXy.y + ypos,
-                                                                     mSpritePtr->mZpos);
+                                                     mSpritePtr->mXy.y + ypos,
+                                                     mSpritePtr->mZpos);
                         }
                     }
                     break;
@@ -3257,8 +3257,8 @@ void Char::ApplyMovement()
                     {
                         PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, mVelocity / gFix16_Two, xpos, ypos);
                         mSpritePtr->set_xyz_lazy_451950(mSpritePtr->mXy.x + xpos,
-                                                                 mSpritePtr->mXy.y + ypos,
-                                                                 mSpritePtr->mZpos);
+                                                        mSpritePtr->mXy.y + ypos,
+                                                        mSpritePtr->mZpos);
                     }
                     break;
                 case 0:
@@ -3274,8 +3274,8 @@ void Char::ApplyMovement()
                         // Out-of-line operators (inline budget)
                         Ang16::PolarToCartesian_451730(kAng0, mVelocity.Divide(gFix16_Two), xpos, ypos);
                         mSpritePtr->set_xyz_lazy_451950(mSpritePtr->mXy.x.Add(xpos),
-                                                                 mSpritePtr->mXy.y.Add(ypos),
-                                                                 mSpritePtr->mZpos);
+                                                        mSpritePtr->mXy.y.Add(ypos),
+                                                        mSpritePtr->mZpos);
                     }
                     break;
 
@@ -3755,8 +3755,8 @@ void Char::UpdateWalking()
     ret1 += mConveyorDx;
     ret2 += mConveyorDy;
     mSpritePtr->set_xyz_lazy(mSpritePtr->mXy.x + ret1,
-                                             mSpritePtr->mXy.y + ret2,
-                                             mSpritePtr->mZpos);
+                             mSpritePtr->mXy.y + ret2,
+                             mSpritePtr->mZpos);
 
 // shared exit for the two blocked-move paths: goto-free forms change the code
 after_move:
@@ -4631,8 +4631,8 @@ void Char::UpdateFleeOrRunning()
         gCharB4_Saved_Zpos > kFP16Zero_6FD9E4)
     {
         block_type = gMap_0x370->GetBlockTypeAtCoord(gCharB4_Saved_Xpos.ToInt(),
-                                                                   gCharB4_Saved_Ypos.ToInt(),
-                                                                   gCharB4_Saved_Zpos.ToInt() - 1);
+                                                     gCharB4_Saved_Ypos.ToInt(),
+                                                     gCharB4_Saved_Zpos.ToInt() - 1);
         pBlock = gMap_0x370->GetBlock(gCharB4_Saved_Xpos.ToInt(),
                                                      gCharB4_Saved_Ypos.ToInt(),
                                                      gCharB4_Saved_Zpos.ToInt() - 1);
@@ -4640,8 +4640,8 @@ void Char::UpdateFleeOrRunning()
     else
     {
         block_type = gMap_0x370->GetBlockTypeAtCoord(gCharB4_Saved_Xpos.ToInt(),
-                                                                   gCharB4_Saved_Ypos.ToInt(),
-                                                                   gCharB4_Saved_Zpos.ToInt());
+                                                     gCharB4_Saved_Ypos.ToInt(),
+                                                     gCharB4_Saved_Zpos.ToInt());
         pBlock = gMap_0x370->GetBlock(gCharB4_Saved_Xpos.ToInt(),
                                                      gCharB4_Saved_Ypos.ToInt(),
                                                      gCharB4_Saved_Zpos.ToInt());
@@ -4680,8 +4680,8 @@ void Char::UpdateFleeOrRunning()
         {
             // The z argument is the raw subtraction: Fix16::operator- here gives other registers
             if (gMap_0x370->HasBlockAnyArrows(gCharB4_Saved_Xpos.ToInt(),
-                                                            gCharB4_Saved_Ypos.ToInt(),
-                                                            (gCharB4_Saved_Zpos.mValue - kFP16One_6FD9E8.mValue) >> 14))
+                                              gCharB4_Saved_Ypos.ToInt(),
+                                              (gCharB4_Saved_Zpos.mValue - kFP16One_6FD9E8.mValue) >> 14))
             {
                 Char::DoJump();
                 mVelocity = kZeroVelocity;
@@ -4699,8 +4699,8 @@ void Char::UpdateFleeOrRunning()
         else
         {
             if (gMap_0x370->HasBlockAnyArrows(gCharB4_Saved_Xpos.ToInt(),
-                                                            gCharB4_Saved_Ypos.ToInt(),
-                                                            (gCharB4_Saved_Zpos.mValue - kFP16One_6FD9E8.mValue) >> 14))
+                                              gCharB4_Saved_Ypos.ToInt(),
+                                              (gCharB4_Saved_Zpos.mValue - kFP16One_6FD9E8.mValue) >> 14))
             {
                 Char::DoJump();
                 mFlagsBf.bJumpedOffEdge = true;
@@ -4970,8 +4970,8 @@ void Char::UpdateFleeOrRunning()
 
                         sCharB4GradientSlopeBelow =
                             gMap_0x370->IsGradientSlopeAt(mSpritePtr->mXy.x.ToInt(),
-                                                                        mSpritePtr->mXy.y.ToInt(),
-                                                                        (mSpritePtr->mZpos - kFP16One_6FD9E8).ToInt());
+                                                          mSpritePtr->mXy.y.ToInt(),
+                                                          (mSpritePtr->mZpos - kFP16One_6FD9E8).ToInt());
                         Char::ManageZCoordAndSlopes();
                     }
                 }
@@ -5799,8 +5799,8 @@ void Char::UpdateImmobilized()
                     nudge_y = -kFpOneSixteenth;
                 }
                 mSpritePtr->set_xyz_lazy(nudge_x + mSpritePtr->mXy.x,
-                                                         nudge_y + mSpritePtr->mXy.y,
-                                                         mSpritePtr->mZpos);
+                                         nudge_y + mSpritePtr->mXy.y,
+                                         mSpritePtr->mZpos);
                 break;
 
             case ped_state_2::sinking_20:
@@ -5840,8 +5840,8 @@ void Char::UpdateImmobilized()
                 }
                 mAnimationState = Char_Anim_state::Lethal_Fall_12;
                 mSpritePtr->set_xyz_lazy(mpPed->mpObj2C->mSprite->mXy.x,
-                                                         mpPed->mpObj2C->mSprite->mXy.y,
-                                                         mpPed->mpObj2C->mSprite->mZpos);
+                                         mpPed->mpObj2C->mSprite->mXy.y,
+                                         mpPed->mpObj2C->mSprite->mZpos);
                 if (mPedState2 != ped_state_2::knocked_recover_24)
                 {
                     mRotation = mpPed->mpObj2C->mSprite->mRotation;
@@ -5875,10 +5875,10 @@ void Char::UpdateImmobilized()
                 --mTimer;
                 rotation = kAng180_6FD936 + mSpritePtr->mRotation;
                 gParticle_8->EmitWaterSplash(mSpritePtr->mXy.x,
-                                                           mSpritePtr->mXy.y,
-                                                           mSpritePtr->mZpos,
-                                                           rotation,
-                                                           1);
+                                             mSpritePtr->mXy.y,
+                                             mSpritePtr->mZpos,
+                                             rotation,
+                                             1);
                 if ((mTimer % 2) == 0)
                 {
                     mSpritePtr->ShrinkSprite(kFpOneThirtySecond, kFpOneThirtySecond, 0);
@@ -5929,8 +5929,8 @@ void Char::UpdateImmobilized()
                         if (mConveyorDx != kFP16Zero_6FD9E4 || mConveyorDy != kFP16Zero_6FD9E4)
                         {
                             mSpritePtr->set_xyz_lazy(mConveyorDx + mSpritePtr->mXy.x,
-                                                                     mConveyorDy + mSpritePtr->mXy.y,
-                                                                     mSpritePtr->mZpos);
+                                                     mConveyorDy + mSpritePtr->mXy.y,
+                                                     mSpritePtr->mZpos);
                         }
                     }
                 }
@@ -5949,36 +5949,36 @@ void Char::UpdateImmobilized()
                     {
                         mpPed->mpObj2C =
                             gObject_5C->NewMovingObj(objects::ped_pushed_110,
-                                                                   mSpritePtr->mXy.x,
-                                                                   mSpritePtr->mXy.y,
-                                                                   mSpritePtr->mZpos,
-                                                                   mTargetCar->mCarSprite->mRotation,
-                                                                   mSpritePtr->mRotation,
-                                                                   mTargetCar->mPhysics->vec_len(),
-                                                                   -kFpOne64th_6FD868,
-                                                                   0);
+                                                     mSpritePtr->mXy.x,
+                                                     mSpritePtr->mXy.y,
+                                                     mSpritePtr->mZpos,
+                                                     mTargetCar->mCarSprite->mRotation,
+                                                     mSpritePtr->mRotation,
+                                                     mTargetCar->mPhysics->vec_len(),
+                                                     -kFpOne64th_6FD868,
+                                                     0);
                     }
                     else
                     {
                         mpPed->mpObj2C =
                             gObject_5C->NewMovingObj(objects::ped_pushed_110,
-                                                                   mSpritePtr->mXy.x,
-                                                                   mSpritePtr->mXy.y,
-                                                                   mSpritePtr->mZpos,
-                                                                   mTargetCar->mCarSprite->mRotation,
-                                                                   mSpritePtr->mRotation,
-                                                                   kFpOneSixteenth,
-                                                                   -kFpOne64th_6FD868,
-                                                                   0);
+                                                     mSpritePtr->mXy.x,
+                                                     mSpritePtr->mXy.y,
+                                                     mSpritePtr->mZpos,
+                                                     mTargetCar->mCarSprite->mRotation,
+                                                     mSpritePtr->mRotation,
+                                                     kFpOneSixteenth,
+                                                     -kFpOne64th_6FD868,
+                                                     0);
                     }
 
                     mpPed->mStoredPedState1 = ped_state_1::walking_0;
                     mpPed->mStoredPedState2 = ped_state_2::ped2_walking_0;
                     mpPed->ChangeNextPedState1(ped_state_1::immobilized_8);
                     gParticle_8->EmitBloodBurst(mSpritePtr->mXy.x,
-                                                              mSpritePtr->mXy.y,
-                                                              mSpritePtr->mZpos,
-                                                              mSpritePtr->mRotation);
+                                                mSpritePtr->mXy.y,
+                                                mSpritePtr->mZpos,
+                                                mSpritePtr->mRotation);
                     mpPed->ChangeNextPedState2(ped_state_2::knocked_down_25);
                     mPedState2 = ped_state_2::knocked_recover_24;
                     mAnimationState = Char_Anim_state::Lying_On_Floor_10;
@@ -6021,14 +6021,14 @@ void Char::UpdateImmobilized()
                         if (pNearestSprite)
                         {
                             mpPed->mpObj2C = gObject_5C->NewMovingObj(objects::ped_pushed_110,
-                                                                                                     mSpritePtr->mXy.x,
-                                                                                                     mSpritePtr->mXy.y,
-                                                                                                     mSpritePtr->mZpos,
-                                                                                                     mSpritePtr->mRotation,
-                                                                                                     mSpritePtr->mRotation,
-                                                                                                     kFpPoint1_6FD824,
-                                                                                                     -kFpPoint01_6FD9A0,
-                                                                                                     kFP16Zero_6FD9E4);
+                                                                      mSpritePtr->mXy.x,
+                                                                      mSpritePtr->mXy.y,
+                                                                      mSpritePtr->mZpos,
+                                                                      mSpritePtr->mRotation,
+                                                                      mSpritePtr->mRotation,
+                                                                      kFpPoint1_6FD824,
+                                                                      -kFpPoint01_6FD9A0,
+                                                                      kFP16Zero_6FD9E4);
 
                             mpPed->ChangeNextPedState1(ped_state_1::immobilized_8);
                             mpPed->ChangeNextPedState2(ped_state_2::knocked_fatal_26);
@@ -6127,8 +6127,8 @@ void Char::UpdateImmobilized()
                     {
 
                         mSpritePtr->set_xyz_lazy(mConveyorDx + mSpritePtr->mXy.x,
-                                                                 mConveyorDy + mSpritePtr->mXy.y,
-                                                                 mSpritePtr->mZpos);
+                                                 mConveyorDy + mSpritePtr->mXy.y,
+                                                 mSpritePtr->mZpos);
                     }
                 }
                 else
@@ -6265,8 +6265,8 @@ void Char::UpdateDead()
         gSpriteGrid_2->CheckAndHandleCollisionInStrips(mSpritePtr);
         Char::ManageZCoordAndSlopes();
         mSpritePtr->set_xyz_lazy(mConveyorDx + mSpritePtr->mXy.x,
-                                                 mConveyorDy + mSpritePtr->mXy.y,
-                                                 mSpritePtr->mZpos);
+                                 mConveyorDy + mSpritePtr->mXy.y,
+                                 mSpritePtr->mZpos);
     }
     else
     {
@@ -6309,8 +6309,8 @@ void Char::UpdateDead()
                     gSpriteGrid_2->CheckAndHandleCollisionInStrips(mSpritePtr);
 
                     mSpritePtr->set_xyz_lazy(mConveyorDx + mSpritePtr->mXy.x,
-                                                             mConveyorDy + mSpritePtr->mXy.y,
-                                                             mSpritePtr->mZpos);
+                                             mConveyorDy + mSpritePtr->mXy.y,
+                                             mSpritePtr->mZpos);
                 }
 
                 mSpritePtr->mDrawLayer = 6;
@@ -6521,11 +6521,11 @@ bool Char::HandlePedObjectHit(Object* pObject)
     if (pObject->mModel == objects::rocket_bullet_128 || pObject->mModel == objects::moving_molotov_138 || pObject->mModel == objects::mine_10 && !gCharB4_HitByMine_6FDB59)
     {
         gObject_5C->CreateExplosion(mSpritePtr->mXy.x,
-                                                  mSpritePtr->mXy.y,
-                                                  mSpritePtr->mZpos,
-                                                  kAng0_6FDB34,
-                                                  explosion_type::small_18,
-                                                  pedId);
+                                    mSpritePtr->mXy.y,
+                                    mSpritePtr->mZpos,
+                                    kAng0_6FDB34,
+                                    explosion_type::small_18,
+                                    pedId);
         if (pObject->mModel == objects::mine_10)
         {
             gCharB4_HitByMine_6FDB59 = 1;
@@ -6627,9 +6627,9 @@ void Char::HandleCarImpact(Car* pCar, u8 not_used, Fix16 x, Fix16 y)
         {
             this->mpPed->Kill();
             gParticle_8->EmitBloodBurst(this->mSpritePtr->mXy.x,
-                                                      this->mSpritePtr->mXy.y,
-                                                      this->mSpritePtr->mZpos,
-                                                      impact_angle);
+                                        this->mSpritePtr->mXy.y,
+                                        this->mSpritePtr->mZpos,
+                                        impact_angle);
         }
         else if (vecLen < kFpPoint3_6FD830)
         {
@@ -6663,9 +6663,9 @@ void Char::HandleCarImpact(Car* pCar, u8 not_used, Fix16 x, Fix16 y)
                     this->mPedState2 = ped_state_2::knocked_recover_24;
 
                     gParticle_8->EmitBloodBurst(this->mSpritePtr->mXy.x,
-                                                              this->mSpritePtr->mXy.y,
-                                                              this->mSpritePtr->mZpos,
-                                                              impact_angle);
+                                                this->mSpritePtr->mXy.y,
+                                                this->mSpritePtr->mZpos,
+                                                impact_angle);
                 }
             }
             else
@@ -6698,9 +6698,9 @@ void Char::HandleCarImpact(Car* pCar, u8 not_used, Fix16 x, Fix16 y)
                     this->mpPed->Kill();
                 }
                 gParticle_8->EmitBloodBurst(this->mSpritePtr->mXy.x,
-                                                          this->mSpritePtr->mXy.y,
-                                                          this->mSpritePtr->mZpos,
-                                                          impact_angle);
+                                            this->mSpritePtr->mXy.y,
+                                            this->mSpritePtr->mZpos,
+                                            impact_angle);
             }
         }
         else
@@ -6719,9 +6719,9 @@ void Char::HandleCarImpact(Car* pCar, u8 not_used, Fix16 x, Fix16 y)
                 this->mpPed->Kill();
             }
             gParticle_8->EmitBloodBurst(this->mSpritePtr->mXy.x,
-                                                      this->mSpritePtr->mXy.y,
-                                                      this->mSpritePtr->mZpos,
-                                                      impact_angle);
+                                        this->mSpritePtr->mXy.y,
+                                        this->mSpritePtr->mZpos,
+                                        impact_angle);
         }
     }
 }
@@ -6740,14 +6740,14 @@ void Char::HandleGenericImpact(Ang16 ang, Fix16 impact_x, Fix16 impact_z, char_t
     {
         this->mStateInitPending = true;
         this->mpPed->mpObj2C = gObject_5C->NewMovingObj(objects::ped_pushed_110,
-                                                                                       mSpritePtr->mXy.x,
-                                                                                       mSpritePtr->mXy.y,
-                                                                                       mSpritePtr->mZpos,
-                                                                                       ang,
-                                                                                       mSpritePtr->mRotation,
-                                                                                       impact_x,
-                                                                                       -kFpPoint02_6FD9AC,
-                                                                                       impact_z);
+                                                        mSpritePtr->mXy.x,
+                                                        mSpritePtr->mXy.y,
+                                                        mSpritePtr->mZpos,
+                                                        ang,
+                                                        mSpritePtr->mRotation,
+                                                        impact_x,
+                                                        -kFpPoint02_6FD9AC,
+                                                        impact_z);
         if (!mpPed->mPedRefIdx)
         {
             mpPed->mPedRefIdx = gPedRefTable_7F8->AllocForPed(mpPed->mId);
@@ -6784,9 +6784,9 @@ void Char::HandleGenericImpact(Ang16 ang, Fix16 impact_x, Fix16 impact_z, char_t
 
                 this->mPedState2 = ped_state_2::knocked_recover_24;
                 gParticle_8->EmitBloodBurst(this->mSpritePtr->mXy.x,
-                                                          this->mSpritePtr->mXy.y,
-                                                          this->mSpritePtr->mZpos,
-                                                          ang);
+                                            this->mSpritePtr->mXy.y,
+                                            this->mSpritePtr->mZpos,
+                                            ang);
                 break;
 
             case 2:
@@ -6802,9 +6802,9 @@ void Char::HandleGenericImpact(Ang16 ang, Fix16 impact_x, Fix16 impact_z, char_t
 
                 this->mPedState2 = ped_state_2::knocked_recover_24;
                 gParticle_8->EmitBloodBurst(this->mSpritePtr->mXy.x,
-                                                          this->mSpritePtr->mXy.y,
-                                                          this->mSpritePtr->mZpos,
-                                                          ang);
+                                            this->mSpritePtr->mXy.y,
+                                            this->mSpritePtr->mZpos,
+                                            ang);
                 break;
         }
     }

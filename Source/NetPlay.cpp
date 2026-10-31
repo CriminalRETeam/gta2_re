@@ -167,11 +167,11 @@ void NetPlay::AddEnumeratedConnection(EnumeratedConnection* pConnectionInfo)
 
 MATCH_FUNC(0x51da30)
 s32 __stdcall NetPlay::EnumConnections_cb(const GUID* lpguidSP,
-                                                 void* lpConnection,
-                                                 unsigned long dwConnectionSize,
-                                                 const DPNAME* lpName,
-                                                 unsigned long dwFlags,
-                                                 void* lpContext)
+                                          void* lpConnection,
+                                          unsigned long dwConnectionSize,
+                                          const DPNAME* lpName,
+                                          unsigned long dwFlags,
+                                          void* lpContext)
 {
     EnumeratedConnection info;
     info.mSpGuid = *lpguidSP;
@@ -620,10 +620,10 @@ s32 NetPlay::EnumSessions()
     else
     {
         hr = mpDPlay3->EnumSessions(&desc,
-                                             0,
-                                             reinterpret_cast<LPDPENUMSESSIONSCALLBACK2>(NetPlay::EnumSessions_cb),
-                                             this,
-                                             DPENUMSESSIONS_AVAILABLE | DPENUMSESSIONS_ASYNC);
+                                    0,
+                                    reinterpret_cast<LPDPENUMSESSIONSCALLBACK2>(NetPlay::EnumSessions_cb),
+                                    this,
+                                    DPENUMSESSIONS_AVAILABLE | DPENUMSESSIONS_ASYNC);
         if (hr < 0)
         {
         // Shared failure block, as in CreateModemAddress:
@@ -659,11 +659,11 @@ s32 NetPlay::HostSession(wchar_t* pSessionName, wchar_t* pPlayerName, Network_Bu
             name.lpszLongName = NULL;
             name.dwSize = sizeof(DPNAME);
             mpDPlay3->CreatePlayer(reinterpret_cast<LPDPID>(&mPlayerId),
-                                            &name,
-                                            mHandle,
-                                            pPlayerData->mData,
-                                            pPlayerData->mLen,
-                                            0);
+                                   &name,
+                                   mHandle,
+                                   pPlayerData->mData,
+                                   pPlayerData->mLen,
+                                   0);
 
             mPlayerOgIdx = mPlayerIdx = AddPlayer(pPlayerData, mPlayerId, name, &mN1);
 
@@ -678,10 +678,10 @@ s32 NetPlay::HostSession(wchar_t* pSessionName, wchar_t* pPlayerName, Network_Bu
                 name.lpszShortName = L"GBH Group";
                 name.lpszLongName = NULL;
                 if (mpDPlay3->CreateGroup(reinterpret_cast<LPDPID>(&mN2.mGroupId),
-                                                   &name,
-                                                   mN2.mGameSettings,
-                                                   mN2.mGroupDataLen,
-                                                   0) >= 0 &&
+                                          &name,
+                                          mN2.mGameSettings,
+                                          mN2.mGroupDataLen,
+                                          0) >= 0 &&
                     mpDPlay3->AddPlayerToGroup(mN2.mGroupId, mPlayerId) >= 0)
                 {
                     mNetState = 3;
@@ -848,10 +848,10 @@ void NetPlay::NetworkTick()
                 desc.dwSize = sizeof(desc);
                 desc.guidApplication = kGta2_DP_Guid;
                 if (mpDPlay3->EnumSessions(&desc,
-                                                    1000,
-                                                    reinterpret_cast<LPDPENUMSESSIONSCALLBACK2>(NetPlay::EnumSessions_cb),
-                                                    this,
-                                                    DPENUMSESSIONS_AVAILABLE | DPENUMSESSIONS_ASYNC) == DP_OK)
+                                           1000,
+                                           reinterpret_cast<LPDPENUMSESSIONSCALLBACK2>(NetPlay::EnumSessions_cb),
+                                           this,
+                                           DPENUMSESSIONS_AVAILABLE | DPENUMSESSIONS_ASYNC) == DP_OK)
                 {
                     Network_NameList names;
                     names.mCount = mSessions.mSessionCount;
@@ -1518,28 +1518,28 @@ s32 NetPlay::JoinSession(u32 session_idx, wchar_t* pPlayerName, Network_Buffer* 
     name.dwSize = sizeof(DPNAME);
     name.lpszLongName = NULL;
     if (mpDPlay3->CreatePlayer(reinterpret_cast<LPDPID>(&mPlayerId),
-                                        &name,
-                                        mHandle,
-                                        pPlayerData->mData,
-                                        pPlayerData->mLen,
-                                        0) < 0)
+                               &name,
+                               mHandle,
+                               pPlayerData->mData,
+                               pPlayerData->mLen,
+                               0) < 0)
     {
         return 0;
     }
 
     if (mpDPlay3->EnumGroups(&mN2.mSessionDesc.guidInstance,
-                                      reinterpret_cast<LPDPENUMPLAYERSCALLBACK2>(NetPlay::EnumGroups_cb),
-                                      this,
-                                      0) < 0)
+                             reinterpret_cast<LPDPENUMPLAYERSCALLBACK2>(NetPlay::EnumGroups_cb),
+                             this,
+                             0) < 0)
     {
         return 0;
     }
 
     if (mpDPlay3->EnumGroupPlayers(mN2.mGroupId,
-                                            &mN2.mSessionDesc.guidInstance,
-                                            reinterpret_cast<LPDPENUMPLAYERSCALLBACK2>(NetPlay::EnumGroups_cb),
-                                            this,
-                                            0) < 0)
+                                   &mN2.mSessionDesc.guidInstance,
+                                   reinterpret_cast<LPDPENUMPLAYERSCALLBACK2>(NetPlay::EnumGroups_cb),
+                                   this,
+                                   0) < 0)
     {
         return 0;
     }
@@ -1548,15 +1548,15 @@ s32 NetPlay::JoinSession(u32 session_idx, wchar_t* pPlayerName, Network_Buffer* 
     for (i = 0; i < mN2.mPlayersCount; i++)
     {
         if (mpDPlay3->GetPlayerData(mN2.mPlayers[i].mPlayerId,
-                                             mN2.mPlayers[i].mpData,
-                                             reinterpret_cast<LPDWORD>(&mN2.mPlayers[i].mDataLen),
-                                             0) == DPERR_BUFFERTOOSMALL)
+                                    mN2.mPlayers[i].mpData,
+                                    reinterpret_cast<LPDWORD>(&mN2.mPlayers[i].mDataLen),
+                                    0) == DPERR_BUFFERTOOSMALL)
         {
             mN2.mPlayers[i].mpData = operator new(mN2.mPlayers[i].mDataLen);
             mpDPlay3->GetPlayerData(mN2.mPlayers[i].mPlayerId,
-                                             mN2.mPlayers[i].mpData,
-                                             reinterpret_cast<LPDWORD>(&mN2.mPlayers[i].mDataLen),
-                                             0);
+                                    mN2.mPlayers[i].mpData,
+                                    reinterpret_cast<LPDWORD>(&mN2.mPlayers[i].mDataLen),
+                                    0);
         }
     }
 
@@ -1580,9 +1580,9 @@ s32 NetPlay::JoinSession(u32 session_idx, wchar_t* pPlayerName, Network_Buffer* 
     {
         mN2.mGameSettings = static_cast<u8*>(operator new(mN2.mGroupDataLen));
         if (mpDPlay3->GetGroupData(mN2.mGroupId,
-                                            mN2.mGameSettings,
-                                            reinterpret_cast<LPDWORD>(&mN2.mGroupDataLen),
-                                            0) < 0)
+                                   mN2.mGameSettings,
+                                   reinterpret_cast<LPDWORD>(&mN2.mGroupDataLen),
+                                   0) < 0)
         {
             return 0;
         }

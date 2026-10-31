@@ -1015,14 +1015,14 @@ void Sprite::ShowId(f32& x, f32& y)
                 swprintf(tmpBuff, L"%d", pChar->mpPed->mId);
                 s32 palette_type = palette_types_enum::sprites_2;
                 DrawString(tmpBuff,
-                                xpos * gViewCamera->mUiScale,
-                                ypos * gViewCamera->mUiScale,
-                                gStyleTextFont,
-                                gViewCamera->mUiScale,
-                                palette_type,
-                                0,
-                                0,
-                                0);
+                           xpos * gViewCamera->mUiScale,
+                           ypos * gViewCamera->mUiScale,
+                           gStyleTextFont,
+                           gViewCamera->mUiScale,
+                           palette_type,
+                           0,
+                           0,
+                           0);
             }
         }
     }
@@ -1039,14 +1039,14 @@ void Sprite::ShowId(f32& x, f32& y)
             swprintf(tmpBuff, L"%d:%d", pObj->mModel, pObj->mId);
             s32 palette_type = palette_types_enum::sprites_2;
             DrawString(tmpBuff,
-                            xpos * gViewCamera->mUiScale,
-                            ypos * gViewCamera->mUiScale,
-                            gStyleTextFont,
-                            gViewCamera->mUiScale,
-                            palette_type,
-                            0,
-                            0,
-                            0);
+                       xpos * gViewCamera->mUiScale,
+                       ypos * gViewCamera->mUiScale,
+                       gStyleTextFont,
+                       gViewCamera->mUiScale,
+                       palette_type,
+                       0,
+                       0,
+                       0);
         }
     }
 }
@@ -1424,12 +1424,12 @@ bool Sprite::IntersectsRectSAT(Fix16_Rect* pOtherRect)
     // expansions: the rotation is the out-of-line copy and only the y sum stays inline. The
     // operators are the named out-of-line copies used above, so each has a single callee.
     ProjectOntoAxis(((pOtherRect->get_left()).Add(pOtherRect->get_right())).DivideInt(2),
-                           (pOtherRect->get_top() + pOtherRect->get_bottom()).DivideInt(2),
-                           -mRotation,
-                           mXy.x,
-                           mXy.y,
-                           rot_x,
-                           rot_y);
+                    (pOtherRect->get_top() + pOtherRect->get_bottom()).DivideInt(2),
+                    -mRotation,
+                    mXy.x,
+                    mXy.y,
+                    rot_x,
+                    rot_y);
 
     if (rot_x >= half_width.Negated() && rot_x <= half_width)
     {
@@ -1625,12 +1625,12 @@ bool Sprite::RotatedRectCollisionSAT(Sprite* pOther)
     // Last rotation (it's different)
     // Out-of-line copies: the function has run out of inline expansions
     ProjectOntoAxis(pOther->mXy.x,
-                           pOther->mXy.y,
-                           GetNegatedAngle(),
-                           mXy.x,
-                           mXy.y,
-                           rot_x,
-                           rot_y);
+                    pOther->mXy.y,
+                    GetNegatedAngle(),
+                    mXy.x,
+                    mXy.y,
+                    rot_x,
+                    rot_y);
 
     if (rot_x >= half_width.Negated() && rot_x <= half_width)
     {
@@ -2157,11 +2157,11 @@ Ang16 Sprite::GetNegatedAngle()
 // https://decomp.me/scratch/tc76b
 MATCH_FUNC(0x5a2710)
 Fix16_Point Sprite::FindCollisionIntersectionPoint(Sprite* pOther,
-                                                          Fix16_Point& newPos,
-                                                          Ang16 newAng,
-                                                          u8& self_corner_idx,
-                                                          u8& other_corner_idx,
-                                                          u8& overlap_count)
+                                                   Fix16_Point& newPos,
+                                                   Ang16 newAng,
+                                                   u8& self_corner_idx,
+                                                   u8& other_corner_idx,
+                                                   u8& overlap_count)
 {
     u8 idx1;
     u8 idx2;
@@ -2492,18 +2492,18 @@ void SpriteShape::UpdateRotatedBoundingBox(Fix16 xpos, Fix16 ypos, Fix16 zpos, A
         bottom = mBoundingBox.get_bottom();
 
         FindMinMax(left,
-                          right,
-                          mCorners[0].x,
-                          mCorners[1].x,
-                          mCorners[2].x,
-                          mCorners[3].x);
+                   right,
+                   mCorners[0].x,
+                   mCorners[1].x,
+                   mCorners[2].x,
+                   mCorners[3].x);
 
         FindMinMax(top,
-                          bottom,
-                          mCorners[0].y,
-                          mCorners[1].y,
-                          mCorners[2].y,
-                          mCorners[3].y);
+                   bottom,
+                   mCorners[0].y,
+                   mCorners[1].y,
+                   mCorners[2].y,
+                   mCorners[3].y);
 
         mBoundingBox.SetBounds_5A5E30(left, right, top, bottom);
     }

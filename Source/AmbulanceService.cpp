@@ -179,9 +179,9 @@ void AmbulanceService::ProcessPatientQueue()
             if (1 == pAmbulance->mInUse && pAmbulance->mParamedicsCrew->IsLeaderAlive())
             {
                 if (Fix16::MaxAbsDistance(pPed->get_cam_x(),
-                                                 pPed->get_cam_y(),
-                                                 Fix16(pAmbulance->mTargetX),
-                                                 Fix16(pAmbulance->mTargetY)) < kFpEight_6F6FC0 &&
+                                          pPed->get_cam_y(),
+                                          Fix16(pAmbulance->mTargetX),
+                                          Fix16(pAmbulance->mTargetY)) < kFpEight_6F6FC0 &&
                     pAmbulance->mPatientCount < 10)
                 {
                     pAmbulance->AddPatient(pPed);

@@ -115,10 +115,10 @@ class CarInfoTable
     EXPORT ~CarInfoTable();
 
     EXPORT static char* __stdcall parse_gci_file(void* input,
-                                                        size_t input_size,
-                                                        ModelPhysics* output,
-                                                        size_t output_size,
-                                                        u32* next_position);
+                                                 size_t input_size,
+                                                 ModelPhysics* output,
+                                                 size_t output_size,
+                                                 u32* next_position);
     EXPORT static char* __stdcall SetErr(s32 error_code);
     EXPORT static s32 __stdcall ReadToken(char* pOut);
     EXPORT static s32 __stdcall PushData(void* pSrc, u32 size);

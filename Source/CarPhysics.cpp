@@ -1085,8 +1085,8 @@ void CarPhysics::UpdateZPhysics(Fix16 dt)
                 {
                     Fix16 below;
                     below = gMap_0x370->GetGroundZBelowCoord(mCp1.x,
-                                                                           mCp1.y,
-                                                                           zpos - kFP16One64th_6FE2E0);
+                                                             mCp1.y,
+                                                             zpos - kFP16One64th_6FE2E0);
                     if (below > kFP16Zero_6FE20C)
                     {
                         zpos = below;
@@ -1120,8 +1120,8 @@ void CarPhysics::UpdateZPhysics(Fix16 dt)
             UpdateSpriteFromPhysics();
 
             mpCar->mCarSprite->set_xyz_lazy(mpCar->mCarSprite->mXy.x,
-                                                                    mpCar->mCarSprite->mXy.y,
-                                                                    zpos);
+                                            mpCar->mCarSprite->mXy.y,
+                                            zpos);
 
             if (mpCar->mCarSprite->CheckSpriteMovementRegion())
             {
@@ -1135,8 +1135,8 @@ void CarPhysics::UpdateZPhysics(Fix16 dt)
         UpdateSpriteFromPhysics();
 
         mpCar->mCarSprite->set_xyz_lazy(mpCar->mCarSprite->mXy.x,
-                                                                mpCar->mCarSprite->mXy.y,
-                                                                zpos);
+                                        mpCar->mCarSprite->mXy.y,
+                                        zpos);
 
         gCarManager_6C->mImpactMode = car_impact_mode::crush_max_z_2;
         gCarManager_6C->mZpos = kFP16Zero_6FE20C;
@@ -1247,8 +1247,8 @@ void CarPhysics::UpdateRailwayZPosition(Fix16 dt)
             UpdateSpriteFromPhysics();
 
             mpCar->mCarSprite->set_xyz_lazy(mpCar->mCarSprite->mXy.x,
-                                                                    mpCar->mCarSprite->mXy.y,
-                                                                    new_z);
+                                            mpCar->mCarSprite->mXy.y,
+                                            new_z);
 
             if (mpCar->mCarSprite->CheckSpriteMovementRegion())
             {
@@ -1548,8 +1548,8 @@ void CarPhysics::HandleMapBoundaryCollisionY(Fix16_Point& point, Ang16 angle)
 {
     Fix16_Point RelativePointVelocity;
     if (mpCar->mCarSprite->GetNearestHorizontalEdgeToCoordinate(gCollisionTarget.mHsegY,
-                                                                                        CollisionIntersectionPoint,
-                                                                                        sCollisionArea))
+                                                                CollisionIntersectionPoint,
+                                                                sCollisionArea))
     {
         sCollisionNormal.SetXY(Fix16(0), mCp1.y - gCollisionTarget.mHsegY);
         RelativePointVelocity = ComputeRelativePointVelocity(&CollisionIntersectionPoint);
@@ -1594,8 +1594,8 @@ void CarPhysics::HandleMapBoundaryCollisionX(Fix16_Point& point, Ang16 angle)
 {
     Fix16_Point RelativePointVelocity;
     if (mpCar->mCarSprite->GetNearestVerticalEdgeToCoordinate(gCollisionTarget.mVsegX,
-                                                                                      CollisionIntersectionPoint,
-                                                                                      sCollisionArea))
+                                                              CollisionIntersectionPoint,
+                                                              sCollisionArea))
     {
         sCollisionNormal.SetXY(mCp1.x - gCollisionTarget.mVsegX, Fix16(0));
         RelativePointVelocity = ComputeRelativePointVelocity(&CollisionIntersectionPoint);

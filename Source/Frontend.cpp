@@ -600,8 +600,8 @@ void Frontend::ChangeMenuPage(u16 menu_page_idx)
 
             default:
                 FatalError(Gta2Error::InvalidMultiplayerGameType,
-                                  "C:\\Splitting\\GTA2\\Source\\frontend2.cpp",
-                                  4079); // Multiplayer game type should be frag, tag or score (but isn't)
+                           "C:\\Splitting\\GTA2\\Source\\frontend2.cpp",
+                           4079); // Multiplayer game type should be frag, tag or score (but isn't)
                 break;
         }
 
@@ -742,8 +742,8 @@ void Frontend::ChangeMenuPage(u16 menu_page_idx)
         if (!pCurPage->mOptionsArray[pCurPage->mCurrentOptionIdx].mIsUnlocked)
         {
             FatalError(Gta2Error::NoValidMenuOptions,
-                              "C:\\Splitting\\GTA2\\Source\\frontend2.cpp",
-                              4269); // the menu contains no valid options
+                       "C:\\Splitting\\GTA2\\Source\\frontend2.cpp",
+                       4269); // the menu contains no valid options
         }
     }
 

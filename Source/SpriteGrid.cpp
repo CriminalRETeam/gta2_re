@@ -148,11 +148,11 @@ bool SpriteGrid::CheckAndHandleAllCollisionsForSprite(Sprite* pSprite, s32 sprit
 
 MATCH_FUNC(0x477c90)
 Sprite* SpriteGrid::FindNearestSprite_SpiralSearch(s32 primary_sprite_type,
-                                                          s32 secondary_sprite_type,
-                                                          Sprite* pExclude,
-                                                          u8 max_rings,
-                                                          s32 search_mode,
-                                                          char_type bUseSpriteZ)
+                                                   s32 secondary_sprite_type,
+                                                   Sprite* pExclude,
+                                                   u8 max_rings,
+                                                   s32 search_mode,
+                                                   char_type bUseSpriteZ)
 {
     gSpriteGrid_start_x = pExclude->mXy.x.ToInt();
     gSpriteGrid_start_y = pExclude->mXy.y.ToInt();

@@ -189,9 +189,9 @@ Ang16 __stdcall Fix16::atan2_fixed(Fix16& y, Fix16& x)
 
 MATCH_FUNC(0x438FB0)
 EXPORT bool __stdcall IntervalIntersectsRange(const Fix16& intervalStart,
-                                                     const Fix16& intervalEnd,
-                                                     const Fix16& rangeMin,
-                                                     const Fix16& rangeMax)
+                                              const Fix16& intervalEnd,
+                                              const Fix16& rangeMin,
+                                              const Fix16& rangeMax)
 {
     if (intervalStart < rangeMin)
     {

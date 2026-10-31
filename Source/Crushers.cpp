@@ -158,46 +158,46 @@ void Crusher::InitCrusher(Fix16 xpos, Fix16 ypos, char_type crusher_idx)
     mCentralSpot->mPedRefIdx = crusher_idx;
 
     mPistonTop = gObject_5C->NewPhysicsObj(objects::crusher_piston_142,
-                                                                 mXpos,
-                                                                 mYpos - kCrusherOpenDist,
-                                                                 zpos,
-                                                                 kAngZero_67A820);
+                                           mXpos,
+                                           mYpos - kCrusherOpenDist,
+                                           zpos,
+                                           kAngZero_67A820);
     mPistonRight = gObject_5C->NewPhysicsObj(objects::crusher_piston_142,
-                                                                   mXpos + kCrusherOpenDist,
-                                                                   mYpos,
-                                                                   zpos,
-                                                                   kAng270_67A660);
+                                             mXpos + kCrusherOpenDist,
+                                             mYpos,
+                                             zpos,
+                                             kAng270_67A660);
     mPistonBottom = gObject_5C->NewPhysicsObj(objects::crusher_piston_142,
-                                                                    mXpos,
-                                                                    kCrusherOpenDist + mYpos,
-                                                                    zpos,
-                                                                    kAng180_67A63A);
+                                              mXpos,
+                                              kCrusherOpenDist + mYpos,
+                                              zpos,
+                                              kAng180_67A63A);
     mPistonLeft = gObject_5C->NewPhysicsObj(objects::crusher_piston_142,
-                                                                  mXpos - kCrusherOpenDist,
-                                                                  mYpos,
-                                                                  zpos,
-                                                                  kAng90_67A568);
-
-    gObject_5C->NewPhysicsObj(objects::crusher_piston_base_150,
-                                            mXpos,
-                                            mYpos - kCrusherPistonBaseDist,
-                                            zpos,
-                                            kAngZero_67A820);
-    gObject_5C->NewPhysicsObj(objects::crusher_piston_base_150,
-                                            mXpos + kCrusherPistonBaseDist,
-                                            mYpos,
-                                            zpos,
-                                            kAng270_67A660);
-    gObject_5C->NewPhysicsObj(objects::crusher_piston_base_150,
-                                            mXpos,
-                                            kCrusherPistonBaseDist + mYpos,
-                                            zpos,
-                                            kAng180_67A63A);
-    gObject_5C->NewPhysicsObj(objects::crusher_piston_base_150,
-                                            mXpos - kCrusherPistonBaseDist,
+                                            mXpos - kCrusherOpenDist,
                                             mYpos,
                                             zpos,
                                             kAng90_67A568);
+
+    gObject_5C->NewPhysicsObj(objects::crusher_piston_base_150,
+                              mXpos,
+                              mYpos - kCrusherPistonBaseDist,
+                              zpos,
+                              kAngZero_67A820);
+    gObject_5C->NewPhysicsObj(objects::crusher_piston_base_150,
+                              mXpos + kCrusherPistonBaseDist,
+                              mYpos,
+                              zpos,
+                              kAng270_67A660);
+    gObject_5C->NewPhysicsObj(objects::crusher_piston_base_150,
+                              mXpos,
+                              kCrusherPistonBaseDist + mYpos,
+                              zpos,
+                              kAng180_67A63A);
+    gObject_5C->NewPhysicsObj(objects::crusher_piston_base_150,
+                              mXpos - kCrusherPistonBaseDist,
+                              mYpos,
+                              zpos,
+                              kAng90_67A568);
 
     mW = kCrusherOpenDist;
     mH = kCrusherOpenDist;

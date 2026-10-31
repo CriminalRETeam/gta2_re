@@ -324,10 +324,10 @@ void ScriptThread::SCRCMD_OBJ_DECSET_2D_3D(SCR_OBJ_DATA* pCmd, SCR_POINTER* pPoi
         Ang16 rotation = kDegreesToAng16.MultiplyByFix16(Fix16(static_cast<u16>(pCmd->mRot.rValue)));
 
         pPointer->mObj = gObject_5C->NewPhysicsObj(pCmd->mObjId,
-                                                                        pCmd->mPos.x,
-                                                                        pCmd->mPos.y,
-                                                                        pCmd->mPos.z,
-                                                                        rotation);
+                                                   pCmd->mPos.x,
+                                                   pCmd->mPos.y,
+                                                   pCmd->mPos.z,
+                                                   rotation);
     }
     else
     {
@@ -373,10 +373,10 @@ void ScriptThread::SCRCMD_OBJ_DECSET(SCR_OBJ_DATA* pCmd, SCR_POINTER* pPointer)
         rotation.Normalize_406C20();
 
         pPointer->mObj = gObject_5C->NewPhysicsObj(pCmd->mObjId,
-                                                                        pCmd->mPos.x,
-                                                                        pCmd->mPos.y,
-                                                                        pCmd->mPos.z,
-                                                                        rotation);
+                                                   pCmd->mPos.x,
+                                                   pCmd->mPos.y,
+                                                   pCmd->mPos.z,
+                                                   rotation);
     }
     else
     {
@@ -427,10 +427,10 @@ void ScriptThread::Handle_PLAYER_PED(SCR_PLAYER_PED* pCmd)
             Fix16 saved_x = kFpHalf_6F75F0 + gGameSave.mPlayerAndWorldStats.mX.GetFloorValue();
 
             pPed = gPedManager->SpawnPedAt(saved_x,
-                                                  saved_y,
-                                                  gGameSave.mPlayerAndWorldStats.mZ,
-                                                  gGameSave.mPlayerAndWorldStats.mPlayerPedRemap,
-                                                  kAngZero_6F804C);
+                                           saved_y,
+                                           gGameSave.mPlayerAndWorldStats.mZ,
+                                           gGameSave.mPlayerAndWorldStats.mPlayerPedRemap,
+                                           kAngZero_6F804C);
         }
         else
         {
@@ -444,10 +444,10 @@ void ScriptThread::Handle_PLAYER_PED(SCR_PLAYER_PED* pCmd)
             Ang16 rotation = kDegreesToAng16.MultiplyByFix16(Fix16(static_cast<u16>(pCmd->mRot.rValue)));
 
             pPed = gPedManager->SpawnPedAt(pCmd->mPos.x,
-                                                  pCmd->mPos.y,
-                                                  pCmd->mPos.z,
-                                                  static_cast<u8>(pCmd->mRemap),
-                                                  rotation);
+                                           pCmd->mPos.y,
+                                           pCmd->mPos.z,
+                                           static_cast<u8>(pCmd->mRemap),
+                                           rotation);
         }
 
         if (pPed != NULL)
@@ -707,13 +707,13 @@ void ScriptThread::SCRCMD_CONVEYOR_DECSET1_2(SCR_CONVEYOR* pCmd, SCR_POINTER* pP
                                                                                                  pCmd->mRect.mPos.y);
     }
     pPointer->mObj = gObject_5C->NewTouchPoint(objects::conveyor_139,
-                                                                    pCmd->mRect.mPos.x,
-                                                                    pCmd->mRect.mPos.y,
-                                                                    pCmd->mRect.mPos.z,
-                                                                    kAngZero_6F804C,
-                                                                    pCmd->mRect.mSize.mX,
-                                                                    pCmd->mRect.mSize.mY,
-                                                                    kFpOne_6F77C4);
+                                               pCmd->mRect.mPos.x,
+                                               pCmd->mRect.mPos.y,
+                                               pCmd->mRect.mPos.z,
+                                               kAngZero_6F804C,
+                                               pCmd->mRect.mSize.mX,
+                                               pCmd->mRect.mSize.mY,
+                                               kFpOne_6F77C4);
 
     pPointer->mObj->SetConveyorSpeed(pCmd->mSpeed.mX, pCmd->mSpeed.mY);
 }
@@ -730,12 +730,12 @@ void ScriptThread::SCRCMD_GENERATOR_DECSET(SCR_GENERATOR* pCmd, SCR_POINTER* pPo
     Ang16 rotation = kDegreesToAng16.MultiplyByFix16(Fix16(static_cast<u16>(pCmd->mRot.rValue)));
 
     pPointer->mGenerator = gGeneratorPool_14AC->CreateGenerator(pCmd->mPos.x,
-                                                                                     pCmd->mPos.y,
-                                                                                     pCmd->mPos.z,
-                                                                                     rotation,
-                                                                                     pCmd->mObjId,
-                                                                                     pCmd->mMindelay,
-                                                                                     pCmd->mMaxdelay);
+                                                                pCmd->mPos.y,
+                                                                pCmd->mPos.z,
+                                                                rotation,
+                                                                pCmd->mObjId,
+                                                                pCmd->mMindelay,
+                                                                pCmd->mMaxdelay);
     if (pCmd->mAmmo > 0)
     {
         pPointer->mGenerator->mAmmo = pCmd->mAmmo;
@@ -752,13 +752,13 @@ void ScriptThread::SCRCMD_DESTRUCTOR_DECSET(SCR_DESTRUCTOR* pCmd, SCR_POINTER* p
     }
 
     pPointer->mObj = gObject_5C->NewTouchPoint(objects::destructor_141,
-                                                                    pCmd->mRect.mPos.x,
-                                                                    pCmd->mRect.mPos.y,
-                                                                    pCmd->mRect.mPos.z,
-                                                                    kAngZero_6F804C,
-                                                                    pCmd->mRect.mSize.mX,
-                                                                    pCmd->mRect.mSize.mY,
-                                                                    kFpOne_6F77C4);
+                                               pCmd->mRect.mPos.x,
+                                               pCmd->mRect.mPos.y,
+                                               pCmd->mRect.mPos.z,
+                                               kAngZero_6F804C,
+                                               pCmd->mRect.mSize.mX,
+                                               pCmd->mRect.mSize.mY,
+                                               kFpOne_6F77C4);
 }
 
 MATCH_FUNC(0x5045a0)
@@ -1466,9 +1466,9 @@ void ScriptThread::SCRCMD_DISPLAY_MESSAGES(SCR_TWO_PARAMS* pCmd)
         if (!gText_0x14->Find(gTmpBuffer))
         {
             FatalError(Gta2Error::MissionScriptIsReferringToTextIdThatDoesNotExist,
-                              "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
-                              2460,
-                              pCmd->mUnsigned1); // Mission script is referring to a 'text id' that doesn't exist. ID
+                       "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
+                       2460,
+                       pCmd->mUnsigned1); // Mission script is referring to a 'text id' that doesn't exist. ID
         }
     }
 }
@@ -2161,7 +2161,7 @@ void ScriptThread::SCRCMD_CREATE_CAR()
     if (*z_coord == kFp255)
     {
         *z_coord = gMap_0x370->FindGroundZForCoord(reinterpret_cast<SCR_CAR_DATA_DEC*>(gBasePtr)->mPos.x,
-                                                                 reinterpret_cast<SCR_CAR_DATA_DEC*>(gBasePtr)->mPos.y);
+                                                   reinterpret_cast<SCR_CAR_DATA_DEC*>(gBasePtr)->mPos.y);
     }
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(pCmd->mCarIdx));
     ScriptThread::SCRCMD_CAR_DECSET(reinterpret_cast<SCR_CAR_DATA_DEC*>(gBasePtr), pPointer);
@@ -2297,14 +2297,14 @@ void ScriptThread::Handle_POINT_ARROW_AT()
 
         case script_entity_type::crane_4:
             pArrowPtr->mArrow->SetArrowAim(reinterpret_cast<SCR_CRANE_TARGET_DEC*>(pEntityPtr)->mPos.mX,
-                                                         reinterpret_cast<SCR_CRANE_TARGET_DEC*>(pEntityPtr)->mPos.mY,
-                                                         kFpOne_6F77C4);
+                                           reinterpret_cast<SCR_CRANE_TARGET_DEC*>(pEntityPtr)->mPos.mY,
+                                           kFpOne_6F77C4);
             break;
 
         case script_entity_type::conveyor_5:
             pArrowPtr->mArrow->SetArrowAim(reinterpret_cast<SCR_CONVEYOR*>(pEntityPtr)->mRect.mPos.x,
-                                                         reinterpret_cast<SCR_CONVEYOR*>(pEntityPtr)->mRect.mPos.y,
-                                                         reinterpret_cast<SCR_CONVEYOR*>(pEntityPtr)->mRect.mPos.z);
+                                           reinterpret_cast<SCR_CONVEYOR*>(pEntityPtr)->mRect.mPos.y,
+                                           reinterpret_cast<SCR_CONVEYOR*>(pEntityPtr)->mRect.mPos.z);
             break;
 
         default:
@@ -2850,35 +2850,35 @@ void ScriptThread::Handle_EXPLODE()
     {
         case SCRCMD_EXPLODE_NO_RING2:
             gObject_5C->CreateExplosion(pCmd->mPos.x,
-                                                      pCmd->mPos.y,
-                                                      pCmd->mPos.z,
-                                                      kAngZero_6F804C,
-                                                      explosion_type::no_ring_32,
-                                                      0);
+                                        pCmd->mPos.y,
+                                        pCmd->mPos.z,
+                                        kAngZero_6F804C,
+                                        explosion_type::no_ring_32,
+                                        0);
             break;
         case SCRCMD_EXPLODE_SMALL2:
             gObject_5C->CreateExplosion(pCmd->mPos.x,
-                                                      pCmd->mPos.y,
-                                                      pCmd->mPos.z,
-                                                      kAngZero_6F804C,
-                                                      explosion_type::small_18,
-                                                      0);
+                                        pCmd->mPos.y,
+                                        pCmd->mPos.z,
+                                        kAngZero_6F804C,
+                                        explosion_type::small_18,
+                                        0);
             break;
         case SCRCMD_EXPLODE:
             gObject_5C->CreateExplosion(pCmd->mPos.x,
-                                                      pCmd->mPos.y,
-                                                      pCmd->mPos.z,
-                                                      kAngZero_6F804C,
-                                                      explosion_type::item_19,
-                                                      0);
+                                        pCmd->mPos.y,
+                                        pCmd->mPos.z,
+                                        kAngZero_6F804C,
+                                        explosion_type::item_19,
+                                        0);
             break;
         case SCRCMD_EXPLODE_LARGE2:
             gObject_5C->CreateExplosion(pCmd->mPos.x,
-                                                      pCmd->mPos.y,
-                                                      pCmd->mPos.z,
-                                                      kAngZero_6F804C,
-                                                      explosion_type::large_20,
-                                                      0);
+                                        pCmd->mPos.y,
+                                        pCmd->mPos.z,
+                                        kAngZero_6F804C,
+                                        explosion_type::large_20,
+                                        0);
             break;
     }
     ScriptThread::Next(gBasePtr);
@@ -2892,35 +2892,35 @@ void ScriptThread::Handle_EXPLODE_BUILDING()
     {
         case 1:
             gObject_5C->CreateExplosion(pCmd->mPos.x,
-                                                      pCmd->mPos.y,
-                                                      pCmd->mPos.z,
-                                                      kAngZero_6F804C,
-                                                      explosion_type::building_225_23,
-                                                      0);
+                                        pCmd->mPos.y,
+                                        pCmd->mPos.z,
+                                        kAngZero_6F804C,
+                                        explosion_type::building_225_23,
+                                        0);
             break;
         case 2:
             gObject_5C->CreateExplosion(pCmd->mPos.x,
-                                                      pCmd->mPos.y,
-                                                      pCmd->mPos.z,
-                                                      kAngZero_6F804C,
-                                                      explosion_type::building_45_22,
-                                                      0);
+                                        pCmd->mPos.y,
+                                        pCmd->mPos.z,
+                                        kAngZero_6F804C,
+                                        explosion_type::building_45_22,
+                                        0);
             break;
         case 3:
             gObject_5C->CreateExplosion(pCmd->mPos.x,
-                                                      pCmd->mPos.y,
-                                                      pCmd->mPos.z,
-                                                      kAngZero_6F804C,
-                                                      explosion_type::building_135_24,
-                                                      0);
+                                        pCmd->mPos.y,
+                                        pCmd->mPos.z,
+                                        kAngZero_6F804C,
+                                        explosion_type::building_135_24,
+                                        0);
             break;
         case 4:
             gObject_5C->CreateExplosion(pCmd->mPos.x,
-                                                      pCmd->mPos.y,
-                                                      pCmd->mPos.z,
-                                                      kAngZero_6F804C,
-                                                      explosion_type::building_315_25,
-                                                      0);
+                                        pCmd->mPos.y,
+                                        pCmd->mPos.z,
+                                        kAngZero_6F804C,
+                                        explosion_type::building_315_25,
+                                        0);
             break;
         default:
             break;
@@ -2997,9 +2997,9 @@ void ScriptThread::Locate()
                     break;
                 default:
                     FatalError(Gta2Error::InvalidCase,
-                                      "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
-                                      4622,
-                                      gBasePtr->mType);
+                               "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
+                               4622,
+                               gBasePtr->mType);
                     break;
             }
         }
@@ -3425,18 +3425,18 @@ void ScriptThread::SCRCMD_SET_GANG_KILL_REACTION()
     if (gang_1_str == NULL)
     {
         FatalError(Gta2Error::UnableToFindGangMatchingNameInSetGangRespect,
-                          "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
-                          5217,
-                          static_cast<u16>(gBasePtr->mCmdThis));
+                   "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
+                   5217,
+                   static_cast<u16>(gBasePtr->mCmdThis));
     }
     Gang* pGang_1 = gGangPool_CA8->FindGangByName(gang_1_str->get_name());
     str_table_entry* gang_2_str = gScriptManager->FindStringById(pCmd->mUnsigned3);
     if (gang_2_str == NULL)
     {
         FatalError(Gta2Error::UnableToFindGangMatchingNameInSetGangRespect2,
-                          "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
-                          5223,
-                          static_cast<u16>(gBasePtr->mCmdThis));
+                   "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
+                   5223,
+                   static_cast<u16>(gBasePtr->mCmdThis));
     }
     Gang* pGang_2 = gGangPool_CA8->FindGangByName(gang_2_str->get_name());
     pGang_1->SetGangKillReaction(pGang_2->mGangIdx, static_cast<char_type>(pCmd->mUnsigned2));
@@ -3555,8 +3555,8 @@ void ScriptThread::Handle_ADD_PATROL_POINT()
             pPed->SetObjective(objectives_enum::patrol_on_foot_42);
         }
         pPointer->mChar->PushPatrolPoint(pCmd->mPos.x.ToInt(),
-                                                       pCmd->mPos.y.ToInt(),
-                                                       pCmd->mPos.z.ToInt());
+                                         pCmd->mPos.y.ToInt(),
+                                         pCmd->mPos.z.ToInt());
     }
     ScriptThread::Next(gBasePtr);
 }
@@ -3972,9 +3972,9 @@ void ScriptThread::Handle_SEND_CAR_TO_BLOCK()
     SCR_CAR_DATA_DEC* pCmd = reinterpret_cast<SCR_CAR_DATA_DEC*>(gBasePtr);
     SCR_POINTER* pScrPtr = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(pCmd->mCarIdx));
     pScrPtr->mCar->GotoBlock(pCmd->mPos.x.ToUInt8(),
-                                           pCmd->mPos.y.ToUInt8(),
-                                           pCmd->mPos.z.ToUInt8(),
-                                           1);
+                             pCmd->mPos.y.ToUInt8(),
+                             pCmd->mPos.z.ToUInt8(),
+                             1);
     ScriptThread::Next(gBasePtr);
 }
 
@@ -4143,11 +4143,11 @@ void ScriptThread::Handle_IS_CHAR_IN_ZONE()
     else
     {
         pZone1 = gMap_0x370->GetZoneAtPosOfType(pPointer->mChar->get_cam_x().ToInt(),
-                                                              pPointer->mChar->get_cam_y().ToInt(),
-                                                              Local_Navigation_15);
+                                                pPointer->mChar->get_cam_y().ToInt(),
+                                                Local_Navigation_15);
         pZone2 = gMap_0x370->GetZoneAtPosOfType(pPointer->mChar->get_cam_x().ToInt(),
-                                                              pPointer->mChar->get_cam_y().ToInt(),
-                                                              Navigation_1);
+                                                pPointer->mChar->get_cam_y().ToInt(),
+                                                Navigation_1);
     }
 
     if ((pZone1 && !_strnicmp(pZone1->mName, pStrEntry->get_name(), pZone1->mNameLength)) ||
@@ -4605,9 +4605,9 @@ void ScriptThread::Handle_REMOVE_BLOCK()
     SCR_REMOVE_BLOCK* pCmd = reinterpret_cast<SCR_REMOVE_BLOCK*>(gBasePtr);
 
     gMap_0x370->RemoveBlock(pCmd->mPos.mX,
-                                          pCmd->mPos.mY,
-                                          pCmd->mPos.mZ,
-                                          pCmd->mDoDrop);
+                            pCmd->mPos.mY,
+                            pCmd->mPos.mZ,
+                            pCmd->mDoDrop);
     ScriptThread::Next(gBasePtr);
 }
 
@@ -4617,9 +4617,9 @@ void ScriptThread::Handle_LOWER_LEVEL()
     SCR_LOWER_LEVEL* pCmd = reinterpret_cast<SCR_LOWER_LEVEL*>(gBasePtr);
 
     gMap_0x370->LowerLevel(pCmd->mMinPos.mX,
-                                         pCmd->mMaxPos.mX,
-                                         pCmd->mMinPos.mY,
-                                         pCmd->mMaxPos.mY);
+                           pCmd->mMaxPos.mX,
+                           pCmd->mMinPos.mY,
+                           pCmd->mMaxPos.mY);
     ScriptThread::Next(gBasePtr);
 }
 
@@ -4628,10 +4628,10 @@ void ScriptThread::SCRCMD_CHANGE_BLOCK()
 {
     SCR_CHANGE_BLOCK* pCmd = reinterpret_cast<SCR_CHANGE_BLOCK*>(gBasePtr);
     gMap_0x370->ChangeBlock(pCmd->mX,
-                                          pCmd->mY,
-                                          pCmd->mZ,
-                                          pCmd->mChangeType,
-                                          pCmd->mInfoWord);
+                            pCmd->mY,
+                            pCmd->mZ,
+                            pCmd->mChangeType,
+                            pCmd->mInfoWord);
     ScriptThread::Next(gBasePtr);
 }
 
@@ -4643,9 +4643,9 @@ void ScriptThread::Handle_ADD_NEW_BLOCK()
     block.init();
 
     gMap_0x370->AddNewBlock(reinterpret_cast<SCR_ADD_BLOCK*>(gBasePtr)->mXpos,
-                                          reinterpret_cast<SCR_ADD_BLOCK*>(gBasePtr)->mYpos,
-                                          reinterpret_cast<SCR_ADD_BLOCK*>(gBasePtr)->mZpos,
-                                          &block);
+                            reinterpret_cast<SCR_ADD_BLOCK*>(gBasePtr)->mYpos,
+                            reinterpret_cast<SCR_ADD_BLOCK*>(gBasePtr)->mZpos,
+                            &block);
     ScriptThread::Next(gBasePtr);
 }
 
@@ -6657,7 +6657,7 @@ void ScriptThread::Handle_START_BASIC_KF() // START_BASIC_KF_TEMPLATE
         {
             // Car weapons
             pPlayerPedPtr->mChar->mPlayer->SetKFCarWeapon(pPlayerPedPtr->mChar->get_car(),
-                                                                                 static_cast<u8>(pCmd->mWeapon));
+                                                          static_cast<u8>(pCmd->mWeapon));
         }
 
         u16* pBasicKF = gScriptManager->mBasicKf;

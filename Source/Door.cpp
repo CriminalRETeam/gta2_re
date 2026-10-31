@@ -323,13 +323,13 @@ void Door::InitSingle(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fix16 tri
     if (bFlip)
     {
         mTriggerObj = gObject_5C->NewTouchPoint(objects::door_trigger_167,
-                                                                      trigger_x,
-                                                                      trigger_y,
-                                                                      trigger_z,
-                                                                      DAT_0067BD18,
-                                                                      trigger_w,
-                                                                      trigger_h,
-                                                                      kFpOne_67BBE4);
+                                                trigger_x,
+                                                trigger_y,
+                                                trigger_z,
+                                                DAT_0067BD18,
+                                                trigger_w,
+                                                trigger_h,
+                                                kFpOne_67BBE4);
         mTriggerObj->SetParam(obj_id);
     }
     mDoorObj = gObject_5C->NewPhysicsObj(objects::door_collision_obj_169, x, y, z, DAT_0067BD18);
@@ -388,13 +388,13 @@ void Door::InitDouble(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fix16 tri
     if (bFlip)
     {
         mTriggerObj = gObject_5C->NewTouchPoint(objects::door_trigger_167,
-                                                                      trigger_x,
-                                                                      trigger_y,
-                                                                      trigger_z,
-                                                                      DAT_0067BD18,
-                                                                      trigger_w,
-                                                                      trigger_h,
-                                                                      kFpOne_67BBE4);
+                                                trigger_x,
+                                                trigger_y,
+                                                trigger_z,
+                                                DAT_0067BD18,
+                                                trigger_w,
+                                                trigger_h,
+                                                kFpOne_67BBE4);
         mTriggerObj->SetParam(obj_id);
     }
     mDoorObj =

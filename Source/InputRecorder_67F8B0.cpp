@@ -407,9 +407,9 @@ void InputDevices::read_input_device(s32* input_bits, bool bApplyKeyboardControl
                 sDeviceDataCount = 1;
                 gGamePadDevice->GetDeviceData(16, NULL, &padItems, DIGDD_PEEK);
                 padResult = gGamePadDevice->GetDeviceData(16,
-                                                                 reinterpret_cast<DIDEVICEOBJECTDATA*>(&sGamePadDeviceData),
-                                                                 &sDeviceDataCount,
-                                                                 0);
+                                                          reinterpret_cast<DIDEVICEOBJECTDATA*>(&sGamePadDeviceData),
+                                                          &sDeviceDataCount,
+                                                          0);
                 if (bLog_directinput && sDeviceDataCount > 0)
                 {
                     sprintf(gTmpBuffer,

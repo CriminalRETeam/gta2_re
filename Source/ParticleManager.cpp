@@ -304,11 +304,11 @@ void ParticleManager::EmitWaterSplash(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 
 
             // last arg: plain 0 (the original builds this Fix16 arg in place; Fix16(0) gives a plain push and costs ebp)
             Particle_4C* pWaterSplashParticle = gParticle_8->New(velocity.x,
-                                                                               velocity.y,
-                                                                               kFpOneThirtySecond_6FD330,
-                                                                               velocity.x.DivideInt(15).Negated(),
-                                                                               velocity.y.DivideInt(15).Negated(),
-                                                                               0);
+                                                                 velocity.y,
+                                                                 kFpOneThirtySecond_6FD330,
+                                                                 velocity.x.DivideInt(15).Negated(),
+                                                                 velocity.y.DivideInt(15).Negated(),
+                                                                 0);
 
             if (pWaterSplashParticle)
             {

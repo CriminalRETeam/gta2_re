@@ -695,9 +695,9 @@ void Police::UpdatePursuitTargets()
                             if (pCriminal)
                             {
                                 if (Fix16::MaxAbsDistance(pPursuitTarget->mX,
-                                                                 pPursuitTarget->mY,
-                                                                 pCriminal->get_cam_x(),
-                                                                 pCriminal->get_cam_y()) > kFpFive_6FECFC)
+                                                          pPursuitTarget->mY,
+                                                          pCriminal->get_cam_x(),
+                                                          pCriminal->get_cam_y()) > kFpFive_6FECFC)
                                 {
                                     pCrew->RemoveFromPursuit();
                                     pPursuitTarget->mCrewGaveUp = true;

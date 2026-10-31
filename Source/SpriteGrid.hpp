@@ -75,18 +75,18 @@ class SpriteGrid
     EXPORT bool CheckAndHandleCollisionInStrips(Sprite* pSprite);
     EXPORT bool CheckAndHandleAllCollisionsForSprite(Sprite* pSprite, s32 sprite_type_filter);
     EXPORT Sprite* FindNearestSprite_SpiralSearch(s32 primary_sprite_type,
-                                                         s32 secondary_sprite_type,
-                                                         Sprite* pExclude,
-                                                         u8 max_rings,
-                                                         s32 search_mode,
-                                                         char_type bUseSpriteZ);
+                                                  s32 secondary_sprite_type,
+                                                  Sprite* pExclude,
+                                                  u8 max_rings,
+                                                  s32 search_mode,
+                                                  char_type bUseSpriteZ);
     EXPORT void SetSpriteToExclude(Sprite* pSprite);
     EXPORT Sprite* FindCollidingSpritePreferType(Sprite* pSprite, s32 desired_sprite_type);
     EXPORT bool CollectRectCollisions(Fix16_Rect* pRect,
-                                             bool bDeepCheck,
-                                             s32 exclude_sprite_type,
-                                             Sprite* pExclude,
-                                             SpriteList* pOutList);
+                                      bool bDeepCheck,
+                                      s32 exclude_sprite_type,
+                                      Sprite* pExclude,
+                                      SpriteList* pOutList);
     EXPORT bool CheckRectForCollisions(Fix16_Rect* pRect, bool bDeepCheck, s32 exclude_sprite_type, Sprite* pExclude);
     EXPORT SpriteGrid();
     EXPORT ~SpriteGrid();

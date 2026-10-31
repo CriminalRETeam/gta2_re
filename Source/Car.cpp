@@ -263,13 +263,13 @@ char_type CarThreadTriggers::AddThreadTrigger(const s32& type, const s32& param,
             pIter->mpScriptCmd = reinterpret_cast<s32>(pScriptThread);
             pIter->mEnableState = car_thread_trigger_state::armed_1;
             pIter->mO2C = gObject_5C->NewTouchPoint(objects::savepoint_161,
-                                                                         xpos,
-                                                                         ypos,
-                                                                         zpos,
-                                                                         kAngZero_705F10,
-                                                                         width,
-                                                                         height,
-                                                                         kFpOne_705DDC);
+                                                    xpos,
+                                                    ypos,
+                                                    zpos,
+                                                    kAngZero_705F10,
+                                                    width,
+                                                    height,
+                                                    kFpOne_705DDC);
             pIter->mO2C->SetThreadTriggerIdx(idx);
             mCount++;
             return idx;
@@ -1404,8 +1404,8 @@ Car* CarManager::SpawnCarAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, 
     pCar->mCarSprite->set_xyz_lazy(xpos, ypos, zpos);
 
     gMap_0x370->UpdateZFromSlopeAtCoord(pCar->mCarSprite->mXy.x,
-                                                      pCar->mCarSprite->mXy.y,
-                                                      pCar->mCarSprite->mZpos);
+                                        pCar->mCarSprite->mXy.y,
+                                        pCar->mCarSprite->mZpos);
     pCar->mCarSprite->set_ang_lazy(rotation);
     pCar->mCarSprite->SetType(sprite_types_enum::car_2);
     pCar->mCarSprite->set_id_lazy(pCarInfo->sprite);
@@ -1533,14 +1533,14 @@ Trailer* CarManager::SpawnCabAndTrailer(Fix16 xpos, Fix16 ypos, Ang16 rotation, 
     Fix16 trailer_y;
     Fix16 zpos;
     SpawnCabAndTrailerHelper(xpos,
-                                    ypos,
-                                    pCab->mCarSprite->mZpos,
-                                    rotation,
-                                    kAngZero_67791C,
-                                    &trailer_x,
-                                    &trailer_y,
-                                    &zpos,
-                                    &out_rot);
+                             ypos,
+                             pCab->mCarSprite->mZpos,
+                             rotation,
+                             kAngZero_67791C,
+                             &trailer_x,
+                             &trailer_y,
+                             &zpos,
+                             &out_rot);
 
     Car* pTrailer = SpawnCarAtCorrectZ(trailer_x, trailer_y, out_rot, trailer_model);
     gCar_BC_Pool->mPool.UnlinkFromActiveList(pTrailer);
@@ -3840,10 +3840,10 @@ bool Car::ManageDrowning()
         DestroyWhileSinking();
 
         gParticle_8->EmitWaterSplash(mCarSprite->mXy.x,
-                                                   mCarSprite->mXy.y,
-                                                   mCarSprite->mZpos,
-                                                   mCarSprite->mRotation + kAng180_677326,
-                                                   1);
+                                     mCarSprite->mXy.y,
+                                     mCarSprite->mZpos,
+                                     mCarSprite->mRotation + kAng180_677326,
+                                     1);
     }
     return ret;
 }
@@ -4126,9 +4126,9 @@ bool Car::HandleCarHitByObject(Object* pObj)
                     &((pObj->mSprite->get_x_y_late_443580().AddLate_40AC50(mCarSprite->get_x_y_late_443580())) * kFpHalf_677218));
             }
             gParticle_8->EmitImpactParticles(pObj->mSprite->mXy.x,
-                                                           pObj->mSprite->mXy.y,
-                                                           pObj->mSprite->mZpos,
-                                                           impact_vec);
+                                             pObj->mSprite->mXy.y,
+                                             pObj->mSprite->mZpos,
+                                             impact_vec);
             break;
 
         default:
@@ -4139,9 +4139,9 @@ bool Car::HandleCarHitByObject(Object* pObj)
                     &((pObj->mSprite->get_x_y_late_443580().AddLate_40AC50(mCarSprite->get_x_y_late_443580())) * kFpHalf_677218));
             }
             gParticle_8->EmitImpactParticles(pObj->mSprite->mXy.x,
-                                                           pObj->mSprite->mXy.y,
-                                                           pObj->mSprite->mZpos,
-                                                           impact_vec);
+                                             pObj->mSprite->mXy.y,
+                                             pObj->mSprite->mZpos,
+                                             impact_vec);
             break;
 
         case objects::water_hitting_198:
@@ -5732,9 +5732,9 @@ bool Car::TrainUpdate()
                     // Written out: here the original inlines operator+ for high_z
                     Fix16 z = mCarSprite->mZpos;
                     rect.SetBounds(mCarSprite->mXy.x - Fix16(10),
-                                        mCarSprite->mXy.x,
-                                        mCarSprite->mXy.y - Fix16(1),
-                                        mCarSprite->mXy.y + Fix16(1));
+                                   mCarSprite->mXy.x,
+                                   mCarSprite->mXy.y - Fix16(1),
+                                   mCarSprite->mXy.y + Fix16(1));
                     rect.mLowZ = z - kCollisionPrismHalfHeight;
                     rect.mHighZ = z + kCollisionPrismHalfHeight;
                     break;
@@ -5788,8 +5788,8 @@ bool Car::TrainUpdate()
     }
 
     UpdateTrainCarriagesOnTrack(this->mCarSprite->mXy.x,
-                                       this->mCarSprite->mXy.y,
-                                       this->mCarSprite->mZpos);
+                                this->mCarSprite->mXy.y,
+                                this->mCarSprite->mZpos);
     ServiceDoorsLightsAndHorn();
     ManageDespawning();
     CountDownToWreck();
@@ -7551,7 +7551,7 @@ bool TrafficSpawner::SpawnTrafficCar(s32 spawn_type, s32 arrow_direction, s32 bl
                                     }
 
                                     gGame_0x40->ReduceTrafficSpawnCounterOfOtherViewers(pNewCar->mCarSprite,
-                                                                                                      mPlayer);
+                                                                                        mPlayer);
 
                                     Player* pPlayer = mPlayer;
                                     if (pPlayer->mTrafficSpawnCounter > pPlayer->mTrafficSpawnThreshold)

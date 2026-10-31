@@ -628,26 +628,26 @@ void PublicTransport::SpawnTrainsFromStations()
                     if (!pStation->mEntryPoint)
                     {
                         FatalError(Gta2Error::IllegalTrainStationNoEntryZone,
-                                          "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
-                                          738,
-                                          pStation->mpZone->mX,
-                                          pStation->mpZone->mY);
+                                   "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
+                                   738,
+                                   pStation->mpZone->mX,
+                                   pStation->mpZone->mY);
                     }
                     if (!pStation->mExitPoint)
                     {
                         FatalError(Gta2Error::IllegalTrainStationNoExitZone,
-                                          "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
-                                          740,
-                                          pStation->mpZone->mX,
-                                          pStation->mpZone->mY);
+                                   "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
+                                   740,
+                                   pStation->mpZone->mX,
+                                   pStation->mpZone->mY);
                     }
                     if (!pStation->mStopPoint)
                     {
                         FatalError(Gta2Error::IllegalTrainStationNoStopZone,
-                                          "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
-                                          742,
-                                          pStation->mpZone->mX,
-                                          pStation->mpZone->mY);
+                                   "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
+                                   742,
+                                   pStation->mpZone->mX,
+                                   pStation->mpZone->mY);
                     }
 
                     Train* pTrain = AllocateTrain();
@@ -659,8 +659,8 @@ void PublicTransport::SpawnTrainsFromStations()
 
                     s32 rail_z;
                     gmp_block_info* pBlock = gMap_0x370->FindRailwayAtCoord(pStation->mStopPoint->mX,
-                                                                                          pStation->mStopPoint->mY,
-                                                                                          rail_z);
+                                                                            pStation->mStopPoint->mY,
+                                                                            rail_z);
                     u8 j;
                     if (HasBlockGreenArrowAtDirection(4, pBlock))
                     {
@@ -675,11 +675,11 @@ void PublicTransport::SpawnTrainsFromStations()
                             if (!pTrain->mCarriages[j + 1])
                             {
                                 FatalError(Gta2Error::FailedToCreateCarriage,
-                                                  "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
-                                                  761,
-                                                  (Fix16(pStation->mStopPoint->mX) + Fix16(j + 1) * kWagonSpacingX).ToInt(),
-                                                  (Fix16(pStation->mStopPoint->mY) + kTrainStopBlockOffset).ToInt(),
-                                                  rail_z);
+                                           "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
+                                           761,
+                                           (Fix16(pStation->mStopPoint->mX) + Fix16(j + 1) * kWagonSpacingX).ToInt(),
+                                           (Fix16(pStation->mStopPoint->mY) + kTrainStopBlockOffset).ToInt(),
+                                           rail_z);
                             }
                         }
                         pTrain->mCarriages[0] =
@@ -702,11 +702,11 @@ void PublicTransport::SpawnTrainsFromStations()
                             if (!pTrain->mCarriages[j + 1])
                             {
                                 FatalError(Gta2Error::FailedToCreateCarriage,
-                                                  "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
-                                                  773,
-                                                  (Fix16(pStation->mStopPoint->mX) + kTrainStopBlockOffset).ToInt(),
-                                                  (Fix16(pStation->mStopPoint->mY) - Fix16(j + 1) * kWagonSpacingY).ToInt(),
-                                                  rail_z);
+                                           "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
+                                           773,
+                                           (Fix16(pStation->mStopPoint->mX) + kTrainStopBlockOffset).ToInt(),
+                                           (Fix16(pStation->mStopPoint->mY) - Fix16(j + 1) * kWagonSpacingY).ToInt(),
+                                           rail_z);
                             }
                         }
                         pTrain->mCarriages[0] =
@@ -729,11 +729,11 @@ void PublicTransport::SpawnTrainsFromStations()
                             if (!pTrain->mCarriages[j + 1])
                             {
                                 FatalError(Gta2Error::FailedToCreateCarriage,
-                                                  "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
-                                                  785,
-                                                  (Fix16(pStation->mStopPoint->mX) - Fix16(j + 1) * kWagonSpacingX).ToInt(),
-                                                  (Fix16(pStation->mStopPoint->mY) + kTrainStopBlockOffset).ToInt(),
-                                                  rail_z);
+                                           "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
+                                           785,
+                                           (Fix16(pStation->mStopPoint->mX) - Fix16(j + 1) * kWagonSpacingX).ToInt(),
+                                           (Fix16(pStation->mStopPoint->mY) + kTrainStopBlockOffset).ToInt(),
+                                           rail_z);
                             }
                         }
                         pTrain->mCarriages[0] =
@@ -756,11 +756,11 @@ void PublicTransport::SpawnTrainsFromStations()
                             if (!pTrain->mCarriages[j + 1])
                             {
                                 FatalError(Gta2Error::FailedToCreateCarriage,
-                                                  "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
-                                                  796,
-                                                  (Fix16(pStation->mStopPoint->mX) + kTrainStopBlockOffset).ToInt(),
-                                                  (Fix16(pStation->mStopPoint->mY) + Fix16(j + 1) * kWagonSpacingY).ToInt(),
-                                                  rail_z);
+                                           "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
+                                           796,
+                                           (Fix16(pStation->mStopPoint->mX) + kTrainStopBlockOffset).ToInt(),
+                                           (Fix16(pStation->mStopPoint->mY) + Fix16(j + 1) * kWagonSpacingY).ToInt(),
+                                           rail_z);
                             }
                         }
                         pTrain->mCarriages[0] =
@@ -773,11 +773,11 @@ void PublicTransport::SpawnTrainsFromStations()
                     else
                     {
                         FatalError(Gta2Error::IllegalBlockForTrainCreation,
-                                          "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
-                                          802,
-                                          pStation->mStopPoint->mX,
-                                          pStation->mStopPoint->mY,
-                                          rail_z);
+                                   "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
+                                   802,
+                                   pStation->mStopPoint->mX,
+                                   pStation->mStopPoint->mY,
+                                   rail_z);
                     }
 
                     pTrain->mWagonCount = wagons;
@@ -960,8 +960,8 @@ void PublicTransport::SetupTrainAndBusStops()
 
             // The original looks the block up twice
             gMap_0x370->FindHighestBlockForCoord(Fix16(pBusStop->mpZone->mX).ToInt(),
-                                                               Fix16(pBusStop->mpZone->mY).ToInt(),
-                                                               &highest_zpos);
+                                                 Fix16(pBusStop->mpZone->mY).ToInt(),
+                                                 &highest_zpos);
 
             Fix16 xpos = Fix16(pBusStop->mpZone->mX);
             Fix16 ypos = Fix16(pBusStop->mpZone->mY);
@@ -1010,10 +1010,10 @@ void PublicTransport::SetupTrainAndBusStops()
 
             gMap_0x370->FindHighestBlockForCoord(xpos.ToInt(), ypos.ToInt(), &highest_zpos);
             gObject_5C->NewPhysicsObj(objects::bus_stop_marker_129,
-                                                    kFpHalf_6FEEE8 + xpos,
-                                                    kFpHalf_6FEEE8 + ypos,
-                                                    kFpOne_6FF07C + Fix16(highest_zpos),
-                                                    kAng0_6FF1BC);
+                                      kFpHalf_6FEEE8 + xpos,
+                                      kFpHalf_6FEEE8 + ypos,
+                                      kFpOne_6FF07C + Fix16(highest_zpos),
+                                      kAng0_6FF1BC);
         }
     }
     PublicTransport::InitTrainStations();

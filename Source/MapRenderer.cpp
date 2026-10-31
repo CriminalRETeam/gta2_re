@@ -1071,7 +1071,7 @@ void MapRenderer::DrawDiagonalUpLeftFace(u16& left_word)
     gVertProjector2.ProjectVertTop(gXCoord + kZeroOnePoint.y, gYCoord, &gTileVerts[1]);
 
     rotation = Fix16::atan2_fixed(Fix16(gTileVerts[1].y - gTileVerts[0].y),
-                                         Fix16(gTileVerts[1].x - gTileVerts[0].x));
+                                  Fix16(gTileVerts[1].x - gTileVerts[0].x));
 
     if (rotation < kAng135_6F6414 || rotation > kAng315)
     {
@@ -1100,7 +1100,7 @@ void MapRenderer::DrawDiagonalUpRightFace(u16& right_word)
     gVertProjector2.ProjectVertBottom(gXCoord, gYCoord, &gTileVerts[1]);
 
     rotation = Fix16::atan2_fixed(Fix16(gTileVerts[1].y - gTileVerts[0].y),
-                                         Fix16(gTileVerts[1].x - gTileVerts[0].x));
+                                  Fix16(gTileVerts[1].x - gTileVerts[0].x));
 
     if (rotation > kAng45_6F637C && rotation < kAng225)
     {
@@ -1130,7 +1130,7 @@ void MapRenderer::DrawDiagonalDownLeftFace(u16& left_word)
     gVertProjector2.ProjectVertTop(gXCoord, gYCoord, &gTileVerts[1]);
 
     angle = Fix16::atan2_fixed(Fix16(gTileVerts[1].y - gTileVerts[0].y),
-                                      Fix16(gTileVerts[1].x - gTileVerts[0].x));
+                               Fix16(gTileVerts[1].x - gTileVerts[0].x));
 
     if (angle > kAng45_6F637C && angle < kAng225)
     {

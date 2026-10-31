@@ -41,14 +41,14 @@ EXPORT void __stdcall DrawFigure(s32 sprite_type,
 EXPORT s32 __stdcall CalcQuadFlags(s32 mode, u8 alpha);
 
 EXPORT void __stdcall DrawString(const wchar_t* pText,
-                                      Fix16 xpos_fp,
-                                      Fix16 ypos_fp,
-                                      u16 font_type,
-                                      Fix16 scale_fp,
-                                      const s32& og_palette_type,
-                                      u16 og_palette,
-                                      s32 alpha_value,
-                                      u8 flags);
+                                 Fix16 xpos_fp,
+                                 Fix16 ypos_fp,
+                                 u16 font_type,
+                                 Fix16 scale_fp,
+                                 const s32& og_palette_type,
+                                 u16 og_palette,
+                                 s32 alpha_value,
+                                 u8 flags);
 
 EXPORT void __stdcall DrawTexture(STexture* pTexture,
                                  Fix16 x_pos,

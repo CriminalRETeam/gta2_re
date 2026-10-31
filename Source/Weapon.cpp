@@ -419,11 +419,11 @@ void Weapon::pistol()
         else
         {
             spawn_bullet(objects::invisible_bullet_154,
-                                mpPed->get_cam_x(),
-                                mpPed->get_cam_y(),
-                                mpPed->get_cam_z(),
-                                mpPed->GetAimAngle(),
-                                mpPed->GetVelocityVector());
+                         mpPed->get_cam_x(),
+                         mpPed->get_cam_y(),
+                         mpPed->get_cam_z(),
+                         mpPed->GetAimAngle(),
+                         mpPed->GetVelocityVector());
             mReloadTimer = 5;
         }
         ApplyFastReload();
@@ -524,11 +524,11 @@ void Weapon::smg()
             point = point.Add(mpPed->GetVelocityVector());
 
             if (Weapon::spawn_bullet(objects::machine_gun_bullet_254,
-                                            mpPed->get_cam_x() + point.x,
-                                            mpPed->get_cam_y() + point.y,
-                                            mpPed->get_cam_z(),
-                                            AimAngle,
-                                            mpPed->GetVelocityVector()))
+                                     mpPed->get_cam_x() + point.x,
+                                     mpPed->get_cam_y() + point.y,
+                                     mpPed->get_cam_z(),
+                                     AimAngle,
+                                     mpPed->GetVelocityVector()))
             {
                 if (mpPed->PedTypeIs(ped_type::player_2))
                 {
@@ -551,11 +551,11 @@ void Weapon::smg()
         else
         {
             Weapon::spawn_bullet(objects::invisible_bullet_154,
-                                        mpPed->get_cam_x(),
-                                        mpPed->get_cam_y(),
-                                        mpPed->get_cam_z(),
-                                        mpPed->GetAimAngle(),
-                                        mpPed->GetVelocityVector());
+                                 mpPed->get_cam_x(),
+                                 mpPed->get_cam_y(),
+                                 mpPed->get_cam_z(),
+                                 mpPed->GetAimAngle(),
+                                 mpPed->GetVelocityVector());
             mReloadTimer = 1;
         }
         Weapon::ApplyFastReload();
@@ -583,11 +583,11 @@ void Weapon::throwable(s32 obj_idx, s32 throw_strength, s32 throw_charge)
                 if (!mpPed->PedTypeIs(ped_type::player_2) && !mbAiTestShotFired)
                 {
                     spawn_bullet(objects::invisible_rocket_159,
-                                        mpPed->get_cam_x(),
-                                        mpPed->get_cam_y(),
-                                        mpPed->get_cam_z(),
-                                        mpPed->GetAimAngle(),
-                                        mpPed->GetVelocityVector());
+                                 mpPed->get_cam_x(),
+                                 mpPed->get_cam_y(),
+                                 mpPed->get_cam_z(),
+                                 mpPed->GetAimAngle(),
+                                 mpPed->GetVelocityVector());
                     mReloadTimer = 5;
                     mbAiTestShotFired = 1;
                     if (mpPed->is_player())
@@ -601,11 +601,11 @@ void Weapon::throwable(s32 obj_idx, s32 throw_strength, s32 throw_charge)
                     {
                         // maybe holding the grenade for too long
                         gObject_5C->CreateExplosion(mpPed->get_cam_x(),
-                                                                  mpPed->get_cam_y(),
-                                                                  mpPed->get_cam_z(),
-                                                                  mpPed->GetAimAngle(),
-                                                                  explosion_type::small_18,
-                                                                  mpPed->mId);
+                                                    mpPed->get_cam_y(),
+                                                    mpPed->get_cam_z(),
+                                                    mpPed->GetAimAngle(),
+                                                    explosion_type::small_18,
+                                                    mpPed->mId);
                         if (mpPed->PedTypeIs(ped_type::player_2))
                         {
                             decrement_ammo();
@@ -693,11 +693,11 @@ void Weapon::throwable(s32 obj_idx, s32 throw_strength, s32 throw_charge)
             else
             {
                 spawn_bullet(objects::invisible_rocket_159,
-                                    mpPed->get_cam_x(),
-                                    mpPed->get_cam_y(),
-                                    mpPed->get_cam_z(),
-                                    mpPed->GetAimAngle(),
-                                    mpPed->GetVelocityVector());
+                             mpPed->get_cam_x(),
+                             mpPed->get_cam_y(),
+                             mpPed->get_cam_z(),
+                             mpPed->GetAimAngle(),
+                             mpPed->GetVelocityVector());
                 mReloadTimer = 5;
                 mbAiTestShotFired = 0;
                 Weapon::ApplyFastReload();
@@ -1326,11 +1326,11 @@ void Weapon::electro_batton()
             if (!mbTargetHit)
             {
                 Object* pBullet = spawn_bullet(objects::electrobaton_bullet_277,
-                                                      mpPed->get_cam_x(),
-                                                      mpPed->get_cam_y(),
-                                                      mpPed->get_cam_z(),
-                                                      mpPed->GetAimAngle(),
-                                                      mpPed->GetVelocityVector());
+                                               mpPed->get_cam_x(),
+                                               mpPed->get_cam_y(),
+                                               mpPed->get_cam_z(),
+                                               mpPed->GetAimAngle(),
+                                               mpPed->GetVelocityVector());
                 if (pBullet && mpPed->PedTypeIs(ped_type::player_2))
                 {
                     decrement_ammo();
@@ -1340,11 +1340,11 @@ void Weapon::electro_batton()
             else
             {
                 spawn_bullet(objects::invisible_bullet_154,
-                                    mpPed->get_cam_x(),
-                                    mpPed->get_cam_y(),
-                                    mpPed->get_cam_z(),
-                                    mpPed->GetAimAngle(),
-                                    mpPed->GetVelocityVector());
+                             mpPed->get_cam_x(),
+                             mpPed->get_cam_y(),
+                             mpPed->get_cam_z(),
+                             mpPed->GetAimAngle(),
+                             mpPed->GetVelocityVector());
                 mReloadTimer = 5;
             }
             ApplyFastReload();
@@ -1574,11 +1574,11 @@ void Weapon::tank_main_gun()
         else
         {
             Weapon::spawn_bullet(objects::invisible_rocket_159,
-                                        cannon_pos.x,
-                                        cannon_pos.y,
-                                        mCar->mCarSprite->mZpos,
-                                        cannon_angle,
-                                        velocity);
+                                 cannon_pos.x,
+                                 cannon_pos.y,
+                                 mCar->mCarSprite->mZpos,
+                                 cannon_angle,
+                                 velocity);
             mReloadTimer = 5;
         }
         Weapon::ApplyFastReload();
@@ -1624,11 +1624,11 @@ void Weapon::army_gun_jeep()
         if (!mbTargetHit)
         {
             if (spawn_bullet(objects::machine_gun_bullet_254,
-                                    bullet_pos.x,
-                                    bullet_pos.y,
-                                    mCar->mCarSprite->mZpos,
-                                    gun_ang,
-                                    muzzle_vel))
+                             bullet_pos.x,
+                             bullet_pos.y,
+                             mCar->mCarSprite->mZpos,
+                             gun_ang,
+                             muzzle_vel))
             {
                 if (mpPed->PedTypeIs(ped_type::player_2) && !is_infinite_ammo())
                 {
@@ -1646,11 +1646,11 @@ void Weapon::army_gun_jeep()
         else
         {
             spawn_bullet(objects::invisible_bullet_154,
-                                bullet_pos.x,
-                                bullet_pos.y,
-                                mCar->mCarSprite->mZpos,
-                                gun_ang,
-                                muzzle_vel);
+                         bullet_pos.x,
+                         bullet_pos.y,
+                         mCar->mCarSprite->mZpos,
+                         gun_ang,
+                         muzzle_vel);
             mReloadTimer = 1;
         }
         ApplyFastReload();
@@ -1803,11 +1803,11 @@ void Weapon::car_smg()
             Ang16 tmp = sprite_ang;
             spawn_bullet(objects::invisible_bullet_154, left.x, left.y, pCarSprite->mZpos, tmp, left_point_velocity);
             spawn_bullet(objects::invisible_bullet_154,
-                                right.x,
-                                right.y,
-                                pCarSprite->mZpos,
-                                sprite_ang,
-                                right_point_velocity);
+                         right.x,
+                         right.y,
+                         pCarSprite->mZpos,
+                         sprite_ang,
+                         right_point_velocity);
             mReloadTimer = 1;
         }
 
@@ -1993,33 +1993,33 @@ void Weapon::rocket()
             if (mpPed->PedTypeIs(ped_type::player_2))
             {
                 pBullet = spawn_bullet(objects::rocket_bullet_128,
-                                              mpPed->get_cam_x(),
-                                              mpPed->get_cam_y(),
-                                              mpPed->get_cam_z(),
-                                              mpPed->GetAimAngle(),
-                                              mpPed->GetVelocityVector());
+                                       mpPed->get_cam_x(),
+                                       mpPed->get_cam_y(),
+                                       mpPed->get_cam_z(),
+                                       mpPed->GetAimAngle(),
+                                       mpPed->GetVelocityVector());
             }
             else
             {
                 if (!mbAiTestShotFired)
                 {
                     spawn_bullet(objects::invisible_rocket_159,
-                                        mpPed->get_cam_x(),
-                                        mpPed->get_cam_y(),
-                                        mpPed->get_cam_z(),
-                                        mpPed->GetAimAngle(),
-                                        mpPed->GetVelocityVector());
+                                 mpPed->get_cam_x(),
+                                 mpPed->get_cam_y(),
+                                 mpPed->get_cam_z(),
+                                 mpPed->GetAimAngle(),
+                                 mpPed->GetVelocityVector());
                     mReloadTimer = 5;
                     mbAiTestShotFired = 1;
                     return;
                 }
 
                 pBullet = spawn_bullet(objects::rocket_bullet_128,
-                                              mpPed->get_cam_x(),
-                                              mpPed->get_cam_y(),
-                                              mpPed->get_cam_z(),
-                                              mpPed->GetAimAngle(),
-                                              mpPed->GetVelocityVector());
+                                       mpPed->get_cam_x(),
+                                       mpPed->get_cam_y(),
+                                       mpPed->get_cam_z(),
+                                       mpPed->GetAimAngle(),
+                                       mpPed->GetVelocityVector());
             }
 
             // People get scared when someone starts firing off rockets
@@ -2045,11 +2045,11 @@ void Weapon::rocket()
         else
         {
             spawn_bullet(objects::invisible_rocket_159,
-                                mpPed->get_cam_x(),
-                                mpPed->get_cam_y(),
-                                mpPed->get_cam_z(),
-                                mpPed->GetAimAngle(),
-                                mpPed->GetVelocityVector());
+                         mpPed->get_cam_x(),
+                         mpPed->get_cam_y(),
+                         mpPed->get_cam_z(),
+                         mpPed->GetAimAngle(),
+                         mpPed->GetVelocityVector());
             mReloadTimer = 5;
             mbAiTestShotFired = 0;
         }

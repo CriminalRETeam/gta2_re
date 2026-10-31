@@ -440,16 +440,16 @@ void ExplodingScore::DrawSingleNumber(s32 number_to_draw, s32 xpos_sub)
                     s32 palette_type = palette_types_enum::user_remaps_7;
                     Fix16 finalScale = pCam->mUiScale * base_scale;
                     DrawFigure(sprite_types_enum::user_6,
-                                      number_to_draw + 163,
-                                      x_to_use,
-                                      y_to_use,
-                                      kAng0_702F24,
-                                      finalScale,
-                                      palette_type,
-                                      this->mPalette,
-                                      1,
-                                      this->mAlpha,
-                                      true);
+                               number_to_draw + 163,
+                               x_to_use,
+                               y_to_use,
+                               kAng0_702F24,
+                               finalScale,
+                               palette_type,
+                               this->mPalette,
+                               1,
+                               this->mAlpha,
+                               true);
                 }
             }
         }

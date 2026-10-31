@@ -370,8 +370,8 @@ void sound_obj::ProcessType1_Sprite(s32 idx)
         this->msQueueSample.mpReleaseSource = NULL;
 
         entity.mbHasSolidAbove = gMap_0x370->CheckColumnHasSolidAbove(msQueueSample.mObj.mX,
-                                                                                           msQueueSample.mObj.mY,
-                                                                                           msQueueSample.mObj.mZ);
+                                                                      msQueueSample.mObj.mY,
+                                                                      msQueueSample.mObj.mZ);
         this->mDistSquared = ComputeEmitterDistanceSquared();
         this->mDistCalculated = false;
 
@@ -1243,10 +1243,10 @@ void sound_obj::ProcessType6_CollisionSoundQueue_413760(s32 idx)
                 if (CalculateDistance(Fix16(25)))
                 {
                     if (VolCalc(volume,
-                                       Fix16(5),
-                                       gMap_0x370->CheckColumnHasSolidAbove(this->msQueueSample.mObj.mX,
-                                                                                          this->msQueueSample.mObj.mY,
-                                                                                          this->msQueueSample.mObj.mZ)))
+                                Fix16(5),
+                                gMap_0x370->CheckColumnHasSolidAbove(this->msQueueSample.mObj.mX,
+                                                                            this->msQueueSample.mObj.mY,
+                                                                            this->msQueueSample.mObj.mZ)))
                     {
                         nearest_idx = event_idx;
                         vol = this->msQueueSample.mnVolume;
@@ -2306,8 +2306,8 @@ void sound_obj::HandleCarDamageSound(Sound_Params* pParams)
         {
             u8 vol = 60 * (pParams->mpObj->mCarBcPtr->mDamage - 16000) / 16000;
             if (VolCalc(vol,
-                               Fix16(7),
-                               pParams->mbHasSolidAbove))
+                        Fix16(7),
+                        pParams->mbHasSolidAbove))
             {
                 this->msQueueSample.mSoundIntensity = Fix16(7);
                 this->msQueueSample.mnEmittingVolume = vol;
@@ -4353,8 +4353,8 @@ void sound_obj::ProcessActiveQueues()
                 // The original passes 0 for y and -y for z (z is computed but unused)
                 gSampManager.SetChannel3DPosition(j, x, 0.0f, -y);
                 gSampManager.SetChannel3DDistances(j,
-                                                                 static_cast<f32>(static_cast<u32>(sample.mMaxDistance)),
-                                                                 static_cast<f32>(static_cast<u32>(sample.mMaxDistance) >> 2));
+                                                   static_cast<f32>(static_cast<u32>(sample.mMaxDistance)),
+                                                   static_cast<f32>(static_cast<u32>(sample.mMaxDistance) >> 2));
                 break;
             }
 
@@ -4455,8 +4455,8 @@ void sound_obj::ProcessActiveQueues()
 
                 gSampManager.SetChannel3DPosition(j, x, 0.0f, -y);
                 gSampManager.SetChannel3DDistances(j,
-                                                                 static_cast<f32>(static_cast<u32>(active.mMaxDistance)),
-                                                                 static_cast<f32>(static_cast<u32>(active.mMaxDistance) >> 2));
+                                                   static_cast<f32>(static_cast<u32>(active.mMaxDistance)),
+                                                   static_cast<f32>(static_cast<u32>(active.mMaxDistance) >> 2));
                 gSampManager.StartChannel3D(j);
             }
             else
@@ -6658,8 +6658,8 @@ void sound_obj::ProcessType7_Weapon(s32 idx)
                 }
 
                 pWeapon->GetSoundPos(&this->msQueueSample.mObj.mX,
-                                            &this->msQueueSample.mObj.mY,
-                                            &this->msQueueSample.mObj.mZ);
+                                     &this->msQueueSample.mObj.mY,
+                                     &this->msQueueSample.mObj.mZ);
                 this->msQueueSample.mEntityIndex = idx;
                 this->msQueueSample.mpReleaseSource = NULL;
                 const bool bHasSolidAbove = gMap_0x370->CheckColumnHasSolidAbove(msQueueSample.mObj.mX,

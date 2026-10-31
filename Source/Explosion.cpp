@@ -109,27 +109,27 @@ void Explosion::EmitRandomDiagonalParticle()
                 break;
             case 1:
                 pParticle = gParticle_8->New(kFpOne3200th.Negated(),
-                                                           kFpOne3200th,
-                                                           kFpOneThirtySecond_6FD330,
-                                                           kFpOne6400th.Negated(),
-                                                           kFpOne6400th,
-                                                           0);
+                                             kFpOne3200th,
+                                             kFpOneThirtySecond_6FD330,
+                                             kFpOne6400th.Negated(),
+                                             kFpOne6400th,
+                                             0);
                 break;
             case 2:
                 pParticle = gParticle_8->New(kFpOne3200th,
-                                                           kFpOne3200th.Negated(),
-                                                           kFpOneThirtySecond_6FD330,
-                                                           kFpOne6400th,
-                                                           kFpOne6400th.Negated(),
-                                                           0);
+                                             kFpOne3200th.Negated(),
+                                             kFpOneThirtySecond_6FD330,
+                                             kFpOne6400th,
+                                             kFpOne6400th.Negated(),
+                                             0);
                 break;
             case 3:
                 pParticle = gParticle_8->New(kFpOne3200th.Negated(),
-                                                           kFpOne3200th.Negated(),
-                                                           kFpOneThirtySecond_6FD330,
-                                                           kFpOne6400th.Negated(),
-                                                           kFpOne6400th.Negated(),
-                                                           0);
+                                             kFpOne3200th.Negated(),
+                                             kFpOneThirtySecond_6FD330,
+                                             kFpOne6400th.Negated(),
+                                             kFpOne6400th.Negated(),
+                                             0);
                 break;
             default:
                 pParticle = NULL;
@@ -752,14 +752,14 @@ void Explosion::UpdateExplosion_18_19_20_32_33()
                 if (pExplosionObj)
                 {
                     Object* pDebris = gObject_5C->NewMovingObj(objects::explosion_fragments_127,
-                                                                             mpObj2C->mSprite->mXy.x,
-                                                                             mpObj2C->mSprite->mXy.y,
-                                                                             mpObj2C->mSprite->mZpos,
-                                                                             this->mSpawnAngle,
-                                                                             kAngZero_6FD5D4,
-                                                                             kFpPoint09,
-                                                                             -kFpOne1024th,
-                                                                             kFpPoint2_6FD2F0);
+                                                               mpObj2C->mSprite->mXy.x,
+                                                               mpObj2C->mSprite->mXy.y,
+                                                               mpObj2C->mSprite->mZpos,
+                                                               this->mSpawnAngle,
+                                                               kAngZero_6FD5D4,
+                                                               kFpPoint09,
+                                                               -kFpOne1024th,
+                                                               kFpPoint2_6FD2F0);
                     pDebris->mSprite->AttachSprite(pExplosionObj->mSprite, 0, 0, kAngZero_6FD5D4);
 
                     Object* pLight = gObject_5C->NewLight(94, 138, 2, 0xFF8000, 3, 255);

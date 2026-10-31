@@ -392,15 +392,15 @@ void Object::ResolveCollisionWithObject(Object* pObj, Fix16_Point* pPoint)
     {
         rel_velocity = (GetSpeedVector_52AE90() - pObj->GetSpeedVector_52AE90());
         impulse = ComputeCollisionImpulse(GetMass(),
-                                                 pObj->GetMass(),
-                                                 rel_velocity,
-                                                 offset,
-                                                 *pPoint,
-                                                 my_pos,
-                                                 other_pos,
-                                                 kFP16One_6F8D38,
-                                                 kFP16One_6F8D38,
-                                                 kFP16One_6F8D24);
+                                          pObj->GetMass(),
+                                          rel_velocity,
+                                          offset,
+                                          *pPoint,
+                                          my_pos,
+                                          other_pos,
+                                          kFP16One_6F8D38,
+                                          kFP16One_6F8D38,
+                                          kFP16One_6F8D24);
 
         pObj->SetMovementVectorWithRandomState(impulse.Negated() / pObj->GetMass());
     }
@@ -413,15 +413,15 @@ void Object::ResolveCollisionWithObject(Object* pObj, Fix16_Point* pPoint)
         }
 
         impulse = ComputeCollisionImpulse(GetMass(),
-                                                 kFP16MinusOne,
-                                                 rel_velocity,
-                                                 offset,
-                                                 *pPoint,
-                                                 my_pos,
-                                                 other_pos,
-                                                 kFP16One_6F8D38,
-                                                 kFP16One_6F8D38,
-                                                 kFP16Half_6F8F2C);
+                                          kFP16MinusOne,
+                                          rel_velocity,
+                                          offset,
+                                          *pPoint,
+                                          my_pos,
+                                          other_pos,
+                                          kFP16One_6F8D38,
+                                          kFP16One_6F8D38,
+                                          kFP16Half_6F8F2C);
     }
 
     if (mObj3c)
@@ -766,8 +766,8 @@ bool Object::HandleSpriteGroundAndCollision(Sprite* pSprite, Fix16_Point* pPoint
     else
     {
         if (gMap_0x370->GetBlockTypeAtCoord(pSprite->mXy.x.ToInt(),
-                                                          pSprite->mXy.y.ToInt(),
-                                                          pSprite->mZpos.ToInt() - 1) ||
+                                            pSprite->mXy.y.ToInt(),
+                                            pSprite->mZpos.ToInt() - 1) ||
             mObj3c->mbOnSlope)
         {
             if (mObj3c->mbOnSlope)
@@ -1293,12 +1293,12 @@ void Object::IntegrateHorizontalMovementAndCollisions(Fix16 move_len, Ang16 move
             }
 
             if (!gMap_0x370->GetBlockTypeAtCoord(pProbe->mXy.x.ToInt(),
-                                                               pProbe->mXy.y.ToInt(),
-                                                               (pProbe->mZpos - kFP16One_6F8E14).ToInt()))
+                                                 pProbe->mXy.y.ToInt(),
+                                                 (pProbe->mZpos - kFP16One_6F8E14).ToInt()))
             {
                 if (gMap_0x370->IsGradientSlopeAt(pProbe->mXy.x.ToInt(),
-                                                                pProbe->mXy.y.ToInt(),
-                                                                (pProbe->mZpos - kFP16One_6F8E14).ToInt()))
+                                                  pProbe->mXy.y.ToInt(),
+                                                  (pProbe->mZpos - kFP16One_6F8E14).ToInt()))
                 {
                     Sprite_UpdateZFromSlopeAndTile(pProbe);
                 }
@@ -2370,9 +2370,9 @@ void Object::TickObject(s32 obj_type)
             {
                 dir.SetFromPolar(kFpOne64th_6F8C9C, mSprite->mRotation);
                 gParticle_8->EmitImpactParticles(mSprite->mXy.x,
-                                                               mSprite->mXy.y,
-                                                               mSprite->mZpos,
-                                                               dir);
+                                                 mSprite->mXy.y,
+                                                 mSprite->mZpos,
+                                                 dir);
                 Object::RequestRemoval();
             }
             else
@@ -2723,9 +2723,9 @@ void Object::HandleImpactNoSprite()
         {
             point.FromPolar_41E210(kFpOne64th_6F8C9C, mSprite->mRotation + kAng180_6F8D62);
             gParticle_8->EmitImpactParticles(mSprite->mXy.x,
-                                                           mSprite->mXy.y,
-                                                           mSprite->mZpos,
-                                                           point);
+                                             mSprite->mXy.y,
+                                             mSprite->mZpos,
+                                             point);
             break;
         }
 
@@ -3101,11 +3101,11 @@ void Object_5C::TrimSpriteList()
             if (gGame_0x40->IsSpriteInAnyPlayerBounds(pSprite, kFpZero_6F8E10))
             {
                 Object_5C::CreateExplosion(pSprite->mXy.x,
-                                                  pSprite->mXy.y,
-                                                  pSprite->mZpos,
-                                                  kZeroAng_6F8F68,
-                                                  explosion_type::small_18,
-                                                  gPedRefTable_7F8->GetPedId(pObject->GetPedRefIdx()));
+                                           pSprite->mXy.y,
+                                           pSprite->mZpos,
+                                           kZeroAng_6F8F68,
+                                           explosion_type::small_18,
+                                           gPedRefTable_7F8->GetPedId(pObject->GetPedRefIdx()));
             }
         }
         pObject->Dealloc();
@@ -3677,10 +3677,10 @@ void Object_5C::RestoreObjects(SavedObjectData* pData)
         if (pData->mObjX[0][i].mValue != kFpZero_6F8E10 && pData->mObjX[1][i].mValue != kFpZero_6F8E10)
         {
             Object* pNewObj = NewPhysicsObj(pData->mModel[i],
-                                                   pData->mObjX[0][i].mValue,
-                                                   pData->mObjX[1][i].mValue,
-                                                   pData->mObjX[2][i].mValue,
-                                                   kZeroAng_6F8F68);
+                                            pData->mObjX[0][i].mValue,
+                                            pData->mObjX[1][i].mValue,
+                                            pData->mObjX[2][i].mValue,
+                                            kZeroAng_6F8F68);
             pNewObj->SetParam(pData->mPickupAmmo[i]);
         }
     }

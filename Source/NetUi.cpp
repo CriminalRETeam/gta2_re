@@ -1345,8 +1345,8 @@ void __stdcall NetUi::OnWmCommand(HWND hDlg, s32 id, HWND hCtl, s32 notify)
                 pThis->SetPlayNameAndSaveToRegistry(hostPlayerNameW, playerName);
                 pThis->ShowSpecificWindow(1);
                 pThis->SetFragsNumberAndLabel(pThis->mGameSettings.mGameType,
-                                                     pThis->mGameSettings.mFragLimit,
-                                                     hDlg);
+                                              pThis->mGameSettings.mFragLimit,
+                                              hDlg);
             }
             break;
         }
@@ -1536,17 +1536,17 @@ void NetUi::CreateMainUi(HWND hWndParent)
             }
 
             mUiControlHwnds[i][j] = CreateWindowExA(gUiControlDefinitions_621430.data[i][j].mWindowParams.mExStyle,
-                                                                 gUiControlDefinitions_621430.data[i][j].mWindowClassName,
-                                                                 pNewWindowStr,
-                                                                 gUiControlDefinitions_621430.data[i][j].mWindowParams.mStyle,
-                                                                 gUiControlDefinitions_621430.data[i][j].mWindowParams.mX,
-                                                                 gUiControlDefinitions_621430.data[i][j].mWindowParams.mY,
-                                                                 gUiControlDefinitions_621430.data[i][j].mWindowParams.mW,
-                                                                 gUiControlDefinitions_621430.data[i][j].mWindowParams.mH,
-                                                                 hWndParent,
-                                                                 gUiControlDefinitions_621430.data[i][j].mWindowParams.mhMenu,
-                                                                 this->mhInstance,
-                                                                 NULL);
+                                                    gUiControlDefinitions_621430.data[i][j].mWindowClassName,
+                                                    pNewWindowStr,
+                                                    gUiControlDefinitions_621430.data[i][j].mWindowParams.mStyle,
+                                                    gUiControlDefinitions_621430.data[i][j].mWindowParams.mX,
+                                                    gUiControlDefinitions_621430.data[i][j].mWindowParams.mY,
+                                                    gUiControlDefinitions_621430.data[i][j].mWindowParams.mW,
+                                                    gUiControlDefinitions_621430.data[i][j].mWindowParams.mH,
+                                                    hWndParent,
+                                                    gUiControlDefinitions_621430.data[i][j].mWindowParams.mhMenu,
+                                                    this->mhInstance,
+                                                    NULL);
         }
     }
 
@@ -1989,8 +1989,8 @@ void NetUi::ApplyHostGameSettings(const char_type* pData)
 
         SetJoinedGamePoliceEnabledText(mGameSettings.mPoliceOn, mDlgHwnd);
         SetJoinedGameTypeAndFragLimitText(mGameSettings.mGameType,
-                                                 mGameSettings.mFragLimit,
-                                                 mDlgHwnd);
+                                          mGameSettings.mFragLimit,
+                                          mDlgHwnd);
         SetJoinedGameTimeLimitText(mGameSettings.mGameTimeLimit, mDlgHwnd);
     }
 }

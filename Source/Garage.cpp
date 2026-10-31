@@ -81,11 +81,11 @@ void Garage::ValidateParkCommand()
                                       mDoor->mPrimaryDoorData->get_z()))
     {
         FatalError(Gta2Error::ErrorInSetupOfParkCommand,
-                          "C:\\Splitting\\Gta2\\Source\\park.cpp",
-                          62,
-                          this->mDoor->mPrimaryDoorData->get_x(),
-                          this->mDoor->mPrimaryDoorData->get_y(),
-                          this->mDoor->mPrimaryDoorData->get_z());
+                   "C:\\Splitting\\Gta2\\Source\\park.cpp",
+                   62,
+                   this->mDoor->mPrimaryDoorData->get_x(),
+                   this->mDoor->mPrimaryDoorData->get_y(),
+                   this->mDoor->mPrimaryDoorData->get_z());
     }
 }
 

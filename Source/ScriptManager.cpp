@@ -485,8 +485,8 @@ void ScriptManager::StartLevelThread()
         if (!pLevelStart)
         {
             FatalError(Gta2Error::ScriptfileNo_LEVELSTART_Declaration,
-                              "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
-                              12774); // No LEVELSTART declaration in scriptfile
+                       "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
+                       12774); // No LEVELSTART declaration in scriptfile
             return;
         }
         pThread->ExecOpCode();
