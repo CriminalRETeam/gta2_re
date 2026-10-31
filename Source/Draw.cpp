@@ -20,7 +20,7 @@ enum
 
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_706A6C, Fix16(1), 0x706A6C);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_706C3C, Ang16(0), 0x706C3C);
-DEFINE_GLOBAL(QuadVerts, gQuadVerts_706B88, 0x706B88);
+DEFINE_STATIC_GLOBAL(QuadVerts, sQuadVerts, 0x706B88);
 EXTERN_GLOBAL(u32, gLightingDrawFlag_7068F4);
 
 EXTERN_GLOBAL(s32, window_width_706630);
@@ -187,46 +187,46 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
     point.SetXY_432860(-half_w, -half_h);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[0].x = ((x_pos + point.x).ToFloat());
-    gQuadVerts_706B88.field_0_verts[0].y = ((y_pos + point.y).ToFloat());
-    gQuadVerts_706B88.field_0_verts[0].z = 0.000099999997f;
+    sQuadVerts.field_0_verts[0].x = ((x_pos + point.x).ToFloat());
+    sQuadVerts.field_0_verts[0].y = ((y_pos + point.y).ToFloat());
+    sQuadVerts.field_0_verts[0].z = 0.000099999997f;
 
     point.SetXY_432860(half_w, -half_h);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[1].x = ((x_pos + point.x).ToFloat());
-    gQuadVerts_706B88.field_0_verts[1].y = ((y_pos + point.y).ToFloat());
-    gQuadVerts_706B88.field_0_verts[1].z = 0.000099999997f;
+    sQuadVerts.field_0_verts[1].x = ((x_pos + point.x).ToFloat());
+    sQuadVerts.field_0_verts[1].y = ((y_pos + point.y).ToFloat());
+    sQuadVerts.field_0_verts[1].z = 0.000099999997f;
 
     point.SetXY_432860(half_w, half_h);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[2].x = ((x_pos + point.x).ToFloat());
-    gQuadVerts_706B88.field_0_verts[2].y = ((y_pos + point.y).ToFloat());
-    gQuadVerts_706B88.field_0_verts[2].z = 0.000099999997f;
+    sQuadVerts.field_0_verts[2].x = ((x_pos + point.x).ToFloat());
+    sQuadVerts.field_0_verts[2].y = ((y_pos + point.y).ToFloat());
+    sQuadVerts.field_0_verts[2].z = 0.000099999997f;
 
     point.SetXY_432860(-half_w, half_h);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[3].x = ((x_pos + point.x).ToFloat());
-    gQuadVerts_706B88.field_0_verts[3].y = ((y_pos + point.y).ToFloat());
-    gQuadVerts_706B88.field_0_verts[3].z = 0.000099999997f;
+    sQuadVerts.field_0_verts[3].x = ((x_pos + point.x).ToFloat());
+    sQuadVerts.field_0_verts[3].y = ((y_pos + point.y).ToFloat());
+    sQuadVerts.field_0_verts[3].z = 0.000099999997f;
 
 
     f32 u = pSprIdx->field_4_width - 0.000099999997f;
     f32 v = pSprIdx->field_5_height - 0.000099999997f;
-    gQuadVerts_706B88.field_0_verts[0].u = 0.0;
-    gQuadVerts_706B88.field_0_verts[0].v = 0.0;
-    gQuadVerts_706B88.field_0_verts[1].v = 0.0;
-    gQuadVerts_706B88.field_0_verts[3].u = 0.0;
-    gQuadVerts_706B88.field_0_verts[1].u = u;
-    gQuadVerts_706B88.field_0_verts[2].u = u;
-    gQuadVerts_706B88.field_0_verts[2].v = v;
-    gQuadVerts_706B88.field_0_verts[3].v = v;
+    sQuadVerts.field_0_verts[0].u = 0.0;
+    sQuadVerts.field_0_verts[0].v = 0.0;
+    sQuadVerts.field_0_verts[1].v = 0.0;
+    sQuadVerts.field_0_verts[3].u = 0.0;
+    sQuadVerts.field_0_verts[1].u = u;
+    sQuadVerts.field_0_verts[2].u = u;
+    sQuadVerts.field_0_verts[2].v = v;
+    sQuadVerts.field_0_verts[3].v = v;
 
     pgbh_DrawQuad(flags | CalcQuadFlags_5D83E0(alpha_value, og_flags),
                   gTextureCache_15D8_705064->GetSpriteTexture_5B94F0(sprite_type, sprite_idx, palette_type, palette),
-                  gQuadVerts_706B88.field_0_verts,
+                  sQuadVerts.field_0_verts,
                   255);
 }
 
@@ -238,16 +238,16 @@ s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 alpha)
         case 0:
             return gLightingDrawFlag_7068F4 | 0x80;
         case 1:
-            gQuadVerts_706B88.field_0_verts[0].diff = (alpha << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[1].diff = (alpha << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[2].diff = (alpha << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[3].diff = (alpha << 27) | 0xFFFFFF;
+            sQuadVerts.field_0_verts[0].diff = (alpha << 27) | 0xFFFFFF;
+            sQuadVerts.field_0_verts[1].diff = (alpha << 27) | 0xFFFFFF;
+            sQuadVerts.field_0_verts[2].diff = (alpha << 27) | 0xFFFFFF;
+            sQuadVerts.field_0_verts[3].diff = (alpha << 27) | 0xFFFFFF;
             return gLightingDrawFlag_7068F4 | 0x2180;
         case 2:
-            gQuadVerts_706B88.field_0_verts[0].diff = (alpha << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[1].diff = (alpha << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[2].diff = (alpha << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[3].diff = (alpha << 27) | 0xFFFFFF;
+            sQuadVerts.field_0_verts[0].diff = (alpha << 27) | 0xFFFFFF;
+            sQuadVerts.field_0_verts[1].diff = (alpha << 27) | 0xFFFFFF;
+            sQuadVerts.field_0_verts[2].diff = (alpha << 27) | 0xFFFFFF;
+            sQuadVerts.field_0_verts[3].diff = (alpha << 27) | 0xFFFFFF;
             return gLightingDrawFlag_7068F4 | 0x2280;
         default:
             return 0;
@@ -294,45 +294,45 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
     point.SetXY_432860(-half_w, -half_h);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[0].x = ((x_pos + point.x).ToFloat());
-    gQuadVerts_706B88.field_0_verts[0].y = ((y_pos + point.y).ToFloat());
-    gQuadVerts_706B88.field_0_verts[0].z = 0.000099999997f;
+    sQuadVerts.field_0_verts[0].x = ((x_pos + point.x).ToFloat());
+    sQuadVerts.field_0_verts[0].y = ((y_pos + point.y).ToFloat());
+    sQuadVerts.field_0_verts[0].z = 0.000099999997f;
 
     point.SetXY_432860(half_w, -half_h);
     point.RotateByAngle_40F6B0(rotation);
 
     // Only this vertex converts through an f32 local (the original issues the fmuls two loads later)
-    gQuadVerts_706B88.field_0_verts[1].x = Fix16ToF32_Rounded(x_pos + point.x);
-    gQuadVerts_706B88.field_0_verts[1].y = ((y_pos + point.y).ToFloat());
-    gQuadVerts_706B88.field_0_verts[1].z = 0.000099999997f;
+    sQuadVerts.field_0_verts[1].x = Fix16ToF32_Rounded(x_pos + point.x);
+    sQuadVerts.field_0_verts[1].y = ((y_pos + point.y).ToFloat());
+    sQuadVerts.field_0_verts[1].z = 0.000099999997f;
 
     point.SetXY_432860(half_w, half_h);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[2].x = ((x_pos + point.x).ToFloat());
-    gQuadVerts_706B88.field_0_verts[2].y = ((y_pos + point.y).ToFloat());
-    gQuadVerts_706B88.field_0_verts[2].z = 0.000099999997f;
+    sQuadVerts.field_0_verts[2].x = ((x_pos + point.x).ToFloat());
+    sQuadVerts.field_0_verts[2].y = ((y_pos + point.y).ToFloat());
+    sQuadVerts.field_0_verts[2].z = 0.000099999997f;
 
     point.SetXY_432860(-half_w, half_h);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[3].x = ((x_pos + point.x).ToFloat());
-    gQuadVerts_706B88.field_0_verts[3].y = ((y_pos + point.y).ToFloat());
-    gQuadVerts_706B88.field_0_verts[3].z = 0.000099999997f;
+    sQuadVerts.field_0_verts[3].x = ((x_pos + point.x).ToFloat());
+    sQuadVerts.field_0_verts[3].y = ((y_pos + point.y).ToFloat());
+    sQuadVerts.field_0_verts[3].z = 0.000099999997f;
     // u & v, with z interleaved (store order found by the permuter)
-    gQuadVerts_706B88.field_0_verts[0].u = 0.0;
-    gQuadVerts_706B88.field_0_verts[0].v = 0.0;
-    gQuadVerts_706B88.field_0_verts[1].v = 0.0;
-    gQuadVerts_706B88.field_0_verts[3].u = 0.0;
+    sQuadVerts.field_0_verts[0].u = 0.0;
+    sQuadVerts.field_0_verts[0].v = 0.0;
+    sQuadVerts.field_0_verts[1].v = 0.0;
+    sQuadVerts.field_0_verts[3].u = 0.0;
 
     f32 u = width - 0.000099999997f;
     f32 v = height - 0.000099999997f;
-    gQuadVerts_706B88.field_0_verts[1].u = u;
-    gQuadVerts_706B88.field_0_verts[2].u = u;
-    gQuadVerts_706B88.field_0_verts[2].v = v;
-    gQuadVerts_706B88.field_0_verts[3].v = v;
+    sQuadVerts.field_0_verts[1].u = u;
+    sQuadVerts.field_0_verts[2].u = u;
+    sQuadVerts.field_0_verts[2].v = v;
+    sQuadVerts.field_0_verts[3].v = v;
 
-    pgbh_DrawQuad(flags | CalcQuadFlags_5D83E0(alpha_value, alpha_flag) | quad_flag::texture_filtering, pTexture, gQuadVerts_706B88.field_0_verts, 255);
+    pgbh_DrawQuad(flags | CalcQuadFlags_5D83E0(alpha_value, alpha_flag) | quad_flag::texture_filtering, pTexture, sQuadVerts.field_0_verts, 255);
 }
 
 MATCH_FUNC(0x5D8940)
@@ -469,18 +469,18 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
 
             // Each corner converts its coordinate again: VC6 CSEs the repeated ToFloat()s
             // (x0/y0 stay on the FPU stack, x1/y1 go through a stack temp like the original)
-            gQuadVerts_706B88.field_0_verts[0].x = cur_xpos.ToFloat();
-            gQuadVerts_706B88.field_0_verts[0].y = ypos_fp.ToFloat();
-            gQuadVerts_706B88.field_0_verts[0].z = 0.0001f;
-            gQuadVerts_706B88.field_0_verts[1].x = (cur_xpos + sprite_w).ToFloat();
-            gQuadVerts_706B88.field_0_verts[1].y = ypos_fp.ToFloat();
-            gQuadVerts_706B88.field_0_verts[1].z = 0.0001f;
-            gQuadVerts_706B88.field_0_verts[2].x = (cur_xpos + sprite_w).ToFloat();
-            gQuadVerts_706B88.field_0_verts[2].y = (ypos_fp + sprite_h).ToFloat();
-            gQuadVerts_706B88.field_0_verts[2].z = 0.0001f;
-            gQuadVerts_706B88.field_0_verts[3].x = cur_xpos.ToFloat();
-            gQuadVerts_706B88.field_0_verts[3].y = (ypos_fp + sprite_h).ToFloat();
-            gQuadVerts_706B88.field_0_verts[3].z = 0.0001f;
+            sQuadVerts.field_0_verts[0].x = cur_xpos.ToFloat();
+            sQuadVerts.field_0_verts[0].y = ypos_fp.ToFloat();
+            sQuadVerts.field_0_verts[0].z = 0.0001f;
+            sQuadVerts.field_0_verts[1].x = (cur_xpos + sprite_w).ToFloat();
+            sQuadVerts.field_0_verts[1].y = ypos_fp.ToFloat();
+            sQuadVerts.field_0_verts[1].z = 0.0001f;
+            sQuadVerts.field_0_verts[2].x = (cur_xpos + sprite_w).ToFloat();
+            sQuadVerts.field_0_verts[2].y = (ypos_fp + sprite_h).ToFloat();
+            sQuadVerts.field_0_verts[2].z = 0.0001f;
+            sQuadVerts.field_0_verts[3].x = cur_xpos.ToFloat();
+            sQuadVerts.field_0_verts[3].y = (ypos_fp + sprite_h).ToFloat();
+            sQuadVerts.field_0_verts[3].z = 0.0001f;
 
             // The double parentheses are two no-op expression nodes each (see "x87 code: the scheduler
             // works in 81-node windows" in docs/matching_quirks.md). With these 4 nodes the window
@@ -488,16 +488,16 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
             Fix16 u(((pSprIdx->field_4_width - 0.0001f)));
             Fix16 v(((pSprIdx->field_5_height - 0.0001f)));
 
-            gQuadVerts_706B88.field_0_verts[0].u = 0.0f;
-            gQuadVerts_706B88.field_0_verts[0].v = 0.0f;
-            gQuadVerts_706B88.field_0_verts[1].v = 0.0f;
-            gQuadVerts_706B88.field_0_verts[3].u = 0.0f;
-            gQuadVerts_706B88.field_0_verts[1].u = u.ToFloat();
-            gQuadVerts_706B88.field_0_verts[2].u = u.ToFloat();
-            gQuadVerts_706B88.field_0_verts[2].v = v.ToFloat();
-            gQuadVerts_706B88.field_0_verts[3].v = v.ToFloat();
+            sQuadVerts.field_0_verts[0].u = 0.0f;
+            sQuadVerts.field_0_verts[0].v = 0.0f;
+            sQuadVerts.field_0_verts[1].v = 0.0f;
+            sQuadVerts.field_0_verts[3].u = 0.0f;
+            sQuadVerts.field_0_verts[1].u = u.ToFloat();
+            sQuadVerts.field_0_verts[2].u = u.ToFloat();
+            sQuadVerts.field_0_verts[2].v = v.ToFloat();
+            sQuadVerts.field_0_verts[3].v = v.ToFloat();
 
-            pgbh_DrawQuad(quad_flags, pTexture, &gQuadVerts_706B88.field_0_verts[0], 255);
+            pgbh_DrawQuad(quad_flags, pTexture, &sQuadVerts.field_0_verts[0], 255);
 
             cur_xpos += sprite_w;
         }
