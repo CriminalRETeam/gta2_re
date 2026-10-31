@@ -23,7 +23,7 @@ DEFINE_GLOBAL(Garage*, gGarage_48_6FD26C, 0x6FD26C);
 DEFINE_GLOBAL_INIT(Fix16, kFpTwo_6FD128, Fix16(2), 0x6FD128);
 DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_6FCF88, Fix16(0x1000, 0), 0x6FCF88);
 DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_6FD04C, kFpQuarter_6FCF88, 0x6FD04C);
-DEFINE_GLOBAL_INIT(Fix16, kFpEighth_6FCF60, kFpQuarter_6FD04C / kFpTwo_6FD128, 0x6FCF60);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpEighth, kFpQuarter_6FD04C / kFpTwo_6FD128, 0x6FCF60);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD0D8, Fix16(0x100, 0), 0x6FD0D8);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD1D8, kFpOne64th_6FD0D8, 0x6FD1D8);
 
@@ -52,7 +52,7 @@ EXPORT Ang16 __stdcall GetHeadingForDoorFace_5345E0(s32 face)
 
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_6FD124, Fix16(1), 0x6FD124);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6FCF98, Fix16(0.5), 0x6FCF98);
-DEFINE_GLOBAL_INIT(Fix16, kFpPoint8_6FD218, Fix16(0x3333, 0), 0x6FD218);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint8, Fix16(0x3333, 0), 0x6FD218);
 
 // Car::IsLongerThanOneBlock_447ED0 (9.6f), with this file's copy of the 1.0 constant
 static inline bool IsLongerThanOneBlock_447ED0(Car* pCar)
@@ -71,7 +71,7 @@ void Garage::ValidateParkCommand_534650()
     // The result is unused (the out-of-line Add_408660 on a const Fix16)
     {
         const Fix16 door_z(this->field_10_door->field_0_primary_door_data->field_6_z);
-        door_z.Add_408660(kFpEighth_6FCF60);
+        door_z.Add_408660(kFpEighth);
     }
 
     if (gMap_0x370_6F6268->HasWallInArea_4E18A0(field_18_park_x_min.ToInt(),
@@ -90,7 +90,7 @@ void Garage::ValidateParkCommand_534650()
 }
 
 DEFINE_GLOBAL(Fix16, kFpZero_6FD120, 0x6FD120);
-DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_6FCF10, Fix16(0x666, 0), 0x6FCF10);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint1, Fix16(0x666, 0), 0x6FCF10);
 
 DEFINE_GLOBAL_INIT(Ang16, kAng90_6FCFB0, Ang16(360), 0x6FCFB0);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_6FD07E, Ang16(720), 0x6FD07E);
@@ -153,7 +153,7 @@ u8 Garage::ParkCarAtDoor_534700(Car* pCar, Door* pDoor)
                 reinterpret_cast<Fix16_Point_POD*>(&field_18_park_x_min)->SetXY_432860(Fix16(x), Fix16(y) - w1);
             }
             reinterpret_cast<Fix16_Point_POD*>(&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpOne_6FD124 + w2, Fix16(y) + w1 + kFpOne_6FD124);
-            reinterpret_cast<Fix16_Point_POD*>(&field_30_target_x)->SetXY_432860(Fix16(x) - kFpPoint8_6FD218, Fix16(y) + kFpHalf_6FCF98);
+            reinterpret_cast<Fix16_Point_POD*>(&field_30_target_x)->SetXY_432860(Fix16(x) - kFpPoint8, Fix16(y) + kFpHalf_6FCF98);
             break;
         case block_side::right_2:
             reinterpret_cast<Fix16_Point_POD*>(&field_18_park_x_min)->SetXY_432860(Fix16(x) - w2, Fix16(y) - w1);
@@ -165,7 +165,7 @@ u8 Garage::ParkCarAtDoor_534700(Car* pCar, Door* pDoor)
             {
                 reinterpret_cast<Fix16_Point_POD*>(&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpOne_6FD124, Fix16(y) + w1 + kFpOne_6FD124);
             }
-            reinterpret_cast<Fix16_Point_POD*>(&field_30_target_x)->SetXY_432860(Fix16(x) + kFpOne_6FD124 + kFpPoint8_6FD218, Fix16(y) + kFpHalf_6FCF98);
+            reinterpret_cast<Fix16_Point_POD*>(&field_30_target_x)->SetXY_432860(Fix16(x) + kFpOne_6FD124 + kFpPoint8, Fix16(y) + kFpHalf_6FCF98);
             break;
         case block_side::top_3:
             reinterpret_cast<Fix16_Point_POD*>(&field_18_park_x_min)->SetXY_432860(Fix16(x) - w1, Fix16(y));
@@ -177,7 +177,7 @@ u8 Garage::ParkCarAtDoor_534700(Car* pCar, Door* pDoor)
             {
                 reinterpret_cast<Fix16_Point_POD*>(&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpOne_6FD124 + w1, Fix16(y) + w2 + kFpOne_6FD124);
             }
-            reinterpret_cast<Fix16_Point_POD*>(&field_30_target_x)->SetXY_432860(Fix16(x) + kFpHalf_6FCF98, Fix16(y) - kFpPoint8_6FD218);
+            reinterpret_cast<Fix16_Point_POD*>(&field_30_target_x)->SetXY_432860(Fix16(x) + kFpHalf_6FCF98, Fix16(y) - kFpPoint8);
             break;
         case block_side::bottom_4:
             if (field_10_door->IsDoubleDoor_489600())
@@ -189,7 +189,7 @@ u8 Garage::ParkCarAtDoor_534700(Car* pCar, Door* pDoor)
                 reinterpret_cast<Fix16_Point_POD*>(&field_18_park_x_min)->SetXY_432860(Fix16(x) - w1, Fix16(y) - w2);
             }
             reinterpret_cast<Fix16_Point_POD*>(&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpOne_6FD124 + w1, Fix16(y) + kFpOne_6FD124);
-            reinterpret_cast<Fix16_Point_POD*>(&field_30_target_x)->SetXY_432860(Fix16(x) + kFpHalf_6FCF98, Fix16(y) + kFpOne_6FD124 + kFpPoint8_6FD218);
+            reinterpret_cast<Fix16_Point_POD*>(&field_30_target_x)->SetXY_432860(Fix16(x) + kFpHalf_6FCF98, Fix16(y) + kFpOne_6FD124 + kFpPoint8);
             break;
     }
 
@@ -279,7 +279,7 @@ void Garage::GaragesService_5349D0()
             }
             else
             {
-                field_28_push_dir = field_28_push_dir.NormalizeSafe_442AD0().Multiply_438FE0(kFpPoint1_6FCF10);
+                field_28_push_dir = field_28_push_dir.NormalizeSafe_442AD0().Multiply_438FE0(kFpPoint1);
             }
             field_0_parking_car->field_58_physics->ApplyForceScaledByMass_55F9A0(field_28_push_dir);
             field_C_state = garage_state::pushing_2;
