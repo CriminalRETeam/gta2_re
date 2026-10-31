@@ -815,7 +815,7 @@ enum
     left_behind_by_leader_8 = 8, // group member with no seat in the leader's car, rejoins him once he is on foot within 8 blocks
     follow_char_9 = 9,
     follow_char_in_car_10 = 10,
-    stay_close_to_char_11 = 11, // on foot, within 1/8 block of the internal target ped; passes when it dies (Ped::ChaseTargetStateMachine_46B170)
+    stay_close_to_char_11 = 11, // on foot, within 1/8 block of the internal target ped; passes when it dies (Ped::StayCloseToTargetPed_46B170)
     goto_area_on_foot_12 = 12,
     goto_area_any_means_13 = 13,
     goto_area_in_car_14 = 14,
