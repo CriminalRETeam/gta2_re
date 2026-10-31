@@ -1149,13 +1149,13 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x5D03F0 | `ArrowTrace::UpdateAimCoordinates_5D03F0` | 0x4C7CF0 | ✓ `sub_461DB0`, ✓ `cool_nash_0x294::get_cam_x_403A00`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `cool_nash_0x294::sub_416B50`, `cool_nash_0x294::sub_433B40`, ✓ `sub_4215B0`, `sub_476830`, `sub_4117B0`, ✓ `angry_lewin_0x85C::get_camera_434900` | done | Player::get_camera_434900; Still matches. |
 | 0x5D0530 | `Hud_Arrow::CheckVisibility_5D0530` | 0x4CA770 | ✓ `sub_4C70B0`, ✓ `sub_4C7350`, ✓ `angry_lewin_0x85C::sub_4766D0`, ✓ `sub_4C7340`, ✓ `angry_lewin_0x85C::sub_4219D0` | done | New Hud_Arrow_7C_Array::ShowGangArrows_4C70B0 and ScriptManager::IsOnMission_4C7350; Still matches. |
 | 0x5D0C60 | `Hud_Arrow::Service_5D0C60` | 0x4CA860 | `sub_4C7FC0` | checked | sub_4C7FC0 (759 bytes) is the arrow service body; not split out (big open-coded body in a matching function) |
-| 0x5D0C90 | `Hud_Arrow::sub_5D0C90` | 0x4C82C0 | ✓ `sub_4C6F80`, ✓ `sub_4C7050`, ✓ `rng::get_cur_rng_41CFE0`, ✓ `angry_lewin_0x85C::get_camera_434900` | done | IsType0_4C6F80 and IsVisible_4C7050; Still matches. |
-| 0x5D0E40 | `Hud_Arrow_7C_Array::IsThereAnyOtherArrowsInSameGang_5D0E40` | 0x4C8470 | ✓ `sub_4C6F80`, ✓ `sub_4C7050` | done | all 9.6f inlines used |
+| 0x5D0C90 | `Hud_Arrow::sub_5D0C90` | 0x4C82C0 | ✓ `HasNeitherTarget_4C6F80`, ✓ `sub_4C7050`, ✓ `rng::get_cur_rng_41CFE0`, ✓ `angry_lewin_0x85C::get_camera_434900` | done | HasNeitherTarget_4C6F80 and IsVisible_4C7050; Still matches. |
+| 0x5D0E40 | `Hud_Arrow_7C_Array::IsThereAnyOtherArrowsInSameGang_5D0E40` | 0x4C8470 | ✓ `HasNeitherTarget_4C6F80`, ✓ `sub_4C7050` | done | all 9.6f inlines used |
 | 0x5D0E90 | `Hud_Arrow_7C_Array::sub_5D0E90` | 0x4C84C0 | ✓ `sub_434B10`, ✓ `sub_4C6F30`, ✓ `sub_41D020` | done | New ArrowTrace::GetTargetPlayer_4C6F30; Still matches. |
-| 0x5D0EF0 | `Hud_Arrow_7C_Array::sub_5D0EF0` | 0x4C8540 | ✓ `sub_4C6F80` | done | Hud_Arrow::IsType0_4C6F80; Still matches. |
-| 0x5D0F40 | `Hud_Arrow_7C_Array::IsThereAnyMissionPhoneArrowForGang_5D0F40` | 0x4C8590 | ✓ `sub_4C6F80` | done | Hud_Arrow::IsType0_4C6F80; Still matches. |
-| 0x5D0F80 | `Hud_Arrow_7C_Array::sub_5D0F80` | 0x4C85D0 | ✓ `sub_4C6F80`, `sub_476880` | done | Hud_Arrow::IsType0_4C6F80; Still matches. |
-| 0x5D0FD0 | `Hud_Arrow_7C_Array::UpdateArrows_5D0FD0` | 0x4CA890 | ✓ `sub_4C6F80` | done | Hud_Arrow::IsType0_4C6F80; Still matches. |
+| 0x5D0EF0 | `Hud_Arrow_7C_Array::sub_5D0EF0` | 0x4C8540 | ✓ `HasNeitherTarget_4C6F80` | done | Hud_Arrow::HasNeitherTarget_4C6F80; Still matches. |
+| 0x5D0F40 | `Hud_Arrow_7C_Array::IsThereAnyMissionPhoneArrowForGang_5D0F40` | 0x4C8590 | ✓ `HasNeitherTarget_4C6F80` | done | Hud_Arrow::HasNeitherTarget_4C6F80; Still matches. |
+| 0x5D0F80 | `Hud_Arrow_7C_Array::sub_5D0F80` | 0x4C85D0 | ✓ `HasNeitherTarget_4C6F80`, `sub_476880` | done | Hud_Arrow::HasNeitherTarget_4C6F80; Still matches. |
+| 0x5D0FD0 | `Hud_Arrow_7C_Array::UpdateArrows_5D0FD0` | 0x4CA890 | ✓ `HasNeitherTarget_4C6F80` | done | Hud_Arrow::HasNeitherTarget_4C6F80; Still matches. |
 | 0x5D1050 | `Hud_Arrow_7C_Array::AllocArrow_5D1050` | 0x4CA8E0 | ✓ `sub_4CA610`, ✓ `sub_4C6FF0` | done | New Hud_Arrow::Reset_4CA610 and SetMinRadiusPos_4C6FF0 (defined in Hud.cpp); Still matches. |
 | 0x5D13C0 | `Hud_QuitMessage::HandleQuitMessageKey_5D13C0` | 0x4C8690 | ✓ `angry_lewin_0x85C::sub_41DC70`, ✓ `sub_434B10`, ✓ `angry_lewin_0x85C::sub_4219D0`, ✓ `sub_461DD0` | done | New TagGame::SetQuit_461DD0; Still matches. |
 | 0x5D16B0 | `Hud_ChatInput::DrawChatMessages_5D16B0` | 0x4C8910 | ✓ `gtx_0x106C::ClearTurnReady_4539B0` (10.5 0x5D7700), ✓ `rng::get_cur_rng_41CFE0` | matched | GetLineSpacingFromFontType_5D7700_inlined (9.6f 0x4539B0), s32 positions so both go through Fix16(s32) |
@@ -2524,7 +2524,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4C6E70 | `Hud_ShowCoords::ctor_4C6E70` | 6 |  |  | 0/1 | todo |  |
 | 0x4C6EE0 | `Garox_Sub_C_Array::ctor_4C6EE0` | 29 |  |  | 0/1 | todo |  |
 | 0x4C6F30 | `sub_4C6F30` | 4 |  | Source/Hud.hpp:449 | 0/1 | todo |  |
-| 0x4C6F80 | `sub_4C6F80` | 35 |  | Source/Hud.hpp:522 | 0/6 | todo |  |
+| 0x4C6F80 | `HasNeitherTarget_4C6F80` | 35 |  | Source/Hud.hpp:522 | 0/6 | todo |  |
 | 0x4C6FF0 | `sub_4C6FF0` | 50 |  | Source/Hud.cpp:2283, Source/Hud.hpp:505 | 0/1 | todo |  |
 | 0x4C7050 | `sub_4C7050` | 4 |  | Source/Hud.hpp:532 | 0/2 | todo |  |
 | 0x4C7080 | `Garox_7C_Array::ctor_4C7080` | 43 |  |  | 0/1 | todo |  |
