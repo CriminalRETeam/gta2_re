@@ -63,12 +63,8 @@ struct DebugTest
     EXPORT void DoTest_5B2640(u16 action);
     EXPORT void DoBrianTest_42D870(u16 action);
 };
-DEFINE_GLOBAL(DebugTest*, gTestObj_7044A0, 0x7044A0);
-DEFINE_GLOBAL(DebugTest*, gBrianTestObj_675F74, 0x675F74);
 
-DEFINE_GLOBAL(Hud_Arrow*, gTestArrow_70416C, 0x70416C);
 DEFINE_GLOBAL(Car*, gTestArrowCar_7043F0, 0x7043F0);
-DEFINE_GLOBAL(s32, gTestTimer_7042D8, 0x7042D8);
 
 MATCH_FUNC(0x42D870)
 void DebugTest::DoBrianTest_42D870(u16 action)
@@ -928,6 +924,8 @@ void Player::IncreaseWantedLevelFromDebugKeys_565860()
 MATCH_FUNC(0x565890)
 void Player::Hud_Controls_565890(u16 action)
 {
+    LOCAL_STATIC(DebugTest*, sBrianTestObj, 0x675F74);
+    LOCAL_STATIC(DebugTest*, sTestObj, 0x7044A0);
     s32 vol;
 
     if (!gHud_2B00_706620->HandleInputKey_5D6C20(action, this))
@@ -1190,11 +1188,11 @@ void Player::Hud_Controls_565890(u16 action)
             case DIK_0:
                 if (bDo_test_67D4F8)
                 {
-                    gTestObj_7044A0->DoTest_5B2640(action);
+                    sTestObj->DoTest_5B2640(action);
                 }
                 if (bDo_brian_test_67D544)
                 {
-                    gBrianTestObj_675F74->DoBrianTest_42D870(action);
+                    sBrianTestObj->DoBrianTest_42D870(action);
                 }
                 else if (bDo_iain_test_67D4E9)
                 {
@@ -2987,6 +2985,8 @@ Player::~Player()
 MATCH_FUNC(0x5B2640)
 void DebugTest::DoTest_5B2640(u16 action)
 {
+    LOCAL_STATIC(Hud_Arrow*, sTestArrow, 0x70416C);
+    LOCAL_STATIC(s32, sTestTimer, 0x7042D8);
     switch (action)
     {
         case 3:
@@ -3002,15 +3002,15 @@ void DebugTest::DoTest_5B2640(u16 action)
             gGame_0x40_67E008->field_38_local_player->ChangeMultipliers_4766B0(1);
             break;
         case 7:
-            gTestArrow_70416C = gHud_2B00_706620->field_1F18_arrows.AllocArrow_5D1050();
-            gTestArrow_70416C->SetArrowTargetCar_476860(gTestArrowCar_7043F0);
-            gTestArrow_70416C->SetArrowColour_5D0510(5);
+            sTestArrow = gHud_2B00_706620->field_1F18_arrows.AllocArrow_5D1050();
+            sTestArrow->SetArrowTargetCar_476860(gTestArrowCar_7043F0);
+            sTestArrow->SetArrowColour_5D0510(5);
             break;
         case 8:
             gGame_0x40_67E008->field_38_local_player->DebugToggleRemoteControl_569E70();
             break;
         case 10:
-            gTestTimer_7042D8 = gHud_2B00_706620->field_620_pagers.CreateTimer_5D31F0(40);
+            sTestTimer = gHud_2B00_706620->field_620_pagers.CreateTimer_5D31F0(40);
             break;
     }
 }
