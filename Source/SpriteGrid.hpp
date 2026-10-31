@@ -31,6 +31,16 @@ GTA2_ASSERT_SIZEOF_ALWAYS(GridCell, 0xC);
 class SpriteGrid
 {
   public:
+    STATIC_MEMBER(s32, sSpriteGridSpriteTypeFilter);
+    STATIC_MEMBER(s32, sSpriteGridSpriteType2);
+    STATIC_MEMBER(s32, sSpriteGridSpriteType1);
+    STATIC_MEMBER(Sprite*, sSpriteGridSmallestDistSprite);
+    STATIC_MEMBER(s32, sSpriteGridSearchMode);
+    STATIC_MEMBER(s32, sSpriteGridPreferredType);
+    STATIC_MEMBER(SpriteList*, sSpriteGridList);
+    STATIC_MEMBER(s32, sSpriteGridExcludeTypes);
+    STATIC_MEMBER(Sprite*, sSpriteGridExcludeSprite);
+    STATIC_MEMBER(u8, sbDoCollisionCheck);
     inline GridSpriteLink* GetCollideListAt_446820(s32 x_find, s32 y_pos) const
     {
         if (y_pos <= 255 && y_pos >= 0)
