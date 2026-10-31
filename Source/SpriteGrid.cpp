@@ -42,7 +42,7 @@ DEFINE_GLOBAL(Fix16, gSpriteGrid_zpos_low_678F38, 0x678F38);
 DEFINE_GLOBAL(Fix16, gSpriteGrid_zpos_high_678F3C, 0x678F3C);
 DEFINE_GLOBAL(s32, gSpriteGrid_search_mode_678FD0, 0x678FD0);
 
-DEFINE_GLOBAL_INIT(Fix16, kFpOneAndHalf_678F80, Fix16(0x6000, 0), 0x678F80);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpOneAndHalf, Fix16(0x6000, 0), 0x678F80);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_679084, Fix16(1), 0x679084);
 
 static inline s32 Clamp(s32 value, s32 min, s32 max)
@@ -62,9 +62,9 @@ MATCH_FUNC(0x477a40)
 void SpriteGrid::DrawSpritesClipped_477A40()
 {
     const s32 left = Clamp((gViewCamera_676978->field_78_view_bounds.field_0_left - kFpOne_679084).ToInt(), 0, 255);
-    const s32 right = Clamp((kFpOneAndHalf_678F80 + gViewCamera_676978->field_78_view_bounds.field_4_right).ToInt(), 0, 255);
+    const s32 right = Clamp((kFpOneAndHalf + gViewCamera_676978->field_78_view_bounds.field_4_right).ToInt(), 0, 255);
     const s32 top = Clamp((gViewCamera_676978->field_78_view_bounds.field_8_top - kFpOne_679084).ToInt(), 0, 255);
-    const s32 bottom = Clamp((kFpOneAndHalf_678F80 + gViewCamera_676978->field_78_view_bounds.field_C_bottom).ToInt(), 0, 255);
+    const s32 bottom = Clamp((kFpOneAndHalf + gViewCamera_676978->field_78_view_bounds.field_C_bottom).ToInt(), 0, 255);
 
     AddToDrawList_478240(left, right, top, bottom);
 }
