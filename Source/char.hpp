@@ -39,6 +39,7 @@ class SpriteList_4_dtor : public SpriteList
 class Char
 {
   public:
+    STATIC_MEMBER(Fix16, sCharB4DistanceToTarget);
     // 9.6f 0x41B080
     inline Fix16 get_velocity_41B080() const
     {

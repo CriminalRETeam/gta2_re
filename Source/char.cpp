@@ -44,7 +44,7 @@ DEFINE_STATIC_GLOBAL(s8, sCharB4UpdateCounter, 0x6FDB48);
 DEFINE_STATIC_GLOBAL(u32, sB4Id, 0x6FDB4C);
 
 DEFINE_STATIC_GLOBAL_INIT(s32, sCharB4PathDirection, path_direction::up_1, 0x623F44);
-DEFINE_GLOBAL(Fix16, gCharB4_DistanceToTarget_6FD80C, 0x6FD80C);
+DEFINE_STATIC_MEMBER(Fix16, Char, sCharB4DistanceToTarget, 0x6FD80C);
 
 DEFINE_GLOBAL_INIT(Ang16, kAng180_6FD936, Ang16(720), 0x6FD936);
 DEFINE_GLOBAL_INIT(Ang16, kAng315_6FD938, Ang16(1260), 0x6FD938);
@@ -528,7 +528,7 @@ void Char::Update_545720(Fix16 distance_to_target)
     {
         field_4A_timeout--;
     }
-    gCharB4_DistanceToTarget_6FD80C = distance_to_target;
+    sCharB4DistanceToTarget = distance_to_target;
 
     if (field_5C_jump_over_timer > 0)
     {
@@ -4754,13 +4754,13 @@ void Char::UpdateFleeOrRunning_5504F0()
             {
                 if (field_7C_pPed->field_224_bf.bWaitingOnTarget)
                 {
-                    if (gCharB4_DistanceToTarget_6FD80C < kFpOneSixteenth)
+                    if (sCharB4DistanceToTarget < kFpOneSixteenth)
                     {
                         field_38_velocity = kFpOne64th;
                     }
                     else
                     {
-                        if (gCharB4_DistanceToTarget_6FD80C < kFpOneEighth)
+                        if (sCharB4DistanceToTarget < kFpOneEighth)
                         {
                             field_38_velocity = k_CollisionRepulsionSpeed_6FD7BC;
                         }
