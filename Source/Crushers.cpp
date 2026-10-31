@@ -17,7 +17,7 @@
 
 DEFINE_GLOBAL(CrusherPool*, gCrusherPool_94_67A830, 0x67A830);
 
-DEFINE_GLOBAL_INIT(Fix16, kCrusherOpenDist_67A7D0, Fix16(0x3C00, 0), 0x67A7D0);
+DEFINE_STATIC_MEMBER_INIT(Fix16, Crusher, kCrusherOpenDist, Fix16(0x3C00, 0), 0x67A7D0);
 DEFINE_GLOBAL_INIT(Fix16, kCrusherClosedDist_67A4E4, Fix16(0x2400, 0), 0x67A4E4);
 DEFINE_GLOBAL_INIT(Fix16, kCrusherPistonBaseDist_67A664, Fix16(0x4800, 0), 0x67A664);
 DEFINE_GLOBAL_INIT(Fix16, kCrusherSpeed_67A5F4, Fix16(0x100, 0), 0x67A5F4);
@@ -89,7 +89,7 @@ void Crusher::Service_488350()
 
             case CrusherStates::UnCrushW_2:
                 field_1C_w += kCrusherSpeed_67A5F4;
-                if (field_1C_w == kCrusherOpenDist_67A7D0)
+                if (field_1C_w == kCrusherOpenDist)
                 {
                     field_2C_state = CrusherStates::CrushH_3;
                 }
@@ -113,7 +113,7 @@ void Crusher::Service_488350()
 
             case CrusherStates::UnCrushH_4:
                 field_20_h += kCrusherSpeed_67A5F4;
-                if (field_20_h == kCrusherOpenDist_67A7D0)
+                if (field_20_h == kCrusherOpenDist)
                 {
                     field_14_pCarBeingCrushed = NULL;
                     field_2C_state = CrusherStates::Idle_0;
@@ -159,21 +159,21 @@ void Crusher::InitCrusher_4885A0(Fix16 xpos, Fix16 ypos, char_type crusher_idx)
 
     field_0_piston_top = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crusher_piston_142,
                                                                  field_24_xpos,
-                                                                 field_28_ypos - kCrusherOpenDist_67A7D0,
+                                                                 field_28_ypos - kCrusherOpenDist,
                                                                  zpos,
                                                                  kAngZero_67A820);
     field_4_piston_right = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crusher_piston_142,
-                                                                   field_24_xpos + kCrusherOpenDist_67A7D0,
+                                                                   field_24_xpos + kCrusherOpenDist,
                                                                    field_28_ypos,
                                                                    zpos,
                                                                    kAng270_67A660);
     field_8_piston_bottom = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crusher_piston_142,
                                                                     field_24_xpos,
-                                                                    kCrusherOpenDist_67A7D0 + field_28_ypos,
+                                                                    kCrusherOpenDist + field_28_ypos,
                                                                     zpos,
                                                                     kAng180_67A63A);
     field_C_piston_left = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crusher_piston_142,
-                                                                  field_24_xpos - kCrusherOpenDist_67A7D0,
+                                                                  field_24_xpos - kCrusherOpenDist,
                                                                   field_28_ypos,
                                                                   zpos,
                                                                   kAng90_67A568);
@@ -199,8 +199,8 @@ void Crusher::InitCrusher_4885A0(Fix16 xpos, Fix16 ypos, char_type crusher_idx)
                                             zpos,
                                             kAng90_67A568);
 
-    field_1C_w = kCrusherOpenDist_67A7D0;
-    field_20_h = kCrusherOpenDist_67A7D0;
+    field_1C_w = kCrusherOpenDist;
+    field_20_h = kCrusherOpenDist;
 
     field_2C_state = CrusherStates::Idle_0;
     field_14_pCarBeingCrushed = NULL;

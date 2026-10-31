@@ -10,6 +10,7 @@ class Object;
 class Crusher
 {
   public:
+    STATIC_MEMBER(Fix16, kCrusherOpenDist);
     // 9.6f 0x411A20
     inline Fix16 get_xpos_411A20() const
     {
