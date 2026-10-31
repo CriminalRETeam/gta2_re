@@ -22,7 +22,7 @@ DEFINE_GLOBAL_ARRAY(char, file_name_677EC4, 64, 0x677EC4);
 DEFINE_GLOBAL(u32, processedGciData_676260, 0x676260);
 DEFINE_GLOBAL(u32, gciDataLen_675F94, 0x675F94);
 DEFINE_GLOBAL(u8*, input_data_676170, 0x676170);
-DEFINE_GLOBAL(u32, gTokenizerState_67626C, 0x67626C);
+DEFINE_STATIC_GLOBAL(u32, sTokenizerState, 0x67626C);
 DEFINE_GLOBAL(s32, line_number_676258, 0x676258);
 DEFINE_GLOBAL(u32, processed_output_676250, 0x676250);
 DEFINE_GLOBAL(s32, modelPhyArrLen_675F90, 0x675F90);
@@ -31,8 +31,8 @@ DEFINE_GLOBAL_INIT(Fix16, kOne_677F54, Fix16(1), 0x677F54);
 DEFINE_GLOBAL_INIT(Fix16, kQuarter_677D78, Fix16(0x1000, 0), 0x677D78);
 DEFINE_GLOBAL_INIT(Fix16, kOneTenth_677D74, Fix16(0x666, 0), 0x677D74);
 DEFINE_GLOBAL_INIT(Fix16, kZero_6761A4, Fix16(0), 0x6761a4);
-DEFINE_GLOBAL_ARRAY_INIT(char*,
-                         error_table_61A6D4,
+DEFINE_STATIC_GLOBAL_ARRAY_INIT(char*,
+                         sErrorTable,
                          13,
                          0x61A6D4,
                          "Invalid integer" COMMA
@@ -49,7 +49,7 @@ DEFINE_GLOBAL_ARRAY_INIT(char*,
                          "Output too big" COMMA
                          "Unknown error");
 
-// Return codes of the gci tokenizer and parser. SetErr_430AC0 prints error_table_61A6D4[-code], one message too far
+// Return codes of the gci tokenizer and parser. SetErr_430AC0 prints sErrorTable[-code], one message too far
 enum
 {
     k_gci_ok = 0,
@@ -65,7 +65,7 @@ enum
     k_gci_output_too_big = -12,
 };
 
-// gTokenizerState_67626C
+// sTokenizerState
 enum
 {
     k_tokenizer_between_tokens = 0,
@@ -114,14 +114,14 @@ MATCH_FUNC(0x430AC0)
 char* __stdcall CarInfoTable::SetErr_430AC0(s32 error_code)
 {
     LOCAL_STATIC_ARRAY(char, sBuffer, 80, 0x675FD4);
-    if (error_code > 0 || error_code < -GTA2_COUNTOF_S(error_table_61A6D4) + 1)
+    if (error_code > 0 || error_code < -GTA2_COUNTOF_S(sErrorTable) + 1)
     {
         // The original uses -13 despite having only 13 entries (indices 0..12).
         // The following DWORD is string data ("Unkn"), not another message pointer.
-        error_code = -GTA2_COUNTOF_S(error_table_61A6D4);
+        error_code = -GTA2_COUNTOF_S(sErrorTable);
     }
 
-    sprintf(sBuffer, "%s at line %d", error_table_61A6D4[-error_code], line_number_676258);
+    sprintf(sBuffer, "%s at line %d", sErrorTable[-error_code], line_number_676258);
     return sBuffer;
 }
 
@@ -151,7 +151,7 @@ s32 __stdcall CarInfoTable::ReadToken_430B10(char* pOut)
             }
         }
 
-        switch (gTokenizerState_67626C)
+        switch (sTokenizerState)
         {
             case k_tokenizer_between_tokens:
                 if (currentChar == -1)
@@ -160,12 +160,12 @@ s32 __stdcall CarInfoTable::ReadToken_430B10(char* pOut)
                 }
                 if (currentChar == '{')
                 {
-                    gTokenizerState_67626C = k_tokenizer_in_comment;
+                    sTokenizerState = k_tokenizer_in_comment;
                 }
                 else if (currentChar != ' ' && currentChar != '\t' && currentChar != '\n' && currentChar != ')' && currentChar != '(' &&
                          currentChar != '\r')
                 {
-                    gTokenizerState_67626C = k_tokenizer_in_token;
+                    sTokenizerState = k_tokenizer_in_token;
                     pOut[i] = static_cast<char>(currentChar);
                     i++;
                 }
@@ -177,7 +177,7 @@ s32 __stdcall CarInfoTable::ReadToken_430B10(char* pOut)
                 }
                 if (currentChar == '}')
                 {
-                    gTokenizerState_67626C = k_tokenizer_between_tokens;
+                    sTokenizerState = k_tokenizer_between_tokens;
                 }
                 break;
             case k_tokenizer_in_token:
@@ -189,14 +189,14 @@ s32 __stdcall CarInfoTable::ReadToken_430B10(char* pOut)
                 if (currentChar == '{')
                 {
                     pOut[i] = 0;
-                    gTokenizerState_67626C = k_tokenizer_in_comment;
+                    sTokenizerState = k_tokenizer_in_comment;
                     return k_gci_ok;
                 }
                 if (currentChar == ' ' || currentChar == '\t' || currentChar == '\n' || currentChar == ')' || currentChar == '(' ||
                     currentChar == '\r')
                 {
                     pOut[i] = 0;
-                    gTokenizerState_67626C = k_tokenizer_between_tokens;
+                    sTokenizerState = k_tokenizer_between_tokens;
                     return k_gci_ok;
                 }
                 pOut[i] = static_cast<char>(currentChar);
