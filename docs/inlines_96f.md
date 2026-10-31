@@ -738,7 +738,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4FA9D0 | `AmbulanceTask::EvaluatePickupState_4FA9D0` | 0x473320 | ✓ `cool_nash_0x294::sub_403B60`, ✓ `IsMaxDamage_40F890` | done | all 9.6f inlines used |
 | 0x4FFA90 | `FrameProfiler::UpdateProfiling_4FFA90` | 0x474C60 | ✓ `sub_474430`, ✓ `sub_474450` | done | TakeElapsed/AddSample are 474430/474450 (address comments added) |
 | 0x502DC0 | `MissionCleanupList::MissionCleanUp_502DC0` | 0x476BC0 | ✓ `Car::sub_421560`, ✓ `IsDeactivated_4214D0`, ✓ `sub_421470` | done | all 9.6f inlines used |
-| 0x502FF0 | `MissionCleanupList::push_type_2_502FF0` | 0x476D50 | ✓ `sub_40FEF0` | done | Object::GetModel_40FEF0 x4; code unchanged |
+| 0x502FF0 | `MissionCleanupList::push_type_2_non_pickup_object_502FF0` | 0x476D50 | ✓ `sub_40FEF0` | done | Object::GetModel_40FEF0 x4; code unchanged |
 | 0x503130 | `ScriptGosubStack::dtor_503130` | 0x476DC0 | ✓ `ScriptStackFramePool::sub_476780` | done | ScriptStackFramePool::DeAllocate_476780 (new); code unchanged |
 | 0x503200 | `ScriptThread::sub_503200` | 0x47F550 | ✓ `sub_476700`, ✓ `sub_476730`, `sub_4105B0` | done | Player::IsWastedOrBustedNotObjective54_476700 and IsBustedObjective54_476730 (new); code unchanged |
 | 0x5035D0 | `ScriptThread::Log_5035D0` | 0x476E10 | ✓ `rng::get_cur_rng_41CFE0` | done | all 9.6f inlines used |

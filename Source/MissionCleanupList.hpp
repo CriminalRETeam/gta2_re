@@ -44,8 +44,8 @@ class MissionCleanupList
     EXPORT MissionCleanupEntry* allocate_next_502F60();
     EXPORT void push_type_1_car_502F80(Car* pCar);
     EXPORT void push_type_3_ped_502FB0(Ped* pPed);
-    EXPORT void push_type_2_502FF0(Object *pObj, bool bForce);
-    EXPORT void push_type_2_503050(Object* pObj);
+    EXPORT void push_type_2_non_pickup_object_502FF0(Object *pObj, bool bForce);
+    EXPORT void push_type_2_object_503050(Object* pObj);
 
     MissionCleanupEntry field_0_entries[50];
 

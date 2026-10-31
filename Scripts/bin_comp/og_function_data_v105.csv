@@ -1857,8 +1857,8 @@ MissionCleanupList::MissionCleanUp_502DC0,0x502dc0,0x102dc0,0x191
 MissionCleanupList::allocate_next_502F60,0x502f60,0x102f60,0x16
 MissionCleanupList::push_type_1_car_502F80,0x502f80,0x102f80,0x2e
 MissionCleanupList::push_type_3_ped_502FB0,0x502fb0,0x102fb0,0x31
-MissionCleanupList::push_type_2_502FF0,0x502ff0,0x102ff0,0x51
-MissionCleanupList::push_type_2_503050,0x503050,0x103050,0x2e
+MissionCleanupList::push_type_2_non_pickup_object_502FF0,0x502ff0,0x102ff0,0x51
+MissionCleanupList::push_type_2_object_503050,0x503050,0x103050,0x2e
 ScriptManager::FindStringById_503080,0x503080,0x103080,0x30
 ScriptManager::StrEntryByString_5030B0,0x5030b0,0x1030b0,0x58
 ScriptStackFrame::PoolAllocate,0x503110,0x103110,0xc
