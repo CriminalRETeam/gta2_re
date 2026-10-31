@@ -53,17 +53,17 @@ Door::~Door()
 }
 
 MATCH_FUNC(0x49c6a0)
-bool Door::IsSpriteClearOfDoorCollision_49C6A0(Sprite* pSprite)
+bool Door::IsSpriteClearOfDoorCollision(Sprite* pSprite)
 {
     if (pSprite)
     {
-        return mDoorObj->mSprite->RotatedRectCollisionSAT_5A0380(pSprite) == false;
+        return mDoorObj->mSprite->RotatedRectCollisionSAT(pSprite) == false;
     }
     return true;
 }
 
 MATCH_FUNC(0x49c6d0)
-bool Door::CanOpen_49C6D0(Car* pCar)
+bool Door::CanOpen(Car* pCar)
 {
     bool ret = false;
     switch (mOpenType)
@@ -109,7 +109,7 @@ bool Door::CanOpen_49C6D0(Car* pCar)
                 break;
             }
 
-            if (IsSpriteClearOfDoorCollision_49C6A0(pCar->mCarSprite) && (!pCar->IsDrivenByPlayer_4118D0() || gGarage_48_6FD26C->IsParkedCar_44C870(pCar)))
+            if (IsSpriteClearOfDoorCollision(pCar->mCarSprite) && (!pCar->IsDrivenByPlayer_4118D0() || gGarage_48_6FD26C->IsParkedCar_44C870(pCar)))
             {
                 if (pCar->IsDrivenByPlayer_4118D0())
                 {
@@ -130,7 +130,7 @@ bool Door::CanOpen_49C6D0(Car* pCar)
 }
 
 MATCH_FUNC(0x49c7f0)
-bool Door::CanOpenForPed_49C7F0(Ped* pPed)
+bool Door::CanOpenForPed(Ped* pPed)
 {
     bool ret = false;
     switch (mOpenType)
@@ -159,7 +159,7 @@ bool Door::CanOpenForPed_49C7F0(Ped* pPed)
 }
 
 MATCH_FUNC(0x49c840)
-void Door::Open_49C840()
+void Door::Open()
 {
     DoorData* pDoorData = this->mPrimaryDoorData;
     if (pDoorData != NULL)
@@ -168,52 +168,52 @@ void Door::Open_49C840()
         {
             this->mPlayOpenSound = true;
         }
-        pDoorData->Open_49C4E0(0);
+        pDoorData->Open(0);
     }
     if (this->mSecondaryDoorData != NULL)
     {
-        this->mSecondaryDoorData->Open_49C4E0(this->mbDoFlip);
+        this->mSecondaryDoorData->Open(this->mbDoFlip);
     }
     this->mbClosing = false;
 }
 
 MATCH_FUNC(0x49c870)
-void Door::TryOpenForCar_49C870(Car* pCar)
+void Door::TryOpenForCar(Car* pCar)
 {
     if (mbAuto)
     {
-        if (CanOpen_49C6D0(pCar))
+        if (CanOpen(pCar))
         {
             if (mbCanAutoOpen)
             {
-                Open_49C840();
+                Open();
             }
         }
     }
 }
 
 MATCH_FUNC(0x49c8a0)
-void Door::TryOpenForPed_49C8A0(Ped* pPed)
+void Door::TryOpenForPed(Ped* pPed)
 {
     if (mbAuto)
     {
-        if (CanOpenForPed_49C7F0(pPed))
+        if (CanOpenForPed(pPed))
         {
             if (mbCanAutoOpen)
             {
-                Open_49C840();
+                Open();
             }
         }
     }
 }
 
 MATCH_FUNC(0x49c8d0)
-void Door::InitSingleNoCheck_49C8D0(u8 door_group, u8 gr_id, u8 x, u8 y, u8 z, s32 facing)
+void Door::InitSingleNoCheck(u8 door_group, u8 gr_id, u8 x, u8 y, u8 z, s32 facing)
 {
     Fix16 trigger_x;
     Fix16 trigger_y;
 
-    AddDoorData_49CA50(gr_id, x, y, z, facing);
+    AddDoorData(gr_id, x, y, z, facing);
 
     Fix16 door_x = Fix16(x) + kFpHalf_67BA20;
     Fix16 door_y = Fix16(y) + kFpHalf_67BA20;
@@ -259,32 +259,32 @@ void Door::InitSingleNoCheck_49C8D0(u8 door_group, u8 gr_id, u8 x, u8 y, u8 z, s
 
     mCloseTimer = mCloseDelay = (gDoorAnimInfo_67BB38[gr_id].mEndFrame - gDoorAnimInfo_67BB38[gr_id].mStartFrame) * gDoorAnimInfo_67BB38[gr_id].mSpeed8;
 
-    mTriggerObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::door_trigger_167, trigger_x, trigger_y, z, DAT_0067BD18);
+    mTriggerObj = gObject_5C_6F8F84->NewPhysicsObj(objects::door_trigger_167, trigger_x, trigger_y, z, DAT_0067BD18);
     mTriggerObj->SetParam_447E90(door_group);
 
-    mDoorObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::door_collision_obj_169, door_x, door_y, z, DAT_0067BD18);
+    mDoorObj = gObject_5C_6F8F84->NewPhysicsObj(objects::door_collision_obj_169, door_x, door_y, z, DAT_0067BD18);
     mDoorObj->SetParam_447E90(door_group);
     mX = door_x;
     mY = door_y;
 }
 
 MATCH_FUNC(0x49ca50)
-void Door::AddDoorData_49CA50(u8 gr_id, char_type x, char_type y, char_type z, s32 face)
+void Door::AddDoorData(u8 gr_id, char_type x, char_type y, char_type z, s32 face)
 {
     if (!mPrimaryDoorData)
     {
-        mPrimaryDoorData = gDoor_4D4_67BD2C->AllocDoorData_49CF10(gr_id, x, y, z, face, 0);
+        mPrimaryDoorData = gDoor_4D4_67BD2C->AllocDoorData(gr_id, x, y, z, face, 0);
         return;
     }
 
     if (!mSecondaryDoorData)
     {
-        mSecondaryDoorData = gDoor_4D4_67BD2C->AllocDoorData_49CF10(gr_id, x, y, z, face, mbDoFlip);
+        mSecondaryDoorData = gDoor_4D4_67BD2C->AllocDoorData(gr_id, x, y, z, face, mbDoFlip);
     }
 }
 
 MATCH_FUNC(0x49cac0)
-void Door::InitSingle_49CAC0(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fix16 trigger_x, Fix16 trigger_y, Fix16 trigger_z, Fix16 trigger_w, Fix16 trigger_h)
+void Door::InitSingle(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fix16 trigger_x, Fix16 trigger_y, Fix16 trigger_z, Fix16 trigger_w, Fix16 trigger_h)
 {
     Fix16 z(pDoorData->mZ);
     Fix16 x = Fix16(pDoorData->mX) + kFpHalf_67BA20;
@@ -322,7 +322,7 @@ void Door::InitSingle_49CAC0(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fi
     mCloseTimer = mCloseDelay = anim_frames * gDoorAnimInfo_67BB38[pDoorData->mGrId].mSpeed8 + 0x28;
     if (bFlip)
     {
-        mTriggerObj = gObject_5C_6F8F84->NewTouchPoint_529950(objects::door_trigger_167,
+        mTriggerObj = gObject_5C_6F8F84->NewTouchPoint(objects::door_trigger_167,
                                                                       trigger_x,
                                                                       trigger_y,
                                                                       trigger_z,
@@ -332,14 +332,14 @@ void Door::InitSingle_49CAC0(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fi
                                                                       kFpOne_67BBE4);
         mTriggerObj->SetParam_447E90(obj_id);
     }
-    mDoorObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::door_collision_obj_169, x, y, z, DAT_0067BD18);
+    mDoorObj = gObject_5C_6F8F84->NewPhysicsObj(objects::door_collision_obj_169, x, y, z, DAT_0067BD18);
     mDoorObj->SetParam_447E90(obj_id);
     mX = x;
     mY = y;
 }
 
 MATCH_FUNC(0x49cc00)
-void Door::InitDouble_49CC00(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fix16 trigger_x, Fix16 trigger_y, Fix16 trigger_z, Fix16 trigger_w, Fix16 trigger_h)
+void Door::InitDouble(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fix16 trigger_x, Fix16 trigger_y, Fix16 trigger_z, Fix16 trigger_w, Fix16 trigger_h)
 {
     Ang16 door_angle;
     Fix16 z(pDoorData->mZ);
@@ -387,7 +387,7 @@ void Door::InitDouble_49CC00(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fi
     mCloseTimer = mCloseDelay = anim_frames * gDoorAnimInfo_67BB38[pDoorData->mGrId].mSpeed8 + 0x28;
     if (bFlip)
     {
-        mTriggerObj = gObject_5C_6F8F84->NewTouchPoint_529950(objects::door_trigger_167,
+        mTriggerObj = gObject_5C_6F8F84->NewTouchPoint(objects::door_trigger_167,
                                                                       trigger_x,
                                                                       trigger_y,
                                                                       trigger_z,
@@ -399,14 +399,14 @@ void Door::InitDouble_49CC00(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fi
     }
     mDoorObj =
         gObject_5C_6F8F84
-            ->NewTouchPoint_529950(objects::door_collision_obj_169, x, y, z, door_angle, kFpOne_67BBE4, kFpTwo_67BBE8, kFpOne_67BBE4);
+            ->NewTouchPoint(objects::door_collision_obj_169, x, y, z, door_angle, kFpOne_67BBE4, kFpTwo_67BBE8, kFpOne_67BBE4);
     mDoorObj->SetParam_447E90(obj_id);
     mX = x;
     mY = y;
 }
 
 MATCH_FUNC(0x49cd90)
-void Door::UpdateAutoClose_49CD90()
+void Door::UpdateAutoClose()
 {
     if (mbAuto)
     {
@@ -416,8 +416,8 @@ void Door::UpdateAutoClose_49CD90()
             {
                 if (mCloseType == door_close_type::close_when_open_rule_fails && mCarBc != NULL)
                 {
-                    if (CanOpen_49C6D0(mCarBc) == false && CanOpenForPed_49C7F0(mPed) == false &&
-                        !IsSpriteClearOfDoorCollision_49C6A0(mCarBc->mCarSprite))
+                    if (CanOpen(mCarBc) == false && CanOpenForPed(mPed) == false &&
+                        !IsSpriteClearOfDoorCollision(mCarBc->mCarSprite))
                     {
                         mbClosing = true;
                         mCloseTimer = 0;
@@ -435,12 +435,12 @@ void Door::UpdateAutoClose_49CD90()
                     mCloseTimer = mCloseDelay;
                     if (mPrimaryDoorData != NULL)
                     {
-                        gObject_5C_6F8F84->NewWithPedRefIdx_5299F0(0x117, 0x33, mX, mY, mPrimaryDoorData->mZ);
-                        mPrimaryDoorData->Close_49C590(false);
+                        gObject_5C_6F8F84->NewWithPedRefIdx(0x117, 0x33, mX, mY, mPrimaryDoorData->mZ);
+                        mPrimaryDoorData->Close(false);
                     }
                     if (mSecondaryDoorData != NULL)
                     {
-                        mSecondaryDoorData->Close_49C590(mbDoFlip);
+                        mSecondaryDoorData->Close(mbDoFlip);
                     }
                 }
             }
@@ -449,24 +449,24 @@ void Door::UpdateAutoClose_49CD90()
 }
 
 MATCH_FUNC(0x49ce90)
-bool Door::Service_49CE90()
+bool Door::Service()
 {
     if (mPlayOpenSound)
     {
-        gObject_5C_6F8F84->NewWithPedRefIdx_5299F0(0x117, 0x32, mX, mY, mPrimaryDoorData->mZ);
+        gObject_5C_6F8F84->NewWithPedRefIdx(0x117, 0x32, mX, mY, mPrimaryDoorData->mZ);
         mPlayOpenSound = false;
     }
 
     if (mbAuto)
     {
-        UpdateAutoClose_49CD90();
+        UpdateAutoClose();
     }
     mbClosing = true;
     return 0;
 }
 
 MATCH_FUNC(0x49CEE0)
-void Door::get_door_xyz_face_49CEE0(u8* pX, u8* pY, u8* pZ, u32* pFace)
+void Door::get_door_xyz_face(u8* pX, u8* pY, u8* pZ, u32* pFace)
 {
     *pX = mPrimaryDoorData->mX;
     *pY = mPrimaryDoorData->mY;

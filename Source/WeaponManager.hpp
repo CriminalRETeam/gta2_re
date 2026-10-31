@@ -18,13 +18,13 @@ class WeaponManager
     }
 
     EXPORT Weapon* allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo);
-    EXPORT void deallocate_5E3CB0(Weapon* pWeapon);
+    EXPORT void deallocate(Weapon* pWeapon);
     EXPORT Weapon* allocate_5E3CE0(s32 weapon_kind, Car* pCar, u8 ammo);
-    EXPORT Weapon* find_5E3D20(Car* pCar, s32 weapon_kind);
+    EXPORT Weapon* find(Car* pCar, s32 weapon_kind);
     EXPORT bool allocate_5E3D50(s32 weapon_kind, u8 ammo, Car* pCar);
-    EXPORT void dealloc_car_weapon_5E3DF0(Car* pCar);
-    EXPORT u8 get_max_ammo_capacity_5E3E70(s32 weapon_kind) const;
-    EXPORT u8 get_defalt_ammo_5E3E80(s32 weapon_kind) const;
+    EXPORT void dealloc_car_weapon(Car* pCar);
+    EXPORT u8 get_max_ammo_capacity(s32 weapon_kind) const;
+    EXPORT u8 get_defalt_ammo(s32 weapon_kind) const;
     EXPORT WeaponManager();
     EXPORT ~WeaponManager();
     SpriteList mHitSprites; // 0x0
@@ -40,7 +40,7 @@ class WeaponPool
     {
     }
 
-    // 9.6f 0x4CC9C0 (which also calls 0x4CC810, init_5DCD90 in 10.5)
+    // 9.6f 0x4CC9C0 (which also calls 0x4CC810, init in 10.5)
     Weapon* Allocate()
     {
         Weapon* pWeapon = mPool.mpStart;
@@ -50,7 +50,7 @@ class WeaponPool
         return pWeapon;
     }
 
-    // 9.6f 0x4CC9E0 (which also calls 0x4CC810, init_5DCD90 in 10.5)
+    // 9.6f 0x4CC9E0 (which also calls 0x4CC810, init in 10.5)
     inline Weapon* AllocateUnlinked_4CC9E0()
     {
         Weapon* pWeapon = mPool.mpStart;

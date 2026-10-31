@@ -33,7 +33,7 @@ Light::~Light()
 }
 
 MATCH_FUNC(0x4D6D70)
-void Light::AddToGrid_4D6D70()
+void Light::AddToGrid()
 {
     u32 cell_idx = (mX.ToInt() >> 2) + ((mY.ToInt() >> 2) * 64);
     Light* pFirst = gLightGrid_6F5400[cell_idx];
@@ -54,7 +54,7 @@ void Light::AddToGrid_4D6D70()
 }
 
 MATCH_FUNC(0x4D6DC0)
-Light* Light::RemoveFromGrid_4D6DC0()
+Light* Light::RemoveFromGrid()
 {
     Light* pPrev = mpGridPrev;
     if (pPrev)
@@ -75,7 +75,7 @@ Light* Light::RemoveFromGrid_4D6DC0()
 }
 
 MATCH_FUNC(0x4D6E00)
-void __stdcall LightGrid::AllocGrid_4D6E00()
+void __stdcall LightGrid::AllocGrid()
 {
     gLightGrid_6F5400 = static_cast<Light**>(crt::malloc(0x4000u));
     for (s32 i = 0; i < 4096; i++)
@@ -85,7 +85,7 @@ void __stdcall LightGrid::AllocGrid_4D6E00()
 }
 
 MATCH_FUNC(0x4D6E30)
-void LightGrid::FreeGrid_4D6E30()
+void LightGrid::FreeGrid()
 {
     if (gLightGrid_6F5400)
     {
@@ -95,7 +95,7 @@ void LightGrid::FreeGrid_4D6E30()
 }
 
 MATCH_FUNC(0x4D6E50)
-void __stdcall LightGrid::SubmitLightsInArea_4D6E50(s32 min_x, s32 min_y, s32 max_x, s32 max_y)
+void __stdcall LightGrid::SubmitLightsInArea(s32 min_x, s32 min_y, s32 max_x, s32 max_y)
 {
     min_x = (min_x >> 2) - 2;
     if (min_x < 0)

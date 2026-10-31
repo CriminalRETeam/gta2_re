@@ -18,7 +18,7 @@ class Car;
 class Hud_PlayerNames
 {
   public:
-    EXPORT void DrawPlayerNames_5CFE40();
+    EXPORT void DrawPlayerNames();
     s32 mUnused0; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Hud_PlayerNames, 0x4);
@@ -26,11 +26,11 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Hud_PlayerNames, 0x4);
 class Hud_MpMessage
 {
   public:
-    EXPORT void CalcTextWidth_5D56B0();
-    EXPORT void Draw_5D56D0();
-    EXPORT void ShowText_5D5730(const wchar_t* pStr);
-    EXPORT void DecrementTimer_5D5760();
-    EXPORT void AnnounceKill_5D5770(Player* killer, Player* victim);
+    EXPORT void CalcTextWidth();
+    EXPORT void Draw();
+    EXPORT void ShowText(const wchar_t* pStr);
+    EXPORT void DecrementTimer();
+    EXPORT void AnnounceKill(Player* killer, Player* victim);
     EXPORT Hud_MpMessage();
     char_type mTimer; // 0x0
     wchar_t mStr[101]; // 0x2
@@ -41,20 +41,20 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Hud_MpMessage, 0xD0);
 class Hud_ChatInput
 {
   public:
-    EXPORT bool HandleChatInputKey_5D15E0(s32 action, Player* pPlayer);
-    EXPORT void DrawChatMessages_5D16B0();
-    EXPORT bool IsChatInputKey_5D17D0(s32 key_idx);
-    EXPORT void StartChatting_5D1830(Player* pPlayer);
+    EXPORT bool HandleChatInputKey(s32 action, Player* pPlayer);
+    EXPORT void DrawChatMessages();
+    EXPORT bool IsChatInputKey(s32 key_idx);
+    EXPORT void StartChatting(Player* pPlayer);
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Hud_ChatInput, 0x1);
 
 class Hud_QuitMessage
 {
   public:
-    EXPORT bool HandleQuitMessageKey_5D13C0(s32 action, Player* pPlayer);
-    EXPORT void DrawQuitMessage_5D1430();
-    EXPORT bool IsQuitMessageKey_5D15A0(s32 action);
-    EXPORT void ShowQuitMessage_5D15D0(Player* pPlayer);
+    EXPORT bool HandleQuitMessageKey(s32 action, Player* pPlayer);
+    EXPORT void DrawQuitMessage();
+    EXPORT bool IsQuitMessageKey(s32 action);
+    EXPORT void ShowQuitMessage(Player* pPlayer);
     char_type mQuitMessage; // 0x12EC
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Hud_QuitMessage, 0x1);
@@ -67,8 +67,8 @@ class Hud_BriefSelector
     {
         mValue = 0;
     }
-    EXPORT void ShowNextNumberedBrief_5CF620();
-    EXPORT void ShowPrevNumberedBrief_5CF6B0();
+    EXPORT void ShowNextNumberedBrief();
+    EXPORT void ShowPrevNumberedBrief();
     s32 mValue; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Hud_BriefSelector, 0x4);
@@ -96,8 +96,8 @@ class Hud_PauseScreen
         mCurrentPauseSection = 0;
         mTimer = 45;
     }
-    EXPORT void DrawPause_5D63B0();
-    EXPORT void UpdatePauseSection_5D6300();
+    EXPORT void DrawPause();
+    EXPORT void UpdatePauseSection();
     u8 mCurrentPauseSection; // 0x0
     char_type mTimer; // 0x1
 };
@@ -106,11 +106,11 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Hud_PauseScreen, 0x2);
 class Hud_Message
 {
   public:
-    EXPORT void ClearTimeToShow_5D1850();
+    EXPORT void ClearTimeToShow();
     EXPORT void FormatMessage_5D1860();
-    EXPORT void DrawMessage_5D1940();
-    EXPORT void ShowMessage_5D1A00(const wchar_t* pStr, s32 priority);
-    EXPORT void DecrementTimeToShow_5D1AB0();
+    EXPORT void DrawMessage();
+    EXPORT void ShowMessage(const wchar_t* pStr, s32 priority);
+    EXPORT void DecrementTimeToShow();
     EXPORT Hud_Message();
     u8 mTimeToShow; // 0x0
     wchar_t mStr[221]; // 0x2
@@ -123,8 +123,8 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Hud_Message, 0x1C8);
 class Hud_PlayerStats
 {
   public:
-    EXPORT void DrawPlayerStats_5D5C80();
-    EXPORT void UpdateRollingDigits_5D6290();
+    EXPORT void DrawPlayerStats();
+    EXPORT void UpdateRollingDigits();
     s32 mUnused0; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Hud_PlayerStats, 0x4);
@@ -138,8 +138,8 @@ class Hud_UnderRoofArrowMarker
         mRotation = 0;
         mPedUnderSolid = false;
     }
-    EXPORT void Update_5CF730();
-    EXPORT void Draw_5CF910();
+    EXPORT void Update();
+    EXPORT void Draw();
     Fix16 mScreenX; // 0x0
     Fix16 mScreenY; // 0x4
     Ang16 mRotation; // 0x8
@@ -151,7 +151,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Hud_UnderRoofArrowMarker, 0xC);
 class Hud_Health
 {
   public:
-    EXPORT void DrawHealth_5D0260();
+    EXPORT void DrawHealth();
     s32 mUnused0; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Hud_Health, 0x4);
@@ -159,10 +159,10 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Hud_Health, 0x4);
 class Hud_PickupText
 {
   public:
-    EXPORT void CalcTextWidth_5D53E0();
-    EXPORT void Draw_5D5420();
-    EXPORT void ShowPickupText_5D5600(u8 pickup_idx);
-    EXPORT void DecrementTimer_5D5690();
+    EXPORT void CalcTextWidth();
+    EXPORT void Draw();
+    EXPORT void ShowPickupText(u8 pickup_idx);
+    EXPORT void DecrementTimer();
     EXPORT Hud_PickupText();
     char_type mTimer; // 0x0
     wchar_t mStr[65]; // 0x2
@@ -178,7 +178,7 @@ class Hud_ShowCoords
     {
         mShowCoords = false;
     }
-    EXPORT void ShowPlayerCoords_5CF970();
+    EXPORT void ShowPlayerCoords();
 
     // 9.6f 0x4A4760
     inline void ToggleShowCoords_4A4760()
@@ -193,7 +193,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Hud_ShowCoords, 0x1);
 class Hud_GangRespectBars
 {
   public:
-    EXPORT void DrawGangRespectBars_5CFA70();
+    EXPORT void DrawGangRespectBars();
     EXPORT void Empty_5CFE20();
     EXPORT void Empty_5CFE30();
     char_type mGangRespectBars; // 0x107C
@@ -203,7 +203,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Hud_GangRespectBars, 0x1);
 class Hud_CopHead
 {
   public:
-    EXPORT void UpdateHead_5D0050(bool bShakeHead);
+    EXPORT void UpdateHead(bool bShakeHead);
     EXPORT Hud_CopHead();
     u8 mFrame; // 0x0
     char_type mFrameTimer; // 0x1
@@ -221,9 +221,9 @@ class Hud_CopHead_C_Array
     {
         mCopLevel = 0;
     }
-    EXPORT void UpdateWantedLevel_5D00B0();
-    EXPORT void DrawWantedLevel_5D0110();
-    EXPORT void Init_5D0210();
+    EXPORT void UpdateWantedLevel();
+    EXPORT void DrawWantedLevel();
+    EXPORT void Init();
     Hud_CopHead mCopHeads[6]; // 0x1028
     s32 mCopLevel; // 0x48
     Fix16 mWFp; // 0x4C
@@ -233,10 +233,10 @@ class Hud_CopHead_C_Array
 class Hud_TextEntry
 {
   public:
-    EXPORT void FormatAndSetupText_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos, s16 fontType, s32 displayTime);
-    EXPORT void Draw_5D1D00();
-    EXPORT bool DecrementDisplayTime_5D1DB0();
-    EXPORT bool operator_equals_5D1E10(const Hud_TextEntry* pOther) const;
+    EXPORT void FormatAndSetupText(const wchar_t* pStr, s16 xpos, s16 ypos, s16 fontType, s32 displayTime);
+    EXPORT void Draw();
+    EXPORT bool DecrementDisplayTime();
+    EXPORT bool operator_equals(const Hud_TextEntry* pOther) const;
 
     // 9.6f 0x4C70F0
     inline void Expire_4C70F0()
@@ -273,10 +273,10 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Hud_TextEntry, 0xC4);
 class Hud_TextList
 {
   public:
-    EXPORT void ExpireDuplicates_5D1EB0(const Hud_TextEntry* pEntry);
-    EXPORT Hud_TextEntry* DisplayText_5D1F50(const wchar_t* pStr, s16 xpos, s16 ypos, s16 font_type, s32 display_time);
-    EXPORT void Service_5D2010();
-    EXPORT void RemoveExpired_5D2050();
+    EXPORT void ExpireDuplicates(const Hud_TextEntry* pEntry);
+    EXPORT Hud_TextEntry* DisplayText(const wchar_t* pStr, s16 xpos, s16 ypos, s16 font_type, s32 display_time);
+    EXPORT void Service();
+    EXPORT void RemoveExpired();
     EXPORT Hud_TextList();
 
     // A free list written out by hand: the entries come before the list heads, unlike Pool<>
@@ -317,10 +317,10 @@ class Hud_Pager
     }
 
     EXPORT ~Hud_Pager();
-    EXPORT void Service_5D2320();
-    EXPORT void DrawCounterDigits_5D2380(s32 xpos, s32 ypos);
-    EXPORT void DrawDigits_5D2680(s32 xpos, s32 ypos);
-    EXPORT void DrawPager_5D2AB0(u32 xpos, s32 ypos);
+    EXPORT void Service();
+    EXPORT void DrawCounterDigits(s32 xpos, s32 ypos);
+    EXPORT void DrawDigits(s32 xpos, s32 ypos);
+    EXPORT void DrawPager(u32 xpos, s32 ypos);
 
     EXPORT Hud_Pager();
     s32 mTimer; // 0x0
@@ -337,28 +337,28 @@ class Hud_Pager_C_Array
     {
     }
 
-    EXPORT s32 AddOnScreenCounter_5D3220(s32* pCounter);
-    EXPORT void ClearPager_5D3280(s32 idx);
+    EXPORT s32 AddOnScreenCounter(s32* pCounter);
+    EXPORT void ClearPager(s32 idx);
 
-    EXPORT void DrawPagers_5D3040();
-    EXPORT void UpdatePagers_5D31B0();
-    EXPORT s32 CreateTimer_5D31F0(s32 seconds);
-    EXPORT void ClearClockOnly_5D32D0(s32 pager_idx);
-    EXPORT void AddTime_5D32F0(s32 pager_idx, s32 time_to_add);
-    EXPORT void ClearCounterOnly_5D3310(s32 pager_idx);
+    EXPORT void DrawPagers();
+    EXPORT void UpdatePagers();
+    EXPORT s32 CreateTimer(s32 seconds);
+    EXPORT void ClearClockOnly(s32 pager_idx);
+    EXPORT void AddTime(s32 pager_idx, s32 time_to_add);
+    EXPORT void ClearCounterOnly(s32 pager_idx);
 
     Hud_Pager mPagersArray[4]; // 0x0
 };
 
 inline u8 __stdcall get_sprite_width_4C7220(s16 user_sprite_idx)
 {
-    s16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, user_sprite_idx);
+    s16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex(sprite_types_enum::user_6, user_sprite_idx);
     return gGtx_0x106C_703DD4->get_sprite_width_420220(sprite_idx);
 }
 
 inline u8 __stdcall get_sprite_height_4C7250(s16 user_sprite_idx)
 {
-    s16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, user_sprite_idx);
+    s16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex(sprite_types_enum::user_6, user_sprite_idx);
     return gGtx_0x106C_703DD4->get_sprite_height_4C6C90(sprite_idx);
 }
 
@@ -400,8 +400,8 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Hud_ArrowGangInfo, 0x8);
 class ArrowTrace
 {
   public:
-    EXPORT void PointToInfoPhone_5D03C0(Gang* pZone);
-    EXPORT void UpdateAimCoordinates_5D03F0();
+    EXPORT void PointToInfoPhone(Gang* pZone);
+    EXPORT void UpdateAimCoordinates();
 
     void SetTargetCar(Car* pCar)
     {
@@ -460,7 +460,7 @@ class ArrowTrace
     }
 
     // 9.6f inline 0x4820A0. The player is stored first (VC7 gives 9.6f's body either way): with the
-    // type store first, SetNewFugitive_516590 schedules and allocates registers differently
+    // type store first, SetNewFugitive schedules and allocates registers differently
     inline void SetTargetPlayer_4820A0(Player* player)
     {
         mPlayer = player;
@@ -515,13 +515,13 @@ class Hud_Arrow
         return (mRadiusPos == 0) != 0;
     }
 
-    EXPORT void SetArrowColour_5D0510(s32 arrow_colour);
-    EXPORT bool CheckVisibility_5D0530();
-    EXPORT bool UpdateTargets_5D0620();
-    EXPORT void UpdateScreenPos_5D0850();
-    EXPORT void Service_5D0C60();
-    EXPORT void DrawArrow_5D0C90();
-    EXPORT void SetPlayerArrowColour_5D0DC0(Ped* pPed);
+    EXPORT void SetArrowColour(s32 arrow_colour);
+    EXPORT bool CheckVisibility();
+    EXPORT bool UpdateTargets();
+    EXPORT void UpdateScreenPos();
+    EXPORT void Service();
+    EXPORT void DrawArrow();
+    EXPORT void SetPlayerArrowColour(Ped* pPed);
 
     // 9.6f inline 0x4C6F80
     inline bool HasNeitherTarget_4C6F80() const
@@ -617,43 +617,43 @@ class Hud_Arrow_7C_Array
         mCheckInfoPhones = false;
     }
 
-    EXPORT void CreatePlayerArrows_5D1350();
-    EXPORT bool IsThereAnyOtherArrowsInSameGang_5D0E40(Hud_Arrow* pArgArrow);
-    EXPORT void DrawArrows_5D0E90();
-    EXPORT void FindVisibleGangArrow_5D0EF0();
-    EXPORT bool IsThereAnyMissionPhoneArrowForGang_5D0F40(Gang* pArgGang);
-    EXPORT void ClearOrphanInfoPhoneArrows_5D0F80();
-    EXPORT void UpdateArrows_5D0FD0();
-    EXPORT Hud_Arrow* FindFreeArrow_5D1020(s32* pOutIdx);
-    EXPORT Hud_Arrow* AllocArrow_5D1050();
-    EXPORT void ReleaseAllArrows_5D10B0();
-    EXPORT Hud_Arrow* FindGangPhoneArrow_5D10D0(Gang* pZone, s32 phone_type);
-    EXPORT void place_gang_phone_5D1110(Object* pPhoneInfo);
-    EXPORT void SetNewGangArrow_5D1310(Gang* pZone);
+    EXPORT void CreatePlayerArrows();
+    EXPORT bool IsThereAnyOtherArrowsInSameGang(Hud_Arrow* pArgArrow);
+    EXPORT void DrawArrows();
+    EXPORT void FindVisibleGangArrow();
+    EXPORT bool IsThereAnyMissionPhoneArrowForGang(Gang* pArgGang);
+    EXPORT void ClearOrphanInfoPhoneArrows();
+    EXPORT void UpdateArrows();
+    EXPORT Hud_Arrow* FindFreeArrow(s32* pOutIdx);
+    EXPORT Hud_Arrow* AllocArrow();
+    EXPORT void ReleaseAllArrows();
+    EXPORT Hud_Arrow* FindGangPhoneArrow(Gang* pZone, s32 phone_type);
+    EXPORT void place_gang_phone(Object* pPhoneInfo);
+    EXPORT void SetNewGangArrow(Gang* pZone);
     Hud_Arrow mArray[17]; // 0x0
     bool mShowGangArrows; // 0x83C
     Hud_Arrow* mVisibleGangArrow; // 0x840
     bool mCheckInfoPhones; // 0x844
 };
 
-EXPORT char_type __stdcall GetBriefFaceIdx_5D3680(u16 face_char);
+EXPORT char_type __stdcall GetBriefFaceIdx(u16 face_char);
 
 class Hud_Brief
 {
   public:
-    EXPORT void MovePrevBriefToCurrent_5D3330();
-    EXPORT void FreeCurrentBrief_5D3350();
-    EXPORT void MoveCurrentBriefToPrev_5D3370();
-    EXPORT void AppendCurrentBriefToPrev_5D33A0();
-    EXPORT Hud_BriefEntry* AllocBrief_5D33F0();
-    EXPORT size_t FormatCurrentBrief_5D3470();
-    EXPORT void StartCurrentBrief_5D39D0();
-    EXPORT void DrawBrief_5D3B80();
+    EXPORT void MovePrevBriefToCurrent();
+    EXPORT void FreeCurrentBrief();
+    EXPORT void MoveCurrentBriefToPrev();
+    EXPORT void AppendCurrentBriefToPrev();
+    EXPORT Hud_BriefEntry* AllocBrief();
+    EXPORT size_t FormatCurrentBrief();
+    EXPORT void StartCurrentBrief();
+    EXPORT void DrawBrief();
     EXPORT void SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32 cost_param);
     EXPORT void SetHudBrief_5D4400(s32 priority, const char_type* pTextIdStr);
-    EXPORT void UpdateBrief_5D44D0();
-    EXPORT void ShowBrief_5D4850();
-    EXPORT void ClearAllBriefsWithPriority_5D4890(s32 priority);
+    EXPORT void UpdateBrief();
+    EXPORT void ShowBrief();
+    EXPORT void ClearAllBriefsWithPriority(s32 priority);
     EXPORT Hud_Brief();
 
     wchar_t mStr[640]; // 0x0
@@ -686,11 +686,11 @@ class Hud_MapZone
         mLocalNavZone = NULL;
     }
 
-    EXPORT void DrawZoneName_5D5900();
-    EXPORT void CalcTextWidth_5D5AD0();
-    EXPORT void ShowZoneName_5D5AF0(gmp_map_zone* pZone1, gmp_map_zone* pZone2);
-    EXPORT void UpdateZoneName_5D5B60();
-    EXPORT void ResetTransparency_5D5C50();
+    EXPORT void DrawZoneName();
+    EXPORT void CalcTextWidth();
+    EXPORT void ShowZoneName(gmp_map_zone* pZone1, gmp_map_zone* pZone2);
+    EXPORT void UpdateZoneName();
+    EXPORT void ResetTransparency();
     EXPORT Hud_MapZone();
     u8 mTimer; // 0x0
     wchar_t mWstr[65]; // 0x2
@@ -706,7 +706,7 @@ class Hud_CarName
 {
   public:
     EXPORT Hud_CarName();
-    EXPORT void DrawCarName_5D4A10();
+    EXPORT void DrawCarName();
     char_type mDisplayTime; // 0x0
     wchar_t mCarName[33]; // 0x2
     s32 mTextWidth; // 0x44
@@ -718,9 +718,9 @@ class Hud
 {
   public:
     EXPORT ~Hud();
-    EXPORT void CalcCarNameTextWidth_5D5190();
-    EXPORT void ShowCarName_5D5240(const wchar_t* pName);
-    EXPORT void UpdateCarName_5D5350();
+    EXPORT void CalcCarNameTextWidth();
+    EXPORT void ShowCarName(const wchar_t* pName);
+    EXPORT void UpdateCarName();
 
     // 9.6f 0x4219F0
     void HideCarName_4219F0()
@@ -728,17 +728,17 @@ class Hud
         mCarName.mDisplayTime = 0;
     }
 
-    EXPORT void DrawGui_5D6860();
-    EXPORT void UpdatePauseSection_5D69C0();
-    EXPORT void UpdateHUD_5D69D0();
-    EXPORT void SetFullAmbient_5D6A70();
-    EXPORT void GetTextSpeed_5D6A90();
-    EXPORT void RecalcTextLayout_5D6AB0();
-    EXPORT void SetFontTypes_5D6B00();
-    EXPORT void Init_5D6BE0();
-    EXPORT bool HandleInputKey_5D6C20(s32 action, Player* pPlayer);
-    EXPORT bool IsInputKeyConsumed_5D6C70(s32 action);
-    EXPORT bool IsQuitMessageInputKey_5D6CB0(s32 action);
+    EXPORT void DrawGui();
+    EXPORT void UpdatePauseSection();
+    EXPORT void UpdateHUD();
+    EXPORT void SetFullAmbient();
+    EXPORT void GetTextSpeed();
+    EXPORT void RecalcTextLayout();
+    EXPORT void SetFontTypes();
+    EXPORT void Init();
+    EXPORT bool HandleInputKey(s32 action, Player* pPlayer);
+    EXPORT bool IsInputKeyConsumed(s32 action);
+    EXPORT bool IsQuitMessageInputKey(s32 action);
     EXPORT Hud();
 
     Hud_CarName mCarName; // 0x0
@@ -771,9 +771,9 @@ EXTERN_GLOBAL(s16, gDebugFont_706600);
 
 EXTERN_GLOBAL_ARRAY(char_type, gTmpGxtKey_67CE50, 256);
 
-EXPORT s32 __stdcall GetPhoneTypeFromObjModel_5D1260(s32 phone_model_idx);
-EXPORT char_type* __stdcall get_phone_colour_5D12B0(s32 phone_type);
-EXPORT u8 __stdcall GetMinRespectForPhoneType_5D12E0(s32 phone_type);
+EXPORT s32 __stdcall GetPhoneTypeFromObjModel(s32 phone_model_idx);
+EXPORT char_type* __stdcall get_phone_colour(s32 phone_type);
+EXPORT u8 __stdcall GetMinRespectForPhoneType(s32 phone_type);
 
-EXPORT void __stdcall DrawAmmo_5D6060(s16 ammo_idx, u8 ammo_count);
-EXPORT s32 __stdcall DrawPlayerStatsHelper_5D61A0(s32 powerup_idx, s32 base_xpos, u16 optional_number);
+EXPORT void __stdcall DrawAmmo(s16 ammo_idx, u8 ammo_count);
+EXPORT s32 __stdcall DrawPlayerStatsHelper(s32 powerup_idx, s32 base_xpos, u16 optional_number);

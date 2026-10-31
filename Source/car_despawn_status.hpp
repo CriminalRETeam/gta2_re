@@ -8,11 +8,11 @@ enum
 {
     none_0 = 0,
     active_1 = 1,             // normal, in the world
-    despawn_pending_2 = 2,    // despawns once it is off screen and far enough (UpdateCarDespawnStatus_4424C0, mostly NPC cars)
+    despawn_pending_2 = 2,    // despawns once it is off screen and far enough (UpdateCarDespawnStatus, mostly NPC cars)
     despawn_soon_3 = 3,       // despawns on the next update
     marked_for_despawn_4 = 4, // becomes despawn_pending_2 on the next update
     despawning_5 = 5,
     despawned_6 = 6,
-    deactivated_7 = 7,        // unlinked from the active list (Deactivate_43AA60, crane hook)
+    deactivated_7 = 7,        // unlinked from the active list (Deactivate, crane hook)
 };
 } // namespace car_despawn_status

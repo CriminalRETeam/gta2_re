@@ -13,7 +13,7 @@
 #include "enums.hpp"
 
 // Forward declarations: the functions below are in address order
-void __stdcall ClearPixelsOfColourInRow_5ABAE0(u8* pData, s32 width, u8 clear_target);
+void __stdcall ClearPixelsOfColourInRow(u8* pData, s32 width, u8 clear_target);
 
 DEFINE_GLOBAL(gtx_0x106C*, gGtx_0x106C_703DD4, 0x703DD4);
 DEFINE_GLOBAL(s16, gStyleMessageFont_703D9C, 0x703D9C);
@@ -31,14 +31,14 @@ car_info* gtx_0x106C::get_car_info_5AA3B0(u8 idx) const
 }
 
 MATCH_FUNC(0x5AA3D0)
-u8* gtx_0x106C::get_car_door_data_5AA3D0(u8 idx) const
+u8* gtx_0x106C::get_car_door_data(u8 idx) const
 {
     car_info* pCarInfo = mCari->mCarInfo[idx];
     return &pCarInfo->remap[pCarInfo->num_remaps];
 }
 
 MATCH_FUNC(0x5AA3F0)
-sprite_delta* gtx_0x106C::get_delta_5AA3F0(u16 sprite_idx, u8 delta_idx) const
+sprite_delta* gtx_0x106C::get_delta(u16 sprite_idx, u8 delta_idx) const
 {
     delta_container* pDel = mDel;
 
@@ -66,13 +66,13 @@ sprite_delta* gtx_0x106C::get_delta_5AA3F0(u16 sprite_idx, u8 delta_idx) const
 
 // note: param type matters
 MATCH_FUNC(0x5AA440)
-sprite_index* gtx_0x106C::get_sprite_index_5AA440(u16 idx) const
+sprite_index* gtx_0x106C::get_sprite_index(u16 idx) const
 {
     return &mSpriteIndex[idx];
 }
 
 MATCH_FUNC(0x5AA460)
-u16 gtx_0x106C::GetSpriteTrueIndex_5AA460(s32 sprite_type, s16 sprite_idx) const
+u16 gtx_0x106C::GetSpriteTrueIndex(s32 sprite_type, s16 sprite_idx) const
 {
     u16 result;
     switch (sprite_type)
@@ -105,7 +105,7 @@ u16 gtx_0x106C::GetSpriteTrueIndex_5AA460(s32 sprite_type, s16 sprite_idx) const
 }
 
 MATCH_FUNC(0x5AA4F0)
-s16 gtx_0x106C::GetSpriteBaseOfType_5AA4F0(s32 sprite_type) const
+s16 gtx_0x106C::GetSpriteBaseOfType(s32 sprite_type) const
 {
     switch (sprite_type)
     {
@@ -128,7 +128,7 @@ s16 gtx_0x106C::GetSpriteBaseOfType_5AA4F0(s32 sprite_type) const
 }
 
 MATCH_FUNC(0x5AA560)
-s16 gtx_0x106C::GetPaletteBaseOfType_5AA560(s32 palette_type) const
+s16 gtx_0x106C::GetPaletteBaseOfType(s32 palette_type) const
 {
     switch (palette_type)
     {
@@ -154,7 +154,7 @@ s16 gtx_0x106C::GetPaletteBaseOfType_5AA560(s32 palette_type) const
 }
 
 MATCH_FUNC(0x5AA5F0)
-s16 gtx_0x106C::GetTruePalette_5AA5F0(s32 palette_type, s16 pal) const
+s16 gtx_0x106C::GetTruePalette(s32 palette_type, s16 pal) const
 {
     s16 result;
 
@@ -192,19 +192,19 @@ s16 gtx_0x106C::GetTruePalette_5AA5F0(s32 palette_type, s16 pal) const
 }
 
 MATCH_FUNC(0x5AA6A0)
-u8* gtx_0x106C::GetPalData_5AA6A0(u16 palette_idx) const
+u8* gtx_0x106C::GetPalData(u16 palette_idx) const
 {
     return static_cast<u8*>(mPhysicalPalettes) + 4 * ((palette_idx & 63) + ((palette_idx & 0xFFFFC0) << 8));
 }
 
 MATCH_FUNC(0x5AA6F0)
-u16 gtx_0x106C::get_phys_pal_5AA6F0(u16 palId) const
+u16 gtx_0x106C::get_phys_pal(u16 palId) const
 {
     return mPaletteIndex->mPhysPalette[palId];
 }
 
 MATCH_FUNC(0x5AA710)
-u16 gtx_0x106C::GetSpriteIdxFromFont_5AA710(u16 font_type, s16 offset) const
+u16 gtx_0x106C::GetSpriteIdxFromFont(u16 font_type, s16 offset) const
 {
     u16 result = mFontBase->mBase[font_type] + offset;
     if (font_type == mFontBase->mFontCount - 1)
@@ -226,7 +226,7 @@ u16 gtx_0x106C::GetSpriteIdxFromFont_5AA710(u16 font_type, s16 offset) const
 }
 
 MATCH_FUNC(0x5AA760)
-u16 gtx_0x106C::GetFontWidth_5AA760(const u16* font_type, const wchar_t* pStr) const
+u16 gtx_0x106C::GetFontWidth(const u16* font_type, const wchar_t* pStr) const
 {
     if (*font_type >= 101)
     {
@@ -236,13 +236,13 @@ u16 gtx_0x106C::GetFontWidth_5AA760(const u16* font_type, const wchar_t* pStr) c
     else
     {
         // In this case letters have different widths
-        return this->mSpriteIndex[this->mSpriteBase2->mFont + gtx_0x106C::GetSpriteIdxFromFont_5AA710(*font_type, *pStr - 33)]
+        return this->mSpriteIndex[this->mSpriteBase2->mFont + gtx_0x106C::GetSpriteIdxFromFont(*font_type, *pStr - 33)]
             .mWidth;
     }
 }
 
 MATCH_FUNC(0x5AA7B0)
-u16 gtx_0x106C::GetSpaceCharWidth_5AA7B0(const u16* font_type) const
+u16 gtx_0x106C::GetSpaceCharWidth(const u16* font_type) const
 {
     if (*font_type >= 101)
     {
@@ -255,7 +255,7 @@ u16 gtx_0x106C::GetSpaceCharWidth_5AA7B0(const u16* font_type) const
 }
 
 MATCH_FUNC(0x5AA800)
-s16 gtx_0x106C::GetLineSpacing_5AA800(const u16* font_type) const
+s16 gtx_0x106C::GetLineSpacing(const u16* font_type) const
 {
     if (*font_type >= 0x65u)
     {
@@ -269,19 +269,19 @@ s16 gtx_0x106C::GetLineSpacing_5AA800(const u16* font_type) const
 }
 
 MATCH_FUNC(0x5AA850)
-bool gtx_0x106C::IsTileRemapped_5AA850(u16 tile_idx) const
+bool gtx_0x106C::IsTileRemapped(u16 tile_idx) const
 {
     return mTile->mTileMapping[tile_idx] != tile_idx;
 }
 
 MATCH_FUNC(0x5AA870)
-s16 gtx_0x106C::GetTile_5AA870(u16 tile_idx) const
+s16 gtx_0x106C::GetTile(u16 tile_idx) const
 {
     return mTile->mTileMapping[tile_idx];
 }
 
 MATCH_FUNC(0x5AA890)
-s16 gtx_0x106C::GetFirstFreeReservedTileIdx_5AA890() const
+s16 gtx_0x106C::GetFirstFreeReservedTileIdx() const
 {
     // Decreasing order: starts from 1023 down to 992
     const u16* i = &mTile->mTileMapping[1023];
@@ -297,19 +297,19 @@ s16 gtx_0x106C::GetFirstFreeReservedTileIdx_5AA890() const
 }
 
 MATCH_FUNC(0x5AA8C0)
-void* gtx_0x106C::GetTiles_5AA8C0() const
+void* gtx_0x106C::GetTiles() const
 {
     return mTiles;
 }
 
 MATCH_FUNC(0x5AA900)
-u16 gtx_0x106C::get_physical_palettes_len_5AA900() const
+u16 gtx_0x106C::get_physical_palettes_len() const
 {
     return mPhysicalPalettesLen;
 }
 
 MATCH_FUNC(0x5AA910)
-object_info* gtx_0x106C::get_map_object_info_5AA910(u16 idx) const
+object_info* gtx_0x106C::get_map_object_info(u16 idx) const
 {
     if (idx >= mMapObjectInfoLen)
     {
@@ -319,13 +319,13 @@ object_info* gtx_0x106C::get_map_object_info_5AA910(u16 idx) const
 }
 
 MATCH_FUNC(0x5AA930)
-void gtx_0x106C::SetTileRemap_5AA930(u16 tile_idx, s16 tile_val)
+void gtx_0x106C::SetTileRemap(u16 tile_idx, s16 tile_val)
 {
     mTile->mTileMapping[tile_idx] = tile_val;
 }
 
 MATCH_FUNC(0x5AA950)
-void gtx_0x106C::InitTileMapping_5AA950()
+void gtx_0x106C::InitTileMapping()
 {
     mTile = new tile_array();
 
@@ -342,7 +342,7 @@ void gtx_0x106C::InitTileMapping_5AA950()
 }
 
 MATCH_FUNC(0x5AA9A0)
-void gtx_0x106C::BuildCarInfoContainer_5AA9A0(s32 chunk_size)
+void gtx_0x106C::BuildCarInfoContainer(s32 chunk_size)
 {
     car_info* pCarInfoIter = reinterpret_cast<car_info*>(mCarInfo);
     u32 total_len = 0;
@@ -400,7 +400,7 @@ void gtx_0x106C::BuildCarInfoContainer_5AA9A0(s32 chunk_size)
 }
 
 MATCH_FUNC(0x5AAB30)
-void gtx_0x106C::load_delx_5AAB30(u32 delx_chunk_size)
+void gtx_0x106C::load_delx(u32 delx_chunk_size)
 {
     delta_entry* pIter = mDeltaIndex;
     u32 off = 0;
@@ -440,7 +440,7 @@ void gtx_0x106C::load_delx_5AAB30(u32 delx_chunk_size)
 }
 
 MATCH_FUNC(0x5AABF0)
-void gtx_0x106C::SetDeltaDataPtrs_5AABF0()
+void gtx_0x106C::SetDeltaDataPtrs()
 {
     s32 size;
     sprite_deltas* pEntry = static_cast<sprite_deltas*>(mDeltaBuffer);
@@ -449,7 +449,7 @@ void gtx_0x106C::SetDeltaDataPtrs_5AABF0()
     {
         for (u32 delta_idx = 0; delta_idx < pEntry->mCount; delta_idx++)
         {
-            // load_delx_5AAB30 left the delta's offset into the store in mpData
+            // load_delx left the delta's offset into the store in mpData
             pEntry->mDeltas[delta_idx].mpData = reinterpret_cast<delta_store_entry*>(
                 reinterpret_cast<u32>(pEntry->mDeltas[delta_idx].mpData) + reinterpret_cast<u32>(mDeltaStore));
         }
@@ -459,7 +459,7 @@ void gtx_0x106C::SetDeltaDataPtrs_5AABF0()
 }
 
 MATCH_FUNC(0x5AAC40)
-void gtx_0x106C::SetSpriteIndexDataPtrs_5AAC40()
+void gtx_0x106C::SetSpriteIndexDataPtrs()
 {
     for (u32 i = 0; i < static_cast<u16>(this->mSpriteIndexCount); i++)
     {
@@ -470,7 +470,7 @@ void gtx_0x106C::SetSpriteIndexDataPtrs_5AAC40()
 }
 
 MATCH_FUNC(0x5AAC70)
-void gtx_0x106C::build_delta_container_5AAC70()
+void gtx_0x106C::build_delta_container()
 {
     u32 off = 0;
     sprite_deltas* pIter = static_cast<sprite_deltas*>(mDeltaBuffer);
@@ -519,71 +519,71 @@ void gtx_0x106C::build_delta_container_5AAC70()
 }
 
 MATCH_FUNC(0x5AAD50)
-void gtx_0x106C::load_car_info_5AAD50(u32 cari_chunk_size)
+void gtx_0x106C::load_car_info(u32 cari_chunk_size)
 {
     mCarInfo = static_cast<car_info**>(Memory::malloc_4FE4D0(cari_chunk_size));
     File::Global_Read_4A71C0(mCarInfo, cari_chunk_size);
 
-    BuildCarInfoContainer_5AA9A0(cari_chunk_size);
+    BuildCarInfoContainer(cari_chunk_size);
 }
 
 MATCH_FUNC(0x5AAD80)
-void gtx_0x106C::load_delta_index_5AAD80(u32 delx_chunk_size)
+void gtx_0x106C::load_delta_index(u32 delx_chunk_size)
 {
     this->mDeltaIndex = static_cast<delta_entry*>(Memory::malloc_4FE4D0(delx_chunk_size));
     File::Global_Read_4A71C0(mDeltaIndex, delx_chunk_size);
 
-    load_delx_5AAB30(delx_chunk_size);
-    build_delta_container_5AAC70();
+    load_delx(delx_chunk_size);
+    build_delta_container();
 
     crt::free(this->mDeltaIndex);
     this->mDeltaIndex = NULL;
 }
 
 MATCH_FUNC(0x5AADD0)
-void gtx_0x106C::load_delta_store_5AADD0(u32 dels_chunk_size)
+void gtx_0x106C::load_delta_store(u32 dels_chunk_size)
 {
     mDeltaStore = static_cast<delta_store_entry*>(Memory::malloc_4FE4D0(dels_chunk_size));
     File::Global_Read_4A71C0(mDeltaStore, dels_chunk_size);
 }
 
 MATCH_FUNC(0x5AADF0)
-void gtx_0x106C::load_tiles_5AADF0(u32 tile_chunk_len)
+void gtx_0x106C::load_tiles(u32 tile_chunk_len)
 {
-    mTiles = static_cast<u8*>(Memory::Aligned_malloc_4FE510(tile_chunk_len, &mTilesUnaligned));
+    mTiles = static_cast<u8*>(Memory::Aligned_malloc(tile_chunk_len, &mTilesUnaligned));
     File::Global_Read_4A71C0(mTiles, tile_chunk_len);
-    InitTileMapping_5AA950();
+    InitTileMapping();
 }
 
 MATCH_FUNC(0x5AAE20)
-void gtx_0x106C::skip_ovly_5AAE20(u32 size)
+void gtx_0x106C::skip_ovly(u32 size)
 {
-    File::Global_Seek_4A7140(&size);
+    File::Global_Seek(&size);
 }
 
 MATCH_FUNC(0x5AAE30)
-void gtx_0x106C::skip_psxt_5AAE30(u32 size)
+void gtx_0x106C::skip_psxt(u32 size)
 {
-    File::Global_Seek_4A7140(&size);
+    File::Global_Seek(&size);
 }
 
 MATCH_FUNC(0x5AAE40)
-void gtx_0x106C::load_sprite_graphics_5AAE40(u32 sprg_chunk_len)
+void gtx_0x106C::load_sprite_graphics(u32 sprg_chunk_len)
 {
-    mSpriteGraphics = reinterpret_cast<u8*>(Memory::Aligned_malloc_4FE510(sprg_chunk_len, &mSpriteGraphicsUnaligned));
+    mSpriteGraphics = reinterpret_cast<u8*>(Memory::Aligned_malloc(sprg_chunk_len, &mSpriteGraphicsUnaligned));
     File::Global_Read_4A71C0(mSpriteGraphics, sprg_chunk_len);
 }
 
 MATCH_FUNC(0x5AAE70)
-void gtx_0x106C::load_physical_palettes_5AAE70(u32 ppal_chunk_size)
+void gtx_0x106C::load_physical_palettes(u32 ppal_chunk_size)
 {
-    mPhysicalPalettes = Memory::Aligned_malloc_4FE510(ppal_chunk_size, &mPhysicalPalettesUnaligned);
+    mPhysicalPalettes = Memory::Aligned_malloc(ppal_chunk_size, &mPhysicalPalettesUnaligned);
     File::Global_Read_4A71C0(mPhysicalPalettes, ppal_chunk_size);
     mPhysicalPalettesLen = ppal_chunk_size >> 10;
 }
 
 MATCH_FUNC(0x5AAEA0)
-void gtx_0x106C::load_palette_index_5AAEA0(u32 palx_chunk_len)
+void gtx_0x106C::load_palette_index(u32 palx_chunk_len)
 {
     if (palx_chunk_len != sizeof(palette_index))
     {
@@ -600,7 +600,7 @@ void gtx_0x106C::load_palette_index_5AAEA0(u32 palx_chunk_len)
 }
 
 MATCH_FUNC(0x5AAF00)
-void gtx_0x106C::load_map_object_info_5AAF00(u32 obji_chunk_len)
+void gtx_0x106C::load_map_object_info(u32 obji_chunk_len)
 {
     mMapObjectInfo = static_cast<object_info*>(Memory::malloc_4FE4D0(obji_chunk_len));
     File::Global_Read_4A71C0(mMapObjectInfo, obji_chunk_len);
@@ -617,7 +617,7 @@ void gtx_0x106C::load_map_object_info_5AAF00(u32 obji_chunk_len)
 }
 
 MATCH_FUNC(0x5AAF80)
-void gtx_0x106C::load_sprite_index_5AAF80(u32 sprx_chunk_size)
+void gtx_0x106C::load_sprite_index(u32 sprx_chunk_size)
 {
     mSpriteIndex = static_cast<sprite_index*>(Memory::malloc_4FE4D0(sprx_chunk_size + 8));
     File::Global_Read_4A71C0(mSpriteIndex, sprx_chunk_size);
@@ -629,7 +629,7 @@ void gtx_0x106C::load_sprite_index_5AAF80(u32 sprx_chunk_size)
 }
 
 MATCH_FUNC(0x5AAFE0)
-void gtx_0x106C::InitFontTypes_5AAFE0(u16 fontCount)
+void gtx_0x106C::InitFontTypes(u16 fontCount)
 {
     if (fontCount == 14)
     {
@@ -668,7 +668,7 @@ void gtx_0x106C::InitFontTypes_5AAFE0(u16 fontCount)
 }
 
 MATCH_FUNC(0x5AB0F0)
-void gtx_0x106C::load_font_base_5AB0F0(u32 fonb_chunk_size)
+void gtx_0x106C::load_font_base(u32 fonb_chunk_size)
 {
     if (fonb_chunk_size < 2)
     {
@@ -684,15 +684,15 @@ void gtx_0x106C::load_font_base_5AB0F0(u32 fonb_chunk_size)
         FatalError_4A38C0(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1271, fonb_chunk_size);
     }
 
-    mFontBaseTotal = SumCounts_5AB1A0(mFontBase->mBase, mFontBase->mFontCount);
+    mFontBaseTotal = SumCounts(mFontBase->mBase, mFontBase->mFontCount);
 
-    ConvertToVirtualOffsets_5AB1C0(mFontBase->mBase, mFontBase->mFontCount);
+    ConvertToVirtualOffsets(mFontBase->mBase, mFontBase->mFontCount);
 
-    InitFontTypes_5AAFE0(mFontBase->mFontCount);
+    InitFontTypes(mFontBase->mFontCount);
 }
 
 MATCH_FUNC(0x5AB1A0)
-u16 __stdcall gtx_0x106C::SumCounts_5AB1A0(const u16* pOffsets, u32 offsetsCount)
+u16 __stdcall gtx_0x106C::SumCounts(const u16* pOffsets, u32 offsetsCount)
 {
     u16 total = 0;
     while (offsetsCount > 0)
@@ -705,7 +705,7 @@ u16 __stdcall gtx_0x106C::SumCounts_5AB1A0(const u16* pOffsets, u32 offsetsCount
 }
 
 MATCH_FUNC(0x5AB1C0)
-void __stdcall gtx_0x106C::ConvertToVirtualOffsets_5AB1C0(u16* pBuffer, u32 len)
+void __stdcall gtx_0x106C::ConvertToVirtualOffsets(u16* pBuffer, u32 len)
 {
     for (s32 i = len - 1; i > 0; i--)
     {
@@ -723,7 +723,7 @@ void __stdcall gtx_0x106C::ConvertToVirtualOffsets_5AB1C0(u16* pBuffer, u32 len)
 }
 
 MATCH_FUNC(0x5AB210)
-void gtx_0x106C::load_sprite_base_5AB210(u32 sprite_base_chunk_size)
+void gtx_0x106C::load_sprite_base(u32 sprite_base_chunk_size)
 {
     if (sprite_base_chunk_size != sizeof(sprite_base))
     {
@@ -746,11 +746,11 @@ void gtx_0x106C::load_sprite_base_5AB210(u32 sprite_base_chunk_size)
 
     *mSpriteBase2 = *mSpriteBase1;
 
-    ConvertToVirtualOffsets_5AB1C0(&mSpriteBase2->mCar, 6);
+    ConvertToVirtualOffsets(&mSpriteBase2->mCar, 6);
 }
 
 MATCH_FUNC(0x5AB2C0)
-void gtx_0x106C::load_palete_base_5AB2C0(u32 palette_base_chunk_len)
+void gtx_0x106C::load_palete_base(u32 palette_base_chunk_len)
 {
     if (palette_base_chunk_len != sizeof(palette_base))
     {
@@ -773,12 +773,12 @@ void gtx_0x106C::load_palete_base_5AB2C0(u32 palette_base_chunk_len)
 
     *mPaletteBase2 = *mPaletteBase1;
 
-    mTotalPalBase = SumCounts_5AB1A0(&mPaletteBase2->mTile, 8);
-    ConvertToVirtualOffsets_5AB1C0(&mPaletteBase2->mTile, 8);
+    mTotalPalBase = SumCounts(&mPaletteBase2->mTile, 8);
+    ConvertToVirtualOffsets(&mPaletteBase2->mTile, 8);
 }
 
 MATCH_FUNC(0x5AB380)
-bool gtx_0x106C::IsCarModelInRecycleList_5AB380(u8 car_id) const
+bool gtx_0x106C::IsCarModelInRecycleList(u8 car_id) const
 {
     // Certain car models are in the recycle list only for certain stages/districts
     s32 i = 0;
@@ -797,7 +797,7 @@ bool gtx_0x106C::IsCarModelInRecycleList_5AB380(u8 car_id) const
 }
 
 MATCH_FUNC(0x5AB3C0)
-void gtx_0x106C::load_car_recycling_info_5AB3C0(u32 recy_chunk_size)
+void gtx_0x106C::load_car_recycling_info(u32 recy_chunk_size)
 {
     mCarRecyclingInfo = static_cast<u8*>(Memory::malloc_4FE4D0(recy_chunk_size));
     mRecyChunkSize = recy_chunk_size;
@@ -805,7 +805,7 @@ void gtx_0x106C::load_car_recycling_info_5AB3C0(u32 recy_chunk_size)
 }
 
 MATCH_FUNC(0x5AB3F0)
-void gtx_0x106C::read_spec_5AB3F0(u32 spec)
+void gtx_0x106C::read_spec(u32 spec)
 {
     u16 index_to_set;
     u32 len = 2;
@@ -819,110 +819,110 @@ void gtx_0x106C::read_spec_5AB3F0(u32 spec)
 }
 
 MATCH_FUNC(0x5AB450)
-void gtx_0x106C::load_spec_5AB450()
+void gtx_0x106C::load_spec()
 {
-    read_spec_5AB3F0(tile_spec::grass_dirt_floor);
-    read_spec_5AB3F0(tile_spec::road_junction_special);
-    read_spec_5AB3F0(tile_spec::water);
-    read_spec_5AB3F0(tile_spec::electrified_floor);
-    read_spec_5AB3F0(tile_spec::electrified_platform_floor);
-    read_spec_5AB3F0(tile_spec::wood_floor);
-    read_spec_5AB3F0(tile_spec::metal_floor);
-    read_spec_5AB3F0(tile_spec::metal_wall);
-    read_spec_5AB3F0(tile_spec::grass_dirt_wall);
+    read_spec(tile_spec::grass_dirt_floor);
+    read_spec(tile_spec::road_junction_special);
+    read_spec(tile_spec::water);
+    read_spec(tile_spec::electrified_floor);
+    read_spec(tile_spec::electrified_platform_floor);
+    read_spec(tile_spec::wood_floor);
+    read_spec(tile_spec::metal_floor);
+    read_spec(tile_spec::metal_wall);
+    read_spec(tile_spec::grass_dirt_wall);
 }
 
 MATCH_FUNC(0x5AB4B0)
-void gtx_0x106C::LoadChunk_5AB4B0(const char_type* pChunkType, u32 chunk_len)
+void gtx_0x106C::LoadChunk(const char_type* pChunkType, u32 chunk_len)
 {
     if (!strncmp(pChunkType, "PALB", 4u))
     {
-        load_palete_base_5AB2C0(chunk_len);
+        load_palete_base(chunk_len);
     }
     else if (!strncmp(pChunkType, "SPRB", 4u))
     {
-        load_sprite_base_5AB210(chunk_len);
+        load_sprite_base(chunk_len);
     }
     else if (!strncmp(pChunkType, "FONB", 4u))
     {
-        load_font_base_5AB0F0(chunk_len);
+        load_font_base(chunk_len);
     }
     else if (!strncmp(pChunkType, "SPRX", 4u))
     {
-        load_sprite_index_5AAF80(chunk_len);
+        load_sprite_index(chunk_len);
     }
     else if (!strncmp(pChunkType, "OBJI", 4u))
     {
-        load_map_object_info_5AAF00(chunk_len);
+        load_map_object_info(chunk_len);
     }
     else if (!strncmp(pChunkType, "PALX", 4u))
     {
-        load_palette_index_5AAEA0(chunk_len);
+        load_palette_index(chunk_len);
     }
     else if (!strncmp(pChunkType, "PPAL", 4u))
     {
-        load_physical_palettes_5AAE70(chunk_len);
+        load_physical_palettes(chunk_len);
     }
     else if (!strncmp(pChunkType, "SPRG", 4u))
     {
-        load_sprite_graphics_5AAE40(chunk_len);
+        load_sprite_graphics(chunk_len);
     }
     else if (!strncmp(pChunkType, "TILE", 4u))
     {
-        load_tiles_5AADF0(chunk_len);
+        load_tiles(chunk_len);
     }
     else if (!strncmp(pChunkType, "DELS", 4u))
     {
-        load_delta_store_5AADD0(chunk_len);
+        load_delta_store(chunk_len);
     }
     else if (!strncmp(pChunkType, "DELX", 4u))
     {
-        load_delta_index_5AAD80(chunk_len);
+        load_delta_index(chunk_len);
     }
     else if (!strncmp(pChunkType, "CARI", 4u))
     {
-        load_car_info_5AAD50(chunk_len);
+        load_car_info(chunk_len);
     }
     else if (!strncmp(pChunkType, "PSXT", 4u))
     {
-        skip_psxt_5AAE30(chunk_len);
+        skip_psxt(chunk_len);
     }
     else if (!strncmp(pChunkType, "OVLY", 4u))
     {
-        skip_ovly_5AAE20(chunk_len);
+        skip_ovly(chunk_len);
     }
     else if (!strncmp(pChunkType, "SPEC", 4u))
     {
-        load_spec_5AB450();
+        load_spec();
     }
     else if (!strncmp(pChunkType, "RECY", 4u))
     {
-        load_car_recycling_info_5AB3C0(chunk_len);
+        load_car_recycling_info(chunk_len);
     }
     else
     {
-        File::Global_Seek_4A7140(&chunk_len);
+        File::Global_Seek(&chunk_len);
     }
 }
 
 MATCH_FUNC(0x5AB720)
-void gtx_0x106C::SetDataPtrs_5AB720()
+void gtx_0x106C::SetDataPtrs()
 {
     if (mDeltaBuffer && mDeltaStore)
     {
-        SetDeltaDataPtrs_5AABF0();
+        SetDeltaDataPtrs();
     }
 
     if (mSpriteIndex && mSpriteGraphics)
     {
-        SetSpriteIndexDataPtrs_5AAC40();
+        SetSpriteIndexDataPtrs();
     }
 }
 
 MATCH_FUNC(0x5AB750)
-void gtx_0x106C::LoadSty_5AB750(const char_type* pStyFileName)
+void gtx_0x106C::LoadSty(const char_type* pStyFileName)
 {
-    File::Global_Open_4A7060(pStyFileName);
+    File::Global_Open(pStyFileName);
 
     file_header styHeader;
     u32 len = sizeof(file_header);
@@ -936,13 +936,13 @@ void gtx_0x106C::LoadSty_5AB750(const char_type* pStyFileName)
     {
         if (chunkHeader.mSize != 0)
         {
-            LoadChunk_5AB4B0(chunkHeader.mType, chunkHeader.mSize);
+            LoadChunk(chunkHeader.mType, chunkHeader.mSize);
         }
     }
 
-    File::Global_Close_4A70C0();
+    File::Global_Close();
 
-    SetDataPtrs_5AB720();
+    SetDataPtrs();
 }
 
 MATCH_FUNC(0x5AB820)
@@ -1181,16 +1181,16 @@ void sprite_delta::Delta_5ABA40(u8* pArray, u32 width)
 }
 
 MATCH_FUNC(0x5abaa0)
-void sprite_index::ClearPixelsOfColour_5ABAA0(u8 clear_target)
+void sprite_index::ClearPixelsOfColour(u8 clear_target)
 {
     for (s32 i = 0; i < mHeight; i++)
     {
-        ClearPixelsOfColourInRow_5ABAE0(&this->mpData[i * 256], this->mWidth, clear_target);
+        ClearPixelsOfColourInRow(&this->mpData[i * 256], this->mWidth, clear_target);
     }
 }
 
 MATCH_FUNC(0x5ABAE0)
-void __stdcall ClearPixelsOfColourInRow_5ABAE0(u8* pData, s32 width, u8 clear_target)
+void __stdcall ClearPixelsOfColourInRow(u8* pData, s32 width, u8 clear_target)
 {
     u8* pDataIter = pData;
     for (s32 i = 0; i < width; i++)
@@ -1204,7 +1204,7 @@ void __stdcall ClearPixelsOfColourInRow_5ABAE0(u8* pData, s32 width, u8 clear_ta
 }
 
 MATCH_FUNC(0x5abb00)
-void sprite_index::CopyPixels_5ABB00(u8* pDst)
+void sprite_index::CopyPixels(u8* pDst)
 {
     for (s32 ypos = 0; ypos < mHeight; ypos++)
     {

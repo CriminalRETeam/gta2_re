@@ -14,9 +14,9 @@ class ScriptGosubStack
     EXPORT void add_503160(ScriptStackFrame* pFrame);
     EXPORT ScriptStackFrame* remove_503180();
 
-    EXPORT ScriptStackFrame* AllocFrame_5031A0();
+    EXPORT ScriptStackFrame* AllocFrame();
 
-    EXPORT void FreeFrame_5031C0(ScriptStackFrame* pFrame);
+    EXPORT void FreeFrame(ScriptStackFrame* pFrame);
 
     EXPORT void remove_5031E0(u8 count);
 

@@ -24,7 +24,7 @@ MissionCleanupList::MissionCleanupList() throw()
 }
 
 MATCH_FUNC(0x502f60)
-MissionCleanupEntry* MissionCleanupList::allocate_next_502F60()
+MissionCleanupEntry* MissionCleanupList::allocate_next()
 {
     MissionCleanupEntry* pIter = mEntries;
     for (u16 idx = 0; idx < 50; idx++)
@@ -39,9 +39,9 @@ MissionCleanupEntry* MissionCleanupList::allocate_next_502F60()
 }
 
 MATCH_FUNC(0x502f80)
-void MissionCleanupList::push_type_1_car_502F80(Car* pCar)
+void MissionCleanupList::push_type_1_car(Car* pCar)
 {
-    MissionCleanupEntry* pFree = allocate_next_502F60();
+    MissionCleanupEntry* pFree = allocate_next();
     if (pFree)
     {
         pFree->mCar = pCar;
@@ -53,9 +53,9 @@ void MissionCleanupList::push_type_1_car_502F80(Car* pCar)
 }
 
 MATCH_FUNC(0x502fb0)
-void MissionCleanupList::push_type_3_ped_502FB0(Ped* pPed)
+void MissionCleanupList::push_type_3_ped(Ped* pPed)
 {
-    MissionCleanupEntry* pFree = allocate_next_502F60();
+    MissionCleanupEntry* pFree = allocate_next();
     if (pFree)
     {
         pFree->mPed = pPed;
@@ -67,11 +67,11 @@ void MissionCleanupList::push_type_3_ped_502FB0(Ped* pPed)
 }
 
 MATCH_FUNC(0x502ff0)
-void MissionCleanupList::push_type_2_non_pickup_object_502FF0(Object* pObj, bool bForce)
+void MissionCleanupList::push_type_2_non_pickup_object(Object* pObj, bool bForce)
 {
     if (bForce || pObj && ((pObj->GetModel_40FEF0() < 64) || pObj->GetModel_40FEF0() > 108) && (pObj->GetModel_40FEF0() < 200 || pObj->GetModel_40FEF0() > 244))
     {
-        MissionCleanupEntry* pEntry = allocate_next_502F60();
+        MissionCleanupEntry* pEntry = allocate_next();
         if (pEntry)
         {
             pEntry->mObj = pObj;
@@ -83,9 +83,9 @@ void MissionCleanupList::push_type_2_non_pickup_object_502FF0(Object* pObj, bool
 }
 
 MATCH_FUNC(0x503050)
-void MissionCleanupList::push_type_2_object_503050(Object* pObj)
+void MissionCleanupList::push_type_2_object(Object* pObj)
 {
-    MissionCleanupEntry* pEntry = allocate_next_502F60();
+    MissionCleanupEntry* pEntry = allocate_next();
     if (pEntry)
     {
         pEntry->mObj = pObj;

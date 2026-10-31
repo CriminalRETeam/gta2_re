@@ -53,8 +53,8 @@ struct PedFlags8
     u8 bUnused7 : 1; // bit 7
 };
 
-// Bit indices of PedFlags32. Unused, but removing it changes MapRenderer::Draw3SidedDiagonalDownRight_4EF520
-// and Draw4SidedDiagonalUpLeft_4EF880 (the name count of the TU, see docs/matching_quirks.md)
+// Bit indices of PedFlags32. Unused, but removing it changes MapRenderer::Draw3SidedDiagonalDownRight
+// and Draw4SidedDiagonalUpLeft (the name count of the TU, see docs/matching_quirks.md)
 namespace ped_bit_index
 {
 enum

@@ -11,7 +11,7 @@ DEFINE_GLOBAL_INIT(Ang16, kAng12_677A2E, Ang16(0x30), 0x677A2E);
 
 // 9.6f: the bit ops are BitSet32::clear_bit/set_bit (0x420DE0/0x420DC0) on a maybe_flags, here a u32*
 MATCH_FUNC(0x439CD0)
-void Car_Door::AnimateOpening_439CD0(u32* pDeltaMask)
+void Car_Door::AnimateOpening(u32* pDeltaMask)
 {
     if (mAnimationFrame != 4)
     {
@@ -39,7 +39,7 @@ void Car_Door::AnimateOpening_439CD0(u32* pDeltaMask)
 
 // 9.6f: the bit ops are BitSet32::clear_bit/set_bit (0x420DE0/0x420DC0) on a maybe_flags, here a u32*
 MATCH_FUNC(0x439D40)
-void Car_Door::AnimateClosing_439D40(u32* pDeltaMask)
+void Car_Door::AnimateClosing(u32* pDeltaMask)
 {
     if (mAnimationFrame)
     {
@@ -58,16 +58,16 @@ void Car_Door::AnimateClosing_439D40(u32* pDeltaMask)
 }
 
 MATCH_FUNC(0x439DA0)
-void Car_Door::Service_439DA0(u32* pDeltaMask)
+void Car_Door::Service(u32* pDeltaMask)
 {
     switch (mState)
     {
         case car_door_state::opening_2:
-            AnimateOpening_439CD0(pDeltaMask);
+            AnimateOpening(pDeltaMask);
             break;
 
         case car_door_state::closing_3:
-            AnimateClosing_439D40(pDeltaMask);
+            AnimateClosing(pDeltaMask);
             break;
 
         case car_door_state::close_requested_5:
@@ -85,7 +85,7 @@ void Car_Door::Service_439DA0(u32* pDeltaMask)
             }
             else
             {
-                Close_439EA0();
+                Close();
             }
             break;
         default:
@@ -103,7 +103,7 @@ void Car_Door::Service_439DA0(u32* pDeltaMask)
 }
 
 MATCH_FUNC(0x439E40)
-void Car_Door::Init_439E40(u8 door_idx)
+void Car_Door::Init(u8 door_idx)
 {
     mState = car_door_state::closed_6;
     mAnimationFrame = 0;
@@ -111,7 +111,7 @@ void Car_Door::Init_439E40(u8 door_idx)
 }
 
 MATCH_FUNC(0x439E60)
-void Car_Door::Open_439E60()
+void Car_Door::Open()
 {
     switch (mState)
     {
@@ -132,7 +132,7 @@ void Car_Door::Open_439E60()
 }
 
 MATCH_FUNC(0x439EA0)
-void Car_Door::Close_439EA0()
+void Car_Door::Close()
 {
     if (mState > car_door_state::inactive_0 && mState <= car_door_state::opening_2)
     {

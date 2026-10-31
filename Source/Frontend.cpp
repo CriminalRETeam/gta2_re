@@ -36,7 +36,7 @@
 
 #pragma comment(lib, "dxguid.lib")
 
-void Start_GTA2Manager_5E4DE0();
+void Start_GTA2Manager();
 
 DEFINE_GLOBAL(Frontend*, gFrontend_67DC84, 0x67DC84);
 DEFINE_GLOBAL_INIT(u32, counter_706C4C, 0, 0x706C4C);
@@ -81,7 +81,7 @@ DEFINE_GLOBAL(bool, gCheatMiniCars_67D6C8, 0x67D6C8);
 s32 sCheatHashSecret_61F0A8[8] = {829, 761, 23, 641, 43, 809, 677, 191};
 
 MATCH_FUNC(0x4AE010)
-LPCSTR __stdcall FreeLoader::GetRegDword_4AE010(HKEY hKey, LPCSTR lpValueName, LPCSTR default_value)
+LPCSTR __stdcall FreeLoader::GetRegDword(HKEY hKey, LPCSTR lpValueName, LPCSTR default_value)
 {
     DWORD Type = 4;
     if (!RegQueryValueExA(hKey, lpValueName, NULL, &Type, reinterpret_cast<LPBYTE>(&lpValueName), &Type) == 0)
@@ -95,11 +95,11 @@ LPCSTR __stdcall FreeLoader::GetRegDword_4AE010(HKEY hKey, LPCSTR lpValueName, L
 }
 
 MATCH_FUNC(0x4AE0F0)
-s32 __stdcall FreeLoader::GetCityInstalled_4AE0F0()
+s32 __stdcall FreeLoader::GetCityInstalled()
 {
     HKEY phkResult;
     RegOpenKeyA(HKEY_LOCAL_MACHINE, "Software\\freeloader.com\\GTA2", &phkResult);
-    s32 city_installed = reinterpret_cast<s32>(FreeLoader::GetRegDword_4AE010(phkResult, "CityInstalled", reinterpret_cast<LPCSTR>(-1)));
+    s32 city_installed = reinterpret_cast<s32>(FreeLoader::GetRegDword(phkResult, "CityInstalled", reinterpret_cast<LPCSTR>(-1)));
     RegCloseKey(phkResult);
     return city_installed;
 }
@@ -117,9 +117,9 @@ void __cdecl FreeLoader::MessageBox_4AE170(UINT uType, LPCSTR lpCaption, LPCSTR 
 }
 
 MATCH_FUNC(0x4AE1F0)
-EXPORT bool __stdcall FreeLoader::CheckCityInstalled_4AE1F0(u8 city_idx)
+EXPORT bool __stdcall FreeLoader::CheckCityInstalled(u8 city_idx)
 {
-    if (city_idx > FreeLoader::GetCityInstalled_4AE0F0())
+    if (city_idx > FreeLoader::GetCityInstalled())
     {
         ShowWindow(gHwnd_707F04, SW_SHOWMINNOACTIVE);
         PostMessageA(gHwnd_707F04, WM_ACTIVATE, 0, 0);
@@ -302,26 +302,26 @@ EXPORT s32 IsFullScreen_5D98D0()
 }
 
 MATCH_FUNC(0x5D9910)
-EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
+EXPORT s32 __stdcall SetGamma(s32 gamma)
 {
     f32 gamma_f = static_cast<f32>(gamma * 0.1);
     if (gVidSys_7071D0)
     {
         s32 result = pVid_SetGamma(gVidSys_7071D0, gamma_f, gamma_f, gamma_f);
         sprintf(gTmpBuffer_67C598, "gammma(%d) : %d", gamma, result);
-        gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
+        gErrorLog_67C530.Write(gTmpBuffer_67C598);
         return result;
     }
     return gamma;
 }
 
 MATCH_FUNC(0x5D9970)
-EXPORT void __stdcall ReapplySavedGamma_5D9970()
+EXPORT void __stdcall ReapplySavedGamma()
 {
-    const s32 gamma = gRegistry_6FF968.Get_Screen_Setting_5870D0("gamma", 10);
+    const s32 gamma = gRegistry_6FF968.Get_Screen_Setting("gamma", 10);
     if (counter_706C4C > 0)
     {
-        if (!SetGamma_5D9910(gamma))
+        if (!SetGamma(gamma))
         {
             counter_706C4C = 0;
         }
@@ -336,7 +336,7 @@ DEFINE_GLOBAL(SoundObject, snd1_67D818, 0x67D818);
 DEFINE_GLOBAL(SoundObject, snd2_67D6F8, 0x67D6F8);
 
 MATCH_FUNC(0x4B4C60)
-void Frontend::LoadStringsFromStage_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName)
+void Frontend::LoadStringsFromStage(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName)
 {
     strcpy(pDebugStr, mBlocks[mainBlockIdx][bounusBlockIdx].mGmpName);
     strcpy(pMapName, mBlocks[mainBlockIdx][bounusBlockIdx].mStyName);
@@ -344,7 +344,7 @@ void Frontend::LoadStringsFromStage_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx,
 }
 
 MATCH_FUNC(0x4B4BC0)
-void Frontend::StoreStringsForStage_4B4BC0(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDebugStr, const char* pMapName, const char* pStyName)
+void Frontend::StoreStringsForStage(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDebugStr, const char* pMapName, const char* pStyName)
 {
     strcpy(mBlocks[mainBlockIdx][bounusBlockIdx].mGmpName, pDebugStr);
     strcpy(mBlocks[mainBlockIdx][bounusBlockIdx].mStyName, pMapName);
@@ -352,7 +352,7 @@ void Frontend::StoreStringsForStage_4B4BC0(u16 mainBlockIdx, u16 bounusBlockIdx,
 }
 
 MATCH_FUNC(0x4ACFA0)
-void __stdcall Frontend::create_4ACFA0()
+void __stdcall Frontend::create()
 {
     if (!gFrontend_67DC84)
     {
@@ -366,20 +366,20 @@ void __stdcall Frontend::create_4ACFA0()
         snd2_67D6F8.mObjectType = SoundObjectTypeEnum::Frontend_2;
         snd2_67D6F8.mpAny.pNextFree = &snd1_67D818;
         snd2_67D6F8.mbStatus = false;
-        snd2_67D6F8.mSoundEntry = gRoot_sound_66B038.AddSoundObject_40EFB0(&snd2_67D6F8);
-        gRoot_sound_66B038.LoadStyle_40EFF0("data\\fstyle.sty");
-        gRoot_sound_66B038.Set3DSound_40F160(0);
+        snd2_67D6F8.mSoundEntry = gRoot_sound_66B038.AddSoundObject(&snd2_67D6F8);
+        gRoot_sound_66B038.LoadStyle("data\\fstyle.sty");
+        gRoot_sound_66B038.Set3DSound(0);
     }
 
-    Bink::Reset_513210();
+    Bink::Reset();
 }
 
 MATCH_FUNC(0x4AD070)
-void __stdcall Frontend::destroy_4AD070()
+void __stdcall Frontend::destroy()
 {
     if (!bSkip_audio_67D6BE && snd2_67D6F8.mSoundEntry)
     {
-        gRoot_sound_66B038.FreeSoundEntry_40EFD0(snd2_67D6F8.mSoundEntry);
+        gRoot_sound_66B038.FreeSoundEntry(snd2_67D6F8.mSoundEntry);
         snd2_67D6F8.mSoundEntry = 0;
     }
 
@@ -388,8 +388,8 @@ void __stdcall Frontend::destroy_4AD070()
         GTA2_DELETE_AND_NULL(gFrontend_67DC84);
     }
 
-    Bink::CloseSlot1_513340();
-    Bink::CloseSlot2_513390();
+    Bink::CloseSlot1();
+    Bink::CloseSlot2();
 }
 
 // 9.6f 0x453AB0: index of the tag game player with the longest time (that hasn't quit)
@@ -409,11 +409,11 @@ inline s32 TagGame::GetLeaderIdx_453AB0()
         }
         return leader_idx;
     }
-    return gGameSession_67E8E0.GetWinnerIdx_4C5C20();
+    return gGameSession_67E8E0.GetWinnerIdx();
 }
 
 MATCH_FUNC(0x4B3170)
-void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
+void Frontend::ChangeMenuPage(u16 menu_page_idx)
 {
     u8 bonus_count;
     u8 option_idx;
@@ -431,7 +431,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
     wchar_t player_name[50];
     wchar_t quit_name[64];
 
-    PlySlot* pStats = GetCurrPlayerStats_4B43E0();
+    PlySlot* pStats = GetCurrPlayerStats();
     mCurrentPageIdx = menu_page_idx;
 
     if (menu_page_idx == MENUPAGE_PARENTAL_CONTROL)
@@ -439,7 +439,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         mState = FrontendState::User_Typing_Password_5;
         mPasswordLength = 0;
         mWrongPasswordShown = false;
-        StripPasswordToCurrLength_4B8530();
+        StripPasswordToCurrLength();
         mKeyHeld = true;
         mLastKey = DIK_RETURN;
         mKeyRepeatTimer = 5;
@@ -453,9 +453,9 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
     }
     else if (menu_page_idx == MENUPAGE_AREA_COMPLETE)
     {
-        main_stage_idx = gGameSession_67E8E0.GetMainStageIdx_4C5980();
+        main_stage_idx = gGameSession_67E8E0.GetMainStageIdx();
         bonus_stage_idx = 0;
-        bonus_count = gGameSession_67E8E0.GetLevelFinishBonusType_4C59C0();
+        bonus_count = gGameSession_67E8E0.GetLevelFinishBonusType();
         if (gGameSession_67E8E0.get_secret_tokens_collected_453A80() == 50)
         {
             bonus_count = 3;
@@ -465,7 +465,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         {
             if (i < mNumBonusStages[main_stage_idx])
             {
-                gPlyDat_6FEAC0->UnlockStage_56BBD0(main_stage_idx, i);
+                gPlyDat_6FEAC0->UnlockStage(main_stage_idx, i);
             }
         }
 
@@ -476,7 +476,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         }
         else
         {
-            gPlyDat_6FEAC0->UnlockStage_56BBD0(main_stage_idx + 1, 0);
+            gPlyDat_6FEAC0->UnlockStage(main_stage_idx + 1, 0);
             mMenuPagesArray[3].mOptionsArray[0].mIsUnlocked = 1;
             mMenuPagesArray[3].mOptionStates[0].mIsOptionUnlocked = 1;
         }
@@ -494,10 +494,10 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
     }
     else if (menu_page_idx == MENUPAGE_BONUS_AREA)
     {
-        gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage_4C5990(), &main_stage_idx, &bonus_stage_idx);
+        gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage(), &main_stage_idx, &bonus_stage_idx);
         swprintf(tmpBuff_67BD9C, L"%d", pStats->mPlyrStageStats[main_stage_idx][bonus_stage_idx].mStageLatestScore);
         wcsncpy(mMenuPagesArray[6].mElementsArray[2].mElementNameStr, tmpBuff_67BD9C, 50);
-        if (gGameSession_67E8E0.IsStartedFromPlayBonusMenu_4C5AE0() || main_stage_idx >= mNumMainStages - 1 ||
+        if (gGameSession_67E8E0.IsStartedFromPlayBonusMenu() || main_stage_idx >= mNumMainStages - 1 ||
             !pStats->mPlyrStageStats[main_stage_idx + 1][0].mIsStageUnlocked)
         {
             mMenuPagesArray[6].mOptionsArray[1].mIsUnlocked = 0;
@@ -514,18 +514,18 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
     {
         // the option to check is "continue" (1) on the area complete page, and 0 on the dead/quit pages
         option_idx = (menu_page_idx == MENUPAGE_DEAD || menu_page_idx == MENUPAGE_RESULTS_PLAYER_QUIT) ? 0 : 1;
-        game_mode = gGameSession_67E8E0.GetPlySlotIdx_4C59B0();
+        game_mode = gGameSession_67E8E0.GetPlySlotIdx();
         saved_main_stage = mPlySlots[game_mode].mLastSavedStage;
         saved_bonus_code = mPlySlots[game_mode].mLastSavedBonusStageCode;
         saved_is_bonus = mPlySlots[game_mode].mLastSavedIsBonus;
-        if (!gGameSession_67E8E0.IsBonusStage_4C59A0())
+        if (!gGameSession_67E8E0.IsBonusStage())
         {
-            main_stage_idx = gGameSession_67E8E0.GetMainStageIdx_4C5980();
+            main_stage_idx = gGameSession_67E8E0.GetMainStageIdx();
             bonus_stage_idx = 0;
         }
         else
         {
-            gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage_4C5990(), &main_stage_idx, &bonus_stage_idx);
+            gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage(), &main_stage_idx, &bonus_stage_idx);
         }
 
         if (!saved_is_bonus)
@@ -554,46 +554,46 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
     {
         // One chained assignment: the slot index pushed to SetPlySlotIdx is a byte temp of the call result
         // (`mov %al,%cl; push %ecx`), which an s16 local gives as `push %eax`
-        gGameSession_67E8E0.SetPlySlotIdx_4C5920(static_cast<char_type>(mMenuPagesArray[1].mOptionsArray[0].mUnused70 =
+        gGameSession_67E8E0.SetPlySlotIdx(static_cast<char_type>(mMenuPagesArray[1].mOptionsArray[0].mUnused70 =
                                                      mMenuPagesArray[1].mOptionsArray[0].mHorizontalSelectedIdx =
-                                                         static_cast<u16>(gRegistry_6FF968.Get_Player_Setting_587810("plyrslot"))));
-        UpdateMenuForCurrPlayer_4B42E0();
+                                                         static_cast<u16>(gRegistry_6FF968.Get_Player_Setting("plyrslot"))));
+        UpdateMenuForCurrPlayer();
     }
     else if (menu_page_idx == MENUPAGE_MULTIPLAYER_RESULTS)
     {
-        num_players = gGameSession_67E8E0.GetMaxPlayers_4C5BF0();
+        num_players = gGameSession_67E8E0.GetMaxPlayers();
         gTagGame_6F8450.GetLeaderIdx_453AB0();
-        user_idx = static_cast<u8>(gGameSession_67E8E0.GetUserPlayerIdx_4C5BE0());
-        u8 game_mode_2 = gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0();
+        user_idx = static_cast<u8>(gGameSession_67E8E0.GetUserPlayerIdx());
+        u8 game_mode_2 = gGameSession_67E8E0.GetMultiplayerGamemode();
 
         switch (game_mode_2)
         {
             case FRAG_GAME_1:
                 wcsncpy(mMenuPagesArray[7].mElementsArray[13].mElementNameStr,
-                        gText_0x14_704DFC->Find_5B5F90("frags_h"),
+                        gText_0x14_704DFC->Find("frags_h"),
                         50);
                 mMenuPagesArray[7].mElementsArray[13].mXpos =
-                    GetCenteredXPos_4B0190(mMenuPagesArray[7].mElementsArray[13].mElementNameStr,
+                    GetCenteredXPos(mMenuPagesArray[7].mElementsArray[13].mElementNameStr,
                                               mMenuPagesArray[7].mElementsArray[13].mFontType,
                                               320);
                 break;
 
             case POINTS_GAME_2:
                 wcsncpy(mMenuPagesArray[7].mElementsArray[13].mElementNameStr,
-                        gText_0x14_704DFC->Find_5B5F90("pnts_h"),
+                        gText_0x14_704DFC->Find("pnts_h"),
                         50);
                 mMenuPagesArray[7].mElementsArray[13].mXpos =
-                    GetCenteredXPos_4B0190(mMenuPagesArray[7].mElementsArray[13].mElementNameStr,
+                    GetCenteredXPos(mMenuPagesArray[7].mElementsArray[13].mElementNameStr,
                                               mMenuPagesArray[7].mElementsArray[13].mFontType,
                                               320);
                 break;
 
             case TAG_GAME_3:
                 wcsncpy(mMenuPagesArray[7].mElementsArray[13].mElementNameStr,
-                        gText_0x14_704DFC->Find_5B5F90("times_h"),
+                        gText_0x14_704DFC->Find("times_h"),
                         50);
                 mMenuPagesArray[7].mElementsArray[13].mXpos =
-                    GetCenteredXPos_4B0190(mMenuPagesArray[7].mElementsArray[13].mElementNameStr,
+                    GetCenteredXPos(mMenuPagesArray[7].mElementsArray[13].mElementNameStr,
                                               mMenuPagesArray[7].mElementsArray[13].mFontType,
                                               320);
                 break;
@@ -626,15 +626,15 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
             {
                 swprintf(quit_name,
                          L"%s (%s)",
-                         gGameSession_67E8E0.GetPlayerName_4C5C60(player)->mName,
-                         gText_0x14_704DFC->Find_5B5F90("mult_q"));
+                         gGameSession_67E8E0.GetPlayerName(player)->mName,
+                         gText_0x14_704DFC->Find("mult_q"));
                 wcscpy(player_name, quit_name);
             }
             else
             {
-                wcsncpy(player_name, gGameSession_67E8E0.GetPlayerName_4C5C60(player)->mName, 50);
+                wcsncpy(player_name, gGameSession_67E8E0.GetPlayerName(player)->mName, 50);
             }
-            gText_0x14_704DFC->StrToUpper_5B5B80(player_name);
+            gText_0x14_704DFC->StrToUpper(player_name);
             wcsncpy(mMenuPagesArray[7].mElementsArray[player + 1].mElementNameStr, player_name, 50);
             if (player != user_idx)
             {
@@ -656,24 +656,24 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
             for (i = 0; i < num_players; i++)
             {
                 if (i != user_idx && !gTagGame_6F8450.HasQuit_453A90(i) &&
-                    static_cast<s16>(gGameSession_67E8E0.GetFragsForPlayerIdx_4C5D60(i)) > best_opponent)
+                    static_cast<s16>(gGameSession_67E8E0.GetFragsForPlayerIdx(i)) > best_opponent)
                 {
-                    best_opponent = static_cast<s16>(gGameSession_67E8E0.GetFragsForPlayerIdx_4C5D60(i));
+                    best_opponent = static_cast<s16>(gGameSession_67E8E0.GetFragsForPlayerIdx(i));
                 }
             }
-            user_value = static_cast<s16>(gGameSession_67E8E0.GetFragsForPlayerIdx_4C5D60(user_idx)) - best_opponent;
+            user_value = static_cast<s16>(gGameSession_67E8E0.GetFragsForPlayerIdx(user_idx)) - best_opponent;
         }
         else if (game_mode_2 == POINTS_GAME_2)
         {
             for (i = 0; i < num_players; i++)
             {
                 if (i != user_idx && !gTagGame_6F8450.HasQuit_453A90(i) &&
-                    gGameSession_67E8E0.GetPointsForPlayerIdx_4C5CB0(i) > best_opponent)
+                    gGameSession_67E8E0.GetPointsForPlayerIdx(i) > best_opponent)
                 {
-                    best_opponent = gGameSession_67E8E0.GetPointsForPlayerIdx_4C5CB0(i);
+                    best_opponent = gGameSession_67E8E0.GetPointsForPlayerIdx(i);
                 }
             }
-            user_value = gGameSession_67E8E0.GetPointsForPlayerIdx_4C5CB0(user_idx) - best_opponent;
+            user_value = gGameSession_67E8E0.GetPointsForPlayerIdx(user_idx) - best_opponent;
         }
         else if (game_mode_2 == TAG_GAME_3)
         {
@@ -696,19 +696,19 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         if (user_value > 0)
         {
             wcsncpy(mMenuPagesArray[7].mElementsArray[0].mElementNameStr,
-                    gText_0x14_704DFC->Find_5B5F90("mult_w"),
+                    gText_0x14_704DFC->Find("mult_w"),
                     50);
         }
         else if (user_value < 0)
         {
             wcsncpy(mMenuPagesArray[7].mElementsArray[0].mElementNameStr,
-                    gText_0x14_704DFC->Find_5B5F90("mult_l"),
+                    gText_0x14_704DFC->Find("mult_l"),
                     50);
         }
         else
         {
             wcsncpy(mMenuPagesArray[7].mElementsArray[0].mElementNameStr,
-                    gText_0x14_704DFC->Find_5B5F90("mult_d"),
+                    gText_0x14_704DFC->Find("mult_d"),
                     50);
         }
     }
@@ -716,16 +716,16 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
     {
         if (bIsFrench_67D53C)
         {
-            FreeSound_4B8650();
+            FreeSound();
         }
 
-        if (pre_intro_bik_exists_4B6030())
+        if (pre_intro_bik_exists())
         {
-            Bink::OpenSlot1_513560(gFrontend_67DC84->pre_intro_bik_4B5F20(), gSampManager_6FFF00.mhDriver);
+            Bink::OpenSlot1(gFrontend_67DC84->pre_intro_bik(), gSampManager_6FFF00.mhDriver);
         }
         else
         {
-            Bink::OpenSlot2_5133E0(gFrontend_67DC84->intro_bik_4B5E50(), gSampManager_6FFF00.mhDriver);
+            Bink::OpenSlot2(gFrontend_67DC84->intro_bik(), gSampManager_6FFF00.mhDriver);
         }
     }
     else if (menu_page_idx == MENUPAGE_START_MENU)
@@ -738,7 +738,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
     MenuPage* pCurPage = &mMenuPagesArray[mCurrentPageIdx];
     if (!pCurPage->mOptionsArray[pCurPage->mCurrentOptionIdx].mIsUnlocked)
     {
-        pCurPage->SelectNextOption_4B6200();
+        pCurPage->SelectNextOption();
         if (!pCurPage->mOptionsArray[pCurPage->mCurrentOptionIdx].mIsUnlocked)
         {
             FatalError_4A38C0(Gta2Error::NoValidMenuOptions,
@@ -747,11 +747,11 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         }
     }
 
-    UpdateMenuScreen_4B6780();
+    UpdateMenuScreen();
 }
 
 MATCH_FUNC(0x4B3AF0)
-void Frontend::GetOptionText_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer)
+void Frontend::GetOptionText(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer)
 {
     MenuPage* pPage = &mMenuPagesArray[menu_page_idx];
     MenuItem* pOption = &pPage->mOptionsArray[option_idx];
@@ -779,7 +779,7 @@ void Frontend::GetOptionText_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t**
     }
     else if (menu_page_idx == MENUPAGE_VIEW_HIGH_SCORE && option_idx == 0)
     {
-        swprintf(gTmpWideStr_67C7D8, L"%s", gText_0x14_704DFC->Find_5B5F90("hi_for"));
+        swprintf(gTmpWideStr_67C7D8, L"%s", gText_0x14_704DFC->Find("hi_for"));
     }
     else
     {
@@ -790,7 +790,7 @@ void Frontend::GetOptionText_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t**
 }
 
 MATCH_FUNC(0x4B8680)
-void Frontend::InitSound_4B8680()
+void Frontend::InitSound()
 {
     if (!bSkip_audio_67D6BE)
     {
@@ -799,12 +799,12 @@ void Frontend::InitSound_4B8680()
         snd2_67D6F8.mObjectType = SoundObjectTypeEnum::Frontend_2;
         snd2_67D6F8.mpAny.pNextFree = &snd1_67D818;
         snd2_67D6F8.mbStatus = false;
-        snd2_67D6F8.mSoundEntry = gRoot_sound_66B038.AddSoundObject_40EFB0(&snd2_67D6F8);
+        snd2_67D6F8.mSoundEntry = gRoot_sound_66B038.AddSoundObject(&snd2_67D6F8);
     }
 }
 
 MATCH_FUNC(0x4AEDB0)
-s32 Frontend::Run_4AEDB0()
+s32 Frontend::Run()
 {
     u32 Time;
     u16 local_current_page_idx;
@@ -820,31 +820,31 @@ s32 Frontend::Run_4AEDB0()
     local_current_page_idx = mCurrentPageIdx;
     if (local_current_page_idx == MENUPAGE_PLAY_INTRO)
     {
-        if (Bink::TickFrame_513240())
+        if (Bink::TickFrame())
         {
-            if (Bink::GetActiveSlot_513790() == 1)
+            if (Bink::GetActiveSlot() == 1)
             {
-                Bink::SetActiveSlot_5137A0(2);
+                Bink::SetActiveSlot(2);
                 local_field_0_hDriver = gSampManager_6FFF00.mhDriver;
-                Bink::OpenSlot2_5133E0(gFrontend_67DC84->intro_bik_4B5E50(), local_field_0_hDriver);
-                Bink::CloseSlot1_513340();
-                Bink::SetActiveSlot_5137A0(2);
-                Bink::SetDDState_5137B0(2);
+                Bink::OpenSlot2(gFrontend_67DC84->intro_bik(), local_field_0_hDriver);
+                Bink::CloseSlot1();
+                Bink::SetActiveSlot(2);
+                Bink::SetDDState(2);
             }
             else
             {
-                Bink::CloseSlot1_513340();
-                Bink::CloseSlot2_513390();
+                Bink::CloseSlot1();
+                Bink::CloseSlot2();
                 if (bIsFrench_67D53C)
                 {
-                    InitSound_4B8680();
+                    InitSound();
                 }
 
-                ChangeMenuPage_4B3170(MENUPAGE_START_MENU);
+                ChangeMenuPage(MENUPAGE_START_MENU);
             }
         }
 
-        read_menu_input_4AFEB0();
+        read_menu_input();
 
         local_field_8_keys = mKeys;
         key_count = 256;
@@ -852,13 +852,13 @@ s32 Frontend::Run_4AEDB0()
         {
             if ((*local_field_8_keys & 0x80u) != 0)
             {
-                Bink::CloseSlot1_513340();
-                Bink::CloseSlot2_513390();
+                Bink::CloseSlot1();
+                Bink::CloseSlot2();
                 if (bIsFrench_67D53C)
                 {
-                    InitSound_4B8680();
+                    InitSound();
                 }
-                ChangeMenuPage_4B3170(MENUPAGE_START_MENU);
+                ChangeMenuPage(MENUPAGE_START_MENU);
             }
             ++local_field_8_keys;
             --key_count;
@@ -893,14 +893,14 @@ s32 Frontend::Run_4AEDB0()
 
         if (Time >= static_cast<u32>(mNextFrameTime) || (mUpdatesSinceRender == 3))
         {
-            Update_4AEC00();
+            Update();
             frames = mUpdatesSinceRender + 1;
             mNextFrameTime += 33;
             mUpdatesSinceRender = frames;
         }
         else if (mUpdatesSinceRender)
         {
-            Render_4ADFB0();
+            Render();
             result = mWinmainNextState;
             mUpdatesSinceRender = 0;
             return result;
@@ -911,7 +911,7 @@ s32 Frontend::Run_4AEDB0()
 
 // https://decomp.me/scratch/ci11a
 MATCH_FUNC(0x4B5430)
-void Frontend::DrawScoreTable_4B5430(ScoreTableLine* pStrings,
+void Frontend::DrawScoreTable(ScoreTableLine* pStrings,
                           u16 text_xpos,
                           u16 text_ypos,
                           u16 num_entries,
@@ -931,7 +931,7 @@ void Frontend::DrawScoreTable_4B5430(ScoreTableLine* pStrings,
         }
         if (!wcscmp(pIter->mPlayerName, reinterpret_cast<wchar_t*>(&gEmptyWStr_67DC8C)))
         {
-            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("hi_empt"));
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find("hi_empt"));
         }
         else
         {
@@ -958,11 +958,11 @@ void Frontend::DrawScoreTable_4B5430(ScoreTableLine* pStrings,
 
         if (gText_0x14_704DFC->LangIsJapanese_452E60())
         {
-            Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, palette, 1, 16, true);
+            Frontend::DrawTextFixedWidth(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, palette, 1, 16, true);
         }
         else
         {
-            Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, palette, 1, 13, true);
+            Frontend::DrawTextFixedWidth(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, palette, 1, 13, true);
         }
 
     }
@@ -971,7 +971,7 @@ void Frontend::DrawScoreTable_4B5430(ScoreTableLine* pStrings,
 // 9.6f 0x457920
 // https://decomp.me/scratch/jchxT
 MATCH_FUNC(0x4AD140)
-void Frontend::DrawMenu_4AD140()
+void Frontend::DrawMenu()
 {
     const s32 line_height = !gText_0x14_704DFC->LangIsJapanese_452E60() ? 14 : 16;
 
@@ -995,22 +995,22 @@ void Frontend::DrawMenu_4AD140()
 
             // NOTE: mFontType is u16
 
-            last_xpos = DrawKeyHint_4B7E10(2, 0x12Cu, 0x1B8u, mFontType, 0xFFFF); // text: ENTER
-            last_xpos = DrawKeyHint_4B7E10(11, last_xpos + 300, 0x1B8u, mFontType, 0xFFFF); // text: : ENTER NAME
+            last_xpos = DrawKeyHint(2, 0x12Cu, 0x1B8u, mFontType, 0xFFFF); // text: ENTER
+            last_xpos = DrawKeyHint(11, last_xpos + 300, 0x1B8u, mFontType, 0xFFFF); // text: : ENTER NAME
 
-            last_xpos = DrawKeyHint_4B7E10(3, 0x12Cu, 0x1CCu, mFontType, 0xFFFF); // text: BACKSPACE
-            DrawKeyHint_4B7E10(10, last_xpos + 300, 0x1CCu, mFontType, 0xFFFF); // text: : DELETE LETTER
+            last_xpos = DrawKeyHint(3, 0x12Cu, 0x1CCu, mFontType, 0xFFFF); // text: BACKSPACE
+            DrawKeyHint(10, last_xpos + 300, 0x1CCu, mFontType, 0xFFFF); // text: : DELETE LETTER
         }
         else
         {
             u16 idx = pMenuPage->mOptionsArray[0].mHorizontalSelectedIdx;
             selected_option_idx = idx;
             u16 name_x_offset =
-                Frontend::GetMaxTextWidth_5D8990(gPlyDat_6FEAC0->mPlyrStats[idx].mstrPlayerName, mNormalFont) + 10;
+                Frontend::GetMaxTextWidth(gPlyDat_6FEAC0->mPlyrStats[idx].mstrPlayerName, mNormalFont) + 10;
 
             if (name_x_offset == 10)
             {
-                name_x_offset = Frontend::GetMaxTextWidth_5D8990(pMenuPage->mOptionsArray[0].mOptionNameStr, mNormalFont) + 40;
+                name_x_offset = Frontend::GetMaxTextWidth(pMenuPage->mOptionsArray[0].mOptionNameStr, mNormalFont) + 40;
             }
             pMenuPage->mElementsArray[9].mXpos = name_x_offset + pMenuPage->mOptionsArray[0].mXPos;
         }
@@ -1023,24 +1023,24 @@ void Frontend::DrawMenu_4AD140()
         if (mHiscoreTableIdx < 3)
         {
             pHighScoreTable = &gPlyDat_6FEAC0->mStageScores[mHiscoreTableIdx][0]; // main district score
-            Frontend::DrawScoreTable_4B5430(reinterpret_cast<ScoreTableLine*>(&pHighScoreTable->mScoreTableLine), 300, 250, 5, mScoreFont, 0xFFFF, 2);
+            Frontend::DrawScoreTable(reinterpret_cast<ScoreTableLine*>(&pHighScoreTable->mScoreTableLine), 300, 250, 5, mScoreFont, 0xFFFF, 2);
         }
         else if (mHiscoreTableIdx < 6)
         {
             pHighScoreTable = &gPlyDat_6FEAC0->mStageScores[0][mHiscoreTableIdx - 2];
-            Frontend::DrawScoreTable_4B5430(reinterpret_cast<ScoreTableLine*>(&pHighScoreTable->mScoreTableLine), 300, 250, 5, mScoreFont, 0xFFFF, 2);
+            Frontend::DrawScoreTable(reinterpret_cast<ScoreTableLine*>(&pHighScoreTable->mScoreTableLine), 300, 250, 5, mScoreFont, 0xFFFF, 2);
         }
         else
         {
             if (mHiscoreTableIdx < 9)
             {
                 pHighScoreTable = &gPlyDat_6FEAC0->mStageScores[1][mHiscoreTableIdx - 5];
-                Frontend::DrawScoreTable_4B5430(reinterpret_cast<ScoreTableLine*>(&pHighScoreTable->mScoreTableLine), 300, 250, 5, mScoreFont, 0xFFFF, 2);
+                Frontend::DrawScoreTable(reinterpret_cast<ScoreTableLine*>(&pHighScoreTable->mScoreTableLine), 300, 250, 5, mScoreFont, 0xFFFF, 2);
             }
             else
             {
                 pHighScoreTable = &gPlyDat_6FEAC0->mStageScores[2][mHiscoreTableIdx - 8];
-                Frontend::DrawScoreTable_4B5430(reinterpret_cast<ScoreTableLine*>(&pHighScoreTable->mScoreTableLine), 300, 250, 5, mScoreFont, 0xFFFF, 2);
+                Frontend::DrawScoreTable(reinterpret_cast<ScoreTableLine*>(&pHighScoreTable->mScoreTableLine), 300, 250, 5, mScoreFont, 0xFFFF, 2);
             }
         }
 
@@ -1073,24 +1073,24 @@ void Frontend::DrawMenu_4AD140()
         u8 main_level_idx;
         u8 bonus_stage_idx;
 
-        if (!gGameSession_67E8E0.IsBonusStage_4C59A0())
+        if (!gGameSession_67E8E0.IsBonusStage())
         {
-            main_level_idx = gGameSession_67E8E0.GetMainStageIdx_4C5980();
+            main_level_idx = gGameSession_67E8E0.GetMainStageIdx();
             bonus_stage_idx = 0;
         }
         else
         {
-            gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage_4C5990(), &main_level_idx, &bonus_stage_idx);
+            gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage(), &main_level_idx, &bonus_stage_idx);
         }
         if (mCurrentPageIdx == MENUPAGE_BONUS_AREA)
         {
             s32 bonus_letter = (3 * main_level_idx) + bonus_stage_idx + 64;
-            swprintf(tmpBuff_67BD9C, L"%s %c", gText_0x14_704DFC->Find_5B5F90("bonslev"), bonus_letter);
+            swprintf(tmpBuff_67BD9C, L"%s %c", gText_0x14_704DFC->Find("bonslev"), bonus_letter);
             wcsncpy(pMenuPage->mElementsArray[0].mElementNameStr, tmpBuff_67BD9C, 0x32u);
-            DrawBonusRating_4B7D60();
+            DrawBonusRating();
         }
 
-        Frontend::DrawScoreTable_4B5430(reinterpret_cast<ScoreTableLine*>(&gPlyDat_6FEAC0->mStageScores[main_level_idx][bonus_stage_idx]
+        Frontend::DrawScoreTable(reinterpret_cast<ScoreTableLine*>(&gPlyDat_6FEAC0->mStageScores[main_level_idx][bonus_stage_idx]
                                  .mScoreTableLine),
                              0xAAu,
                              155,
@@ -1102,13 +1102,13 @@ void Frontend::DrawMenu_4AD140()
         if (mCurrentPageIdx == MENUPAGE_DEAD || mCurrentPageIdx == MENUPAGE_AREA_COMPLETE ||
             mCurrentPageIdx == MENUPAGE_RESULTS_PLAYER_QUIT)
         {
-            Frontend::DrawLastAndBestStats_4B57B0(10, 0xE1);
+            Frontend::DrawLastAndBestStats(10, 0xE1);
         }
     }
 
     if (mCurrentPageIdx == MENUPAGE_MULTIPLAYER_RESULTS)
     {
-        Frontend::DrawMultiplayerScores_4B55F0();
+        Frontend::DrawMultiplayerScores();
     }
 
     u32 chosen_option_idx = -1;
@@ -1127,7 +1127,7 @@ void Frontend::DrawMenu_4AD140()
         {
             if (pMenuOption->mOptionType == HORIZONTAL_SELECTION_2)
             {
-                Frontend::GetOptionText_4B3AF0(mCurrentPageIdx, option_idx, &wstr_array);
+                Frontend::GetOptionText(mCurrentPageIdx, option_idx, &wstr_array);
             }
             else
             {
@@ -1189,10 +1189,10 @@ void Frontend::DrawMenu_4AD140()
                                 }
                             }
 
-                            last_xpos = DrawKeyHint_4B7E10(2, 0x12Cu, 0x1B8u, mFontType, 0xFFFF);
-                            DrawKeyHint_4B7E10(8, last_xpos + 300, 0x1B8u, mFontType, 0xFFFF);
-                            last_xpos = DrawKeyHint_4B7E10(1, 0x12Cu, 0x1CCu, mFontType, 0xFFFF);
-                            DrawKeyHint_4B7E10(9, last_xpos + 300, 0x1CCu, mFontType, 0xFFFF);
+                            last_xpos = DrawKeyHint(2, 0x12Cu, 0x1B8u, mFontType, 0xFFFF);
+                            DrawKeyHint(8, last_xpos + 300, 0x1B8u, mFontType, 0xFFFF);
+                            last_xpos = DrawKeyHint(1, 0x12Cu, 0x1CCu, mFontType, 0xFFFF);
+                            DrawKeyHint(9, last_xpos + 300, 0x1CCu, mFontType, 0xFFFF);
                         }
                     }
                 }
@@ -1248,7 +1248,7 @@ void Frontend::DrawMenu_4AD140()
             {
                 if (pMenuOption->mOptionType == HORIZONTAL_SELECTION_2)
                 {
-                    Frontend::GetOptionText_4B3AF0(mCurrentPageIdx, option_idx, &wstr_array);
+                    Frontend::GetOptionText(mCurrentPageIdx, option_idx, &wstr_array);
                 }
                 else
                 {
@@ -1278,14 +1278,14 @@ void Frontend::DrawMenu_4AD140()
 
         if (chosen_option_idx == 3) //  START PLAY IN AREA
         {
-            main_level_idx = gGameSession_67E8E0.GetMainStageIdx_4C5980();
+            main_level_idx = gGameSession_67E8E0.GetMainStageIdx();
             bonus_level_idx = 0;
         }
         else if (chosen_option_idx == 4) // BONUS STAGE
         {
-            gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage_4C5990(), &main_level_idx, &bonus_level_idx);
+            gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage(), &main_level_idx, &bonus_level_idx);
         }
-        Frontend::DrawScoreTable_4B5430(reinterpret_cast<ScoreTableLine*>(&gPlyDat_6FEAC0->mStageScores[main_level_idx][bonus_level_idx]
+        Frontend::DrawScoreTable(reinterpret_cast<ScoreTableLine*>(&gPlyDat_6FEAC0->mStageScores[main_level_idx][bonus_level_idx]
                                  .mScoreTableLine),
                              0x12Cu,
                              line_height,
@@ -1331,7 +1331,7 @@ void Frontend::DrawMenu_4AD140()
                             break;
                     }
 
-                    DrawFigure_5D7EC0(sprite_types_enum::user_6, shape_type, x_pos, y_pos, kAngZero_67DA70, kFpOne_67D934, palette_types_enum::sprites_2, 0, 0, 0, false);
+                    DrawFigure(sprite_types_enum::user_6, shape_type, x_pos, y_pos, kAngZero_67DA70, kFpOne_67D934, palette_types_enum::sprites_2, 0, 0, 0, false);
                     break;
 
                 case STRING_TEXT_1:
@@ -1344,15 +1344,15 @@ void Frontend::DrawMenu_4AD140()
                     {
                         font_type = mNormalFont;
                     }
-                    Frontend::GetElementText_4B3CC0(mCurrentPageIdx, option_idx, &wstr_array);
+                    Frontend::GetElementText(mCurrentPageIdx, option_idx, &wstr_array);
 
                     if (mCurrentPageIdx == MENUPAGE_PLAY && (option_idx == 2 || option_idx == 3))
                     {
-                        Frontend::DrawTextFixedWidth_4B78B0(wstr_array, x_pos, y_pos, font_type, pMenuElement->mFontPalette, 1, 0x15u, true);
+                        Frontend::DrawTextFixedWidth(wstr_array, x_pos, y_pos, font_type, pMenuElement->mFontPalette, 1, 0x15u, true);
                     }
                     else if (mCurrentPageIdx == MENUPAGE_VIEW_HIGH_SCORE && option_idx == 1)
                     {
-                        Frontend::DrawTextFixedWidth_4B78B0(wstr_array, x_pos, y_pos, font_type, pMenuElement->mFontPalette, 1, 0x15u, true);
+                        Frontend::DrawTextFixedWidth(wstr_array, x_pos, y_pos, font_type, pMenuElement->mFontPalette, 1, 0x15u, true);
                     }
                     else
                     {
@@ -1376,19 +1376,19 @@ void Frontend::DrawMenu_4AD140()
     {
         if (mCursorBlink)
         {
-            x_pos = pMenuPage->mOptionsArray[0].mXPos + Frontend::GetMaxTextWidth_5D8990(mCurrPlyrName, mNormalFont);
+            x_pos = pMenuPage->mOptionsArray[0].mXPos + Frontend::GetMaxTextWidth(mCurrPlyrName, mNormalFont);
             y_pos = pMenuPage->mOptionsArray[0].mYPos;
             swprintf(tmpBuff_67BD9C, L"_");
             DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, mNormalFont, 1);
         }
-        wcscpy(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("entrnam"));
+        wcscpy(tmpBuff_67BD9C, gText_0x14_704DFC->Find("entrnam"));
         x_pos = 0x15Eu;
         y_pos = !gText_0x14_704DFC->LangIsJapanese_452E60() ? 12 : 16;
         DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, mHeadingFont, 1);
     }
     if (mState == FrontendState::User_Typing_Password_5 && mCursorBlink)
     {
-        x_pos = pMenuPage->mElementsArray[4].mXpos + Frontend::GetMaxTextWidth_5D8990(mPassword, mNormalFont);
+        x_pos = pMenuPage->mElementsArray[4].mXpos + Frontend::GetMaxTextWidth(mPassword, mNormalFont);
         y_pos = pMenuPage->mElementsArray[4].mYpos;
         swprintf(tmpBuff_67BD9C, L"_");
         DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, mNormalFont, 1);
@@ -1397,7 +1397,7 @@ void Frontend::DrawMenu_4AD140()
 
 // https://decomp.me/scratch/qV1ie switch "goto" issue
 MATCH_FUNC(0x4B7AE0)
-void Frontend::DrawCredits_4B7AE0()
+void Frontend::DrawCredits()
 {
     u16 font_type;
     s32 palette;
@@ -1443,15 +1443,15 @@ void Frontend::DrawCredits_4B7AE0()
 
             if (!wcscmp(pStrBuf, L"BINKLOGO"))
             {
-                DrawFigure_5D7EC0(sprite_types_enum::user_6, 1, static_cast<u16>(320), y, kAngZero_67DA70, kFpOne_67D934, palette_types_enum::sprites_2, 0, 0, 0, false);
+                DrawFigure(sprite_types_enum::user_6, 1, static_cast<u16>(320), y, kAngZero_67DA70, kFpOne_67D934, palette_types_enum::sprites_2, 0, 0, 0, false);
             }
             else if (!wcscmp(pStrBuf, L"MILESLOGO"))
             {
-                DrawFigure_5D7EC0(sprite_types_enum::user_6, 25, static_cast<u16>(320), y, kAngZero_67DA70, kFpOne_67D934, palette_types_enum::sprites_2, 0, 0, 0, false);
+                DrawFigure(sprite_types_enum::user_6, 25, static_cast<u16>(320), y, kAngZero_67DA70, kFpOne_67D934, palette_types_enum::sprites_2, 0, 0, 0, false);
             }
             else
             {
-                s32 text_width = Frontend::GetMaxTextWidth_5D8990(pStrBuf, font_type);
+                s32 text_width = Frontend::GetMaxTextWidth(pStrBuf, font_type);
                 u16 draw_x = (640 - text_width) / 2;
                 DrawText_5D8A10(pStrBuf, draw_x, y, font_type, 1, palette_type, palette, 0, 0);
             }
@@ -1460,29 +1460,29 @@ void Frontend::DrawCredits_4B7AE0()
 
     if (pgbh_BlitImage(tgaArray_61F0C8[23].mImg, 0, 0, 451, 144, 85, 0) == -10)
     {
-        Load_tga_4B6520(23u);
+        Load_tga(23u);
         pgbh_BlitImage(tgaArray_61F0C8[23].mImg, 0, 0, 451, 144, 85, 0);
     }
 }
 
 MATCH_FUNC(0x4B8650)
-void Frontend::FreeSound_4B8650()
+void Frontend::FreeSound()
 {
     if (!bSkip_audio_67D6BE)
     {
         if (snd2_67D6F8.mSoundEntry)
         {
-            gRoot_sound_66B038.FreeSoundEntry_40EFD0(snd2_67D6F8.mSoundEntry);
+            gRoot_sound_66B038.FreeSoundEntry(snd2_67D6F8.mSoundEntry);
             snd2_67D6F8.mSoundEntry = 0;
         }
     }
 }
 
 MATCH_FUNC(0x4B6030)
-bool Frontend::pre_intro_bik_exists_4B6030()
+bool Frontend::pre_intro_bik_exists()
 {
     _finddata_t find_data;
-    long find_handle = _findfirst(gFrontend_67DC84->pre_intro_bik_4B5F20(), &find_data);
+    long find_handle = _findfirst(gFrontend_67DC84->pre_intro_bik(), &find_data);
     if (find_handle == -1)
     {
         return false;
@@ -1498,12 +1498,12 @@ DEFINE_STATIC_MEMBER_ARRAY_INIT(char_type, Frontend, sBikDataDir, 8, 0x620454, "
 DEFINE_STATIC_GLOBAL_ARRAY_INIT(char_type, sBikDriveDataDir, 4, 0x62045C, ":\\");
 
 MATCH_FUNC(0x4B5F20)
-char_type* Frontend::pre_intro_bik_4B5F20()
+char_type* Frontend::pre_intro_bik()
 {
     LOCAL_STATIC_ARRAY_INIT(char_type, sPreIntroBikName, 20, 0x5FE77C, "Movie\\preintro.bik");
     LOCAL_STATIC_ARRAY(char_type, sPreIntroBikPath, 256, 0x67DB84);
     char_type drive[32];
-    drive[0] = gRoot_sound_66B038.GetAudioDriveLetter_40F150();
+    drive[0] = gRoot_sound_66B038.GetAudioDriveLetter();
     if (drive[0])
     {
         drive[1] = 0;
@@ -1519,12 +1519,12 @@ char_type* Frontend::pre_intro_bik_4B5F20()
 }
 
 MATCH_FUNC(0x4B5E50)
-const char_type* Frontend::intro_bik_4B5E50()
+const char_type* Frontend::intro_bik()
 {
     LOCAL_STATIC_ARRAY_INIT(char_type, sIntroBikName, 16, 0x5FE76C, "Movie\\intro.bik");
     LOCAL_STATIC_ARRAY(char_type, sIntroBikPath, 256, 0x67DA84);
     char_type drive[32];
-    drive[0] = gRoot_sound_66B038.GetAudioDriveLetter_40F150();
+    drive[0] = gRoot_sound_66B038.GetAudioDriveLetter();
     if (drive[0])
     {
         drive[1] = 0;
@@ -1540,13 +1540,13 @@ const char_type* Frontend::intro_bik_4B5E50()
 }
 
 MATCH_FUNC(0x4B5FF0)
-bool Frontend::intro_bik_exists_4B5FF0()
+bool Frontend::intro_bik_exists()
 {
     // note: ecx wasn't first due to global being an object instead of a pointer
     _finddata_t findData;
 
     // note: put call in argument rather than local to change inst ordering
-    const long hFind = _findfirst(gFrontend_67DC84->intro_bik_4B5E50(), &findData);
+    const long hFind = _findfirst(gFrontend_67DC84->intro_bik(), &findData);
 
     if (hFind == -1)
     {
@@ -1558,42 +1558,42 @@ bool Frontend::intro_bik_exists_4B5FF0()
 }
 
 MATCH_FUNC(0x4AEC00)
-void Frontend::Update_4AEC00()
+void Frontend::Update()
 {
-    read_menu_input_4AFEB0();
-    UpdateMenuScreen_4B6780();
+    read_menu_input();
+    UpdateMenuScreen();
 
     snd1_67D818.mObjectType = 0;
 
     switch (mState)
     {
         case FrontendState::User_Typing_New_Player_Name_3:
-            HandlePlayerNameTyping_4B2F60();
+            HandlePlayerNameTyping();
             break;
 
         case FrontendState::User_Typing_Password_5:
-            HandlePasswordTyping_4B8280();
+            HandlePasswordTyping();
             break;
 
         case FrontendState::Menu_Navigation_1:
             if (mCurrentPageIdx == MENUPAGE_CREDITS)
             {
                 snd1_67D818.mbStatus = true;
-                ManageCredits_4B7A10();
+                ManageCredits();
             }
             else
             {
                 snd1_67D818.mbStatus = false;
-                UpdatePageFromUserInput_4AE2D0();
+                UpdatePageFromUserInput();
             }
             break;
 
         case FrontendState::Booting_Map_2:
-            SetWinMainStateToBootMap_4AE990();
+            SetWinMainStateToBootMap();
             break;
 
         case FrontendState::Delete_Player_Dialog_4:
-            HandleDeletePlayerDialog_4AE9A0();
+            HandleDeletePlayerDialog();
             break;
 
         default:
@@ -1602,19 +1602,19 @@ void Frontend::Update_4AEC00()
 
     if (!bSkip_audio_67D6BE)
     {
-        gRoot_sound_66B038.Service_40EFA0();
+        gRoot_sound_66B038.Service();
     }
 
     if (counter_706C4C > 0)
     {
-        ReapplySavedGamma_5D9970();
+        ReapplySavedGamma();
     }
 }
 
 MATCH_FUNC(0x4AFEB0)
-void Frontend::read_menu_input_4AFEB0()
+void Frontend::read_menu_input()
 {
-    if (mbInputEnabled && KeyBoard_GetKeyStates_4AFDD0())
+    if (mbInputEnabled && KeyBoard_GetKeyStates())
     {
         const u8 up = mKeys[DIK_UP] & 0x80;
         mUpPressed = up && !mUpKeyDown;
@@ -1657,7 +1657,7 @@ void Frontend::read_menu_input_4AFEB0()
 }
 
 MATCH_FUNC(0x4B6780)
-void Frontend::UpdateMenuScreen_4B6780()
+void Frontend::UpdateMenuScreen()
 {
     // Change background image according to the current page or options
     MenuPage* pMenuPage = &mMenuPagesArray[mCurrentPageIdx];
@@ -1694,13 +1694,13 @@ void Frontend::UpdateMenuScreen_4B6780()
                     mMenuScreen = ViewHiScore_6;
                     break;
                 case 3:
-                    mMenuScreen = 7 + gGameSession_67E8E0.GetMainStageIdx_4C5980();
+                    mMenuScreen = 7 + gGameSession_67E8E0.GetMainStageIdx();
                     break;
                 case 4:
                 {
                     u8 main_stage_idx;
                     u8 bonus_stage_idx;
-                    gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage_4C5990(), &main_stage_idx, &bonus_stage_idx);
+                    gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage(), &main_stage_idx, &bonus_stage_idx);
                     mMenuScreen = main_stage_idx + 3;
                     break;
                 }
@@ -1739,10 +1739,10 @@ void Frontend::UpdateMenuScreen_4B6780()
 
 // https://decomp.me/scratch/3NE2J
 MATCH_FUNC(0x4B7A10)
-void Frontend::ManageCredits_4B7A10()
+void Frontend::ManageCredits()
 {
     timeGetTime();
-    Frontend::read_menu_input_4AFEB0();
+    Frontend::read_menu_input();
     bool bKeyPressed = false;
     char_type* pKeyIter = &mKeys[0];
 
@@ -1792,7 +1792,7 @@ void Frontend::ManageCredits_4B7A10()
 }
 
 MATCH_FUNC(0x4AE2D0)
-void Frontend::UpdatePageFromUserInput_4AE2D0()
+void Frontend::UpdatePageFromUserInput()
 {
     MenuPage* pMenuPage;
     PlySlot* pStats;
@@ -1811,7 +1811,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
 
     pMenuPage = &mMenuPagesArray[mCurrentPageIdx];
     pMenuPageSaved = pMenuPage;
-    pStats = GetCurrPlayerStats_4B43E0();
+    pStats = GetCurrPlayerStats();
 
     // Set what happens when the user presses ENTER
     if (mReturnPressed)
@@ -1823,28 +1823,28 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
             switch (target_page_idx)
             {
                 case 263u:
-                    stage_main_idx = gGameSession_67E8E0.GetMainStageIdx_4C5980();
+                    stage_main_idx = gGameSession_67E8E0.GetMainStageIdx();
                     bonus_scan_idx = 3;
                     for (stage_bonus_idx = 3; !pStats->mPlyrStageStats[stage_main_idx][stage_bonus_idx].mIsStageUnlocked || bonus_scan_idx >= mNumBonusStages[stage_main_idx]; stage_bonus_idx = bonus_scan_idx)
                     {
                         --bonus_scan_idx;
                     }
-                    LoadMapFilenames_4B4D00(stage_main_idx, stage_bonus_idx);
-                    gGameSession_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(false);
+                    LoadMapFilenames(stage_main_idx, stage_bonus_idx);
+                    gGameSession_67E8E0.SetStartedFromPlayBonusMenu(false);
                     mMenuScreen = RedBar_16;
                     mState = FrontendState::Booting_Map_2;
                     break;
                 case MENUPAGE_PLAY_NEXT_AREA: // 261
-                    if (!gGameSession_67E8E0.IsBonusStage_4C59A0())
+                    if (!gGameSession_67E8E0.IsBonusStage())
                     {
-                        main_stage_idx = gGameSession_67E8E0.GetMainStageIdx_4C5980();
+                        main_stage_idx = gGameSession_67E8E0.GetMainStageIdx();
                     }
                     else
                     {
-                        main_stage_idx = static_cast<u8>(gGameSession_67E8E0.GetStage_4C5990()) >> 4;
+                        main_stage_idx = static_cast<u8>(gGameSession_67E8E0.GetStage()) >> 4;
                     }
 
-                    if (FreeLoader::CheckCityInstalled_4AE1F0(main_stage_idx + 1))
+                    if (FreeLoader::CheckCityInstalled(main_stage_idx + 1))
                     {
                         stage_main_idx = main_stage_idx + 1;
                         if (stage_main_idx >= mNumMainStages)
@@ -1856,61 +1856,61 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                         {
                             FatalError_4A38C0(Gta2Error::LevelNotOpened, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1548);
                         }
-                        LoadMapFilenames_4B4D00(stage_main_idx, 0);
+                        LoadMapFilenames(stage_main_idx, 0);
                         mMenuScreen = RedBar_16;
                         mState = FrontendState::Booting_Map_2;
                     }
                     break;
                 case MENUPAGE_REPLAY_PREVIOUS_AREA: // 259
-                    gGameSession_67E8E0.SetSaveFileName_4C58D0("");
+                    gGameSession_67E8E0.SetSaveFileName("");
                     mMenuScreen = RedBar_16;
                     mState = FrontendState::Booting_Map_2;
                     break;
                 case MENUPAGE_LOADING_SAVE: // 260
-                    stage_bonus_idx = gGameSession_67E8E0.GetPlySlotIdx_4C59B0();
-                    if (PlySlotSvgExists_4B5370(stage_bonus_idx))
+                    stage_bonus_idx = gGameSession_67E8E0.GetPlySlotIdx();
+                    if (PlySlotSvgExists(stage_bonus_idx))
                     {
-                        LoadMapFilenamesFromSvg_4B4EC0();
+                        LoadMapFilenamesFromSvg();
                     }
                     else
                     {
-                        gGameSession_67E8E0.SetSaveFileName_4C58D0("");
+                        gGameSession_67E8E0.SetSaveFileName("");
                     }
                     mMenuScreen = RedBar_16;
                     mState = FrontendState::Booting_Map_2;
                     break;
                 case MENUPAGE_GTA2MANAGER: // 257
-                    Start_GTA2Manager_5E4DE0();
+                    Start_GTA2Manager();
                     break;
                 case MENUPAGE_QUIT: // 258
                     mWinmainNextState = Quit_1;
                     break;
                 case MENUPAGE_GET_READY_TO_PLAY: // 264
-                    stage_main_idx = gGameSession_67E8E0.GetMainStageIdx_4C5980();
-                    if (FreeLoader::CheckCityInstalled_4AE1F0(stage_main_idx))
+                    stage_main_idx = gGameSession_67E8E0.GetMainStageIdx();
+                    if (FreeLoader::CheckCityInstalled(stage_main_idx))
                     {
-                        LoadMapFilenames_4B4D00(stage_main_idx, 0);
+                        LoadMapFilenames(stage_main_idx, 0);
                         mMenuScreen = RedBar_16;
                         mState = FrontendState::Booting_Map_2;
                     }
                     break;
                 case MENUPAGE_GET_READY_TO_PLAY_BONUS: // 265
-                    gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage_4C5990(), &stage_main_idx, &stage_bonus_idx);
-                    if (FreeLoader::CheckCityInstalled_4AE1F0(stage_main_idx))
+                    gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage(), &stage_main_idx, &stage_bonus_idx);
+                    if (FreeLoader::CheckCityInstalled(stage_main_idx))
                     {
-                        LoadMapFilenames_4B4D00(stage_main_idx, stage_bonus_idx);
-                        gGameSession_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(true);
+                        LoadMapFilenames(stage_main_idx, stage_bonus_idx);
+                        gGameSession_67E8E0.SetStartedFromPlayBonusMenu(true);
                         mMenuScreen = RedBar_16;
                         mState = FrontendState::Booting_Map_2;
                     }
                     break;
                 case MENUPAGE_CONTINUE_NEXT_STAGE: // 266
-                    ContinueToNextStage_4B8020();
+                    ContinueToNextStage();
                     break;
                 case 268u:
                     break;
                 default:
-                    ChangeMenuPage_4B3170(target_page_idx);
+                    ChangeMenuPage(target_page_idx);
                     break;
             }
             snd1_67D818.mObjectType = 5;
@@ -1918,9 +1918,9 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
         else if (mCurrentPageIdx == MENUPAGE_PLAY && pMenuPage->mCurrentOptionIdx == 0) // player
         {
             mState = FrontendState::User_Typing_New_Player_Name_3;
-            LoadCurrPlayerName_4B4280();
+            LoadCurrPlayerName();
             mCurrPlyrNameLength = static_cast<u8>(wcslen(mCurrPlyrName));
-            StripPlayerNameToCurrLength_4B42B0();
+            StripPlayerNameToCurrLength();
             mKeyHeld = true;
             mLastKey = DIK_RETURN;
             mKeyRepeatTimer = 5;
@@ -1935,7 +1935,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
         {
             case MENUPAGE_START_MENU:
             case MENUPAGE_PARENTAL_CONTROL:
-                ChangeMenuPage_4B3170(MENUPAGE_CREDITS);
+                ChangeMenuPage(MENUPAGE_CREDITS);
                 break;
             case MENUPAGE_PLAY:
             case MENUPAGE_DEAD:
@@ -1944,10 +1944,10 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
             case MENUPAGE_BONUS_AREA:
             case MENUPAGE_NICE_TRY:
             case MENUPAGE_RESULTS_PLAYER_QUIT:
-                ChangeMenuPage_4B3170(MENUPAGE_START_MENU);
+                ChangeMenuPage(MENUPAGE_START_MENU);
                 break;
             case MENUPAGE_VIEW_HIGH_SCORE:
-                ChangeMenuPage_4B3170(MENUPAGE_PLAY);
+                ChangeMenuPage(MENUPAGE_PLAY);
                 break;
             default:
                 mWinmainNextState = Quit_1;
@@ -1957,13 +1957,13 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
     }
 
     // Move selection UP and emit sound
-    if (mUpPressed && pMenuPage->SelectPrevOption_4B61B0())
+    if (mUpPressed && pMenuPage->SelectPrevOption())
     {
         snd1_67D818.mObjectType = 1;
     }
 
     // Move selection DOWN and emit sound
-    if (mDownPressed && pMenuPage->SelectNextOption_4B6200())
+    if (mDownPressed && pMenuPage->SelectNextOption())
     {
         snd1_67D818.mObjectType = 2;
     }
@@ -1975,12 +1975,12 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
         pOption_prev = &pMenuPage->mOptionsArray[current_option_idx];
         if (pOption_prev->mOptionType == HORIZONTAL_SELECTION_2)
         {
-            bWrapped_prev = pOption_prev->SelectPrevHorizontalIdx_4B6390();
+            bWrapped_prev = pOption_prev->SelectPrevHorizontalIdx();
             if (mCurrentPageIdx == MENUPAGE_PLAY && !pMenuPageSaved->mCurrentOptionIdx)
             {
-                gGameSession_67E8E0.SetPlySlotIdx_4C5920(static_cast<char_type>(pOption_prev->mHorizontalSelectedIdx));
-                UpdateMenuForCurrPlayer_4B42E0();
-                gRegistry_6FF968.Set_Player_Setting_5878C0("plyrslot", pOption_prev->mHorizontalSelectedIdx);
+                gGameSession_67E8E0.SetPlySlotIdx(static_cast<char_type>(pOption_prev->mHorizontalSelectedIdx));
+                UpdateMenuForCurrPlayer();
+                gRegistry_6FF968.Set_Player_Setting("plyrslot", pOption_prev->mHorizontalSelectedIdx);
                 if (bWrapped_prev)
                 {
                     snd1_67D818.mObjectType = 3;
@@ -2001,12 +2001,12 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
         {
             if (current_option_idx == 3)
             {
-                if (ChangeMainStageToPrevious_4B6FF0())
+                if (ChangeMainStageToPrevious())
                 {
                     snd1_67D818.mObjectType = 3;
                 }
             }
-            else if (current_option_idx == 4 && ChangeBonusStageToPrevious_4B70B0())
+            else if (current_option_idx == 4 && ChangeBonusStageToPrevious())
             {
                 snd1_67D818.mObjectType = 3;
             }
@@ -2018,12 +2018,12 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
         pOption_next = &pMenuPage->mOptionsArray[option_idx];
         if (pOption_next->mOptionType == HORIZONTAL_SELECTION_2)
         {
-            bWrapped_next = pOption_next->SelectNextHorizontalIdx_4B6330();
+            bWrapped_next = pOption_next->SelectNextHorizontalIdx();
             if (mCurrentPageIdx == MENUPAGE_PLAY && !pMenuPageSaved->mCurrentOptionIdx)
             {
-                gGameSession_67E8E0.SetPlySlotIdx_4C5920(static_cast<char_type>(pOption_next->mHorizontalSelectedIdx));
-                UpdateMenuForCurrPlayer_4B42E0();
-                gRegistry_6FF968.Set_Player_Setting_5878C0("plyrslot", pOption_next->mHorizontalSelectedIdx);
+                gGameSession_67E8E0.SetPlySlotIdx(static_cast<char_type>(pOption_next->mHorizontalSelectedIdx));
+                UpdateMenuForCurrPlayer();
+                gRegistry_6FF968.Set_Player_Setting("plyrslot", pOption_next->mHorizontalSelectedIdx);
                 if (bWrapped_next)
                 {
                     snd1_67D818.mObjectType = 4;
@@ -2043,12 +2043,12 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
         {
             if (option_idx == 3)
             {
-                if (ChangeMainStageToNext_4B7200())
+                if (ChangeMainStageToNext())
                 {
                     snd1_67D818.mObjectType = 4;
                 }
             }
-            else if (option_idx == 4 && ChangeBonusStageToNext_4B72F0())
+            else if (option_idx == 4 && ChangeBonusStageToNext())
             {
                 snd1_67D818.mObjectType = 4;
             }
@@ -2070,13 +2070,13 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
 }
 
 MATCH_FUNC(0x4AE990)
-void Frontend::SetWinMainStateToBootMap_4AE990()
+void Frontend::SetWinMainStateToBootMap()
 {
     mWinmainNextState = Start_Game_3;
 }
 
 MATCH_FUNC(0x4B2F60)
-void Frontend::HandlePlayerNameTyping_4B2F60()
+void Frontend::HandlePlayerNameTyping()
 {
     s16 scan_code;
     s16 input;
@@ -2106,8 +2106,8 @@ void Frontend::HandlePlayerNameTyping_4B2F60()
         if (input == DIK_RETURN)
         {
             mState = FrontendState::Menu_Navigation_1;
-            Frontend::StripPlayerNameToCurrLength_4B42B0();
-            Frontend::SaveAndUpdatePlayerName_4B4230();
+            Frontend::StripPlayerNameToCurrLength();
+            Frontend::SaveAndUpdatePlayerName();
             mMenuPagesArray[1].mCurrentOptionIdx = 0;
             if (snd1_67D818.mObjectType != 9)
             {
@@ -2119,14 +2119,14 @@ void Frontend::HandlePlayerNameTyping_4B2F60()
             if (mCurrPlyrNameLength > 0)
             {
                 mCurrPlyrNameLength--;
-                Frontend::StripPlayerNameToCurrLength_4B42B0();
+                Frontend::StripPlayerNameToCurrLength();
                 snd1_67D818.mObjectType = 8;
             }
         }
         else if (input == DIK_ESCAPE)
         {
             mState = FrontendState::Menu_Navigation_1;
-            Frontend::StripPlayerNameToCurrLength_4B42B0();
+            Frontend::StripPlayerNameToCurrLength();
             mMenuPagesArray[1].mCurrentOptionIdx = 0;
             snd1_67D818.mObjectType = 6;
         }
@@ -2139,9 +2139,9 @@ void Frontend::HandlePlayerNameTyping_4B2F60()
             }
             else
             {
-                KeyboardLayout::RecreateIfLayoutChanged_4D5FD0();
-                Key_4D5F40 = gKeybrd_0x204_6F52F4->GetKey_4D5F40(input);
-                typed_char = gText_0x14_704DFC->RemapExtendedChar_5B58D0(Key_4D5F40);
+                KeyboardLayout::RecreateIfLayoutChanged();
+                Key_4D5F40 = gKeybrd_0x204_6F52F4->GetKey(input);
+                typed_char = gText_0x14_704DFC->RemapExtendedChar(Key_4D5F40);
                 if (static_cast<u16>(GetCharWidth_4539D0(mNormalFont, typed_char)) < 3u || !typed_char)
                 {
                     // Both builds jump past the append here; an append in each branch folds the space into a constant
@@ -2189,7 +2189,7 @@ update_key_held:
 }
 
 MATCH_FUNC(0x4AE9A0)
-void Frontend::HandleDeletePlayerDialog_4AE9A0()
+void Frontend::HandleDeletePlayerDialog()
 {
     u16 cursor_y;
 
@@ -2201,7 +2201,7 @@ void Frontend::HandleDeletePlayerDialog_4AE9A0()
             switch (mDialogType)
             {
                 case 1:
-                    Frontend::DeleteCurrentPlayer_4B4410();
+                    Frontend::DeleteCurrentPlayer();
                     mState = FrontendState::Menu_Navigation_1;
                     break;
                 default:
@@ -2284,19 +2284,19 @@ static __forceinline bool CheckCdFile()
     {
         s16 idx = static_cast<s16>(timeGetTime() % gCdCheckFileCount_6252E0);
         char_type drive[32];
-        drive[0] = gRoot_sound_66B038.GetAudioDriveLetter_40F150();
+        drive[0] = gRoot_sound_66B038.GetAudioDriveLetter();
         if (drive[0])
         {
             drive[1] = 0;
             strcpy(path, drive);
             strcat(path, sBikDriveDataDir);
             strcat(path, gCdCheckFiles_6252E8[idx].mName);
-            if (File::IsCdRomDrive_4A6BB0(drive[0]))
+            if (File::IsCdRomDrive(drive[0]))
             {
                 FILE* hFile = crt::fopen(path, "rb");
                 if (hFile)
                 {
-                    if (static_cast<u32>(File::GetFileSize_4A6B10(hFile)) == gCdCheckFiles_6252E8[idx].mSize)
+                    if (static_cast<u32>(File::GetFileSize(hFile)) == gCdCheckFiles_6252E8[idx].mSize)
                     {
                         if (!crt::fclose(hFile))
                         {
@@ -2331,7 +2331,7 @@ EXPORT bool CheckCdFile_4BBFA0()
 
 // https://decomp.me/scratch/ySQ2h
 MATCH_FUNC(0x4B8280)
-void Frontend::HandlePasswordTyping_4B8280()
+void Frontend::HandlePasswordTyping()
 {
     wchar_t ch;
     s16 key_scan = 256;
@@ -2353,8 +2353,8 @@ void Frontend::HandlePasswordTyping_4B8280()
         if (key_scan == DIK_RETURN)
         {
             mState = FrontendState::Menu_Navigation_1;
-            Frontend::StripPasswordToCurrLength_4B8530();
-            Frontend::CheckPassword_4B8560();
+            Frontend::StripPasswordToCurrLength();
+            Frontend::CheckPassword();
             snd1_67D818.mObjectType = 5;
         }
         else if (key_scan == DIK_BACK)
@@ -2362,15 +2362,15 @@ void Frontend::HandlePasswordTyping_4B8280()
             if (mPasswordLength > 0)
             {
                 mPasswordLength--;
-                Frontend::StripPasswordToCurrLength_4B8530();
+                Frontend::StripPasswordToCurrLength();
                 snd1_67D818.mObjectType = 8;
             }
         }
         else if (key_scan == DIK_ESCAPE)
         {
             mState = FrontendState::Menu_Navigation_1;
-            Frontend::StripPasswordToCurrLength_4B8530();
-            Frontend::ChangeMenuPage_4B3170(MENUPAGE_CREDITS);
+            Frontend::StripPasswordToCurrLength();
+            Frontend::ChangeMenuPage(MENUPAGE_CREDITS);
             snd1_67D818.mObjectType = 6;
         }
         else if (key_scan == 256)
@@ -2388,10 +2388,10 @@ void Frontend::HandlePasswordTyping_4B8280()
                 {
                     mWrongPasswordShown = false;
                     wcsncpy(mMenuPagesArray[14].mElementsArray[0].mElementNameStr,
-                            gText_0x14_704DFC->Find_5B5F90("fr_ent1"),
+                            gText_0x14_704DFC->Find("fr_ent1"),
                             0x32u);
                     wcsncpy(mMenuPagesArray[14].mElementsArray[1].mElementNameStr,
-                            gText_0x14_704DFC->Find_5B5F90("fr_ent2"),
+                            gText_0x14_704DFC->Find("fr_ent2"),
                             0x32u);
                     wcsncpy(mMenuPagesArray[14].mElementsArray[2].mElementNameStr, gEmptyWStr_67DC8C, 0x32u);
                 }
@@ -2400,7 +2400,7 @@ void Frontend::HandlePasswordTyping_4B8280()
             }
             goto update_key_held;
         }
-        u16 key = gKeybrd_0x204_6F52F4->GetKey_4D5F40(key_scan);
+        u16 key = gKeybrd_0x204_6F52F4->GetKey(key_scan);
         ch = key;
         if (GetCharWidth_4539D0(mNormalFont, ch) >= 3 && ch)
         {
@@ -2438,54 +2438,54 @@ update_key_held:
 }
 
 MATCH_FUNC(0x4B4410)
-void Frontend::DeleteCurrentPlayer_4B4410()
+void Frontend::DeleteCurrentPlayer()
 {
-    GetCurrPlayerStats_4B43E0()->ResetPlayerSlot_56B630();
-    gPlyDat_6FEAC0->SavePlySlotDat_56BA60(mMenuPagesArray[1].mOptionsArray[0].mHorizontalSelectedIdx);
-    UpdateMenuForCurrPlayer_4B42E0();
+    GetCurrPlayerStats()->ResetPlayerSlot();
+    gPlyDat_6FEAC0->SavePlySlotDat(mMenuPagesArray[1].mOptionsArray[0].mHorizontalSelectedIdx);
+    UpdateMenuForCurrPlayer();
 }
 
 MATCH_FUNC(0x4B43E0)
-PlySlot* Frontend::GetCurrPlayerStats_4B43E0()
+PlySlot* Frontend::GetCurrPlayerStats()
 {
     // note: movsx vs movzx due to signedness
-    u16 idx = gGameSession_67E8E0.GetPlySlotIdx_4C59B0();
+    u16 idx = gGameSession_67E8E0.GetPlySlotIdx();
     return &gPlyDat_6FEAC0->mPlyrStats[idx];
 }
 
 MATCH_FUNC(0x4B42E0)
-void Frontend::UpdateMenuForCurrPlayer_4B42E0()
+void Frontend::UpdateMenuForCurrPlayer()
 {
-    PlySlot* pPlayerStats = Frontend::GetCurrPlayerStats_4B43E0();
-    u8 PlySlotIdx_4C59B0 = gGameSession_67E8E0.GetPlySlotIdx_4C59B0();
+    PlySlot* pPlayerStats = Frontend::GetCurrPlayerStats();
+    u8 PlySlotIdx_4C59B0 = gGameSession_67E8E0.GetPlySlotIdx();
     MenuPage* pMenuPage = &mMenuPagesArray[mCurrentPageIdx];
 
-    u8 prev_stage_idx = Frontend::GetLastUnlockedMainStage_4B77B0(pPlayerStats);
-    u8 prev_bonus_code = Frontend::GetLastUnlockedBonusStageCode_4B7800(pPlayerStats);
+    u8 prev_stage_idx = Frontend::GetLastUnlockedMainStage(pPlayerStats);
+    u8 prev_bonus_code = Frontend::GetLastUnlockedBonusStageCode(pPlayerStats);
 
     if (prev_stage_idx < mSelectedMainStage[PlySlotIdx_4C59B0])
     {
         mSelectedMainStage[PlySlotIdx_4C59B0] = prev_stage_idx;
-        gGameSession_67E8E0.SetMainStageIdx_4C58F0(prev_stage_idx);
+        gGameSession_67E8E0.SetMainStageIdx(prev_stage_idx);
     }
     else
     {
-        gGameSession_67E8E0.SetMainStageIdx_4C58F0(mSelectedMainStage[PlySlotIdx_4C59B0]);
+        gGameSession_67E8E0.SetMainStageIdx(mSelectedMainStage[PlySlotIdx_4C59B0]);
     }
 
     if (prev_bonus_code < mSelectedBonusStage[PlySlotIdx_4C59B0] || prev_bonus_code == 0xFF)
     {
         mSelectedBonusStage[PlySlotIdx_4C59B0] = prev_bonus_code;
-        gGameSession_67E8E0.SetStage_4C5900(prev_bonus_code);
+        gGameSession_67E8E0.SetStage(prev_bonus_code);
     }
     else
     {
-        gGameSession_67E8E0.SetStage_4C5900(mSelectedBonusStage[PlySlotIdx_4C59B0]);
+        gGameSession_67E8E0.SetStage(mSelectedBonusStage[PlySlotIdx_4C59B0]);
     }
 
-    Frontend::UpdateBonusStageArrows_4B7610();
-    Frontend::UpdateMainStageArrows_4B7550();
-    if (Frontend::PlySlotSvgExists_4B5370(PlySlotIdx_4C59B0))
+    Frontend::UpdateBonusStageArrows();
+    Frontend::UpdateMainStageArrows();
+    if (Frontend::PlySlotSvgExists(PlySlotIdx_4C59B0))
     {
         pMenuPage->mOptionsArray[1].mIsUnlocked = 1;
         pMenuPage->mOptionStates[1].mIsOptionUnlocked = 1;
@@ -2498,17 +2498,17 @@ void Frontend::UpdateMenuForCurrPlayer_4B42E0()
 }
 
 MATCH_FUNC(0x4B4230)
-void Frontend::SaveAndUpdatePlayerName_4B4230()
+void Frontend::SaveAndUpdatePlayerName()
 {
     u16 player_slot_idx = mMenuPagesArray[1].mOptionsArray[0].mHorizontalSelectedIdx;
     wchar_t* pPlayerName = gPlyDat_6FEAC0->mPlyrStats[player_slot_idx].mstrPlayerName;
     wcsncpy(pPlayerName, mCurrPlyrName, 9u);
-    HandleCheatCode_4B3DD0(pPlayerName);
-    gPlyDat_6FEAC0->SavePlySlotDat_56BA60(player_slot_idx);
+    HandleCheatCode(pPlayerName);
+    gPlyDat_6FEAC0->SavePlySlotDat(player_slot_idx);
 }
 
 MATCH_FUNC(0x4B3CC0)
-void Frontend::GetElementText_4B3CC0(u16 page_idx, u16 element_idx, wchar_t** ppText)
+void Frontend::GetElementText(u16 page_idx, u16 element_idx, wchar_t** ppText)
 {
     MenuElement* pElement = &mMenuPagesArray[page_idx].mElementsArray[element_idx];
 
@@ -2532,9 +2532,9 @@ void Frontend::GetElementText_4B3CC0(u16 page_idx, u16 element_idx, wchar_t** pp
 }
 
 MATCH_FUNC(0x4B3DD0)
-void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
+void Frontend::HandleCheatCode(const wchar_t* cheat_str_wide)
 {
-    const char* ascii_cheat_str = TextTable::Wide2PesudoAscii_5B5D10(cheat_str_wide);
+    const char* ascii_cheat_str = TextTable::Wide2PesudoAscii(cheat_str_wide);
     const size_t cheat_str_len = wcslen(cheat_str_wide);
 
     if (cheat_str_len > 16) // OG bug - should be checking for 8?
@@ -2657,23 +2657,23 @@ void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
     else if (cheat_str_hash == 0x45B2C)
     { // UKGAMER Unlock three main levels
         gCheatUnlockThreeLevels_67D6CB = !gCheatUnlockThreeLevels_67D6CB;
-        gPlyDat_6FEAC0->UnlockAllStages_56BC40();
-        UpdateMenuForCurrPlayer_4B42E0();
+        gPlyDat_6FEAC0->UnlockAllStages();
+        UpdateMenuForCurrPlayer();
         snd1_67D818.mObjectType = 9;
     }
     else if (cheat_str_hash == 0x49C76)
     { // GINGERRR Unlock levels one and two
         gCheatUnlockLevelsOneAndTwo_67D584 = !gCheatUnlockLevelsOneAndTwo_67D584;
-        gPlyDat_6FEAC0->UnlockStage_56BBD0(1u, 0);
-        UpdateMenuForCurrPlayer_4B42E0();
+        gPlyDat_6FEAC0->UnlockStage(1u, 0);
+        UpdateMenuForCurrPlayer();
         snd1_67D818.mObjectType = 9;
     }
     else if (cheat_str_hash == 0x5073D)
     { // TUMYFROG unlock all levels
         gCheatUnlockAllLevels_67D538 = !gCheatUnlockAllLevels_67D538;
-        gPlyDat_6FEAC0->UnlockAllStages_56BC40();
-        gPlyDat_6FEAC0->UnlockStage_56BBD0(2u, 2u);
-        UpdateMenuForCurrPlayer_4B42E0();
+        gPlyDat_6FEAC0->UnlockAllStages();
+        gPlyDat_6FEAC0->UnlockStage(2u, 2u);
+        UpdateMenuForCurrPlayer();
         snd1_67D818.mObjectType = 9;
     }
     else if (cheat_str_hash == 0x4D5C4)
@@ -2694,7 +2694,7 @@ void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
 }
 
 MATCH_FUNC(0x4B4280)
-void Frontend::LoadCurrPlayerName_4B4280()
+void Frontend::LoadCurrPlayerName()
 {
     wcsncpy(mCurrPlyrName,
             gPlyDat_6FEAC0
@@ -2704,7 +2704,7 @@ void Frontend::LoadCurrPlayerName_4B4280()
 }
 
 MATCH_FUNC(0x4B8530)
-void Frontend::StripPasswordToCurrLength_4B8530()
+void Frontend::StripPasswordToCurrLength()
 {
     u16 total = mPasswordLength;
     for (u16 i = total; i < 9; i++)
@@ -2714,17 +2714,17 @@ void Frontend::StripPasswordToCurrLength_4B8530()
 }
 
 MATCH_FUNC(0x4B8560)
-void Frontend::CheckPassword_4B8560()
+void Frontend::CheckPassword()
 {
     if (!wcscmp(mPassword, L"WFUSDFCF")) // french bonus mission unlocks?
     {
-        if (intro_bik_exists_4B5FF0() && gRegistry_6FF968.Get_Screen_Setting_5870D0("do_play_movie", 1) == 1)
+        if (intro_bik_exists() && gRegistry_6FF968.Get_Screen_Setting("do_play_movie", 1) == 1)
         {
-            ChangeMenuPage_4B3170(MENUPAGE_PLAY_INTRO);
+            ChangeMenuPage(MENUPAGE_PLAY_INTRO);
         }
         else
         {
-            ChangeMenuPage_4B3170(MENUPAGE_START_MENU);
+            ChangeMenuPage(MENUPAGE_START_MENU);
         }
     }
     else
@@ -2732,20 +2732,20 @@ void Frontend::CheckPassword_4B8560()
         mState = FrontendState::User_Typing_Password_5;
         mPasswordLength = 0;
 
-        StripPasswordToCurrLength_4B8530();
+        StripPasswordToCurrLength();
 
         mKeyHeld = true;
         mLastKey = DIK_RETURN;
         mKeyRepeatTimer = 5;
 
         wcsncpy(mMenuPagesArray[14].mElementsArray[0].mElementNameStr,
-                gText_0x14_704DFC->Find_5B5F90("fr_rnt1"),
+                gText_0x14_704DFC->Find("fr_rnt1"),
                 0x32u);
         wcsncpy(mMenuPagesArray[14].mElementsArray[1].mElementNameStr,
-                gText_0x14_704DFC->Find_5B5F90("fr_rnt2"),
+                gText_0x14_704DFC->Find("fr_rnt2"),
                 0x32u);
         wcsncpy(mMenuPagesArray[14].mElementsArray[2].mElementNameStr,
-                gText_0x14_704DFC->Find_5B5F90("fr_rnt3"),
+                gText_0x14_704DFC->Find("fr_rnt3"),
                 0x32u);
 
         mWrongPasswordShown = true;
@@ -2753,18 +2753,18 @@ void Frontend::CheckPassword_4B8560()
 }
 
 MATCH_FUNC(0x4B8020)
-void Frontend::ContinueToNextStage_4B8020()
+void Frontend::ContinueToNextStage()
 {
-    PlySlot* pClarke = GetCurrPlayerStats_4B43E0();
-    u8 main_stage_idx = gGameSession_67E8E0.GetMainStageIdx_4C5980();
+    PlySlot* pClarke = GetCurrPlayerStats();
+    u8 main_stage_idx = gGameSession_67E8E0.GetMainStageIdx();
 
-    if (AreAllStagesUnlocked_4B7FB0()) // Everything unlocked, including all bonus stages
+    if (AreAllStagesUnlocked()) // Everything unlocked, including all bonus stages
     {
-        ChangeMenuPage_4B3170(MENUPAGE_GAME_COMPLETE);
+        ChangeMenuPage(MENUPAGE_GAME_COMPLETE);
     }
     else if (main_stage_idx == mNumMainStages - 1) // Not all Bonus stages unlocked but finished last main stage
     {
-        ChangeMenuPage_4B3170(MENUPAGE_NICE_TRY);
+        ChangeMenuPage(MENUPAGE_NICE_TRY);
     }
     else
     {
@@ -2776,73 +2776,73 @@ void Frontend::ContinueToNextStage_4B8020()
             substage_idx--;
         }
 
-        LoadMapFilenames_4B4D00(main_stage_idx, substage_idx);
-        gGameSession_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(false);
+        LoadMapFilenames(main_stage_idx, substage_idx);
+        gGameSession_67E8E0.SetStartedFromPlayBonusMenu(false);
         mMenuScreen = RedBar_16;
         mState = FrontendState::Booting_Map_2;
     }
 }
 
 MATCH_FUNC(0x4B7D60)
-void Frontend::DrawBonusRating_4B7D60()
+void Frontend::DrawBonusRating()
 {
     u16 font_type = mTextFont;
     char_type text_id[12];
     wchar_t text[256];
     GetLineSpacingFromFontType_5D7700_inlined(font_type);
-    u16 rating_idx = gGameSession_67E8E0.GetBonusRatingTextIdx_4C5AC0();
+    u16 rating_idx = gGameSession_67E8E0.GetBonusRatingTextIdx();
     _itoa(rating_idx, text_id, 10);
     if (rating_idx)
     {
-        wchar_t* pRatingStr = gText_0x14_704DFC->Find_5B5F90(text_id);
-        TextTable::InsertLineBreaksAndGetNumLines_5B5BC0(text, pRatingStr, 560, font_type);
+        wchar_t* pRatingStr = gText_0x14_704DFC->Find(text_id);
+        TextTable::InsertLineBreaksAndGetNumLines(text, pRatingStr, 560, font_type);
         DrawText_4B87A0(text, static_cast<u16>(40), static_cast<u16>(270), font_type, 1);
     }
 }
 
 MATCH_FUNC(0x4B7E10)
-s32 Frontend::DrawKeyHint_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontType, s32 palette)
+s32 Frontend::DrawKeyHint(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontType, s32 palette)
 {
     switch (str_id_idx)
     {
         case 0:
-            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("esc_i"));
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find("esc_i"));
             break;
         case 1:
-            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("del_i"));
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find("del_i"));
             break;
         case 2:
-            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("ent_i"));
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find("ent_i"));
             break;
         case 3:
-            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("bspc_i"));
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find("bspc_i"));
             break;
         case 4:
-            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("up_i"));
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find("up_i"));
             break;
         case 5:
-            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("down_i"));
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find("down_i"));
             break;
         case 6:
-            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("left_i"));
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find("left_i"));
             break;
         case 7:
-            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("right_i"));
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find("right_i"));
             break;
         case 8:
-            swprintf(gTmpWideStr_67C7D8, gText_0x14_704DFC->Find_5B5F90("edtnm_i"));
+            swprintf(gTmpWideStr_67C7D8, gText_0x14_704DFC->Find("edtnm_i"));
             swprintf(tmpBuff_67BD9C, L";  %s", gTmpWideStr_67C7D8);
             break;
         case 9:
-            swprintf(gTmpWideStr_67C7D8, gText_0x14_704DFC->Find_5B5F90("clrsl_i"));
+            swprintf(gTmpWideStr_67C7D8, gText_0x14_704DFC->Find("clrsl_i"));
             swprintf(tmpBuff_67BD9C, L";  %s", gTmpWideStr_67C7D8);
             break;
         case 10:
-            swprintf(gTmpWideStr_67C7D8, gText_0x14_704DFC->Find_5B5F90("delch_i"));
+            swprintf(gTmpWideStr_67C7D8, gText_0x14_704DFC->Find("delch_i"));
             swprintf(tmpBuff_67BD9C, L";  %s", gTmpWideStr_67C7D8);
             break;
         case 11:
-            swprintf(gTmpWideStr_67C7D8, gText_0x14_704DFC->Find_5B5F90("name_i"));
+            swprintf(gTmpWideStr_67C7D8, gText_0x14_704DFC->Find("name_i"));
             swprintf(tmpBuff_67BD9C, L";  %s", gTmpWideStr_67C7D8);
             break;
         default:
@@ -2858,13 +2858,13 @@ s32 Frontend::DrawKeyHint_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u1
     {
         DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos, fontType, 1, palette_types_enum::font_remaps_8, palette, 0, 0);
     }
-    return GetMaxTextWidth_5D8990(tmpBuff_67BD9C, fontType);
+    return GetMaxTextWidth(tmpBuff_67BD9C, fontType);
 }
 
 MATCH_FUNC(0x4B7FB0)
-bool Frontend::AreAllStagesUnlocked_4B7FB0()
+bool Frontend::AreAllStagesUnlocked()
 {
-    PlySlot* pPlayerSlot = GetCurrPlayerStats_4B43E0();
+    PlySlot* pPlayerSlot = GetCurrPlayerStats();
     u16 main_stage_idx = 0;
     // note: two separated while's interlaced by a backwards goto may be actually two nested while's
     while (main_stage_idx < mNumMainStages)
@@ -2884,46 +2884,46 @@ bool Frontend::AreAllStagesUnlocked_4B7FB0()
 }
 
 MATCH_FUNC(0x4B4D00)
-void Frontend::LoadMapFilenames_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
+void Frontend::LoadMapFilenames(u8 mainBlockIdx, u8 bonusBlockIdx)
 {
     char fullPath[256];
     char debugStr[256];
     char mapName[256];
     char styName[256];
 
-    LoadStringsFromStage_4B4C60(mainBlockIdx, bonusBlockIdx, debugStr, mapName, styName);
-    gGameSession_67E8E0.SetSaveFileName_4C58D0("");
+    LoadStringsFromStage(mainBlockIdx, bonusBlockIdx, debugStr, mapName, styName);
+    gGameSession_67E8E0.SetSaveFileName("");
     strcpy(fullPath, "data\\");
     strcat(fullPath, debugStr);
-    gGameSession_67E8E0.SetMapName_4C5870(fullPath);
+    gGameSession_67E8E0.SetMapName(fullPath);
     strcpy(fullPath, "data\\");
     strcat(fullPath, mapName);
-    gGameSession_67E8E0.SetStyleName_4C5890(fullPath);
+    gGameSession_67E8E0.SetStyleName(fullPath);
     strcpy(fullPath, "data\\");
     strcat(fullPath, styName);
-    gGameSession_67E8E0.SetScriptName_4C58B0(fullPath);
+    gGameSession_67E8E0.SetScriptName(fullPath);
     if (!bonusBlockIdx)
     {
-        gGameSession_67E8E0.SetMainStageIdx_4C58F0(mainBlockIdx);
-        gGameSession_67E8E0.SetBonusStage_4C5910(0);
+        gGameSession_67E8E0.SetMainStageIdx(mainBlockIdx);
+        gGameSession_67E8E0.SetBonusStage(0);
     }
     else
     {
-        gGameSession_67E8E0.SetStage_4C5900(gGameSession_67E8E0.EncodeStage_453A40(mainBlockIdx, bonusBlockIdx));
-        gGameSession_67E8E0.SetBonusStage_4C5910(1);
+        gGameSession_67E8E0.SetStage(gGameSession_67E8E0.EncodeStage_453A40(mainBlockIdx, bonusBlockIdx));
+        gGameSession_67E8E0.SetBonusStage(1);
     }
 }
 
 MATCH_FUNC(0x4AD0D0)
-void Frontend::DrawLoading_4AD0D0()
+void Frontend::DrawLoading()
 {
-    const u16 x = GetCenteredXPos_4B0190(gText_0x14_704DFC->Find_5B5F90("loading"), -1, 320);
+    const u16 x = GetCenteredXPos(gText_0x14_704DFC->Find("loading"), -1, 320);
 
-    DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("loading"), x, 260, mNormalFont, 1);
+    DrawText_4B87A0(gText_0x14_704DFC->Find("loading"), x, 260, mNormalFont, 1);
 }
 
 MATCH_FUNC(0x4ADDE0)
-void Frontend::DrawDeletePlayerDialog_4ADDE0()
+void Frontend::DrawDeletePlayerDialog()
 {
     // A one-case switch: the original zero-extends the type and tests it with `dec`.
     switch (mDialogType)
@@ -2931,46 +2931,46 @@ void Frontend::DrawDeletePlayerDialog_4ADDE0()
         case 1:
         {
             u16 ypos = !gText_0x14_704DFC->LangIsJapanese_452E60() ? 12 : 16;
-            DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("clrchar"), static_cast<u16>(275), ypos, mHeadingFont, 1);
+            DrawText_4B87A0(gText_0x14_704DFC->Find("clrchar"), static_cast<u16>(275), ypos, mHeadingFont, 1);
             break;
         }
     }
 
     if (mDialogCursorYpos == 190)
     {
-        DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("sure"), 300, 190, mSelectedFont, 1);
+        DrawText_4B87A0(gText_0x14_704DFC->Find("sure"), 300, 190, mSelectedFont, 1);
     }
     else
     {
-        DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("sure"), 300, 190, mNormalFont, 1);
+        DrawText_4B87A0(gText_0x14_704DFC->Find("sure"), 300, 190, mNormalFont, 1);
     }
 
     if (mDialogCursorYpos == 210)
     {
-        DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("yes"), 300, 210, mSelectedFont, 1);
+        DrawText_4B87A0(gText_0x14_704DFC->Find("yes"), 300, 210, mSelectedFont, 1);
     }
     else
     {
-        DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("yes"), 300, 210, mNormalFont, 1);
+        DrawText_4B87A0(gText_0x14_704DFC->Find("yes"), 300, 210, mNormalFont, 1);
     }
 
     if (mDialogCursorYpos == 230)
     {
-        DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("no"), 300, 230, mSelectedFont, 1);
+        DrawText_4B87A0(gText_0x14_704DFC->Find("no"), 300, 230, mSelectedFont, 1);
     }
     else
     {
-        DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("no"), 300, 230, mNormalFont, 1);
+        DrawText_4B87A0(gText_0x14_704DFC->Find("no"), 300, 230, mNormalFont, 1);
     }
 }
 
 MATCH_FUNC(0x4ADF50)
-void Frontend::DrawCurrentState_4ADF50()
+void Frontend::DrawCurrentState()
 {
     switch (mState)
     {
         case FrontendState::Delete_Player_Dialog_4:
-            DrawDeletePlayerDialog_4ADDE0();
+            DrawDeletePlayerDialog();
             break;
 
         case FrontendState::Menu_Navigation_1:
@@ -2978,16 +2978,16 @@ void Frontend::DrawCurrentState_4ADF50()
         case FrontendState::User_Typing_Password_5:
             if (mCurrentPageIdx == MENUPAGE_CREDITS)
             {
-                DrawCredits_4B7AE0();
+                DrawCredits();
             }
             else
             {
-                DrawMenu_4AD140();
+                DrawMenu();
             }
             break;
 
         case FrontendState::Booting_Map_2:
-            DrawLoading_4AD0D0();
+            DrawLoading();
             break;
 
         default:
@@ -2997,7 +2997,7 @@ void Frontend::DrawCurrentState_4ADF50()
 }
 
 MATCH_FUNC(0x5D7DC0)
-EXPORT void __cdecl FreeSurface_5D7DC0()
+EXPORT void __cdecl FreeSurface()
 {
     pVid_FreeSurface(gVidSys_7071D0);
 }
@@ -3014,7 +3014,7 @@ static inline s32 StepFor_5D7DD0(s32 delta, s32 count)
 
 // Debug line, one gbh_Plot per pixel along the longer axis. x2 and y2 become the deltas, y2 then the y step
 MATCH_FUNC(0x5D7DD0)
-EXPORT void __stdcall DrawDebugLine_5D7DD0(s32 x1, s32 y1, s32 x2, s32 y2, u16 colour)
+EXPORT void __stdcall DrawDebugLine(s32 x1, s32 y1, s32 x2, s32 y2, u16 colour)
 {
     x2 -= x1;
     y2 -= y1;
@@ -3047,16 +3047,16 @@ EXPORT void __stdcall DrawDebugLine_5D7DD0(s32 x1, s32 y1, s32 x2, s32 y2, u16 c
 }
 
 MATCH_FUNC(0x4ADFB0)
-void Frontend::Render_4ADFB0()
+void Frontend::Render()
 {
-    MakeScreenTableAndSetWindow_5D7D30();
+    MakeScreenTableAndSetWindow();
 
     pgbh_BeginScene();
-    DrawBackground_4B6E10();
-    DrawCurrentState_4ADF50();
+    DrawBackground();
+    DrawCurrentState();
     pgbh_EndScene();
 
-    FreeSurface_5D7DC0();
+    FreeSurface();
 
     pVid_FlipBuffers(gVidSys_7071D0);
 
@@ -3064,12 +3064,12 @@ void Frontend::Render_4ADFB0()
 }
 
 // https://decomp.me/scratch/IOmk7
-// The second GetTgaIdxsForMenuScreen_4B6B00 output lives in a dword local that also takes the
+// The second GetTgaIdxsForMenuScreen output lives in a dword local that also takes the
 // result of the last right-hand blit, and that result is tested afterwards. Without the store
 // (and the read that keeps it alive until after tail merging) VC6 merges the two final retry
 // blits into one tail; the original keeps them apart. 9.6f (0x453020) has the same store.
 MATCH_FUNC(0x4B6E10)
-void Frontend::DrawBackground_4B6E10()
+void Frontend::DrawBackground()
 {
     u8 tga_idx;
     s32 ret; // second tga idx then the blit result
@@ -3077,23 +3077,23 @@ void Frontend::DrawBackground_4B6E10()
     if (mMenuScreen == GameOver_13 || mMenuScreen == RedBar_16 || mMenuScreen == BlueBar_14 || mMenuScreen == Loading_15 ||
         mMenuScreen == HiScoresDisplay_12 || mMenuScreen == Credits_17)
     {
-        GetTgaIdxsForMenuScreen_4B6B00(mMenuScreen, &tga_idx, reinterpret_cast<u8*>(&ret));
+        GetTgaIdxsForMenuScreen(mMenuScreen, &tga_idx, reinterpret_cast<u8*>(&ret));
         if (pgbh_BlitImage(tgaArray_61F0C8[tga_idx].mImg, 0, 0, 640, 480, 0, 0) == -10)
         {
             // need to reload image
-            Load_tga_4B6520(tga_idx);
+            Load_tga(tga_idx);
             pgbh_BlitImage(tgaArray_61F0C8[tga_idx].mImg, 0, 0, 640, 480, 0, 0);
         }
     }
     else
     {
-        GetTgaIdxsForMenuScreen_4B6B00(mMenuScreen, &tga_idx, reinterpret_cast<u8*>(&ret));
+        GetTgaIdxsForMenuScreen(mMenuScreen, &tga_idx, reinterpret_cast<u8*>(&ret));
 
         // Left side
         s32 blitRet = pgbh_BlitImage(tgaArray_61F0C8[tga_idx].mImg, 0, 0, 278, 480, 0, 0);
         if (blitRet == -10)
         {
-            Load_tga_4B6520(tga_idx);
+            Load_tga(tga_idx);
             blitRet = pgbh_BlitImage(tgaArray_61F0C8[tga_idx].mImg, 0, 0, 278, 480, 0, 0);
         }
 
@@ -3102,7 +3102,7 @@ void Frontend::DrawBackground_4B6E10()
         {
             if (pgbh_BlitImage(tgaArray_61F0C8[static_cast<u8>(ret)].mImg, 0, 0, 362, 480, 278, 0) == -10)
             {
-                Load_tga_4B6520(static_cast<u8>(ret));
+                Load_tga(static_cast<u8>(ret));
                 ret = pgbh_BlitImage(tgaArray_61F0C8[static_cast<u8>(ret)].mImg, 0, 0, 362, 480, 278, 0);
                 if (ret == -10)
                 {
@@ -3114,7 +3114,7 @@ void Frontend::DrawBackground_4B6E10()
 }
 
 MATCH_FUNC(0x4B6B00)
-void Frontend::GetTgaIdxsForMenuScreen_4B6B00(u8 screen, u8* pTgaIdx, u8* pTgaIdx2)
+void Frontend::GetTgaIdxsForMenuScreen(u8 screen, u8* pTgaIdx, u8* pTgaIdx2)
 {
     switch (screen)
     {
@@ -3214,9 +3214,9 @@ void Frontend::GetTgaIdxsForMenuScreen_4B6B00(u8 screen, u8* pTgaIdx, u8* pTgaId
 }
 
 MATCH_FUNC(0x4B6520)
-void Frontend::Load_tga_4B6520(u16 idx)
+void Frontend::Load_tga(u16 idx)
 {
-    Error_SetName_4A0770(tgaArray_61F0C8[idx].mTgaName);
+    Error_SetName(tgaArray_61F0C8[idx].mTgaName);
 
     FILE* hFile = crt::fopen(tgaArray_61F0C8[idx].mTgaName, "rb");
     if (!hFile)
@@ -3273,12 +3273,12 @@ Frontend::Frontend()
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2297);
         }
     }
-    InitKeyBoardDevice_4AFBE0();
+    InitKeyBoardDevice();
 
-    gText_0x14_704DFC->Load_5B5E90();
-    gGtx_0x106C_703DD4->LoadSty_5AB750("data\\fstyle.sty");
+    gText_0x14_704DFC->Load();
+    gGtx_0x106C_703DD4->LoadSty("data\\fstyle.sty");
 
-    gTextureCache_15D8_705064->LoadStyleTextures_5B9350();
+    gTextureCache_15D8_705064->LoadStyleTextures();
 
     ConvertColourBanks_5D7CB0();
 
@@ -3286,7 +3286,7 @@ Frontend::Frontend()
 
     if (gKanjiFont_6F5168)
     {
-        gKanjiFont_6F5168->InitGlyphCaches_4D2B40();
+        gKanjiFont_6F5168->InitGlyphCaches();
     }
 
     mState = FrontendState::Menu_Navigation_1;
@@ -3303,14 +3303,14 @@ Frontend::Frontend()
     mWinmainNextState = Run_Frontend_2;
     mbCheatsEnabled = false;
 
-    SetFontTypes_4AF0E0();
+    SetFontTypes();
 
     mNextFrameTime = timeGetTime();
     mUpdatesSinceRender = 0;
     mCurrentPageIdx = MENUPAGE_START_MENU;
     mLastInputTime = 0;
 
-    SetupMenuStringsOptionsElements_4B0220();
+    SetupMenuStringsOptionsElements();
 
     mCurrPlyrNameLength = 0;
     mKeyHeld = true;
@@ -3336,12 +3336,12 @@ Frontend::Frontend()
         mNumBonusStages[k3] = 0;
     }
 
-    GetMainAndBonusStagesFromSeqFile_4B4440();
-    LoadPlySlotSvgs_4B53C0();
+    GetMainAndBonusStagesFromSeqFile();
+    LoadPlySlotSvgs();
 
     mMenuScreen = Play_1;
 
-    Load_tgas_4B66B0();
+    Load_tgas();
 
     mHiscoreTableIdx = 0;
     mDialogCursorYpos = 190;
@@ -3366,7 +3366,7 @@ Frontend::Frontend()
 MATCH_FUNC(0x4AF970)
 Frontend::~Frontend()
 {
-    FreeKeyBoardDevice_4AFD00();
+    FreeKeyBoardDevice();
 
     if (gTextureCache_15D8_705064)
     {
@@ -3388,11 +3388,11 @@ Frontend::~Frontend()
         GTA2_DELETE_AND_NULL(gKanjiFont_6F5168);
     }
 
-    FreeImageTable_4B6750();
+    FreeImageTable();
 }
 
 MATCH_FUNC(0x4AFD70)
-void Frontend::AcquireKeyBoard_4AFD70()
+void Frontend::AcquireKeyBoard()
 {
     if (!mpKeyboardDevice || mpKeyboardDevice->Acquire() < 0)
     {
@@ -3401,7 +3401,7 @@ void Frontend::AcquireKeyBoard_4AFD70()
 }
 
 MATCH_FUNC(0x4AFD00)
-void Frontend::FreeKeyBoardDevice_4AFD00()
+void Frontend::FreeKeyBoardDevice()
 {
     if (mpKeyboardDevice)
     {
@@ -3412,13 +3412,13 @@ void Frontend::FreeKeyBoardDevice_4AFD00()
 }
 
 MATCH_FUNC(0x4B6750)
-void Frontend::FreeImageTable_4B6750()
+void Frontend::FreeImageTable()
 {
     pgbh_FreeImageTable();
 }
 
 MATCH_FUNC(0x4AFDD0)
-bool Frontend::KeyBoard_GetKeyStates_4AFDD0()
+bool Frontend::KeyBoard_GetKeyStates()
 {
     HRESULT hr = mpKeyboardDevice->GetDeviceState(256, mKeys);
     if (FAILED(hr))
@@ -3439,7 +3439,7 @@ bool Frontend::KeyBoard_GetKeyStates_4AFDD0()
 }
 
 MATCH_FUNC(0x4AFBE0)
-void Frontend::InitKeyBoardDevice_4AFBE0()
+void Frontend::InitKeyBoardDevice()
 {
     mpDInput = gpDInput_67B804;
     mpKeyboardDevice = NULL;
@@ -3459,11 +3459,11 @@ void Frontend::InitKeyBoardDevice_4AFBE0()
         FatalError_4A38C0(Gta2Error::DirectInputSetCooperativeLevelFail, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2487);
     }
 
-    AcquireKeyBoard_4AFD70();
+    AcquireKeyBoard();
 }
 
 MATCH_FUNC(0x4AF0E0)
-void Frontend::SetFontTypes_4AF0E0()
+void Frontend::SetFontTypes()
 {
     if (gText_0x14_704DFC->LangIsJapanese_452E60())
     {
@@ -3496,7 +3496,7 @@ void Frontend::SetFontTypes_4AF0E0()
 }
 
 MATCH_FUNC(0x4B0220)
-void Frontend::SetupMenuStringsOptionsElements_4B0220()
+void Frontend::SetupMenuStringsOptionsElements()
 {
     // Setup all menu pages, options and elements
 
@@ -3509,19 +3509,19 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->mOptionsArray[0].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[0].mXPos = 300;
     pPage->mOptionsArray[0].mYPos = 250;
-    wcsncpy(pPage->mOptionsArray[0].mOptionNameStr, gText_0x14_704DFC->Find_5B5F90("play"), 0x32u);
+    wcsncpy(pPage->mOptionsArray[0].mOptionNameStr, gText_0x14_704DFC->Find("play"), 0x32u);
     pPage->mOptionsArray[0].mMenuPageTarget = 1;
     pPage->mOptionsArray[1].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[1].mXPos = 300;
     pPage->mOptionsArray[1].mYPos = 270;
     wcsncpy(pPage->mOptionsArray[1].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("options"),
+            gText_0x14_704DFC->Find("options"),
             0x32u);
     pPage->mOptionsArray[1].mMenuPageTarget = 257;
     pPage->mOptionsArray[2].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[2].mXPos = 300;
     pPage->mOptionsArray[2].mYPos = 290;
-    wcsncpy(pPage->mOptionsArray[2].mOptionNameStr, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
+    wcsncpy(pPage->mOptionsArray[2].mOptionNameStr, gText_0x14_704DFC->Find("quit"), 0x32u);
     pPage->mOptionsArray[2].mMenuPageTarget = 9;
     pPage->mOptionStates[0].mUnused0 = 280;
     pPage->mOptionStates[0].mUnused2 = 258;
@@ -3537,7 +3537,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->mOptionsArray[0].mXPos = 300;
     pPage->mOptionsArray[0].mYPos = 210;
     wcsncpy(pPage->mOptionsArray[0].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("charctr"),
+            gText_0x14_704DFC->Find("charctr"),
             0x32u);
     pPage->mOptionsArray[0].mHorizontalSelectedIdx = 0;
     pPage->mOptionsArray[0].mUnused70 = 0;
@@ -3553,28 +3553,28 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->mOptionsArray[1].mXPos = 300;
     pPage->mOptionsArray[1].mYPos = 230;
     wcsncpy(pPage->mOptionsArray[1].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("savepos"),
+            gText_0x14_704DFC->Find("savepos"),
             0x32u);
     pPage->mOptionsArray[1].mMenuPageTarget = 260;
     pPage->mOptionsArray[2].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[2].mXPos = 300;
     pPage->mOptionsArray[2].mYPos = 250;
     wcsncpy(pPage->mOptionsArray[2].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("hi_scre"),
+            gText_0x14_704DFC->Find("hi_scre"),
             0x32u);
     pPage->mOptionsArray[2].mMenuPageTarget = 5;
     pPage->mOptionsArray[3].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[3].mXPos = 300;
     pPage->mOptionsArray[3].mYPos = 270;
     wcsncpy(pPage->mOptionsArray[3].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("strtlev"),
+            gText_0x14_704DFC->Find("strtlev"),
             0x32u);
     pPage->mOptionsArray[3].mMenuPageTarget = 264;
     pPage->mOptionsArray[4].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[4].mXPos = 300;
     pPage->mOptionsArray[4].mYPos = 350;
     wcsncpy(pPage->mOptionsArray[4].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("bonslev"),
+            gText_0x14_704DFC->Find("bonslev"),
             0x32u);
     pPage->mOptionsArray[4].mMenuPageTarget = 265;
     pPage->mOptionStates[0].mUnused0 = 280;
@@ -3602,14 +3602,14 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->mElementsArray[2].mXpos = 410;
     pPage->mElementsArray[2].mYpos = 298;
     wcsncpy(pPage->mElementsArray[2].mElementNameStr,
-            gText_0x14_704DFC->Find_5B5F90("car_dam"),
+            gText_0x14_704DFC->Find("car_dam"),
             0x32u);
     pPage->mElementsArray[2].mFontType = gFrontendHeadingFont_703C3C;
     pPage->mElementsArray[3].mElementType = STRING_TEXT_1;
     pPage->mElementsArray[3].mXpos = 410;
     pPage->mElementsArray[3].mYpos = 378;
     wcsncpy(pPage->mElementsArray[3].mElementNameStr,
-            gText_0x14_704DFC->Find_5B5F90("car_dam"),
+            gText_0x14_704DFC->Find("car_dam"),
             0x32u);
     pPage->mElementsArray[3].mFontType = gFrontendHeadingFont_703C3C;
     pPage->mElementsArray[4].mElementType = GEOMETRIC_SHAPE_3;
@@ -3642,36 +3642,36 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->mElementsArray[0].mElementType = STRING_TEXT_1;
     pPage->mElementsArray[0].mXpos = 35;
     pPage->mElementsArray[0].mYpos = 11;
-    wcscpy(pPage->mElementsArray[0].mElementNameStr, gText_0x14_704DFC->Find_5B5F90("plr_qut"));
+    wcscpy(pPage->mElementsArray[0].mElementNameStr, gText_0x14_704DFC->Find("plr_qut"));
     pPage->mElementsArray[0].mFontType = mTitleFont;
     pPage->mElementsArray[0].mFontPalette = 5;
     pPage->mOptionsArray[0].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[0].mYPos = 392;
     wcsncpy(pPage->mOptionsArray[0].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("savepos"),
+            gText_0x14_704DFC->Find("savepos"),
             0x32u);
     pPage->mOptionsArray[0].mXPos =
-        Frontend::GetCenteredXPos_4B0190(pPage->mOptionsArray[0].mOptionNameStr,
+        Frontend::GetCenteredXPos(pPage->mOptionsArray[0].mOptionNameStr,
                              pPage->mOptionsArray[0].mFontType,
                              320);
     pPage->mOptionsArray[0].mMenuPageTarget = 260;
     pPage->mOptionsArray[1].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[1].mYPos = 412;
     wcsncpy(pPage->mOptionsArray[1].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("replay"),
+            gText_0x14_704DFC->Find("replay"),
             0x32u);
     pPage->mOptionsArray[1].mXPos =
-        Frontend::GetCenteredXPos_4B0190(pPage->mOptionsArray[1].mOptionNameStr,
+        Frontend::GetCenteredXPos(pPage->mOptionsArray[1].mOptionNameStr,
                              pPage->mOptionsArray[1].mFontType,
                              320);
     pPage->mOptionsArray[1].mMenuPageTarget = 259;
     pPage->mOptionsArray[2].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[2].mYPos = 432;
     wcsncpy(pPage->mOptionsArray[2].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("mainmen"),
+            gText_0x14_704DFC->Find("mainmen"),
             0x32u);
     pPage->mOptionsArray[2].mXPos =
-        Frontend::GetCenteredXPos_4B0190(pPage->mOptionsArray[2].mOptionNameStr,
+        Frontend::GetCenteredXPos(pPage->mOptionsArray[2].mOptionNameStr,
                              pPage->mOptionsArray[2].mFontType,
                              320);
     pPage->mOptionsArray[2].mMenuPageTarget = 0;
@@ -3690,37 +3690,37 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->mElementsArray[0].mXpos = 35;
     pPage->mElementsArray[0].mYpos = 11;
     wcsncpy(pPage->mElementsArray[0].mElementNameStr,
-            gText_0x14_704DFC->Find_5B5F90("plr_ded"),
+            gText_0x14_704DFC->Find("plr_ded"),
             0x32u);
     pPage->mElementsArray[0].mFontType = mTitleFont;
     pPage->mElementsArray[0].mFontPalette = 0;
     pPage->mOptionsArray[0].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[0].mYPos = 392;
     wcsncpy(pPage->mOptionsArray[0].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("savepos"),
+            gText_0x14_704DFC->Find("savepos"),
             0x32u);
     pPage->mOptionsArray[0].mXPos =
-        Frontend::GetCenteredXPos_4B0190(pPage->mOptionsArray[0].mOptionNameStr,
+        Frontend::GetCenteredXPos(pPage->mOptionsArray[0].mOptionNameStr,
                              pPage->mOptionsArray[0].mFontType,
                              320);
     pPage->mOptionsArray[0].mMenuPageTarget = 260;
     pPage->mOptionsArray[1].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[1].mYPos = 412;
     wcsncpy(pPage->mOptionsArray[1].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("replay"),
+            gText_0x14_704DFC->Find("replay"),
             0x32u);
     pPage->mOptionsArray[1].mXPos =
-        Frontend::GetCenteredXPos_4B0190(pPage->mOptionsArray[1].mOptionNameStr,
+        Frontend::GetCenteredXPos(pPage->mOptionsArray[1].mOptionNameStr,
                              pPage->mOptionsArray[1].mFontType,
                              320);
     pPage->mOptionsArray[1].mMenuPageTarget = 259;
     pPage->mOptionsArray[2].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[2].mYPos = 432;
     wcsncpy(pPage->mOptionsArray[2].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("mainmen"),
+            gText_0x14_704DFC->Find("mainmen"),
             0x32u);
     pPage->mOptionsArray[2].mXPos =
-        Frontend::GetCenteredXPos_4B0190(pPage->mOptionsArray[2].mOptionNameStr,
+        Frontend::GetCenteredXPos(pPage->mOptionsArray[2].mOptionNameStr,
                              pPage->mOptionsArray[2].mFontType,
                              320);
     pPage->mOptionsArray[2].mMenuPageTarget = 0;
@@ -3739,56 +3739,56 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->mElementsArray[0].mXpos = 35;
     pPage->mElementsArray[0].mYpos = 11;
     wcsncpy(pPage->mElementsArray[0].mElementNameStr,
-            gText_0x14_704DFC->Find_5B5F90("cmpltd"),
+            gText_0x14_704DFC->Find("cmpltd"),
             0x32u);
     pPage->mElementsArray[0].mFontType = mAreaCompleteFont;
     pPage->mOptionsArray[0].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[0].mYPos = 365;
     wcsncpy(pPage->mOptionsArray[0].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("nxt_lvl"),
+            gText_0x14_704DFC->Find("nxt_lvl"),
             0x32u);
     pPage->mOptionsArray[0].mXPos =
-        Frontend::GetCenteredXPos_4B0190(pPage->mOptionsArray[0].mOptionNameStr,
+        Frontend::GetCenteredXPos(pPage->mOptionsArray[0].mOptionNameStr,
                              pPage->mOptionsArray[0].mFontType,
                              320);
     pPage->mOptionsArray[0].mMenuPageTarget = 261;
     pPage->mOptionsArray[1].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[1].mYPos = 385;
     wcsncpy(pPage->mOptionsArray[1].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("savepos"),
+            gText_0x14_704DFC->Find("savepos"),
             0x32u);
     pPage->mOptionsArray[1].mXPos =
-        Frontend::GetCenteredXPos_4B0190(pPage->mOptionsArray[1].mOptionNameStr,
+        Frontend::GetCenteredXPos(pPage->mOptionsArray[1].mOptionNameStr,
                              pPage->mOptionsArray[1].mFontType,
                              320);
     pPage->mOptionsArray[1].mMenuPageTarget = 260;
     pPage->mOptionsArray[2].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[2].mYPos = 405;
     wcsncpy(pPage->mOptionsArray[2].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("replay"),
+            gText_0x14_704DFC->Find("replay"),
             0x32u);
     pPage->mOptionsArray[2].mXPos =
-        Frontend::GetCenteredXPos_4B0190(pPage->mOptionsArray[2].mOptionNameStr,
+        Frontend::GetCenteredXPos(pPage->mOptionsArray[2].mOptionNameStr,
                              pPage->mOptionsArray[2].mFontType,
                              320);
     pPage->mOptionsArray[2].mMenuPageTarget = 259;
     pPage->mOptionsArray[3].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[3].mYPos = 425;
     wcsncpy(pPage->mOptionsArray[3].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("contnue"),
+            gText_0x14_704DFC->Find("contnue"),
             0x32u);
     pPage->mOptionsArray[3].mXPos =
-        Frontend::GetCenteredXPos_4B0190(pPage->mOptionsArray[3].mOptionNameStr,
+        Frontend::GetCenteredXPos(pPage->mOptionsArray[3].mOptionNameStr,
                              pPage->mOptionsArray[3].mFontType,
                              320);
     pPage->mOptionsArray[3].mMenuPageTarget = 266;
     pPage->mOptionsArray[4].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[4].mYPos = 445;
     wcsncpy(pPage->mOptionsArray[4].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("mainmen"),
+            gText_0x14_704DFC->Find("mainmen"),
             0x32u);
     pPage->mOptionsArray[4].mXPos =
-        Frontend::GetCenteredXPos_4B0190(pPage->mOptionsArray[4].mOptionNameStr,
+        Frontend::GetCenteredXPos(pPage->mOptionsArray[4].mOptionNameStr,
                              pPage->mOptionsArray[4].mFontType,
                              320);
     pPage->mOptionsArray[4].mMenuPageTarget = 0;
@@ -3810,18 +3810,18 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->mElementsArray[0].mElementType = STRING_TEXT_1;
     pPage->mElementsArray[0].mYpos = 230;
     wcsncpy(pPage->mElementsArray[0].mElementNameStr,
-            gText_0x14_704DFC->Find_5B5F90("gam_cmp"),
+            gText_0x14_704DFC->Find("gam_cmp"),
             0x32u);
     s16 title_font = mTitleFont;
     pPage->mElementsArray[0].mFontType = title_font;
     pPage->mElementsArray[0].mXpos =
-        Frontend::GetCenteredXPos_4B0190(pPage->mElementsArray[0].mElementNameStr, title_font, 320);
+        Frontend::GetCenteredXPos(pPage->mElementsArray[0].mElementNameStr, title_font, 320);
     pPage->mElementsArray[0].mFontPalette = 4;
     pPage->mOptionsArray[0].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[0].mXPos = 180;
     pPage->mOptionsArray[0].mYPos = 410;
     wcsncpy(pPage->mOptionsArray[0].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("mainmen"),
+            gText_0x14_704DFC->Find("mainmen"),
             0x32u);
     pPage->mOptionsArray[0].mMenuPageTarget = 0;
     pPage->mOptionStates[0].mUnused0 = 160;
@@ -3868,7 +3868,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->mElementsArray[4].mXpos = 340;
     pPage->mElementsArray[4].mYpos = line_height;
     wcsncpy(pPage->mElementsArray[4].mElementNameStr,
-            gText_0x14_704DFC->Find_5B5F90("hi_scre"),
+            gText_0x14_704DFC->Find("hi_scre"),
             0x32u);
     pPage->mElementsArray[4].mFontType = mHeadingFont;
     pPage = &mMenuPagesArray[6];
@@ -3878,7 +3878,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->mElementsArray[0].mXpos = 35;
     pPage->mElementsArray[0].mYpos = 11;
     wcsncpy(pPage->mElementsArray[0].mElementNameStr,
-            gText_0x14_704DFC->Find_5B5F90("bonslev"),
+            gText_0x14_704DFC->Find("bonslev"),
             0x32u);
     pPage->mElementsArray[0].mFontType = mTitleFont;
     pPage->mElementsArray[0].mFontPalette = 5;
@@ -3886,7 +3886,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->mElementsArray[1].mXpos = 170;
     pPage->mElementsArray[1].mYpos = 250;
     wcsncpy(pPage->mElementsArray[1].mElementNameStr,
-            gText_0x14_704DFC->Find_5B5F90("score"),
+            gText_0x14_704DFC->Find("score"),
             0x32u);
     pPage->mElementsArray[2].mElementType = STRING_TEXT_1;
     pPage->mElementsArray[2].mXpos = 400;
@@ -3895,31 +3895,31 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->mOptionsArray[0].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[0].mYPos = 340;
     wcsncpy(pPage->mOptionsArray[0].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("repbons"),
+            gText_0x14_704DFC->Find("repbons"),
             0x32u);
     // The original reads the option's own (never written) font field here, not mSelectedFont
     pPage->mOptionsArray[0].mXPos =
-        Frontend::GetCenteredXPos_4B0190(pPage->mOptionsArray[0].mOptionNameStr,
+        Frontend::GetCenteredXPos(pPage->mOptionsArray[0].mOptionNameStr,
                              pPage->mOptionsArray[0].mFontType,
                              320);
     pPage->mOptionsArray[0].mMenuPageTarget = 259;
     pPage->mOptionsArray[1].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[1].mYPos = 360;
     wcsncpy(pPage->mOptionsArray[1].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("nxt_lvl"),
+            gText_0x14_704DFC->Find("nxt_lvl"),
             0x32u);
     pPage->mOptionsArray[1].mXPos =
-        Frontend::GetCenteredXPos_4B0190(pPage->mOptionsArray[1].mOptionNameStr,
+        Frontend::GetCenteredXPos(pPage->mOptionsArray[1].mOptionNameStr,
                              pPage->mOptionsArray[1].mFontType,
                              320);
     pPage->mOptionsArray[1].mMenuPageTarget = 261;
     pPage->mOptionsArray[2].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[2].mYPos = 380;
     wcsncpy(pPage->mOptionsArray[2].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("mainmen"),
+            gText_0x14_704DFC->Find("mainmen"),
             0x32u);
     pPage->mOptionsArray[2].mXPos =
-        Frontend::GetCenteredXPos_4B0190(pPage->mOptionsArray[2].mOptionNameStr,
+        Frontend::GetCenteredXPos(pPage->mOptionsArray[2].mOptionNameStr,
                              pPage->mOptionsArray[2].mFontType,
                              320);
     pPage->mOptionsArray[2].mMenuPageTarget = 0;
@@ -3966,10 +3966,10 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->mElementsArray[7].mElementType = STRING_TEXT_1;
     pPage->mElementsArray[7].mYpos = 300;
     wcsncpy(pPage->mElementsArray[7].mElementNameStr,
-            gText_0x14_704DFC->Find_5B5F90("kills_h"),
+            gText_0x14_704DFC->Find("kills_h"),
             0x32u);
     pPage->mElementsArray[7].mXpos =
-        GetCenteredXPos_4B0190(pPage->mElementsArray[7].mElementNameStr,
+        GetCenteredXPos(pPage->mElementsArray[7].mElementNameStr,
                    pPage->mElementsArray[7].mFontType,
                    320);
     pPage->mElementsArray[8].mElementType = STRING_TEXT_1;
@@ -3992,9 +3992,9 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->mElementsArray[13].mYpos = 150;
     pPage->mOptionsArray[0].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[0].mYPos = 430;
-    wcsncpy(pPage->mOptionsArray[0].mOptionNameStr, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
+    wcsncpy(pPage->mOptionsArray[0].mOptionNameStr, gText_0x14_704DFC->Find("quit"), 0x32u);
     pPage->mOptionsArray[0].mXPos =
-        GetCenteredXPos_4B0190(pPage->mOptionsArray[0].mOptionNameStr,
+        GetCenteredXPos(pPage->mOptionsArray[0].mOptionNameStr,
                    pPage->mOptionsArray[0].mFontType,
                    320);
     pPage->mOptionsArray[0].mMenuPageTarget = 258;
@@ -4009,7 +4009,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->mOptionsArray[0].mXPos = 200;
     pPage->mOptionsArray[0].mYPos = 280;
     wcsncpy(pPage->mOptionsArray[0].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("mainmen"),
+            gText_0x14_704DFC->Find("mainmen"),
             0x32u);
     pPage->mOptionsArray[0].mMenuPageTarget = 0;
     pPage->mOptionStates[0].mUnused0 = 180;
@@ -4022,18 +4022,18 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->mElementsArray[0].mElementType = STRING_TEXT_1;
     pPage->mElementsArray[0].mYpos = 230;
     wcsncpy(pPage->mElementsArray[0].mElementNameStr,
-            gText_0x14_704DFC->Find_5B5F90("nicetry"),
+            gText_0x14_704DFC->Find("nicetry"),
             0x32u);
     s16 title_font2 = mTitleFont;
     pPage->mElementsArray[0].mFontType = title_font2;
     pPage->mElementsArray[0].mXpos =
-        GetCenteredXPos_4B0190(pPage->mElementsArray[0].mElementNameStr, title_font2, 320);
+        GetCenteredXPos(pPage->mElementsArray[0].mElementNameStr, title_font2, 320);
     pPage->mElementsArray[0].mFontPalette = 4;
     pPage->mOptionsArray[0].mOptionType = ENTERABLE_1;
     pPage->mOptionsArray[0].mXPos = 180;
     pPage->mOptionsArray[0].mYPos = 410;
     wcsncpy(pPage->mOptionsArray[0].mOptionNameStr,
-            gText_0x14_704DFC->Find_5B5F90("mainmen"),
+            gText_0x14_704DFC->Find("mainmen"),
             0x32u);
     pPage->mOptionsArray[0].mMenuPageTarget = 0;
     pPage->mOptionStates[0].mUnused0 = 160;
@@ -4051,13 +4051,13 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->mElementsArray[0].mXpos = 20;
     pPage->mElementsArray[0].mYpos = 160;
     wcsncpy(pPage->mElementsArray[0].mElementNameStr,
-            gText_0x14_704DFC->Find_5B5F90("fr_ent1"),
+            gText_0x14_704DFC->Find("fr_ent1"),
             0x32u);
     pPage->mElementsArray[1].mElementType = STRING_TEXT_1;
     pPage->mElementsArray[1].mXpos = 20;
     pPage->mElementsArray[1].mYpos = 180;
     wcsncpy(pPage->mElementsArray[1].mElementNameStr,
-            gText_0x14_704DFC->Find_5B5F90("fr_ent2"),
+            gText_0x14_704DFC->Find("fr_ent2"),
             0x32u);
     pPage->mElementsArray[2].mElementType = STRING_TEXT_1;
     pPage->mElementsArray[2].mXpos = 20;
@@ -4067,19 +4067,19 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->mElementsArray[3].mXpos = 20;
     pPage->mElementsArray[3].mYpos = 300;
     wcsncpy(pPage->mElementsArray[3].mElementNameStr,
-            gText_0x14_704DFC->Find_5B5F90("fr_pmpt"),
+            gText_0x14_704DFC->Find("fr_pmpt"),
             0x32u);
     pPage->mElementsArray[4].mElementType = STRING_TEXT_1;
     pPage->mElementsArray[4].mXpos = 20;
     pPage->mElementsArray[4].mYpos = 320;
     wcsncpy(pPage->mElementsArray[4].mElementNameStr,
-            gText_0x14_704DFC->Find_5B5F90("score"),
+            gText_0x14_704DFC->Find("score"),
             0x32u);
     pPage->mOptionStates[0].mUnused0 = 150;
     pPage->mOptionStates[0].mUnused2 = 348;
     pPage->mCurrentOptionIdx = 0;
     pPage->mDefaultOptionIdx = 0;
-    mCredits.LoadCredits_483F20();
+    mCredits.LoadCredits();
 }
 
 // The GMP/STY/SCR names read from a MAIN or BONUS block of the .seq file. A struct (not three
@@ -4092,7 +4092,7 @@ struct SeqStageFiles
 };
 
 MATCH_FUNC(0x4B4440)
-void Frontend::GetMainAndBonusStagesFromSeqFile_4B4440()
+void Frontend::GetMainAndBonusStagesFromSeqFile()
 {
     u8* pBlock;
     char mainOrBonus[256];
@@ -4131,7 +4131,7 @@ void Frontend::GetMainAndBonusStagesFromSeqFile_4B4440()
         return;
     }
 
-    GetSeqItem_4B48D0(0, mainOrBonus, hSeqFile);
+    GetSeqItem(0, mainOrBonus, hSeqFile);
 
     while (strcmp(mainOrBonus, "") != 0)
     {
@@ -4150,11 +4150,11 @@ void Frontend::GetMainAndBonusStagesFromSeqFile_4B4440()
             pBlock = &this->mNumBonusStages[main_block_counter];
             *pBlock = 0;
 
-            GetSeqItem_4B48D0(1, files.mGmp, hSeqFile);
-            GetSeqItem_4B48D0(2, files.mSty, hSeqFile);
-            GetSeqItem_4B48D0(3, files.mScr, hSeqFile);
-            GetSeqItem_4B48D0(4, description, hSeqFile);
-            StoreStringsForStage_4B4BC0(main_block_counter, *pBlock, files.mGmp, files.mSty, files.mScr);
+            GetSeqItem(1, files.mGmp, hSeqFile);
+            GetSeqItem(2, files.mSty, hSeqFile);
+            GetSeqItem(3, files.mScr, hSeqFile);
+            GetSeqItem(4, description, hSeqFile);
+            StoreStringsForStage(main_block_counter, *pBlock, files.mGmp, files.mSty, files.mScr);
             ++*pBlock;
         }
         else if (strcmp(mainOrBonus, "BONUS") == 0)
@@ -4169,11 +4169,11 @@ void Frontend::GetMainAndBonusStagesFromSeqFile_4B4440()
                 FatalError_4A38C0(Gta2Error::TooManyBonusBlocks, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4945);
             }
 
-            GetSeqItem_4B48D0(1, files.mGmp, hSeqFile);
-            GetSeqItem_4B48D0(2, files.mSty, hSeqFile);
-            GetSeqItem_4B48D0(3, files.mScr, hSeqFile);
-            GetSeqItem_4B48D0(4, description, hSeqFile);
-            StoreStringsForStage_4B4BC0(main_block_counter, *pBlock, files.mGmp, files.mSty, files.mScr);
+            GetSeqItem(1, files.mGmp, hSeqFile);
+            GetSeqItem(2, files.mSty, hSeqFile);
+            GetSeqItem(3, files.mScr, hSeqFile);
+            GetSeqItem(4, description, hSeqFile);
+            StoreStringsForStage(main_block_counter, *pBlock, files.mGmp, files.mSty, files.mScr);
             ++*pBlock;
         }
         else
@@ -4181,7 +4181,7 @@ void Frontend::GetMainAndBonusStagesFromSeqFile_4B4440()
             FatalError_4A38C0(Gta2Error::InvalidBlockType, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4959);
         }
 
-        GetSeqItem_4B48D0(0, mainOrBonus, hSeqFile);
+        GetSeqItem(0, mainOrBonus, hSeqFile);
     }
 
     mNumMainStages = main_block_counter + 1;
@@ -4189,13 +4189,13 @@ void Frontend::GetMainAndBonusStagesFromSeqFile_4B4440()
 }
 
 MATCH_FUNC(0x4B48D0)
-void Frontend::GetSeqItem_4B48D0(u8 type, char_type* ppRet, FILE* hSeqFile)
+void Frontend::GetSeqItem(u8 type, char_type* ppRet, FILE* hSeqFile)
 {
     char_type type_buf[52];
     char_type output_buf[256];
 
     u16 pos = 0;
-    char_type letter = File::SkipWhitespace_4A7340(hSeqFile);
+    char_type letter = File::SkipWhitespace(hSeqFile);
     while (!letter)
     {
         if (feof(hSeqFile))
@@ -4203,7 +4203,7 @@ void Frontend::GetSeqItem_4B48D0(u8 type, char_type* ppRet, FILE* hSeqFile)
             strcpy(ppRet, "");
             return;
         }
-        letter = File::SkipWhitespace_4A7340(hSeqFile);
+        letter = File::SkipWhitespace(hSeqFile);
     }
 
     if (letter)
@@ -4216,7 +4216,7 @@ void Frontend::GetSeqItem_4B48D0(u8 type, char_type* ppRet, FILE* hSeqFile)
         while (letter != '=')
         {
             output_buf[pos++] = letter;
-            letter = File::SkipWhitespace_4A7340(hSeqFile);
+            letter = File::SkipWhitespace(hSeqFile);
             if (!letter)
             {
                 FatalError_4A38C0(Gta2Error::LineInterruptedByNewline, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5026);
@@ -4253,13 +4253,13 @@ void Frontend::GetSeqItem_4B48D0(u8 type, char_type* ppRet, FILE* hSeqFile)
         if (strcmp(type_buf, output_buf) == 0)
         {
             pos = 0;
-            letter = File::SkipWhitespace_4A7340(hSeqFile);
+            letter = File::SkipWhitespace(hSeqFile);
             if (letter)
             {
                 do
                 {
                     output_buf[pos++] = letter;
-                    letter = File::SkipWhitespace_4A7340(hSeqFile);
+                    letter = File::SkipWhitespace(hSeqFile);
                     if (pos > 255u)
                     {
                         FatalError_4A38C0(Gta2Error::LineDataTooLong, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5074);
@@ -4277,15 +4277,15 @@ void Frontend::GetSeqItem_4B48D0(u8 type, char_type* ppRet, FILE* hSeqFile)
 }
 
 MATCH_FUNC(0x4B53C0)
-void Frontend::LoadPlySlotSvgs_4B53C0()
+void Frontend::LoadPlySlotSvgs()
 {
     char_type FileName[256];
     for (u8 i = 0; i < GTA2_COUNTOF(mPlySlots); i++)
     {
-        if (PlySlotSvgExists_4B5370(i))
+        if (PlySlotSvgExists(i))
         {
-            GetPlySlotSvgName_4B51D0(i, FileName);
-            mPlySlots[i].LoadPlySlotSvg_4B6480(FileName);
+            GetPlySlotSvgName(i, FileName);
+            mPlySlots[i].LoadPlySlotSvg(FileName);
         }
         else
         {
@@ -4298,19 +4298,19 @@ void Frontend::LoadPlySlotSvgs_4B53C0()
 }
 
 MATCH_FUNC(0x4B66B0)
-void Frontend::Load_tgas_4B66B0()
+void Frontend::Load_tgas()
 {
     if (pgbh_InitImageTable(gTableSize_61FF20) != -1)
     {
         for (u16 i = 0; i < gTableSize_61FF20; ++i)
         {
-            Load_tga_4B6520(i);
+            Load_tga(i);
         }
     }
 }
 
 MATCH_FUNC(0x4B51D0)
-void Frontend::GetPlySlotSvgName_4B51D0(u8 idx, char_type* pStr)
+void Frontend::GetPlySlotSvgName(u8 idx, char_type* pStr)
 {
     char_type Buffer[8];
     _itoa(idx, Buffer, 10);
@@ -4320,9 +4320,9 @@ void Frontend::GetPlySlotSvgName_4B51D0(u8 idx, char_type* pStr)
 }
 
 MATCH_FUNC(0x4B5270)
-void Frontend::DrawSavedStage_4B5270()
+void Frontend::DrawSavedStage()
 {
-    u8 plySlotIdx = gGameSession_67E8E0.GetPlySlotIdx_4C59B0();
+    u8 plySlotIdx = gGameSession_67E8E0.GetPlySlotIdx();
     u8 codified_stages = mPlySlots[plySlotIdx].mLastSavedBonusStageCode;
 
     u8 main_stage;
@@ -4345,10 +4345,10 @@ void Frontend::DrawSavedStage_4B5270()
 }
 
 MATCH_FUNC(0x4B5370)
-bool Frontend::PlySlotSvgExists_4B5370(u8 idx)
+bool Frontend::PlySlotSvgExists(u8 idx)
 {
     char_type FileName[256];
-    GetPlySlotSvgName_4B51D0(idx, FileName);
+    GetPlySlotSvgName(idx, FileName);
 
     _finddata_t findData;
     long hFind = _findfirst(FileName, &findData);
@@ -4362,7 +4362,7 @@ bool Frontend::PlySlotSvgExists_4B5370(u8 idx)
 }
 
 MATCH_FUNC(0x4B77B0)
-u8 Frontend::GetLastUnlockedMainStage_4B77B0(PlySlot* pStats)
+u8 Frontend::GetLastUnlockedMainStage(PlySlot* pStats)
 {
     u8 result;
 
@@ -4377,9 +4377,9 @@ u8 Frontend::GetLastUnlockedMainStage_4B77B0(PlySlot* pStats)
 }
 
 MATCH_FUNC(0x4B7800)
-u8 Frontend::GetLastUnlockedBonusStageCode_4B7800(PlySlot* pStats)
+u8 Frontend::GetLastUnlockedBonusStageCode(PlySlot* pStats)
 {
-    u8 stage = Frontend::GetLastUnlockedMainStage_4B77B0(pStats);
+    u8 stage = Frontend::GetLastUnlockedMainStage(pStats);
     u8 bonus = mNumBonusStages[stage] - 1;
     while (1)
     {
@@ -4410,7 +4410,7 @@ u8 Frontend::GetLastUnlockedBonusStageCode_4B7800(PlySlot* pStats)
 EXTERN_GLOBAL(bool, bDoFrontEnd_626B68);
 
 MATCH_FUNC(0x5E53C0)
-void __stdcall Frontend::SetInputEnabled_5E53C0(u8* pEnabled)
+void __stdcall Frontend::SetInputEnabled(u8* pEnabled)
 {
     if (bDoFrontEnd_626B68)
     {
@@ -4426,7 +4426,7 @@ void __stdcall Frontend::SetInputEnabled_5E53C0(u8* pEnabled)
 }
 
 MATCH_FUNC(0x5D8990)
-s32 __stdcall Frontend::GetMaxTextWidth_5D8990(wchar_t* pStr, u16 font_type)
+s32 __stdcall Frontend::GetMaxTextWidth(wchar_t* pStr, u16 font_type)
 {
     /*If pStr has 1 line, this will return num of characters of pStr. 
     If pStr has multiple lines, this will return the num of characters of the line which have more 
@@ -4434,7 +4434,7 @@ s32 __stdcall Frontend::GetMaxTextWidth_5D8990(wchar_t* pStr, u16 font_type)
 
     wchar_t* pStrIter = pStr;
     s32 current = 0;
-    s32 spaceSize = gGtx_0x106C_703DD4->GetSpaceCharWidth_5AA7B0(&font_type);
+    s32 spaceSize = gGtx_0x106C_703DD4->GetSpaceCharWidth(&font_type);
     s32 biggestLine = 0;
     if (*pStr)
     {
@@ -4455,7 +4455,7 @@ s32 __stdcall Frontend::GetMaxTextWidth_5D8990(wchar_t* pStr, u16 font_type)
             }
             else if (str_char_type != '#')
             {
-                current += gGtx_0x106C_703DD4->GetFontWidth_5AA760(&font_type, pStrIter);
+                current += gGtx_0x106C_703DD4->GetFontWidth(&font_type, pStrIter);
             }
             ++pStrIter;
         } while (*pStrIter);
@@ -4469,7 +4469,7 @@ s32 __stdcall Frontend::GetMaxTextWidth_5D8990(wchar_t* pStr, u16 font_type)
 }
 
 MATCH_FUNC(0x4B78B0)
-void Frontend::DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, u16 palette, u16 scale, u16 char_width, bool bRightAlign)
+void Frontend::DrawTextFixedWidth(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, u16 palette, u16 scale, u16 char_width, bool bRightAlign)
 {
     u16 text_xbase;
 
@@ -4492,7 +4492,7 @@ void Frontend::DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 te
 
     for (chr[0] = pString[0]; chr[0]; chr[0] = pString[++text_xposa])
     {
-        u16 biggestLine = Frontend::GetMaxTextWidth_5D8990(chr, font_type);
+        u16 biggestLine = Frontend::GetMaxTextWidth(chr, font_type);
         u16 char_pad = (char_width - biggestLine) / 2;
         if (static_cast<u16>(palette) == 0xFFFF)
         {
@@ -4507,12 +4507,12 @@ void Frontend::DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 te
 }
 
 MATCH_FUNC(0x4B55F0)
-void Frontend::DrawMultiplayerScores_4B55F0()
+void Frontend::DrawMultiplayerScores()
 {
     // Draw page containing the match results according to the game mode
-    s8 game_mode = gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0();
-    u8 max_players = gGameSession_67E8E0.GetMaxPlayers_4C5BF0();
-    u8 user_idx = gGameSession_67E8E0.GetUserPlayerIdx_4C5BE0();
+    s8 game_mode = gGameSession_67E8E0.GetMultiplayerGamemode();
+    u8 max_players = gGameSession_67E8E0.GetMaxPlayers();
+    u8 user_idx = gGameSession_67E8E0.GetUserPlayerIdx();
 
     u8 idx_2 = 0;
 
@@ -4524,14 +4524,14 @@ void Frontend::DrawMultiplayerScores_4B55F0()
 
         if (game_mode == FRAG_GAME_1) //  frags
         {
-            s32 frags = static_cast<s16>(gGameSession_67E8E0.GetFragsForPlayerIdx_4C5D60(curr_plyr_idx));
+            s32 frags = static_cast<s16>(gGameSession_67E8E0.GetFragsForPlayerIdx(curr_plyr_idx));
             _itow(frags, Buffer, 10);
             x_pos = 550;
             y_pos = 20 * curr_plyr_idx + 170;
         }
         else if (game_mode == POINTS_GAME_2) //  points game
         {
-            s32 points = gGameSession_67E8E0.GetPointsForPlayerIdx_4C5CB0(curr_plyr_idx);
+            s32 points = gGameSession_67E8E0.GetPointsForPlayerIdx(curr_plyr_idx);
             _itow(points, Buffer, 10);
             x_pos = 550;
             y_pos = 20 * curr_plyr_idx + 170;
@@ -4546,7 +4546,7 @@ void Frontend::DrawMultiplayerScores_4B55F0()
 
         DrawText_4B87A0(Buffer, x_pos, y_pos, mNormalFont, 1);
 
-        s32 frags = gGameSession_67E8E0.GetFragsOnPlayer_4C5D80(user_idx, curr_plyr_idx);
+        s32 frags = gGameSession_67E8E0.GetFragsOnPlayer(user_idx, curr_plyr_idx);
         _itow(frags, Buffer, 10);
 
         if (game_mode != TAG_GAME_3 && curr_plyr_idx != user_idx)
@@ -4560,28 +4560,28 @@ void Frontend::DrawMultiplayerScores_4B55F0()
 }
 
 MATCH_FUNC(0x4B57B0)
-void Frontend::DrawLastAndBestStats_4B57B0(u16 text_xpos, u16 text_ypos)
+void Frontend::DrawLastAndBestStats(u16 text_xpos, u16 text_ypos)
 {
     u16 font_type = mScoreFont;
     s32 line_height = gText_0x14_704DFC->mLangCode != 106 ? 14 : 16;
-    u8 main_stage_idx = gGameSession_67E8E0.GetMainStageIdx_4C5980();
+    u8 main_stage_idx = gGameSession_67E8E0.GetMainStageIdx();
 
     if (gText_0x14_704DFC->mLangCode == 106)
     {
         text_ypos += 5;
     }
-    wchar_t* _5B5F90 = gText_0x14_704DFC->Find_5B5F90("last");
+    wchar_t* _5B5F90 = gText_0x14_704DFC->Find("last");
     swprintf(tmpBuff_67BD9C, _5B5F90);
 
-    s32 x = Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, font_type);
+    s32 x = Frontend::GetMaxTextWidth(tmpBuff_67BD9C, font_type);
 
     u16 x_pos;
     u16 y_pos;
     DrawText_4B87A0(tmpBuff_67BD9C, static_cast<u16>(text_xpos - x + 494), static_cast<u16>(text_ypos - 15), font_type, 1);
 
-    swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("best"));
+    swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find("best"));
 
-    x = Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, font_type);
+    x = Frontend::GetMaxTextWidth(tmpBuff_67BD9C, font_type);
 
     y_pos = text_ypos - 15;
     DrawText_4B87A0(tmpBuff_67BD9C, static_cast<u16>(text_xpos - x + 624), y_pos, font_type, 1);
@@ -4595,51 +4595,51 @@ void Frontend::DrawLastAndBestStats_4B57B0(u16 text_xpos, u16 text_ypos)
 
     x_pos = text_xpos;
     y_pos = text_ypos;
-    DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("carjack"), x_pos, y_pos, font_type, 1);
+    DrawText_4B87A0(gText_0x14_704DFC->Find("carjack"), x_pos, y_pos, font_type, 1);
 
-    swprintf(tmpBuff_67BD9C, L"%d", gGameSession_67E8E0.GetStatistic_4C59F0(5));
+    swprintf(tmpBuff_67BD9C, L"%d", gGameSession_67E8E0.GetStatistic(5));
     u16 x_pos_last = text_xpos + 480;
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, text_ypos, font_type, 10, 1, line_height, true);
+    Frontend::DrawTextFixedWidth(tmpBuff_67BD9C, x_pos_last, text_ypos, font_type, 10, 1, line_height, true);
 
     swprintf(tmpBuff_67BD9C, L"%d", *reinterpret_cast<u32*>(&gPlyDat_6FEAC0->mBestStats[main_stage_idx].mBestStatistics[20]));
     u16 x_pos_best = text_xpos + 610;
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, text_ypos, font_type, 10, 1, line_height, true);
+    Frontend::DrawTextFixedWidth(tmpBuff_67BD9C, x_pos_best, text_ypos, font_type, 10, 1, line_height, true);
 
     //  auto damage cost
 
     x_pos = text_xpos;
     y_pos = text_ypos + 20;
-    DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("car_cst"), x_pos, y_pos, font_type, 1);
+    DrawText_4B87A0(gText_0x14_704DFC->Find("car_cst"), x_pos, y_pos, font_type, 1);
 
-    swprintf(tmpBuff_67BD9C, L"$%d", gGameSession_67E8E0.GetCarDamageCost_4C5A80());
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
+    swprintf(tmpBuff_67BD9C, L"$%d", gGameSession_67E8E0.GetCarDamageCost());
+    Frontend::DrawTextFixedWidth(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
 
     swprintf(tmpBuff_67BD9C, L"$%d", gPlyDat_6FEAC0->mBestCarDamageCost[main_stage_idx]);
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, true);
+    Frontend::DrawTextFixedWidth(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, true);
 
     //  civilians run down
 
     x_pos = text_xpos;
     y_pos = text_ypos + 40;
-    DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("run_ovr"), x_pos, y_pos, font_type, 1);
+    DrawText_4B87A0(gText_0x14_704DFC->Find("run_ovr"), x_pos, y_pos, font_type, 1);
 
-    swprintf(tmpBuff_67BD9C, L"%d", gGameSession_67E8E0.GetStatistic_4C59F0(6u));
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
+    swprintf(tmpBuff_67BD9C, L"%d", gGameSession_67E8E0.GetStatistic(6u));
+    Frontend::DrawTextFixedWidth(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
 
     swprintf(tmpBuff_67BD9C, L"%d", *reinterpret_cast<u32*>(&gPlyDat_6FEAC0->mBestStats[main_stage_idx].mBestStatistics[24]));
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, true);
+    Frontend::DrawTextFixedWidth(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, true);
 
     //  civilians murdered
 
     x_pos = text_xpos;
     y_pos = text_ypos + 60;
-    DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("murder"), x_pos, y_pos, font_type, 1);
+    DrawText_4B87A0(gText_0x14_704DFC->Find("murder"), x_pos, y_pos, font_type, 1);
 
-    swprintf(tmpBuff_67BD9C, L"%d", gGameSession_67E8E0.GetStatistic_4C59F0(7u));
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
+    swprintf(tmpBuff_67BD9C, L"%d", gGameSession_67E8E0.GetStatistic(7u));
+    Frontend::DrawTextFixedWidth(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
 
     swprintf(tmpBuff_67BD9C, L"%d", *reinterpret_cast<u32*>(&gPlyDat_6FEAC0->mBestStats[main_stage_idx].mBestStatistics[28]));
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, true);
+    Frontend::DrawTextFixedWidth(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, true);
 
     //  lawmen killed
 
@@ -4647,59 +4647,59 @@ void Frontend::DrawLastAndBestStats_4B57B0(u16 text_xpos, u16 text_ypos)
     {
         x_pos = text_xpos;
         y_pos = text_ypos + 80;
-        DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("cop_kl"), x_pos, y_pos, font_type, 1);
+        DrawText_4B87A0(gText_0x14_704DFC->Find("cop_kl"), x_pos, y_pos, font_type, 1);
 
-        swprintf(tmpBuff_67BD9C, L"%d", gGameSession_67E8E0.GetStatistic_4C59F0(8u));
-        Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
+        swprintf(tmpBuff_67BD9C, L"%d", gGameSession_67E8E0.GetStatistic(8u));
+        Frontend::DrawTextFixedWidth(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
 
         swprintf(tmpBuff_67BD9C, L"%d", *reinterpret_cast<u32*>(&gPlyDat_6FEAC0->mBestStats[main_stage_idx].mBestStatistics[32]));
-        Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, true);
+        Frontend::DrawTextFixedWidth(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, true);
     }
 
     //  gang members killed
 
     x_pos = text_xpos;
     y_pos = text_ypos + 100;
-    DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("gng_kl"), x_pos, y_pos, font_type, 1);
+    DrawText_4B87A0(gText_0x14_704DFC->Find("gng_kl"), x_pos, y_pos, font_type, 1);
 
-    swprintf(tmpBuff_67BD9C, L"%d", gGameSession_67E8E0.GetStatistic_4C59F0(9u));
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
+    swprintf(tmpBuff_67BD9C, L"%d", gGameSession_67E8E0.GetStatistic(9u));
+    Frontend::DrawTextFixedWidth(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
 
     swprintf(tmpBuff_67BD9C, L"%d", *reinterpret_cast<u32*>(&gPlyDat_6FEAC0->mBestStats[main_stage_idx].mBestStatistics[36]));
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, true);
+    Frontend::DrawTextFixedWidth(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, true);
 
     //  fugitive factor
 
     x_pos = text_xpos;
     y_pos = text_ypos + 120;
-    DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("evsnrtg"), x_pos, y_pos, font_type, 1);
+    DrawText_4B87A0(gText_0x14_704DFC->Find("evsnrtg"), x_pos, y_pos, font_type, 1);
 
-    swprintf(tmpBuff_67BD9C, L"%d", gGameSession_67E8E0.GetEvasionRating_4C5AA0());
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
+    swprintf(tmpBuff_67BD9C, L"%d", gGameSession_67E8E0.GetEvasionRating());
+    Frontend::DrawTextFixedWidth(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
 
     swprintf(tmpBuff_67BD9C, L"%d", gPlyDat_6FEAC0->mBestEvasionRating[main_stage_idx]);
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, true);
+    Frontend::DrawTextFixedWidth(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, true);
 }
 
 MATCH_FUNC(0x4B0190)
-u16 Frontend::GetCenteredXPos_4B0190(wchar_t* pText, u16 fontType, s32 width)
+u16 Frontend::GetCenteredXPos(wchar_t* pText, u16 fontType, s32 width)
 {
     u16 half_width;
     if (fontType != 0xFFFF)
     {
-        half_width = static_cast<u16>(GetMaxTextWidth_5D8990(pText, fontType)) / 2;
+        half_width = static_cast<u16>(GetMaxTextWidth(pText, fontType)) / 2;
     }
     else
     {
-        half_width = static_cast<u16>(GetMaxTextWidth_5D8990(pText, mNormalFont)) / 2;
+        half_width = static_cast<u16>(GetMaxTextWidth(pText, mNormalFont)) / 2;
     }
     return width - half_width;
 }
 
 MATCH_FUNC(0x4B7060)
-u8 Frontend::GetPreviousUnlockedMainStage_4B7060(u8 stage_idx)
+u8 Frontend::GetPreviousUnlockedMainStage(u8 stage_idx)
 {
-    PlySlot* pStats = GetCurrPlayerStats_4B43E0();
+    PlySlot* pStats = GetCurrPlayerStats();
     u8 result = stage_idx;
     if (stage_idx == 0)
     {
@@ -4721,9 +4721,9 @@ u8 Frontend::GetPreviousUnlockedMainStage_4B7060(u8 stage_idx)
 }
 
 MATCH_FUNC(0x4B7270)
-u8 Frontend::GetNextUnlockedMainStage_4B7270(char_type main_stage_idx)
+u8 Frontend::GetNextUnlockedMainStage(char_type main_stage_idx)
 {
-    PlySlot* pStats = GetCurrPlayerStats_4B43E0();
+    PlySlot* pStats = GetCurrPlayerStats();
     u8 result = main_stage_idx;
     if (main_stage_idx == 2)
     {
@@ -4751,30 +4751,30 @@ u8 Frontend::GetNextUnlockedMainStage_4B7270(char_type main_stage_idx)
 }
 
 MATCH_FUNC(0x4B7490)
-bool Frontend::ExistsPreviousMainStage_4B7490()
+bool Frontend::ExistsPreviousMainStage()
 {
-    u8 main_stage_idx = gGameSession_67E8E0.GetMainStageIdx_4C5980();
-    bool result = GetPreviousUnlockedMainStage_4B7060(main_stage_idx) != main_stage_idx;
+    u8 main_stage_idx = gGameSession_67E8E0.GetMainStageIdx();
+    bool result = GetPreviousUnlockedMainStage(main_stage_idx) != main_stage_idx;
     return result;
 }
 
 MATCH_FUNC(0x4B74C0)
-bool Frontend::ExistsNextMainStage_4B74C0()
+bool Frontend::ExistsNextMainStage()
 {
-    char_type curr_main_stage = gGameSession_67E8E0.GetMainStageIdx_4C5980();
-    bool result = static_cast<char_type>(GetNextUnlockedMainStage_4B7270(curr_main_stage)) != curr_main_stage;
+    char_type curr_main_stage = gGameSession_67E8E0.GetMainStageIdx();
+    bool result = static_cast<char_type>(GetNextUnlockedMainStage(curr_main_stage)) != curr_main_stage;
     return result;
 }
 
 MATCH_FUNC(0x4B7550)
-void Frontend::UpdateMainStageArrows_4B7550()
+void Frontend::UpdateMainStageArrows()
 {
     MenuPage* pMenuPage = &mMenuPagesArray[mCurrentPageIdx];
-    u8 main_stage_idx = gGameSession_67E8E0.GetMainStageIdx_4C5980();
+    u8 main_stage_idx = gGameSession_67E8E0.GetMainStageIdx();
     swprintf(tmpBuff_67BD9C, L"%d", main_stage_idx + 1);
     wcsncpy(pMenuPage->mElementsArray[2].mElementNameStr, tmpBuff_67BD9C, 0x32u);
 
-    if (ExistsPreviousMainStage_4B7490())
+    if (ExistsPreviousMainStage())
     {
         pMenuPage->mElementsArray[4].mIsItDisplayed = true;
         mHasPrevMainStage = true;
@@ -4785,7 +4785,7 @@ void Frontend::UpdateMainStageArrows_4B7550()
         mHasPrevMainStage = false;
     }
 
-    if (ExistsNextMainStage_4B74C0())
+    if (ExistsNextMainStage())
     {
         pMenuPage->mElementsArray[5].mIsItDisplayed = true;
         mHasNextMainStage = true;
@@ -4798,20 +4798,20 @@ void Frontend::UpdateMainStageArrows_4B7550()
 }
 
 MATCH_FUNC(0x4B6FF0)
-bool Frontend::ChangeMainStageToPrevious_4B6FF0()
+bool Frontend::ChangeMainStageToPrevious()
 {
-    u8 main_stage_idx = gGameSession_67E8E0.GetMainStageIdx_4C5980();
+    u8 main_stage_idx = gGameSession_67E8E0.GetMainStageIdx();
     u8 old_main_stage_idx = main_stage_idx;
-    main_stage_idx = GetPreviousUnlockedMainStage_4B7060(main_stage_idx);
-    gGameSession_67E8E0.SetMainStageIdx_4C58F0(main_stage_idx);
-    mSelectedMainStage[gGameSession_67E8E0.GetPlySlotIdx_4C59B0()] = main_stage_idx;
-    UpdateMainStageArrows_4B7550();
+    main_stage_idx = GetPreviousUnlockedMainStage(main_stage_idx);
+    gGameSession_67E8E0.SetMainStageIdx(main_stage_idx);
+    mSelectedMainStage[gGameSession_67E8E0.GetPlySlotIdx()] = main_stage_idx;
+    UpdateMainStageArrows();
     bool result = (old_main_stage_idx != main_stage_idx);
     return result;
 }
 
 MATCH_FUNC(0x4B42B0)
-void Frontend::StripPlayerNameToCurrLength_4B42B0()
+void Frontend::StripPlayerNameToCurrLength()
 {
     u16 name_length = mCurrPlyrNameLength;
     for (u16 i = name_length; i < 9; i++)
@@ -4822,9 +4822,9 @@ void Frontend::StripPlayerNameToCurrLength_4B42B0()
 
 // https://decomp.me/scratch/2DKTF
 MATCH_FUNC(0x4B7120)
-char_type Frontend::GetPreviousUnlockedBonusStage_4B7120(u8 stage)
+char_type Frontend::GetPreviousUnlockedBonusStage(u8 stage)
 {
-    PlySlot* player_stats = Frontend::GetCurrPlayerStats_4B43E0();
+    PlySlot* player_stats = Frontend::GetCurrPlayerStats();
 
     u8 main_stage_idx;
     u8 bonus_stage_idx;
@@ -4870,10 +4870,10 @@ char_type Frontend::GetPreviousUnlockedBonusStage_4B7120(u8 stage)
 }
 
 MATCH_FUNC(0x4B7610)
-void Frontend::UpdateBonusStageArrows_4B7610()
+void Frontend::UpdateBonusStageArrows()
 {
     MenuPage* pPage = &mMenuPagesArray[mCurrentPageIdx];
-    u8 stage = gGameSession_67E8E0.GetStage_4C5990();
+    u8 stage = gGameSession_67E8E0.GetStage();
     u8 main_idx;
     u8 bonus_idx;
     gGameSession_67E8E0.DecodeStage_453A60(stage, &main_idx, &bonus_idx);
@@ -4894,7 +4894,7 @@ void Frontend::UpdateBonusStageArrows_4B7610()
         pPage->mElementsArray[1].mIsItDisplayed = true;
         pPage->mElementsArray[6].mIsItDisplayed = true;
         pPage->mElementsArray[7].mIsItDisplayed = true;
-        if (ExistsPreviousBonusStage_4B74F0())
+        if (ExistsPreviousBonusStage())
         {
             pPage->mElementsArray[6].mIsItDisplayed = true;
             mHasPrevBonusStage = true;
@@ -4905,7 +4905,7 @@ void Frontend::UpdateBonusStageArrows_4B7610()
             mHasPrevBonusStage = false;
         }
 
-        if (ExistsNextBonusStage_4B7520())
+        if (ExistsNextBonusStage())
         {
             pPage->mElementsArray[7].mIsItDisplayed = true;
             mHasNextBonusStage = true;
@@ -4922,31 +4922,31 @@ void Frontend::UpdateBonusStageArrows_4B7610()
 }
 
 MATCH_FUNC(0x4B70B0)
-bool Frontend::ChangeBonusStageToPrevious_4B70B0()
+bool Frontend::ChangeBonusStageToPrevious()
 {
-    s8 stage = gGameSession_67E8E0.GetStage_4C5990();
+    s8 stage = gGameSession_67E8E0.GetStage();
     s8 start_stage = stage;
-    stage = GetPreviousUnlockedBonusStage_4B7120(stage);
-    gGameSession_67E8E0.SetStage_4C5900(stage);
-    mSelectedBonusStage[gGameSession_67E8E0.GetPlySlotIdx_4C59B0()] = stage;
-    UpdateBonusStageArrows_4B7610();
+    stage = GetPreviousUnlockedBonusStage(stage);
+    gGameSession_67E8E0.SetStage(stage);
+    mSelectedBonusStage[gGameSession_67E8E0.GetPlySlotIdx()] = stage;
+    UpdateBonusStageArrows();
     bool result = start_stage != stage;
     return result;
 }
 
 MATCH_FUNC(0x4B74F0)
-bool Frontend::ExistsPreviousBonusStage_4B74F0()
+bool Frontend::ExistsPreviousBonusStage()
 {
-    char_type stage = gGameSession_67E8E0.GetStage_4C5990();
-    bool result = GetPreviousUnlockedBonusStage_4B7120(stage) != stage;
+    char_type stage = gGameSession_67E8E0.GetStage();
+    bool result = GetPreviousUnlockedBonusStage(stage) != stage;
     return result;
 }
 
 // https://decomp.me/scratch/kyxJQ
 MATCH_FUNC(0x4B7360)
-char_type Frontend::GetNextUnlockedBonusStage_4B7360(u8 stage)
+char_type Frontend::GetNextUnlockedBonusStage(u8 stage)
 {
-    PlySlot* player_stats = GetCurrPlayerStats_4B43E0();
+    PlySlot* player_stats = GetCurrPlayerStats();
 
     u8 main_stage_idx;
     u8 bonus_stage_idx;
@@ -5010,48 +5010,48 @@ char_type Frontend::GetNextUnlockedBonusStage_4B7360(u8 stage)
 }
 
 MATCH_FUNC(0x4B7520)
-bool Frontend::ExistsNextBonusStage_4B7520()
+bool Frontend::ExistsNextBonusStage()
 {
-    char_type stage = gGameSession_67E8E0.GetStage_4C5990();
-    bool result = GetNextUnlockedBonusStage_4B7360(stage) != stage;
+    char_type stage = gGameSession_67E8E0.GetStage();
+    bool result = GetNextUnlockedBonusStage(stage) != stage;
     return result;
 }
 
 MATCH_FUNC(0x4B72F0)
-bool Frontend::ChangeBonusStageToNext_4B72F0()
+bool Frontend::ChangeBonusStageToNext()
 {
-    char_type stage = gGameSession_67E8E0.GetStage_4C5990();
+    char_type stage = gGameSession_67E8E0.GetStage();
     char_type start_stage = stage;
-    stage = GetNextUnlockedBonusStage_4B7360(stage);
-    gGameSession_67E8E0.SetStage_4C5900(stage);
-    mSelectedBonusStage[gGameSession_67E8E0.GetPlySlotIdx_4C59B0()] = stage;
-    UpdateBonusStageArrows_4B7610();
+    stage = GetNextUnlockedBonusStage(stage);
+    gGameSession_67E8E0.SetStage(stage);
+    mSelectedBonusStage[gGameSession_67E8E0.GetPlySlotIdx()] = stage;
+    UpdateBonusStageArrows();
     bool result = start_stage != stage;
     return result;
 }
 
 MATCH_FUNC(0x4B7200)
-bool Frontend::ChangeMainStageToNext_4B7200()
+bool Frontend::ChangeMainStageToNext()
 {
-    char_type main_stage_idx = gGameSession_67E8E0.GetMainStageIdx_4C5980();
+    char_type main_stage_idx = gGameSession_67E8E0.GetMainStageIdx();
     char_type old_main_stage_idx = main_stage_idx;
-    main_stage_idx = GetNextUnlockedMainStage_4B7270(main_stage_idx);
-    gGameSession_67E8E0.SetMainStageIdx_4C58F0(main_stage_idx);
-    mSelectedMainStage[gGameSession_67E8E0.GetPlySlotIdx_4C59B0()] = main_stage_idx;
-    UpdateMainStageArrows_4B7550();
+    main_stage_idx = GetNextUnlockedMainStage(main_stage_idx);
+    gGameSession_67E8E0.SetMainStageIdx(main_stage_idx);
+    mSelectedMainStage[gGameSession_67E8E0.GetPlySlotIdx()] = main_stage_idx;
+    UpdateMainStageArrows();
     bool result = old_main_stage_idx != main_stage_idx;
     return result;
 }
 
 MATCH_FUNC(0x4B4EC0)
-void Frontend::LoadMapFilenamesFromSvg_4B4EC0()
+void Frontend::LoadMapFilenamesFromSvg()
 {
     char_type FileName[256];
     {
-        u8 plySlotIdx = gGameSession_67E8E0.GetPlySlotIdx_4C59B0();
-        GetPlySlotSvgName_4B51D0(plySlotIdx, FileName);
+        u8 plySlotIdx = gGameSession_67E8E0.GetPlySlotIdx();
+        GetPlySlotSvgName(plySlotIdx, FileName);
     }
-    File::Global_Open_4A7060(FileName);
+    File::Global_Open(FileName);
 
     SaveSlotInfo svg;
     {
@@ -5059,7 +5059,7 @@ void Frontend::LoadMapFilenamesFromSvg_4B4EC0()
         File::Global_Read_4A71C0(&svg, len);
     }
 
-    File::Global_Close_4A70C0();
+    File::Global_Close();
 
     u8 main_stage = svg.mLastSavedStage;
     u8 codified_stages = svg.mLastSavedBonusStageCode;
@@ -5097,13 +5097,13 @@ void Frontend::LoadMapFilenamesFromSvg_4B4EC0()
         FatalError_4A38C0(Gta2Error::ScrFilenameMismatch, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5270);
     }
 
-    gGameSession_67E8E0.SetSaveFileName_4C58D0(FileName);
-    gGameSession_67E8E0.SetMapName_4C5870(svg.mMapName);
-    gGameSession_67E8E0.SetStyleName_4C5890(svg.mStyleName);
-    gGameSession_67E8E0.SetScriptName_4C58B0(svg.mScriptName);
-    gGameSession_67E8E0.SetMainStageIdx_4C58F0(main_stage);
-    gGameSession_67E8E0.SetStage_4C5900(codified_stages);
-    gGameSession_67E8E0.SetBonusStage_4C5910(bCodified);
+    gGameSession_67E8E0.SetSaveFileName(FileName);
+    gGameSession_67E8E0.SetMapName(svg.mMapName);
+    gGameSession_67E8E0.SetStyleName(svg.mStyleName);
+    gGameSession_67E8E0.SetScriptName(svg.mScriptName);
+    gGameSession_67E8E0.SetMainStageIdx(main_stage);
+    gGameSession_67E8E0.SetStage(codified_stages);
+    gGameSession_67E8E0.SetBonusStage(bCodified);
 }
 
 MATCH_FUNC(0x4B6070)
@@ -5125,7 +5125,7 @@ MenuPage::~MenuPage()
 }
 
 MATCH_FUNC(0x4B61B0)
-bool MenuPage::SelectPrevOption_4B61B0()
+bool MenuPage::SelectPrevOption()
 {
     u16 oldIdx = mCurrentOptionIdx;
     do
@@ -5143,7 +5143,7 @@ bool MenuPage::SelectPrevOption_4B61B0()
 }
 
 MATCH_FUNC(0x4B6200)
-bool MenuPage::SelectNextOption_4B6200()
+bool MenuPage::SelectNextOption()
 {
     u16 oldIdx = mCurrentOptionIdx;
     do
@@ -5221,7 +5221,7 @@ MenuItem::~MenuItem()
 }
 
 MATCH_FUNC(0x4B6330)
-bool MenuItem::SelectNextHorizontalIdx_4B6330()
+bool MenuItem::SelectNextHorizontalIdx()
 {
     u8 bLoopEnabled = bIsLeftRightLoopEnabled_67DA80;
     u16 old_count = mHorizontalSelectedIdx;
@@ -5258,7 +5258,7 @@ bool MenuItem::SelectNextHorizontalIdx_4B6330()
 }
 
 MATCH_FUNC(0x4B6390)
-bool MenuItem::SelectPrevHorizontalIdx_4B6390()
+bool MenuItem::SelectPrevHorizontalIdx()
 {
     u16 oldCount = mHorizontalSelectedIdx;
     u16 new_count = oldCount;
@@ -5330,15 +5330,15 @@ SaveSlotSummary::~SaveSlotSummary()
 }
 
 MATCH_FUNC(0x4B6480)
-void SaveSlotSummary::LoadPlySlotSvg_4B6480(const char_type* FileName)
+void SaveSlotSummary::LoadPlySlotSvg(const char_type* FileName)
 {
-    File::Global_Open_4A7060(FileName);
+    File::Global_Open(FileName);
 
     SaveSlotInfo svg;
     u32 len = sizeof(SaveSlotInfo);
     File::Global_Read_4A71C0(&svg, len);
 
-    File::Global_Close_4A70C0();
+    File::Global_Close();
 
     mSaveExists = true;
     mLastSavedStage = svg.mLastSavedStage;

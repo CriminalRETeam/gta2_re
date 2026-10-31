@@ -11,8 +11,8 @@
 #include "sprite.hpp"
 
 // Forward declarations: the functions below are in address order
-EXPORT void __stdcall SmoothApproach_4F7540(Fix16& Coord_1, Fix16& Velocity_1, Fix16& Coord_2, Fix16& Velocity_2, Fix16& Velocity_3);
-EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* target_coord,
+EXPORT void __stdcall SmoothApproach(Fix16& Coord_1, Fix16& Velocity_1, Fix16& Coord_2, Fix16& Velocity_2, Fix16& Velocity_3);
+EXPORT void __stdcall SmoothApproachClamped(Fix16* target_coord,
                                                    Fix16* coord_velocity,
                                                    Fix16* curr_coord,
                                                    Fix16* velocity_1,
@@ -73,7 +73,7 @@ DEFINE_GLOBAL_INIT(Ang16, kAng135_676790, Ang16(0x021C, 0), 0x676790);
 DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng225, Ang16(0x0384, 0), 0x676764);
 DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng315, Ang16(0x04EC, 0), 0x67679C);
 // Defined in sprite.cpp: when this TU sees the definition, VC6 reads the s16 with a 32-bit mov and adds with
-// lea; the original's 16-bit `mov 0x676772,%cx; add %dx,%cx` needs an extern (ComputeTargetFacingAngle_4358D0)
+// lea; the original's 16-bit `mov 0x676772,%cx; add %dx,%cx` needs an extern (ComputeTargetFacingAngle)
 EXTERN_GLOBAL(Ang16, kAng180_676772);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_676964, Ang16(0), 0x676964);
 
@@ -88,7 +88,7 @@ static inline Fix16 Max_41E130(Fix16 a, Fix16 b)
 }
 
 MATCH_FUNC(0x4355D0)
-bool Camera::IsSpriteTheCameraSubject_4355D0(Sprite* pSprite) const
+bool Camera::IsSpriteTheCameraSubject(Sprite* pSprite) const
 {
     Car* pCar = pSprite->AsCar_40FEB0();
     if (pCar)
@@ -120,7 +120,7 @@ bool Camera::IsSpriteTheCameraSubject_4355D0(Sprite* pSprite) const
 }
 
 MATCH_FUNC(0x435630)
-bool Camera::IsSpriteInView_435630(Sprite* pSprite, s32 wide_view)
+bool Camera::IsSpriteInView(Sprite* pSprite, s32 wide_view)
 {
     Fix16 half_width;
     half_width = mCurPos.mZ - pSprite->mZpos + kFpEight_676840;
@@ -142,13 +142,13 @@ bool Camera::IsSpriteInView_435630(Sprite* pSprite, s32 wide_view)
 
     Fix16_Rect* pBox = &pSprite->mpCollisionShape->mBoundingBox;
     if (rect.mLeft.IntervalIntersectsRange_438FB0_inline(rect.mRight, pBox->mLeft, pBox->mRight) &&
-        IntervalIntersectsRange_438FB0(rect.mTop, rect.mBottom, pBox->mTop, pBox->mBottom) &&
-        IntervalIntersectsRange_438FB0(rect.mLowZ, rect.mHighZ, pBox->mLowZ, pBox->mHighZ))
+        IntervalIntersectsRange(rect.mTop, rect.mBottom, pBox->mTop, pBox->mBottom) &&
+        IntervalIntersectsRange(rect.mLowZ, rect.mHighZ, pBox->mLowZ, pBox->mHighZ))
     {
         SpriteShape* pShape = pSprite->mpCollisionShape;
         if ((pShape->mWidth == pShape->mHeight && pShape->mWidth <= kFpPoint2) || pSprite->mRotation.rValue == 0 ||
-            pSprite->mRotation == 360 || pSprite->mRotation == 720 || pSprite->mRotation == 1080 || pSprite->IntersectsRectSAT_59FB10(&rect) ||
-            rect.IntersectsSpriteRenderingRect_59DDF0(pSprite))
+            pSprite->mRotation == 360 || pSprite->mRotation == 720 || pSprite->mRotation == 1080 || pSprite->IntersectsRectSAT(&rect) ||
+            rect.IntersectsSpriteRenderingRect(pSprite))
         {
             return true;
         }
@@ -157,7 +157,7 @@ bool Camera::IsSpriteInView_435630(Sprite* pSprite, s32 wide_view)
 }
 
 MATCH_FUNC(0x4357B0)
-void Camera::SavePrevCamPos_4357B0()
+void Camera::SavePrevCamPos()
 {
     mPrevPos.mX = mCurPos.mX;
     mPrevPos.mY = mCurPos.mY;
@@ -166,7 +166,7 @@ void Camera::SavePrevCamPos_4357B0()
 }
 
 MATCH_FUNC(0x4357F0)
-void Camera::IncreaseElevation_4357F0()
+void Camera::IncreaseElevation()
 {
     if (mTargetElevation < kMaxTgtElevation_676894)
     {
@@ -175,7 +175,7 @@ void Camera::IncreaseElevation_4357F0()
 }
 
 MATCH_FUNC(0x435810)
-void Camera::DecreaseElevation_435810()
+void Camera::DecreaseElevation()
 {
     if (mTargetElevation > kZero_676818)
     {
@@ -184,13 +184,13 @@ void Camera::DecreaseElevation_435810()
 }
 
 MATCH_FUNC(0x435830)
-void Camera::ResetElevation_435830()
+void Camera::ResetElevation()
 {
     mTargetElevation = kZero_676818;
 }
 
 MATCH_FUNC(0x435840)
-void Camera::ClampTargetZ_435840()
+void Camera::ClampTargetZ()
 {
     if (mPendingTargetPos.mZ < kZero_676818)
     {
@@ -204,18 +204,18 @@ void Camera::ClampTargetZ_435840()
 }
 
 MATCH_FUNC(0x435860)
-void Camera::ApplyMovementDeltaFrom_435860(Camera* pCamera)
+void Camera::ApplyMovementDeltaFrom(Camera* pCamera)
 {
     mPendingTargetPos.mX += pCamera->mCurPos.mX - pCamera->mPrevPos.mX;
     mPendingTargetPos.mY += pCamera->mCurPos.mY - pCamera->mPrevPos.mY;
     mPendingTargetPos.mZ += pCamera->mCurPos.mZ - pCamera->mPrevPos.mZ;
     mPendingTargetPos.mZoom += pCamera->mCurPos.mZoom - pCamera->mPrevPos.mZoom;
-    ClampTargetZ_435840();
+    ClampTargetZ();
 }
 
 // matches on decompme: https://decomp.me/scratch/NpBvl
 MATCH_FUNC(0x4358D0)
-Ang16 Camera::ComputeTargetFacingAngle_4358D0()
+Ang16 Camera::ComputeTargetFacingAngle()
 {
     Ang16 CarRotation;
     Ang16 PedRotation;
@@ -266,18 +266,18 @@ Ang16 Camera::ComputeTargetFacingAngle_4358D0()
 }
 
 MATCH_FUNC(0x435A20)
-Fix16 Camera::ReturnOwnerVelocity_435A20()
+Fix16 Camera::ReturnOwnerVelocity()
 {
     Ped* pPed = mTargetPed;
     if (pPed)
     {
-        return pPed->GetPedVelocity_45C920();
+        return pPed->GetPedVelocity();
     }
 
     Car* pCar = mTargetCar;
     if (pCar)
     {
-        return pCar->GetCarLinearSpeed_43A240();
+        return pCar->GetCarLinearSpeed();
     }
     else
     {
@@ -285,13 +285,13 @@ Fix16 Camera::ReturnOwnerVelocity_435A20()
     }
 }
 
-// Defined ahead of IsCoordsPosVisible_435A70 (out of address order): that function needs the out-of-line
+// Defined ahead of IsCoordsPosVisible (out of address order): that function needs the out-of-line
 // Fix16::operator* copy, and once C2 has compiled the copy it knows the call can't throw, so the inline
 // FromPolar_41E210 here would drop offset.x's store before its second multiply. The original keeps it, as if
 // the copy had not been compiled yet (the same effect as Fix16_Point::operator+ in Weapon, see
 // docs/matching_quirks.md).
 MATCH_FUNC(0x436200)
-void Camera::ApplyCarVelocityCameraOffset_436200(Car* pCar, Fix16* pOutX, Fix16* pOutY, Fix16* pOutZ)
+void Camera::ApplyCarVelocityCameraOffset(Car* pCar, Fix16* pOutX, Fix16* pOutY, Fix16* pOutZ)
 {
     // 9.6f 0x41EBF0: this source matches it exactly when built with VC7 (compile_vc7.sh, permuter_score.py --96f)
     Ang16 angle;
@@ -306,7 +306,7 @@ void Camera::ApplyCarVelocityCameraOffset_436200(Car* pCar, Fix16* pOutX, Fix16*
     }
     else
     {
-        vel = pCar->GetLinearVelocity_43A450() * kFpSixteen;
+        vel = pCar->GetLinearVelocity() * kFpSixteen;
         speed = vel.GetLength_41E260();
     }
 
@@ -356,7 +356,7 @@ void Camera::ApplyCarVelocityCameraOffset_436200(Car* pCar, Fix16* pOutX, Fix16*
 }
 
 MATCH_FUNC(0x435A70)
-s32 Camera::IsCoordsPosVisible_435A70(Fix16 x, Fix16 y, Fix16 z)
+s32 Camera::IsCoordsPosVisible(Fix16 x, Fix16 y, Fix16 z)
 {
     Fix16_Point_POD pos = WorldToScreen_40CFC0(x, y, z);
     if (pos.x >= kZero_676818 && pos.x < Fix16(640) && pos.y >= kZero_676818 && pos.y < Fix16(480))
@@ -368,7 +368,7 @@ s32 Camera::IsCoordsPosVisible_435A70(Fix16 x, Fix16 y, Fix16 z)
 
 // https://decomp.me/scratch/YoPmg Is mScreenScale really a Fix16_Point ?
 MATCH_FUNC(0x435B90)
-void Camera::UpdateBoundaries_435B90()
+void Camera::UpdateBoundaries()
 {
     mScreenScale.x = Fix16(mScreenPxWidth) * mCurPos.mZoom;
     mScreenScale.y = Fix16(640) * mCurPos.mZoom;
@@ -424,7 +424,7 @@ void Camera::UpdateBoundaries_435B90()
 }
 
 MATCH_FUNC(0x435D20)
-void Camera::MoveTarget_435D20(bool move_north, bool move_south, bool move_west, bool move_east, bool zoom_in, bool zoom_out)
+void Camera::MoveTarget(bool move_north, bool move_south, bool move_west, bool move_east, bool zoom_in, bool zoom_out)
 {
     ResetPendingTarget();
     if (move_north)
@@ -456,11 +456,11 @@ void Camera::MoveTarget_435D20(bool move_north, bool move_south, bool move_west,
     {
         mPendingTargetPos.mZ -= kOne_67681C;
     }
-    ClampTargetZ_435840();
+    ClampTargetZ();
 }
 
 MATCH_FUNC(0x435DD0)
-void Camera::ResetCameraSmoothing_435DD0()
+void Camera::ResetCameraSmoothing()
 {
     mCurPos.mX = mTargetPos.mX;
     mCurPos.mY = mTargetPos.mY;
@@ -474,11 +474,11 @@ void Camera::ResetCameraSmoothing_435DD0()
 }
 
 MATCH_FUNC(0x435F90)
-void Camera::AccumulateSuspicionOnDriver_435F90(Car* pCar)
+void Camera::AccumulateSuspicionOnDriver(Car* pCar)
 {
     if (pCar->mDriver &&
-        (gPolice_7B8_6FEE40->IsActivelyChased_56F880(pCar->mDriver) ||
-         gCarChaseTaskTable_678E30->HasAnyPursuer_474970(pCar->mDriver)))
+        (gPolice_7B8_6FEE40->IsActivelyChased(pCar->mDriver) ||
+         gCarChaseTaskTable_678E30->HasAnyPursuer(pCar->mDriver)))
     {
         mSuspicion++;
         if (mSuspicion > 80u)
@@ -496,32 +496,32 @@ void Camera::AccumulateSuspicionOnDriver_435F90(Car* pCar)
 }
 
 MATCH_FUNC(0x435FF0)
-void Camera::Update_435FF0()
+void Camera::Update()
 {
-    Camera::SavePrevCamPos_4357B0();
+    Camera::SavePrevCamPos();
     Fix16 scale = mCurPos.mZ * kFpThreeSixteenths;
 
     switch (mFollowMode)
     {
         case camera_follow_mode::smooth_1:
-            SmoothApproach_4F7540(mTargetPos.mX,
+            SmoothApproach(mTargetPos.mX,
                                   mCamVelocity.mX,
                                   mCurPos.mX,
                                   kFpOne64th_676740,
                                   scale);
-            SmoothApproach_4F7540(mTargetPos.mY,
+            SmoothApproach(mTargetPos.mY,
                                   mCamVelocity.mY,
                                   mCurPos.mY,
                                   kFpOne64th_676740,
                                   scale);
-            SmoothApproachClamped_4F75D0(&mTargetPos.mZ,
+            SmoothApproachClamped(&mTargetPos.mZ,
                                          &mCamVelocity.mZ,
                                          &mCurPos.mZ,
                                          &kFpOne128th,
                                          &kFpFiveEighths,
                                          &kFpOne640th,
                                          &kFpFiveSixtyFourths);
-            SmoothApproach_4F7540(mTargetPos.mZoom,
+            SmoothApproach(mTargetPos.mZoom,
                                   mCamVelocity.mZoom,
                                   mCurPos.mZoom,
                                   kFpOne64th_6766FC,
@@ -536,26 +536,26 @@ void Camera::Update_435FF0()
     }
     if (mShakeAmount != kZero_676818)
     {
-        Camera::ApplyShake_436140();
+        Camera::ApplyShake();
     }
-    Camera::UpdateBoundaries_435B90();
+    Camera::UpdateBoundaries();
     mTargetPos = mPendingTargetPos;
 }
 
 MATCH_FUNC(0x436110)
-void Camera::RefreshBoundaries_436110()
+void Camera::RefreshBoundaries()
 {
-    UpdateBoundaries_435B90();
+    UpdateBoundaries();
 }
 
 MATCH_FUNC(0x436120)
-void Camera::SetShake_436120(Fix16 amount)
+void Camera::SetShake(Fix16 amount)
 {
     mShakeAmount = amount * kFpOne64th_6768D8;
 }
 
 MATCH_FUNC(0x436140)
-void Camera::ApplyShake_436140()
+void Camera::ApplyShake()
 {
     mCurPos.mX += mShakeAmount;
     mCurPos.mY += mShakeAmount;
@@ -569,7 +569,7 @@ void Camera::ApplyShake_436140()
 }
 
 MATCH_FUNC(0x4361B0)
-void Camera::SetScreenSize_4361B0(u32 width, u32 height)
+void Camera::SetScreenSize(u32 width, u32 height)
 {
     mScreenPxWidth = width;
     mScreenPxHeight = height;
@@ -585,7 +585,7 @@ void Camera::SetScreenSize_4361B0(u32 width, u32 height)
 
 
 MATCH_FUNC(0x4364A0)
-void Camera::UpdateFollowCarCamera_4364A0(Car* pCar)
+void Camera::UpdateFollowCarCamera(Car* pCar)
 {
 
     this->mTargetPed = NULL;
@@ -601,14 +601,14 @@ void Camera::UpdateFollowCarCamera_4364A0(Car* pCar)
         new_z = Max_41E130(pCar->GetZ_41E450() - kTwo_676820, kOne_67681C);
         Fix16 zoom = kDefaultZoom;
 
-        AccumulateSuspicionOnDriver_435F90(pCar);
-        ApplyCarVelocityCameraOffset_436200(pCar, &new_x, &new_y, &new_z);
+        AccumulateSuspicionOnDriver(pCar);
+        ApplyCarVelocityCameraOffset(pCar, &new_x, &new_y, &new_z);
         SetPendingTarget_41E3D0(new_x, new_y, new_z, zoom);
     }
 }
 
 MATCH_FUNC(0x436540)
-void Camera::UpdateFollowPedCamera_436540(Ped* pPed)
+void Camera::UpdateFollowPedCamera(Ped* pPed)
 {
     Car* pCar_2;
     Fix16 zposToUse;
@@ -621,7 +621,7 @@ void Camera::UpdateFollowPedCamera_436540(Ped* pPed)
         Fix16 ypos;
         Fix16 zpos;
         Car* pCar = pPed->get_car_416B60();
-        if (pCar || (pCar_2 = pPed->GetCarBeingEnteredOrExited_45BBF0(), pCar_2 == NULL))
+        if (pCar || (pCar_2 = pPed->GetCarBeingEnteredOrExited(), pCar_2 == NULL))
         {
             xpos = pPed->get_cam_x();
             ypos = pPed->get_cam_y();
@@ -629,8 +629,8 @@ void Camera::UpdateFollowPedCamera_436540(Ped* pPed)
             zposToUse = zpos;
             if (pCar)
             {
-                Camera::AccumulateSuspicionOnDriver_435F90(pCar);
-                Camera::ApplyCarVelocityCameraOffset_436200(pCar, &xpos, &ypos, &zposToUse);
+                Camera::AccumulateSuspicionOnDriver(pCar);
+                Camera::ApplyCarVelocityCameraOffset(pCar, &xpos, &ypos, &zposToUse);
             }
         }
         else
@@ -639,21 +639,21 @@ void Camera::UpdateFollowPedCamera_436540(Ped* pPed)
             ypos = pCar_2->GetY_41E440();
             zpos = Max_41E130(pCar_2->GetZ_41E450() - kTwo_676820, kOne_67681C);
             zposToUse = zpos;
-            Camera::AccumulateSuspicionOnDriver_435F90(pCar_2);
-            Camera::ApplyCarVelocityCameraOffset_436200(pCar_2, &xpos, &ypos, &zposToUse);
+            Camera::AccumulateSuspicionOnDriver(pCar_2);
+            Camera::ApplyCarVelocityCameraOffset(pCar_2, &xpos, &ypos, &zposToUse);
         }
         Fix16 zoom = kFpThreePoint55;
         if (pPed->GetPedState_403990() != ped_state_1::dead_9)
         {
             zoom = kDefaultZoom;
         }
-        Camera::ApplyPanOffset_436860(pPed, xpos, ypos, zposToUse);
+        Camera::ApplyPanOffset(pPed, xpos, ypos, zposToUse);
         SetPendingTarget_41E3D0(xpos, ypos, zposToUse, zoom);
     }
 }
 
 MATCH_FUNC(0x436710)
-void Camera::HandlePanning_436710(bool forward_gas_on, bool foot_brake_on, bool left_on, bool right_on)
+void Camera::HandlePanning(bool forward_gas_on, bool foot_brake_on, bool left_on, bool right_on)
 {
     if (forward_gas_on)
     {
@@ -733,7 +733,7 @@ void Camera::HandlePanning_436710(bool forward_gas_on, bool foot_brake_on, bool 
 }
 
 MATCH_FUNC(0x436830)
-void Camera::ResetPanning_436830()
+void Camera::ResetPanning()
 {
     mPanX = 0;
     mPanY = 0;
@@ -744,7 +744,7 @@ void Camera::ResetPanning_436830()
 }
 
 MATCH_FUNC(0x436860)
-void Camera::ApplyPanOffset_436860(Ped* pPed, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos)
+void Camera::ApplyPanOffset(Ped* pPed, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos)
 {
     Fix16 depth_scale = (z_pos - pPed->get_cam_z() + Fix16(8)) / mScreenScale.y;
     x_pos += mPanX * depth_scale;
@@ -756,9 +756,9 @@ Camera::Camera()
 {
     mScreenPxWidth = 0;
     mScreenPxHeight = 0;
-    ResetElevation_435830();
+    ResetElevation();
     mCurPos.mZoom = kDefaultZoom;
-    SetTarget_4397D0(-1, -1, -1, kDefaultZoom);
+    SetTarget(-1, -1, -1, kDefaultZoom);
     CommitPendingTarget_41E410();
     mScreenScale.x = Fix16(-1);
     mScreenScale.y = Fix16(-1);
@@ -768,9 +768,9 @@ Camera::Camera()
     mFollowMode = camera_follow_mode::none_0;
     mShakeAmount = kZero_676818;
     mTargetPed = NULL;
-    SetScreenSize_4361B0(640, 480);
+    SetScreenSize(640, 480);
     mSuspicion = 0;
-    ResetPanning_436830();
+    ResetPanning();
 }
 
 MATCH_FUNC(0x4369E0)
@@ -779,7 +779,7 @@ Camera::~Camera()
 }
 
 MATCH_FUNC(0x4397D0)
-void Camera::SetTarget_4397D0(Fix16 x, Fix16 y, Fix16 z, Fix16 zoom)
+void Camera::SetTarget(Fix16 x, Fix16 y, Fix16 z, Fix16 zoom)
 {
     mPendingTargetPos.mX = x;
     mPendingTargetPos.mY = y;
@@ -790,7 +790,7 @@ void Camera::SetTarget_4397D0(Fix16 x, Fix16 y, Fix16 z, Fix16 zoom)
 
 // https://decomp.me/scratch/qYIak
 MATCH_FUNC(0x4F7540)
-EXPORT void __stdcall SmoothApproach_4F7540(Fix16& Coord_1, Fix16& Velocity_1, Fix16& Coord_2, Fix16& Velocity_2, Fix16& Velocity_3)
+EXPORT void __stdcall SmoothApproach(Fix16& Coord_1, Fix16& Velocity_1, Fix16& Coord_2, Fix16& Velocity_2, Fix16& Velocity_3)
 {
     // One shared `Coord_2 += Velocity_1` at the end: VC6 copies it into the clamp paths
     Fix16 DeltaCoord = Coord_1 - Coord_2;
@@ -847,7 +847,7 @@ EXPORT void __stdcall SmoothApproach_4F7540(Fix16& Coord_1, Fix16& Velocity_1, F
 
 // https://decomp.me/scratch/kwM8W
 MATCH_FUNC(0x4F75D0)
-EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* target_coord,
+EXPORT void __stdcall SmoothApproachClamped(Fix16* target_coord,
                                                    Fix16* coord_velocity,
                                                    Fix16* curr_coord,
                                                    Fix16* velocity_1,
@@ -905,7 +905,7 @@ EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* target_coord,
 }
 
 MATCH_FUNC(0x58CF10)
-bool Camera::IsPointInBoundaries_58CF10(Fix16 x, Fix16 y)
+bool Camera::IsPointInBoundaries(Fix16 x, Fix16 y)
 {
     return x >= mViewBounds.mLeft && x <= mViewBounds.mRight &&
         y >= mViewBounds.mTop && y <= mViewBounds.mBottom;

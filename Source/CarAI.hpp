@@ -39,45 +39,45 @@ enum
 class CarAI
 {
   private:
-    EXPORT void MakeAgressiveSirensAndLights_4476F0();
-    EXPORT void PlanTurnAtNextJunction_447710();
-    EXPORT void DoShortcutsUsingJunctions_447970();
+    EXPORT void MakeAgressiveSirensAndLights();
+    EXPORT void PlanTurnAtNextJunction();
+    EXPORT void DoShortcutsUsingJunctions();
     inline void TurnAround_447970();
 
   public:
-    EXPORT bool GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 arrow_type);
+    EXPORT bool GoToBlock(u8 x, u8 y, u8 z, s32 arrow_type);
 
   private:
-    EXPORT bool TrySetTargetDirectionFromArrows_447D40(const gmp_block_info* pBlock);
-    EXPORT bool IsClockwiseTurning_448270() const;
-    EXPORT void BrakeForBlockedRoadAhead_4482C0();
-    EXPORT void CheckRoadAhead_448770();
-    EXPORT void ManageTrafficCarDirection_448CE0();
-    EXPORT void FollowRoadDirection_44A1F0();
-    EXPORT void AlignToLaneCenter_44AF00();
-    EXPORT void DetectCarAhead_44D1D0();
-    EXPORT void UpdateChase_44E0C0();
-    EXPORT void UpdateStateMachine_44E560();
-    EXPORT void ReactToNearbyCar_451980();
-    EXPORT void ReactToNearbyObject_451FA0();
-    EXPORT void ReactToNearbyPed_451FF0();
-    EXPORT void ScanAheadForObstacles_452060();
-    EXPORT void ManageCollisions_452A20();
-    EXPORT void UpdateDrivingAI_452DF0();
-    EXPORT void UpdateDriving_453470();
-    EXPORT void ChooseRandomTurn_4537D0();
-    EXPORT void ClearSteeringIfTurning_4538B0();
-    EXPORT void RaiseSpeedTo_453990(Fix16 target_speed);
-    EXPORT void ClearTurnReady_4539B0();
-    EXPORT void UpdateSpeedTowardTarget_4539D0();
+    EXPORT bool TrySetTargetDirectionFromArrows(const gmp_block_info* pBlock);
+    EXPORT bool IsClockwiseTurning() const;
+    EXPORT void BrakeForBlockedRoadAhead();
+    EXPORT void CheckRoadAhead();
+    EXPORT void ManageTrafficCarDirection();
+    EXPORT void FollowRoadDirection();
+    EXPORT void AlignToLaneCenter();
+    EXPORT void DetectCarAhead();
+    EXPORT void UpdateChase();
+    EXPORT void UpdateStateMachine();
+    EXPORT void ReactToNearbyCar();
+    EXPORT void ReactToNearbyObject();
+    EXPORT void ReactToNearbyPed();
+    EXPORT void ScanAheadForObstacles();
+    EXPORT void ManageCollisions();
+    EXPORT void UpdateDrivingAI();
+    EXPORT void UpdateDriving();
+    EXPORT void ChooseRandomTurn();
+    EXPORT void ClearSteeringIfTurning();
+    EXPORT void RaiseSpeedTo(Fix16 target_speed);
+    EXPORT void ClearTurnReady();
+    EXPORT void UpdateSpeedTowardTarget();
 
   public:
-    EXPORT void UpdateTrainMovement_453A40();
-    EXPORT void AI_Service_453BB0();
-    EXPORT void SetCar_453BF0(Car* pCar);
+    EXPORT void UpdateTrainMovement();
+    EXPORT void AI_Service();
+    EXPORT void SetCar(Car* pCar);
 
   private:
-    EXPORT void ReverseOrNeutral_453C00();
+    EXPORT void ReverseOrNeutral();
 
   public:
     EXPORT void PoolAllocate();

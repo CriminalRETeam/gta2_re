@@ -15,8 +15,8 @@ EXTERN_GLOBAL(Fix16, gFix16_7035C0);
 EXTERN_GLOBAL(u32, gLightingDrawFlag_7068F4);
 EXTERN_GLOBAL_ARRAY(Vert, gTileVerts_7036D0, 8);
 
-EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16& minX, Fix16& minY, Fix16& scanLineX, Fix16_Point& p0, Fix16_Point& p1);
-EXPORT bool __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix16& minY, Fix16& scanLineY, Fix16_Point& p0, Fix16_Point& p1);
+EXPORT bool __stdcall ComputeScanlineIntersectionX(Fix16& minX, Fix16& minY, Fix16& scanLineX, Fix16_Point& p0, Fix16_Point& p1);
+EXPORT bool __stdcall ComputeScanlineIntersectionY(Fix16& minX, Fix16& minY, Fix16& scanLineY, Fix16_Point& p0, Fix16_Point& p1);
 
 class Car;
 class Char;
@@ -24,7 +24,7 @@ class Object;
 class SoundObject;
 class Ped;
 
-EXPORT void __stdcall ProjectWorldToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2);
+EXPORT void __stdcall ProjectWorldToScreen(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2);
 
 class SpriteShape
 {
@@ -159,9 +159,9 @@ class SpriteShape
         mBboxUpToDate = false;
     }
 
-    EXPORT void SetCurrentRect_5A4D90();
-    EXPORT void UpdateRotatedBoundingBox_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);
-    EXPORT void DrawCollisionBox_5A4DA0(Fix16 zpos);
+    EXPORT void SetCurrentRect();
+    EXPORT void UpdateRotatedBoundingBox(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);
+    EXPORT void DrawCollisionBox(Fix16 zpos);
 
     EXPORT SpriteShape();
     EXPORT ~SpriteShape();
@@ -194,7 +194,7 @@ class Sprite
         mZCol = v;
     }
 
-    EXPORT Fix16_Point GetBoundingBoxCorner_562450(s32 idx);
+    EXPORT Fix16_Point GetBoundingBoxCorner(s32 idx);
 
     EXPORT Fix16_Point get_x_y_443580();
     // 9.6f 0x4207B0, out-of-line copy get_x_y_443580 (emitted by Car.cpp). Returns a Fix16_Point by
@@ -203,74 +203,74 @@ class Sprite
     {
         return Fix16_Point(mXy.x, mXy.y);
     }
-    // get_x_y with its body defined at the end of Car.cpp (Car::HandleCarHitByObject_43F130)
+    // get_x_y with its body defined at the end of Car.cpp (Car::HandleCarHitByObject)
     inline Fix16_Point get_x_y_late_443580();
     EXPORT void set_xyz_lazy_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT void setxy_lazy_54EC80(Fix16 xpos, Fix16 ypos);
-    EXPORT bool IsControlledByRemotePlayer_59E170();
-    EXPORT Ped* GetPed_59E1B0() const;
-    EXPORT s32 IsOnWater_59E1D0();
-    EXPORT u8 GetWaterCornerMask_59E250();
-    EXPORT void CopyCollisionShapeToVisual_59E2E0();
-    EXPORT void CopyVisualShapeToCollision_59E300();
-    EXPORT void IncreaseZoom_59E320(char_type delta);
-    EXPORT bool ShrinkSprite_59E390(Fix16 xoff, Fix16 yoff, s32 bShrinkCollisionShape);
-    EXPORT void ApplyScaleToDimensions_59E4C0(Fix16 scale, s32 bScaleCollisionShape);
+    EXPORT void setxy_lazy(Fix16 xpos, Fix16 ypos);
+    EXPORT bool IsControlledByRemotePlayer();
+    EXPORT Ped* GetPed() const;
+    EXPORT s32 IsOnWater();
+    EXPORT u8 GetWaterCornerMask();
+    EXPORT void CopyCollisionShapeToVisual();
+    EXPORT void CopyVisualShapeToCollision();
+    EXPORT void IncreaseZoom(char_type delta);
+    EXPORT bool ShrinkSprite(Fix16 xoff, Fix16 yoff, s32 bShrinkCollisionShape);
+    EXPORT void ApplyScaleToDimensions(Fix16 scale, s32 bScaleCollisionShape);
     EXPORT bool CollisionCheck_59E590(Sprite* pOther);
-    EXPORT bool CheckDirectionalSliceCollision_59E680(Fix16 sliceLen, Sprite* pSprite);
-    EXPORT void InvalidateZColAndBBoxes_59E7B0();
-    EXPORT Sprite* QuerySpriteCollision_59E7D0(s32 sprite_type);
-    EXPORT bool IsThreatToSearchingPed_59E830();
-    EXPORT char_type ShouldCollideWithSprite_59E850(Sprite* pSprite);
-    EXPORT void HandleObjectCollision_59E8C0(Sprite* pSprite);
-    EXPORT void ProcessCarToCarImpactIfCar_59E910(Sprite* pSprite);
-    EXPORT void SetDefaultDrawLayerBySpriteType_59E960();
-    EXPORT void UpdateCollisionBoundsIfNeeded_59E9C0();
+    EXPORT bool CheckDirectionalSliceCollision(Fix16 sliceLen, Sprite* pSprite);
+    EXPORT void InvalidateZColAndBBoxes();
+    EXPORT Sprite* QuerySpriteCollision(s32 sprite_type);
+    EXPORT bool IsThreatToSearchingPed();
+    EXPORT char_type ShouldCollideWithSprite(Sprite* pSprite);
+    EXPORT void HandleObjectCollision(Sprite* pSprite);
+    EXPORT void ProcessCarToCarImpactIfCar(Sprite* pSprite);
+    EXPORT void SetDefaultDrawLayerBySpriteType();
+    EXPORT void UpdateCollisionBoundsIfNeeded();
     EXPORT void SetRemap(s16 remap);
-    EXPORT s16 GetTruePalette_59EAA0() const;
+    EXPORT s16 GetTruePalette() const;
     EXPORT char_type has_shadows_59EAE0();
-    EXPORT void ShowId_59EB30(f32& x, f32& y);
-    EXPORT void ShowHorn_59EE40(f32& x, f32& y);
-    EXPORT void Draw_59EFF0();
-    EXPORT void AllocCollisionShape_59F950(Fix16 width, Fix16 height, Fix16 depth);
-    EXPORT void EnsureVisualShape_59F990();
-    EXPORT void UpdateDimensionsFromSpriteIndex_59FA40();
-    EXPORT void FreeShapes_59FAD0();
-    EXPORT bool IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect);
-    EXPORT char_type FindOverlappingBoundingBoxCorners_5A0150(Sprite* pOther, u8* pOut1, u8* pOut2);
+    EXPORT void ShowId(f32& x, f32& y);
+    EXPORT void ShowHorn(f32& x, f32& y);
+    EXPORT void Draw();
+    EXPORT void AllocCollisionShape(Fix16 width, Fix16 height, Fix16 depth);
+    EXPORT void EnsureVisualShape();
+    EXPORT void UpdateDimensionsFromSpriteIndex();
+    EXPORT void FreeShapes();
+    EXPORT bool IntersectsRectSAT(Fix16_Rect* pOtherRect);
+    EXPORT char_type FindOverlappingBoundingBoxCorners(Sprite* pOther, u8* pOut1, u8* pOut2);
     EXPORT char_type CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2);
-    EXPORT bool RotatedRectCollisionSAT_5A0380(Sprite* pOther);
-    EXPORT bool CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 scanXMax, Fix16 scanY);
-    EXPORT bool GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 line_y, Fix16_Point& point, u8& nearest_corner_idx);
-    EXPORT bool HitTestVerticalLine_5A0EF0(Fix16 x, Fix16 y1, Fix16 y2);
-    EXPORT bool GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 line_x, Fix16_Point& point, u8& nearest_corner_idx);
-    EXPORT bool PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& point2);
-    EXPORT bool IsStraddlingSlopeAndFlat_5A19C0();
-    EXPORT char_type CheckSlopeTopInFootprint_5A1A60();
-    EXPORT void ResolveZOrder_5A1B30(Sprite* pOther);
-    EXPORT char_type ComputeZLayer_5A1BD0();
-    EXPORT char_type CheckCornerZCollisions_5A1CA0(u32* pCount);
-    EXPORT bool IsTouchingSlopeBlock_5A1EB0();
-    EXPORT bool CheckMapZCollision_5A21F0();
-    EXPORT Fix16 MinDistanceToAnySpriteBBoxCorner_5A22B0(Sprite* pOther);
-    EXPORT char_type CheckBulletWallCollision_5A2440();
-    EXPORT char_type CheckSpriteMovementRegion_5A2500();
-    EXPORT Ang16 GetNegatedAngle_5A26E0();
-    EXPORT Fix16_Point FindCollisionIntersectionPoint_5A2710(Sprite* pOther,
+    EXPORT bool RotatedRectCollisionSAT(Sprite* pOther);
+    EXPORT bool CheckBBoxScanlineIntersection(Fix16 scanXMin, Fix16 scanXMax, Fix16 scanY);
+    EXPORT bool GetNearestHorizontalEdgeToCoordinate(Fix16 line_y, Fix16_Point& point, u8& nearest_corner_idx);
+    EXPORT bool HitTestVerticalLine(Fix16 x, Fix16 y1, Fix16 y2);
+    EXPORT bool GetNearestVerticalEdgeToCoordinate(Fix16 line_x, Fix16_Point& point, u8& nearest_corner_idx);
+    EXPORT bool PointInsideRotatedBounds(Fix16_Point& point1, Fix16_Point& point2);
+    EXPORT bool IsStraddlingSlopeAndFlat();
+    EXPORT char_type CheckSlopeTopInFootprint();
+    EXPORT void ResolveZOrder(Sprite* pOther);
+    EXPORT char_type ComputeZLayer();
+    EXPORT char_type CheckCornerZCollisions(u32* pCount);
+    EXPORT bool IsTouchingSlopeBlock();
+    EXPORT bool CheckMapZCollision();
+    EXPORT Fix16 MinDistanceToAnySpriteBBoxCorner(Sprite* pOther);
+    EXPORT char_type CheckBulletWallCollision();
+    EXPORT char_type CheckSpriteMovementRegion();
+    EXPORT Ang16 GetNegatedAngle();
+    EXPORT Fix16_Point FindCollisionIntersectionPoint(Sprite* pOther,
                                                               Fix16_Point& newPos,
                                                               Ang16 newAng,
                                                               u8& self_corner_idx,
                                                               u8& other_corner_idx,
                                                               u8& overlap_count);
-    EXPORT void CreateSoundObj_5A29D0();
-    EXPORT bool IsObjectModelEqual_59E930(s32 model) const;
-    EXPORT void FreeSound_5A2A00();
-    EXPORT void ResolveCollisionWithCarPedOrObject_5A2A30();
+    EXPORT void CreateSoundObj();
+    EXPORT bool IsObjectModelEqual(s32 model) const;
+    EXPORT void FreeSound();
+    EXPORT void ResolveCollisionWithCarPedOrObject();
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
-    EXPORT void AttachSprite_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 ang);
+    EXPORT void AttachSprite(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 ang);
 
-    EXPORT void set_angle_4833B0(Ang16 ang);
+    EXPORT void set_angle(Ang16 ang);
 
     EXPORT ~Sprite(); // 0x5a3540
 
@@ -462,7 +462,7 @@ class Sprite
     void SetType_4206F0(s32 sprite_type)
     {
         mSpriteTypeEnum = sprite_type;
-        SetDefaultDrawLayerBySpriteType_59E960(); // Update field_28
+        SetDefaultDrawLayerBySpriteType(); // Update field_28
     }
 
     void SetObject2C_482A30(Object* pObject)
@@ -486,7 +486,7 @@ class Sprite
         if (mTypeSpriteIdx != new_id)
         {
             mTypeSpriteIdx = new_id;
-            UpdateDimensionsFromSpriteIndex_59FA40();
+            UpdateDimensionsFromSpriteIndex();
         }
     }
 
@@ -504,7 +504,7 @@ class Sprite
     void SetDimensions_482A40(Fix16 w, Fix16 h, Fix16 depth)
     {
         mpCollisionShape->SetDimensions_482980(w, h, depth);
-        InvalidateZColAndBBoxes_59E7B0();
+        InvalidateZColAndBBoxes();
     }
 
     // 9.6f 0x433800
@@ -525,7 +525,7 @@ class Sprite
         if (ang != mRotation)
         {
             mRotation = ang;
-            InvalidateZColAndBBoxes_59E7B0();
+            InvalidateZColAndBBoxes();
         }
     }
 
@@ -537,12 +537,12 @@ class Sprite
             mXy.x = xpos;
             mXy.y = ypos;
             mZpos = zpos;
-            InvalidateZColAndBBoxes_59E7B0();
+            InvalidateZColAndBBoxes();
         }
     }
 
     // 9.6f inline 0x420600
-    // OBS: INLINE_MODE required to match Crane::UpdateCraneSprites_47FE10
+    // OBS: INLINE_MODE required to match Crane::UpdateCraneSprites
     INLINE_MODE void set_xyz_lazy_inlined_420600(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     {
         if (mXy.x != xpos || mXy.y != ypos || mZpos != zpos)
@@ -550,7 +550,7 @@ class Sprite
             mXy.x = xpos;
             mXy.y = ypos;
             mZpos = zpos;
-            InvalidateZColAndBBoxes_59E7B0();
+            InvalidateZColAndBBoxes();
         }
     }
 
@@ -561,7 +561,7 @@ class Sprite
         {
             mXy.x = x_target;
             mXy.y = y_target;
-            InvalidateZColAndBBoxes_59E7B0();
+            InvalidateZColAndBBoxes();
         }
     }
 
@@ -571,7 +571,7 @@ class Sprite
         if (mZpos != zpos)
         {
             mZpos = zpos;
-            InvalidateZColAndBBoxes_59E7B0();
+            InvalidateZColAndBBoxes();
         }
     }
 
@@ -598,9 +598,9 @@ class Sprite
     Fix16_Point_POD mXy; // 0x14
     Fix16 mZpos; // 0x1C
     s16 mInstanceId; // 0x20: unique per live sprite (SpriteManager id_base counter)
-    s16 mTypeSpriteIdx; // 0x22: sprite number within its sprite type, looked up with GetSpriteTrueIndex_5AA460
+    s16 mTypeSpriteIdx; // 0x22: sprite number within its sprite type, looked up with GetSpriteTrueIndex
     s16 mRemap; // 0x24
-    s32 mDrawLayer; // 0x28: draw order tie-break among sprites at the same z (SpriteTree::AddSprite_5C5CF0); > 9 sorts by z
+    s32 mDrawLayer; // 0x28: draw order tie-break among sprites at the same z (SpriteTree::AddSprite); > 9 sorts by z
     union
     {
         u8 mFlags; // 0x2C
@@ -617,9 +617,9 @@ class Sprite
 class SpriteMask
 {
   public:
-    EXPORT void MarkUsed_48F5A0();
+    EXPORT void MarkUsed();
 
-    EXPORT void ClearMask_48F5C0(u8 xCount, u8 yCount);
+    EXPORT void ClearMask(u8 xCount, u8 yCount);
 
     // 9.6f 0x44af30
     EXPORT SpriteMask()
@@ -657,10 +657,10 @@ GTA2_ASSERT_SIZEOF_ALWAYS(SpriteMask, 0x14);
 class SpriteMaskCache
 {
   public:
-    EXPORT SpriteMask* FindCachedMask_48F600(const u16& sprite_idx, const u32* pFlag, const u32* pDeltaMask, const u16* pExtra);
-    EXPORT SpriteMask* FindLeastRecentlyUsed_48F690(const u32* pKey);
-    EXPORT void InvalidateMasksBySpriteIdx_48F6E0(const u16* sprite_idx);
-    EXPORT void InvalidateAllMasks_48F710();
+    EXPORT SpriteMask* FindCachedMask(const u16& sprite_idx, const u32* pFlag, const u32* pDeltaMask, const u16* pExtra);
+    EXPORT SpriteMask* FindLeastRecentlyUsed(const u32* pKey);
+    EXPORT void InvalidateMasksBySpriteIdx(const u16* sprite_idx);
+    EXPORT void InvalidateAllMasks();
     EXPORT SpriteMaskCache();
     EXPORT ~SpriteMaskCache();
 
@@ -679,8 +679,8 @@ GTA2_ASSERT_SIZEOF_ALWAYS(SpriteMaskCache, 0x3CC);
 class SpriteManager_8
 {
   public:
-    EXPORT void ResetDrawnSpriteCount_5A5860();
-    EXPORT void AllocScratchSprite_5A5870();
+    EXPORT void ResetDrawnSpriteCount();
+    EXPORT void AllocScratchSprite();
     EXPORT SpriteManager_8();
     EXPORT ~SpriteManager_8();
     s32 mDrawnSpriteCount; // 0x0
@@ -702,15 +702,15 @@ class AttachedSprite
     {
     }
 
-    EXPORT void SinkAttachedCar_5A6A20();
+    EXPORT void SinkAttachedCar();
 
-    EXPORT void DestroyAttached_5A69E0();
+    EXPORT void DestroyAttached();
 
-    EXPORT bool UpdateAttached_5A6910(Sprite* pSprite);
+    EXPORT bool UpdateAttached(Sprite* pSprite);
 
     Sprite* mpSprite; // 0x0
     AttachedSprite* mpNext;
-    Fix16 mOffsetX; // 0x8: NOTE: Fix16_Point here breaks match of UpdateAttached_5A6910
+    Fix16 mOffsetX; // 0x8: NOTE: Fix16_Point here breaks match of UpdateAttached
     Fix16 mOffsetY; // 0xC
     Ang16 mOffsetRot; // 0x10
     s16 mUnused12; // 0x12

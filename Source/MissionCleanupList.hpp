@@ -40,12 +40,12 @@ class MissionCleanupList
   public:
     // throw(): ScriptManager's ctor has no EH state around new MissionCleanupList()
     MissionCleanupList() throw();
-    EXPORT void MissionCleanUp_502DC0();
-    EXPORT MissionCleanupEntry* allocate_next_502F60();
-    EXPORT void push_type_1_car_502F80(Car* pCar);
-    EXPORT void push_type_3_ped_502FB0(Ped* pPed);
-    EXPORT void push_type_2_non_pickup_object_502FF0(Object *pObj, bool bForce);
-    EXPORT void push_type_2_object_503050(Object* pObj);
+    EXPORT void MissionCleanUp();
+    EXPORT MissionCleanupEntry* allocate_next();
+    EXPORT void push_type_1_car(Car* pCar);
+    EXPORT void push_type_3_ped(Ped* pPed);
+    EXPORT void push_type_2_non_pickup_object(Object *pObj, bool bForce);
+    EXPORT void push_type_2_object(Object* pObj);
 
     MissionCleanupEntry mEntries[50]; // 0x0
 

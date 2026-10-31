@@ -46,7 +46,7 @@ struct CompilerBitField32
 };
 
 // Byte-sized bit field: clearing a bit through it is a byte `and` whose mask VC6 does not share with
-// the same mask on a 32 bit field (Ped::Reset_45AFC0)
+// the same mask on a 32 bit field (Ped::Reset)
 struct CompilerBitField8
 {
     u8 b0 : 1;

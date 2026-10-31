@@ -33,7 +33,7 @@ enum
 {
     goto_position_1 = 1,    // drive to the objective target position
     follow_ped_2 = 2,       // follow / chase a ped
-    follow_target_ped_4 = 4, // Ped::SetupCarFollowTargetPed_469E50
+    follow_target_ped_4 = 4, // Ped::SetupCarFollowTargetPed
     kill_ped_5 = 5,         // chase a ped for the kill_char_any_means objective
 };
 } // namespace car_task_type

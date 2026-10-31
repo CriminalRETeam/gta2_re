@@ -66,7 +66,7 @@ class ModelPhysics
         return mAntiStrngth;
     }
 
-    EXPORT void ConvertMass_454680();
+    EXPORT void ConvertMass();
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ModelPhysics, 0x48);
 
@@ -75,7 +75,7 @@ class CarInfo_2C
   public:
     EXPORT CarInfo_2C();
     EXPORT ~CarInfo_2C();
-    EXPORT void CalculateCarInfo_4542A0(s32 idx);
+    EXPORT void CalculateCarInfo(s32 idx);
 
     Fix16 mMomentOfInertia; // 0x0
     Fix16 mFrontWheelOffset; // 0x4
@@ -101,30 +101,30 @@ class CarInfoTable
     STATIC_MEMBER(u8*, sInputData);
     STATIC_MEMBER(u32, sGciDataLen);
     STATIC_MEMBER_ARRAY(char, sFileName, 64);
-    EXPORT ModelPhysics* GetModelPhysicsFromIdx_4546B0(u8 model_idx) const;
-    EXPORT void LoadModelPhysics_4546D0();
-    EXPORT CarInfo_2C* GetInfoAtIdx_454840(u8 idx) const;
-    EXPORT void CalculateAllCarInfo_454850();
-    EXPORT void ConvertAllMass_4549C0();
-    EXPORT void LoadFromGciFile_454A00(const char_type* pGciFilePath);
-    EXPORT void Reload_454A50();
-    EXPORT void Clear_454A80();
-    EXPORT void Free_454AA0();
+    EXPORT ModelPhysics* GetModelPhysicsFromIdx(u8 model_idx) const;
+    EXPORT void LoadModelPhysics();
+    EXPORT CarInfo_2C* GetInfoAtIdx(u8 idx) const;
+    EXPORT void CalculateAllCarInfo();
+    EXPORT void ConvertAllMass();
+    EXPORT void LoadFromGciFile(const char_type* pGciFilePath);
+    EXPORT void Reload();
+    EXPORT void Clear();
+    EXPORT void Free();
     EXPORT CarInfoTable();
     EXPORT ~CarInfoTable();
 
-    EXPORT static char* __stdcall parse_gci_file_430A30(void* input,
+    EXPORT static char* __stdcall parse_gci_file(void* input,
                                                         size_t input_size,
                                                         ModelPhysics* output,
                                                         size_t output_size,
                                                         u32* next_position);
-    EXPORT static char* __stdcall SetErr_430AC0(s32 error_code);
-    EXPORT static s32 __stdcall ReadToken_430B10(char* pOut);
-    EXPORT static s32 __stdcall PushData_430E60(void* pSrc, u32 size);
+    EXPORT static char* __stdcall SetErr(s32 error_code);
+    EXPORT static s32 __stdcall ReadToken(char* pOut);
+    EXPORT static s32 __stdcall PushData(void* pSrc, u32 size);
     EXPORT static s32 __stdcall HexStr2Int_430EC0(const char* pStr, s32* pOut);
     EXPORT static s32 __stdcall HexStr2Int_430F30(const char* pStr, s16* pOut);
     EXPORT static s32 __stdcall StrToInt_430FA0(const char* pStr, s32* pOut);
-    EXPORT static s32 __stdcall FloatStrToFix16_431000(char* pStr, Fix16& out);
+    EXPORT static s32 __stdcall FloatStrToFix16(char* pStr, Fix16& out);
     EXPORT static s32 __stdcall StrToInt_431080(const char* pStr, s16* pOut);
 
     CarInfo_2C* mPtrArray[256]; // 0x0
@@ -136,4 +136,4 @@ GTA2_ASSERT_SIZEOF_ALWAYS(CarInfoTable, 0x808);
 
 EXTERN_GLOBAL(CarInfoTable*, gCarInfo_808_678098);
 
-EXPORT s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr);
+EXPORT s32 __stdcall ParseTokenAndPush(char_type* pStr);

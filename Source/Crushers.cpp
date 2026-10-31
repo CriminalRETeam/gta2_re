@@ -45,9 +45,9 @@ Crusher::~Crusher()
 }
 
 MATCH_FUNC(0x488310)
-void Crusher::CrushCar_488310(Car* pCar)
+void Crusher::CrushCar(Car* pCar)
 {
-    if (mState == CrusherStates::Idle_0 && !pCar->IsDespawning_4215B0() && !pCar->IsSpriteShrunk_43DC00() && !pCar->IsEngineCrushed_447EB0())
+    if (mState == CrusherStates::Idle_0 && !pCar->IsDespawning_4215B0() && !pCar->IsSpriteShrunk() && !pCar->IsEngineCrushed_447EB0())
     {
         mpCarBeingCrushed = pCar;
         mState = CrusherStates::CrushW_1;
@@ -56,7 +56,7 @@ void Crusher::CrushCar_488310(Car* pCar)
 }
 
 MATCH_FUNC(0x488350)
-void Crusher::Service_488350()
+void Crusher::Service()
 {
     if (mState != CrusherStates::Idle_0)
     {
@@ -78,12 +78,12 @@ void Crusher::Service_488350()
                         mpCarBeingCrushed->mDeathCause = ped_death_cause::explosion_4;
                         mpCarBeingCrushed->mExploderTimer = 50;
                     }
-                    mpCarBeingCrushed->HandleCarExplosion_43D840(explosion_type::item_19);
-                    mpCarBeingCrushed->mAttachments.CleanupSpriteList_5A7080();
+                    mpCarBeingCrushed->HandleCarExplosion(explosion_type::item_19);
+                    mpCarBeingCrushed->mAttachments.CleanupSpriteList();
                 }
                 if (mW - kCrusherPistonHalfDepth <= mpCarBeingCrushed->GetCarWidth_48A930() / 2)
                 {
-                    mpCarBeingCrushed->CarShrinkSprite_43DC80(2, 0);
+                    mpCarBeingCrushed->CarShrinkSprite(2, 0);
                 }
                 break;
 
@@ -106,7 +106,7 @@ void Crusher::Service_488350()
 
                 if (mH - kCrusherPistonHalfDepth <= (mpCarBeingCrushed->GetCarHeight_48A950() / 2))
                 {
-                    mpCarBeingCrushed->CarShrinkSprite_43DC80(0, 2);
+                    mpCarBeingCrushed->CarShrinkSprite(0, 2);
                 }
             }
             break;
@@ -125,75 +125,75 @@ void Crusher::Service_488350()
         }
 
         Object* Obj_0 = mPistonTop;
-        Obj_0->RemoveFromCollisionBuckets_527D00();
+        Obj_0->RemoveFromCollisionBuckets();
         Obj_0->mSprite->set_xy_lazy_447E20(mXpos, mYpos - mH);
-        Obj_0->AssignToBucket_527AE0();
+        Obj_0->AssignToBucket();
 
         Object* Obj_4 = mPistonRight;
-        Obj_4->RemoveFromCollisionBuckets_527D00();
+        Obj_4->RemoveFromCollisionBuckets();
         Obj_4->mSprite->set_xy_lazy_447E20(mXpos + mW, mYpos);
-        Obj_4->AssignToBucket_527AE0();
+        Obj_4->AssignToBucket();
 
         Object* Obj_8 = mPistonBottom;
-        Obj_8->RemoveFromCollisionBuckets_527D00();
+        Obj_8->RemoveFromCollisionBuckets();
         Obj_8->mSprite->set_xy_lazy_447E20(mXpos, mH + mYpos);
-        Obj_8->AssignToBucket_527AE0();
+        Obj_8->AssignToBucket();
 
         Object* Obj_C = mPistonLeft;
-        Obj_C->RemoveFromCollisionBuckets_527D00();
+        Obj_C->RemoveFromCollisionBuckets();
         Obj_C->mSprite->set_xy_lazy_447E20(mXpos - mW, mYpos);
-        Obj_C->AssignToBucket_527AE0();
+        Obj_C->AssignToBucket();
     }
 }
 
 MATCH_FUNC(0x4885a0)
-void Crusher::InitCrusher_4885A0(Fix16 xpos, Fix16 ypos, char_type crusher_idx)
+void Crusher::InitCrusher(Fix16 xpos, Fix16 ypos, char_type crusher_idx)
 {
-    Fix16 zpos = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos);
+    Fix16 zpos = gMap_0x370_6F6268->FindGroundZForCoord(xpos, ypos);
 
     mXpos = xpos;
     mYpos = ypos;
 
-    mCentralSpot = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crusher_central_spot_143, xpos, ypos, zpos, kAngZero_67A820);
+    mCentralSpot = gObject_5C_6F8F84->NewPhysicsObj(objects::crusher_central_spot_143, xpos, ypos, zpos, kAngZero_67A820);
     mCentralSpot->mPedRefIdx = crusher_idx;
 
-    mPistonTop = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crusher_piston_142,
+    mPistonTop = gObject_5C_6F8F84->NewPhysicsObj(objects::crusher_piston_142,
                                                                  mXpos,
                                                                  mYpos - kCrusherOpenDist,
                                                                  zpos,
                                                                  kAngZero_67A820);
-    mPistonRight = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crusher_piston_142,
+    mPistonRight = gObject_5C_6F8F84->NewPhysicsObj(objects::crusher_piston_142,
                                                                    mXpos + kCrusherOpenDist,
                                                                    mYpos,
                                                                    zpos,
                                                                    kAng270_67A660);
-    mPistonBottom = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crusher_piston_142,
+    mPistonBottom = gObject_5C_6F8F84->NewPhysicsObj(objects::crusher_piston_142,
                                                                     mXpos,
                                                                     kCrusherOpenDist + mYpos,
                                                                     zpos,
                                                                     kAng180_67A63A);
-    mPistonLeft = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crusher_piston_142,
+    mPistonLeft = gObject_5C_6F8F84->NewPhysicsObj(objects::crusher_piston_142,
                                                                   mXpos - kCrusherOpenDist,
                                                                   mYpos,
                                                                   zpos,
                                                                   kAng90_67A568);
 
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crusher_piston_base_150,
+    gObject_5C_6F8F84->NewPhysicsObj(objects::crusher_piston_base_150,
                                             mXpos,
                                             mYpos - kCrusherPistonBaseDist,
                                             zpos,
                                             kAngZero_67A820);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crusher_piston_base_150,
+    gObject_5C_6F8F84->NewPhysicsObj(objects::crusher_piston_base_150,
                                             mXpos + kCrusherPistonBaseDist,
                                             mYpos,
                                             zpos,
                                             kAng270_67A660);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crusher_piston_base_150,
+    gObject_5C_6F8F84->NewPhysicsObj(objects::crusher_piston_base_150,
                                             mXpos,
                                             kCrusherPistonBaseDist + mYpos,
                                             zpos,
                                             kAng180_67A63A);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crusher_piston_base_150,
+    gObject_5C_6F8F84->NewPhysicsObj(objects::crusher_piston_base_150,
                                             mXpos - kCrusherPistonBaseDist,
                                             mYpos,
                                             zpos,
@@ -207,12 +207,12 @@ void Crusher::InitCrusher_4885A0(Fix16 xpos, Fix16 ypos, char_type crusher_idx)
 
     if (!mSound && !bSkip_audio_67D6BE)
     {
-        mSound = gRoot_sound_66B038.CreateSoundObject_40EF40(this, SoundObjectTypeEnum::Crusher_30_9);
+        mSound = gRoot_sound_66B038.CreateSoundObject(this, SoundObjectTypeEnum::Crusher_30_9);
     }
 }
 
 MATCH_FUNC(0x4887a0)
-bool CrusherPool::IsCarBeingCrushed_4887A0(Car* pCar)
+bool CrusherPool::IsCarBeingCrushed(Car* pCar)
 {
     for (s32 i = 0; i < mCount; i++)
     {
@@ -225,29 +225,29 @@ bool CrusherPool::IsCarBeingCrushed_4887A0(Car* pCar)
 }
 
 MATCH_FUNC(0x4887d0)
-void CrusherPool::CrushCarWithCrusher_4887D0(Car* pCar, u8 crusher_idx)
+void CrusherPool::CrushCarWithCrusher(Car* pCar, u8 crusher_idx)
 {
-    mCrushers[crusher_idx].CrushCar_488310(pCar);
+    mCrushers[crusher_idx].CrushCar(pCar);
 }
 
 MATCH_FUNC(0x4887f0)
-void CrusherPool::CrushersService_4887F0()
+void CrusherPool::CrushersService()
 {
     s32 idx = 0;
     Crusher* pIter = &mCrushers[0];
     while (idx < mCount)
     {
-        pIter->Service_488350();
+        pIter->Service();
         idx++;
         pIter++;
     }
 }
 
 MATCH_FUNC(0x488820)
-Crusher* CrusherPool::CreateCrusher_488820(Fix16 xpos, Fix16 ypos)
+Crusher* CrusherPool::CreateCrusher(Fix16 xpos, Fix16 ypos)
 {
     Crusher* pNew = &mCrushers[mCount];
-    pNew->InitCrusher_4885A0(xpos, ypos, mCount);
+    pNew->InitCrusher(xpos, ypos, mCount);
     mCount++;
     return pNew;
 }

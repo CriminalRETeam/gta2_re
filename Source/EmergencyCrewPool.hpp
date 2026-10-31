@@ -37,14 +37,14 @@ class EmergencyCrew
   public:
     EXPORT EmergencyCrew();
     EXPORT ~EmergencyCrew();
-    EXPORT void Init_5CBC00();
-    EXPORT void ReInit_5CBC30();
-    EXPORT void RemovePed_5CBC40(Ped* pPed);
-    EXPORT bool IsLeaderAlive_5CBC60() const;
-    EXPORT bool ReplaceLeaderIfNeeded_5CBC90();
-    EXPORT void UpdateStateMachine_5CBD50();
-    EXPORT void CleanupExpiredEntities_5CC1C0();
-    EXPORT bool Service_5CC480();
+    EXPORT void Init();
+    EXPORT void ReInit();
+    EXPORT void RemovePed(Ped* pPed);
+    EXPORT bool IsLeaderAlive() const;
+    EXPORT bool ReplaceLeaderIfNeeded();
+    EXPORT void UpdateStateMachine();
+    EXPORT void CleanupExpiredEntities();
+    EXPORT bool Service();
     Car* mCar; // 0x0
     Ped* mPed; // 0x4
     PedGroup* mGroup; // 0x8
@@ -67,12 +67,12 @@ class EmergencyCrewPool
   public:
     EmergencyCrewPool()
     {
-        init_5CBB70();
+        init();
     }
     EXPORT ~EmergencyCrewPool();
-    EXPORT void init_5CBB70();
-    EXPORT EmergencyCrew* AllocateSlot_5CBB80();
-    EXPORT void ServiceAll_5CBBD0();
+    EXPORT void init();
+    EXPORT EmergencyCrew* AllocateSlot();
+    EXPORT void ServiceAll();
     EmergencyCrew mSlots[10]; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(EmergencyCrewPool, 0x1E0);

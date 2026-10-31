@@ -1,6 +1,6 @@
 #pragma once
 
-// Car_Door::mState. Close_439EA0 asks for close_requested_5, which waits two Service_439DA0 ticks before closing_3.
+// Car_Door::mState. Close asks for close_requested_5, which waits two Service ticks before closing_3.
 namespace car_door_state
 {
 enum

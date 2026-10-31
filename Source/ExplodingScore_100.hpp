@@ -11,11 +11,11 @@ class ExplodingScore
     EXPORT ~ExplodingScore();
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
-    EXPORT void ClearNumbersArrayFrom_596A70(s32 start_idx);
-    EXPORT void InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score);
-    EXPORT void DrawNumbers_596C90();
+    EXPORT void ClearNumbersArrayFrom(s32 start_idx);
+    EXPORT void InitScore(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score);
+    EXPORT void DrawNumbers();
     EXPORT bool PoolUpdate();
-    EXPORT void DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub);
+    EXPORT void DrawSingleNumber(s32 number_to_draw, s32 xpos_sub);
 
     s32 mHighestDigitIdx; // 0x0
     s32 mDigits[9]; // 0x4: Number components
@@ -41,11 +41,11 @@ class ExplodingScorePool
   public:
     EXPORT ExplodingScorePool();
     EXPORT ~ExplodingScorePool();
-    EXPORT s16 NextPalette_596860();
-    EXPORT void IncrementFreeScores_596880();
-    EXPORT void PushScore_596890(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score);
-    EXPORT void Update_596940();
-    EXPORT void DrawExplodingScores_5969E0();
+    EXPORT s16 NextPalette();
+    EXPORT void IncrementFreeScores();
+    EXPORT void PushScore(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score);
+    EXPORT void Update();
+    EXPORT void DrawExplodingScores();
 
     s16 mLastPalette; // 0x0
     u16 mFreeScores; // 0x2

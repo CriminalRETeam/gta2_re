@@ -156,7 +156,7 @@ cSampleManager::cSampleManager()
     m3dProviderCount = 0;
     mIsStereo = false;
 
-    DisableA3DSplash_58D620();
+    DisableA3DSplash();
 
     mGtaAudioDriveLetter = 0;
 
@@ -191,7 +191,7 @@ cSampleManager::cSampleManager()
 #pragma warning(push)
 #pragma warning(disable : 4700)
 MATCH_FUNC(0x58D620)
-bool cSampleManager::DisableA3DSplash_58D620()
+bool cSampleManager::DisableA3DSplash()
 {
     bool bOk;
     DWORD data;
@@ -221,20 +221,20 @@ bool cSampleManager::DisableA3DSplash_58D620()
 #pragma warning(pop)
 
 MATCH_FUNC(0x58D6C0)
-bool cSampleManager::SoundInit_58D6C0(s32* not_used)
+bool cSampleManager::SoundInit(s32* not_used)
 {
     AIL_startup();
 
-    if (!OpenDigitalDriver_58D720(true, mIsStereo, 22050))
+    if (!OpenDigitalDriver(true, mIsStereo, 22050))
     {
         AIL_shutdown();
         return false;
     }
 
-    Enum3DProviders_58E1F0();
+    Enum3DProviders();
 
     mCountSamples = 16;
-    AllocSamples_58D9F0(1);
+    AllocSamples(1);
 
     if (mhDriver)
     {
@@ -244,7 +244,7 @@ bool cSampleManager::SoundInit_58D6C0(s32* not_used)
 }
 
 MATCH_FUNC(0x58D720)
-bool cSampleManager::OpenDigitalDriver_58D720(bool b16Bit, bool bStereo, s32 sampleRate)
+bool cSampleManager::OpenDigitalDriver(bool b16Bit, bool bStereo, s32 sampleRate)
 {
     PCMWAVEFORMAT format;
 
@@ -285,12 +285,12 @@ bool cSampleManager::OpenDigitalDriver_58D720(bool b16Bit, bool bStereo, s32 sam
 
     mIsStereo = bStereo;
 
-    AllocSample_58DA80();
+    AllocSample();
 
     mpAudioBuffer1 = AIL_mem_alloc_lock(6100000);
     if (!mpAudioBuffer1)
     {
-        ReleaseSample_58DAC0();
+        ReleaseSample();
         AIL_waveOutClose(mhDriver);
         return false;
     }
@@ -299,19 +299,19 @@ bool cSampleManager::OpenDigitalDriver_58D720(bool b16Bit, bool bStereo, s32 sam
 }
 
 MATCH_FUNC(0x58D820)
-bool cSampleManager::Init3DProvider_58D820(u8* pMaxSamples)
+bool cSampleManager::Init3DProvider(u8* pMaxSamples)
 {
-    Terminate_58DAE0();
-    Reset3DSamples_58D960();
+    Terminate();
+    Reset3DSamples();
 
     if (mIsStereo)
     {
         AIL_waveOutClose(mhDriver);
-        if (!OpenDigitalDriver_58D720(true, false, 22050))
+        if (!OpenDigitalDriver(true, false, 22050))
         {
-            if (OpenDigitalDriver_58D720(true, false, 22050))
+            if (OpenDigitalDriver(true, false, 22050))
             {
-                AllocSamples_58D9F0(1);
+                AllocSamples(1);
             }
             return false;
         }
@@ -322,7 +322,7 @@ bool cSampleManager::Init3DProvider_58D820(u8* pMaxSamples)
     {
         if (mStr22B4[i])
         {
-            if (strncmp(mStr22B4[i], "Microsoft DirectSound3D hardware support", 0x1Eu) == 0 && Open3DProvider_58E140(i))
+            if (strncmp(mStr22B4[i], "Microsoft DirectSound3D hardware support", 0x1Eu) == 0 && Open3DProvider(i))
             {
                 break;
             }
@@ -346,7 +346,7 @@ bool cSampleManager::Init3DProvider_58D820(u8* pMaxSamples)
             if (*pMaxSamples < 8u)
             {
                 *pMaxSamples = 0;
-                Close3DProvider_58E1C0();
+                Close3DProvider();
                 return false;
             }
 
@@ -356,7 +356,7 @@ bool cSampleManager::Init3DProvider_58D820(u8* pMaxSamples)
                 if (!m3dSample[sampIdx])
                 {
                     *pMaxSamples = 0;
-                    Close3DProvider_58E1C0();
+                    Close3DProvider();
                     return false;
                 }
             }
@@ -369,7 +369,7 @@ bool cSampleManager::Init3DProvider_58D820(u8* pMaxSamples)
 }
 
 MATCH_FUNC(0x58D960)
-void cSampleManager::Reset3DSamples_58D960()
+void cSampleManager::Reset3DSamples()
 {
     for (u32 i = 0; i < m3dSampCount; i++)
     {
@@ -380,7 +380,7 @@ void cSampleManager::Reset3DSamples_58D960()
         }
     }
 
-    Close3DProvider_58E1C0();
+    Close3DProvider();
 
     mCountSamples = 16;
     m3dSampCount = 0;
@@ -394,16 +394,16 @@ void cSampleManager::Reset3DSamples_58D960()
 }
 
 MATCH_FUNC(0x58D9F0)
-bool cSampleManager::AllocSamples_58D9F0(s32 not_used)
+bool cSampleManager::AllocSamples(s32 not_used)
 {
-    Terminate_58DAE0();
-    Reset3DSamples_58D960();
+    Terminate();
+    Reset3DSamples();
 
     if (mIsStereo)
     {
         AIL_waveOutClose(mhDriver);
 
-        if (!OpenDigitalDriver_58D720(true, false, 22050))
+        if (!OpenDigitalDriver(true, false, 22050))
         {
             return false;
         }
@@ -420,7 +420,7 @@ bool cSampleManager::AllocSamples_58D9F0(s32 not_used)
 }
 
 MATCH_FUNC(0x58DA80)
-void cSampleManager::AllocSample_58DA80()
+void cSampleManager::AllocSample()
 {
     if (!mhSample)
     {
@@ -431,7 +431,7 @@ void cSampleManager::AllocSample_58DA80()
 }
 
 MATCH_FUNC(0x58DAC0)
-void cSampleManager::ReleaseSample_58DAC0()
+void cSampleManager::ReleaseSample()
 {
     if (mhSample)
     {
@@ -441,7 +441,7 @@ void cSampleManager::ReleaseSample_58DAC0()
 }
 
 MATCH_FUNC(0x58DAE0)
-void cSampleManager::Terminate_58DAE0()
+void cSampleManager::Terminate()
 {
     for (u8 i = 0; i < mCountSamples; i++)
     {
@@ -451,7 +451,7 @@ void cSampleManager::Terminate_58DAE0()
 }
 
 MATCH_FUNC(0x58DB30)
-void cSampleManager::Shutdown_58DB30()
+void cSampleManager::Shutdown()
 {
     for (u32 i = 0; i < 2; ++i)
     {
@@ -485,9 +485,9 @@ void cSampleManager::Shutdown_58DB30()
         }
     }
 
-    ReleaseSample_58DAC0();
-    Reset3DSamples_58D960();
-    Terminate_58DAE0();
+    ReleaseSample();
+    Reset3DSamples();
+    Terminate();
 
     AIL_mem_free_lock(mpAudioBuffer1);
     mpAudioBuffer1 = NULL;
@@ -497,7 +497,7 @@ void cSampleManager::Shutdown_58DB30()
 }
 
 MATCH_FUNC(0x58DBF0)
-s32 cSampleManager::GetPlayBackRate_58DBF0(s32 idx) const
+s32 cSampleManager::GetPlayBackRate(s32 idx) const
 {
     const s32 playBackRate = mSdtEntries[idx].mPlayBackRate;
     if (playBackRate == 0)
@@ -508,31 +508,31 @@ s32 cSampleManager::GetPlayBackRate_58DBF0(s32 idx) const
 }
 
 MATCH_FUNC(0x58DC10)
-s32 cSampleManager::GetRandomDisplacement_58DC10(s32 idx) const
+s32 cSampleManager::GetRandomDisplacement(s32 idx) const
 {
     return mSdtEntries[idx].mRandomDisplacement;
 }
 
 MATCH_FUNC(0x58DC30)
-s32 cSampleManager::GetLoopStart_58DC30(s32 sample_idx) const
+s32 cSampleManager::GetLoopStart(s32 sample_idx) const
 {
     return mSdtEntries[sample_idx].mLoopStart;
 }
 
 MATCH_FUNC(0x58DC50)
-s32 cSampleManager::GetLoopEnd_58DC50(s32 sample_idx) const
+s32 cSampleManager::GetLoopEnd(s32 sample_idx) const
 {
     return mSdtEntries[sample_idx].mLoopEnd;
 }
 
 MATCH_FUNC(0x58DC70)
-s32 cSampleManager::GetSampleLength_58DC70(s32 sample_idx) const
+s32 cSampleManager::GetSampleLength(s32 sample_idx) const
 {
     return mSdtEntries[sample_idx].mSampleLength;
 }
 
 MATCH_FUNC(0x58DC90)
-void cSampleManager::InitialiseChannel_58DC90(s32 channel, s32 sample_idx)
+void cSampleManager::InitialiseChannel(s32 channel, s32 sample_idx)
 {
     if (mhSamples[channel])
     {
@@ -546,7 +546,7 @@ void cSampleManager::InitialiseChannel_58DC90(s32 channel, s32 sample_idx)
 }
 
 MATCH_FUNC(0x58DCE0)
-void cSampleManager::SetChannelVolume_58DCE0(s32 channel, s32 volume)
+void cSampleManager::SetChannelVolume(s32 channel, s32 volume)
 {
     if (mhSamples[channel])
     {
@@ -555,7 +555,7 @@ void cSampleManager::SetChannelVolume_58DCE0(s32 channel, s32 volume)
 }
 
 MATCH_FUNC(0x58DD00)
-void cSampleManager::SetChannelPan_58DD00(s32 channel, s32 pan)
+void cSampleManager::SetChannelPan(s32 channel, s32 pan)
 {
     if (mhSamples[channel])
     {
@@ -564,7 +564,7 @@ void cSampleManager::SetChannelPan_58DD00(s32 channel, s32 pan)
 }
 
 MATCH_FUNC(0x58DD20)
-void cSampleManager::SetChannelFrequency_58DD20(s32 channel, s32 frequency)
+void cSampleManager::SetChannelFrequency(s32 channel, s32 frequency)
 {
     if (mhSamples[channel])
     {
@@ -573,7 +573,7 @@ void cSampleManager::SetChannelFrequency_58DD20(s32 channel, s32 frequency)
 }
 
 MATCH_FUNC(0x58DD40)
-void cSampleManager::SetChannelLoopPoints_58DD40(s32 channel, s32 startOffset, s32 endOffset)
+void cSampleManager::SetChannelLoopPoints(s32 channel, s32 startOffset, s32 endOffset)
 {
     if (mhSamples[channel])
     {
@@ -582,7 +582,7 @@ void cSampleManager::SetChannelLoopPoints_58DD40(s32 channel, s32 startOffset, s
 }
 
 MATCH_FUNC(0x58DD60)
-void cSampleManager::SetChannelLoopCount_58DD60(s32 channel, s32 loopCount)
+void cSampleManager::SetChannelLoopCount(s32 channel, s32 loopCount)
 {
     if (mhSamples[channel])
     {
@@ -591,7 +591,7 @@ void cSampleManager::SetChannelLoopCount_58DD60(s32 channel, s32 loopCount)
 }
 
 MATCH_FUNC(0x58DD80)
-bool cSampleManager::GetChannelUsedFlag_58DD80(s32 channel) const
+bool cSampleManager::GetChannelUsedFlag(s32 channel) const
 {
     if (mhSamples[channel])
     {
@@ -602,7 +602,7 @@ bool cSampleManager::GetChannelUsedFlag_58DD80(s32 channel) const
 }
 
 MATCH_FUNC(0x58DDB0)
-void cSampleManager::StartChannel_58DDB0(s32 channel)
+void cSampleManager::StartChannel(s32 channel)
 {
     if (mhSamples[channel])
     {
@@ -611,7 +611,7 @@ void cSampleManager::StartChannel_58DDB0(s32 channel)
 }
 
 MATCH_FUNC(0x58DDD0)
-void cSampleManager::StopChannel_58DDD0(s32 channel)
+void cSampleManager::StopChannel(s32 channel)
 {
     if (mhSamples[channel])
     {
@@ -620,7 +620,7 @@ void cSampleManager::StopChannel_58DDD0(s32 channel)
 }
 
 MATCH_FUNC(0x58DDF0)
-bool cSampleManager::InitialiseChannel3D_58DDF0(s32 channel, s32 nSfx, s32 rate)
+bool cSampleManager::InitialiseChannel3D(s32 channel, s32 nSfx, s32 rate)
 {
     if (m3dSample[channel] && mbLoaded)
     {
@@ -640,7 +640,7 @@ bool cSampleManager::InitialiseChannel3D_58DDF0(s32 channel, s32 nSfx, s32 rate)
 }
 
 MATCH_FUNC(0x58DE80)
-void cSampleManager::SetChannel3DVolume_58DE80(s32 idx, s32 vol)
+void cSampleManager::SetChannel3DVolume(s32 idx, s32 vol)
 {
     if (m3dSample[idx])
     {
@@ -649,7 +649,7 @@ void cSampleManager::SetChannel3DVolume_58DE80(s32 idx, s32 vol)
 }
 
 MATCH_FUNC(0x58DEA0)
-void cSampleManager::SetChannel3DPosition_58DEA0(s32 channel, f32 x, f32 y, f32 z)
+void cSampleManager::SetChannel3DPosition(s32 channel, f32 x, f32 y, f32 z)
 {
     if (m3dSample[channel])
     {
@@ -658,7 +658,7 @@ void cSampleManager::SetChannel3DPosition_58DEA0(s32 channel, f32 x, f32 y, f32 
 }
 
 MATCH_FUNC(0x58DED0)
-void cSampleManager::SetChannel3DDistances_58DED0(s32 channel, f32 maxDist, f32 minDist)
+void cSampleManager::SetChannel3DDistances(s32 channel, f32 maxDist, f32 minDist)
 {
     if (m3dSample[channel])
     {
@@ -667,7 +667,7 @@ void cSampleManager::SetChannel3DDistances_58DED0(s32 channel, f32 maxDist, f32 
 }
 
 MATCH_FUNC(0x58DF00)
-void cSampleManager::SetChannel3DFrequency_58DF00(s32 channel, s32 freq)
+void cSampleManager::SetChannel3DFrequency(s32 channel, s32 freq)
 {
     if (m3dSample[channel])
     {
@@ -676,7 +676,7 @@ void cSampleManager::SetChannel3DFrequency_58DF00(s32 channel, s32 freq)
 }
 
 MATCH_FUNC(0x58DF20)
-void cSampleManager::SetChannel3DLoopPoints_58DF20(s32 channel, s32 loop_start, s32 loop_end)
+void cSampleManager::SetChannel3DLoopPoints(s32 channel, s32 loop_start, s32 loop_end)
 {
     if (m3dSample[channel])
     {
@@ -685,7 +685,7 @@ void cSampleManager::SetChannel3DLoopPoints_58DF20(s32 channel, s32 loop_start, 
 }
 
 MATCH_FUNC(0x58DF50)
-void cSampleManager::SetChannel3DLoopCount_58DF50(s32 channel, s32 loop_count)
+void cSampleManager::SetChannel3DLoopCount(s32 channel, s32 loop_count)
 {
     if (m3dSample[channel])
     {
@@ -694,7 +694,7 @@ void cSampleManager::SetChannel3DLoopCount_58DF50(s32 channel, s32 loop_count)
 }
 
 MATCH_FUNC(0x58DF70)
-bool cSampleManager::GetChannel3DUsedFlag_58DF70(s32 channel) const
+bool cSampleManager::GetChannel3DUsedFlag(s32 channel) const
 {
     if (m3dSample[channel])
     {
@@ -705,7 +705,7 @@ bool cSampleManager::GetChannel3DUsedFlag_58DF70(s32 channel) const
 }
 
 MATCH_FUNC(0x58DFA0)
-void cSampleManager::StartChannel3D_58DFA0(s32 samp_idx)
+void cSampleManager::StartChannel3D(s32 samp_idx)
 {
     if (m3dSample[samp_idx])
     {
@@ -714,7 +714,7 @@ void cSampleManager::StartChannel3D_58DFA0(s32 samp_idx)
 }
 
 MATCH_FUNC(0x58DFC0)
-void cSampleManager::StopChannel3D_58DFC0(s32 samp_idx)
+void cSampleManager::StopChannel3D(s32 samp_idx)
 {
     if (m3dSample[samp_idx])
     {
@@ -726,13 +726,13 @@ void cSampleManager::StopChannel3D_58DFC0(s32 samp_idx)
 }
 
 MATCH_FUNC(0x58E000)
-u8 cSampleManager::Get3DSampleCount_58E000() const
+u8 cSampleManager::Get3DSampleCount() const
 {
     return m3dSampCount;
 }
 
 MATCH_FUNC(0x58E010)
-void cSampleManager::SetEaxEnvironment_58E010(s32 env_idx)
+void cSampleManager::SetEaxEnvironment(s32 env_idx)
 {
     if (m3dProvider && mbEaxSupported && env_idx < 26)
     {
@@ -742,7 +742,7 @@ void cSampleManager::SetEaxEnvironment_58E010(s32 env_idx)
 }
 
 MATCH_FUNC(0x58E140)
-bool cSampleManager::Open3DProvider_58E140(s32 provider_idx)
+bool cSampleManager::Open3DProvider(s32 provider_idx)
 {
     m3dProviderIdx = provider_idx;
     if (provider_idx != -1)
@@ -760,7 +760,7 @@ bool cSampleManager::Open3DProvider_58E140(s32 provider_idx)
         if (result != -1)
         {
             mbEaxSupported = 1;
-            SetEaxEnvironment_58E010(17);
+            SetEaxEnvironment(17);
         }
         return true;
     }
@@ -768,7 +768,7 @@ bool cSampleManager::Open3DProvider_58E140(s32 provider_idx)
 }
 
 MATCH_FUNC(0x58E1C0)
-void cSampleManager::Close3DProvider_58E1C0()
+void cSampleManager::Close3DProvider()
 {
     if (m3dProvider)
     {
@@ -779,7 +779,7 @@ void cSampleManager::Close3DProvider_58E1C0()
 }
 
 MATCH_FUNC(0x58E1F0)
-void cSampleManager::Enum3DProviders_58E1F0()
+void cSampleManager::Enum3DProviders()
 {
     HPROENUM hEnum = 0;
     u32 prov_counter = 0;
@@ -800,7 +800,7 @@ void cSampleManager::Enum3DProviders_58E1F0()
 }
 
 MATCH_FUNC(0x58E290)
-void cSampleManager::Release_58E290()
+void cSampleManager::Release()
 {
     if (mhDriver)
     {
@@ -809,7 +809,7 @@ void cSampleManager::Release_58E290()
 }
 
 MATCH_FUNC(0x58E2A0)
-bool cSampleManager::Reacquire_58E2A0()
+bool cSampleManager::Reacquire()
 {
     bool ret = mhDriver && AIL_digital_handle_reacquire(mhDriver) ? true : false;
     return ret;
@@ -818,7 +818,7 @@ bool cSampleManager::Reacquire_58E2A0()
 const char_type dma_wav_5FF5D8[3][6] = {"d.wav", "m.wav", "a.wav"};
 
 MATCH_FUNC(0x58E2C0)
-bool cSampleManager::StreamStatus_58E2C0() const
+bool cSampleManager::StreamStatus() const
 {
     if (mbMusicFound)
     {
@@ -839,7 +839,7 @@ bool cSampleManager::StreamStatus_58E2C0() const
 }
 
 MATCH_FUNC(0x58E2F0)
-void cSampleManager::StreamSetVolume_58E2F0(u8 vol)
+void cSampleManager::StreamSetVolume(u8 vol)
 {
     if (mbMusicFound)
     {
@@ -851,7 +851,7 @@ void cSampleManager::StreamSetVolume_58E2F0(u8 vol)
 }
 
 MATCH_FUNC(0x58E320)
-void cSampleManager::OpenStream_58E320(u32 stream_idx)
+void cSampleManager::OpenStream(u32 stream_idx)
 {
     char_type wavPath[80];
     if (mbMusicFound)
@@ -883,7 +883,7 @@ void cSampleManager::OpenStream_58E320(u32 stream_idx)
 }
 
 MATCH_FUNC(0x58E460)
-void cSampleManager::CloseStream_58E460()
+void cSampleManager::CloseStream()
 {
     if (mbMusicFound)
     {
@@ -896,7 +896,7 @@ void cSampleManager::CloseStream_58E460()
 }
 
 MATCH_FUNC(0x58E490)
-void cSampleManager::FadeOut_58E490()
+void cSampleManager::FadeOut()
 {
     if (mbMusicFound && mhStreams[0])
     {
@@ -919,19 +919,19 @@ void cSampleManager::FadeOut_58E490()
 }
 
 MATCH_FUNC(0x58E500)
-bool cSampleManager::MusicFileExists_58E500() const
+bool cSampleManager::MusicFileExists() const
 {
     return mbMusicFound;
 }
 
 MATCH_FUNC(0x58E510)
-void cSampleManager::PlayVocal_58E510(s32 stream_idx, s32 voc_idx, bool bMainVariant)
+void cSampleManager::PlayVocal(s32 stream_idx, s32 voc_idx, bool bMainVariant)
 {
     if (stream_idx || mbMusicFound)
     {
         if (mhStreams[stream_idx])
         {
-            CloseVocalStream_58E6A0(stream_idx);
+            CloseVocalStream(stream_idx);
         }
 
         char_type fileName[80];
@@ -973,7 +973,7 @@ void cSampleManager::PlayVocal_58E510(s32 stream_idx, s32 voc_idx, bool bMainVar
 }
 
 MATCH_FUNC(0x58E6A0)
-void cSampleManager::CloseVocalStream_58E6A0(s32 stream_idx)
+void cSampleManager::CloseVocalStream(s32 stream_idx)
 {
     if (mhStreams[stream_idx])
     {
@@ -983,7 +983,7 @@ void cSampleManager::CloseVocalStream_58E6A0(s32 stream_idx)
 }
 
 MATCH_FUNC(0x58E6D0)
-void cSampleManager::SetVocalVolume_58E6D0(s32 stream_idx, u8 vol)
+void cSampleManager::SetVocalVolume(s32 stream_idx, u8 vol)
 {
     if (mhStreams[stream_idx])
     {
@@ -992,7 +992,7 @@ void cSampleManager::SetVocalVolume_58E6D0(s32 stream_idx, u8 vol)
 }
 
 MATCH_FUNC(0x58E700)
-void cSampleManager::SetVocalSpeed_58E700(s32 stream_idx, s32 playbackRate)
+void cSampleManager::SetVocalSpeed(s32 stream_idx, s32 playbackRate)
 {
     if (mhStreams[stream_idx])
     {
@@ -1001,7 +1001,7 @@ void cSampleManager::SetVocalSpeed_58E700(s32 stream_idx, s32 playbackRate)
 }
 
 MATCH_FUNC(0x58E720)
-s32 cSampleManager::GetVocalSpeed_58E720(s32 stream_idx) const
+s32 cSampleManager::GetVocalSpeed(s32 stream_idx) const
 {
     if (mhStreams[stream_idx])
     {
@@ -1014,7 +1014,7 @@ s32 cSampleManager::GetVocalSpeed_58E720(s32 stream_idx) const
 }
 
 MATCH_FUNC(0x58E750)
-void cSampleManager::SetVocalPosMs_58E750(s32 stream_idx, s32 ms_pos)
+void cSampleManager::SetVocalPosMs(s32 stream_idx, s32 ms_pos)
 {
     if (mhStreams[stream_idx])
     {
@@ -1023,7 +1023,7 @@ void cSampleManager::SetVocalPosMs_58E750(s32 stream_idx, s32 ms_pos)
 }
 
 MATCH_FUNC(0x58E770)
-s32 cSampleManager::GetVocalPosMs_58E770(long stream_idx) const
+s32 cSampleManager::GetVocalPosMs(long stream_idx) const
 {
     if (mhStreams[stream_idx])
     {
@@ -1034,7 +1034,7 @@ s32 cSampleManager::GetVocalPosMs_58E770(long stream_idx) const
 }
 
 MATCH_FUNC(0x58E7A0)
-s32 cSampleManager::GetVocalLengthMs_58E7A0(long stream_idx) const
+s32 cSampleManager::GetVocalLengthMs(long stream_idx) const
 {
     if (mhStreams[stream_idx])
     {
@@ -1045,7 +1045,7 @@ s32 cSampleManager::GetVocalLengthMs_58E7A0(long stream_idx) const
 }
 
 MATCH_FUNC(0x58E7D0)
-void cSampleManager::SetSampleVol_58E7D0(u8 vol)
+void cSampleManager::SetSampleVol(u8 vol)
 {
     if (mhSample)
     {
@@ -1054,7 +1054,7 @@ void cSampleManager::SetSampleVol_58E7D0(u8 vol)
 }
 
 MATCH_FUNC(0x58E7F0)
-void cSampleManager::PlayAtIdx_58E7F0(s32 idx)
+void cSampleManager::PlayAtIdx(s32 idx)
 {
     if (mhSample)
     {
@@ -1063,7 +1063,7 @@ void cSampleManager::PlayAtIdx_58E7F0(s32 idx)
             AIL_set_sample_address(mhSample,
                                    static_cast<BYTE*>(mpAudioBuffer2) + mSdtEntries[idx].mOffset,
                                    mSdtEntries[idx].mSampleLength);
-            AIL_set_sample_playback_rate(mhSample, GetPlayBackRate_58DBF0(idx));
+            AIL_set_sample_playback_rate(mhSample, GetPlayBackRate(idx));
             AIL_set_sample_pan(mhSample, 64);
             AIL_set_sample_loop_count(mhSample, 1);
             AIL_start_sample(mhSample);
@@ -1072,7 +1072,7 @@ void cSampleManager::PlayAtIdx_58E7F0(s32 idx)
 }
 
 MATCH_FUNC(0x58E880)
-bool cSampleManager::SampleNotDone_58E880() const
+bool cSampleManager::SampleNotDone() const
 {
     return AIL_sample_status(mhSample) != SMP_DONE ? true : false;
 }
@@ -1087,9 +1087,9 @@ void cSampleManager::EndSample_58E8A0()
 }
 
 MATCH_FUNC(0x58E8C0)
-void cSampleManager::PlaySampleRange_58E8C0(u32 idx, u32 end_idx)
+void cSampleManager::PlaySampleRange(u32 idx, u32 end_idx)
 {
-    if (idx < end_idx && mhSample && !SampleNotDone_58E880())
+    if (idx < end_idx && mhSample && !SampleNotDone())
     {
         if (mbLoaded)
         {
@@ -1115,7 +1115,7 @@ void cSampleManager::EndSample_58E960()
 }
 
 MATCH_FUNC(0x58E980)
-bool cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
+bool cSampleManager::LoadWavSdtData(const char_type* pRawOrSdtName)
 {
     char_type rawName[80];
     char_type sdtName[80];

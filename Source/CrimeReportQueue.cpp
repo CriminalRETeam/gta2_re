@@ -171,11 +171,11 @@ void CrimeReportQueue::ReportCrimeForPed(u32 crime_type, Ped* pPed)
                     break;
 
                 default:
-                    pPed->SetRecentCrimeTimer_45B550();
+                    pPed->SetRecentCrimeTimer();
                     QueueReport(crime_type, pPed->mId);
                     if (pPed->is_player_41B0A0())
                     {
-                        gPolice_7B8_6FEE40->UpdateCriminalLatestPosition_570940(pPed);
+                        gPolice_7B8_6FEE40->UpdateCriminalLatestPosition(pPed);
                     }
                     break;
             }
@@ -191,7 +191,7 @@ void CrimeReportQueue::ReportCrimeForPed(u32 crime_type, Ped* pPed)
             Player* pPlayer = pPed->mPlayer;
             if (pPlayer)
             {
-                pPlayer->mCrimeStats.IncrementCrimeCount_484F50(crime_type);
+                pPlayer->mCrimeStats.IncrementCrimeCount(crime_type);
             }
 
             break;
@@ -201,18 +201,18 @@ void CrimeReportQueue::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 
 // https://decomp.me/scratch/xN2BK
 MATCH_FUNC(0x485090)
-bool CrimeReportQueue::ShouldReportCarCrime_485090(Car* pCar, Player* pPlayer)
+bool CrimeReportQueue::ShouldReportCarCrime(Car* pCar, Player* pPlayer)
 {
     bool bInRange = true;
     if (gCarManager_6C_677930->mObjectHitActive)
     {
-        if (!gGame_0x40_67E008->IsSpriteInPlayerBounds_4B9950(pCar->mCarSprite, pPlayer->GetIdx_4881E0(), 0))
+        if (!gGame_0x40_67E008->IsSpriteInPlayerBounds(pCar->mCarSprite, pPlayer->GetIdx(), 0))
         {
             bInRange = false;
         }
     }
 
-    if (pCar->IsBeingCrushed_43DD50())
+    if (pCar->IsBeingCrushed())
     {
         bInRange = false;
     }
@@ -222,12 +222,12 @@ bool CrimeReportQueue::ShouldReportCarCrime_485090(Car* pCar, Player* pPlayer)
 
 // https://decomp.me/scratch/KvTvv
 MATCH_FUNC(0x4850f0)
-bool CrimeReportQueue::ShouldReportCharCrime_4850F0(Char* pChar, Player* pPlayer)
+bool CrimeReportQueue::ShouldReportCharCrime(Char* pChar, Player* pPlayer)
 {
     bool bInRange = true;
     if (gCharB4_HitByMine_6FDB59)
     {
-        if (!gGame_0x40_67E008->IsSpriteInPlayerBounds_4B9950(pChar->mSpritePtr, pPlayer->GetIdx_4881E0(), 0))
+        if (!gGame_0x40_67E008->IsSpriteInPlayerBounds(pChar->mSpritePtr, pPlayer->GetIdx(), 0))
         {
             bInRange = false;
         }
@@ -236,15 +236,15 @@ bool CrimeReportQueue::ShouldReportCharCrime_4850F0(Char* pChar, Player* pPlayer
 }
 
 MATCH_FUNC(0x485140)
-bool CrimeReportQueue::ShouldReportPedCrime_485140(Ped* pPed, Player* pPlayer)
+bool CrimeReportQueue::ShouldReportPedCrime(Ped* pPed, Player* pPlayer)
 {
     Char* pChar = pPed->mGameObject;
     if (pChar)
     {
-        return ShouldReportCharCrime_4850F0(pChar, pPlayer);
+        return ShouldReportCharCrime(pChar, pPlayer);
     }
     else
     {
-        return ShouldReportCarCrime_485090(pPed->mCar, pPlayer);
+        return ShouldReportCarCrime(pPed->mCar, pPlayer);
     }
 }

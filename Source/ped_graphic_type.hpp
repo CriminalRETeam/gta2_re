@@ -1,7 +1,7 @@
 #pragma once
 
 // Kept out of enums.hpp on purpose: adding this enum there changed the code of
-// MapRenderer::Draw4SidedDiagonalUpLeft_4EF880 (see "Adding an enum breaks a match" in docs/matching_quirks.md)
+// MapRenderer::Draw4SidedDiagonalUpLeft (see "Adding an enum breaks a match" in docs/matching_quirks.md)
 // Ped::mGraphicType: which set of ped sprites is used (Char picks a base sprite id of 0, 158 or 316)
 namespace ped_graphic_type
 {

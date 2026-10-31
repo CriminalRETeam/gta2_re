@@ -37,7 +37,7 @@ Fix16 kFpZeroForStaticInit_6FCE08 = 0;
 
 DEFINE_GLOBAL_INIT(s32, gCodeObjectTemplates_length_623EF0, 126, 0x623EF0);
 
-// Must remain a fixed array, a pointer would break ObjectDefinitions::CreateCodeObjectDefinitions_533B30
+// Must remain a fixed array, a pointer would break ObjectDefinitions::CreateCodeObjectDefinitions
 DEFINE_GLOBAL_ARRAY_INIT(CodeObjectTemplate,
                          gCodeObjectTemplates_6F9038,
                          126,
@@ -171,7 +171,7 @@ DEFINE_GLOBAL_ARRAY_INIT(CodeObjectTemplate,
 
 DEFINE_GLOBAL_INIT(s32, gMapObjectOverrides_length_623EEC, 24, 0x623EEC);
 
-// Must remain a fixed array, a pointer would break ObjectDefinitions::ApplyMapObjectOverrides_533360
+// Must remain a fixed array, a pointer would break ObjectDefinitions::ApplyMapObjectOverrides
 DEFINE_GLOBAL_ARRAY_INIT(MapObjectOverride,
                          gMapObjectOverrides_6FC5F8,
                          24,
@@ -320,7 +320,7 @@ inline MapObjectOverride::MapObjectOverride(s32 definition_idx,
 }
 
 MATCH_FUNC(0x533060)
-void ObjectDefinition::SetDimensions_533060(Fix16 width, Fix16 height, Fix16 depth)
+void ObjectDefinition::SetDimensions(Fix16 width, Fix16 height, Fix16 depth)
 {
     mWidth = width;
     mHeight = height;
@@ -336,12 +336,12 @@ void ObjectDefinition::SetDimensions_533060(Fix16 width, Fix16 height, Fix16 dep
 }
 
 MATCH_FUNC(0x533090)
-void ObjectDefinition::SetDimensionsFromSprite_533090()
+void ObjectDefinition::SetDimensionsFromSprite()
 {
     if (mSpriteType != sprite_types_enum::object_1)
     {
-        u16 sprite_id = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(mSpriteType, mBaseSpriteIdx);
-        sprite_index * sprite = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_id);
+        u16 sprite_id = gGtx_0x106C_703DD4->GetSpriteTrueIndex(mSpriteType, mBaseSpriteIdx);
+        sprite_index * sprite = gGtx_0x106C_703DD4->get_sprite_index(sprite_id);
         mWidth = Fix16(sprite->mWidth) / 0x40;
         mHeight = Fix16(sprite->mHeight) / 0x40;
         mDepth = kFpQuarter_6FCED0;
@@ -364,7 +364,7 @@ void ObjectDefinition::SetDimensionsFromSprite_533090()
 }
 
 MATCH_FUNC(0x533110)
-void ObjectDefinition::SetRemap_533110(s16 remap)
+void ObjectDefinition::SetRemap(s16 remap)
 {
     switch (mSpriteType)
     {
@@ -379,17 +379,17 @@ void ObjectDefinition::SetRemap_533110(s16 remap)
 }
 
 MATCH_FUNC(0x533150)
-void ObjectDefinition::OffsetBaseSpriteIdxAndSetNumFrames_533150(s16 sprite_idx_offset, s16 num_frames)
+void ObjectDefinition::OffsetBaseSpriteIdxAndSetNumFrames(s16 sprite_idx_offset, s16 num_frames)
 {
     mBaseSpriteIdx += sprite_idx_offset;
     mNumFrames = static_cast<u8>(num_frames);
 }
 
 MATCH_FUNC(0x533170)
-Sprite* ObjectDefinition::CreateSpriteFromDefinition_533170() const
+Sprite* ObjectDefinition::CreateSpriteFromDefinition() const
 {
     Sprite* pFreeSprite = gSpritePool_703818->get_new_sprite();
-    ApplyDefinitionToSprite_5331A0(pFreeSprite);
+    ApplyDefinitionToSprite(pFreeSprite);
     return pFreeSprite;
 }
 
@@ -397,7 +397,7 @@ Sprite* ObjectDefinition::CreateSpriteFromDefinition_533170() const
 s32 kFp255_6F8FA4 = 0x3FC000;
 
 MATCH_FUNC(0x5331a0)
-void ObjectDefinition::ApplyDefinitionToSprite_5331A0(Sprite* pSprite) const
+void ObjectDefinition::ApplyDefinitionToSprite(Sprite* pSprite) const
 {
     pSprite->SetType_4206F0(this->mSpriteType);
     pSprite->set_id_lazy_4206C0(this->mBaseSpriteIdx);
@@ -414,12 +414,12 @@ void ObjectDefinition::ApplyDefinitionToSprite_5331A0(Sprite* pSprite) const
     if (bucket_category > collision_bucket_category::sprite_grid_3_single_cell_0 &&
         (bucket_category <= collision_bucket_category::sprite_grid_2_region_3 || bucket_category == collision_bucket_category::sprite_grid_1_region_4))
     {
-        pSprite->AllocCollisionShape_59F950(this->mWidth, this->mHeight, this->mDepth);
+        pSprite->AllocCollisionShape(this->mWidth, this->mHeight, this->mDepth);
     }
 
     if (this->mHasSound)
     {
-        pSprite->CreateSoundObj_5A29D0();
+        pSprite->CreateSoundObj();
     }
 }
 
@@ -462,9 +462,9 @@ ObjectDefinition::ObjectDefinition()
 }
 
 MATCH_FUNC(0x5332d0)
-ObjectDefinition* ObjectDefinitions::AllocDefinitionWithSprite_5332D0(s32 idx, s32 sprite_type, s16 base_sprite_idx, u8 num_frames)
+ObjectDefinition* ObjectDefinitions::AllocDefinitionWithSprite(s32 idx, s32 sprite_type, s16 base_sprite_idx, u8 num_frames)
 {
-    ObjectDefinition* result = AllocDefinition_5343C0(idx);
+    ObjectDefinition* result = AllocDefinition(idx);
     result->mSpriteType = sprite_type;
     result->mBaseSpriteIdx = base_sprite_idx;
     result->mNumFrames = num_frames;
@@ -473,22 +473,22 @@ ObjectDefinition* ObjectDefinitions::AllocDefinitionWithSprite_5332D0(s32 idx, s
 }
 
 MATCH_FUNC(0x533300)
-void ObjectDefinitions::CreateMapObjectDefinitions_533300()
+void ObjectDefinitions::CreateMapObjectDefinitions()
 {
     s16 sprites = 0;
     u16 i = 0;
-    object_info* pIter = gGtx_0x106C_703DD4->get_map_object_info_5AA910(i++);
+    object_info* pIter = gGtx_0x106C_703DD4->get_map_object_info(i++);
     while (pIter)
     {
-        ObjectDefinition* pDefinition = AllocDefinitionWithSprite_5332D0(pIter->mModel, sprite_types_enum::map_obj_5, sprites, pIter->mSprites);
+        ObjectDefinition* pDefinition = AllocDefinitionWithSprite(pIter->mModel, sprite_types_enum::map_obj_5, sprites, pIter->mSprites);
         sprites += pIter->mSprites;
-        pDefinition->SetDimensionsFromSprite_533090();
-        pIter = gGtx_0x106C_703DD4->get_map_object_info_5AA910(i++);
+        pDefinition->SetDimensionsFromSprite();
+        pIter = gGtx_0x106C_703DD4->get_map_object_info(i++);
     }
 }
 
 MATCH_FUNC(0x533360)
-void ObjectDefinitions::ApplyMapObjectOverrides_533360()
+void ObjectDefinitions::ApplyMapObjectOverrides()
 {
     s32 override_count = gMapObjectOverrides_length_623EEC;
 
@@ -497,7 +497,7 @@ void ObjectDefinitions::ApplyMapObjectOverrides_533360()
         MapObjectOverride* pOverride = gMapObjectOverrides_6FC5F8;
         do
         {
-            ObjectDefinition* pDef = GetObjectDefinition_534360(pOverride->mDefinitionIdx);
+            ObjectDefinition* pDef = GetObjectDefinition(pOverride->mDefinitionIdx);
             pDef->mBehaviorType = pOverride->mBehaviorType;
             pDef->mImpactDefinitionIdx = pOverride->mNextDefinitionIdx;
             pDef->mNextDefinitionIdx = pOverride->mNextDefinitionIdx;
@@ -527,13 +527,13 @@ void ObjectDefinitions::ApplyMapObjectOverrides_533360()
 }
 
 MATCH_FUNC(0x533420)
-void ObjectDefinitions::CloneAnimatedDefinitions_533420()
+void ObjectDefinitions::CloneAnimatedDefinitions()
 {
     ObjectDefinition* pDef;
 
-    CloneDefinition_534370(0x97, 6);
-    pDef = GetObjectDefinition_534360(0x97);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->mNumFrames + -1);
+    CloneDefinition(0x97, 6);
+    pDef = GetObjectDefinition(0x97);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(1, pDef->mNumFrames + -1);
     pDef->mBehaviorType = object_behavior_type::animated_2;
     pDef->mNextFrameMax = 5;
     pDef->mImpactDefinitionIdx = 0x98;
@@ -543,8 +543,8 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->mNextDefinitionTimer = 1;
     pDef->mInPoolList = 1;
 
-    pDef = CloneDefinition_534370(0x98, 6);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(pDef->mNumFrames - 1, 1);
+    pDef = CloneDefinition(0x98, 6);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(pDef->mNumFrames - 1, 1);
     pDef->mBehaviorType = object_behavior_type::static_object_0;
     pDef->mImpactDefinitionIdx = 0;
     pDef->mNextDefinitionIdx = 0;
@@ -552,8 +552,8 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->mTouchBehavior = 0;
     pDef->mInPoolList = 0;
 
-    pDef = CloneDefinition_534370(0x34, 4);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(pDef->mNumFrames - 1, 1);
+    pDef = CloneDefinition(0x34, 4);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(pDef->mNumFrames - 1, 1);
     pDef->mBehaviorType = object_behavior_type::static_object_0;
     pDef->mImpactDefinitionIdx = 0;
     pDef->mNextDefinitionIdx = 0;
@@ -561,9 +561,9 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->mTouchBehavior = 0;
     pDef->mInPoolList = 0;
 
-    CloneDefinition_534370(0x32, 0xc);
-    pDef = GetObjectDefinition_534360(0x32);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->mNumFrames + -1);
+    CloneDefinition(0x32, 0xc);
+    pDef = GetObjectDefinition(0x32);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(1, pDef->mNumFrames + -1);
     pDef->mBehaviorType = object_behavior_type::animated_2;
     pDef->mNextFrameMax = 3;
     pDef->mImpactDefinitionIdx = 0x33;
@@ -573,8 +573,8 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->mNextDefinitionTimer = 1;
     pDef->mInPoolList = 1;
 
-    pDef = CloneDefinition_534370(0x33, 0xc);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(pDef->mNumFrames - 1, 1);
+    pDef = CloneDefinition(0x33, 0xc);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(pDef->mNumFrames - 1, 1);
     pDef->mBehaviorType = object_behavior_type::static_object_0;
     pDef->mImpactDefinitionIdx = 0;
     pDef->mNextDefinitionIdx = 0;
@@ -582,8 +582,8 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->mTouchBehavior = 0;
     pDef->mInPoolList = 0;
 
-    pDef = CloneDefinition_534370(0x9b, 3);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->mNumFrames + -1);
+    pDef = CloneDefinition(0x9b, 3);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(1, pDef->mNumFrames + -1);
     pDef->mBehaviorType = object_behavior_type::physics_animated_4;
     pDef->mNextFrameMax = 1;
     pDef->mImpactDefinitionIdx = 0x35;
@@ -598,11 +598,11 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->mNextDefinitionTimer = -1;
     pDef->mUses3dMovement = 1;
 
-    pDef = CloneDefinition_534370(0x35, 3);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(pDef->mNumFrames - 1, 1);
+    pDef = CloneDefinition(0x35, 3);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(pDef->mNumFrames - 1, 1);
 
-    pDef = CloneDefinition_534370(0x7b, 0xb);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->mNumFrames + -1);
+    pDef = CloneDefinition(0x7b, 0xb);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(1, pDef->mNumFrames + -1);
     pDef->mBehaviorType = object_behavior_type::physics_animated_4;
     pDef->mNextFrameMax = 1;
     pDef->mImpactDefinitionIdx = 0x37;
@@ -617,11 +617,11 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->mNextDefinitionTimer = -1;
     pDef->mUses3dMovement = 1;
 
-    pDef = CloneDefinition_534370(0x37, 0xb);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(pDef->mNumFrames - 1, 1);
+    pDef = CloneDefinition(0x37, 0xb);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(pDef->mNumFrames - 1, 1);
 
-    pDef = CloneDefinition_534370(0x9c, 5);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->mNumFrames + -1);
+    pDef = CloneDefinition(0x9c, 5);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(1, pDef->mNumFrames + -1);
     pDef->mBehaviorType = object_behavior_type::physics_animated_4;
     pDef->mNextFrameMax = 1;
     pDef->mImpactDefinitionIdx = 0x36;
@@ -636,11 +636,11 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->mNextDefinitionTimer = -1;
     pDef->mUses3dMovement = 1;
 
-    pDef = CloneDefinition_534370(0x36, 5);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(pDef->mNumFrames - 1, 1);
+    pDef = CloneDefinition(0x36, 5);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(pDef->mNumFrames - 1, 1);
 
-    pDef = CloneDefinition_534370(0x38, 0xd);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->mNumFrames + -1);
+    pDef = CloneDefinition(0x38, 0xd);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(1, pDef->mNumFrames + -1);
     pDef->mBehaviorType = object_behavior_type::physics_animated_4;
     pDef->mNextFrameMax = 1;
     pDef->mImpactDefinitionIdx = 0xd;
@@ -655,8 +655,8 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->mNextDefinitionTimer = -1;
     pDef->mUses3dMovement = 1;
 
-    pDef = CloneDefinition_534370(0x39, 0xe);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->mNumFrames + -1);
+    pDef = CloneDefinition(0x39, 0xe);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(1, pDef->mNumFrames + -1);
     pDef->mBehaviorType = object_behavior_type::physics_animated_4;
     pDef->mNextFrameMax = 1;
     pDef->mImpactDefinitionIdx = 0x3a;
@@ -671,11 +671,11 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->mNextDefinitionTimer = -1;
     pDef->mUses3dMovement = 1;
 
-    pDef = CloneDefinition_534370(0x3a, 0xe);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(pDef->mNumFrames - 1, 1);
+    pDef = CloneDefinition(0x3a, 0xe);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(pDef->mNumFrames - 1, 1);
 
-    pDef = CloneDefinition_534370(0x3b, 0xf);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->mNumFrames + -1);
+    pDef = CloneDefinition(0x3b, 0xf);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(1, pDef->mNumFrames + -1);
     pDef->mBehaviorType = object_behavior_type::physics_animated_4;
     pDef->mNextFrameMax = 1;
     pDef->mImpactDefinitionIdx = 0x3c;
@@ -690,11 +690,11 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->mNextDefinitionTimer = -1;
     pDef->mUses3dMovement = 1;
 
-    pDef = CloneDefinition_534370(0x3c, 0xf);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(pDef->mNumFrames - 1, 1);
+    pDef = CloneDefinition(0x3c, 0xf);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(pDef->mNumFrames - 1, 1);
 
-    pDef = CloneDefinition_534370(0x3d, 0x10);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->mNumFrames + -1);
+    pDef = CloneDefinition(0x3d, 0x10);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(1, pDef->mNumFrames + -1);
     pDef->mBehaviorType = object_behavior_type::physics_animated_4;
     pDef->mNextFrameMax = 1;
     pDef->mImpactDefinitionIdx = 0x3e;
@@ -709,11 +709,11 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->mNextDefinitionTimer = -1;
     pDef->mUses3dMovement = 1;
 
-    pDef = CloneDefinition_534370(0x3e, 0x10);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(pDef->mNumFrames - 1, 1);
+    pDef = CloneDefinition(0x3e, 0x10);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(pDef->mNumFrames - 1, 1);
 
-    pDef = CloneDefinition_534370(0x31, 0x12);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->mNumFrames + -1);
+    pDef = CloneDefinition(0x31, 0x12);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(1, pDef->mNumFrames + -1);
     pDef->mBehaviorType = object_behavior_type::physics_animated_4;
     pDef->mNextFrameMax = 1;
     pDef->mImpactDefinitionIdx = 0x12;
@@ -728,8 +728,8 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->mNextDefinitionTimer = -1;
     pDef->mUses3dMovement = 1;
 
-    pDef = CloneDefinition_534370(0x2d, 0x16);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->mNumFrames + -1);
+    pDef = CloneDefinition(0x2d, 0x16);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(1, pDef->mNumFrames + -1);
     pDef->mBehaviorType = object_behavior_type::physics_animated_4;
     pDef->mNextFrameMax = 1;
     pDef->mImpactDefinitionIdx = 0x2e;
@@ -744,11 +744,11 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->mNextDefinitionTimer = -1;
     pDef->mUses3dMovement = 1;
 
-    pDef = CloneDefinition_534370(0x2e, 0x16);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(pDef->mNumFrames - 1, 1);
+    pDef = CloneDefinition(0x2e, 0x16);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(pDef->mNumFrames - 1, 1);
 
-    pDef = CloneDefinition_534370(0x2f, 0x15);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->mNumFrames + -1);
+    pDef = CloneDefinition(0x2f, 0x15);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(1, pDef->mNumFrames + -1);
     pDef->mBehaviorType = object_behavior_type::physics_animated_4;
     pDef->mNextFrameMax = 1;
     pDef->mImpactDefinitionIdx = 0x30;
@@ -763,10 +763,10 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->mNextDefinitionTimer = -1;
     pDef->mUses3dMovement = 1;
 
-    pDef = CloneDefinition_534370(0x30, 0x15);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(pDef->mNumFrames - 1, 1);
+    pDef = CloneDefinition(0x30, 0x15);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(pDef->mNumFrames - 1, 1);
 
-    pDef = CloneDefinition_534370(0x3f, 0x11);
+    pDef = CloneDefinition(0x3f, 0x11);
     pDef->mImpactDefinitionIdx = 0x11;
     pDef->mBehaviorType = object_behavior_type::physics_3;
     pDef->mNextDefinitionIdx = 0x11;
@@ -779,8 +779,8 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->mInPoolList = 1;
     pDef->mUses3dMovement = 1;
 
-    pDef = CloneDefinition_534370(0x2b, 0x17);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->mNumFrames + -1);
+    pDef = CloneDefinition(0x2b, 0x17);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(1, pDef->mNumFrames + -1);
     pDef->mBehaviorType = object_behavior_type::physics_animated_4;
     pDef->mNextFrameMax = 1;
     pDef->mImpactDefinitionIdx = 0x2c;
@@ -795,10 +795,10 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->mNextDefinitionTimer = -1;
     pDef->mUses3dMovement = 1;
 
-    pDef = CloneDefinition_534370(0x2c, 0x17);
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(pDef->mNumFrames - 1, 1);
+    pDef = CloneDefinition(0x2c, 0x17);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(pDef->mNumFrames - 1, 1);
 
-    pDef = CloneDefinition_534370(0x9d, 7);
+    pDef = CloneDefinition(0x9d, 7);
     pDef->mCollisionResponse = 2;
     pDef->mBehaviorType = object_behavior_type::physics_3;
     pDef->mFriction = -kFpPoint01_6FCDD8;
@@ -809,7 +809,7 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->mInPoolList = 1;
     pDef->mUses3dMovement = 1;
 
-    pDef = CloneDefinition_534370(0x9e, 1);
+    pDef = CloneDefinition(0x9e, 1);
     pDef->mBehaviorType = object_behavior_type::physics_3;
     pDef->mCollisionResponse = 2;
     pDef->mFriction = -kFpPoint01_6FCDD8;
@@ -818,13 +818,13 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->mTouchBehavior = 0;
     pDef->mInPoolList = 1;
     pDef->mUses3dMovement = 1;
-    pDef = GetObjectDefinition_534360(0x19);
+    pDef = GetObjectDefinition(0x19);
     pDef->mSpriteType = sprite_types_enum::object_1;
     pDef->mDepth = kFpTwo_6FCE10;
 }
 
 MATCH_FUNC(0x533b30)
-void ObjectDefinitions::CreateCodeObjectDefinitions_533B30()
+void ObjectDefinitions::CreateCodeObjectDefinitions()
 {
     u16 sprite_base = 0;
     if (0 < gCodeObjectTemplates_length_623EF0)
@@ -832,16 +832,16 @@ void ObjectDefinitions::CreateCodeObjectDefinitions_533B30()
         CodeObjectTemplate* pTemplate = &gCodeObjectTemplates_6F9038[0];
         for(s32 remaining = gCodeObjectTemplates_length_623EF0; remaining != 0; remaining--)
         {
-            ObjectDefinition* pDef = AllocDefinitionWithSprite_5332D0(pTemplate->mDefinitionIdx, sprite_types_enum::code_obj1_4, sprite_base, pTemplate->mNumSprites);
+            ObjectDefinition* pDef = AllocDefinitionWithSprite(pTemplate->mDefinitionIdx, sprite_types_enum::code_obj1_4, sprite_base, pTemplate->mNumSprites);
             sprite_base += pTemplate->mNumSprites;
             pDef->mSpriteType = pTemplate->mSpriteType;
             if (pTemplate->mWidth == kFpZero_6FCE08 && pTemplate->mHeight == kFpZero_6FCE08 && pTemplate->mDepth == kFpZero_6FCE08)
             {
-                pDef->SetDimensionsFromSprite_533090();
+                pDef->SetDimensionsFromSprite();
             }
             else
             {
-                pDef->SetDimensions_533060(pTemplate->mWidth, pTemplate->mHeight, pTemplate->mDepth);
+                pDef->SetDimensions(pTemplate->mWidth, pTemplate->mHeight, pTemplate->mDepth);
             }
 
             pDef->mBehaviorType = pTemplate->mBehaviorType;
@@ -874,57 +874,57 @@ void ObjectDefinitions::CreateCodeObjectDefinitions_533B30()
 }
 
 MATCH_FUNC(0x533c90)
-void ObjectDefinitions::CloneRemappedDefinitions_533C90()
+void ObjectDefinitions::CloneRemappedDefinitions()
 {
     ObjectDefinition* pDef;
-    pDef = CloneDefinition_534370(0x93, 0x90);
-    pDef->SetRemap_533110(4);
-    pDef = CloneDefinition_534370(0xfa, 0xfd);
-    pDef->SetRemap_533110(4);
-    pDef = CloneDefinition_534370(0x78, 0x79);
-    pDef->SetRemap_533110(4);
-    pDef = CloneDefinition_534370(0x75, 0x76);
-    pDef->SetRemap_533110(4);
-    pDef = CloneDefinition_534370(0x92, 0x90);
-    pDef->SetRemap_533110(3);
-    pDef = CloneDefinition_534370(0xf9, 0xfd);
-    pDef->SetRemap_533110(3);
-    pDef = CloneDefinition_534370(0x77, 0x79);
-    pDef->SetRemap_533110(3);
-    pDef = CloneDefinition_534370(0x74, 0x76);
-    pDef->SetRemap_533110(3);
-    pDef = CloneDefinition_534370(0x91, 0x90);
-    pDef->SetRemap_533110(5);
+    pDef = CloneDefinition(0x93, 0x90);
+    pDef->SetRemap(4);
+    pDef = CloneDefinition(0xfa, 0xfd);
+    pDef->SetRemap(4);
+    pDef = CloneDefinition(0x78, 0x79);
+    pDef->SetRemap(4);
+    pDef = CloneDefinition(0x75, 0x76);
+    pDef->SetRemap(4);
+    pDef = CloneDefinition(0x92, 0x90);
+    pDef->SetRemap(3);
+    pDef = CloneDefinition(0xf9, 0xfd);
+    pDef->SetRemap(3);
+    pDef = CloneDefinition(0x77, 0x79);
+    pDef->SetRemap(3);
+    pDef = CloneDefinition(0x74, 0x76);
+    pDef->SetRemap(3);
+    pDef = CloneDefinition(0x91, 0x90);
+    pDef->SetRemap(5);
     pDef->mNextFrameMax = 3;
 
-    pDef = CloneDefinition_534370(0x7c, 0xfd);
-    pDef->SetRemap_533110(5);
+    pDef = CloneDefinition(0x7c, 0xfd);
+    pDef->SetRemap(5);
     pDef->mNextFrameMax = 3;
-    pDef = CloneDefinition_534370(0x7d, 0x79);
-    pDef->SetRemap_533110(5);
+    pDef = CloneDefinition(0x7d, 0x79);
+    pDef->SetRemap(5);
     pDef->mNextFrameMax = 3;
-    pDef = CloneDefinition_534370(0x7e, 0x76);
-    pDef->SetRemap_533110(5);
+    pDef = CloneDefinition(0x7e, 0x76);
+    pDef->SetRemap(5);
     pDef->mNextFrameMax = 3;
 
-    pDef = CloneDefinition_534370(0x9a, 0xfe);
+    pDef = CloneDefinition(0x9a, 0xfe);
     if (!bDo_show_imaginary_67D588)
     {
         pDef->mCollisionBucketCategory = collision_bucket_category::none_2;
     }
-    CloneDefinition_534370(0x109, 0xfe);
-    pDef = CloneDefinition_534370(0x9f, 0x80);
+    CloneDefinition(0x109, 0xfe);
+    pDef = CloneDefinition(0x9f, 0x80);
     if (!bDo_show_imaginary_67D588)
     {
         pDef->mCollisionBucketCategory = collision_bucket_category::none_2;
     }
 
-    CloneDefinition_534370(0x115, 0xfe);
-    pDef = CloneDefinition_534370(0x6e, 0x9b);
+    CloneDefinition(0x115, 0xfe);
+    pDef = CloneDefinition(0x6e, 0x9b);
     pDef->mImpactDefinitionIdx = 0x6e;
     pDef->mNextDefinitionIdx = 0x6e;
     pDef->mReactToCollisionsWith = CollisionReaction::OnlyPeds_2;
-    pDef->SetDimensions_533060(kFpPoint2_6FC578, kFpPoint2_6FC578, kFpQuarter_6F8FAC);
+    pDef->SetDimensions(kFpPoint2_6FC578, kFpPoint2_6FC578, kFpQuarter_6F8FAC);
     pDef->mMass = kFpHalf_6FC584;
     if (!bDo_show_imaginary_67D588)
     {
@@ -938,11 +938,11 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
     pDef->mUses3dMovement = 1;
     pDef->mZCollisionResponse = 1;
 
-    pDef = CloneDefinition_534370(0x7f, 0x9b);
+    pDef = CloneDefinition(0x7f, 0x9b);
     pDef->mImpactDefinitionIdx = 0;
     pDef->mNextDefinitionIdx = 0;
     pDef->mReactToCollisionsWith = CollisionReaction::OnlyPeds_2;
-    pDef->SetDimensions_533060((kFpOne64th_6FCEB0 * 8), (kFpOne64th_6FCEB0 * 8), kFpQuarter_6F8FAC);
+    pDef->SetDimensions((kFpOne64th_6FCEB0 * 8), (kFpOne64th_6FCEB0 * 8), kFpQuarter_6F8FAC);
     pDef->mMass = kFpHalf_6FC584;
     if (!bDo_show_imaginary_67D588)
     {
@@ -956,7 +956,7 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
     pDef->mUses3dMovement = 1;
     pDef->mZCollisionResponse = 1;
 
-    pDef = CloneDefinition_534370(0xc1, 0xc0);
+    pDef = CloneDefinition(0xc1, 0xc0);
     pDef->mImpactDefinitionIdx = 0;
     pDef->mNextDefinitionIdx = 0;
     if (!bDo_show_imaginary_67D588)
@@ -964,14 +964,14 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
         pDef->mCollisionBucketCategory = collision_bucket_category::none_2;
     }
 
-    pDef = CloneDefinition_534370(objects::blue_phone_answered_185, objects::blue_phone_not_ringing_163);
+    pDef = CloneDefinition(objects::blue_phone_answered_185, objects::blue_phone_not_ringing_163);
     pDef->mImpactDefinitionIdx = objects::blue_phone_after_answer_184;
     pDef->mNextDefinitionIdx = objects::blue_phone_after_answer_184;
     pDef->mTouchBehavior = 4;
     pDef->mCollisionBucketCategory = collision_bucket_category::sprite_grid_2_region_3;
     pDef->mInPoolList = 1;
 
-    pDef = CloneDefinition_534370(objects::blue_phone_after_answer_184, objects::blue_phone_not_ringing_163);
+    pDef = CloneDefinition(objects::blue_phone_after_answer_184, objects::blue_phone_not_ringing_163);
     pDef->mImpactDefinitionIdx = objects::blue_phone_answered_185;
     pDef->mNextDefinitionIdx = objects::blue_phone_164;
     pDef->mNextDefinitionTimer = 100;
@@ -982,83 +982,83 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
     pDef->mCollisionBucketCategory = collision_bucket_category::sprite_grid_2_region_3;
     pDef->mTouchBehavior = 5;
 
-    pDef = CloneDefinition_534370(objects::red_phone_not_ringing_176, objects::blue_phone_not_ringing_163);
-    pDef->SetRemap_533110(1);
+    pDef = CloneDefinition(objects::red_phone_not_ringing_176, objects::blue_phone_not_ringing_163);
+    pDef->SetRemap(1);
     pDef->mImpactDefinitionIdx = objects::red_phone_177;
     pDef->mNextDefinitionIdx = objects::red_phone_177;
     if (bDo_kill_phones_on_answer_67D6E8)
     {
-        pDef = GetObjectDefinition_534360(objects::blue_phone_164);
+        pDef = GetObjectDefinition(objects::blue_phone_164);
         pDef->mImpactDefinitionIdx = objects::dead_phone_174;
         pDef->mNextDefinitionIdx = objects::dead_phone_174;
     }
-    pDef = CloneDefinition_534370(objects::red_phone_177, objects::blue_phone_164);
-    pDef->SetRemap_533110(1);
+    pDef = CloneDefinition(objects::red_phone_177, objects::blue_phone_164);
+    pDef->SetRemap(1);
     if (!bDo_kill_phones_on_answer_67D6E8)
     {
         pDef->mImpactDefinitionIdx = objects::red_phone_answered_187;
         pDef->mNextDefinitionIdx = objects::red_phone_answered_187;
     }
 
-    pDef = CloneDefinition_534370(objects::red_phone_answered_187, objects::blue_phone_answered_185);
-    pDef->SetRemap_533110(1);
+    pDef = CloneDefinition(objects::red_phone_answered_187, objects::blue_phone_answered_185);
+    pDef->SetRemap(1);
     pDef->mImpactDefinitionIdx = objects::red_phone_after_answer_186;
     pDef->mNextDefinitionIdx = objects::red_phone_after_answer_186;
 
-    pDef = CloneDefinition_534370(objects::red_phone_after_answer_186, objects::blue_phone_after_answer_184);
-    pDef->SetRemap_533110(1);
+    pDef = CloneDefinition(objects::red_phone_after_answer_186, objects::blue_phone_after_answer_184);
+    pDef->SetRemap(1);
     pDef->mImpactDefinitionIdx = objects::red_phone_answered_187;
     pDef->mNextDefinitionIdx = objects::red_phone_177;
 
-    pDef = CloneDefinition_534370(objects::yellow_phone_not_ringing_178, objects::blue_phone_not_ringing_163);
-    pDef->SetRemap_533110(2);
+    pDef = CloneDefinition(objects::yellow_phone_not_ringing_178, objects::blue_phone_not_ringing_163);
+    pDef->SetRemap(2);
     pDef->mImpactDefinitionIdx = objects::yellow_phone_179;
     pDef->mNextDefinitionIdx = objects::yellow_phone_179;
 
-    pDef = CloneDefinition_534370(objects::yellow_phone_179, objects::blue_phone_164);
-    pDef->SetRemap_533110(2);
+    pDef = CloneDefinition(objects::yellow_phone_179, objects::blue_phone_164);
+    pDef->SetRemap(2);
     if (!bDo_kill_phones_on_answer_67D6E8)
     {
         pDef->mImpactDefinitionIdx = objects::yellow_phone_answered_189;
         pDef->mNextDefinitionIdx = objects::yellow_phone_answered_189;
     }
-    pDef = CloneDefinition_534370(objects::yellow_phone_answered_189, objects::blue_phone_answered_185);
-    pDef->SetRemap_533110(2);
+    pDef = CloneDefinition(objects::yellow_phone_answered_189, objects::blue_phone_answered_185);
+    pDef->SetRemap(2);
     pDef->mImpactDefinitionIdx = objects::yellow_phone_after_answer_188;
     pDef->mNextDefinitionIdx = objects::yellow_phone_after_answer_188;
 
-    pDef = CloneDefinition_534370(objects::yellow_phone_after_answer_188, objects::blue_phone_after_answer_184);
-    pDef->SetRemap_533110(2);
+    pDef = CloneDefinition(objects::yellow_phone_after_answer_188, objects::blue_phone_after_answer_184);
+    pDef->SetRemap(2);
     pDef->mImpactDefinitionIdx = objects::yellow_phone_answered_189;
     pDef->mNextDefinitionIdx = objects::yellow_phone_179;
 
-    pDef = CloneDefinition_534370(objects::green_phone_not_ringing_180, objects::blue_phone_not_ringing_163);
-    pDef->SetRemap_533110(0);
+    pDef = CloneDefinition(objects::green_phone_not_ringing_180, objects::blue_phone_not_ringing_163);
+    pDef->SetRemap(0);
     pDef->mImpactDefinitionIdx = objects::green_phone_181;
     pDef->mNextDefinitionIdx = objects::green_phone_181;
 
-    pDef = CloneDefinition_534370(objects::green_phone_181, objects::blue_phone_164);
-    pDef->SetRemap_533110(0);
+    pDef = CloneDefinition(objects::green_phone_181, objects::blue_phone_164);
+    pDef->SetRemap(0);
     if (!bDo_kill_phones_on_answer_67D6E8)
     {
         pDef->mImpactDefinitionIdx = objects::green_phone_answered_191;
         pDef->mNextDefinitionIdx = objects::green_phone_answered_191;
     }
 
-    pDef = CloneDefinition_534370(objects::green_phone_answered_191, objects::blue_phone_answered_185);
-    pDef->SetRemap_533110(0);
+    pDef = CloneDefinition(objects::green_phone_answered_191, objects::blue_phone_answered_185);
+    pDef->SetRemap(0);
     pDef->mImpactDefinitionIdx = objects::green_phone_after_answer_190;
     pDef->mNextDefinitionIdx = objects::green_phone_after_answer_190;
 
-    pDef = CloneDefinition_534370(objects::green_phone_after_answer_190, objects::blue_phone_after_answer_184);
-    pDef->SetRemap_533110(0);
+    pDef = CloneDefinition(objects::green_phone_after_answer_190, objects::blue_phone_after_answer_184);
+    pDef->SetRemap(0);
     pDef->mImpactDefinitionIdx = objects::green_phone_answered_191;
     pDef->mNextDefinitionIdx = objects::green_phone_181;
 
-    pDef = CloneDefinition_534370(objects::dead_phone_174, objects::blue_phone_not_ringing_163);
+    pDef = CloneDefinition(objects::dead_phone_174, objects::blue_phone_not_ringing_163);
     pDef->mTouchBehavior = 0;
 
-    pDef = CloneDefinition_534370(objects::grenade_lying_still_182, objects::grenade_obj_183);
+    pDef = CloneDefinition(objects::grenade_lying_still_182, objects::grenade_obj_183);
     pDef->mImpactDefinitionIdx = objects::grenade_obj_183;
     pDef->mBehaviorType = object_behavior_type::animated_2;
     pDef->mTouchBehavior = 2;
@@ -1068,11 +1068,11 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
     pDef->mCollisionResponse = 0;
     pDef->mZCollisionResponse = 0;
     pDef->mNextFrameMax = 8;
-    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(pDef->mNumFrames - 1, 1);
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames(pDef->mNumFrames - 1, 1);
 
     for(s32 def_idx = 200; def_idx - 200 <= 44; def_idx++)
     {
-        pDef = CloneDefinition_534370(def_idx - 0x88, def_idx);
+        pDef = CloneDefinition(def_idx - 0x88, def_idx);
         pDef->mImpactDefinitionIdx = def_idx;
         pDef->mBehaviorType = pDef->mBehaviorType == object_behavior_type::pickup_6 ? object_behavior_type::pickup_physics_7 : object_behavior_type::pickup_physics_animated_9;
         pDef->mFriction = -kFpPoint01_6FCDD8;
@@ -1085,55 +1085,55 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
         pDef->mSpeed = kFpPoint02;
     }
 
-    ClearColour1PixelsOfDefinitions287To293_534270();
+    ClearColour1PixelsOfDefinitions287To293();
 }
 
 MATCH_FUNC(0x534270)
-void ObjectDefinitions::ClearColour1PixelsOfDefinitions287To293_534270()
+void ObjectDefinitions::ClearColour1PixelsOfDefinitions287To293()
 {
-    ClearColour1PixelsOfDefinitionSprite_5342F0(objects::loonies_icon_287);
-    ClearColour1PixelsOfDefinitionSprite_5342F0(objects::yakuza_icon_288);
-    ClearColour1PixelsOfDefinitionSprite_5342F0(objects::zaibatsu_icon_289);
-    ClearColour1PixelsOfDefinitionSprite_5342F0(objects::redneck_icon_290);
-    ClearColour1PixelsOfDefinitionSprite_5342F0(objects::scientists_icon_291);
-    ClearColour1PixelsOfDefinitionSprite_5342F0(objects::krishna_icon_292);
-    ClearColour1PixelsOfDefinitionSprite_5342F0(objects::russian_mafia_icon_293);
+    ClearColour1PixelsOfDefinitionSprite(objects::loonies_icon_287);
+    ClearColour1PixelsOfDefinitionSprite(objects::yakuza_icon_288);
+    ClearColour1PixelsOfDefinitionSprite(objects::zaibatsu_icon_289);
+    ClearColour1PixelsOfDefinitionSprite(objects::redneck_icon_290);
+    ClearColour1PixelsOfDefinitionSprite(objects::scientists_icon_291);
+    ClearColour1PixelsOfDefinitionSprite(objects::krishna_icon_292);
+    ClearColour1PixelsOfDefinitionSprite(objects::russian_mafia_icon_293);
 }
 
 MATCH_FUNC(0x5342d0)
-void ObjectDefinitions::CacheDef112BaseSpriteIdx_5342D0()
+void ObjectDefinitions::CacheDef112BaseSpriteIdx()
 {
-    mDef112BaseSpriteIdx = GetObjectDefinition_534360(112)->mBaseSpriteIdx;
+    mDef112BaseSpriteIdx = GetObjectDefinition(112)->mBaseSpriteIdx;
 }
 
 MATCH_FUNC(0x5342f0)
-void ObjectDefinitions::ClearColour1PixelsOfDefinitionSprite_5342F0(s32 idx)
+void ObjectDefinitions::ClearColour1PixelsOfDefinitionSprite(s32 idx)
 {
-    ObjectDefinition* pDef = GetObjectDefinition_534360(idx);
-    u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::code_obj1_4, pDef->mBaseSpriteIdx);
-    sprite_index* psprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
-    psprite_index->ClearPixelsOfColour_5ABAA0(1);
+    ObjectDefinition* pDef = GetObjectDefinition(idx);
+    u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex(sprite_types_enum::code_obj1_4, pDef->mBaseSpriteIdx);
+    sprite_index* psprite_index = gGtx_0x106C_703DD4->get_sprite_index(sprite_idx);
+    psprite_index->ClearPixelsOfColour(1);
 }
 
 MATCH_FUNC(0x534330)
-void ObjectDefinitions::InitDefinitions_534330()
+void ObjectDefinitions::InitDefinitions()
 {
-    CreateMapObjectDefinitions_533300();
-    ApplyMapObjectOverrides_533360();
-    CloneAnimatedDefinitions_533420();
-    CreateCodeObjectDefinitions_533B30();
-    CloneRemappedDefinitions_533C90();
-    CacheDef112BaseSpriteIdx_5342D0();
+    CreateMapObjectDefinitions();
+    ApplyMapObjectOverrides();
+    CloneAnimatedDefinitions();
+    CreateCodeObjectDefinitions();
+    CloneRemappedDefinitions();
+    CacheDef112BaseSpriteIdx();
 }
 
 MATCH_FUNC(0x534360)
-ObjectDefinition* ObjectDefinitions::GetObjectDefinition_534360(s32 idx) const
+ObjectDefinition* ObjectDefinitions::GetObjectDefinition(s32 idx) const
 {
     return mDefinitionByIdx[idx];
 }
 
 MATCH_FUNC(0x534370)
-ObjectDefinition* ObjectDefinitions::CloneDefinition_534370(s32 dst_idx, s32 src_idx)
+ObjectDefinition* ObjectDefinitions::CloneDefinition(s32 dst_idx, s32 src_idx)
 {
     ObjectDefinition* result = &mDefinitions[mNextIdx];
     mDefinitionByIdx[dst_idx] = result;
@@ -1144,7 +1144,7 @@ ObjectDefinition* ObjectDefinitions::CloneDefinition_534370(s32 dst_idx, s32 src
 }
 
 MATCH_FUNC(0x5343c0)
-ObjectDefinition* ObjectDefinitions::AllocDefinition_5343C0(s32 idx)
+ObjectDefinition* ObjectDefinitions::AllocDefinition(s32 idx)
 {
     ObjectDefinition* result = &mDefinitions[mNextIdx];
     mDefinitionByIdx[idx] = result;

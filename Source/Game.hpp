@@ -69,42 +69,42 @@ class Game
         return mGameExitType;
     }
 
-    EXPORT s32 GetFrameDurationMs_4B8BB0() const;
-    EXPORT void ExitGame_4B8BD0(s32 new_timer, s32 exit_type, s8 bonus_type);
-    EXPORT void ExitGameNoBonus_4B8C00(s32 new_timer, s32 exit_type);
-    EXPORT bool UpdateExitTimer_4B8C20();
-    EXPORT void LoadGameFiles_4B8C40();
-    EXPORT void SetScreenSize_4B8E00(u32 width, u32 height);
-    EXPORT void ApplyNetworkGameSettings_4B8E50();
-    EXPORT void BootGame_4B8EB0();
-    EXPORT void ShowCounters_4B8FF0();
-    EXPORT void ShowDebugOverlay_4B9270();
-    EXPORT void Draw_4B92D0();
-    EXPORT void UpdateAllPlayersControls_4B9380();
-    EXPORT void UpdatePaused_4B93C0();
-    EXPORT void UpdateGame_4B9410();
-    EXPORT bool ExecuteGame_4B9640();
-    EXPORT void Pause_4B96B0();
-    EXPORT void Unpause_4B96C0();
-    EXPORT void TogglePause_4B9700();
-    EXPORT void SinglePlayerStepFrame_4B9710();
-    EXPORT void ReinitAfterVideoModeChange_4B9720();
-    EXPORT Player* GetFirstPlayerWithoutPed_4B9750();
-    EXPORT void ShakeCamerasAtPos_4B9790(Fix16 amount, Fix16 x, Fix16 y);
-    EXPORT bool IsSpriteInAnyPlayerBounds_4B97E0(Sprite* pSprite, Fix16 margin) const;
-    EXPORT bool IsSpriteInBoundsOrFollowedByAnyPlayer_4B9830(Sprite* pSprite, Fix16 margin) const;
-    EXPORT bool IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 wide_view) const;
-    EXPORT bool IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 player_idx, s32 wide_view) const;
-    EXPORT bool IsSpriteInPlayerBounds_4B9950(Sprite* pSprite, u8 player_idx, Fix16 margin) const;
-    EXPORT bool IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 player_idx) const;
-    EXPORT bool IsPointOnScreen_4B9A80(Fix16 x, Fix16 y);
-    EXPORT bool IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds);
-    EXPORT Camera* IteratePlayerCamera_4B9BC0();
-    EXPORT bool IsCarInAnyPlayerHistory_4B9C10(Car* pCar);
-    EXPORT Camera* IterateNextPlayerCamera_4B9C50();
-    EXPORT Player* IterateFirstPlayer_4B9CD0();
-    EXPORT Player* IterateNextPlayer_4B9D10();
-    EXPORT void ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(Sprite* pSprite, Player* pExclude);
+    EXPORT s32 GetFrameDurationMs() const;
+    EXPORT void ExitGame(s32 new_timer, s32 exit_type, s8 bonus_type);
+    EXPORT void ExitGameNoBonus(s32 new_timer, s32 exit_type);
+    EXPORT bool UpdateExitTimer();
+    EXPORT void LoadGameFiles();
+    EXPORT void SetScreenSize(u32 width, u32 height);
+    EXPORT void ApplyNetworkGameSettings();
+    EXPORT void BootGame();
+    EXPORT void ShowCounters();
+    EXPORT void ShowDebugOverlay();
+    EXPORT void Draw();
+    EXPORT void UpdateAllPlayersControls();
+    EXPORT void UpdatePaused();
+    EXPORT void UpdateGame();
+    EXPORT bool ExecuteGame();
+    EXPORT void Pause();
+    EXPORT void Unpause();
+    EXPORT void TogglePause();
+    EXPORT void SinglePlayerStepFrame();
+    EXPORT void ReinitAfterVideoModeChange();
+    EXPORT Player* GetFirstPlayerWithoutPed();
+    EXPORT void ShakeCamerasAtPos(Fix16 amount, Fix16 x, Fix16 y);
+    EXPORT bool IsSpriteInAnyPlayerBounds(Sprite* pSprite, Fix16 margin) const;
+    EXPORT bool IsSpriteInBoundsOrFollowedByAnyPlayer(Sprite* pSprite, Fix16 margin) const;
+    EXPORT bool IsSpriteInAnyPlayerView(Sprite* pSprite, s32 wide_view) const;
+    EXPORT bool IsSpriteInPlayerView(Sprite* pSprite, u8 player_idx, s32 wide_view) const;
+    EXPORT bool IsSpriteInPlayerBounds(Sprite* pSprite, u8 player_idx, Fix16 margin) const;
+    EXPORT bool IsSpriteCameraSubjectForPlayer(Sprite* pSprite, u8 player_idx) const;
+    EXPORT bool IsPointOnScreen(Fix16 x, Fix16 y);
+    EXPORT bool IsRectVisibleToAnyPlayer(Fix16_Rect* pBounds);
+    EXPORT Camera* IteratePlayerCamera();
+    EXPORT bool IsCarInAnyPlayerHistory(Car* pCar);
+    EXPORT Camera* IterateNextPlayerCamera();
+    EXPORT Player* IterateFirstPlayer();
+    EXPORT Player* IterateNextPlayer();
+    EXPORT void ReduceTrafficSpawnCounterOfOtherViewers(Sprite* pSprite, Player* pExclude);
     EXPORT Game(u8 max_players, s8 player_idx); // 4B9DE0
     EXPORT ~Game(); // 4BAE30
 
@@ -115,7 +115,7 @@ class Game
 
     s32 mGameState; // 0x0
     Player* mPlayers[MAX_PLAYERS]; // 0x4
-    Player* mDrawPlayer; // 0x1C: set to mLocalPlayer in the ctor and never changed; only Draw_4B92D0 reads it (gViewCamera_676978)
+    Player* mDrawPlayer; // 0x1C: set to mLocalPlayer in the ctor and never changed; only Draw reads it (gViewCamera_676978)
     u8 mPlayerIterIdx; // 0x20
     u8 mCameraIterIdx; // 0x21
     bool mAuxCamIterated; // 0x22

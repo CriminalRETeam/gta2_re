@@ -13,7 +13,7 @@ class Object;
 class CollisionTarget
 {
   public:
-    EXPORT bool IsObj2C_477A10() const;
+    EXPORT bool IsObj2C() const;
 
     void Reset_4637B0()
     {
@@ -93,10 +93,10 @@ GTA2_ASSERT_SIZEOF_ALWAYS(CollisionTarget, 0x28);
 class CollisionEvent
 {
   public:
-    EXPORT void SetPosition_40B870(Fix16 x, Fix16 y, Fix16 z);
-    EXPORT void SetupForCar_40B890(Car* pCar);
-    EXPORT void SetupForPed_40B980();
-    EXPORT bool SetupForObject_40BA60(Object* pObj);
+    EXPORT void SetPosition(Fix16 x, Fix16 y, Fix16 z);
+    EXPORT void SetupForCar(Car* pCar);
+    EXPORT void SetupForPed();
+    EXPORT bool SetupForObject(Object* pObj);
 
     void SetImpactStrength_40FF10(const Fix16& strength)
     {
@@ -125,11 +125,11 @@ class CollisionSoundQueue
         k_max_events = 80
     };
 
-    EXPORT void Reset_40BB90();
-    EXPORT void AddCollision_40BBA0(Sprite* pSprite, Fix16 impact_strength);
-    EXPORT void AddFloorCollision_40BC40(Sprite* pSprite);
-    EXPORT void AddBlockCollision_40BD10(Sprite* pSprite);
-    EXPORT void AddSpriteCollision_40BDD0(Sprite* pSprite, Sprite* pHitSprite);
+    EXPORT void Reset();
+    EXPORT void AddCollision(Sprite* pSprite, Fix16 impact_strength);
+    EXPORT void AddFloorCollision(Sprite* pSprite);
+    EXPORT void AddBlockCollision(Sprite* pSprite);
+    EXPORT void AddSpriteCollision(Sprite* pSprite, Sprite* pHitSprite);
     EXPORT CollisionSoundQueue();
     EXPORT ~CollisionSoundQueue();
 

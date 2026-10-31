@@ -57,31 +57,31 @@ class PathFinder
     STATIC_MEMBER(u8, sPathFinderSlopeZDelta);
     PathFinder()
     {
-        Init_5545E0();
+        Init();
     }
-    EXPORT bool CanMoveInDirection_554080(s32 path_direction) const;
-    EXPORT bool TestMoveToAdjacentTile_5540E0(u8 curr_xpos, u8 curr_ypos, u8 curr_zpos, u8 desired_xpos, u8 desired_ypos);
+    EXPORT bool CanMoveInDirection(s32 path_direction) const;
+    EXPORT bool TestMoveToAdjacentTile(u8 curr_xpos, u8 curr_ypos, u8 curr_zpos, u8 desired_xpos, u8 desired_ypos);
 
   private:
-    EXPORT bool CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_ypos);
-    EXPORT void ClearGrid_5545C0();
-    EXPORT void Init_5545E0();
+    EXPORT bool CanMoveToAdjacentTile(u8 desired_xpos, u8 desired_ypos);
+    EXPORT void ClearGrid();
+    EXPORT void Init();
 
   public:
     ~PathFinder()
     {
     }
-    EXPORT void RemovePed_554620(s32 ped_id);
+    EXPORT void RemovePed(s32 ped_id);
 
   private:
-    EXPORT char_type EvaluateGridCell_554640();
-    EXPORT void AddGridCell_554710();
-    EXPORT bool ProcessGridCell_5548C0();
-    EXPORT void RestoreSavedPosition_554920();
+    EXPORT char_type EvaluateGridCell();
+    EXPORT void AddGridCell();
+    EXPORT bool ProcessGridCell();
+    EXPORT void RestoreSavedPosition();
 
   public:
-    EXPORT s32 IsFirstInPathQueue_554A90(Ped* pPed) const;
-    EXPORT bool ComputePath_554AB0(s32 ped_id,
+    EXPORT s32 IsFirstInPathQueue(Ped* pPed) const;
+    EXPORT bool ComputePath(s32 ped_id,
                                         Ped* pPed,
                                         u8 x_start,
                                         u8 y_start,
@@ -91,10 +91,10 @@ class PathFinder
                                         u8 z_end,
                                         s32 angle_face,
                                         u8* pOutPathPointCount);
-    EXPORT bool FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, u8* ypos, u8* zpos, bool bAllowDuringPathCompute);
+    EXPORT bool FindNearbyTileMatchingSlopeType(u8 block_type, u8* xpos, u8* ypos, u8* zpos, bool bAllowDuringPathCompute);
 
     s32 mPedId; // 0x0
-    bool mbFindTileMode; // 0x4: FindNearbyTileMatchingSlopeType_5552B0, not ComputePath_554AB0
+    bool mbFindTileMode; // 0x4: FindNearbyTileMatchingSlopeType, not ComputePath
     PathNode * mpNode; // 0x8
     u16 mNodeCount; // 0xC
     u8 mXStart; // 0xE

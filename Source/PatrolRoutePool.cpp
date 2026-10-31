@@ -26,7 +26,7 @@ PatrolRoute::~PatrolRoute()
 }
 
 MATCH_FUNC(0x543ec0)
-void PatrolRoute::Init_543EC0()
+void PatrolRoute::Init()
 {
 }
 
@@ -40,13 +40,13 @@ PatrolRoutePool::PatrolRoutePool()
 }
 
 MATCH_FUNC(0x543f10)
-PatrolRoute* PatrolRoutePool::AllocPatrolList_543F10(u8* pRouteIdx)
+PatrolRoute* PatrolRoutePool::AllocPatrolList(u8* pRouteIdx)
 {
     for (u8 i = 0; i < GTA2_COUNTOF(mbUsed); i++)
     {
         if (!mbUsed[i])
         {
-            mRoutes[i].Init_543EC0();
+            mRoutes[i].Init();
             *pRouteIdx = i;
             mbUsed[i] = true;
             return &mRoutes[i];

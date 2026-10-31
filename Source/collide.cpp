@@ -9,7 +9,7 @@ DEFINE_GLOBAL(GridSpriteLink_Pool*, gGridSpriteLink_Pool_679200, 0x679200);
 DEFINE_GLOBAL(GridCell_Pool*, gGridCell_Pool_679204, 0x679204);
 
 MATCH_FUNC(0x478a20)
-void CollisionCounters::ResetCount_478A20()
+void CollisionCounters::ResetCount()
 {
     mTestCount = 0;
 }

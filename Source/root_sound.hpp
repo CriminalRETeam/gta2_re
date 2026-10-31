@@ -13,7 +13,7 @@ class root_sound
 
     SoundObject* DestroySoundObj_40FE60(SoundObject* pSoundObj) // inline
     {
-        pSoundObj->Release_40EF20();
+        pSoundObj->Release();
         SoundObject* result = mpFreeList;
         pSoundObj->mpAny.pNextFree = mpFreeList;
         mpFreeList = pSoundObj;
@@ -31,47 +31,47 @@ class root_sound
         return pCurrent;
     }
 
-    EXPORT SoundObject* CreateSoundObject_40EF40(void* pObject, s32 objectType);
+    EXPORT SoundObject* CreateSoundObject(void* pObject, s32 objectType);
 
-    EXPORT void Init_40EF80();
+    EXPORT void Init();
 
-    EXPORT void DeinitializeAudio_40EF90();
+    EXPORT void DeinitializeAudio();
 
-    EXPORT void Service_40EFA0();
+    EXPORT void Service();
 
-    EXPORT s32 AddSoundObject_40EFB0(SoundObject* pSoundObj);
+    EXPORT s32 AddSoundObject(SoundObject* pSoundObj);
 
-    EXPORT void FreeSoundEntry_40EFD0(s32 sound_entry);
+    EXPORT void FreeSoundEntry(s32 sound_entry);
 
-    EXPORT bool LoadStyle_40EFF0(const char_type* pStyleName);
+    EXPORT bool LoadStyle(const char_type* pStyleName);
 
-    EXPORT void InitMusicAndCopRadio_40F010();
+    EXPORT void InitMusicAndCopRadio();
 
-    EXPORT void DeInitVocals_40F020();
+    EXPORT void DeInitVocals();
 
-    EXPORT void DeclareRadioStation_40F030(s32 station_idx, Fix16 xpos, Fix16 ypos);
+    EXPORT void DeclareRadioStation(s32 station_idx, Fix16 xpos, Fix16 ypos);
 
-    EXPORT void RemoveSound_40F050(Fix16 xpos, Fix16 ypos);
+    EXPORT void RemoveSound(Fix16 xpos, Fix16 ypos);
 
-    EXPORT void CycleRadioStation_40F070(char_type direction);
+    EXPORT void CycleRadioStation(char_type direction);
 
-    EXPORT void PlayVoice_40F090(s32 voice);
+    EXPORT void PlayVoice(s32 voice);
 
-    EXPORT void SetSfxVol_40F0B0(u8 sfxVol);
+    EXPORT void SetSfxVol(u8 sfxVol);
 
-    EXPORT void SetCDVol_40F0F0(u8 cdVol);
+    EXPORT void SetCDVol(u8 cdVol);
 
-    EXPORT u8 GetCDVol_40F120();
+    EXPORT u8 GetCDVol();
 
-    EXPORT void Release_40F130();
+    EXPORT void Release();
 
-    EXPORT void Reacquire_40F140();
+    EXPORT void Reacquire();
 
-    EXPORT char_type GetAudioDriveLetter_40F150();
+    EXPORT char_type GetAudioDriveLetter();
 
-    EXPORT bool Set3DSound_40F160(char_type b3dSound);
+    EXPORT bool Set3DSound(char_type b3dSound);
 
-    EXPORT char_type Get3DSound_40F180();
+    EXPORT char_type Get3DSound();
 
     EXPORT root_sound();
 

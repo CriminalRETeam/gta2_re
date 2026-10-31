@@ -12,14 +12,14 @@ class RollingDigitCounter
     };
 
     EXPORT RollingDigitCounter();
-    EXPORT void SetupDigitsParams_492110(s16 digit_transition_speed, s32 max_value, s16 palette);
-    EXPORT void InitDigitSprites_492150();
-    EXPORT void ChangeStatByAmount_4921B0(s32 amount);
-    EXPORT void ColorDigits_4921F0(s32 palette_type, s16 palette);
-    EXPORT s32 DrawDigitsRightAligned_492260(s32 base_xpos, s32 base_ypos) const;
-    EXPORT s32 DrawDigitsLeftAligned_492430(s32 base_xpos, s32 base_ypos) const;
-    EXPORT bool IsAnyDigitRolling_4925C0() const;
-    EXPORT void UpdateRollingDigits_4925E0();
+    EXPORT void SetupDigitsParams(s16 digit_transition_speed, s32 max_value, s16 palette);
+    EXPORT void InitDigitSprites();
+    EXPORT void ChangeStatByAmount(s32 amount);
+    EXPORT void ColorDigits(s32 palette_type, s16 palette);
+    EXPORT s32 DrawDigitsRightAligned(s32 base_xpos, s32 base_ypos) const;
+    EXPORT s32 DrawDigitsLeftAligned(s32 base_xpos, s32 base_ypos) const;
+    EXPORT bool IsAnyDigitRolling() const;
+    EXPORT void UpdateRollingDigits();
 
     // 9.6f 0x4A50B0
     inline void SetValueClamped_4A50B0(s32 value)

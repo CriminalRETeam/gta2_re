@@ -23,8 +23,8 @@ EXTERN_GLOBAL(Fix16, kFpOne128th_6784BC);
 EXTERN_GLOBAL(Ang16, kAng16_6FD940);
 EXTERN_GLOBAL(Ang16, kAng344_6FD8F8);
 
-EXPORT void __stdcall UnpackSignedNibbles_529050(u8 packed, s8* pX, s8* pY);
-EXPORT Ang16 __stdcall ComputeShortestAngleDelta_4056C0(Ang16& angle1, Ang16& angle2);
+EXPORT void __stdcall UnpackSignedNibbles(u8 packed, s8* pX, s8* pY);
+EXPORT Ang16 __stdcall ComputeShortestAngleDelta(Ang16& angle1, Ang16& angle2);
 
 // SpriteList with a (trivial) destructor: the original Char ctor has an EH frame for this member,
 // while other owners of a SpriteList (Car, Object_5C, WeaponManager) have none.
@@ -208,7 +208,7 @@ class Char
         }
     }
 
-    // strange, the same 9.6f func but Ped::StayCloseToTargetPed_46B170 only matches if it pass by ref
+    // strange, the same 9.6f func but Ped::StayCloseToTargetPed only matches if it pass by ref
     inline void RegulateVelocityByRef_433970(Fix16& threshold)
     {
         if (mVelocity < threshold)
@@ -226,7 +226,7 @@ class Char
         mVelocity = max_speed;
     }
 
-    // strange, the same 9.6f func but Ped::StayCloseToTargetPed_46B170 only matches if it pass by ref
+    // strange, the same 9.6f func but Ped::StayCloseToTargetPed only matches if it pass by ref
     inline void SetVelocityByRef_433920(Fix16& max_speed)
     {
         mVelocity = max_speed;
@@ -249,7 +249,7 @@ class Char
 
     inline void VeerLeftFromWall_4923D0()
     {
-        mRotation.SnapToAng4_405640();
+        mRotation.SnapToAng4();
         mRotation += kAng16_6FD940;
         mCharState = Char_B4_state::Veer_Left_From_Wall_9;
         mTimer = 10;
@@ -257,7 +257,7 @@ class Char
 
     inline void VeerRightFromWall_4923A0()
     {
-        mRotation.SnapToAng4_405640();
+        mRotation.SnapToAng4();
         mRotation += kAng344_6FD8F8;
         mCharState = Char_B4_state::Veer_Right_From_Wall_8;
         mTimer = 10;
@@ -320,13 +320,13 @@ class Char
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
 
-    EXPORT void DrawFlamesAndStartScreamTimer_545430();
-    EXPORT bool HasShadows_5451C0() const;
+    EXPORT void DrawFlamesAndStartScreamTimer();
+    EXPORT bool HasShadows() const;
 
-    EXPORT Fix16_Point GetRunVelocity_545580() const;
-    EXPORT void SetRemap_46DD50(u8 remap);
+    EXPORT Fix16_Point GetRunVelocity() const;
+    EXPORT void SetRemap(u8 remap);
 
-    // Inlined copy of SetRemap_46DD50
+    // Inlined copy of SetRemap
     inline void SetRemap_Inline(u8 remap)
     {
         this->mRemap = remap;
@@ -336,91 +336,91 @@ class Char
         }
     }
 
-    EXPORT void RemoveFireSprites_5454B0();
-    EXPORT void DoJump_5454D0();
-    EXPORT void Teleport_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos);
+    EXPORT void RemoveFireSprites();
+    EXPORT void DoJump();
+    EXPORT void Teleport(Fix16 xpos, Fix16 ypos, Fix16 zpos);
 
   private:
-    EXPORT s32 IsOnWater_545570() const;
-    EXPORT void KillPed_5455F0();
+    EXPORT s32 IsOnWater() const;
+    EXPORT void KillPed();
 
   public:
-    EXPORT void ClearCollisionState_545600();
+    EXPORT void ClearCollisionState();
 
   private:
-    EXPORT void GetTileFracX64_545640(Fix16 coord, s16* output) const;
-    EXPORT void GetTileFracY64_545670(Fix16 coord, s16* output) const;
-    EXPORT void InitSprite_5456A0();
+    EXPORT void GetTileFracX64(Fix16 coord, s16* output) const;
+    EXPORT void GetTileFracY64(Fix16 coord, s16* output) const;
+    EXPORT void InitSprite();
 
   public:
-    EXPORT bool IsOnScreen_545700() const;
-    EXPORT void Update_545720(Fix16 distance_to_target);
+    EXPORT bool IsOnScreen() const;
+    EXPORT void Update(Fix16 distance_to_target);
 
   private:
-    EXPORT void CheckAndHandleCollisions_5459C0();
+    EXPORT void CheckAndHandleCollisions();
 
   public:
-    EXPORT void DrownPed_5459E0();
+    EXPORT void DrownPed();
 
   private:
-    EXPORT void UpdateAnimState_546360();
-    EXPORT void ManageZCoordAndSlopes_548590();
-    EXPORT void DispatchCollision_548670(char_type bIgnorePeds);
-    EXPORT void HandleObjectCollision_548840(Object* pObj);
-    EXPORT void HandlePedCollision_548BD0(Char* pOther);
-    EXPORT void HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar);
-    EXPORT bool ContinueMovementAfterCollision_54B8F0();
-    EXPORT void SnapRotationToFace_54C090();
-    EXPORT bool CanMoveOntoSlope_54C1A0(s32 path_direction);
+    EXPORT void UpdateAnimState();
+    EXPORT void ManageZCoordAndSlopes();
+    EXPORT void DispatchCollision(char_type bIgnorePeds);
+    EXPORT void HandleObjectCollision(Object* pObj);
+    EXPORT void HandlePedCollision(Char* pOther);
+    EXPORT void HandleGenericCollision(Car* pCar, Object* pObj, Char* pChar);
+    EXPORT bool ContinueMovementAfterCollision();
+    EXPORT void SnapRotationToFace();
+    EXPORT bool CanMoveOntoSlope(s32 path_direction);
     inline void SetTurnTarget_492400(Ang16 target_rotation);
-    EXPORT void TurnToFreeAdjacentFace_54C3E0();
-    EXPORT bool CanMoveToTile_54C500(char_type x, char_type y);
-    EXPORT void SelectRandomIdleBehavior_54C580();
-    EXPORT void ApplyRandomRotationJitter_54C6C0();
-    EXPORT void TickMovementStateMachine_54C900();
-    EXPORT void TurnTowardsAngle_54CAE0();
-    EXPORT void ApplyMovement_54CC40();
-    EXPORT void CheckCollisionsAndUpdateAnim_54DD70();
-    EXPORT void UpdateWalking_54DDF0();
-    EXPORT bool CanStepForwardWithRegionCheck_54ECB0(s32 direction);
-    EXPORT bool CanStepToTile_54EF60(char_type target_x, char_type target_y);
-    EXPORT bool CanStepForward_54FEC0(s32 direction);
-    EXPORT bool CanReachTile_550090(u8 xpos, u8 ypos);
-    EXPORT void UpdateFleeOrRunning_5504F0();
-    EXPORT Ang16 GetNextRotationToward_550F60(Ang16 inputAng);
-    EXPORT bool CanStepInDirection_551350(Ang16 angle);
-    EXPORT void ChooseNextMovementTile_551400();
-    EXPORT void SelectNextTileFast_5516F0();
-    EXPORT void UpdateFindingPath_5519F0();
-    EXPORT void UpdateEnteringCar_551A00();
-    EXPORT void UpdateExitingCar_551B30();
-    EXPORT void UpdateEnteringTrain_551BB0();
-    EXPORT void UpdateStandingStill_551CB0();
-    EXPORT void UpdateImmobilized_5520A0();
-    EXPORT void UpdateDead_552E90();
+    EXPORT void TurnToFreeAdjacentFace();
+    EXPORT bool CanMoveToTile(char_type x, char_type y);
+    EXPORT void SelectRandomIdleBehavior();
+    EXPORT void ApplyRandomRotationJitter();
+    EXPORT void TickMovementStateMachine();
+    EXPORT void TurnTowardsAngle();
+    EXPORT void ApplyMovement();
+    EXPORT void CheckCollisionsAndUpdateAnim();
+    EXPORT void UpdateWalking();
+    EXPORT bool CanStepForwardWithRegionCheck(s32 direction);
+    EXPORT bool CanStepToTile(char_type target_x, char_type target_y);
+    EXPORT bool CanStepForward(s32 direction);
+    EXPORT bool CanReachTile(u8 xpos, u8 ypos);
+    EXPORT void UpdateFleeOrRunning();
+    EXPORT Ang16 GetNextRotationToward(Ang16 inputAng);
+    EXPORT bool CanStepInDirection(Ang16 angle);
+    EXPORT void ChooseNextMovementTile();
+    EXPORT void SelectNextTileFast();
+    EXPORT void UpdateFindingPath();
+    EXPORT void UpdateEnteringCar();
+    EXPORT void UpdateExitingCar();
+    EXPORT void UpdateEnteringTrain();
+    EXPORT void UpdateStandingStill();
+    EXPORT void UpdateImmobilized();
+    EXPORT void UpdateDead();
 
-    EXPORT bool IsNearTileCentre_5532C0() const;
-
-  public:
-    EXPORT bool IsThreatToSearchingPed_553330() const;
-    EXPORT bool ShouldCollideWithSprite_553340(Sprite* pSprite) const;
-
-  private:
-    EXPORT bool PhoneTouched_5535B0(Object* pObject);
+    EXPORT bool IsNearTileCentre() const;
 
   public:
-    EXPORT bool OnObjectTouched_553640(Object* pObject);
-    EXPORT bool HandlePedObjectHit_5537F0(Object* pObject);
-    EXPORT void HandleCarImpact_5538A0(Car* pCar, u8 not_used, Fix16 x, Fix16 y);
-    EXPORT void HandleGenericImpact_553E00(Ang16 ang, Fix16 impact_x, Fix16 impact_z, char_type impact_type);
+    EXPORT bool IsThreatToSearchingPed() const;
+    EXPORT bool ShouldCollideWithSprite(Sprite* pSprite) const;
 
   private:
-    EXPORT void UpdateLeavingTrain_551CA0();
+    EXPORT bool PhoneTouched(Object* pObject);
+
+  public:
+    EXPORT bool OnObjectTouched(Object* pObject);
+    EXPORT bool HandlePedObjectHit(Object* pObject);
+    EXPORT void HandleCarImpact(Car* pCar, u8 not_used, Fix16 x, Fix16 y);
+    EXPORT void HandleGenericImpact(Ang16 ang, Fix16 impact_x, Fix16 impact_z, char_type impact_type);
+
+  private:
+    EXPORT void UpdateLeavingTrain();
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Char, 0xB4);
 
-EXPORT void __stdcall ResetCharUpdateGlobals_544F70();
-EXPORT void __stdcall ResetCharStatics_553F90();
+EXPORT void __stdcall ResetCharUpdateGlobals();
+EXPORT void __stdcall ResetCharStatics();
 
 EXTERN_GLOBAL(u8, bThreateningPedAdded_6787EF);
 

@@ -159,219 +159,219 @@ class Ped
 
     EXPORT Ped(); // 45AE70
     EXPORT ~Ped(); // 45AF00
-    EXPORT void Reset_45AFC0();
+    EXPORT void Reset();
     EXPORT void PoolAllocate();
-    EXPORT bool IsLawEnforcement_45B4E0() const;
-    EXPORT Fix16_Point GetVelocityVector_45B520() const;
-    EXPORT void SetRecentCrimeTimer_45B550();
-    EXPORT void SetPlayer_45B560(Player* pPlayer, bool bIsAuxPed);
-    EXPORT bool IsEmergencyOccupation_45B590() const;
-    EXPORT void CopyStatsFromPed_45B5B0(const Ped* pSrc);
-    EXPORT Car* GetCarBeingEnteredOrExited_45BBF0() const;
-    EXPORT void TeleportToCoord_45BC10(Fix16 xpos, Fix16 ypos);
-    EXPORT void ManageShocking_45BC70();
-    EXPORT bool CloseDoorIfCarApproaching_45BD20(Car* pCar);
-    EXPORT s32 GetBulletSpriteOffset_45BE30() const;
+    EXPORT bool IsLawEnforcement() const;
+    EXPORT Fix16_Point GetVelocityVector() const;
+    EXPORT void SetRecentCrimeTimer();
+    EXPORT void SetPlayer(Player* pPlayer, bool bIsAuxPed);
+    EXPORT bool IsEmergencyOccupation() const;
+    EXPORT void CopyStatsFromPed(const Ped* pSrc);
+    EXPORT Car* GetCarBeingEnteredOrExited() const;
+    EXPORT void TeleportToCoord(Fix16 xpos, Fix16 ypos);
+    EXPORT void ManageShocking();
+    EXPORT bool CloseDoorIfCarApproaching(Car* pCar);
+    EXPORT s32 GetBulletSpriteOffset() const;
     EXPORT void SetOnFire();
     EXPORT void PutOutFire();
-    EXPORT void ManageBurning_45BEC0();
+    EXPORT void ManageBurning();
     EXPORT void DrawFlamesAndStartScreamTimer();
     EXPORT void SetInvisible();
     EXPORT void SetVisible();
     EXPORT void SetSpriteSemiTransIfInvisible();
     EXPORT void SetInvulnerable();
-    EXPORT void ClearInvulnerable_45C050();
-    EXPORT void SetSpriteFlagIfInvulnerable_45C070();
+    EXPORT void ClearInvulnerable();
+    EXPORT void SetSpriteFlagIfInvulnerable();
     EXPORT void RestoreCarOrPedHealth();
-    EXPORT void SpawnCharInZone_45C0C0(gmp_map_zone* pZone);
+    EXPORT void SpawnCharInZone(gmp_map_zone* pZone);
     EXPORT void PoolDeallocate();
-    EXPORT void RespawnPed_45C350(gmp_map_zone* pZone);
-    EXPORT void ResetForPlayerRespawn_45C410();
-    EXPORT void UpdatePositionFromCar_45C4B0();
-    EXPORT void ChangeNextPedState1_45C500(s32 new_state);
-    EXPORT void ChangeNextPedState2_45C540(s32 new_state);
-    EXPORT void RestorePreviousPedState_45C5A0();
-    EXPORT void CancelEnterCarObjective_45C5C0();
-    EXPORT void SpawnDriverRunAway_45C650(Car* pCar, Ped* pCarThief);
-    EXPORT void SpawnPedInCar_45C730(Car* pCar);
-    EXPORT void EnterCarByBackDoor_45C7A0(Car* pCar);
-    EXPORT void EnterCarAsPassenger_45C7F0(Car* pCar);
-    EXPORT bool AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT Ang16 GetTurnSpeed_45C900() const;
-    EXPORT Fix16 GetPedVelocity_45C920() const;
+    EXPORT void RespawnPed(gmp_map_zone* pZone);
+    EXPORT void ResetForPlayerRespawn();
+    EXPORT void UpdatePositionFromCar();
+    EXPORT void ChangeNextPedState1(s32 new_state);
+    EXPORT void ChangeNextPedState2(s32 new_state);
+    EXPORT void RestorePreviousPedState();
+    EXPORT void CancelEnterCarObjective();
+    EXPORT void SpawnDriverRunAway(Car* pCar, Ped* pCarThief);
+    EXPORT void SpawnPedInCar(Car* pCar);
+    EXPORT void EnterCarByBackDoor(Car* pCar);
+    EXPORT void EnterCarAsPassenger(Car* pCar);
+    EXPORT bool AllocCharB4(Fix16 xpos, Fix16 ypos, Fix16 zpos);
+    EXPORT Ang16 GetTurnSpeed() const;
+    EXPORT Fix16 GetPedVelocity() const;
     EXPORT Ang16 GetRotation() const;
-    EXPORT Fix16 GetMoveDirection_45C9B0() const;
-    EXPORT Ang16 ComputeAimAngle_45C9D0();
-    EXPORT void HandleClosePedInteraction_45CAA0();
+    EXPORT Fix16 GetMoveDirection() const;
+    EXPORT Ang16 ComputeAimAngle();
+    EXPORT void HandleClosePedInteraction();
     EXPORT void TakeDamage(s16 damage);
-    EXPORT void HandlePedCrossingTrigger_45CF20(const Object* pObj);
-    EXPORT bool HandlePedHitByObject_45D000(Object* pObj);
-    EXPORT bool AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo);
-    EXPORT bool HandlePickupCollision_45DE80(Object* pPickUp);
-    EXPORT void SpawnWeaponOnDeath_45E080();
-    EXPORT void StartCrossingRoad_45E4A0();
-    EXPORT void DeallocateWithGroupCleanup_45EA00();
-    EXPORT void Deallocate_45EB60();
-    EXPORT bool IsActivePlayerPed_45EDC0() const;
-    EXPORT bool PedTypeIs_45EDE0(s32 type) const;
+    EXPORT void HandlePedCrossingTrigger(const Object* pObj);
+    EXPORT bool HandlePedHitByObject(Object* pObj);
+    EXPORT bool AddWeaponWithAmmo(s32 weapon_kind, char_type ammo);
+    EXPORT bool HandlePickupCollision(Object* pPickUp);
+    EXPORT void SpawnWeaponOnDeath();
+    EXPORT void StartCrossingRoad();
+    EXPORT void DeallocateWithGroupCleanup();
+    EXPORT void Deallocate();
+    EXPORT bool IsActivePlayerPed() const;
+    EXPORT bool PedTypeIs(s32 type) const;
   private:
-    EXPORT void SetOccupation_45EE00(u32 occupation);
-    EXPORT void EnterPublicTransport_45EE70();
-    EXPORT void Mugger_AI_45F360();
-    EXPORT void CarThief_AI_45FF60();
-    EXPORT void TaxiCustomer_AI_460820();
-    EXPORT void BusCustomer_AI_461290();
-    EXPORT void TrainCustomer_AI_461530();
-    EXPORT void RobbedDriver_AI_461630();
-    EXPORT void RoadBlockTank_AI_4619F0();
-    EXPORT void UpdateFacingAngle_461A60();
-    EXPORT void Occupation_AI_461F20();
-    EXPORT void UpdateAI_462280();
-    EXPORT void ReleaseGroupSpritesAndWeapons_4624A0();
+    EXPORT void SetOccupation(u32 occupation);
+    EXPORT void EnterPublicTransport();
+    EXPORT void Mugger_AI();
+    EXPORT void CarThief_AI();
+    EXPORT void TaxiCustomer_AI();
+    EXPORT void BusCustomer_AI();
+    EXPORT void TrainCustomer_AI();
+    EXPORT void RobbedDriver_AI();
+    EXPORT void RoadBlockTank_AI();
+    EXPORT void UpdateFacingAngle();
+    EXPORT void Occupation_AI();
+    EXPORT void UpdateAI();
+    EXPORT void ReleaseGroupSpritesAndWeapons();
   public:
-    EXPORT void RemovePedWeapons_462510();
-    EXPORT void RemoveSecondaryWeapon_462550();
-    EXPORT void ForceDoNothing_462590();
-    EXPORT void UpdateOnScreenCounter_462620();
-    EXPORT bool StateMachineTick_4626B0();
-    EXPORT void UpdateCharB4_462B80();
+    EXPORT void RemovePedWeapons();
+    EXPORT void RemoveSecondaryWeapon();
+    EXPORT void ForceDoNothing();
+    EXPORT void UpdateOnScreenCounter();
+    EXPORT bool StateMachineTick();
+    EXPORT void UpdateCharB4();
     EXPORT bool PoolUpdate();
-    EXPORT void ProcessObjective_4632E0();
-    EXPORT void ChangePedStatesByMode_463300(u8 mode);
-    EXPORT void SetStatesForObjective_4633E0(bool bMainObj);
+    EXPORT void ProcessObjective();
+    EXPORT void ChangePedStatesByMode(u8 mode);
+    EXPORT void SetStatesForObjective(bool bMainObj);
     EXPORT void SetObjective(s32 objective, s16 objective_timer = 9999); // 9999: never times out
-    EXPORT void SetObjective2_463830(s32 internal_objective, s16 internal_objective_timer = 9999);
+    EXPORT void SetObjective2(s32 internal_objective, s16 internal_objective_timer = 9999);
   private:
-    EXPORT void ProcessMainObjective_463AA0();
-    EXPORT void ProcessInternalObjective_463FB0();
-    EXPORT void CalcApproachPointNearTargetPed_4645B0();
-    EXPORT void Threat_Reaction_AI_465270();
-    EXPORT void ReactToAttacker_465B20();
+    EXPORT void ProcessMainObjective();
+    EXPORT void ProcessInternalObjective();
+    EXPORT void CalcApproachPointNearTargetPed();
+    EXPORT void Threat_Reaction_AI();
+    EXPORT void ReactToAttacker();
   public:
-    EXPORT bool IsAttackingTargetPed_465CD0() const;
-    EXPORT bool IsPedAThreat_465D00(Ped* pTargetPed);
+    EXPORT bool IsAttackingTargetPed() const;
+    EXPORT bool IsPedAThreat(Ped* pTargetPed);
     inline bool IsPedAThreat_Inline_465D00(Ped* pTargetPed);
     EXPORT bool IsInvisibleOnFoot_466B70() const;
-    EXPORT bool IsThreatToSearchingPed_4661F0();
+    EXPORT bool IsThreatToSearchingPed();
   private:
-    EXPORT Ped* FindBestTargetPed_Mode1_466B90(s32 max_x_check);
-    EXPORT Ped* FindBestTargetPed_Mode4_466BB0(s32 max_x_check);
-    EXPORT Ped* FindBestTargetPed_Mode5_466BD0(s32 max_x_check);
-    EXPORT Ped* FindBestTargetPed_466BF0(s32 max_x_check);
-    EXPORT Ped* FindNearestPed_Mode4_466F40(u8 max_x_check);
-    EXPORT Ped* FindNearestPed_466F60(u8 max_x_check);
-    EXPORT Ped* FindNearbyPed_466FB0();
-    EXPORT Ped* GetLastProcessedPedOnFoot_467070();
+    EXPORT Ped* FindBestTargetPed_Mode1(s32 max_x_check);
+    EXPORT Ped* FindBestTargetPed_Mode4(s32 max_x_check);
+    EXPORT Ped* FindBestTargetPed_Mode5(s32 max_x_check);
+    EXPORT Ped* FindBestTargetPed(s32 max_x_check);
+    EXPORT Ped* FindNearestPed_Mode4(u8 max_x_check);
+    EXPORT Ped* FindNearestPed(u8 max_x_check);
+    EXPORT Ped* FindNearbyPed();
+    EXPORT Ped* GetLastProcessedPedOnFoot();
   public:
-    EXPORT bool FindUsableCarDoor_467090();
-    EXPORT Sprite* ResetAnimAndFindNearestSprite_467280();
+    EXPORT bool FindUsableCarDoor();
+    EXPORT Sprite* ResetAnimAndFindNearestSprite();
   private:
-    EXPORT void UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type);
+    EXPORT void UpdateMovementTowardsTarget(Fix16 distance, u8 type);
     EXPORT void FleeOnFootTillSafe_4678E0();
-    EXPORT void FleeCharOnFootTillSafe_467960();
-    EXPORT void FleeFromCharOnFootAlways_467A20();
-    EXPORT void FleeCharAlwaysOnceCarStopped_467AD0();
-    EXPORT void LeaveCarAndFleeFromIt_467BD0();
-    EXPORT void KillCharOnFoot_467CA0();
-    EXPORT void KillCharAnyMeans_467E20();
-    EXPORT void KillFrenzy_467FB0();
-    EXPORT void PunchChar_467FD0();
-    EXPORT void WaitOnFootAtTarget_468040();
-    EXPORT void TimeWaitedInCar_4682A0();
+    EXPORT void FleeCharOnFootTillSafe();
+    EXPORT void FleeFromCharOnFootAlways();
+    EXPORT void FleeCharAlwaysOnceCarStopped();
+    EXPORT void LeaveCarAndFleeFromIt();
+    EXPORT void KillCharOnFoot();
+    EXPORT void KillCharAnyMeans();
+    EXPORT void KillFrenzy();
+    EXPORT void PunchChar();
+    EXPORT void WaitOnFootAtTarget();
+    EXPORT void TimeWaitedInCar();
     EXPORT void GotoAreaInCar_468310();
-    EXPORT void EnterTargetObjectiveCar_4686C0();
-    EXPORT void LeaveTargetObjectiveCar_468820();
-    EXPORT void EnterTrain_468930();
-    EXPORT void LeaveTrain_468A00();
-    EXPORT void LeaveCarThenStop_468BD0();
-    EXPORT void PatrolOnFoot_468C70();
+    EXPORT void EnterTargetObjectiveCar();
+    EXPORT void LeaveTargetObjectiveCar();
+    EXPORT void EnterTrain();
+    EXPORT void LeaveTrain();
+    EXPORT void LeaveCarThenStop();
+    EXPORT void PatrolOnFoot();
     EXPORT void GotoAreaOnFoot_468DE0();
-    EXPORT void UpdateFollowPedObjective_468E80();
-    EXPORT s32 GetValueByIdParity_469010() const;
-    EXPORT void UpdateKillerIdTimer_469030();
-    EXPORT void GotoAreaByAnyMeans_469060();
-    EXPORT void UpdateGroupMemberFollow_469BD0();
-    EXPORT void GuardSpot_469BF0();
-    EXPORT void GuardArea_469D60();
-    EXPORT void FailWhenObjectiveTimerExpired_469E10();
-    EXPORT void SetCarAiSpeedOne_469E30();
-    EXPORT void SetupCarFollowTargetPed_469E50();
+    EXPORT void UpdateFollowPedObjective();
+    EXPORT s32 GetValueByIdParity() const;
+    EXPORT void UpdateKillerIdTimer();
+    EXPORT void GotoAreaByAnyMeans();
+    EXPORT void UpdateGroupMemberFollow();
+    EXPORT void GuardSpot();
+    EXPORT void GuardArea();
+    EXPORT void FailWhenObjectiveTimerExpired();
+    EXPORT void SetCarAiSpeedOne();
+    EXPORT void SetupCarFollowTargetPed();
     EXPORT void FollowPedInCar_469F30();
-    EXPORT void WaitInCurrentCar_469FC0();
-    EXPORT void CallPoliceCar_469FE0();
-    EXPORT void PullDriverOutOfCar_46A1F0();
-    EXPORT void FollowCarInCurrCar_46A290();
-    EXPORT void FollowCarOnFootWithOffset_46A350();
-    EXPORT void FireAtObject_46A530();
-    EXPORT void FireAtPlayer_46A5E0();
-    EXPORT void AimVehicleTurretStateMachine_46A6D0();
-    EXPORT void DestroyTargetObject_46A7C0();
-    EXPORT void DestroyTargetCar_46A850();
+    EXPORT void WaitInCurrentCar();
+    EXPORT void CallPoliceCar();
+    EXPORT void PullDriverOutOfCar();
+    EXPORT void FollowCarInCurrCar();
+    EXPORT void FollowCarOnFootWithOffset();
+    EXPORT void FireAtObject();
+    EXPORT void FireAtPlayer();
+    EXPORT void AimVehicleTurretStateMachine();
+    EXPORT void DestroyTargetObject();
+    EXPORT void DestroyTargetCar();
     EXPORT void FleeOnFootTillSafe_46A8F0();
-    EXPORT void FleeFromPedTillSafe_46A9C0();
-    EXPORT void FleeFromPedAlways_46AAE0();
-    EXPORT void CheckFollowTargetPedStillValid_46AB50();
-    EXPORT void FollowTargetStateMachine_46AC20();
-    EXPORT void StayCloseToTargetPed_46B170();
-    EXPORT void PullDriverOutOfCarStateMachine_46B2F0();
-    EXPORT void MeleeAttackStateMachine_46B670();
-    EXPORT void WaitOnFoot_46BD30();
-    EXPORT bool IsOtherPedEnteringAsDriver_46BD50(Car* pCar);
-    EXPORT void EnterCarStateMachine_46BDC0();
-    EXPORT void ExitCarStateMachine_46C250();
-    EXPORT void WalkToTargetPoint_46C770();
+    EXPORT void FleeFromPedTillSafe();
+    EXPORT void FleeFromPedAlways();
+    EXPORT void CheckFollowTargetPedStillValid();
+    EXPORT void FollowTargetStateMachine();
+    EXPORT void StayCloseToTargetPed();
+    EXPORT void PullDriverOutOfCarStateMachine();
+    EXPORT void MeleeAttackStateMachine();
+    EXPORT void WaitOnFoot();
+    EXPORT bool IsOtherPedEnteringAsDriver(Car* pCar);
+    EXPORT void EnterCarStateMachine();
+    EXPORT void ExitCarStateMachine();
+    EXPORT void WalkToTargetPoint();
     EXPORT void GotoAreaOnFoot_46C7E0();
-    EXPORT void WalkToTargetThenStop_46C8A0();
-    EXPORT void FollowPathPoints_46C910();
-    EXPORT void CrossRoad_46C9B0();
+    EXPORT void WalkToTargetThenStop();
+    EXPORT void FollowPathPoints();
+    EXPORT void CrossRoad();
     EXPORT void GotoAreaInCar_46CA60();
     EXPORT void FollowPedInCar_46CA70();
-    EXPORT void StartPedCrossingAtTrafficLight_Y_Backward_46CB30();
-    EXPORT void StartPedCrossingAtTrafficLight_X_Forwards_46CC70();
-    EXPORT void StartPedCrossingAtTrafficLight_Y_Forwards_46CDB0();
-    EXPORT void StartPedCrossingAtTrafficLight_X_Backwards_46CEF0();
-    EXPORT void WaitForTrain_46D030();
-    EXPORT void WaitForInternalObjectiveTimer_46D0B0();
-    EXPORT void EnterTrainStateMachine_46D0D0();
-    EXPORT void ExitTrainStateMachine_46D240();
-    EXPORT void FollowCarOnFoot_46D300();
-    EXPORT void AttackTargetStateMachine_46D460(u8 targetType);
-    EXPORT void AttackPed_46DB60();
-    EXPORT void AttackCar_46DB70();
-    EXPORT void AttackObject_46DB80();
+    EXPORT void StartPedCrossingAtTrafficLight_Y_Backward();
+    EXPORT void StartPedCrossingAtTrafficLight_X_Forwards();
+    EXPORT void StartPedCrossingAtTrafficLight_Y_Forwards();
+    EXPORT void StartPedCrossingAtTrafficLight_X_Backwards();
+    EXPORT void WaitForTrain();
+    EXPORT void WaitForInternalObjectiveTimer();
+    EXPORT void EnterTrainStateMachine();
+    EXPORT void ExitTrainStateMachine();
+    EXPORT void FollowCarOnFoot();
+    EXPORT void AttackTargetStateMachine(u8 targetType);
+    EXPORT void AttackPed();
+    EXPORT void AttackCar();
+    EXPORT void AttackObject();
   public:
-    EXPORT Sprite* GetSprite_46DF50() const;
-    EXPORT void SetupFollower_46DF70(const Ped* pToFollow, s32 weaponIdx);
-    EXPORT bool CanBeRecruitedToGroup_46E020(const PedGroup* pGroup) const;
-    EXPORT void RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius);
-    EXPORT void SpawnPedGroupFollowers_46E200(u8 total);
-    EXPORT u8 get_wanted_star_count_46EF00() const;
-    EXPORT void set_wanted_level_46EF40(u16 wanted);
-    EXPORT void IncreaseWantedLevelFromDebugKeys_46EFD0();
-    EXPORT void set_wanted_star_count_46F070(u8 star_count);
-    EXPORT bool WantedStarCountGreaterThan_46F100(u8 star_count) const;
-    EXPORT Weapon* GetWeaponFromPed_46F110();
-    EXPORT void ApplyAimJitter_46F1E0(Weapon* pWeapon);
-    EXPORT void ManageWeapon_46F390();
-    EXPORT Weapon* ChooseAttackWeapon_46F490();
-    EXPORT void ForceWeapon_46F600(s32 weapon_kind);
-    EXPORT void GiveWeapon_46F650(s32 weapon_kind);
-    EXPORT void ApplyGangRespectForKill_46F680(const Ped* pPed);
-    EXPORT void UpdateStatsForKiller_46F720();
-    EXPORT void Kill_46F9D0();
-    EXPORT void AddThreateningPedToList_46FC70();
-    EXPORT void HandleShootingAtCar_46FC90(Car* pCar, s32 model);
-    EXPORT void ProcessWeaponHitResponse_46FE20(Object* pObj);
-    EXPORT void NotifyWeaponHit_46FF00(Fix16 xpos, Fix16 ypos, s32 model);
-    EXPORT void HandleWeaponFireEnd_46FFF0(s32 model);
-    EXPORT void AimRoofGun_470050();
-    EXPORT void add_wanted_points_470160(s16 wanted_amount);
-    EXPORT bool IsNearestSpriteACar_4701D0() const;
-    EXPORT void StartPedWalking_470200(Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT void BecomeLeaderOfGroup_4702D0(const Ped* pPed);
-    EXPORT void BecomeDummyOnPlayerDisconnect_470300();
-    EXPORT void PushPatrolPoint_4702A0(s8 x, s8 y, s8 z);
-    EXPORT s32 IsInTrain_470F00() const;
+    EXPORT Sprite* GetSprite() const;
+    EXPORT void SetupFollower(const Ped* pToFollow, s32 weaponIdx);
+    EXPORT bool CanBeRecruitedToGroup(const PedGroup* pGroup) const;
+    EXPORT void RecruitNearbyPeds(s32 desiredCount, Fix16 searchRadius);
+    EXPORT void SpawnPedGroupFollowers(u8 total);
+    EXPORT u8 get_wanted_star_count() const;
+    EXPORT void set_wanted_level(u16 wanted);
+    EXPORT void IncreaseWantedLevelFromDebugKeys();
+    EXPORT void set_wanted_star_count(u8 star_count);
+    EXPORT bool WantedStarCountGreaterThan(u8 star_count) const;
+    EXPORT Weapon* GetWeaponFromPed();
+    EXPORT void ApplyAimJitter(Weapon* pWeapon);
+    EXPORT void ManageWeapon();
+    EXPORT Weapon* ChooseAttackWeapon();
+    EXPORT void ForceWeapon(s32 weapon_kind);
+    EXPORT void GiveWeapon(s32 weapon_kind);
+    EXPORT void ApplyGangRespectForKill(const Ped* pPed);
+    EXPORT void UpdateStatsForKiller();
+    EXPORT void Kill();
+    EXPORT void AddThreateningPedToList();
+    EXPORT void HandleShootingAtCar(Car* pCar, s32 model);
+    EXPORT void ProcessWeaponHitResponse(Object* pObj);
+    EXPORT void NotifyWeaponHit(Fix16 xpos, Fix16 ypos, s32 model);
+    EXPORT void HandleWeaponFireEnd(s32 model);
+    EXPORT void AimRoofGun();
+    EXPORT void add_wanted_points(s16 wanted_amount);
+    EXPORT bool IsNearestSpriteACar() const;
+    EXPORT void StartPedWalking(Fix16 xpos, Fix16 ypos, Fix16 zpos);
+    EXPORT void BecomeLeaderOfGroup(const Ped* pPed);
+    EXPORT void BecomeDummyOnPlayerDisconnect();
+    EXPORT void PushPatrolPoint(s8 x, s8 y, s8 z);
+    EXPORT s32 IsInTrain() const;
 
   private:
     EXPORT void FleeCharAnyMeansTillSafe_Nullsub();
@@ -595,7 +595,7 @@ class Ped
     {
         if (mGameObject)
         {
-            mGameObject->DoJump_5454D0();
+            mGameObject->DoJump();
         }
     }
 
@@ -680,7 +680,7 @@ class Ped
     // by value, VC6 loads the argument before the Char and 9 callers stop matching.
     inline void SetRemap_433C10(const u8& remap)
     {
-        Char* pChar = mGameObject; // local necessary to match Ped::SetupFollower_46DF70
+        Char* pChar = mGameObject; // local necessary to match Ped::SetupFollower
         pChar->SetRemap_Inline(remap);
     }
 
@@ -751,7 +751,7 @@ class Ped
     }
 
     // Same body as the out-of-line copy IsInvisibleOnFoot_466B70: this form's front-end size (47) is what
-    // makes the inlined IsPedAThreat in IsThreatToSearchingPed_4661F0 call the copy (nested budget 42)
+    // makes the inlined IsPedAThreat in IsThreatToSearchingPed call the copy (nested budget 42)
     inline bool IsInvisibleOnFoot_433DA0() const
     {
         if (mBf21C.bInvisible && mGameObject != NULL)
@@ -963,7 +963,7 @@ class Ped
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Ped, 0x294)
 
-EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 doorId, Fix16& outX, Fix16& outY, Ang16& outAng);
+EXPORT void __stdcall CarDoorAlignmentSolver(u8 animPhase, Car* pCar, u8 doorId, Fix16& outX, Fix16& outY, Ang16& outAng);
 
 EXTERN_GLOBAL(s32, gPedId_61A89C);
 

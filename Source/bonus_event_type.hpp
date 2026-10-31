@@ -1,14 +1,14 @@
 #pragma once
 
-// First argument of BonusTracker::ProcessBonusEvent_4320D0 / bonus event type of a BonusRule (stored as s16).
+// First argument of BonusTracker::ProcessBonusEvent / bonus event type of a BonusRule (stored as s16).
 // Kept in its own header, like car_despawn_status.hpp, so that the enum does not land in a header many TUs share.
 namespace bonus_event_type
 {
 enum
 {
-    ped_killed_0 = 0,    // PlayerScoreTracker::AwardPedKilledScore_592660
-    car_destroyed_1 = 1, // AwardCarDestroyedScore_592DD0
-    car_hijacked_2 = 2,  // AwardCarHijackedScore_593240
+    ped_killed_0 = 0,    // PlayerScoreTracker::AwardPedKilledScore
+    car_destroyed_1 = 1, // AwardCarDestroyedScore
+    car_hijacked_2 = 2,  // AwardCarHijackedScore
     any_event = -1,      // wildcard in a bonus definition
 };
 } // namespace bonus_event_type

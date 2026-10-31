@@ -7,7 +7,7 @@ DEFINE_GLOBAL_INIT(Fix16, kSmallWidthEpslion_703450, Fix16(0xCCC, 0), 0x703450);
 DEFINE_GLOBAL_INIT(Fix16, kCollisionPrismHalfHeight_6771E4, Fix16(0x800, 0), 0x6771E4);
 
 MATCH_FUNC(0x4E6280)
-void Fix16_Rect::MakeRect_4E6280(Fix16 x, Fix16 y, Fix16 w, Fix16 h)
+void Fix16_Rect::MakeRect(Fix16 x, Fix16 y, Fix16 w, Fix16 h)
 {
     mLeft = x;
     mTop = y;
@@ -16,7 +16,7 @@ void Fix16_Rect::MakeRect_4E6280(Fix16 x, Fix16 y, Fix16 w, Fix16 h)
 }
 
 MATCH_FUNC(0x59dd60)
-void Fix16_Rect::DoSetCurrentRect_59DD60()
+void Fix16_Rect::DoSetCurrentRect()
 {
     gSpriteGrid_left_6F5FD4 = mLeft.ToInt();
     gSpriteGrid_right_6F5B80 = mRight.ToInt();
@@ -26,7 +26,7 @@ void Fix16_Rect::DoSetCurrentRect_59DD60()
 
 // 0x4BA6C0 9.6f
 MATCH_FUNC(0x59ddf0)
-bool Fix16_Rect::IntersectsSpriteRenderingRect_59DDF0(Sprite* pSprite)
+bool Fix16_Rect::IntersectsSpriteRenderingRect(Sprite* pSprite)
 {
     Fix16_Point* pCorners = pSprite->mpCollisionShape->mCorners;
 
@@ -35,17 +35,17 @@ bool Fix16_Rect::IntersectsSpriteRenderingRect_59DDF0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x59de80)
-char_type Fix16_Rect::IsRectBlockedByMap_59DE80()
+char_type Fix16_Rect::IsRectBlockedByMap()
 {
-    DoSetCurrentRect_59DD60();
+    DoSetCurrentRect();
     s32 x = ((this->mLeft + this->mRight) / 2).ToInt();
     s32 y = ((this->mTop + this->mBottom) / 2).ToInt();
     s32 z = ((this->mLowZ + this->mHighZ) / 2).ToInt();
-    return gMap_0x370_6F6268->IsMovementRegionBlocked_4E4460(x, y, z, NULL, 1024);
+    return gMap_0x370_6F6268->IsMovementRegionBlocked(x, y, z, NULL, 1024);
 }
 
 MATCH_FUNC(0x59dee0)
-void Fix16_Rect::ExpandToIncludePoint_59DEE0(Fix16 x, Fix16 y)
+void Fix16_Rect::ExpandToIncludePoint(Fix16 x, Fix16 y)
 {
     if (x < mLeft)
     {
@@ -73,7 +73,7 @@ void Fix16_Rect::ExpandToIncludePoint_59DEE0(Fix16 x, Fix16 y)
 }
 
 MATCH_FUNC(0x59df20)
-bool Fix16_Rect::RectOverlapsZone_59DF20(u8 zone_type)
+bool Fix16_Rect::RectOverlapsZone(u8 zone_type)
 {
     u8 zone_y = mTop.ToUInt8();
     u8 zone_x;
@@ -83,7 +83,7 @@ bool Fix16_Rect::RectOverlapsZone_59DF20(u8 zone_type)
         zone_x = mLeft.ToUInt8();
         while (zone_x <= mRight.ToUInt8())
         {
-            if (gMap_0x370_6F6268->GetZoneAtPosOfType_4DF4D0(zone_x, zone_y, zone_type))
+            if (gMap_0x370_6F6268->GetZoneAtPosOfType(zone_x, zone_y, zone_type))
             {
                 return true;
             }
@@ -95,7 +95,7 @@ bool Fix16_Rect::RectOverlapsZone_59DF20(u8 zone_type)
 }
 
 MATCH_FUNC(0x59dfb0)
-bool Fix16_Rect::EveryTileMatchesArrowType_59DFB0(s32 arrow_type)
+bool Fix16_Rect::EveryTileMatchesArrowType(s32 arrow_type)
 {
     u8 y_pos = mTop.ToUInt8();
     u8 x_pos;
@@ -112,7 +112,7 @@ bool Fix16_Rect::EveryTileMatchesArrowType_59DFB0(s32 arrow_type)
                 return false;
             }
 
-            gmp_block_info* pBlockAtPos = gMap_0x370_6F6268->GetBlock_4DFE10(x_pos, y_pos, mLowZ.ToInt());
+            gmp_block_info* pBlockAtPos = gMap_0x370_6F6268->GetBlock(x_pos, y_pos, mLowZ.ToInt());
             if (pBlockAtPos)
             {
                 

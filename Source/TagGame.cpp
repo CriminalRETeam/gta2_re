@@ -16,7 +16,7 @@ DEFINE_STATIC_GLOBAL(Fix16_Point, kZeroPoint, 0x6F8720);
 DEFINE_GLOBAL(s32, gNetTimeLimitEnabled_6F58A4, 0x6F58A4);
 
 MATCH_FUNC(0x516560)
-void TagGame::Init_516560() // For some reason, it's a function instead of a proper ctor
+void TagGame::Init() // For some reason, it's a function instead of a proper ctor
 {
     mFugitive = NULL;
     mTickTimer = 0;
@@ -25,45 +25,45 @@ void TagGame::Init_516560() // For some reason, it's a function instead of a pro
 }
 
 MATCH_FUNC(0x516590)
-void TagGame::SetNewFugitive_516590(Player* pNewFugitive)
+void TagGame::SetNewFugitive(Player* pNewFugitive)
 {
     if (pNewFugitive == NULL)
     {
-        pNewFugitive = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
+        pNewFugitive = gGame_0x40_67E008->IterateFirstPlayer();
     }
     mFugitive = pNewFugitive;
-    gHud_2B00_706620->mArrows.ReleaseAllArrows_5D10B0();
-    mFugitive->UnloadCarWeapons_564C00();
-    mFugitive->RemovePlayerWeapons_564C50();
-    mFugitive->ClearPowerUps_564CC0();
+    gHud_2B00_706620->mArrows.ReleaseAllArrows();
+    mFugitive->UnloadCarWeapons();
+    mFugitive->RemovePlayerWeapons();
+    mFugitive->ClearPowerUps();
 
     if (mFugitive->GetPlayerPed_41D020() != NULL)
     {
         mFugitive->GetPlayerPed_41D020()->SetVisible();
-        mFugitive->GetPlayerPed_41D020()->ClearInvulnerable_45C050();
+        mFugitive->GetPlayerPed_41D020()->ClearInvulnerable();
         mFugitive->GetPlayerPed_41D020()->ClearElectrofingers_482080();
     }
 
     if (!mFugitive->IsUser_41DC70())
     {
-        Hud_Arrow* pArrow = gHud_2B00_706620->mArrows.AllocArrow_5D1050();
+        Hud_Arrow* pArrow = gHud_2B00_706620->mArrows.AllocArrow();
         pArrow->mTargets.mPrimaryTarget.SetTargetPlayer_4820A0(mFugitive);
 
         if (mFugitive->mPlayerPed != NULL)
         {
-            pArrow->SetPlayerArrowColour_5D0DC0(mFugitive->mPlayerPed);
+            pArrow->SetPlayerArrowColour(mFugitive->mPlayerPed);
         }
     }
     else
     {
-        gHud_2B00_706620->mMessage.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("yourit"), hud_message_priority::important_3);
+        gHud_2B00_706620->mMessage.ShowMessage(gText_0x14_704DFC->Find("yourit"), hud_message_priority::important_3);
     }
 }
 
 MATCH_FUNC(0x516660)
-void TagGame::ExecuteGamemodeTick_516660()
+void TagGame::ExecuteGamemodeTick()
 {
-    switch (gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0())
+    switch (gGameSession_67E8E0.GetMultiplayerGamemode())
     {
         case NO_GAME_0:
             FatalError_4A38C0(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\multip.cpp", 108, 0);
@@ -82,13 +82,13 @@ void TagGame::ExecuteGamemodeTick_516660()
             }
             if (!mFugitive)
             {
-                SetNewFugitive_516590(NULL);
+                SetNewFugitive(NULL);
             }
 
             if (mFugitive && mFugitive->mPlayerPed &&
                 mFugitive->mPlayerPed->mCar)
             {
-                mFugitive->GetPlayerPed_41D020()->get_car_416B60()->AccumulateDamage_43DA90(17, &kZeroPoint);
+                mFugitive->GetPlayerPed_41D020()->get_car_416B60()->AccumulateDamage(17, &kZeroPoint);
             }
 
             break;
@@ -98,24 +98,24 @@ void TagGame::ExecuteGamemodeTick_516660()
 }
 
 MATCH_FUNC(0x516740)
-void TagGame::UpdateFugitive_516740(Player* pFormerPlayerFugitive, Player* pPlayer_killer)
+void TagGame::UpdateFugitive(Player* pFormerPlayerFugitive, Player* pPlayer_killer)
 {
     Fix16 threshold_distance(65535); // 65535.0 (raw 0x3FFFC000): start value of the nearest player search
-    if (gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0() == TAG_GAME_3
+    if (gGameSession_67E8E0.GetMultiplayerGamemode() == TAG_GAME_3
         && mFugitive == pFormerPlayerFugitive)
     {
         if (pPlayer_killer != NULL)
         {
-            TagGame::SetNewFugitive_516590(pPlayer_killer); //  Make him "IT"
+            TagGame::SetNewFugitive(pPlayer_killer); //  Make him "IT"
         }
         else
         {
-            Player* pIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
+            Player* pIter = gGame_0x40_67E008->IterateFirstPlayer();
             Player* pChosenPlayer = NULL;
             Fix16 fugitive_x = mFugitive->mPlayerPed->mCam.x;
             Fix16 fugitive_y = mFugitive->mPlayerPed->mCam.y;
 
-            for (; pIter != NULL; pIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
+            for (; pIter != NULL; pIter = gGame_0x40_67E008->IterateNextPlayer())
             {
                 if (pIter != mFugitive)
                 {
@@ -137,7 +137,7 @@ void TagGame::UpdateFugitive_516740(Player* pFormerPlayerFugitive, Player* pPlay
             */
             if (pChosenPlayer != NULL)
             {
-                TagGame::SetNewFugitive_516590(pChosenPlayer); //  Make him "IT"
+                TagGame::SetNewFugitive(pChosenPlayer); //  Make him "IT"
             }
         }
     }

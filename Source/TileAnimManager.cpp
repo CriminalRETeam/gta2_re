@@ -17,18 +17,18 @@ void TileAnim::PoolAllocate()
 }
 
 MATCH_FUNC(0x5bc150)
-void TileAnim::ApplyCurrentFrame_5BC150()
+void TileAnim::ApplyCurrentFrame()
 {
     if (mPtr != NULL)
     {
-        gGtx_0x106C_703DD4->SetTileRemap_5AA930(mBase, mPtr->mTiles[mCurrentFrame]);
+        gGtx_0x106C_703DD4->SetTileRemap(mBase, mPtr->mTiles[mCurrentFrame]);
         return;
     }
-    gGtx_0x106C_703DD4->SetTileRemap_5AA930(mBase, mCurrentFrame);
+    gGtx_0x106C_703DD4->SetTileRemap(mBase, mCurrentFrame);
 }
 
 MATCH_FUNC(0x5bc190)
-void TileAnim::InitFromGmpAnim_5BC190(const gmp_tile_animation* pAnimation)
+void TileAnim::InitFromGmpAnim(const gmp_tile_animation* pAnimation)
 {
     mPtr = pAnimation;
     mFrameRate = pAnimation->mFrameRate;
@@ -39,11 +39,11 @@ void TileAnim::InitFromGmpAnim_5BC190(const gmp_tile_animation* pAnimation)
 }
 
 MATCH_FUNC(0x5bc1d0)
-void TileAnim::Start_5BC1D0()
+void TileAnim::Start()
 {
     mFrameTimer = mFrameRate;
     mCurrentFrame = mStartFrame;
-    ApplyCurrentFrame_5BC150();
+    ApplyCurrentFrame();
 }
 
 MATCH_FUNC(0x5bc1f0)
@@ -72,35 +72,35 @@ bool TileAnim::PoolUpdate()
             }
             mCurrentFrame = mStartFrame;
         }
-        ApplyCurrentFrame_5BC150();
+        ApplyCurrentFrame();
         mFrameTimer = mFrameRate;
     }
     return false;
 }
 
 MATCH_FUNC(0x5bc260)
-void TileAnimManager::AddAnim_5BC260(s16 base, s16 start_frame, s16 length, s16 frame_rate, s16 repeat)
+void TileAnimManager::AddAnim(s16 base, s16 start_frame, s16 length, s16 frame_rate, s16 repeat)
 {
     TileAnim* pAnim = gTileAnimPool_7052C8->Allocate();
     pAnim->Init_4C33F0(base, start_frame, length, frame_rate, repeat);
-    pAnim->Start_5BC1D0();
+    pAnim->Start();
 }
 
 MATCH_FUNC(0x5bc2c0)
-void TileAnimManager::AddGmpAnim_5BC2C0(const gmp_tile_animation* pTileAnimation)
+void TileAnimManager::AddGmpAnim(const gmp_tile_animation* pTileAnimation)
 {
     TileAnim* pAnim = gTileAnimPool_7052C8->Allocate();
-    pAnim->InitFromGmpAnim_5BC190(pTileAnimation);
-    pAnim->Start_5BC1D0();
+    pAnim->InitFromGmpAnim(pTileAnimation);
+    pAnim->Start();
 }
 
 MATCH_FUNC(0x5bc300)
-void TileAnimManager::Empty_5BC300()
+void TileAnimManager::Empty()
 {
 }
 
 MATCH_FUNC(0x5bc310)
-void TileAnimManager::UpdateTileAnimations_5BC310()
+void TileAnimManager::UpdateTileAnimations()
 {
     gTileAnimPool_7052C8->mPool.UpdatePool();
 }

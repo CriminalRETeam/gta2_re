@@ -22,95 +22,95 @@ extern void EnableBoot2MapDebugOptions();
 
 void test_file()
 {
-    File::GetFileSize_4A6B10(0);
-    File::IsCdRomDrive_4A6BB0(0);
-    File::ReadFileToBuffer_4A6C80(0, 0);
-    File::Read_4A6D90(0, 0, 0, 0);
-    File::WriteBufferToFile_4A6E80(0, 0, 0);
-    File::Write_4A6F30(0, 0, 0, 0);
-    File::AppendBufferToFile_4A6F50(0, 0, 0);
+    File::GetFileSize(0);
+    File::IsCdRomDrive(0);
+    File::ReadFileToBuffer(0, 0);
+    File::Read(0, 0, 0, 0);
+    File::WriteBufferToFile(0, 0, 0);
+    File::Write(0, 0, 0, 0);
+    File::AppendBufferToFile(0, 0, 0);
     File::CreateFile_4A7000(0);
-    File::Global_Open_4A7060("lol.txt");
-    File::Global_Close_4A70C0();
-    File::Global_Close_UnChecked_4A7110();
-    File::Global_Seek_4A7140(0);
-    File::File_Error_4A7190(0, 0, 0);
+    File::Global_Open("lol.txt");
+    File::Global_Close();
+    File::Global_Close_UnChecked();
+    File::Global_Seek(0);
+    File::File_Error(0, 0, 0);
     File::Global_Read_4A71C0(0, 0);
-    File::Global_ReadRemainder_4A7250(0, 0);
-    File::SkipWhitespace_4A7340(0);
+    File::Global_ReadRemainder(0, 0);
+    File::SkipWhitespace(0);
 }
 
 void test_gtx_0x106C()
 {
     gtx_0x106C c;
     c.get_car_info_5AA3B0(0);
-    c.get_car_door_data_5AA3D0(0);
-    c.get_sprite_index_5AA440(0);
-    c.GetSpriteTrueIndex_5AA460(0, 0);
-    c.GetSpriteBaseOfType_5AA4F0(0);
-    c.GetPaletteBaseOfType_5AA560(0);
-    c.GetTruePalette_5AA5F0(0, 0);
-    c.GetPalData_5AA6A0(0);
-    c.get_phys_pal_5AA6F0(0);
-    c.GetSpriteIdxFromFont_5AA710(0, 0);
-    c.GetFontWidth_5AA760(0, 0);
-    c.GetSpaceCharWidth_5AA7B0(0);
-    c.GetLineSpacing_5AA800(0);
-    c.IsTileRemapped_5AA850(0);
-    c.GetTile_5AA870(0);
-    c.GetFirstFreeReservedTileIdx_5AA890();
-    c.get_physical_palettes_len_5AA900();
-    c.get_map_object_info_5AA910(0);
-    c.SetTileRemap_5AA930(0, 0);
-    c.InitTileMapping_5AA950();
-    c.BuildCarInfoContainer_5AA9A0(0);
-    c.load_delx_5AAB30(0);
-    c.SetDeltaDataPtrs_5AABF0();
-    c.SetSpriteIndexDataPtrs_5AAC40();
-    c.build_delta_container_5AAC70();
-    c.load_car_info_5AAD50(0);
-    c.load_delta_index_5AAD80(0);
-    c.load_delta_store_5AADD0(0);
-    c.load_tiles_5AADF0(0);
-    c.skip_ovly_5AAE20(0);
-    c.skip_psxt_5AAE30(0);
-    c.load_sprite_graphics_5AAE40(0);
-    c.load_physical_palettes_5AAE70(0);
-    c.load_palette_index_5AAEA0(0);
-    c.load_map_object_info_5AAF00(0);
-    c.load_sprite_index_5AAF80(0);
-    c.InitFontTypes_5AAFE0(0);
-    c.load_font_base_5AB0F0(0);
-    c.SumCounts_5AB1A0(0, 0);
-    c.ConvertToVirtualOffsets_5AB1C0(0, 0);
-    c.load_sprite_base_5AB210(0);
-    c.load_palete_base_5AB2C0(0);
-    c.IsCarModelInRecycleList_5AB380(0);
-    c.load_car_recycling_info_5AB3C0(0);
-    c.read_spec_5AB3F0(0);
-    c.load_spec_5AB450();
-    c.LoadChunk_5AB4B0(0, 0);
-    c.SetDataPtrs_5AB720();
-    c.LoadSty_5AB750(0);
+    c.get_car_door_data(0);
+    c.get_sprite_index(0);
+    c.GetSpriteTrueIndex(0, 0);
+    c.GetSpriteBaseOfType(0);
+    c.GetPaletteBaseOfType(0);
+    c.GetTruePalette(0, 0);
+    c.GetPalData(0);
+    c.get_phys_pal(0);
+    c.GetSpriteIdxFromFont(0, 0);
+    c.GetFontWidth(0, 0);
+    c.GetSpaceCharWidth(0);
+    c.GetLineSpacing(0);
+    c.IsTileRemapped(0);
+    c.GetTile(0);
+    c.GetFirstFreeReservedTileIdx();
+    c.get_physical_palettes_len();
+    c.get_map_object_info(0);
+    c.SetTileRemap(0, 0);
+    c.InitTileMapping();
+    c.BuildCarInfoContainer(0);
+    c.load_delx(0);
+    c.SetDeltaDataPtrs();
+    c.SetSpriteIndexDataPtrs();
+    c.build_delta_container();
+    c.load_car_info(0);
+    c.load_delta_index(0);
+    c.load_delta_store(0);
+    c.load_tiles(0);
+    c.skip_ovly(0);
+    c.skip_psxt(0);
+    c.load_sprite_graphics(0);
+    c.load_physical_palettes(0);
+    c.load_palette_index(0);
+    c.load_map_object_info(0);
+    c.load_sprite_index(0);
+    c.InitFontTypes(0);
+    c.load_font_base(0);
+    c.SumCounts(0, 0);
+    c.ConvertToVirtualOffsets(0, 0);
+    c.load_sprite_base(0);
+    c.load_palete_base(0);
+    c.IsCarModelInRecycleList(0);
+    c.load_car_recycling_info(0);
+    c.read_spec(0);
+    c.load_spec();
+    c.LoadChunk(0, 0);
+    c.SetDataPtrs();
+    c.LoadSty(0);
 }
 
 void test_registry()
 {
-    gRegistry_6FF968.Open_Sound_Root_586A00(NULL);
-    gRegistry_6FF968.Sound_Setting_Exists_586A70("lol");
-    gRegistry_6FF968.Get_Sound_Setting_586AE0("lol", 5);
+    gRegistry_6FF968.Open_Sound_Root(NULL);
+    gRegistry_6FF968.Sound_Setting_Exists("lol");
+    gRegistry_6FF968.Get_Sound_Setting("lol", 5);
 }
 
 void test_GameSession_578()
 {
     GameSession c;
-    c.SetPlySlotIdx_4C5920(0);
+    c.SetPlySlotIdx(0);
 }
 
 void test_winmain()
 {
-    Start_GTA2Manager_5E4DE0();
-    ErrorMsgBox_5E4EC0("meh");
+    Start_GTA2Manager();
+    ErrorMsgBox("meh");
 }
 
 void test_text_0x14()
@@ -120,37 +120,37 @@ void test_text_0x14()
 
 void test_gbh_graphics()
 {
-    GBH_GraphicsLoadDll_5EA680("meh.dll");
+    GBH_GraphicsLoadDll("meh.dll");
 }
 
 void test_ProfilerTimer_C()
 {
     ProfilerTimer t;
-    t.AccumulateElapsed_5BEBF0();
+    t.AccumulateElapsed();
 }
 
 void test_FpsCounter_54()
 {
     FpsCounter t;
-    t.UpdateFpsCounters_5BECF0(0, 0);
+    t.UpdateFpsCounters(0, 0);
 }
 
 void test_wizardly_margulis()
 {
-    gSampManager_6FFF00.SoundInit_58D6C0(0);
-    gSampManager_6FFF00.AllocSamples_58D9F0(0);
+    gSampManager_6FFF00.SoundInit(0);
+    gSampManager_6FFF00.AllocSamples(0);
 }
 
 void test_Map_0x370()
 {
     Map_0x370 t;
-    t.GetBlockOrNull_452980(0, 0, 0);
+    t.GetBlockOrNull(0, 0, 0);
 }
 
 void test_ScriptManager_C1EA8()
 {
     ScriptManager t;
-    t.Load_512330("lol.scr");
+    t.Load("lol.scr");
 }
 
 void force_link();

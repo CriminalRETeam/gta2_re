@@ -65,14 +65,14 @@ DEFINE_GLOBAL_INIT(Fix16, kFpFour_6FD4AC, Fix16(4), 0x6FD4AC);
 
 // https://decomp.me/scratch/nKSYL
 MATCH_FUNC(0x538060)
-bool Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
+bool Particle_4C::UpdateFloatingParticle_state_6_15_16_17()
 {
     Fix16 rng_1;
     Fix16 rng_2;
     Fix16 off_y;
     Fix16_Point vector(Fix16(0), Fix16(0));
     Fix16 new_z = kFpPoint01_6FD45C + mpOwnSprite->mZpos;
-    gSpriteGrid_3_679210->Remove_477B00(mpOwnSprite);
+    gSpriteGrid_3_679210->Remove(mpOwnSprite);
     if (mCounter == 0)
     {
         return true;
@@ -89,20 +89,20 @@ bool Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
     {
         new_z = mpOwnSprite->mZpos; // blocked above: stay at the current height
         Fix16 r1;
-        r1 = Fix16(gRng_6F6784.get_int_4F7AE0(61) - 30);
+        r1 = Fix16(gRng_6F6784.get_int(61) - 30);
         rng_1 = r1 / 100;
         Fix16 r2;
-        r2 = Fix16(gRng_6F6784.get_int_4F7AE0(10) - 5);
+        r2 = Fix16(gRng_6F6784.get_int(10) - 5);
         rng_2 = r2 / 100;
         ++mCounter;
     }
     else
     {
         Fix16 r1;
-        r1 = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
+        r1 = Fix16(gRng_6F6784.get_int(3) - 1);
         rng_1 = r1 / 100;
         Fix16 r2;
-        r2 = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
+        r2 = Fix16(gRng_6F6784.get_int(3) - 1);
         rng_2 = r2 / 100;
     }
 
@@ -112,7 +112,7 @@ bool Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
         {
             if (mpExplosion->mpObj2C->mSprite)
             {
-                mSpeed20 = mpExplosion->mpObj2C->mSprite->mObject2CPtr->GetEffectiveSpeed_5290F0();
+                mSpeed20 = mpExplosion->mpObj2C->mSprite->mObject2CPtr->GetEffectiveSpeed();
                 mAngle = mpExplosion->mpObj2C->mSprite->mObject2CPtr->mObj3c->mAngle;
             }
             if (mpExplosion->mTimer == 1)
@@ -159,8 +159,8 @@ bool Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
             Fix16 sin = Ang16::sine_40F500(mAngle);
             Fix16 cos = Ang16::cosine_40F520(mAngle);
             Fix16 old_x = vector.x;
-            vector.x = (vector.x * cos).Add_408660(vector.y * sin);
-            vector.y = old_x.Negate_4086A0().Multiply_408680(sin).Add_408660(vector.y.Multiply_408680(cos));
+            vector.x = (vector.x * cos).Add(vector.y * sin);
+            vector.y = old_x.Negate_4086A0().Multiply(sin).Add(vector.y.Multiply(cos));
         }
 
         mAdditionalSpeed.x = vector.x;
@@ -189,7 +189,7 @@ bool Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
 }
 
 MATCH_FUNC(0x5384c0)
-bool Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
+bool Particle_4C::UpdateDirectedProjectile_state_3_12()
 {
     Fix16 jitter_x;
     Fix16 off_x = kFP16Zero_6FD49C;
@@ -198,7 +198,7 @@ bool Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     bool bJitter = true;
     Fix16_Point dir(Fix16(0), Fix16(0));
 
-    gSpriteGrid_3_679210->Remove_477B00(mpOwnSprite);
+    gSpriteGrid_3_679210->Remove(mpOwnSprite);
     if (mCounter == 0)
     {
         return true;
@@ -215,7 +215,7 @@ bool Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
         {
             if (mpExplosion->mpObj2C->mSprite)
             {
-                mSpeed20 = mpExplosion->mpObj2C->mSprite->mObject2CPtr->GetEffectiveSpeed_5290F0();
+                mSpeed20 = mpExplosion->mpObj2C->mSprite->mObject2CPtr->GetEffectiveSpeed();
                 mAngle = mpExplosion->mpObj2C->mObj3c->mAngle;
             }
             if (mpExplosion->mTimer == 1)
@@ -252,7 +252,7 @@ bool Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     switch (static_cast<u8>(mCounter >> 2))
     {
         case 2:
-            if (gRng_6F6784.get_int_4F7AE0(2))
+            if (gRng_6F6784.get_int(2))
             {
                 return true;
             }
@@ -287,7 +287,7 @@ bool Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
             dir.y = mSpeed20 * kFpPoint8;
             break;
         default:
-            if (gRng_6F6784.get_int_4F7AE0(2))
+            if (gRng_6F6784.get_int(2))
             {
                 return true;
             }
@@ -303,10 +303,10 @@ bool Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     if (bJitter)
     {
         Fix16 rx;
-        rx = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
+        rx = Fix16(gRng_6F6784.get_int(3) - 1);
         jitter_x = rx / 100;
         Fix16 ry;
-        ry = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
+        ry = Fix16(gRng_6F6784.get_int(3) - 1);
         jitter_y = ry / 100;
     }
 
@@ -356,7 +356,7 @@ bool Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     mpOwnSprite->SetNoLighting_4337F0();
     if (mpExplosion)
     {
-        mpOwnSprite->ResolveZOrder_5A1B30(mpExplosion->mpObj2C->mSprite);
+        mpOwnSprite->ResolveZOrder(mpExplosion->mpObj2C->mSprite);
     }
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(mpOwnSprite);
 
@@ -368,9 +368,9 @@ bool Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
 }
 
 MATCH_FUNC(0x538a40)
-bool Particle_4C::UpdateBeamSegment_state_43_538A40()
+bool Particle_4C::UpdateBeamSegment_state_43()
 {
-    gSpriteGrid_3_679210->Remove_477B00(this->mpOwnSprite);
+    gSpriteGrid_3_679210->Remove(this->mpOwnSprite);
 
     this->mSubState++;
     if (mSubState > 7u)
@@ -386,8 +386,8 @@ bool Particle_4C::UpdateBeamSegment_state_43_538A40()
     return false;
 }
 
-// The normalizing Ang16 ctor (out of line, AssignNormalized_409300) on a by-value parameter: the
-// original stores the 16-bit sum as a dword before the call (UpdateObjectBeamLink_state_38_538AC0)
+// The normalizing Ang16 ctor (out of line, AssignNormalized) on a by-value parameter: the
+// original stores the 16-bit sum as a dword before the call (UpdateObjectBeamLink_state_38)
 static inline Ang16 NormalizedAng(s16 value)
 {
     return Ang16(&value, 0);
@@ -397,8 +397,8 @@ static inline Ang16 NormalizedAng(s16 value)
 // The angle is a temporary passed by reference, so the table index is reloaded after each multiply.
 static inline void SetFromPolar_OOL_41E210(Fix16_Point& p, const Fix16& radius, const Ang16& angle)
 {
-    p.x = radius.Multiply_408680(Ang16::sine_40F500(angle));
-    p.y = radius.Multiply_408680(Ang16::cosine_40F520(angle));
+    p.x = radius.Multiply(Ang16::sine_40F500(angle));
+    p.y = radius.Multiply(Ang16::cosine_40F520(angle));
 }
 
 // Inlined Fix16::Max_44E540: compares and returns the values, not references
@@ -417,7 +417,7 @@ static inline Fix16 MaxValue_44E540(const Fix16& a, const Fix16& b)
 // each case is one SetFromPolar(radius, angle sum) call with both arguments as temporaries;
 // dst.SetXY(target) then dst += src (target declared ahead of src, else the x add's operands swap).
 MATCH_FUNC(0x538ac0)
-bool Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
+bool Particle_4C::UpdateObjectBeamLink_state_38()
 {
     ++mSubState;
     Ang16 jitter;
@@ -429,7 +429,7 @@ bool Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
     Fix16_Point cur;
     Fix16_Point prev;
     Fix16_Point mid;
-    gSpriteGrid_3_679210->Remove_477B00(mpOwnSprite);
+    gSpriteGrid_3_679210->Remove(mpOwnSprite);
     if (mSubState != 6 && mpSprite->GetType_416B40() == sprite_types_enum::code_obj1_4)
     {
         src.SetXY_432860(mpOwnSprite->mXy.x, mpOwnSprite->mXy.y);
@@ -450,7 +450,7 @@ bool Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
                 mid.DivideAssign_48A250(kFP16Two_6FD4A4);
                 mid += prev;
 
-                Particle_4C* pSegment = gParticle_8_6FD5E8->New_53E3C0(0, 0, 0, 0, 0, 0);
+                Particle_4C* pSegment = gParticle_8_6FD5E8->New(0, 0, 0, 0, 0, 0);
                 if (pSegment)
                 {
                     pSegment->mUnused34 = 0;
@@ -470,7 +470,7 @@ bool Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
         }
 
         target.SetXY_432860(mpSprite->mXy.x, mpSprite->mXy.y);
-        jitter = kAng1_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng_6F6784.get_int_4F7AE0(16) - 8));
+        jitter = kAng1_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng_6F6784.get_int(16) - 8));
 
         switch (mSubState)
         {
@@ -510,7 +510,7 @@ bool Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
 }
 
 MATCH_FUNC(0x539040)
-bool Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
+bool Particle_4C::UpdateDirectedBurstSweep_state_4()
 {
     Fix16 jitter_x;
     Fix16 jitter_y;
@@ -519,7 +519,7 @@ bool Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
     Fix16_Point dir(Fix16(0), Fix16(0));
 
     ++mSubState;
-    gSpriteGrid_3_679210->Remove_477B00(mpOwnSprite);
+    gSpriteGrid_3_679210->Remove(mpOwnSprite);
     if (mSubState != 16 && mCounter != 0)
     {
         if (mpExplosion)
@@ -533,7 +533,7 @@ bool Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
             {
                 if (mpExplosion->mpObj2C->mSprite)
                 {
-                    mSpeed20 = mpExplosion->mpObj2C->mSprite->mObject2CPtr->GetEffectiveSpeed_5290F0();
+                    mSpeed20 = mpExplosion->mpObj2C->mSprite->mObject2CPtr->GetEffectiveSpeed();
                     mAngle = mpExplosion->mpObj2C->mObj3c->mAngle;
                 }
                 if (mpExplosion->mTimer == 1)
@@ -582,9 +582,9 @@ bool Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
             mAdditionalSpeed.x = dir.x;
             mAdditionalSpeed.y = dir.y;
 
-            jitter_x = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
+            jitter_x = Fix16(gRng_6F6784.get_int(3) - 1);
             jitter_x = jitter_x / 30;
-            jitter_y = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
+            jitter_y = Fix16(gRng_6F6784.get_int(3) - 1);
             jitter_y = jitter_y / 30;
 
             mSpeed8.x = mAdditionalSpeed.x + off_x + jitter_x;
@@ -606,10 +606,10 @@ bool Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
 
             mpOwnSprite->SetBlendAndAlpha_4337D0(2, 15);
             mpOwnSprite->SetNoLighting_4337F0();
-            mpOwnSprite->ApplyScaleToDimensions_59E4C0(kFP16One_6FD4A0 + Fix16(mSubState) * kFpPoint1_6FD2E8, 0);
+            mpOwnSprite->ApplyScaleToDimensions(kFP16One_6FD4A0 + Fix16(mSubState) * kFpPoint1_6FD2E8, 0);
             if (mpExplosion)
             {
-                mpOwnSprite->ResolveZOrder_5A1B30(mpExplosion->mpObj2C->mSprite);
+                mpOwnSprite->ResolveZOrder(mpExplosion->mpObj2C->mSprite);
             }
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(mpOwnSprite);
             return false;
@@ -619,7 +619,7 @@ bool Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
 }
 
 MATCH_FUNC(0x539480)
-bool Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
+bool Particle_4C::UpdateDirectedBurst_state_13_14_36()
 {
     Fix16 jitter_x;
     Fix16 jitter_y;
@@ -628,7 +628,7 @@ bool Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
     Fix16_Point dir(Fix16(0), Fix16(0));
 
     ++mSubState;
-    gSpriteGrid_3_679210->Remove_477B00(mpOwnSprite);
+    gSpriteGrid_3_679210->Remove(mpOwnSprite);
     if (mSubState != 16 && mCounter != 0)
     {
         if (mpExplosion)
@@ -642,7 +642,7 @@ bool Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
             {
                 if (mpExplosion->mpObj2C->mSprite)
                 {
-                    mSpeed20 = mpExplosion->mpObj2C->mSprite->mObject2CPtr->GetEffectiveSpeed_5290F0();
+                    mSpeed20 = mpExplosion->mpObj2C->mSprite->mObject2CPtr->GetEffectiveSpeed();
                     mAngle = mpExplosion->mpObj2C->mObj3c->mAngle;
                 }
                 if (mpExplosion->mTimer == 1)
@@ -691,9 +691,9 @@ bool Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
             mAdditionalSpeed.x = dir.x;
             mAdditionalSpeed.y = dir.y;
 
-            jitter_x = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
+            jitter_x = Fix16(gRng_6F6784.get_int(3) - 1);
             jitter_x = jitter_x / 50;
-            jitter_y = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
+            jitter_y = Fix16(gRng_6F6784.get_int(3) - 1);
             jitter_y = jitter_y / 50;
 
             mSpeed8.x = mAdditionalSpeed.x + off_x + jitter_x;
@@ -717,7 +717,7 @@ bool Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
             mpOwnSprite->SetNoLighting_4337F0();
             if (mpExplosion)
             {
-                mpOwnSprite->ResolveZOrder_5A1B30(mpExplosion->mpObj2C->mSprite);
+                mpOwnSprite->ResolveZOrder(mpExplosion->mpObj2C->mSprite);
             }
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(mpOwnSprite);
             return false;
@@ -728,13 +728,13 @@ bool Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
 
 // https://decomp.me/scratch/2UJLM
 MATCH_FUNC(0x539890)
-bool Particle_4C::UpdateCircularBurst_state_5_539890()
+bool Particle_4C::UpdateCircularBurst_state_5()
 {
     bool bJitter = true;
     Fix16 jitter_y;
     Fix16_Point dir(Fix16(0), Fix16(0));
 
-    gSpriteGrid_3_679210->Remove_477B00(mpOwnSprite);
+    gSpriteGrid_3_679210->Remove(mpOwnSprite);
     if (mCounter == 0)
     {
         return true;
@@ -750,7 +750,7 @@ bool Particle_4C::UpdateCircularBurst_state_5_539890()
         {
             if (mpExplosion->mpObj2C->mSprite)
             {
-                mSpeed20 = mpExplosion->mpObj2C->mSprite->mObject2CPtr->GetEffectiveSpeed_5290F0();
+                mSpeed20 = mpExplosion->mpObj2C->mSprite->mObject2CPtr->GetEffectiveSpeed();
                 mAngle = mpExplosion->mpObj2C->mSprite->mObject2CPtr->mObj3c->mAngle;
             }
             if (mpExplosion->mTimer == 1)
@@ -783,7 +783,7 @@ bool Particle_4C::UpdateCircularBurst_state_5_539890()
     switch (static_cast<u8>(mCounter >> 2))
     {
         case 2:
-            if (gRng_6F6784.get_int_4F7AE0(2))
+            if (gRng_6F6784.get_int(2))
             {
                 return true;
             }
@@ -838,7 +838,7 @@ bool Particle_4C::UpdateCircularBurst_state_5_539890()
             bJitter = false;
             break;
         default:
-            if (gRng_6F6784.get_int_4F7AE0(2))
+            if (gRng_6F6784.get_int(2))
             {
                 return true;
             }
@@ -846,11 +846,11 @@ bool Particle_4C::UpdateCircularBurst_state_5_539890()
             dir.x = 0;
             dir.y = mSpeed20 / kFP16Two_6FD4A4;
             bJitter = false;
-            if (gRng_6F6784.get_int_4F7AE0(7) == 4 && mpOwnSprite->mXy.x > kFP16One_6FD4A0 &&
+            if (gRng_6F6784.get_int(7) == 4 && mpOwnSprite->mXy.x > kFP16One_6FD4A0 &&
                 mpOwnSprite->mXy.x < kFp255_6FD280 - kFP16One_6FD4A0 && mpOwnSprite->mXy.y > kFP16One_6FD4A0 &&
                 mpOwnSprite->mXy.y < kFp255_6FD280 - kFP16One_6FD4A0)
             {
-                Particle_4C* pSmoke = gParticle_8_6FD5E8->New_53E3C0(0, 0, 0, 0, 0, 0);
+                Particle_4C* pSmoke = gParticle_8_6FD5E8->New(0, 0, 0, 0, 0, 0);
                 if (pSmoke)
                 {
                     pSmoke->mUnused34 = 1;
@@ -870,13 +870,13 @@ bool Particle_4C::UpdateCircularBurst_state_5_539890()
     }
 
     // 9.6f: Fix16_Point::RotateByAngle_40F6B0 (inlined). The original calls the out-of-line
-    // Add_408660/Multiply_408680/Negate_4086A0 copies for all but x * cos and y * sin
+    // Add/Multiply/Negate_4086A0 copies for all but x * cos and y * sin
     {
         Fix16 sin = Ang16::sine_40F500(mAngle);
         Fix16 cos = Ang16::cosine_40F520(mAngle);
         Fix16 old_x = dir.x;
-        dir.x = (dir.x * cos).Add_408660(dir.y * sin);
-        dir.y = old_x.Negate_4086A0().Multiply_408680(sin).Add_408660(dir.y.Multiply_408680(cos));
+        dir.x = (dir.x * cos).Add(dir.y * sin);
+        dir.y = old_x.Negate_4086A0().Multiply(sin).Add(dir.y.Multiply(cos));
     }
     mAdditionalSpeed.x = dir.x;
     mAdditionalSpeed.y = dir.y;
@@ -886,10 +886,10 @@ bool Particle_4C::UpdateCircularBurst_state_5_539890()
     if (bJitter)
     {
         Fix16 rx;
-        rx = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
+        rx = Fix16(gRng_6F6784.get_int(3) - 1);
         jitter_x = rx / 100;
         Fix16 ry;
-        ry = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
+        ry = Fix16(gRng_6F6784.get_int(3) - 1);
         jitter_y = ry / 100;
     }
 
@@ -922,9 +922,9 @@ bool Particle_4C::UpdateCircularBurst_state_5_539890()
 }
 
 MATCH_FUNC(0x53a180)
-bool Particle_4C::UpdateStaticAnim_state_39_53A180()
+bool Particle_4C::UpdateStaticAnim_state_39()
 {
-    gSpriteGrid_3_679210->Remove_477B00(this->mpOwnSprite);
+    gSpriteGrid_3_679210->Remove(this->mpOwnSprite);
 
     if (this->mCounter == 0)
     {
@@ -952,12 +952,12 @@ bool Particle_4C::UpdateStaticAnim_state_39_53A180()
 
 // 9.6f 0x48BEE0: the car box is read through GetCarWidth_48A930/GetCarHeight_48A950 (puts this in edi)
 MATCH_FUNC(0x53a280)
-bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
+bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41()
 {
     Fix16_Point corner;
 
-    gSpriteGrid_3_679210->Remove_477B00(mpOwnSprite);
-    // The original enters EH state 2 right after Remove_477B00: two more points, one unused
+    gSpriteGrid_3_679210->Remove(mpOwnSprite);
+    // The original enters EH state 2 right after Remove: two more points, one unused
     Fix16_Point pos;
     Fix16_Point offset;
 
@@ -1004,8 +1004,8 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             Fix16 x_old = corner.x;
             Fix16 sin = Ang16::sine_40F500(angle);
             Fix16 cos = Ang16::cosine_40F520(angle);
-            corner.x = corner.x.Multiply_408680(cos).Add_408660(corner.y.Multiply_408680(sin));
-            corner.y = (-x_old).Multiply_408680(sin).Add_408660(corner.y.Multiply_408680(cos));
+            corner.x = corner.x.Multiply(cos).Add(corner.y.Multiply(sin));
+            corner.y = (-x_old).Multiply(sin).Add(corner.y.Multiply(cos));
             corner += mpSprite->get_x_y();
         }
         else
@@ -1015,8 +1015,8 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             corner.y = half_h;
             Fix16 sin = Ang16::sine_40F500(angle);
             Fix16 cos = Ang16::cosine_40F520(angle);
-            corner.x = corner.x.Multiply_408680(cos).Add_408660(corner.y.Multiply_408680(sin));
-            corner.y = (-x_old).Multiply_408680(sin).Add_408660(corner.y.Multiply_408680(cos));
+            corner.x = corner.x.Multiply(cos).Add(corner.y.Multiply(sin));
+            corner.y = (-x_old).Multiply(sin).Add(corner.y.Multiply(cos));
             corner += mpSprite->get_x_y();
         }
 
@@ -1052,7 +1052,7 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             offset.y = kFpPoint4;
         }
         offset.RotateByAngle_OneMulInline_40F6B0(mpSprite->mRotation);
-        offset = offset.Add_40AC50(pChar->mVelocityVector);
+        offset = offset.Add(pChar->mVelocityVector);
 
         mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->mDef112BaseSpriteIdx + mSubState + 197);
         mpOwnSprite->mFlags = 0xA2;
@@ -1066,14 +1066,14 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
 }
 
 MATCH_FUNC(0x53ab70)
-bool Particle_4C::Empty_state_42_53AB70()
+bool Particle_4C::Empty_state_42()
 {
     return false;
 }
 
 // 9.6f 0x48C270
 MATCH_FUNC(0x53aba0)
-bool Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
+bool Particle_4C::UpdateSimpleBallisticMotion_state_1()
 {
 
     Fix16 z = kFpPoint05_6FD46C;
@@ -1082,7 +1082,7 @@ bool Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
     Fix16_Point point2(Fix16(0), Fix16(0));
     Fix16 new_z;
 
-    gSpriteGrid_3_679210->Remove_477B00(this->mpOwnSprite);
+    gSpriteGrid_3_679210->Remove(this->mpOwnSprite);
 
     if (!mCounter)
     {
@@ -1117,7 +1117,7 @@ bool Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
 }
 
 MATCH_FUNC(0x53ae60)
-bool Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60()
+bool Particle_4C::UpdateLargeBallisticDebris_state_35()
 {
     Fix16 z_offset = kFpPoint1_6FD2E8;
     Fix16 x = kFP16Zero_6FD49C;
@@ -1125,7 +1125,7 @@ bool Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60()
     Fix16_Point point2(Fix16(0), Fix16(0));
 
     ++mSubState;
-    gSpriteGrid_3_679210->Remove_477B00(mpOwnSprite);
+    gSpriteGrid_3_679210->Remove(mpOwnSprite);
     if (mSubState == 15)
     {
         return true;
@@ -1159,21 +1159,21 @@ bool Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60()
 }
 
 MATCH_FUNC(0x53b170)
-bool Particle_4C::Empty_state_44_53B170()
+bool Particle_4C::Empty_state_44()
 {
     return false;
 }
 
 // https://decomp.me/scratch/fW2BZ
 MATCH_FUNC(0x53b1a0)
-bool Particle_4C::UpdateDebrisArc_state_7_53B1A0()
+bool Particle_4C::UpdateDebrisArc_state_7()
 {
     Fix16 z_offset = kFpPoint05_6FD46C;
     Fix16 x = kFP16Zero_6FD49C;
     Fix16 y = kFP16Zero_6FD49C;
     Fix16_Point point2(Fix16(0), Fix16(0));
 
-    gSpriteGrid_3_679210->Remove_477B00(mpOwnSprite);
+    gSpriteGrid_3_679210->Remove(mpOwnSprite);
     if (!mCounter)
     {
         return true;
@@ -1226,9 +1226,9 @@ bool Particle_4C::UpdateDebrisArc_state_7_53B1A0()
 
 // 9.6f 0x48C790
 MATCH_FUNC(0x53b580)
-bool Particle_4C::UpdateShortAnim_state_37_53B580()
+bool Particle_4C::UpdateShortAnim_state_37()
 {
-    gSpriteGrid_3_679210->Remove_477B00(this->mpOwnSprite);
+    gSpriteGrid_3_679210->Remove(this->mpOwnSprite);
 
     mSubState++;
 
@@ -1254,9 +1254,9 @@ bool Particle_4C::UpdateShortAnim_state_37_53B580()
 }
 
 MATCH_FUNC(0x53b670)
-bool Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
+bool Particle_4C::UpdateAttachedEmitter_state_9_10()
 {
-    gSpriteGrid_3_679210->Remove_477B00(mpOwnSprite);
+    gSpriteGrid_3_679210->Remove(mpOwnSprite);
     if (mCounter == 0)
     {
         return true;
@@ -1290,7 +1290,7 @@ bool Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
         mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->mDef112BaseSpriteIdx + 3);
         if (pChar->mAnimationFrame != 5)
         {
-            gParticle_8_6FD5E8->SpawnCigaretteSmokePuff_5406B0(mpSprite, 0);
+            gParticle_8_6FD5E8->SpawnCigaretteSmokePuff(mpSprite, 0);
         }
     }
     else
@@ -1303,7 +1303,7 @@ bool Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
                 // which puts it at the original's slot (0x12). `radius` assigned, not initialised: the extra
                 // size gives PolarToCartesian's first operator* enough nested inline budget.
                 Ang16 jitter;
-                jitter = Ang16::Fix16_To_Ang16_40F540(Fix16((gRng_6F6784.get_int_4F7AE0(8) - 4) / 2));
+                jitter = Ang16::Fix16_To_Ang16_40F540(Fix16((gRng_6F6784.get_int(8) - 4) / 2));
                 {
                     Fix16 radius;
                     radius = kFpOne1024th_6FD540 * kFpThree_6FD4A8;
@@ -1343,13 +1343,13 @@ bool Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
 }
 
 MATCH_FUNC(0x53b9f0)
-bool Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
+bool Particle_4C::UpdateBurstAnimation_state_29_30()
 {
     Fix16 scale_related;
     u8 idx;
 
     ++mSubState;
-    gSpriteGrid_3_679210->Remove_477B00(mpOwnSprite);
+    gSpriteGrid_3_679210->Remove(mpOwnSprite);
     if (mSubState > 25)
     {
         return true;
@@ -1386,12 +1386,12 @@ bool Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(mpOwnSprite);
     mpOwnSprite->SetBlendAndAlpha_4337D0(2, 10);
     mpOwnSprite->SetNoLighting_4337F0();
-    mpOwnSprite->ApplyScaleToDimensions_59E4C0(kFP16One_6FD4A0 + scale_related * Fix16(mSubState), 0);
+    mpOwnSprite->ApplyScaleToDimensions(kFP16One_6FD4A0 + scale_related * Fix16(mSubState), 0);
     return false;
 }
 
 MATCH_FUNC(0x53bac0)
-bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
+bool Particle_4C::UpdateCollisionBurst_state_31_34()
 {
     Char* pChar = NULL;
     Car* pCar = NULL;
@@ -1404,7 +1404,7 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
     Fix16 zpos;
     Fix16 ypos;
     Fix16 xpos;
-    gSpriteGrid_3_679210->Remove_477B00(mpOwnSprite);
+    gSpriteGrid_3_679210->Remove(mpOwnSprite);
     if (mCounter == 0)
     {
         return true;
@@ -1466,18 +1466,18 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
         }
     }
 
-    spread = Ang16::Fix16_To_Ang16_40F540(kFpOne64th_6FD328 * (Fix16(mSubState) + Fix16(gRng_6F6784.get_int_4F7AE0(static_cast<s16>(mSubState))) - kFpFour_6FD4AC));
+    spread = Ang16::Fix16_To_Ang16_40F540(kFpOne64th_6FD328 * (Fix16(mSubState) + Fix16(gRng_6F6784.get_int(static_cast<s16>(mSubState))) - kFpFour_6FD4AC));
 
     if (pChar)
     {
-        vel = pChar->mpPed->GetVelocityVector_45B520();
+        vel = pChar->mpPed->GetVelocityVector();
     }
     else
     {
         Ang16 car_angle;
         Fix16_Point offset;
         Fix16_Point attach;
-        AttachedSprite* pGun = pCar->mAttachments.GetSpriteForModel_5A6A50(objects::water_cannon_114);
+        AttachedSprite* pGun = pCar->mAttachments.GetSpriteForModel(objects::water_cannon_114);
         if (pGun)
         {
             car_angle = pGun->mpSprite->mRotation + kAng180_6FD3EE;
@@ -1488,15 +1488,15 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
         }
         else
         {
-            car_angle = pCar->mAttachments.GetSpriteForModel_5A6A50(248)->mpSprite->mRotation;
+            car_angle = pCar->mAttachments.GetSpriteForModel(248)->mpSprite->mRotation;
             attach.x = 0;
             attach.y = kFpThreeThirtySeconds_6FD48C;
             attach.RotateByAngle_40F6B0(car_angle);
             offset.SetXY_432860(Fix16(0), kFpMinusNineThirtySeconds_6FD4CC);
         }
         offset.RotateByAngle_40F6B0(pCar->mCarSprite->mRotation);
-        attach += offset.Add_40AC50(pCar->mCarSprite->get_x_y());
-        vel = pCar->mPhysics->GetPointVelocity_561350(&attach);
+        attach += offset.Add(pCar->mCarSprite->get_x_y());
+        vel = pCar->mPhysics->GetPointVelocity(&attach);
         angle = car_angle;
     }
 
@@ -1531,7 +1531,7 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
     {
         if (mSubState < max_sub_state)
         {
-            Sprite* pHit = mpOwnSprite->QuerySpriteCollision_59E7D0(sprite_types_enum::car_2);
+            Sprite* pHit = mpOwnSprite->QuerySpriteCollision(sprite_types_enum::car_2);
             if (pHit && pHit != mpSprite)
             {
                 if (mState == 31)
@@ -1544,15 +1544,15 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                     gParticle_8_6FD5E8->mFireHitObj->mSprite->set_xyz_lazy_420600(xpos, ypos, zpos);
                     if (pChar)
                     {
-                        gParticle_8_6FD5E8->mFireHitObj->SetDamageOwner_529080(pChar->mpPed->get_ped_ref_idx_420B50());
+                        gParticle_8_6FD5E8->mFireHitObj->SetDamageOwner(pChar->mpPed->get_ped_ref_idx_420B50());
                     }
                     else if (pCar)
                     {
-                        gParticle_8_6FD5E8->mFireHitObj->SetDamageOwner_529080(pCar->mDriver->get_ped_ref_idx_420B50());
+                        gParticle_8_6FD5E8->mFireHitObj->SetDamageOwner(pCar->mDriver->get_ped_ref_idx_420B50());
                     }
                     if (!pHit->IsObject2CType_40FE80())
                     {
-                        gParticle_8_6FD5E8->mFireHitObj->HandleObjectHit_528990(pHit);
+                        gParticle_8_6FD5E8->mFireHitObj->HandleObjectHit(pHit);
                     }
                 }
                 else
@@ -1561,34 +1561,34 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                     mpOwnSprite->set_xyz_lazy_420600(xpos, ypos, zpos + kFpPoint01_6FD45C);
                     if (!(gpRng_67AB34->get_cur_rng_41CFE0() & 1))
                     {
-                        gParticle_8_6FD5E8->EmitWaterSplash_53F060(xpos, ypos, zpos, angle, false);
+                        gParticle_8_6FD5E8->EmitWaterSplash(xpos, ypos, zpos, angle, false);
                     }
                     gParticle_8_6FD5E8->mWaterHitObj->mSprite->set_xyz_lazy_420600(xpos, ypos, zpos);
                     if (pChar)
                     {
-                        gParticle_8_6FD5E8->mWaterHitObj->SetDamageOwner_529080(pChar->mpPed->get_ped_ref_idx_420B50());
+                        gParticle_8_6FD5E8->mWaterHitObj->SetDamageOwner(pChar->mpPed->get_ped_ref_idx_420B50());
                     }
                     else if (pCar)
                     {
-                        gParticle_8_6FD5E8->mWaterHitObj->SetDamageOwner_529080(pCar->mDriver->get_ped_ref_idx_420B50());
+                        gParticle_8_6FD5E8->mWaterHitObj->SetDamageOwner(pCar->mDriver->get_ped_ref_idx_420B50());
                     }
                     if (!pHit->IsObject2CType_40FE80())
                     {
-                        gParticle_8_6FD5E8->mWaterHitObj->HandleObjectHit_528990(pHit);
+                        gParticle_8_6FD5E8->mWaterHitObj->HandleObjectHit(pHit);
                     }
                     if (pHit->GetType_416B40() == sprite_types_enum::ped_3)
                     {
-                        pHit->mCharB4Ptr->HandleGenericImpact_553E00(angle, kFpPoint1_6FD2E8 + kFpPoint05_6FD46C, kFP16Zero_6FD49C, 0);
+                        pHit->mCharB4Ptr->HandleGenericImpact(angle, kFpPoint1_6FD2E8 + kFpPoint05_6FD46C, kFP16Zero_6FD49C, 0);
                         Ped* pHitPed = pHit->mCharB4Ptr->mpPed;
                         if (pHitPed)
                         {
                             if (mState == 31)
                             {
-                                gScriptManager_6F8060->RecordWeaponHit_512C00(pHitPed->mId, 194, 1);
+                                gScriptManager_6F8060->RecordWeaponHit(pHitPed->mId, 194, 1);
                             }
                             else
                             {
-                                gScriptManager_6F8060->RecordWeaponHit_512C00(pHitPed->mId, 198, 1);
+                                gScriptManager_6F8060->RecordWeaponHit(pHitPed->mId, 198, 1);
                             }
                         }
                     }
@@ -1597,7 +1597,7 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
         }
     }
 
-    if (mpOwnSprite->CheckSpriteMovementRegion_5A2500())
+    if (mpOwnSprite->CheckSpriteMovementRegion())
     {
         mpOwnSprite->set_xyz_lazy_420600(xpos, ypos, zpos + kFpPoint01_6FD45C);
         if (mSubState < 10)
@@ -1637,7 +1637,7 @@ bool Particle_4C::PoolUpdate()
                     this->mTimer = 1;
                 }
 
-                gSpriteGrid_3_679210->Remove_477B00(this->mpOwnSprite);
+                gSpriteGrid_3_679210->Remove(this->mpOwnSprite);
                 if (mSubState > 15u)
                 {
                     return true;
@@ -1680,7 +1680,7 @@ bool Particle_4C::PoolUpdate()
                     this->mTimer = 1;
                 }
 
-                gSpriteGrid_3_679210->Remove_477B00(this->mpOwnSprite);
+                gSpriteGrid_3_679210->Remove(this->mpOwnSprite);
                 if (mSubState > 15u)
                 {
                     return true;
@@ -1699,7 +1699,7 @@ bool Particle_4C::PoolUpdate()
                     this->mpOwnSprite->mFlags = 0xA2;
                 }
                 mpOwnSprite->mBf2C.bNoLighting = true;
-                mpOwnSprite->ApplyScaleToDimensions_59E4C0(kFP16One_6FD4A0 + kFP16Half_6FD39C, 0);
+                mpOwnSprite->ApplyScaleToDimensions(kFP16One_6FD4A0 + kFP16Half_6FD39C, 0);
                 return false;
             }
             break;
@@ -1722,7 +1722,7 @@ bool Particle_4C::PoolUpdate()
                     this->mTimer = 1;
                 }
 
-                gSpriteGrid_3_679210->Remove_477B00(this->mpOwnSprite);
+                gSpriteGrid_3_679210->Remove(this->mpOwnSprite);
                 if (mSubState > 15u)
                 {
                     return true;
@@ -1744,7 +1744,7 @@ bool Particle_4C::PoolUpdate()
                 }
 
                 mpOwnSprite->mBf2C.bNoLighting = true;
-                mpOwnSprite->ApplyScaleToDimensions_59E4C0(kFP16Two_6FD4A4, 0);
+                mpOwnSprite->ApplyScaleToDimensions(kFP16Two_6FD4A4, 0);
                 return false;
             }
             break;
@@ -1759,7 +1759,7 @@ bool Particle_4C::PoolUpdate()
                 return false;
             }
 
-            gSpriteGrid_3_679210->Remove_477B00(this->mpOwnSprite);
+            gSpriteGrid_3_679210->Remove(this->mpOwnSprite);
             this->mTimer = 1;
             this->mSubState++;
             if (mSubState > 0xCu)
@@ -1799,44 +1799,44 @@ bool Particle_4C::PoolUpdate()
         case 14:
         case 15:
         case 16:
-            return UpdateFloatingParticle_state_6_15_16_17_538060();
+            return UpdateFloatingParticle_state_6_15_16_17();
 
         case 2:
         case 11:
-            return UpdateDirectedProjectile_state_3_12_5384C0();
+            return UpdateDirectedProjectile_state_3_12();
 
         case 12:
         case 13:
         case 35:
-            return UpdateDirectedBurst_state_13_14_36_539480();
+            return UpdateDirectedBurst_state_13_14_36();
 
         case 3:
-            return UpdateDirectedBurstSweep_state_4_539040();
+            return UpdateDirectedBurstSweep_state_4();
 
         case 4:
-            return UpdateCircularBurst_state_5_539890();
+            return UpdateCircularBurst_state_5();
 
         case 6:
-            return UpdateDebrisArc_state_7_53B1A0();
+            return UpdateDebrisArc_state_7();
 
         case 8:
         case 9:
-            return UpdateAttachedEmitter_state_9_10_53B670();
+            return UpdateAttachedEmitter_state_9_10();
 
         case 0:
-            return UpdateSimpleBallisticMotion_state_1_53ABA0();
+            return UpdateSimpleBallisticMotion_state_1();
 
         case 36:
-            return UpdateShortAnim_state_37_53B580();
+            return UpdateShortAnim_state_37();
 
         case 34:
-            return UpdateLargeBallisticDebris_state_35_53AE60();
+            return UpdateLargeBallisticDebris_state_35();
 
         case 7:
             return true;
 
         case 25:
-            gSpriteGrid_3_679210->Remove_477B00(this->mpOwnSprite);
+            gSpriteGrid_3_679210->Remove(this->mpOwnSprite);
             if (!this->mCounter)
             {
                 return true;
@@ -1848,30 +1848,30 @@ bool Particle_4C::PoolUpdate()
 
         case 28:
         case 29:
-            return UpdateBurstAnimation_state_29_30_53B9F0();
+            return UpdateBurstAnimation_state_29_30();
 
         case 30:
         case 33:
-            return UpdateCollisionBurst_state_31_34_53BAC0();
+            return UpdateCollisionBurst_state_31_34();
 
         case 37:
-            return UpdateObjectBeamLink_state_38_538AC0();
+            return UpdateObjectBeamLink_state_38();
 
         case 38:
-            return UpdateStaticAnim_state_39_53A180();
+            return UpdateStaticAnim_state_39();
 
         case 39:
         case 40:
-            return UpdateSkidOrScrapeSpark_state_40_41_53A280();
+            return UpdateSkidOrScrapeSpark_state_40_41();
 
         case 41:
-            return Empty_state_42_53AB70();
+            return Empty_state_42();
 
         case 42:
-            return UpdateBeamSegment_state_43_538A40();
+            return UpdateBeamSegment_state_43();
 
         case 43:
-            return Empty_state_44_53B170();
+            return Empty_state_44();
 
         default:
             return false;

@@ -44,7 +44,7 @@ struct SaveSlotSummary
 
     EXPORT ~SaveSlotSummary();
 
-    EXPORT void LoadPlySlotSvg_4B6480(const char_type* FileName);
+    EXPORT void LoadPlySlotSvg(const char_type* FileName);
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SaveSlotSummary, 0x4);
 
@@ -80,9 +80,9 @@ struct MenuItem
 
     EXPORT ~MenuItem();
 
-    EXPORT bool SelectNextHorizontalIdx_4B6330();
+    EXPORT bool SelectNextHorizontalIdx();
 
-    EXPORT bool SelectPrevHorizontalIdx_4B6390();
+    EXPORT bool SelectPrevHorizontalIdx();
 
     char_type mOptionType; // 0x0
     char_type mIsUnlocked; // 0x1
@@ -120,9 +120,9 @@ struct MenuPage
 
     EXPORT ~MenuPage();
 
-    EXPORT bool SelectPrevOption_4B61B0();
+    EXPORT bool SelectPrevOption();
 
-    EXPORT bool SelectNextOption_4B6200();
+    EXPORT bool SelectNextOption();
 
     u16 mNumberOfOptions; // 0x0
     u16 mNumberOfElements; // 0x2
@@ -317,174 +317,174 @@ struct Frontend
         mbInputEnabled = value;
     }
 
-    EXPORT void LoadStringsFromStage_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName);
-    EXPORT void StoreStringsForStage_4B4BC0(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDebugStr, const char* pMapName, const char* pStyName);
-    EXPORT void DrawSavedStage_4B5270();
+    EXPORT void LoadStringsFromStage(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName);
+    EXPORT void StoreStringsForStage(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDebugStr, const char* pMapName, const char* pStyName);
+    EXPORT void DrawSavedStage();
 
-    EXPORT static void __stdcall create_4ACFA0();
+    EXPORT static void __stdcall create();
 
-    EXPORT static void __stdcall destroy_4AD070();
+    EXPORT static void __stdcall destroy();
 
-    EXPORT void ChangeMenuPage_4B3170(u16 menu_page_idx);
+    EXPORT void ChangeMenuPage(u16 menu_page_idx);
 
-    EXPORT void InitSound_4B8680();
+    EXPORT void InitSound();
 
-    EXPORT const char_type* intro_bik_4B5E50();
+    EXPORT const char_type* intro_bik();
 
-    EXPORT static bool intro_bik_exists_4B5FF0();
+    EXPORT static bool intro_bik_exists();
 
-    EXPORT void Update_4AEC00();
+    EXPORT void Update();
 
-    EXPORT void read_menu_input_4AFEB0();
+    EXPORT void read_menu_input();
 
-    EXPORT void GetOptionText_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer);
+    EXPORT void GetOptionText(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer);
 
-    EXPORT void UpdateMenuScreen_4B6780();
+    EXPORT void UpdateMenuScreen();
 
-    EXPORT void ManageCredits_4B7A10();
+    EXPORT void ManageCredits();
 
-    EXPORT void UpdatePageFromUserInput_4AE2D0();
+    EXPORT void UpdatePageFromUserInput();
 
-    EXPORT void SetWinMainStateToBootMap_4AE990();
+    EXPORT void SetWinMainStateToBootMap();
 
-    EXPORT void HandlePlayerNameTyping_4B2F60();
+    EXPORT void HandlePlayerNameTyping();
 
-    EXPORT void HandleDeletePlayerDialog_4AE9A0();
+    EXPORT void HandleDeletePlayerDialog();
 
-    EXPORT void HandlePasswordTyping_4B8280();
+    EXPORT void HandlePasswordTyping();
 
-    EXPORT void DeleteCurrentPlayer_4B4410();
+    EXPORT void DeleteCurrentPlayer();
 
-    EXPORT PlySlot* GetCurrPlayerStats_4B43E0();
+    EXPORT PlySlot* GetCurrPlayerStats();
 
-    EXPORT void UpdateMenuForCurrPlayer_4B42E0();
+    EXPORT void UpdateMenuForCurrPlayer();
 
-    EXPORT void SaveAndUpdatePlayerName_4B4230();
+    EXPORT void SaveAndUpdatePlayerName();
 
-    EXPORT void HandleCheatCode_4B3DD0(const wchar_t* String);
+    EXPORT void HandleCheatCode(const wchar_t* String);
 
-    EXPORT void LoadCurrPlayerName_4B4280();
+    EXPORT void LoadCurrPlayerName();
 
-    EXPORT u8 GetLastUnlockedMainStage_4B77B0(PlySlot* pStats);
+    EXPORT u8 GetLastUnlockedMainStage(PlySlot* pStats);
 
-    EXPORT u8 GetLastUnlockedBonusStageCode_4B7800(PlySlot* pStats);
+    EXPORT u8 GetLastUnlockedBonusStageCode(PlySlot* pStats);
 
-    EXPORT void StripPasswordToCurrLength_4B8530();
+    EXPORT void StripPasswordToCurrLength();
 
-    EXPORT void CheckPassword_4B8560();
+    EXPORT void CheckPassword();
 
-    EXPORT void ContinueToNextStage_4B8020();
+    EXPORT void ContinueToNextStage();
 
-    EXPORT void DrawBonusRating_4B7D60();
-    EXPORT s32 DrawKeyHint_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontType, s32 palette);
+    EXPORT void DrawBonusRating();
+    EXPORT s32 DrawKeyHint(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontType, s32 palette);
 
-    EXPORT bool AreAllStagesUnlocked_4B7FB0();
+    EXPORT bool AreAllStagesUnlocked();
 
-    EXPORT void LoadMapFilenames_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx);
+    EXPORT void LoadMapFilenames(u8 mainBlockIdx, u8 bonusBlockIdx);
 
-    EXPORT void DrawLoading_4AD0D0();
+    EXPORT void DrawLoading();
 
-    EXPORT void DrawDeletePlayerDialog_4ADDE0();
+    EXPORT void DrawDeletePlayerDialog();
 
-    EXPORT void DrawCurrentState_4ADF50();
+    EXPORT void DrawCurrentState();
 
-    EXPORT void Render_4ADFB0();
+    EXPORT void Render();
 
-    EXPORT void DrawBackground_4B6E10();
+    EXPORT void DrawBackground();
 
-    EXPORT void GetTgaIdxsForMenuScreen_4B6B00(u8 screen, u8* pTgaIdx, u8* pTgaIdx2);
+    EXPORT void GetTgaIdxsForMenuScreen(u8 screen, u8* pTgaIdx, u8* pTgaIdx2);
 
-    EXPORT void Load_tga_4B6520(u16 idx);
+    EXPORT void Load_tga(u16 idx);
 
     EXPORT Frontend();
 
     EXPORT ~Frontend();
 
-    EXPORT void AcquireKeyBoard_4AFD70();
+    EXPORT void AcquireKeyBoard();
 
-    EXPORT void FreeKeyBoardDevice_4AFD00();
+    EXPORT void FreeKeyBoardDevice();
 
-    EXPORT void FreeImageTable_4B6750();
+    EXPORT void FreeImageTable();
 
-    EXPORT bool KeyBoard_GetKeyStates_4AFDD0();
+    EXPORT bool KeyBoard_GetKeyStates();
 
-    EXPORT void InitKeyBoardDevice_4AFBE0();
+    EXPORT void InitKeyBoardDevice();
 
-    EXPORT void SetFontTypes_4AF0E0();
+    EXPORT void SetFontTypes();
 
-    EXPORT void SetupMenuStringsOptionsElements_4B0220();
+    EXPORT void SetupMenuStringsOptionsElements();
 
-    EXPORT void GetMainAndBonusStagesFromSeqFile_4B4440();
+    EXPORT void GetMainAndBonusStagesFromSeqFile();
 
-    EXPORT void GetSeqItem_4B48D0(u8 type, char_type *ppRet, FILE *hSeqFile);
+    EXPORT void GetSeqItem(u8 type, char_type *ppRet, FILE *hSeqFile);
 
-    EXPORT void LoadPlySlotSvgs_4B53C0();
+    EXPORT void LoadPlySlotSvgs();
 
-    EXPORT void Load_tgas_4B66B0();
+    EXPORT void Load_tgas();
 
-    EXPORT void GetPlySlotSvgName_4B51D0(u8 idx, char_type* pStr);
+    EXPORT void GetPlySlotSvgName(u8 idx, char_type* pStr);
 
-    EXPORT bool PlySlotSvgExists_4B5370(u8 idx);
+    EXPORT bool PlySlotSvgExists(u8 idx);
 
-    EXPORT static void __stdcall SetInputEnabled_5E53C0(u8* pEnabled);
+    EXPORT static void __stdcall SetInputEnabled(u8* pEnabled);
 
-    EXPORT static s32 __stdcall GetMaxTextWidth_5D8990(wchar_t* pStr, u16 font_type);
+    EXPORT static s32 __stdcall GetMaxTextWidth(wchar_t* pStr, u16 font_type);
 
-    EXPORT u16 GetCenteredXPos_4B0190(wchar_t* pText, u16 fontType, s32 width);
+    EXPORT u16 GetCenteredXPos(wchar_t* pText, u16 fontType, s32 width);
 
-    EXPORT u8 GetPreviousUnlockedMainStage_4B7060(u8 stage_idx);
+    EXPORT u8 GetPreviousUnlockedMainStage(u8 stage_idx);
 
-    EXPORT u8 GetNextUnlockedMainStage_4B7270(char_type main_stage_idx);
+    EXPORT u8 GetNextUnlockedMainStage(char_type main_stage_idx);
 
-    EXPORT bool ExistsPreviousMainStage_4B7490();
+    EXPORT bool ExistsPreviousMainStage();
 
-    EXPORT bool ExistsNextMainStage_4B74C0();
+    EXPORT bool ExistsNextMainStage();
 
-    EXPORT void UpdateMainStageArrows_4B7550();
+    EXPORT void UpdateMainStageArrows();
 
-    EXPORT bool ChangeMainStageToPrevious_4B6FF0();
+    EXPORT bool ChangeMainStageToPrevious();
 
-    EXPORT void StripPlayerNameToCurrLength_4B42B0();
+    EXPORT void StripPlayerNameToCurrLength();
 
-    EXPORT char_type GetPreviousUnlockedBonusStage_4B7120(u8 stage);
+    EXPORT char_type GetPreviousUnlockedBonusStage(u8 stage);
 
-    EXPORT void UpdateBonusStageArrows_4B7610();
+    EXPORT void UpdateBonusStageArrows();
 
-    EXPORT bool ChangeBonusStageToPrevious_4B70B0();
+    EXPORT bool ChangeBonusStageToPrevious();
 
-    EXPORT bool ExistsPreviousBonusStage_4B74F0();
+    EXPORT bool ExistsPreviousBonusStage();
 
-    EXPORT char_type GetNextUnlockedBonusStage_4B7360(u8 stage);
+    EXPORT char_type GetNextUnlockedBonusStage(u8 stage);
 
-    EXPORT bool ExistsNextBonusStage_4B7520();
+    EXPORT bool ExistsNextBonusStage();
 
-    EXPORT bool ChangeBonusStageToNext_4B72F0();
+    EXPORT bool ChangeBonusStageToNext();
 
-    EXPORT bool ChangeMainStageToNext_4B7200();
+    EXPORT bool ChangeMainStageToNext();
 
-    EXPORT void LoadMapFilenamesFromSvg_4B4EC0();
+    EXPORT void LoadMapFilenamesFromSvg();
 
-    EXPORT s32 Run_4AEDB0();
+    EXPORT s32 Run();
 
-    EXPORT void DrawMenu_4AD140();
+    EXPORT void DrawMenu();
 
-    EXPORT void DrawCredits_4B7AE0();
+    EXPORT void DrawCredits();
 
-    EXPORT void FreeSound_4B8650();
+    EXPORT void FreeSound();
 
-    EXPORT static bool pre_intro_bik_exists_4B6030();
+    EXPORT static bool pre_intro_bik_exists();
 
-    EXPORT char_type* pre_intro_bik_4B5F20();
+    EXPORT char_type* pre_intro_bik();
 
-    EXPORT void GetElementText_4B3CC0(u16 page_idx, u16 element_idx, wchar_t** ppText);
+    EXPORT void GetElementText(u16 page_idx, u16 element_idx, wchar_t** ppText);
 
-    EXPORT void DrawMultiplayerScores_4B55F0();
+    EXPORT void DrawMultiplayerScores();
 
-    EXPORT void DrawLastAndBestStats_4B57B0(u16 text_xpos, u16 text_ypos);
+    EXPORT void DrawLastAndBestStats(u16 text_xpos, u16 text_ypos);
 
-    EXPORT void DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, u16 palette, u16 scale, u16 char_width, bool bRightAlign);
+    EXPORT void DrawTextFixedWidth(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, u16 palette, u16 scale, u16 char_width, bool bRightAlign);
 
-    EXPORT void Frontend::DrawScoreTable_4B5430(ScoreTableLine* pStrings,
+    EXPORT void Frontend::DrawScoreTable(ScoreTableLine* pStrings,
                            u16 text_xpos,
                            u16 text_ypos,
                            u16 num_entries,
@@ -496,23 +496,23 @@ struct Frontend
 class FreeLoader
 {
   public:
-    EXPORT static s32 __stdcall GetCityInstalled_4AE0F0();
-    EXPORT static bool __stdcall CheckCityInstalled_4AE1F0(u8 city_idx);
+    EXPORT static s32 __stdcall GetCityInstalled();
+    EXPORT static bool __stdcall CheckCityInstalled(u8 city_idx);
     EXPORT static void __cdecl MessageBox_4AE170(UINT uType, LPCSTR lpCaption, LPCSTR lpFormat, ...);
-    EXPORT static LPCSTR __stdcall GetRegDword_4AE010(HKEY hKey, LPCSTR lpValueName, LPCSTR default_value);
+    EXPORT static LPCSTR __stdcall GetRegDword(HKEY hKey, LPCSTR lpValueName, LPCSTR default_value);
 };
 
 EXPORT s32 IsFullScreen_5D98D0();
-EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma);
+EXPORT s32 __stdcall SetGamma(s32 gamma);
 
 EXTERN_GLOBAL(Frontend*, gFrontend_67DC84);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
 
-EXPORT void __stdcall MakeScreenTableAndSetWindow_5D7D30();
-EXPORT void __cdecl FreeSurface_5D7DC0();
-EXPORT void __stdcall DrawDebugLine_5D7DD0(s32 x1, s32 y1, s32 x2, s32 y2, u16 colour);
+EXPORT void __stdcall MakeScreenTableAndSetWindow();
+EXPORT void __cdecl FreeSurface();
+EXPORT void __stdcall DrawDebugLine(s32 x1, s32 y1, s32 x2, s32 y2, u16 colour);
 EXPORT void __stdcall ConvertColourBanks_5D7CB0();
 
 EXTERN_GLOBAL(s16, font_type_703C14);

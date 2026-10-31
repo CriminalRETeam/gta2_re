@@ -46,7 +46,7 @@ void __stdcall Input::DirectInputCreate_4986D0(HINSTANCE hInstance)
 }
 
 MATCH_FUNC(0x498710)
-void __stdcall Input::DInputRelease_498710()
+void __stdcall Input::DInputRelease()
 {
     if (gpDInput_67B804)
     {

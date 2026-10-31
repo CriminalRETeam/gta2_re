@@ -22,7 +22,7 @@ namespace camera_follow_mode
 enum
 {
     none_0 = 0,
-    smooth_1 = 1, // eases towards the target (Update_435FF0)
+    smooth_1 = 1, // eases towards the target (Update)
     snap_2 = 2, // copies the target straight in (debug/free camera)
 };
 } // namespace camera_follow_mode
@@ -52,36 +52,36 @@ class Camera
         return mTargetPed;
     }
 
-    EXPORT bool IsSpriteTheCameraSubject_4355D0(Sprite* pSprite) const;
-    EXPORT bool IsSpriteInView_435630(Sprite* pSprite, s32 wide_view);
-    EXPORT void SavePrevCamPos_4357B0();
-    EXPORT void IncreaseElevation_4357F0();
-    EXPORT void DecreaseElevation_435810();
-    EXPORT void ResetElevation_435830();
-    EXPORT void ClampTargetZ_435840();
-    EXPORT void ApplyMovementDeltaFrom_435860(Camera* pCamera);
-    EXPORT Ang16 ComputeTargetFacingAngle_4358D0();
-    EXPORT Fix16 ReturnOwnerVelocity_435A20();
-    EXPORT s32 IsCoordsPosVisible_435A70(Fix16 x, Fix16 y, Fix16 z);
-    EXPORT void UpdateBoundaries_435B90();
-    EXPORT void MoveTarget_435D20(bool move_north, bool move_south, bool move_west, bool move_east, bool zoom_in, bool zoom_out);
-    EXPORT void ResetCameraSmoothing_435DD0();
-    EXPORT void AccumulateSuspicionOnDriver_435F90(Car* pCar);
-    EXPORT void Update_435FF0();
-    EXPORT void RefreshBoundaries_436110();
-    EXPORT void SetShake_436120(Fix16 amount);
-    EXPORT void ApplyShake_436140();
-    EXPORT void SetScreenSize_4361B0(u32 width, u32 height);
-    EXPORT void ApplyCarVelocityCameraOffset_436200(Car* pCar, Fix16* pOutX, Fix16* pOutY, Fix16* pOutZ);
-    EXPORT void UpdateFollowCarCamera_4364A0(Car* pCar);
-    EXPORT void UpdateFollowPedCamera_436540(Ped* pPed);
-    EXPORT void HandlePanning_436710(bool forward_gas_on, bool foot_brake_on, bool left_on, bool right_on);
-    EXPORT void ResetPanning_436830();
-    EXPORT void ApplyPanOffset_436860(Ped* pPed, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos);
+    EXPORT bool IsSpriteTheCameraSubject(Sprite* pSprite) const;
+    EXPORT bool IsSpriteInView(Sprite* pSprite, s32 wide_view);
+    EXPORT void SavePrevCamPos();
+    EXPORT void IncreaseElevation();
+    EXPORT void DecreaseElevation();
+    EXPORT void ResetElevation();
+    EXPORT void ClampTargetZ();
+    EXPORT void ApplyMovementDeltaFrom(Camera* pCamera);
+    EXPORT Ang16 ComputeTargetFacingAngle();
+    EXPORT Fix16 ReturnOwnerVelocity();
+    EXPORT s32 IsCoordsPosVisible(Fix16 x, Fix16 y, Fix16 z);
+    EXPORT void UpdateBoundaries();
+    EXPORT void MoveTarget(bool move_north, bool move_south, bool move_west, bool move_east, bool zoom_in, bool zoom_out);
+    EXPORT void ResetCameraSmoothing();
+    EXPORT void AccumulateSuspicionOnDriver(Car* pCar);
+    EXPORT void Update();
+    EXPORT void RefreshBoundaries();
+    EXPORT void SetShake(Fix16 amount);
+    EXPORT void ApplyShake();
+    EXPORT void SetScreenSize(u32 width, u32 height);
+    EXPORT void ApplyCarVelocityCameraOffset(Car* pCar, Fix16* pOutX, Fix16* pOutY, Fix16* pOutZ);
+    EXPORT void UpdateFollowCarCamera(Car* pCar);
+    EXPORT void UpdateFollowPedCamera(Ped* pPed);
+    EXPORT void HandlePanning(bool forward_gas_on, bool foot_brake_on, bool left_on, bool right_on);
+    EXPORT void ResetPanning();
+    EXPORT void ApplyPanOffset(Ped* pPed, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos);
     EXPORT Camera();
     EXPORT ~Camera();
-    EXPORT void SetTarget_4397D0(Fix16 x, Fix16 y, Fix16 z, Fix16 zoom);
-    EXPORT bool IsPointInBoundaries_58CF10(Fix16 x, Fix16 y);
+    EXPORT void SetTarget(Fix16 x, Fix16 y, Fix16 z, Fix16 zoom);
+    EXPORT bool IsPointInBoundaries(Fix16 x, Fix16 y);
 
     void ProjectWorldToScreen_4B90E0(Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
     {
@@ -90,16 +90,16 @@ class Camera
         *pOutY = (((y - mCurPos.mY) * mScreenScale.x) * scale) + Fix16(mScreenPxCenterY);
     }
 
-    // ProjectWorldToScreen_4B90E0 with the out-of-line Fix16 helpers (ExplodingScore::DrawNumbers_596C90)
+    // ProjectWorldToScreen_4B90E0 with the out-of-line Fix16 helpers (ExplodingScore::DrawNumbers)
     void ProjectWorldToScreen_OutOfLine_4B90E0(Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
     {
-        Fix16 scale = kFpOne_702DE4.Divide_436A20((mCurPos.mZ - z) + kFpEight_702E04);
+        Fix16 scale = kFpOne_702DE4.Divide((mCurPos.mZ - z) + kFpEight_702E04);
 
-        *pOutX = (x.Subtract_436A00(mCurPos.mX).Multiply_408680(mScreenScale.x).Multiply_408680(scale))
-                     .Add_408660(Fix16(mScreenPxCenterX));
+        *pOutX = (x.Subtract(mCurPos.mX).Multiply(mScreenScale.x).Multiply(scale))
+                     .Add(Fix16(mScreenPxCenterX));
 
-        *pOutY = (y.Subtract_436A00(mCurPos.mY).Multiply_408680(mScreenScale.x).Multiply_408680(scale))
-                     .Add_408660(Fix16(mScreenPxCenterY));
+        *pOutY = (y.Subtract(mCurPos.mY).Multiply(mScreenScale.x).Multiply(scale))
+                     .Add(Fix16(mScreenPxCenterY));
     }
 
     inline void SetSmoothFollow_475B60()

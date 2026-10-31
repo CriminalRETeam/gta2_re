@@ -45,13 +45,13 @@ ScriptStackFrame* ScriptGosubStack::remove_503180()
 }
 
 MATCH_FUNC(0x5031A0)
-ScriptStackFrame* ScriptGosubStack::AllocFrame_5031A0()
+ScriptStackFrame* ScriptGosubStack::AllocFrame()
 {
     return gScriptStackFramePool_6F8068->mPool.Allocate();
 }
 
 MATCH_FUNC(0x5031C0)
-void ScriptGosubStack::FreeFrame_5031C0(ScriptStackFrame* pFrame)
+void ScriptGosubStack::FreeFrame(ScriptStackFrame* pFrame)
 {
     gScriptStackFramePool_6F8068->mPool.DeAllocate(pFrame);
 }

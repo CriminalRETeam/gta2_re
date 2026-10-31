@@ -46,7 +46,7 @@ DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge4Z, 0x6FDBF4);
 DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge4GridX, 0x6FDBF0);
 DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge4GridY, 0x6FDBF1);
 
-// EvaluateGridCell_554640 results: skip the cell, add it, or the grid edge in the facing direction is reached
+// EvaluateGridCell results: skip the cell, add it, or the grid edge in the facing direction is reached
 enum
 {
     k_cell_skip = 0,
@@ -55,12 +55,12 @@ enum
 };
 
 MATCH_FUNC(0x554080)
-bool PathFinder::CanMoveInDirection_554080(s32 path_direction) const
+bool PathFinder::CanMoveInDirection(s32 path_direction) const
 {
     if (mXpos25 > 1u && mXpos25 < 254u && mYpos26 > 1u && mYpos26 < 254u)
     {
         bool result =
-            gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(mXpos25, mYpos26, mZpos27, path_direction, &sPathFinderSlopeZDelta, true) ==
+            gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked(mXpos25, mYpos26, mZpos27, path_direction, &sPathFinderSlopeZDelta, true) ==
             0;
         return result;
     }
@@ -68,16 +68,16 @@ bool PathFinder::CanMoveInDirection_554080(s32 path_direction) const
 }
 
 MATCH_FUNC(0x5540e0)
-bool PathFinder::TestMoveToAdjacentTile_5540E0(u8 curr_xpos, u8 curr_ypos, u8 curr_zpos, u8 desired_xpos, u8 desired_ypos)
+bool PathFinder::TestMoveToAdjacentTile(u8 curr_xpos, u8 curr_ypos, u8 curr_zpos, u8 desired_xpos, u8 desired_ypos)
 {
     mXpos25 = curr_xpos;
     mYpos26 = curr_ypos;
     mZpos27 = curr_zpos;
-    return CanMoveToAdjacentTile_554110(desired_xpos, desired_ypos);
+    return CanMoveToAdjacentTile(desired_xpos, desired_ypos);
 }
 
 MATCH_FUNC(0x554110)
-bool PathFinder::CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_ypos)
+bool PathFinder::CanMoveToAdjacentTile(u8 desired_xpos, u8 desired_ypos)
 {
 
     sPathFinderSlopeZDelta = 0;
@@ -113,9 +113,9 @@ bool PathFinder::CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_ypos)
                     return false;
                 }
 
-                if (CanMoveInDirection_554080(path_direction::down_2) && CanMoveInDirection_554080(path_direction::right_3))
+                if (CanMoveInDirection(path_direction::down_2) && CanMoveInDirection(path_direction::right_3))
                 {
-                    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(this->mXpos25 + 1,
+                    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked(this->mXpos25 + 1,
                                                                        this->mYpos26,
                                                                        this->mZpos27,
                                                                        path_direction::down_2,
@@ -124,7 +124,7 @@ bool PathFinder::CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_ypos)
                     {
                         return false;
                     }
-                    return gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(this->mXpos25,
+                    return gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked(this->mXpos25,
                                                                               this->mYpos26 + 1,
                                                                               this->mZpos27,
                                                                               path_direction::right_3,
@@ -144,17 +144,17 @@ bool PathFinder::CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_ypos)
                 return false;
             }
 
-            if (!CanMoveInDirection_554080(path_direction::up_1) || !CanMoveInDirection_554080(path_direction::right_3))
+            if (!CanMoveInDirection(path_direction::up_1) || !CanMoveInDirection(path_direction::right_3))
             {
                 return false;
             }
 
             if (gMap_0x370_6F6268
-                    ->IsMoveOntoSlopeTileBlocked_4E0130(this->mXpos25 + 1, this->mYpos26, this->mZpos27, path_direction::up_1, &sPathFinderSlopeZDelta, 1))
+                    ->IsMoveOntoSlopeTileBlocked(this->mXpos25 + 1, this->mYpos26, this->mZpos27, path_direction::up_1, &sPathFinderSlopeZDelta, 1))
             {
                 return false;
             }
-            return gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(this->mXpos25,
+            return gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked(this->mXpos25,
                                                                       this->mYpos26 - 1,
                                                                       this->mZpos27,
                                                                       path_direction::right_3,
@@ -174,18 +174,18 @@ bool PathFinder::CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_ypos)
                 return false;
             }
 
-            if (!CanMoveInDirection_554080(path_direction::down_2) || !CanMoveInDirection_554080(path_direction::left_4))
+            if (!CanMoveInDirection(path_direction::down_2) || !CanMoveInDirection(path_direction::left_4))
             {
                 return false;
             }
 
             if (gMap_0x370_6F6268
-                    ->IsMoveOntoSlopeTileBlocked_4E0130(this->mXpos25 - 1, this->mYpos26, this->mZpos27, path_direction::down_2, &sPathFinderSlopeZDelta, 1))
+                    ->IsMoveOntoSlopeTileBlocked(this->mXpos25 - 1, this->mYpos26, this->mZpos27, path_direction::down_2, &sPathFinderSlopeZDelta, 1))
             {
                 return false;
             }
             return gMap_0x370_6F6268
-                       ->IsMoveOntoSlopeTileBlocked_4E0130(this->mXpos25, this->mYpos26 + 1, this->mZpos27, path_direction::left_4, &sPathFinderSlopeZDelta, 1) ? false : true;
+                       ->IsMoveOntoSlopeTileBlocked(this->mXpos25, this->mYpos26 + 1, this->mZpos27, path_direction::left_4, &sPathFinderSlopeZDelta, 1) ? false : true;
         }
 
         if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(this->mXpos25, this->mYpos26 - 1, this->mZpos27))
@@ -198,17 +198,17 @@ bool PathFinder::CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_ypos)
             return false;
         }
 
-        if (!CanMoveInDirection_554080(path_direction::up_1) || !CanMoveInDirection_554080(path_direction::left_4))
+        if (!CanMoveInDirection(path_direction::up_1) || !CanMoveInDirection(path_direction::left_4))
         {
             return false;
         }
 
         if (gMap_0x370_6F6268
-                ->IsMoveOntoSlopeTileBlocked_4E0130(this->mXpos25 - 1, this->mYpos26, this->mZpos27, path_direction::up_1, &sPathFinderSlopeZDelta, 1))
+                ->IsMoveOntoSlopeTileBlocked(this->mXpos25 - 1, this->mYpos26, this->mZpos27, path_direction::up_1, &sPathFinderSlopeZDelta, 1))
         {
             return false;
         }
-        return gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(this->mXpos25,
+        return gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked(this->mXpos25,
                                                                   this->mYpos26 - 1,
                                                                   this->mZpos27,
                                                                   path_direction::left_4,
@@ -220,26 +220,26 @@ bool PathFinder::CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_ypos)
     {
         if (xd == -1)
         {
-            return CanMoveInDirection_554080(path_direction::left_4);
+            return CanMoveInDirection(path_direction::left_4);
         }
-        return CanMoveInDirection_554080(path_direction::right_3);
+        return CanMoveInDirection(path_direction::right_3);
     }
 
     if (yd == -1)
     {
-        return CanMoveInDirection_554080(path_direction::up_1);
+        return CanMoveInDirection(path_direction::up_1);
     }
-    return CanMoveInDirection_554080(path_direction::down_2);
+    return CanMoveInDirection(path_direction::down_2);
 }
 
 MATCH_FUNC(0x5545c0)
-void PathFinder::ClearGrid_5545C0()
+void PathFinder::ClearGrid()
 {
     memset(this->mGrid, 0, sizeof(this->mGrid));
 }
 
 MATCH_FUNC(0x5545e0)
-void PathFinder::Init_5545E0()
+void PathFinder::Init()
 {
     memset(this->mGrid, 0, sizeof(this->mGrid));
     mbComputePathInProgress = false;
@@ -251,7 +251,7 @@ void PathFinder::Init_5545E0()
 }
 
 MATCH_FUNC(0x554620)
-void PathFinder::RemovePed_554620(s32 ped_id)
+void PathFinder::RemovePed(s32 ped_id)
 {
     if (ped_id == mPedId)
     {
@@ -261,7 +261,7 @@ void PathFinder::RemovePed_554620(s32 ped_id)
 }
 
 MATCH_FUNC(0x554640)
-char_type PathFinder::EvaluateGridCell_554640()
+char_type PathFinder::EvaluateGridCell()
 {
     if (mGridX <= 32)
     {
@@ -323,7 +323,7 @@ char_type PathFinder::EvaluateGridCell_554640()
 
 // https://decomp.me/scratch/f8WDL
 MATCH_FUNC(0x554710)
-void PathFinder::AddGridCell_554710()
+void PathFinder::AddGridCell()
 {
     u16 cost_scale;
     // zpos assigned in both arms (not `zpos = mZpos22; if (..) zpos += ..;`): the extra
@@ -434,14 +434,14 @@ void PathFinder::AddGridCell_554710()
 }
 
 MATCH_FUNC(0x5548c0)
-bool PathFinder::ProcessGridCell_5548C0()
+bool PathFinder::ProcessGridCell()
 {
-    char_type cell_result = PathFinder::EvaluateGridCell_554640();
+    char_type cell_result = PathFinder::EvaluateGridCell();
     if (cell_result == k_cell_open)
     {
-        if (PathFinder::CanMoveToAdjacentTile_554110(mXpos20, mYpos21))
+        if (PathFinder::CanMoveToAdjacentTile(mXpos20, mYpos21))
         {
-            PathFinder::AddGridCell_554710();
+            PathFinder::AddGridCell();
         }
         else
         {
@@ -463,7 +463,7 @@ bool PathFinder::ProcessGridCell_5548C0()
 }
 
 MATCH_FUNC(0x554920)
-void PathFinder::RestoreSavedPosition_554920()
+void PathFinder::RestoreSavedPosition()
 {
     switch (sPathFinderAngleFace)
     {
@@ -513,14 +513,14 @@ void PathFinder::RestoreSavedPosition_554920()
 }
 
 MATCH_FUNC(0x554a90)
-s32 PathFinder::IsFirstInPathQueue_554A90(Ped* pPed) const
+s32 PathFinder::IsFirstInPathQueue(Ped* pPed) const
 {
     return mPedList.mpFirstPed->mCharPed == pPed;
 }
 
 // https://decomp.me/scratch/Fr0bT
 MATCH_FUNC(0x554ab0)
-bool PathFinder::ComputePath_554AB0(s32 ped_id,
+bool PathFinder::ComputePath(s32 ped_id,
                                         Ped* pPed,
                                         u8 x_start,
                                         u8 y_start,
@@ -579,11 +579,11 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
         mTimeOutCounter = 0;
         sPathFinderAngleFace = angle_face;
         mbFindTileMode = false;
-        PathFinder::ClearGrid_5545C0();
+        PathFinder::ClearGrid();
 
         if (!gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(x_start, y_start, z_start))
         {
-            mZStart = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(Fix16(x_start), Fix16(y_start), Fix16(z_start)).ToUInt8();
+            mZStart = gMap_0x370_6F6268->FindGroundZBelowCoord(Fix16(x_start), Fix16(y_start), Fix16(z_start)).ToUInt8();
         }
         sPathFinderSlopeZDelta = 0;
         mXpos20 = x_start;
@@ -594,7 +594,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
         mGridX = 16;
         mGridY = 16;
         mDirection = 66;
-        PathFinder::AddGridCell_554710();
+        PathFinder::AddGridCell();
         mpNode = mNodes;
         mGridIdx = 560;
         mGrid[mGridIdx].mCost = 0;
@@ -658,7 +658,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
             mGridY = sPathFinderBestGridY - 1;
             mDirection = 1;
 
-            if (PathFinder::ProcessGridCell_5548C0())
+            if (PathFinder::ProcessGridCell())
             {
                 break;
             }
@@ -669,7 +669,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
             mGridY = sPathFinderBestGridY - 1;
             mDirection = 5;
 
-            if (PathFinder::ProcessGridCell_5548C0())
+            if (PathFinder::ProcessGridCell())
             {
                 break;
             }
@@ -680,7 +680,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
             mGridY = sPathFinderBestGridY;
             mDirection = 2;
 
-            if (PathFinder::ProcessGridCell_5548C0())
+            if (PathFinder::ProcessGridCell())
             {
                 break;
             }
@@ -691,7 +691,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
             mGridY = sPathFinderBestGridY + 1;
             mDirection = 6;
 
-            if (PathFinder::ProcessGridCell_5548C0())
+            if (PathFinder::ProcessGridCell())
             {
                 break;
             }
@@ -701,7 +701,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
             mGridX = sPathFinderBestGridX;
             mGridY = sPathFinderBestGridY + 1;
             mDirection = 3;
-            if (PathFinder::ProcessGridCell_5548C0())
+            if (PathFinder::ProcessGridCell())
             {
                 break;
             }
@@ -711,7 +711,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
             mGridX = sPathFinderBestGridX - 1;
             mGridY = sPathFinderBestGridY + 1;
             mDirection = 7;
-            if (PathFinder::ProcessGridCell_5548C0())
+            if (PathFinder::ProcessGridCell())
             {
                 break;
             }
@@ -721,7 +721,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
             mGridX = sPathFinderBestGridX - 1;
             mGridY = sPathFinderBestGridY;
             mDirection = 4;
-            if (PathFinder::ProcessGridCell_5548C0())
+            if (PathFinder::ProcessGridCell())
             {
                 break;
             }
@@ -732,7 +732,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
             mGridY = sPathFinderBestGridY - 1;
             mDirection = 8;
 
-            if (PathFinder::ProcessGridCell_5548C0())
+            if (PathFinder::ProcessGridCell())
             {
                 break;
             }
@@ -740,7 +740,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
             {
                 mbSearching = false;
                 mUnused19 = 1;
-                PathFinder::RestoreSavedPosition_554920();
+                PathFinder::RestoreSavedPosition();
                 if (!sPathFinderBestX)
                 {
                     goto fail;
@@ -883,13 +883,13 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
         ++mNodeCount;
     }
 fail:
-    PathFinder::RemovePed_554620(mPedId);
+    PathFinder::RemovePed(mPedId);
     return true;
 }
 
 // https://decomp.me/scratch/19LIh
 MATCH_FUNC(0x5552b0)
-bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, u8* ypos, u8* zpos, bool bAllowDuringPathCompute)
+bool PathFinder::FindNearbyTileMatchingSlopeType(u8 block_type, u8* xpos, u8* ypos, u8* zpos, bool bAllowDuringPathCompute)
 {
     u8 expanded_count = 0;
     if (mbComputePathInProgress && !bAllowDuringPathCompute)
@@ -906,7 +906,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
     mXpos25 = default_pos;
     mGridOriginX = *xpos - 16;
     mGridOriginY = *ypos - 16;
-    PathFinder::ClearGrid_5545C0();
+    PathFinder::ClearGrid();
     mXStart = *xpos;
     mYStart = *ypos;
     mZStart = *zpos;
@@ -914,7 +914,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
 
     if (!gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(mXStart, mYStart, mZStart))
     {
-        mZStart = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(Fix16(mXStart), Fix16(mYStart), Fix16(mZStart)).ToUInt8();
+        mZStart = gMap_0x370_6F6268->FindGroundZBelowCoord(Fix16(mXStart), Fix16(mYStart), Fix16(mZStart)).ToUInt8();
     }
     mStartCost = 0;
     mXEnd = 0;
@@ -929,7 +929,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
     mXpos20 = mXStart;
     mYpos21 = mYStart;
     mDirection = 66;
-    PathFinder::AddGridCell_554710();
+    PathFinder::AddGridCell();
     mpNode = mNodes;
     mGridIdx = 560;
     mGrid[mGridIdx].mCost = mStartCost;
@@ -973,7 +973,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
 
         if (block_type == 5)
         {
-            if (!gMap_0x370_6F6268->IsProbePathClear_4E5640(kFpOne64th_6FDD50,
+            if (!gMap_0x370_6F6268->IsProbePathClear(kFpOne64th_6FDD50,
                                                kFpQuarter_6FDC00,
                                                kFpOne64th_6FDD50,
                                                Fix16(*xpos) + kFpHalf_6FDCA8,
@@ -993,7 +993,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
         {
             if (block_type == ROAD)
             {
-                if ((gMap_0x370_6F6268->GetBlock_4DFE10(mXpos25, mYpos26, mZpos27 - 1)->mArrows & block_arrow::green_mask) != 0)
+                if ((gMap_0x370_6F6268->GetBlock(mXpos25, mYpos26, mZpos27 - 1)->mArrows & block_arrow::green_mask) != 0)
                 {
                     mbSearching = false;
                     *xpos = mXpos25;
@@ -1016,7 +1016,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
         mGridX = sPathFinderBestGridX;
         mGridY = sPathFinderBestGridY - 1;
         mDirection = 1;
-        if (!PathFinder::ProcessGridCell_5548C0())
+        if (!PathFinder::ProcessGridCell())
         {
             mXpos20 = sPathFinderBestX + 1;
             mYpos21 = sPathFinderBestY;
@@ -1024,7 +1024,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
             mGridX = sPathFinderBestGridX + 1;
             mGridY = sPathFinderBestGridY;
             mDirection = 2;
-            if (!PathFinder::ProcessGridCell_5548C0())
+            if (!PathFinder::ProcessGridCell())
             {
                 mXpos20 = sPathFinderBestX;
                 mYpos21 = sPathFinderBestY + 1;
@@ -1032,7 +1032,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
                 mGridX = sPathFinderBestGridX;
                 mGridY = sPathFinderBestGridY + 1;
                 mDirection = 3;
-                if (!PathFinder::ProcessGridCell_5548C0())
+                if (!PathFinder::ProcessGridCell())
                 {
                     mXpos20 = sPathFinderBestX - 1;
                     mYpos21 = sPathFinderBestY;
@@ -1040,7 +1040,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
                     mGridX = sPathFinderBestGridX - 1;
                     mGridY = sPathFinderBestGridY;
                     mDirection = 4;
-                    if (!PathFinder::ProcessGridCell_5548C0())
+                    if (!PathFinder::ProcessGridCell())
                     {
                         ++mStartCost;
                         if (++expanded_count <= 6 || bAllowDuringPathCompute)

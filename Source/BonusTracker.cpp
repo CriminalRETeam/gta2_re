@@ -16,7 +16,7 @@ enum
 MATCH_FUNC(0x431D30);
 BonusRule::BonusRule()
 {
-    Init_431D50();
+    Init();
 }
 
 MATCH_FUNC(0x431D40);
@@ -25,7 +25,7 @@ BonusRule::~BonusRule()
 }
 
 MATCH_FUNC(0x431D50);
-void BonusRule::Init_431D50()
+void BonusRule::Init()
 {
     mpZone = NULL;
     mEventType = bonus_event_type::any_event;
@@ -46,13 +46,13 @@ void BonusRule::Init_431D50()
 }
 
 MATCH_FUNC(0x431DA0);
-void BonusRule::Reset_431DA0()
+void BonusRule::Reset()
 {
-    Init_431D50();
+    Init();
 }
 
 MATCH_FUNC(0x431DB0);
-void BonusRule::Deactivate_431DB0()
+void BonusRule::Deactivate()
 {
     mbActive = false;
 }
@@ -73,14 +73,14 @@ BonusTracker::~BonusTracker()
 }
 
 MATCH_FUNC(0x431E10);
-void BonusTracker::Init_431E10(PlayerScoreTracker* pScores)
+void BonusTracker::Init(PlayerScoreTracker* pScores)
 {
     mCurTime = 0;
     mpScores = pScores;
 }
 
 MATCH_FUNC(0x431E30);
-void BonusTracker::Service_431E30()
+void BonusTracker::Service()
 {
     mCurTime = gpRng_67AB34->get_cur_rng_41CFE0();
 
@@ -95,7 +95,7 @@ void BonusTracker::Service_431E30()
                 if (time_limit != -1 && static_cast<u32>(mCurTime - pIter->mStartTime) > time_limit)
                 {
                     pIter->mProgressCount = 0;
-                    pIter->Deactivate_431DB0();
+                    pIter->Deactivate();
                 }
             }
         }
@@ -104,7 +104,7 @@ void BonusTracker::Service_431E30()
 }
 
 MATCH_FUNC(0x431E90);
-u16 BonusTracker::FindFreeRule_431E90() const
+u16 BonusTracker::FindFreeRule() const
 {
     for (u16 i = 0; i < GTA2_COUNTOF(mBonuses); i++)
     {
@@ -117,7 +117,7 @@ u16 BonusTracker::FindFreeRule_431E90() const
 }
 
 MATCH_FUNC(0x431EC0);
-u16 BonusTracker::FindMatchingRule_431EC0(u16 start_idx,
+u16 BonusTracker::FindMatchingRule(u16 start_idx,
                                 s16 event_type,
                                 s32 car_model,
                                 s32 occupation,
@@ -144,10 +144,10 @@ u16 BonusTracker::FindMatchingRule_431EC0(u16 start_idx,
             continue;
         }
         const s32 bonus_occupation = pBonus->mOccupation;
-        if (bonus_occupation == occupation || bonus_occupation == ped_ocupation_enum::no_occupation || IsOccupationInGroup_432240(occupation, bonus_occupation))
+        if (bonus_occupation == occupation || bonus_occupation == ped_ocupation_enum::no_occupation || IsOccupationInGroup(occupation, bonus_occupation))
         {
             const s32 bonus_car_model = pBonus->mCarModel;
-            if (bonus_car_model == car_model || bonus_car_model == car_model_enum::none || AreCarModelsEquivalent_432300(car_model, bonus_car_model))
+            if (bonus_car_model == car_model || bonus_car_model == car_model_enum::none || AreCarModelsEquivalent(car_model, bonus_car_model))
             {
                 const s16 bonus_gang_idx = pBonus->mGangIdx;
                 if (bonus_gang_idx == gang_idx || bonus_gang_idx == k_any_gang)
@@ -156,7 +156,7 @@ u16 BonusTracker::FindMatchingRule_431EC0(u16 start_idx,
                     if (bonus_remap == remap || bonus_remap == k_any_remap)
                     {
                         const s32 bonus_death_cause = pBonus->mDeathCause;
-                        if (bonus_death_cause == death_cause || bonus_death_cause == ped_death_cause::any_23 || IsDeathCauseInGroup_432170(death_cause, bonus_death_cause))
+                        if (bonus_death_cause == death_cause || bonus_death_cause == ped_death_cause::any_23 || IsDeathCauseInGroup(death_cause, bonus_death_cause))
                         {
                             const s32 bonus_alt_car_model = pBonus->mAltCarModel;
                             if ((bonus_alt_car_model == alt_car_model || bonus_alt_car_model == car_model_enum::none) && (pBonus->mpZone == pZone || !pBonus->mpZone))
@@ -170,14 +170,14 @@ u16 BonusTracker::FindMatchingRule_431EC0(u16 start_idx,
         }
         if (pBonus->mCheckMode == 1)
         {
-            pBonus->Deactivate_431DB0();
+            pBonus->Deactivate();
         }
     }
     return k_max_rules;
 }
 
 MATCH_FUNC(0x431FE0);
-s16 BonusTracker::AllocRule_431FE0(s16 event_type,
+s16 BonusTracker::AllocRule(s16 event_type,
                                       s32 car_model,
                                       s32 occupation,
                                       s16 gang_idx,
@@ -190,7 +190,7 @@ s16 BonusTracker::AllocRule_431FE0(s16 event_type,
                                       u16 reward,
                                       gmp_map_zone* pZone)
 {
-    const s16 idx = FindFreeRule_431E90();
+    const s16 idx = FindFreeRule();
     if (idx == k_max_rules)
     {
         return idx;
@@ -217,7 +217,7 @@ s16 BonusTracker::AllocRule_431FE0(s16 event_type,
 }
 
 MATCH_FUNC(0x432080);
-s16 BonusTracker::GetBonusResult_432080(u16 idx)
+s16 BonusTracker::GetBonusResult(u16 idx)
 {
     BonusRule* pRule = &mBonuses[idx];
     if (!pRule->mbUsed)
@@ -232,22 +232,22 @@ s16 BonusTracker::GetBonusResult_432080(u16 idx)
 
     if (pRule->mProgressCount == pRule->mTargetCount)
     {
-        pRule->Reset_431DA0();
+        pRule->Reset();
         return bonus_result::passed;
     }
     else
     {
-        pRule->Reset_431DA0();
+        pRule->Reset();
         return bonus_result::failed;
     }
 }
 
 MATCH_FUNC(0x4320D0);
-void BonusTracker::ProcessBonusEvent_4320D0(s16 event_type, s32 car_model, s32 occupation, s16 gang_idx, s16 remap, s32 death_cause, s32 alt_car_model, gmp_map_zone* pZone)
+void BonusTracker::ProcessBonusEvent(s16 event_type, s32 car_model, s32 occupation, s16 gang_idx, s16 remap, s32 death_cause, s32 alt_car_model, gmp_map_zone* pZone)
 {
     for (u16 i = 0; i < k_max_rules; i++)
     {
-        i = FindMatchingRule_431EC0(i, event_type, car_model, occupation, gang_idx, remap, death_cause, alt_car_model, pZone);
+        i = FindMatchingRule(i, event_type, car_model, occupation, gang_idx, remap, death_cause, alt_car_model, pZone);
         if (i >= k_max_rules)
         {
             break;
@@ -257,13 +257,13 @@ void BonusTracker::ProcessBonusEvent_4320D0(s16 event_type, s32 car_model, s32 o
         if (GetProgressCount_476660(i) == pFound->mTargetCount)
         {
             mpScores->mPlayer->AddScore_41DC40(pFound->mReward);
-            pFound->Deactivate_431DB0();
+            pFound->Deactivate();
         }
     }
 }
 
 MATCH_FUNC(0x432170);
-bool BonusTracker::IsDeathCauseInGroup_432170(s32 death_cause, s32 rule_death_cause) const
+bool BonusTracker::IsDeathCauseInGroup(s32 death_cause, s32 rule_death_cause) const
 {
     if (rule_death_cause == ped_death_cause::run_over_1)
     {
@@ -335,7 +335,7 @@ bool BonusTracker::IsDeathCauseInGroup_432170(s32 death_cause, s32 rule_death_ca
 }
 
 MATCH_FUNC(0x432240);
-bool BonusTracker::IsOccupationInGroup_432240(s32 occupation, s32 rule_occupation) const
+bool BonusTracker::IsOccupationInGroup(s32 occupation, s32 rule_occupation) const
 {
     if (rule_occupation == ped_ocupation_enum::any_law_enforcement)
     {
@@ -395,7 +395,7 @@ bool BonusTracker::IsOccupationInGroup_432240(s32 occupation, s32 rule_occupatio
 }
 
 MATCH_FUNC(0x432300);
-bool BonusTracker::AreCarModelsEquivalent_432300(s32 car_model_1, s32 car_model_2) const
+bool BonusTracker::AreCarModelsEquivalent(s32 car_model_1, s32 car_model_2) const
 {
     bool is_fed_car_1;
     bool is_fed_car_2;

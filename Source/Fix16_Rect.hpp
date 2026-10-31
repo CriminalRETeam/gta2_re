@@ -57,19 +57,19 @@ class Fix16_Rect
         this->mHighZ = z + FIX16_RECT_HALF_HEIGHT;
     }
 
-    // Unused since ShockPedsAroundSprite_5DF270 calls ComputeCollisionPrism_4204D0 with FIX16_RECT_HALF_HEIGHT. Kept because removing
+    // Unused since ShockPedsAroundSprite calls ComputeCollisionPrism_4204D0 with FIX16_RECT_HALF_HEIGHT. Kept because removing
     // an unused inline can move code in other TUs (docs/matching_quirks.md).
     void ComputeShockPrism(Fix16 x, Fix16 y, Fix16 offset, Fix16 z, const Fix16& half_z)
     {
         offset = offset / 2;
 
-        mLeft = x.Subtract_436A00(offset);
-        mRight = x.Add_408660(offset);
-        mTop = y.Subtract_436A00(offset);
-        mBottom = y.Add_408660(offset);
+        mLeft = x.Subtract(offset);
+        mRight = x.Add(offset);
+        mTop = y.Subtract(offset);
+        mBottom = y.Add(offset);
 
-        mLowZ = z.Subtract_436A00(half_z);
-        mHighZ = z.Add_408660(half_z);
+        mLowZ = z.Subtract(half_z);
+        mHighZ = z.Add(half_z);
     }
 
     // 9.6f 0x41E350
@@ -84,7 +84,7 @@ class Fix16_Rect
 
     // Out-of-line copy of SetRect_41E350
     EXPORT void SetRect_5A5E30(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom);
-    EXPORT void MakeRect_4E6280(Fix16 x, Fix16 y, Fix16 w, Fix16 h);
+    EXPORT void MakeRect(Fix16 x, Fix16 y, Fix16 w, Fix16 h);
 
     // 9.6f 0x433560
     inline bool OverlapsZ_433560(Fix16_Rect* pOther) const
@@ -95,7 +95,7 @@ class Fix16_Rect
     // 9.6f 0x463760
     inline s32 GetMidZ_463760() const
     {
-        return (mLowZ.Add_408660(mHighZ) / 2).ToInt();
+        return (mLowZ.Add(mHighZ) / 2).ToInt();
     }
 
     // 9.6f 0x463690, defined in map_0x370.cpp
@@ -133,12 +133,12 @@ class Fix16_Rect
         mBottom = h + y;
     }
 
-    EXPORT void DoSetCurrentRect_59DD60();
-    EXPORT bool IntersectsSpriteRenderingRect_59DDF0(Sprite* pSprite);
-    EXPORT char_type IsRectBlockedByMap_59DE80();
-    EXPORT void ExpandToIncludePoint_59DEE0(Fix16 x, Fix16 y);
-    EXPORT bool RectOverlapsZone_59DF20(u8 zone_type);
-    EXPORT bool EveryTileMatchesArrowType_59DFB0(s32 arrow_type);
+    EXPORT void DoSetCurrentRect();
+    EXPORT bool IntersectsSpriteRenderingRect(Sprite* pSprite);
+    EXPORT char_type IsRectBlockedByMap();
+    EXPORT void ExpandToIncludePoint(Fix16 x, Fix16 y);
+    EXPORT bool RectOverlapsZone(u8 zone_type);
+    EXPORT bool EveryTileMatchesArrowType(s32 arrow_type);
 
     // 9.6f 0x4B9FD0
     inline bool IsPointInRect_4B9FD0(Fix16_Point* pPoint)

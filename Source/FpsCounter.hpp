@@ -8,10 +8,10 @@ class Hud_TextEntry;
 class FpsCounter
 {
   public:
-    EXPORT void ShowFps_5BEC30();
+    EXPORT void ShowFps();
     EXPORT FpsCounter();
     EXPORT ~FpsCounter();
-    EXPORT void UpdateFpsCounters_5BECF0(char_type bDrewFrame, char_type bUpdatedLogic);
+    EXPORT void UpdateFpsCounters(char_type bDrewFrame, char_type bUpdatedLogic);
 
     // Update (game logic) counter: field_0 counts updates, every 100 the rate is recomputed
     s32 mUpdateCount; // 0x0

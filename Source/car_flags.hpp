@@ -58,8 +58,8 @@ struct CarLightFlags8
     u8 bFlag7 : 1; // bit 7
 };
 
-// Keeps the number of names MapRenderer.cpp sees at the count that makes Draw3SidedDiagonalDownRight_4EF520 and
-// Draw4SidedDiagonalUpLeft_4EF880 match (docs/matching_quirks.md). Do not remove without running the whole build.
+// Keeps the number of names MapRenderer.cpp sees at the count that makes Draw3SidedDiagonalDownRight and
+// Draw4SidedDiagonalUpLeft match (docs/matching_quirks.md). Do not remove without running the whole build.
 enum
 {
     kCarFlagsNameCount0,

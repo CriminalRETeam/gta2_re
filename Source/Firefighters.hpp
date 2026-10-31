@@ -35,11 +35,11 @@ class Firefighter
         mNextStateTimer = 0;
     }
 
-    EXPORT bool CheckAbortConditions_4A7FC0();
-    EXPORT void deinit_4A81A0();
-    EXPORT void Update_4A81F0();
-    EXPORT void init_4A85C0();
-    EXPORT void Reset_4A85E0();
+    EXPORT bool CheckAbortConditions();
+    EXPORT void deinit();
+    EXPORT void Update();
+    EXPORT void init();
+    EXPORT void Reset();
 
     s16 mId; // 0x0
     s16 mUnused2; // 0x2
@@ -63,21 +63,21 @@ class FirefighterPool
     {
         for (s32 i = 0; i < 2; i++)
         {
-            mFirefighters[i].init_4A85C0();
+            mFirefighters[i].init();
         }
-        ResetCount_4A88D0();
+        ResetCount();
     }
 
     ~FirefighterPool()
     {
     }
 
-    EXPORT void FireEnginesService_4A85F0();
-    EXPORT Firefighter* DispatchFirefighters_4A8620(Car* pCar, Fix16 x, Fix16 y, Fix16 z);
-    EXPORT Firefighter* New28_4A8800();
-    EXPORT bool TryDispatchFirefightersToCar_4A8820(Car* pCar);
-    EXPORT bool IsFireEngineSentToCar_4A8890(Car* pFireEngine, Car* pTargetCar) const;
-    EXPORT void ResetCount_4A88D0();
+    EXPORT void FireEnginesService();
+    EXPORT Firefighter* DispatchFirefighters(Car* pCar, Fix16 x, Fix16 y, Fix16 z);
+    EXPORT Firefighter* New28();
+    EXPORT bool TryDispatchFirefightersToCar(Car* pCar);
+    EXPORT bool IsFireEngineSentToCar(Car* pFireEngine, Car* pTargetCar) const;
+    EXPORT void ResetCount();
 
     Firefighter mFirefighters[2]; // 0x0
     s16 mCount; // 0x50

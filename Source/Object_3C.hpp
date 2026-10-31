@@ -26,36 +26,36 @@ class SpriteList
         mP18 = NULL;
     }
 
-    EXPORT AttachedSprite* GetSpriteForModel_5A6A50(s32 obj_type) const;
-    EXPORT Object* FindObject2CByModel_5A6A90(s32 obj_type) const;
-    EXPORT AttachedSprite* FindFirstFireExplosion_5A6AD0() const;
-    EXPORT void RemoveSprite_5A6B10(Sprite* toFind);
-    EXPORT void RemoveSpriteSafe_5A6B60(Sprite* toFind);
-    EXPORT void DestroyAllAttached_5A6BB0();
-    EXPORT void SinkAllAttachedCars_5A6BD0();
-    EXPORT void DispatchCarImpactEvents_5A6BF0(Sprite* pSprite);
-    EXPORT bool TagSpriteWithRng_5A6C10(Sprite* toFind);
-    EXPORT void RemoveAllExceptRngValue_5A6C40(s32 toFind);
-    EXPORT Sprite* FirstSpriteOfType_5A6CA0(s32 sprite_type) const;
-    EXPORT void AddSprite_5A6CD0(Sprite* pSprite);
-    EXPORT void PushAttachedSprite_5A6D00(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 angle);
-    EXPORT void PushSprite_5A6D40(Sprite* pSprite);
-    EXPORT bool SpriteExists_5A6D80(Sprite* pToFind) const;
-    EXPORT Sprite* PopFrontSprite_5A6DA0();
-    EXPORT Sprite* PopBackSprite_5A6DC0();
-    EXPORT AttachedSprite* ClearList_5A6E10();
-    EXPORT Sprite* FindClosestSprite_5A6E40(Fix16 xpos, Fix16 ypos) const;
-    EXPORT Sprite* TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos);
+    EXPORT AttachedSprite* GetSpriteForModel(s32 obj_type) const;
+    EXPORT Object* FindObject2CByModel(s32 obj_type) const;
+    EXPORT AttachedSprite* FindFirstFireExplosion() const;
+    EXPORT void RemoveSprite(Sprite* toFind);
+    EXPORT void RemoveSpriteSafe(Sprite* toFind);
+    EXPORT void DestroyAllAttached();
+    EXPORT void SinkAllAttachedCars();
+    EXPORT void DispatchCarImpactEvents(Sprite* pSprite);
+    EXPORT bool TagSpriteWithRng(Sprite* toFind);
+    EXPORT void RemoveAllExceptRngValue(s32 toFind);
+    EXPORT Sprite* FirstSpriteOfType(s32 sprite_type) const;
+    EXPORT void AddSprite(Sprite* pSprite);
+    EXPORT void PushAttachedSprite(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 angle);
+    EXPORT void PushSprite(Sprite* pSprite);
+    EXPORT bool SpriteExists(Sprite* pToFind) const;
+    EXPORT Sprite* PopFrontSprite();
+    EXPORT Sprite* PopBackSprite();
+    EXPORT AttachedSprite* ClearList();
+    EXPORT Sprite* FindClosestSprite(Fix16 xpos, Fix16 ypos) const;
+    EXPORT Sprite* TakeClosestSprite(Fix16 xpos, Fix16 ypos);
 
-    EXPORT void PoolUpdate_5A6F70(Sprite* pSprite);
-    EXPORT void DestroyAllSprites_5A7010();
-    EXPORT void CleanupSpriteList_5A7080();
-    EXPORT void ClearGangIconSprite_5A7110();
-    EXPORT s32 GetGangIdxFromSpriteIfAny_5A71A0() const;
-    EXPORT void ExpireAttachedFlames_5A71F0();
-    EXPORT void PruneNonCollidingSprites_5A7240(Sprite* pSprite);
-    EXPORT void PropagateMaxZLayer_5A72B0(Sprite* pSprite, bool bAlsoSetSprite);
-    EXPORT bool AnySpriteHasSlopeTopInFootprint_5A7310() const;
+    EXPORT void PoolUpdate(Sprite* pSprite);
+    EXPORT void DestroyAllSprites();
+    EXPORT void CleanupSpriteList();
+    EXPORT void ClearGangIconSprite();
+    EXPORT s32 GetGangIdxFromSpriteIfAny() const;
+    EXPORT void ExpireAttachedFlames();
+    EXPORT void PruneNonCollidingSprites(Sprite* pSprite);
+    EXPORT void PropagateMaxZLayer(Sprite* pSprite, bool bAlsoSetSprite);
+    EXPORT bool AnySpriteHasSlopeTopInFootprint() const;
 
   public:
     AttachedSprite* mP18; // 0x0
@@ -99,7 +99,7 @@ class Object_3C
 
     // 9.6f 0x482BA0; GetSpeedVector_52ADF0 is its out-of-line copy. It returns a Fix16_Point (which has a
     // destructor), so VC6 never expands it: it is charged to the caller's inline budget and called out of
-    // line (GetMovementSpeedAndAngle_521FD0)
+    // line (GetMovementSpeedAndAngle)
     inline Fix16_Point GetSpeedVector_482BA0() const
     {
         Fix16_Point p;
@@ -107,7 +107,7 @@ class Object_3C
         return p;
     }
 
-    EXPORT void GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle);
+    EXPORT void GetMovementSpeedAndAngle(Fix16& Speed, Ang16& Angle);
 
     SpriteList mAttachedSprites; // 0x0
     Ang16 mAngle; // 0x4

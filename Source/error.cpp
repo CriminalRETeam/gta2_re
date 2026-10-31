@@ -13,7 +13,7 @@ DEFINE_GLOBAL(char_type, bDestroyed_6F5B70, 0x6F5B70);
 DEFINE_GLOBAL(HWND, gHwnd_707F04, 0x707F04);
 
 MATCH_FUNC(0x4D9470)
-void ErrorLog::Open_4D9470(const char_type* path, s32 truncate_mode)
+void ErrorLog::Open(const char_type* path, s32 truncate_mode)
 {
     u8* fileNameLen = new u8;
     if (fileNameLen)
@@ -46,7 +46,7 @@ void ErrorLog::Open_4D9470(const char_type* path, s32 truncate_mode)
     static_cast<ofstream&>(mOfstr).open(path, mode, filebuf::openprot);
 #endif
 
-    log_timestamp_4D9540();
+    log_timestamp();
 }
 
 // The member ofstream's constructor call and EH frame come from the real ofstream member
@@ -54,12 +54,12 @@ void ErrorLog::Open_4D9470(const char_type* path, s32 truncate_mode)
 MATCH_FUNC(0x4D94E0)
 ErrorLog::ErrorLog(const char_type* FileName, s32 truncate_mode)
 {
-    Open_4D9470(FileName, truncate_mode);
+    Open(FileName, truncate_mode);
 }
 
 // This func matches but for some reason it's crashing the patched version
 MATCH_FUNC(0x4D9690)
-EXPORT void __cdecl log_on_line_written_cb_4D9690(void* pStream)
+EXPORT void __cdecl log_on_line_written_cb(void* pStream)
 {
 #if !defined(__clang__) && (_MSC_VER <= 1200)
     static_cast<ostream_type*>(pStream)->flush();
@@ -67,7 +67,7 @@ EXPORT void __cdecl log_on_line_written_cb_4D9690(void* pStream)
 }
 
 MATCH_FUNC(0x4D9620)
-void ErrorLog::Write_4D9620(const char_type* pMsg)
+void ErrorLog::Write(const char_type* pMsg)
 {
 #if !defined(__clang__) && (_MSC_VER <= 1200)
     static_cast<ostream_type&>(this->mOfstr) << pMsg << endl << flush;
@@ -75,7 +75,7 @@ void ErrorLog::Write_4D9620(const char_type* pMsg)
 }
 
 MATCH_FUNC(0x4D9650)
-void ErrorLog::Write_Log_4D9650(const char_type* buffer)
+void ErrorLog::Write_Log(const char_type* buffer)
 {
 #if !defined(__clang__) && (_MSC_VER <= 1200)
     static_cast<ostream_type&>(this->mOfstr) << buffer << flush;
@@ -83,17 +83,17 @@ void ErrorLog::Write_Log_4D9650(const char_type* buffer)
 }
 
 MATCH_FUNC(0x4D9540)
-EXPORT void ErrorLog::log_timestamp_4D9540()
+EXPORT void ErrorLog::log_timestamp()
 {
     time_t curTime = time(NULL);
     char_type* buffer = ctime(&curTime);
     buffer[strlen(buffer) - 1] = 0; // remove the new line it  adds
     sprintf(gTmpBuffer_67C598, "\n------ %s ------", buffer);
-    Write_4D9620(gTmpBuffer_67C598);
+    Write(gTmpBuffer_67C598);
 }
 
 MATCH_FUNC(0x4D9670)
-void* ErrorLog::log_on_line_written_4D9670(TLogLineCallback pCallBack)
+void* ErrorLog::log_on_line_written(TLogLineCallback pCallBack)
 {
     pCallBack(this);
     return this;
@@ -103,7 +103,7 @@ void* ErrorLog::log_on_line_written_4D9670(TLogLineCallback pCallBack)
 MATCH_FUNC(0x4A3610)
 ErrorLog::~ErrorLog()
 {
-    log_intro_4D95A0();
+    log_intro();
 #if !defined(__clang__) && (_MSC_VER <= 1200)
     mOfstr.close();
 #endif
@@ -111,16 +111,16 @@ ErrorLog::~ErrorLog()
 }
 
 MATCH_FUNC(0x4D95A0)
-void ErrorLog::log_intro_4D95A0()
+void ErrorLog::log_intro()
 {
     sprintf(gTmpBuffer_67C598, "Coop v%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMinor_708284);
-    Write_4D9620(gTmpBuffer_67C598);
+    Write(gTmpBuffer_67C598);
 
     time_t curTime = time(NULL);
     char_type* buffer = ctime(&curTime);
     buffer[strlen(buffer) - 1] = 0; // remove the new line it  adds
     sprintf(gTmpBuffer_67C598, "\n------ %s ------", buffer);
-    Write_4D9620(gTmpBuffer_67C598);
+    Write(gTmpBuffer_67C598);
 }
 
 DEFINE_GLOBAL_INIT(ErrorLog, gErrorLog_67CF58, ErrorLog("test\\error.log", 1), 0x67CF58);
@@ -164,13 +164,13 @@ const char_type* gListTypes_61AB70[30] = {"objects",
                                           "audio_info_space"};
 
 MATCH_FUNC(0x4A0770)
-EXPORT void __stdcall Error_SetName_4A0770(const char_type* pFileName)
+EXPORT void __stdcall Error_SetName(const char_type* pFileName)
 {
     strcpy(sGlobalFileName, pFileName);
 }
 
 MATCH_FUNC(0x4A07A0)
-EXPORT const char_type* __stdcall SourceFileNameFromPath_4A07A0(const char_type* pPath)
+EXPORT const char_type* __stdcall SourceFileNameFromPath(const char_type* pPath)
 {
     // ecx was swapped with edx without using the local pIter
     const char_type* result = NULL;
@@ -195,8 +195,8 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
 
     va_start(va, lineNo);
 
-    sprintf(gTmpBuffer_67C598, "Fatal Error %d in %s(%d)", code, SourceFileNameFromPath_4A07A0(pFileName), lineNo);
-    gErrorLog_67CF58.Write_4D9620(gTmpBuffer_67C598);
+    sprintf(gTmpBuffer_67C598, "Fatal Error %d in %s(%d)", code, SourceFileNameFromPath(pFileName), lineNo);
+    gErrorLog_67CF58.Write(gTmpBuffer_67C598);
 
     switch (code)
     {
@@ -583,7 +583,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
 
         case Gta2Error::AssertionFail:
-            sprintf(gTmpBuffer_67C598, "assertion failure in %s(line %d)", SourceFileNameFromPath_4A07A0(pFileName), lineNo);
+            sprintf(gTmpBuffer_67C598, "assertion failure in %s(line %d)", SourceFileNameFromPath(pFileName), lineNo);
             break;
 
         case Gta2Error::TryingToExpandAnEmptyNodeInRouterfinder:
@@ -1344,7 +1344,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case Gta2Error::AssertionFailure:
         {
             const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "assertion failure in %s(line %d): %s", SourceFileNameFromPath_4A07A0(pFileName), lineNo, va_1);
+            sprintf(gTmpBuffer_67C598, "assertion failure in %s(line %d): %s", SourceFileNameFromPath(pFileName), lineNo, va_1);
             break;
         }
         case Gta2Error::TooManySymbols:
@@ -1827,19 +1827,19 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "model %d repeated in %s", reinterpret_cast<s32>(va_2), SourceFileNameFromPath_4A07A0(va_2));
+            sprintf(gTmpBuffer_67C598, "model %d repeated in %s", reinterpret_cast<s32>(va_2), SourceFileNameFromPath(va_2));
             break;
         }
 
         case Gta2Error::BinmakeError:
-            sprintf(gTmpBuffer_67C598, "%s binmake error : %s", SourceFileNameFromPath_4A07A0(gErrStr_67C29C), gErrStr2_67C3A8);
+            sprintf(gTmpBuffer_67C598, "%s binmake error : %s", SourceFileNameFromPath(gErrStr_67C29C), gErrStr2_67C3A8);
             break;
 
         case Gta2Error::InvalidSize:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "%s invalid size at %d bytes", SourceFileNameFromPath_4A07A0(va_2), reinterpret_cast<s32>(va_2));
+            sprintf(gTmpBuffer_67C598, "%s invalid size at %d bytes", SourceFileNameFromPath(va_2), reinterpret_cast<s32>(va_2));
             break;
         }
 
@@ -2011,7 +2011,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             sprintf(gTmpBuffer_67C598,
                     "%d models in %s but %d models in style",
                     reinterpret_cast<s32>(va_3),
-                    SourceFileNameFromPath_4A07A0(reinterpret_cast<const char_type*>(va_3)),
+                    SourceFileNameFromPath(reinterpret_cast<const char_type*>(va_3)),
                     reinterpret_cast<s32>(va_3));
             break;
         }
@@ -2268,8 +2268,8 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
     }
 
-    ErrorMsgBox_5E4EC0(gTmpBuffer_67C598);
-    gErrorLog_67CF58.Write_4D9620(gTmpBuffer_67C598);
+    ErrorMsgBox(gTmpBuffer_67C598);
+    gErrorLog_67CF58.Write(gTmpBuffer_67C598);
 }
 
 MATCH_FUNC(0x4A38C0)
@@ -2281,7 +2281,7 @@ EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo
         if (!destroyed)
         {
             Shutdown_4DA740();
-            GBH_Graphis_DMA_Video_Free_5D9830();
+            GBH_Graphis_DMA_Video_Free();
             // 16 was using esi instead of push 10h without the 0x6F5B70 bool
             // being cached in both branches of the if/else
             FatalError_4A07C0(Gta2Error::FileOpenError, pSourceFile, lineNo);
@@ -2295,7 +2295,7 @@ EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo
         if (!destroyed)
         {
             Shutdown_4DA740();
-            GBH_Graphis_DMA_Video_Free_5D9830();
+            GBH_Graphis_DMA_Video_Free();
 
             va_list va;
             va_start(va, lineNo);
@@ -2374,7 +2374,7 @@ EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo
 // the byte-indexed table for 0x8007000E-0x80070057), which shifts the register rotation and so which cases
 // cross-jump into the default's tail.
 MATCH_FUNC(0x4A3CF0)
-EXPORT void __stdcall FatalDXError_4A3CF0(HRESULT hr, const char_type* pSourceFile, s32 lineNo)
+EXPORT void __stdcall FatalDXError(HRESULT hr, const char_type* pSourceFile, s32 lineNo)
 {
     switch (hr)
     {

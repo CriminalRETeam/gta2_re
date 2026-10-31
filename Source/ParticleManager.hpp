@@ -14,22 +14,22 @@ class Object;
 class ParticleManager
 {
   public:
-    EXPORT Particle_4C* New_53E3C0(Fix16 speed_x, Fix16 speed_y, Fix16 speed_z, Fix16 additional_speed_x, Fix16 additional_speed_y, Fix16 additional_speed_z);
+    EXPORT Particle_4C* New(Fix16 speed_x, Fix16 speed_y, Fix16 speed_z, Fix16 additional_speed_x, Fix16 additional_speed_y, Fix16 additional_speed_z);
 
-    EXPORT void ParticlesService_53E320();
-    EXPORT void EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);
-    EXPORT void SpawnBlood_53E880(Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT void GunMuzzelFlash_53E970(Sprite* pSprite);
-    EXPORT void EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, bool bRandomRot);
-    EXPORT void SpawnParticleSprite_5405D0(Sprite* pSprite);
+    EXPORT void ParticlesService();
+    EXPORT void EmitBloodBurst(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);
+    EXPORT void SpawnBlood(Fix16 xpos, Fix16 ypos, Fix16 zpos);
+    EXPORT void GunMuzzelFlash(Sprite* pSprite);
+    EXPORT void EmitWaterSplash(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, bool bRandomRot);
+    EXPORT void SpawnParticleSprite(Sprite* pSprite);
     EXPORT void EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 ang);
-    EXPORT void SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bSmokeSource);
+    EXPORT void SpawnCigaretteSmokePuff(Sprite* pSprite, char_type bSmokeSource);
     EXPORT ParticleManager();
     EXPORT ~ParticleManager();
 
-    EXPORT void EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite);
-    EXPORT void EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16_Point dir);
-    EXPORT void EmitFlameStreamSegment_53F4C0(Sprite* pSprite);
+    EXPORT void EmitFireTruckSprayParticle(Sprite* pSprite);
+    EXPORT void EmitImpactParticles(Fix16 x, Fix16 y, Fix16 z, Fix16_Point dir);
+    EXPORT void EmitFlameStreamSegment(Sprite* pSprite);
 
     Object* mFireHitObj; // 0x0
     Object* mWaterHitObj; // 0x4

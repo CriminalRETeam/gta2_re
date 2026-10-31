@@ -3,7 +3,7 @@
 #include <windows.h>
 
 MATCH_FUNC(0x5BEBF0)
-void ProfilerTimer::AccumulateElapsed_5BEBF0()
+void ProfilerTimer::AccumulateElapsed()
 {
     mAccumTime += timeGetTime() - mStartTime;
 }

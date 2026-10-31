@@ -3,30 +3,30 @@
 #include "Function.hpp"
 #include <windows.h>
 
-EXPORT void Start_GTA2Manager_5E4DE0();
+EXPORT void Start_GTA2Manager();
 
-EXPORT void __stdcall ErrorMsgBox_5E4EC0(LPCSTR lpText);
+EXPORT void __stdcall ErrorMsgBox(LPCSTR lpText);
 
-EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
+EXPORT LRESULT __stdcall WindowProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 
 void LoadBeginSceneCBPtr();
 
 s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd);
 
-EXPORT bool __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance);
+EXPORT bool __stdcall Start_NetworkGame(HINSTANCE hInstance);
 
-EXPORT void __stdcall GetGTA2Version_5E5D60(s32* pVerMinor, s32* pVerMajor);
+EXPORT void __stdcall GetGTA2Version(s32* pVerMinor, s32* pVerMajor);
 EXTERN_GLOBAL(s32, gGTA2VersionMajor_708280);
 EXTERN_GLOBAL(s32, gGTA2VersionMinor_708284);
 
-EXPORT void __stdcall ResetFrameTimer_4DA830();
+EXPORT void __stdcall ResetFrameTimer();
 
-EXPORT void UpdateGameScreenSize_5D8E00();
+EXPORT void UpdateGameScreenSize();
 
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 EXTERN_GLOBAL_ARRAY(u8, gSyncCheckData_6F58E0, 0x20);
-EXPORT void __stdcall MakeInitialSyncData_4DB2E0(u8* pSyncData);
-EXPORT void __stdcall CompareRemotePlayers_4DB440(u8* pLocalSyncData, u8* pRemoteSyncData);
+EXPORT void __stdcall MakeInitialSyncData(u8* pSyncData);
+EXPORT void __stdcall CompareRemotePlayers(u8* pLocalSyncData, u8* pRemoteSyncData);
 
 EXTERN_GLOBAL_ARRAY(char_type, gWorkingDir_707F64, 256);
 

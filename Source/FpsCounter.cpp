@@ -12,10 +12,10 @@ EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
 
 MATCH_FUNC(0x5BEC30)
-void FpsCounter::ShowFps_5BEC30()
+void FpsCounter::ShowFps()
 {
     swprintf(tmpBuff_67BD9C, L"%d/%d fps", mUpdateFps, mDrawFps);
-    gHud_2B00_706620->mTexts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 0, gDebugFont_706600, 1);
+    gHud_2B00_706620->mTexts.DisplayText(tmpBuff_67BD9C, 0, 0, gDebugFont_706600, 1);
 }
 
 MATCH_FUNC(0x5BEC70)
@@ -36,7 +36,7 @@ FpsCounter::~FpsCounter()
 }
 
 MATCH_FUNC(0x5BECF0)
-void FpsCounter::UpdateFpsCounters_5BECF0(char_type bDrewFrame, char_type bUpdatedLogic)
+void FpsCounter::UpdateFpsCounters(char_type bDrewFrame, char_type bUpdatedLogic)
 {
     if (bUpdatedLogic)
     {

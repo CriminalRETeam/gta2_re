@@ -17,7 +17,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(SpriteTreeNode, 0xC);
 EXTERN_GLOBAL(class SpriteTreeStack*, gSpriteTreeStack_705BC0);
 
 
-// Explicit stack used by SpriteTree::Draw_5C5DF0 for the in-order walk of a sprite tree
+// Explicit stack used by SpriteTree::Draw for the in-order walk of a sprite tree
 class SpriteTreeStack
 {
   public:
@@ -97,9 +97,9 @@ GTA2_ASSERT_SIZEOF_ALWAYS(SpriteTreeNodePool, 0x2EE4);
 class SpriteTree
 {
   public:
-    EXPORT void AddSprite_5C5CF0(Sprite* pSprite);
-    EXPORT void Draw_5C5DF0();
-    EXPORT void Reset_5C5E50();
+    EXPORT void AddSprite(Sprite* pSprite);
+    EXPORT void Draw();
+    EXPORT void Reset();
     EXPORT SpriteTree();
     EXPORT ~SpriteTree();
     SpriteTreeNode* mpRoot; // 0x0
@@ -116,9 +116,9 @@ class SpriteRenderer
         k_num_layers = 7
     };
 
-    EXPORT void ResetAll_4954F0();
-    EXPORT void DisplayAdd_495510(Sprite* pSprite);
-    EXPORT void Draw_495560(s32 layer);
+    EXPORT void ResetAll();
+    EXPORT void DisplayAdd(Sprite* pSprite);
+    EXPORT void Draw(s32 layer);
     EXPORT SpriteRenderer();
     EXPORT ~SpriteRenderer();
     SpriteTree* mLayers[k_num_layers]; // 0x0

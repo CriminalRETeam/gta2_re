@@ -10,17 +10,17 @@ class TrainStation;
 class Train
 {
   public:
-    EXPORT void ReassignTrainHead_578030();
-    EXPORT void IncrementState_578180();
-    EXPORT void DecrementState_5781F0();
+    EXPORT void ReassignTrainHead();
+    EXPORT void IncrementState();
+    EXPORT void DecrementState();
     EXPORT Train();
     EXPORT ~Train();
-    EXPORT void StartIfHasDriver_5782D0();
-    EXPORT void Stop_578300();
-    EXPORT void CloseCarriageDoors_578330();
-    EXPORT void OpenCarriageDoors_578360();
-    EXPORT void UpdatePassengerAI_578390();
-    EXPORT void ProcessTrainExplosionChain_578670();
+    EXPORT void StartIfHasDriver();
+    EXPORT void Stop();
+    EXPORT void CloseCarriageDoors();
+    EXPORT void OpenCarriageDoors();
+    EXPORT void UpdatePassengerAI();
+    EXPORT void ProcessTrainExplosionChain();
     bool mIsHijacked; // 0x0
     char_type mUnused1; // 0x1
     bool mPassengersFleeing; // 0x2
@@ -50,12 +50,12 @@ class TrainStation
 {
   public:
     // returns a car_model_enum
-    EXPORT s32 GetWagonType_577f80(u8 idx) const;
+    EXPORT s32 GetWagonType(u8 idx) const;
     EXPORT TrainStation();
     EXPORT ~TrainStation();
 
     // NOTE: This function defined out of order for some reason
-    EXPORT void CalculateWagonCount_578820(const u8* pWagons);
+    EXPORT void CalculateWagonCount(const u8* pWagons);
 
     s32 mStationType; // 0x0
     gmp_map_zone* mEntryPoint; // 0x4
@@ -76,7 +76,7 @@ class TrainStation
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TrainStation, 0x34);
 
-// Plain array/u8 globals instead of these structs change the registers of SetupTrainAndBusStops_5794B0
+// Plain array/u8 globals instead of these structs change the registers of SetupTrainAndBusStops
 struct TrainStationList
 {
     TrainStation* mList[5]; // 0x0
@@ -93,45 +93,45 @@ EXTERN_GLOBAL(TrainStopCount, gTrainStopCount_6FEFFC);
 class PublicTransport
 {
   private:
-    EXPORT Train* AllocateTrain_578790();
-    EXPORT TrainStation* AllocateTrainStation_5787E0();
+    EXPORT Train* AllocateTrain();
+    EXPORT TrainStation* AllocateTrainStation();
 
   public:
     STATIC_MEMBER(u8, sStationCount);
     STATIC_MEMBER(bool, sBusSpawned);
     STATIC_MEMBER(s32, sBusSpawnDelay);
-    EXPORT void SpawnTrainsFromStations_578860();
+    EXPORT void SpawnTrainsFromStations();
 
   private:
-    EXPORT void InitStationsLinkedList_5793E0();
-    EXPORT void InitTrainStations_579440();
+    EXPORT void InitStationsLinkedList();
+    EXPORT void InitTrainStations();
 
   public:
-    EXPORT void SetupTrainAndBusStops_5794B0();
+    EXPORT void SetupTrainAndBusStops();
 
   private:
-    EXPORT TrainStation* GetBusStopOnScreen_5799B0();
+    EXPORT TrainStation* GetBusStopOnScreen();
 
   public:
-    EXPORT void OnBusStopMarkerHit_579A30(Car* pToFind);
-    EXPORT bool is_bus_579AA0(Car* pCar) const;
-    EXPORT Car* GetBusIfBoarding_579AD0() const;
-    EXPORT bool is_bus_full_579AF0() const;
-    EXPORT void IncrementBusPassengerCount_579B10();
-    EXPORT void KillAllPassengers_579B20();
-    EXPORT Car** GetCarArrayFromLeadCar_579B40(Car* toFind);
-    EXPORT bool GetTrainSpeed_579B90(Car* pToFind, Fix16* pOutSpeed);
+    EXPORT void OnBusStopMarkerHit(Car* pToFind);
+    EXPORT bool is_bus(Car* pCar) const;
+    EXPORT Car* GetBusIfBoarding() const;
+    EXPORT bool is_bus_full() const;
+    EXPORT void IncrementBusPassengerCount();
+    EXPORT void KillAllPassengers();
+    EXPORT Car** GetCarArrayFromLeadCar(Car* toFind);
+    EXPORT bool GetTrainSpeed(Car* pToFind, Fix16* pOutSpeed);
 
   private:
-    EXPORT void BusesService_579CA0();
+    EXPORT void BusesService();
 
   public:
-    EXPORT void PublicTransportService_57A7A0();
-    EXPORT TrainStation* TrainStationForZone_57B4B0(gmp_map_zone* pZone);
-    EXPORT Car* GetLeadTrainCar_57B540(Car* pCar);
-    EXPORT Train* GetTrainFromCar_57B5C0(Car* pToFind);
-    EXPORT Train* GetTrainFromCarExcludingLeadCar_57B6A0(Car* pToFind);
-    EXPORT bool AreTrainsOnDifferentTracks_57B740(Car* pCar1, Car* pCar2);
+    EXPORT void PublicTransportService();
+    EXPORT TrainStation* TrainStationForZone(gmp_map_zone* pZone);
+    EXPORT Car* GetLeadTrainCar(Car* pCar);
+    EXPORT Train* GetTrainFromCar(Car* pToFind);
+    EXPORT Train* GetTrainFromCarExcludingLeadCar(Car* pToFind);
+    EXPORT bool AreTrainsOnDifferentTracks(Car* pCar1, Car* pCar2);
     EXPORT PublicTransport();
     EXPORT ~PublicTransport();
 
@@ -147,6 +147,6 @@ GTA2_ASSERT_SIZEOF_ALWAYS(PublicTransport, 0x181C);
 
 EXTERN_GLOBAL(PublicTransport*, gPublicTransport_181C_6FF1D4);
 
-EXPORT bool __stdcall CompareNameChars_577E90(const char_type* pChar1, const char_type* pChar2);
+EXPORT bool __stdcall CompareNameChars(const char_type* pChar1, const char_type* pChar2);
 
-EXPORT gmp_map_zone* __stdcall FindStationZoneByName_577EE0(const char_type* pChar, u8 case_value);
+EXPORT gmp_map_zone* __stdcall FindStationZoneByName(const char_type* pChar, u8 case_value);

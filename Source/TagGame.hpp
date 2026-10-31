@@ -10,15 +10,15 @@ class Ped;
 class TagGame
 {
   public:
-    EXPORT void Init_516560();
-    EXPORT void SetNewFugitive_516590(Player* pNewFugitive);
-    EXPORT void ExecuteGamemodeTick_516660();
-    EXPORT void UpdateFugitive_516740(Player* pFormerPlayerFugitive, Player* pPlayer_killer);
+    EXPORT void Init();
+    EXPORT void SetNewFugitive(Player* pNewFugitive);
+    EXPORT void ExecuteGamemodeTick();
+    EXPORT void UpdateFugitive(Player* pFormerPlayerFugitive, Player* pPlayer_killer);
 
     // 9.6f 0x434B20
     inline bool IsTagGame_434B20()
     {
-        return gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0() == TAG_GAME_3;
+        return gGameSession_67E8E0.GetMultiplayerGamemode() == TAG_GAME_3;
     }
 
     // 9.6f 0x434B60, defined in Player.hpp

@@ -1,6 +1,6 @@
 #pragma once
 
-// Ped::mVoiceEvent, played by sound_obj::HandlePedVoiceEvent_423080
+// Ped::mVoiceEvent, played by sound_obj::HandlePedVoiceEvent
 namespace ped_voice_event
 {
 enum

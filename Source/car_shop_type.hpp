@@ -1,6 +1,6 @@
 #pragma once
 
-// Kept out of enums.hpp: one more name there changes Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0 (docs/matching_quirks.md).
+// Kept out of enums.hpp: one more name there changes Particle_4C::UpdateCollisionBurst_state_31_34 (docs/matching_quirks.md).
 // field_26 of a car_shop_130 object, set by the script; other values are respray remaps.
 namespace car_shop_type
 {

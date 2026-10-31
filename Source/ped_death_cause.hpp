@@ -1,8 +1,8 @@
 #pragma once
 
-// Kept out of enums.hpp on purpose: a third enum there changes MapRenderer::Draw4SidedDiagonalUpLeft_4EF880
+// Kept out of enums.hpp on purpose: a third enum there changes MapRenderer::Draw4SidedDiagonalUpLeft
 // (see docs/matching_quirks.md)
-// Ped::mDeathCause: how the ped was last killed. Values 9..21 come from GetDeathCauseForObjectModel_48E780 (projectile model)
+// Ped::mDeathCause: how the ped was last killed. Values 9..21 come from GetDeathCauseForObjectModel (projectile model)
 // or Car::field_90, which uses the same values.
 namespace ped_death_cause
 {
@@ -12,9 +12,9 @@ enum
     run_over_1 = 1,
     electrocuted_2 = 2,
     run_over_by_stolen_car_3 = 3, // the victim's own stolen car (scores 10000 in a network game)
-    explosion_4 = 4,      // caught in a blast (Explosion::ApplyBlastDamage_541850) or a car crusher
-    drowned_5 = 5,        // Char::DrownPed_5459E0, when the ped has a killer
-    projectile_default_9 = 9, // GetDeathCauseForObjectModel_48E780 fallback
+    explosion_4 = 4,      // caught in a blast (Explosion::ApplyBlastDamage) or a car crusher
+    drowned_5 = 5,        // Char::DrownPed, when the ped has a killer
+    projectile_default_9 = 9, // GetDeathCauseForObjectModel fallback
     punched_10 = 10,
     bullet_11 = 11,       // machine gun / pistol bullet
     bomb_12 = 12,         // car_bomb_132
@@ -27,7 +27,7 @@ enum
     shotgun_19 = 19,
     burning_20 = 20,      // water_hitting_198, 251
     mine_21 = 21,         // mine_10
-    any_weapon_22 = 22,   // only in a bonus rule: matches 4 and 10..19 (see BonusTracker::IsDeathCauseInGroup_432170)
+    any_weapon_22 = 22,   // only in a bonus rule: matches 4 and 10..19 (see BonusTracker::IsDeathCauseInGroup)
     any_23 = 23,          // wildcard in a bonus definition (BonusTracker)
 };
 } // namespace ped_death_cause

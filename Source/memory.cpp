@@ -18,7 +18,7 @@ void* __stdcall Memory::malloc_4FE4D0(size_t size)
 }
 
 MATCH_FUNC(0x4FE510)
-void* __stdcall Memory::Aligned_malloc_4FE510(s32 requestedSize, void** pUnAlignedPtr)
+void* __stdcall Memory::Aligned_malloc(s32 requestedSize, void** pUnAlignedPtr)
 {
     // 64 KB extra so that the block can be aligned to 64 KB
     void* pAlloc = crt::malloc(requestedSize + 0x10000);

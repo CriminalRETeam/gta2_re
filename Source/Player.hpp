@@ -86,7 +86,7 @@ class Player
     // 9.6f 0x4766B0
     inline void ChangeMultipliers_4766B0(s32 amount)
     {
-        mMultipliers.ChangeStatByAmount_4921B0(amount);
+        mMultipliers.ChangeStatByAmount(amount);
     }
 
     // 9.6f 0x476700
@@ -112,13 +112,13 @@ class Player
     // 9.6f 0x421990
     inline void AddCash_421990(s32 cash)
     {
-        mScores.AddCash_592620(cash);
+        mScores.AddCash(cash);
     }
 
     // 9.6f 0x421980
     inline s32 GetScore_421980() const
     {
-        return mScores.GetScore_592370();
+        return mScores.GetScore();
     }
 
     // 9.6f 0x4766A0
@@ -130,7 +130,7 @@ class Player
     // 9.6f 0x41DC40
     inline void AddScore_41DC40(s32 score)
     {
-        mScores.AddCash_592620(score * mMultipliers.mValue);
+        mScores.AddCash(score * mMultipliers.mValue);
     }
 
     inline Ped* GetCameraModePed() const
@@ -209,81 +209,81 @@ class Player
         return true;
     }
 
-    EXPORT s32 ObjectTypeToWeaponType_443CB0(u8 shop_type);
+    EXPORT s32 ObjectTypeToWeaponType(u8 shop_type);
 
-    EXPORT u8 GetIdx_4881E0();
-    EXPORT void AddCarToHistory_5645B0(Car* pNewCar);
-    EXPORT bool PromoteCarInHistory_564610(Car* pCar, bool dont_modify);
-    EXPORT void RemoveCarFromHistory_564680(Car* pCar);
-    EXPORT void SetKFCarWeapon_564710(Car* pCar, s32 weapon_kind);
-    EXPORT void SetKFWeapon_564790(s32 weapon_idx);
-    EXPORT void ClearKFWeapon_5647D0();
-    EXPORT Weapon* GetCurrPlayerWeapon_5648F0();
-    EXPORT void SetWeapon_564910(Weapon* pWeapon);
-    EXPORT bool HasAnyAmmo_564940();
-    EXPORT bool AddWeaponWithAmmo_564960(s32 weapon_kind, u8 ammo);
-    EXPORT void SelectNextOrPrevWeapon_5649D0(bool go_forwards, bool go_backwards);
-    EXPORT void LoadCarWeapons_564AD0(Car* pCar);
-    EXPORT void ClearCarWeapons_564B60();
-    EXPORT void CleanupEmptyAmmoWeapons_564B80();
-    EXPORT void UnloadCarWeapons_564C00();
-    EXPORT void RemovePlayerWeapons_564C50();
-    EXPORT void ClearPowerUps_564CC0();
-    EXPORT void ClearPowerUpsExceptJailCard_564CF0();
-    EXPORT bool CollectPowerUp_564D60(s32 power_up_idx);
-    EXPORT void tick_down_powerups_565070();
-    EXPORT void RestorePowerUpsFromSave_5651F0(SavedPlayerStats* pSave);
-    EXPORT void TeleportToDebugCam_565310();
-    EXPORT void DebugWatchNearestCar_5653E0();
-    EXPORT void OnVideoModeChange_565460();
-    EXPORT void InitPlayerPed_565490(Ped* pPed);
-    EXPORT void SetInputs_565740(u32 inputs);
-    EXPORT void IncrementGangRespectFromDebugKeys_565770(u8 count);
-    EXPORT void IncreaseWantedLevelFromDebugKeys_565860();
-    EXPORT void Hud_Controls_565890(u16 action);
-    EXPORT void HandleKeyRelease_566380(u16 key);
-    EXPORT void CharacterControls_566520();
-    EXPORT void ControlInputs_566820();
-    EXPORT void HandleControls_5668D0(Ped* pPed);
-    EXPORT void DoCarControlInputs_566C30(Car* pCar);
-    EXPORT void DoPedControlInputs_566C80(Ped* pPed);
-    EXPORT void ShowDebugInfo_566EE0(bool skip);
-    EXPORT void RespawnPlayer_5670B0();
-    EXPORT void Wasted_567130();
-    EXPORT void UpdateAuxPedDeath_567850();
-    EXPORT void Busted_5679E0();
-    EXPORT void UpdateCurrentZones_568520();
-    EXPORT void UpdateSoundListener_568630();
-    EXPORT void HandleDebugZoom_568670();
-    EXPORT void UpdateCamera_5686D0(Camera* pCam);
-    EXPORT void Disconnect_568730();
-    EXPORT void Service_5687F0();
-    EXPORT void UpdatePaused_569410();
-    EXPORT void EndRemoteControl_569530();
-    EXPORT void ResetAuxCamera_5695A0();
-    EXPORT void StartRemoteControl_569600(Car* pCar);
-    EXPORT void WatchCar_5696D0(Car* pCar);
-    EXPORT void GetPosU8_569840(u8& x, u8& y, u8& z);
-    EXPORT Car* GetPlayerCar_5698E0();
-    EXPORT void get_pos_569920(Fix16* out_x, Fix16* out_y, Fix16* out_z);
-    EXPORT void ChangeLifeCountByAmount_5699F0(s32 amount);
-    EXPORT void ColorScoreFromRemap_569A10();
-    EXPORT void SetScoreTextColour_569C20();
-    EXPORT void InitializePlayerState_569CB0();
-    EXPORT void DebugToggleRemoteControl_569E70();
-    EXPORT char* GetDeathText_569F00();
-    EXPORT void DisableInputs_569F40();
-    EXPORT void DisableAllControls_569FF0();
-    EXPORT void EnableAllControls_56A000();
-    EXPORT void EnableKFMode_56A010();
-    EXPORT void DisableKFMode_56A020();
-    EXPORT void DisableEnterVehicles_56A030();
-    EXPORT void EnableEnterVehicles_56A040();
-    EXPORT void RestoreCarsFromSave_56A0F0();
-    EXPORT void CopyPlayerDataToSave_56A1A0(SavedPlayerStats* pSave);
-    EXPORT void UpdateGameFromSave_56A310(SavedPlayerStats* pSave);
-    EXPORT void ApplyCheats_56A490();
-    EXPORT void ClearInputs_56A6D0();
+    EXPORT u8 GetIdx();
+    EXPORT void AddCarToHistory(Car* pNewCar);
+    EXPORT bool PromoteCarInHistory(Car* pCar, bool dont_modify);
+    EXPORT void RemoveCarFromHistory(Car* pCar);
+    EXPORT void SetKFCarWeapon(Car* pCar, s32 weapon_kind);
+    EXPORT void SetKFWeapon(s32 weapon_idx);
+    EXPORT void ClearKFWeapon();
+    EXPORT Weapon* GetCurrPlayerWeapon();
+    EXPORT void SetWeapon(Weapon* pWeapon);
+    EXPORT bool HasAnyAmmo();
+    EXPORT bool AddWeaponWithAmmo(s32 weapon_kind, u8 ammo);
+    EXPORT void SelectNextOrPrevWeapon(bool go_forwards, bool go_backwards);
+    EXPORT void LoadCarWeapons(Car* pCar);
+    EXPORT void ClearCarWeapons();
+    EXPORT void CleanupEmptyAmmoWeapons();
+    EXPORT void UnloadCarWeapons();
+    EXPORT void RemovePlayerWeapons();
+    EXPORT void ClearPowerUps();
+    EXPORT void ClearPowerUpsExceptJailCard();
+    EXPORT bool CollectPowerUp(s32 power_up_idx);
+    EXPORT void tick_down_powerups();
+    EXPORT void RestorePowerUpsFromSave(SavedPlayerStats* pSave);
+    EXPORT void TeleportToDebugCam();
+    EXPORT void DebugWatchNearestCar();
+    EXPORT void OnVideoModeChange();
+    EXPORT void InitPlayerPed(Ped* pPed);
+    EXPORT void SetInputs(u32 inputs);
+    EXPORT void IncrementGangRespectFromDebugKeys(u8 count);
+    EXPORT void IncreaseWantedLevelFromDebugKeys();
+    EXPORT void Hud_Controls(u16 action);
+    EXPORT void HandleKeyRelease(u16 key);
+    EXPORT void CharacterControls();
+    EXPORT void ControlInputs();
+    EXPORT void HandleControls(Ped* pPed);
+    EXPORT void DoCarControlInputs(Car* pCar);
+    EXPORT void DoPedControlInputs(Ped* pPed);
+    EXPORT void ShowDebugInfo(bool skip);
+    EXPORT void RespawnPlayer();
+    EXPORT void Wasted();
+    EXPORT void UpdateAuxPedDeath();
+    EXPORT void Busted();
+    EXPORT void UpdateCurrentZones();
+    EXPORT void UpdateSoundListener();
+    EXPORT void HandleDebugZoom();
+    EXPORT void UpdateCamera(Camera* pCam);
+    EXPORT void Disconnect();
+    EXPORT void Service();
+    EXPORT void UpdatePaused();
+    EXPORT void EndRemoteControl();
+    EXPORT void ResetAuxCamera();
+    EXPORT void StartRemoteControl(Car* pCar);
+    EXPORT void WatchCar(Car* pCar);
+    EXPORT void GetPosU8(u8& x, u8& y, u8& z);
+    EXPORT Car* GetPlayerCar();
+    EXPORT void get_pos(Fix16* out_x, Fix16* out_y, Fix16* out_z);
+    EXPORT void ChangeLifeCountByAmount(s32 amount);
+    EXPORT void ColorScoreFromRemap();
+    EXPORT void SetScoreTextColour();
+    EXPORT void InitializePlayerState();
+    EXPORT void DebugToggleRemoteControl();
+    EXPORT char* GetDeathText();
+    EXPORT void DisableInputs();
+    EXPORT void DisableAllControls();
+    EXPORT void EnableAllControls();
+    EXPORT void EnableKFMode();
+    EXPORT void DisableKFMode();
+    EXPORT void DisableEnterVehicles();
+    EXPORT void EnableEnterVehicles();
+    EXPORT void RestoreCarsFromSave();
+    EXPORT void CopyPlayerDataToSave(SavedPlayerStats* pSave);
+    EXPORT void UpdateGameFromSave(SavedPlayerStats* pSave);
+    EXPORT void ApplyCheats();
+    EXPORT void ClearInputs();
 
     // 0x56A740
     EXPORT Player(u8 player_idx);
@@ -335,7 +335,7 @@ class Player
     bool mIsUser; // 0x0
     char_type mUnused1; // 0x1
     char_type mUnused2; // 0x2
-    u32 mInputs; // 0x4: this tick's input bits (SetInputs_565740); zeroed once the tick has used them
+    u32 mInputs; // 0x4: this tick's input bits (SetInputs); zeroed once the tick has used them
     Ang16 mTurnSpeed; // 0x8
     Ang16 mTurnAccel; // 0xA
     Fix16 mMoveDirection; // 0xC

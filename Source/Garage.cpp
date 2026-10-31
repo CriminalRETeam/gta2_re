@@ -34,7 +34,7 @@ Garage::~Garage()
 
 // The heading for a ped leaving through a door facing `face`.
 MATCH_FUNC(0x5345E0)
-EXPORT Ang16 __stdcall GetHeadingForDoorFace_5345E0(s32 face)
+EXPORT Ang16 __stdcall GetHeadingForDoorFace(s32 face)
 {
     switch (face)
     {
@@ -66,15 +66,15 @@ static inline bool IsLongerThanOneBlock_447ED0(Car* pCar)
 
 // 9.6f 0x489B10
 MATCH_FUNC(0x534650)
-void Garage::ValidateParkCommand_534650()
+void Garage::ValidateParkCommand()
 {
-    // The result is unused (the out-of-line Add_408660 on a const Fix16)
+    // The result is unused (the out-of-line Add on a const Fix16)
     {
         const Fix16 door_z(this->mDoor->mPrimaryDoorData->mZ);
-        door_z.Add_408660(kFpEighth);
+        door_z.Add(kFpEighth);
     }
 
-    if (gMap_0x370_6F6268->HasWallInArea_4E18A0(mParkXMin.ToInt(),
+    if (gMap_0x370_6F6268->HasWallInArea(mParkXMin.ToInt(),
                                       (mParkXMax - kFpOne64th_6FD1D8).ToInt(),
                                       mParkYMin.ToInt(),
                                       (mParkYMax - kFpOne64th_6FD1D8).ToInt(),
@@ -98,7 +98,7 @@ DEFINE_GLOBAL_INIT(Ang16, kAng270_6FD0A4, Ang16(1080), 0x6FD0A4);
 DEFINE_GLOBAL_INIT(Ang16, kAng0_6FD25C, Ang16(0), 0x6FD25C);
 
 MATCH_FUNC(0x534700)
-u8 Garage::ParkCarAtDoor_534700(Car* pCar, Door* pDoor)
+u8 Garage::ParkCarAtDoor(Car* pCar, Door* pDoor)
 {
     mParkingCar = pCar;
     mWaitTicks = 0;
@@ -121,7 +121,7 @@ u8 Garage::ParkCarAtDoor_534700(Car* pCar, Door* pDoor)
     u8 x;
     u8 y;
     u8 z;
-    mDoor->get_door_xyz_face_49CEE0(&x, &y, &z, reinterpret_cast<u32*>(&mDoorFace));
+    mDoor->get_door_xyz_face(&x, &y, &z, reinterpret_cast<u32*>(&mDoorFace));
 
     Fix16 w1;
     Fix16 w2;
@@ -193,12 +193,12 @@ u8 Garage::ParkCarAtDoor_534700(Car* pCar, Door* pDoor)
             break;
     }
 
-    ValidateParkCommand_534650();
+    ValidateParkCommand();
     return mParkTicket;
 }
 
 MATCH_FUNC(0x5349d0)
-void Garage::GaragesService_5349D0()
+void Garage::GaragesService()
 {
     u8 corner1;
     u8 corner2;
@@ -264,14 +264,14 @@ void Garage::GaragesService_5349D0()
             mParkingCar->SetNoCollisionDamage_4218A0();
             if (mParkingCar->IsDrivenByPlayer_4118D0())
             {
-                mParkingCar->GetDriverPlayer_421870()->DisableAllControls_569FF0();
+                mParkingCar->GetDriverPlayer_421870()->DisableAllControls();
             }
             mParkingCar->LockUnlessPermanent_475C10();
             mParkingCar->mPhysics->StopMoving_4895D0();
 
             car_pos.SetXY_432860(mParkingCar->GetX_41E430(), mParkingCar->GetY_41E440());
             SpriteShape* pBox = mParkingCar->mCarSprite->mpCollisionShape;
-            mPushDir = (pBox->mCorners[corner1] + pBox->mCorners[corner2]).Divide_442CB0(kFpTwo_6FD128) - car_pos;
+            mPushDir = (pBox->mCorners[corner1] + pBox->mCorners[corner2]).Divide(kFpTwo_6FD128) - car_pos;
             if (mPushDir.x == kFpZero_6FD120 && mPushDir.y == kFpZero_6FD120)
             {
                 mInPosition = true;
@@ -279,9 +279,9 @@ void Garage::GaragesService_5349D0()
             }
             else
             {
-                mPushDir = mPushDir.NormalizeSafe_442AD0().Multiply_438FE0(kFpPoint1);
+                mPushDir = mPushDir.NormalizeSafe().Multiply(kFpPoint1);
             }
-            mParkingCar->mPhysics->ApplyForceScaledByMass_55F9A0(mPushDir);
+            mParkingCar->mPhysics->ApplyForceScaledByMass(mPushDir);
             mState = garage_state::pushing_2;
             break;
         }
@@ -305,7 +305,7 @@ void Garage::GaragesService_5349D0()
             if (mParkingCar->mCarSprite->CollisionCheck_5A0320(&mParkXMin, &mParkXMax, &corner1, &corner2) != 4 && !mInPosition)
             {
                 mParkingCar->mPhysics->StopMoving_4895D0();
-                mParkingCar->mPhysics->ApplyForceScaledByMass_55F9A0(mPushDir);
+                mParkingCar->mPhysics->ApplyForceScaledByMass(mPushDir);
                 return;
             }
 
@@ -330,28 +330,28 @@ void Garage::GaragesService_5349D0()
                 mDoor->CloseDoors_476A30();
                 mDoor->ClearF2C_4895F0();
                 mParkingCar->LockPermanently_475C30();
-                mParkingCar->PrepareForExplosion_43C1C0();
-                mParkingCar->mPassengersList.KillAndClearAllPeds_4715A0();
+                mParkingCar->PrepareForExplosion();
+                mParkingCar->mPassengersList.KillAndClearAllPeds();
                 if (mParkingCar->IsDrivenByPlayer_4118D0())
                 {
-                    mParkingCar->GetDriver_4118B0()->mPlayer->EnableAllControls_56A000();
+                    mParkingCar->GetDriver_4118B0()->mPlayer->EnableAllControls();
                 }
                 if (!mNoRespawn)
                 {
                     Ped* pDriver = mParkingCar->GetDriver_4118B0();
                     if (pDriver)
                     {
-                        pDriver->StartPedWalking_470200(mTargetX, mTargetY, mParkingCar->GetZ_41E450());
-                        mParkingCar->ClearDriver_4407F0();
-                        pDriver->SetRotation_433C00(GetHeadingForDoorFace_5345E0(mDoorFace));
+                        pDriver->StartPedWalking(mTargetX, mTargetY, mParkingCar->GetZ_41E450());
+                        mParkingCar->ClearDriver();
+                        pDriver->SetRotation_433C00(GetHeadingForDoorFace(mDoorFace));
                         mParkingCar->mDriver = NULL;
                         pDriver->mGameObject->mJumpOverTimer = 20;
                     }
                     else if (mDriver && mDriver->get_cam_x() >= mParkXMin && mDriver->get_cam_x() <= mParkXMax &&
                              mDriver->get_cam_y() >= mParkYMin && mDriver->get_cam_y() <= mParkYMax)
                     {
-                        mDriver->StartPedWalking_470200(mTargetX, mTargetY, mParkingCar->GetZ_41E450());
-                        mDriver->SetRotation_433C00(GetHeadingForDoorFace_5345E0(mDoorFace));
+                        mDriver->StartPedWalking(mTargetX, mTargetY, mParkingCar->GetZ_41E450());
+                        mDriver->SetRotation_433C00(GetHeadingForDoorFace(mDoorFace));
                     }
                 }
                 mParkingCar->SetDespawn3IfNot5_421490();

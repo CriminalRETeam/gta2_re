@@ -7,13 +7,13 @@ DEFINE_GLOBAL(GeneratorPool*, gGeneratorPool_14AC_67E5D0, 0x67E5D0);
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
 MATCH_FUNC(0x4C1A70)
-void Generator::Activate_4C1A70()
+void Generator::Activate()
 {
     mSpawnsLeft = -1;
 
     if (!bStartNetworkGame_7081F0)
     {
-        mCycle = next_cycle_4C1AB0();
+        mCycle = next_cycle();
         gGeneratorPool_14AC_67E5D0->mKillCount++;
     }
     else
@@ -24,7 +24,7 @@ void Generator::Activate_4C1A70()
 }
 
 MATCH_FUNC(0x4C1AB0)
-s32 Generator::next_cycle_4C1AB0() const
+s32 Generator::next_cycle() const
 {
     s32 result;
     if (mMinDelay == mMaxDelay)
@@ -33,13 +33,13 @@ s32 Generator::next_cycle_4C1AB0() const
     }
     else
     {
-        result = gRng_6F6784.get_int_4F7AE0(4 * (mMaxDelay - mMinDelay)) + 4 * mMinDelay;
+        result = gRng_6F6784.get_int(4 * (mMaxDelay - mMinDelay)) + 4 * mMinDelay;
     }
     return result + gpRng_67AB34->get_cur_rng_41CFE0();
 }
 
 MATCH_FUNC(0x4C1B10)
-void Generator::SpawnObject_4C1B10()
+void Generator::SpawnObject()
 {
     if (mSpawnMode == generator_spawn_mode::one_at_a_time_2)
     {
@@ -53,12 +53,12 @@ void Generator::SpawnObject_4C1B10()
             {
                 mObj = NULL;
                 mId = 0;
-                mCycle = next_cycle_4C1AB0();
+                mCycle = next_cycle();
             }
         }
         else
         {
-            Object* pObj = gObject_5C_6F8F84->NewPhysicsObjUnlessBlocked_529BC0(mGenType, mX, mY, mZ, mRot);
+            Object* pObj = gObject_5C_6F8F84->NewPhysicsObjUnlessBlocked(mGenType, mX, mY, mZ, mRot);
             if (pObj)
             {
                 mObj = pObj;
@@ -83,7 +83,7 @@ void Generator::SpawnObject_4C1B10()
     }
     else
     {
-        Object* pObj = gObject_5C_6F8F84->NewPhysicsObjUnlessBlocked_529BC0(mGenType, mX, mY, mZ, mRot);
+        Object* pObj = gObject_5C_6F8F84->NewPhysicsObjUnlessBlocked(mGenType, mX, mY, mZ, mRot);
         if (pObj)
         {
             if (mSpawnsLeft < 0xFFFF)
@@ -101,7 +101,7 @@ void Generator::SpawnObject_4C1B10()
             mObj = pObj;
             mId = pObj->mId;
         }
-        mCycle = next_cycle_4C1AB0();
+        mCycle = next_cycle();
     }
 
     if (mSpawnsLeft == 0)
@@ -111,19 +111,19 @@ void Generator::SpawnObject_4C1B10()
 }
 
 MATCH_FUNC(0x4c1c50)
-void Generator::Service_4C1C50()
+void Generator::Service()
 {
     if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0()) >= mCycle)
     {
         if (mSpawnsLeft > 0)
         {
-            SpawnObject_4C1B10();
+            SpawnObject();
         }
     }
 }
 
 MATCH_FUNC(0x4c1c70)
-void Generator::Init_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generator_type, s16 min_delay, s16 max_delay)
+void Generator::Init(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generator_type, s16 min_delay, s16 max_delay)
 {
     mX = x.mValue;
     mY = y.mValue;
@@ -142,7 +142,7 @@ void Generator::Init_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generator_
 }
 
 MATCH_FUNC(0x4c1cd0)
-void GeneratorPool::FinalizeAfterScriptLoad_4C1CD0()
+void GeneratorPool::FinalizeAfterScriptLoad()
 {
     s32 count = mCount;
     mCountD3 = count / 3;
@@ -174,7 +174,7 @@ void GeneratorPool::FinalizeAfterScriptLoad_4C1CD0()
 }
 
 MATCH_FUNC(0x4c1d70)
-void GeneratorPool::GeneratorsService_4C1D70()
+void GeneratorPool::GeneratorsService()
 {
     s32 start_idx = mCountD3 * (gpRng_67AB34->get_cur_rng_41CFE0() & 3);
     s32 end_idx = start_idx + mCountD3;
@@ -186,16 +186,16 @@ void GeneratorPool::GeneratorsService_4C1D70()
     Generator* pIter = &mPool[start_idx];
     for (s32 i = start_idx; i < end_idx; i++)
     {
-        pIter->Service_4C1C50();
+        pIter->Service();
         pIter++;
     }
 }
 
 MATCH_FUNC(0x4c1dc0)
-Generator* GeneratorPool::CreateGenerator_4C1DC0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 type, s16 min_delay, s16 max_delay)
+Generator* GeneratorPool::CreateGenerator(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 type, s16 min_delay, s16 max_delay)
 {
     Generator* pGen = &mPool[mCount];
-    pGen->Init_4C1C70(x, y, z, rot, type, min_delay, max_delay);
+    pGen->Init(x, y, z, rot, type, min_delay, max_delay);
     mCount++;
     return pGen;
 }

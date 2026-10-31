@@ -53,13 +53,13 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint03_6FD464, Fix16(0x1EB, 0), 0x6FD464);
 DEFINE_GLOBAL(u16, gParticleInstCount_6FD5F4, 0x6FD5F4);
 
 MATCH_FUNC(0x53e320)
-void ParticleManager::ParticlesService_53E320()
+void ParticleManager::ParticlesService()
 {
     gParticle_4C_Pool_6FD5E4->UpdatePool();
 }
 
 MATCH_FUNC(0x53E3C0)
-Particle_4C* ParticleManager::New_53E3C0(Fix16 speed_x, Fix16 speed_y, Fix16 speed_z, Fix16 additional_speed_x, Fix16 additional_speed_y, Fix16 additional_speed_z)
+Particle_4C* ParticleManager::New(Fix16 speed_x, Fix16 speed_y, Fix16 speed_z, Fix16 additional_speed_x, Fix16 additional_speed_y, Fix16 additional_speed_z)
 {
     Particle_4C* pNewParticle = NULL;
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0() && gSpritePool_703818->has_free_48A8D0())
@@ -78,7 +78,7 @@ Particle_4C* ParticleManager::New_53E3C0(Fix16 speed_x, Fix16 speed_y, Fix16 spe
     return pNewParticle;
 }
 
-// Ang16::operator- (9.6f 0x40E5D0) with the normalizing ctor called out of line (AssignNormalized_409300)
+// Ang16::operator- (9.6f 0x40E5D0) with the normalizing ctor called out of line (AssignNormalized)
 static inline Ang16 SubAng16_ool(const Ang16& a, const Ang16& b)
 {
     s16 value = a.rValue - b.rValue;
@@ -86,7 +86,7 @@ static inline Ang16 SubAng16_ool(const Ang16& a, const Ang16& b)
 }
 
 // RotateByAngle_40F6B0 with the x_old negate as the named out-of-line Negate_4086A0: the rotations and the
-// -(v / 15) New_53E3C0 arguments have to reach the same function (the COMDAT copy of operator- and
+// -(v / 15) New arguments have to reach the same function (the COMDAT copy of operator- and
 // Negate_4086A0 are not folded in our build). The other operators stay the plain inlines.
 static inline void RotateNegExport_(Fix16_Point& v, const Ang16& angle)
 {
@@ -102,7 +102,7 @@ static inline void RotateNegExport_(Fix16_Point& v, const Ang16& angle)
 // the inline budget: + out of line and the negate inline in the first rotation, the multiplies out of line
 // in MultiplyByFix16_401CB0, the ctor out of line in Ang16::operator-.
 MATCH_FUNC(0x53E450)
-void ParticleManager::EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
+void ParticleManager::EmitBloodBurst(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
 {
     Ang16 angle;
     Fix16_Point vector(Fix16(0), Fix16(0));
@@ -110,20 +110,20 @@ void ParticleManager::EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang
     if (!bSkip_particles_67D64D)
     {
         vector.x = Fix16(0);
-        vector.y = Fix16(gRng_6F6784.get_int_4F7AE0(50) + 25) * kFpOne512th_6FD548;
+        vector.y = Fix16(gRng_6F6784.get_int(50) + 25) * kFpOne512th_6FD548;
         vector.RotateByAngle_40F6B0(ang);
 
         s32 count = 6;
         do
         {
             vector.x = Fix16(0);
-            vector.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + kFpFifty) * kFpPoint0007;
+            vector.y = (Fix16(gRng_6F6784.get_int(100)) + kFpFifty) * kFpPoint0007;
 
-            angle = kAng1_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(16)));
+            angle = kAng1_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int(16)));
             vector.RotateByAngle_40F6B0((angle + ang) - kAng1_6FD5CC.MultiplyByFix16_401CB0(Fix16(8)));
 
             Particle_4C* pBloodParticle =
-                gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, kFpOneThirtySecond_6FD330, -vector.x.DivideInt_53E860(15), -vector.y.DivideInt_53E860(15), 0);
+                gParticle_8_6FD5E8->New(vector.x, vector.y, kFpOneThirtySecond_6FD330, -vector.x.DivideInt(15), -vector.y.DivideInt(15), 0);
 
             if (pBloodParticle)
             {
@@ -143,9 +143,9 @@ void ParticleManager::EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang
 
 // 9.6f 0x48CC50
 MATCH_FUNC(0x53e880)
-void ParticleManager::SpawnBlood_53E880(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+void ParticleManager::SpawnBlood(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    Particle_4C* pNewParticle = gParticle_8_6FD5E8->New_53E3C0(xpos, ypos, 0, 0, 0, 0);
+    Particle_4C* pNewParticle = gParticle_8_6FD5E8->New(xpos, ypos, 0, 0, 0, 0);
     if (pNewParticle)
     {
         pNewParticle->mUnused34 = 1;
@@ -163,7 +163,7 @@ void ParticleManager::SpawnBlood_53E880(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 }
 
 MATCH_FUNC(0x53e970)
-void ParticleManager::GunMuzzelFlash_53E970(Sprite* pSprite)
+void ParticleManager::GunMuzzelFlash(Sprite* pSprite)
 {
     // pos, offset, point_velocity and corner_3 are unused but give the original's EH states
     Fix16_Point vel(0, 0);
@@ -184,7 +184,7 @@ void ParticleManager::GunMuzzelFlash_53E970(Sprite* pSprite)
             Car* pCar = pSprite->mCarBcPtr;
             Fix16 half_w;
             Fix16 half_h;
-            Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, kFpOneThirtySecond_6FD330, 0, 0, 0);
+            Particle_4C* pParticle = gParticle_8_6FD5E8->New(vel.x, vel.y, kFpOneThirtySecond_6FD330, 0, 0, 0);
             if (pParticle)
             {
                 pParticle->mBf4.bDriverAttacking = true;
@@ -211,7 +211,7 @@ void ParticleManager::GunMuzzelFlash_53E970(Sprite* pSprite)
                 pParticle->mpOwnSprite->mBf2C.bNoLighting = true;
             }
 
-            pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, kFpOneThirtySecond_6FD330, 0, 0, 0);
+            pParticle = gParticle_8_6FD5E8->New(vel.x, vel.y, kFpOneThirtySecond_6FD330, 0, 0, 0);
             if (pParticle)
             {
                 pParticle->mBf4.bDriverAttacking = true;
@@ -239,7 +239,7 @@ void ParticleManager::GunMuzzelFlash_53E970(Sprite* pSprite)
         }
         else
         {
-            Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, kFpOneThirtySecond_6FD330, 0, 0, 0);
+            Particle_4C* pParticle = gParticle_8_6FD5E8->New(vel.x, vel.y, kFpOneThirtySecond_6FD330, 0, 0, 0);
             if (pParticle)
             {
                 pParticle->mBf4.bDriverAttacking = true;
@@ -274,7 +274,7 @@ void ParticleManager::GunMuzzelFlash_53E970(Sprite* pSprite)
 // 9.6f 0x48D1F0 (unpaired before): plain members (MultiplyByFix16_401CB0, +, -, RotateByAngle_40F6B0 as
 // RotateNegExport_), a count-down loop, -(v / 15) through Negate_4086A0.
 MATCH_FUNC(0x53f060)
-void ParticleManager::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, bool bRandomRot)
+void ParticleManager::EmitWaterSplash(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, bool bRandomRot)
 {
     Ang16 angle_2;
     Fix16_Point velocity(Fix16(0), Fix16(0));
@@ -282,14 +282,14 @@ void ParticleManager::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos,
     if (!bSkip_particles_67D64D)
     {
         velocity.x = Fix16(0);
-        velocity.y = Fix16(gRng_6F6784.get_int_4F7AE0(50) + 25) * kFpOne512th_6FD548;
+        velocity.y = Fix16(gRng_6F6784.get_int(50) + 25) * kFpOne512th_6FD548;
         RotateNegExport_(velocity, rotation);
 
         for (s32 count = 6; count != 0; count--)
         {
             if (bRandomRot)
             {
-                angle_2 = kAng1_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(360)));
+                angle_2 = kAng1_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int(360)));
             }
             else
             {
@@ -297,17 +297,17 @@ void ParticleManager::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos,
             }
 
             velocity.x = Fix16(0);
-            velocity.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + kFpFifty) * kFpPoint0007;
+            velocity.y = (Fix16(gRng_6F6784.get_int(100)) + kFpFifty) * kFpPoint0007;
 
-            Ang16 angle_1 = kAng1_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(16)));
+            Ang16 angle_1 = kAng1_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int(16)));
             RotateNegExport_(velocity, (angle_1 + angle_2) - kAng1_6FD5CC.MultiplyByFix16_401CB0(Fix16(8)));
 
             // last arg: plain 0 (the original builds this Fix16 arg in place; Fix16(0) gives a plain push and costs ebp)
-            Particle_4C* pWaterSplashParticle = gParticle_8_6FD5E8->New_53E3C0(velocity.x,
+            Particle_4C* pWaterSplashParticle = gParticle_8_6FD5E8->New(velocity.x,
                                                                                velocity.y,
                                                                                kFpOneThirtySecond_6FD330,
-                                                                               velocity.x.DivideInt_53E860(15).Negate_4086A0(),
-                                                                               velocity.y.DivideInt_53E860(15).Negate_4086A0(),
+                                                                               velocity.x.DivideInt(15).Negate_4086A0(),
+                                                                               velocity.y.DivideInt(15).Negate_4086A0(),
                                                                                0);
 
             if (pWaterSplashParticle)
@@ -338,14 +338,14 @@ void ParticleManager::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos,
 // then assigned zpos, the `x = x | n` flag stores and the `!= 0` are code-neutral spellings that
 // put it there (Scripts/inline_budget/inlsim.py --scan); explicit `Fix16(0)` / `|=` forms fall short.
 MATCH_FUNC(0x53F4C0)
-void ParticleManager::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
+void ParticleManager::EmitFlameStreamSegment(Sprite* pSprt)
 {
     {
         Fix16_Point vel(0, 0);
         Fix16_Point pos;
         Fix16_Point offset;
         Fix16_Point ped_offset;
-        // point_velocity only receives the unused result of GetPointVelocity_561350 (9.6f passed it
+        // point_velocity only receives the unused result of GetPointVelocity (9.6f passed it
         // to set_xyz_lazy instead of pos).
         Fix16_Point point_velocity;
         Ang16 angle;
@@ -353,17 +353,17 @@ void ParticleManager::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
         {
             if (!mFireHitObj)
             {
-                mFireHitObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::fire_hitting_194, 0, 0, 0, kAngZero_6FD5D4);
+                mFireHitObj = gObject_5C_6F8F84->NewPhysicsObj(objects::fire_hitting_194, 0, 0, 0, kAngZero_6FD5D4);
             }
             vel = Fix16_Point(0, 0);
-            Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, kFpOneThirtySecond_6FD330, 0, 0, 0);
+            Particle_4C* pParticle = gParticle_8_6FD5E8->New(vel.x, vel.y, kFpOneThirtySecond_6FD330, 0, 0, 0);
             if (pParticle)
             {
                 pParticle->mFlags = pParticle->mFlags | 1;
                 pParticle->mpOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
                 pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->mDef112BaseSpriteIdx + 73);
                 Particle_4C* tmp = pParticle;
-                tmp->mpOwnSprite->AllocCollisionShape_59F950(kFpOne64th_6FD554 * kFpTen, kFpOne64th_6FD554 * kFpTen, kFP16Quarter_6FD2EC);
+                tmp->mpOwnSprite->AllocCollisionShape(kFpOne64th_6FD554 * kFpTen, kFpOne64th_6FD554 * kFpTen, kFP16Quarter_6FD2EC);
                 pParticle->mState = 31;
                 pParticle->mUnused34 = 0;
                 Fix16 vec_x;
@@ -381,7 +381,7 @@ void ParticleManager::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                 Char* pPed = pSprt->mCharB4Ptr;
                 if (pSprt->mSpriteTypeEnum == sprite_types_enum::car_2)
                 {
-                    AttachedSprite* pAttached = pCar->mAttachments.GetSpriteForModel_5A6A50(objects::water_cannon_114);
+                    AttachedSprite* pAttached = pCar->mAttachments.GetSpriteForModel(objects::water_cannon_114);
                     if (pAttached)
                     {
                         angle = pAttached->mpSprite->mRotation + kAng180_6FD3EE;
@@ -391,7 +391,7 @@ void ParticleManager::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                     }
                     else
                     {
-                        AttachedSprite* pGun = pCar->mAttachments.GetSpriteForModel_5A6A50(248);
+                        AttachedSprite* pGun = pCar->mAttachments.GetSpriteForModel(248);
                         angle = pGun->mpSprite->mRotation;
                         pos.SetXY_432860(Fix16(0), kFpThreeThirtySeconds_6FD48C);
                         pos.RotateByAngle_40F6B0(angle);
@@ -400,7 +400,7 @@ void ParticleManager::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                     pParticle->mpOwnSprite->set_ang_lazy_420690(angle);
                     offset.RotateByAngle_40F6B0(pSprt->mRotation);
                     pos += offset + pSprt->get_x_y_443580();
-                    point_velocity = pSprt->mCarBcPtr->mPhysics->GetPointVelocity_561350(&pos); // not used
+                    point_velocity = pSprt->mCarBcPtr->mPhysics->GetPointVelocity(&pos); // not used
                     pParticle->mpOwnSprite->set_xyz_lazy_420600(pos.x, pos.y, zpos);
                 }
                 else
@@ -413,7 +413,7 @@ void ParticleManager::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                     pParticle->mpOwnSprite->set_xyz_lazy_420600(pSprt->mXy.x + ped_offset.x, pSprt->mXy.y + ped_offset.y, zpos);
                 }
                 pParticle->mpSprite = pSprt;
-                if (pParticle->mpOwnSprite->CheckSpriteMovementRegion_5A2500() != 0)
+                if (pParticle->mpOwnSprite->CheckSpriteMovementRegion() != 0)
                 {
                     pParticle->mCounter = 0;
                 }
@@ -427,7 +427,7 @@ void ParticleManager::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpEpsilon, Fix16(0x1, 0), 0x6FD500);
 
 MATCH_FUNC(0x53FAE0)
-void ParticleManager::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
+void ParticleManager::EmitFireTruckSprayParticle(Sprite* pSprite)
 {
     Ang16 angle;
     Fix16_Point vector(Fix16(0), Fix16(0));
@@ -435,17 +435,17 @@ void ParticleManager::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
     {
         if (!mWaterHitObj)
         {
-            mWaterHitObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::water_hitting_198, 0, 0, 0, kAngZero_6FD5D4);
+            mWaterHitObj = gObject_5C_6F8F84->NewPhysicsObj(objects::water_hitting_198, 0, 0, 0, kAngZero_6FD5D4);
         }
         vector.x = Fix16(0);
         vector.y = Fix16(0);
-        Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, kFpOneThirtySecond_6FD330, 0, 0, 0);
+        Particle_4C* pParticle = gParticle_8_6FD5E8->New(vector.x, vector.y, kFpOneThirtySecond_6FD330, 0, 0, 0);
         if (pParticle)
         {
             pParticle->mBf4.bDriverAttacking = true;
             pParticle->mpOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->mDef112BaseSpriteIdx + 111);
-            pParticle->mpOwnSprite->AllocCollisionShape_59F950(kFpOne64th_6FD554 * kFpTen, kFpOne64th_6FD554 * kFpTen, kFP16Quarter_6FD2EC);
+            pParticle->mpOwnSprite->AllocCollisionShape(kFpOne64th_6FD554 * kFpTen, kFpOne64th_6FD554 * kFpTen, kFP16Quarter_6FD2EC);
             pParticle->mUnused34 = 0;
             pParticle->mState = 34;
             Fix16 vec_x;
@@ -460,14 +460,14 @@ void ParticleManager::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
             if (pSprite->mSpriteTypeEnum == sprite_types_enum::car_2)
             {
                 Car* pCar = pSprite->mCarBcPtr;
-                AttachedSprite* pGun = pCar->mAttachments.GetSpriteForModel_5A6A50(objects::water_cannon_114);
+                AttachedSprite* pGun = pCar->mAttachments.GetSpriteForModel(objects::water_cannon_114);
                 if (pGun)
                 {
                     angle = pGun->mpSprite->mRotation + kAng180_6FD3EE;
                 }
                 else
                 {
-                    angle = pCar->mAttachments.GetSpriteForModel_5A6A50(248)->mpSprite->mRotation;
+                    angle = pCar->mAttachments.GetSpriteForModel(248)->mpSprite->mRotation;
                 }
                 pParticle->mpOwnSprite->set_ang_lazy_420690(angle);
             }
@@ -477,7 +477,7 @@ void ParticleManager::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
             }
             pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, zpos);
             pParticle->mpSprite = pSprite;
-            if (pParticle->mpOwnSprite->CheckSpriteMovementRegion_5A2500())
+            if (pParticle->mpOwnSprite->CheckSpriteMovementRegion())
             {
                 pParticle->mCounter = 0;
             }
@@ -487,17 +487,17 @@ void ParticleManager::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
     }
 }
 
-// Ang16::PolarToCartesian_41FC20 with the cosine multiply written as the out-of-line Multiply_408680
+// Ang16::PolarToCartesian_41FC20 with the cosine multiply written as the out-of-line Multiply
 // the original calls (past the inline budget VC6 would call a COMDAT copy of operator* instead).
 static inline void PolarToCartesian_OutOfLineCos(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
 {
     ret1 = Ang16::sine_40F500(angle) * radius;
-    ret2 = Ang16::cosine_40F520(angle).Multiply_408680(radius);
+    ret2 = Ang16::cosine_40F520(angle).Multiply(radius);
 }
 
 // https://decomp.me/scratch/wfzEd
 MATCH_FUNC(0x53FE40)
-void ParticleManager::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16_Point dir)
+void ParticleManager::EmitImpactParticles(Fix16 x, Fix16 y, Fix16 z, Fix16_Point dir)
 {
     // 9.6f declares both angles up front. dir is destroyed by the callee; the unused point gives
     // the EH state 2 that the original sets once t is built.
@@ -510,20 +510,20 @@ void ParticleManager::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix1
     for (u8 i = 0; i < 6; ++i)
     {
         t.x = Fix16(0);
-        t.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + kFpFifty) * kFpPoint0007;
+        t.y = (Fix16(gRng_6F6784.get_int(100)) + kFpFifty) * kFpPoint0007;
         if (i < 4)
         {
-            ang1 = kAng1_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng_6F6784.get_int_4F7AE0(32)));
+            ang1 = kAng1_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng_6F6784.get_int(32)));
             // 9.6f: t.RotateByAngle_40F6B0((ang1 + tanAng) - kAng1_6FD5CC.MultiplyByFix16_401CB0(..)) in both branches
             t.RotateByAngle_40F6B0_all_out_of_line(SubAng16_ool(ang1 + tanAng, kAng1_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(16))));
         }
         else
         {
-            ang1 = kAng1_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng_6F6784.get_int_4F7AE0(360)));
+            ang1 = kAng1_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng_6F6784.get_int(360)));
             t.RotateByAngle_40F6B0_all_out_of_line(SubAng16_ool(AddAng16_ool(ang1, tanAng), kAng1_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(180))));
         }
 
-        Particle_4C* pNewParticle = gParticle_8_6FD5E8->New_53E3C0(t.x, t.y, kFpOneThirtySecond_6FD330, t.x.DivideInt_53E860(15).Negate_4086A0(), t.y.DivideInt_53E860(15).Negate_4086A0(), 0);
+        Particle_4C* pNewParticle = gParticle_8_6FD5E8->New(t.x, t.y, kFpOneThirtySecond_6FD330, t.x.DivideInt(15).Negate_4086A0(), t.y.DivideInt(15).Negate_4086A0(), 0);
         if (pNewParticle)
         {
             pNewParticle->mUnused34 = 1;
@@ -548,23 +548,23 @@ void ParticleManager::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos
 
     if (!bSkip_particles_67D64D)
     {
-        gRng_6F6784.get_int_4F7AE0(3);
+        gRng_6F6784.get_int(3);
         vector.x = Fix16(0);
-        vector.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + kFpFifty) * kFpEpsilon;
+        vector.y = (Fix16(gRng_6F6784.get_int(100)) + kFpFifty) * kFpEpsilon;
 
         // The rng result is bound to a const s16& temporary: stored as a short and sign extended only after the
         // word is loaded (the word ends up as the imul's eax operand)
-        angle = kAng1_6FD5CC.MultiplyByFix16_401CB0(Fix16(static_cast<const s16&>(gRng_6F6784.get_int_4F7AE0(360))));
+        angle = kAng1_6FD5CC.MultiplyByFix16_401CB0(Fix16(static_cast<const s16&>(gRng_6F6784.get_int(360))));
         // RotateByAngle_40F6B0, but x * cos, the y line and both sums use the out-of-line Fix16 operators
         {
             Fix16 sin = Ang16::sine_40F500(angle);
             Fix16 cos = Ang16::cosine_40F520(angle);
             Fix16 x_old = vector.x;
-            vector.x = vector.x.Multiply_408680(cos).Add_408660(vector.y * sin);
-            vector.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(vector.y.Multiply_408680(cos));
+            vector.x = vector.x.Multiply(cos).Add(vector.y * sin);
+            vector.y = x_old.Negate_4086A0().Multiply(sin).Add(vector.y.Multiply(cos));
         }
 
-        Particle_4C* pNewParticle = gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, kFpOneThirtySecond_6FD330, 0, 0, 0);
+        Particle_4C* pNewParticle = gParticle_8_6FD5E8->New(vector.x, vector.y, kFpOneThirtySecond_6FD330, 0, 0, 0);
         if (pNewParticle)
         {
             pNewParticle->mUnused34 = 0;
@@ -575,7 +575,7 @@ void ParticleManager::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos
             pNewParticle->mpOwnSprite->SetNoLighting_4337F0();
             pNewParticle->mpOwnSprite->set_xyz_lazy_420600(xpos, ypos, zpos);
             pNewParticle->mpOwnSprite->set_ang_lazy_420690(ang);
-            pNewParticle->mpOwnSprite->set_id_lazy_4206C0(gRng_6F6784.get_int_4F7AE0(4) + gObjectDefinitions_6FCF00->mDef112BaseSpriteIdx + 175);
+            pNewParticle->mpOwnSprite->set_id_lazy_4206C0(gRng_6F6784.get_int(4) + gObjectDefinitions_6FCF00->mDef112BaseSpriteIdx + 175);
             pNewParticle->mpOwnSprite->SetBlendAndAlpha_4337D0(2, 20);
             pNewParticle->mpOwnSprite->SetNoLighting_4337F0();
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pNewParticle->mpOwnSprite);
@@ -584,7 +584,7 @@ void ParticleManager::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos
 }
 
 MATCH_FUNC(0x5405D0)
-void ParticleManager::SpawnParticleSprite_5405D0(Sprite* pSprite)
+void ParticleManager::SpawnParticleSprite(Sprite* pSprite)
 {
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
@@ -610,14 +610,14 @@ void ParticleManager::SpawnParticleSprite_5405D0(Sprite* pSprite)
 // 9.6f 0x48E060. Fix16_Point vel has a dtor, which gives the EH frame; its fields are zeroed again
 // before the call, and the two other zero args go through the out-of-line Fix16(s32) ctor.
 MATCH_FUNC(0x5406b0)
-void ParticleManager::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bSmokeSource)
+void ParticleManager::SpawnCigaretteSmokePuff(Sprite* pSprite, char_type bSmokeSource)
 {
     Fix16_Point vel(Fix16(0), Fix16(0));
     if (!bSkip_particles_67D64D)
     {
         vel.x = Fix16(0);
         vel.y = Fix16(0);
-        Particle_4C* pNewParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, kFpOneThirtySecond_6FD330, 0, 0, 0);
+        Particle_4C* pNewParticle = gParticle_8_6FD5E8->New(vel.x, vel.y, kFpOneThirtySecond_6FD330, 0, 0, 0);
         if (pNewParticle)
         {
             pNewParticle->mUnused34 = 1;
@@ -670,7 +670,7 @@ void ParticleManager::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type 
     }
 }
 
-// Ang16::operator+ (9.6f 0x40E5A0) with the normalizing ctor called out of line (AssignNormalized_409300)
+// Ang16::operator+ (9.6f 0x40E5A0) with the normalizing ctor called out of line (AssignNormalized)
 static inline Ang16 AddAng16_ool(const Ang16& a, const Ang16& b)
 {
     s16 value = a.rValue + b.rValue;

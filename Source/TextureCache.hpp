@@ -49,18 +49,18 @@ class RemapTextureSet
 
     EXPORT ~RemapTextureSet();
 
-    EXPORT void Alloc_5B8E90(s16 sprite_count, s16 remaps_per_sprite, s32 sprite_type, s32 pal_type);
+    EXPORT void Alloc(s16 sprite_count, s16 remaps_per_sprite, s32 sprite_type, s32 pal_type);
 
     // 9.6f 0x4C2F30, defined in TextureCache.cpp
     inline void AllocOfType_4C2F30(s32 sprite_type, s32 pal_type);
 
-    EXPORT void LoadRemappedTextures_5B8F70();
+    EXPORT void LoadRemappedTextures();
 
-    EXPORT void LoadTextures_5B8F00();
+    EXPORT void LoadTextures();
 
-    EXPORT STexture* get_texture_5B90A0(s32 sprite_type, s16 sprite_idx) const;
+    EXPORT STexture* get_texture(s32 sprite_type, s16 sprite_idx) const;
 
-    EXPORT STexture* GetRemappedTexture_5B90D0(s16 sprite_idx, s16 remap) const;
+    EXPORT STexture* GetRemappedTexture(s16 sprite_idx, s16 remap) const;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(RemapTextureSet, 0x14);
 
@@ -87,18 +87,18 @@ struct TextureCache
         return mTileTextures[tile_idx];
     }
 
-    EXPORT void LoadPals_5B90F0();
-    EXPORT void FreePals_5B9140();
-    EXPORT void LoadCarDamageTextures_5B9180();
-    EXPORT s16 RegisterDigits_5B9220(u16 num_of_digits, u16 palette);
-    EXPORT void ReadTextures_5B92E0();
-    EXPORT void LoadStyleTextures_5B9350();
-    EXPORT STexture* GetSpriteTexture_5B94F0(s32 sprite_type, u16 sprite_id, s32 palette_type, s16 remap) const;
-    EXPORT STexture* GetCarDamageTexture_5B95D0(u16 texture_idx) const;
-    EXPORT STexture* GetDigitTexture_5B95F0(u16 idx, u16 row_offset, u16 height);
-    EXPORT void SetPal_5B9660(u16 digit_idx, u16 pal_idx);
-    EXPORT void SetCarDamageTextureSizeAndPalette_5B96B0(u16 texture_idx, u16 new_width, u16 new_height, u16 pal);
-    EXPORT STexture* SetSharedTextureData_5B9710(s16 width, s16 height, u8* pPixelData, u16 pal);
+    EXPORT void LoadPals();
+    EXPORT void FreePals();
+    EXPORT void LoadCarDamageTextures();
+    EXPORT s16 RegisterDigits(u16 num_of_digits, u16 palette);
+    EXPORT void ReadTextures();
+    EXPORT void LoadStyleTextures();
+    EXPORT STexture* GetSpriteTexture(s32 sprite_type, u16 sprite_id, s32 palette_type, s16 remap) const;
+    EXPORT STexture* GetCarDamageTexture(u16 texture_idx) const;
+    EXPORT STexture* GetDigitTexture(u16 idx, u16 row_offset, u16 height);
+    EXPORT void SetPal(u16 digit_idx, u16 pal_idx);
+    EXPORT void SetCarDamageTextureSizeAndPalette(u16 texture_idx, u16 new_width, u16 new_height, u16 pal);
+    EXPORT STexture* SetSharedTextureData(s16 width, s16 height, u8* pPixelData, u16 pal);
     EXPORT TextureCache();
     EXPORT ~TextureCache();
 };

@@ -22,7 +22,7 @@ void DoorData::PoolAllocate()
 }
 
 MATCH_FUNC(0x49c340)
-void DoorData::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
+void DoorData::Init(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
 {
 
     gmp_block_info blockData;
@@ -37,7 +37,7 @@ void DoorData::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
 
     const u8& anim_id = id;
     DoorAnimInfo* pInfo = &gDoorAnimInfo_67BB38[anim_id];
-    gGtx_0x106C_703DD4->SetTileRemap_5AA930(pInfo->mInternalTileIdx, pInfo->mStartFrame);
+    gGtx_0x106C_703DD4->SetTileRemap(pInfo->mInternalTileIdx, pInfo->mStartFrame);
 
     u16 tile_word = pInfo->mInternalTileIdx | (block_face::wall | block_face::bullet_wall | block_face::flat);
     if (bDoFlip)
@@ -45,10 +45,10 @@ void DoorData::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
         tile_word |= block_face::flip;
     }
 
-    if (gMap_0x370_6F6268->GetBlock_4DFE10(this->mX, this->mY, this->mZ))
+    if (gMap_0x370_6F6268->GetBlock(this->mX, this->mY, this->mZ))
     {
-        gMap_0x370_6F6268->ChangeBlock_4E8620(this->mX, this->mY, this->mZ, this->mFace, tile_word);
-        gMap_0x370_6F6268->ChangeBlock_4E8620(this->mX, this->mY, this->mZ, GetOppositeFace_4DEEB0(this->mFace), pInfo->mInternalTileIdx);
+        gMap_0x370_6F6268->ChangeBlock(this->mX, this->mY, this->mZ, this->mFace, tile_word);
+        gMap_0x370_6F6268->ChangeBlock(this->mX, this->mY, this->mZ, GetOppositeFace(this->mFace), pInfo->mInternalTileIdx);
     }
     else
     {
@@ -76,12 +76,12 @@ void DoorData::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
             default:
                 break;
         }
-        gMap_0x370_6F6268->AddNewBlock_4E87C0(this->mX, this->mY, this->mZ, &blockData);
+        gMap_0x370_6F6268->AddNewBlock(this->mX, this->mY, this->mZ, &blockData);
     }
 }
 
 MATCH_FUNC(0x49c4e0)
-void DoorData::Open_49C4E0(u8 bFlip)
+void DoorData::Open(u8 bFlip)
 {
     DoorAnimInfo* pAnimInfo = &gDoorAnimInfo_67BB38[mGrId];
     if (mState != door_state::open_2)
@@ -92,14 +92,14 @@ void DoorData::Open_49C4E0(u8 bFlip)
         {
             tile_idx |= block_face::flip;
         }
-        gMap_0x370_6F6268->ChangeBlock_4E8620(mX, mY, mZ, mFace, tile_idx);
-        gMap_0x370_6F6268->ChangeBlock_4E8620(mX, mY, mZ, GetOppositeFace_4DEEB0(mFace), pAnimInfo->mOpenInternalTileIdx);
-        gTileAnim_2_7052C4->AddAnim_5BC260(pAnimInfo->mOpenInternalTileIdx, pAnimInfo->mStartFrame, pAnimInfo->mEndFrame, pAnimInfo->mSpeed8, 1);
+        gMap_0x370_6F6268->ChangeBlock(mX, mY, mZ, mFace, tile_idx);
+        gMap_0x370_6F6268->ChangeBlock(mX, mY, mZ, GetOppositeFace(mFace), pAnimInfo->mOpenInternalTileIdx);
+        gTileAnim_2_7052C4->AddAnim(pAnimInfo->mOpenInternalTileIdx, pAnimInfo->mStartFrame, pAnimInfo->mEndFrame, pAnimInfo->mSpeed8, 1);
     }
 }
 
 MATCH_FUNC(0x49c590)
-void DoorData::Close_49C590(u8 bDoFlip)
+void DoorData::Close(u8 bDoFlip)
 {
     DoorAnimInfo* pAnimInfo = &gDoorAnimInfo_67BB38[mGrId];
     if (mState != door_state::closed_1)
@@ -110,34 +110,34 @@ void DoorData::Close_49C590(u8 bDoFlip)
         {
             block_side_word |= block_face::flip;
         }
-        gMap_0x370_6F6268->ChangeBlock_4E8620(mX, mY, mZ, mFace, block_side_word);
-        gMap_0x370_6F6268->ChangeBlock_4E8620(mX, mY, mZ, GetOppositeFace_4DEEB0(mFace), pAnimInfo->mInternalTileIdx);
-        gTileAnim_2_7052C4->AddAnim_5BC260(pAnimInfo->mInternalTileIdx, pAnimInfo->mEndFrame, pAnimInfo->mStartFrame, pAnimInfo->mSpeed8, 1);
+        gMap_0x370_6F6268->ChangeBlock(mX, mY, mZ, mFace, block_side_word);
+        gMap_0x370_6F6268->ChangeBlock(mX, mY, mZ, GetOppositeFace(mFace), pAnimInfo->mInternalTileIdx);
+        gTileAnim_2_7052C4->AddAnim(pAnimInfo->mInternalTileIdx, pAnimInfo->mEndFrame, pAnimInfo->mStartFrame, pAnimInfo->mSpeed8, 1);
     }
 }
 
 MATCH_FUNC(0x49cf10)
-DoorData* DoorPool::AllocDoorData_49CF10(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type bDoFlip)
+DoorData* DoorPool::AllocDoorData(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type bDoFlip)
 {
     DoorData* pDoorData = sDoor10Pool->Allocate();
-    pDoorData->Init_49C340(gr_id, x, y, z, face, bDoFlip);
+    pDoorData->Init(gr_id, x, y, z, face, bDoFlip);
     return pDoorData;
 }
 
 MATCH_FUNC(0x49cf50)
-Door* DoorPool::RegisterSingleDoorNoCheck_49CF50(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 reversed)
+Door* DoorPool::RegisterSingleDoorNoCheck(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 reversed)
 {
-    Door* pDoor = GetNextFreeDoor_49D3A0();
+    Door* pDoor = GetNextFreeDoor();
     mCount++;
     pDoor->mbDoFlip = flip;
     pDoor->mbReversed = reversed;
-    pDoor->InitSingleNoCheck_49C8D0(mCount + -1, gr_id, x, y, z, face);
+    pDoor->InitSingleNoCheck(mCount + -1, gr_id, x, y, z, face);
     return pDoor;
 }
 
 // 9.6f 0x44D430 ?
 MATCH_FUNC(0x49cfa0)
-Door* DoorPool::RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed)
+Door* DoorPool::RegisterDoubleDoorNoCheck(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed)
 {
     Door* pDoor;
     u8 x2;
@@ -148,7 +148,7 @@ Door* DoorPool::RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32
     Fix16 check_width;
     Fix16 check_height;
 
-    pDoor = GetNextFreeDoor_49D3A0();
+    pDoor = GetNextFreeDoor();
     mCount++;
     pDoor->mbDoFlip = flip;
     pDoor->mbReversed = reversed;
@@ -190,14 +190,14 @@ Door* DoorPool::RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32
             // The original leaves the check rect uninitialised for any other face
             break;
     }
-    pDoor->AddDoorData_49CA50(gr_id, x, y, z, face);
-    pDoor->AddDoorData_49CA50(gr_id, x2, y2, z, face);
-    pDoor->InitDouble_49CC00(pDoor->mPrimaryDoorData, 1, mCount - 1, check_x, check_y, check_z, check_width, check_height);
+    pDoor->AddDoorData(gr_id, x, y, z, face);
+    pDoor->AddDoorData(gr_id, x2, y2, z, face);
+    pDoor->InitDouble(pDoor->mPrimaryDoorData, 1, mCount - 1, check_x, check_y, check_z, check_width, check_height);
     return pDoor;
 }
 
 MATCH_FUNC(0x49d170)
-Door* DoorPool::RegisterSingleDoor_49D170(u8 gr_id,
+Door* DoorPool::RegisterSingleDoor(u8 gr_id,
                                              u8 x,
                                              u8 y,
                                              u8 z,
@@ -210,18 +210,18 @@ Door* DoorPool::RegisterSingleDoor_49D170(u8 gr_id,
                                              u8 flip,
                                              u8 reversed)
 {
-    Door* pDoor = GetNextFreeDoor_49D3A0();
+    Door* pDoor = GetNextFreeDoor();
     mCount++;
     pDoor->mbDoFlip = flip;
     pDoor->mbReversed = reversed;
-    pDoor->AddDoorData_49CA50(gr_id, x, y, z, face);
-    pDoor->InitSingle_49CAC0(pDoor->mPrimaryDoorData, 1, mCount + -1, check_x, check_y, check_z, check_width, check_height);
+    pDoor->AddDoorData(gr_id, x, y, z, face);
+    pDoor->InitSingle(pDoor->mPrimaryDoorData, 1, mCount + -1, check_x, check_y, check_z, check_width, check_height);
 
     return pDoor;
 }
 
 MATCH_FUNC(0x49d1f0)
-Door* DoorPool::RegisterDoubleDoor_49D1F0(u8 gr_id,
+Door* DoorPool::RegisterDoubleDoor(u8 gr_id,
                                              u8 x,
                                              u8 y,
                                              u8 z,
@@ -234,7 +234,7 @@ Door* DoorPool::RegisterDoubleDoor_49D1F0(u8 gr_id,
                                              u8 flip,
                                              u8 reversed)
 {
-    Door* pDoor = GetNextFreeDoor_49D3A0();
+    Door* pDoor = GetNextFreeDoor();
     mCount++;
     pDoor->mbDoFlip = flip;
     pDoor->mbReversed = reversed;
@@ -255,9 +255,9 @@ Door* DoorPool::RegisterDoubleDoor_49D1F0(u8 gr_id,
             reversed = x - 1;
             break;
     }
-    pDoor->AddDoorData_49CA50(gr_id, x, y, z, face);
-    pDoor->AddDoorData_49CA50(gr_id, reversed, flip, z, face);
-    pDoor->InitDouble_49CC00(pDoor->mPrimaryDoorData, 1, mCount - 1, check_x, check_y, check_z, check_width, check_height);
+    pDoor->AddDoorData(gr_id, x, y, z, face);
+    pDoor->AddDoorData(gr_id, reversed, flip, z, face);
+    pDoor->InitDouble(pDoor->mPrimaryDoorData, 1, mCount - 1, check_x, check_y, check_z, check_width, check_height);
     return pDoor;
 }
 
@@ -274,7 +274,7 @@ inline bool IsDoorOpenWithoutAutoClose(Door* pDoor)
 }
 
 MATCH_FUNC(0x49d2d0)
-void DoorPool::RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type speed)
+void DoorPool::RegisterDoorInfo(s16 start_frame, s16 end_frame, char_type speed)
 {
     DoorAnimInfo* pAnimInfo = &gDoorAnimInfo_67BB38[0];
     u8 idx = 0;
@@ -291,34 +291,34 @@ void DoorPool::RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type
     pAnimInfo->mStartFrame = start_frame;
     pAnimInfo->mEndFrame = end_frame;
     pAnimInfo->mSpeed8 = speed;
-    s16 reserved_tile_idx = gGtx_0x106C_703DD4->GetFirstFreeReservedTileIdx_5AA890();
+    s16 reserved_tile_idx = gGtx_0x106C_703DD4->GetFirstFreeReservedTileIdx();
     pAnimInfo->mInternalTileIdx = reserved_tile_idx;
-    gGtx_0x106C_703DD4->SetTileRemap_5AA930(reserved_tile_idx, pAnimInfo->mStartFrame);
-    reserved_tile_idx = gGtx_0x106C_703DD4->GetFirstFreeReservedTileIdx_5AA890();
+    gGtx_0x106C_703DD4->SetTileRemap(reserved_tile_idx, pAnimInfo->mStartFrame);
+    reserved_tile_idx = gGtx_0x106C_703DD4->GetFirstFreeReservedTileIdx();
     pAnimInfo->mOpenInternalTileIdx = reserved_tile_idx;
 }
 
 MATCH_FUNC(0x49d340)
-void DoorPool::TryOpenDoorForCar_49D340(Car* pCar, u8 door_idx)
+void DoorPool::TryOpenDoorForCar(Car* pCar, u8 door_idx)
 {
-    mDoors[door_idx].TryOpenForCar_49C870(pCar);
+    mDoors[door_idx].TryOpenForCar(pCar);
 }
 
 MATCH_FUNC(0x49d370)
-void DoorPool::TryOpenDoorForPed_49D370(Ped* pPed, u8 idx)
+void DoorPool::TryOpenDoorForPed(Ped* pPed, u8 idx)
 {
-    mDoors[idx].TryOpenForPed_49C8A0(pPed);
+    mDoors[idx].TryOpenForPed(pPed);
 }
 
 MATCH_FUNC(0x49d3a0)
-Door* DoorPool::GetNextFreeDoor_49D3A0()
+Door* DoorPool::GetNextFreeDoor()
 {
     return &mDoors[mCount];
 }
 
 // https://decomp.me/scratch/dGqMg
 MATCH_FUNC(0x49d3c0)
-bool DoorPool::CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx)
+bool DoorPool::CheckDoorAccess(Sprite* pSprite, u8 door_idx)
 {
     Car* pCar = pSprite->AsCar_40FEB0();
     if (pCar)
@@ -326,7 +326,7 @@ bool DoorPool::CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx)
 
         if (!IsDoorOpenWithoutAutoClose(&mDoors[door_idx]))
         {
-            if (!mDoors[door_idx].CanOpen_49C6D0(pCar))
+            if (!mDoors[door_idx].CanOpen(pCar))
             {
                 return true;
             }
@@ -341,7 +341,7 @@ bool DoorPool::CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx)
         if (!IsDoorOpenWithoutAutoClose(&mDoors[door_idx]))
         {
             // 9.6f: Char::get_ped_433A20 (inlined, using it changes the code)
-            if (!mDoors[door_idx].CanOpenForPed_49C7F0(pChar->mpPed))
+            if (!mDoors[door_idx].CanOpenForPed(pChar->mpPed))
             {
                 return true;
             }
@@ -354,11 +354,11 @@ bool DoorPool::CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx)
 }
 
 MATCH_FUNC(0x49d460)
-void DoorPool::DoorsService_49D460()
+void DoorPool::DoorsService()
 {
     for (u16 i = 0; i < mCount; ++i)
     {
-        mDoors[i].Service_49CE90();
+        mDoors[i].Service();
     }
 }
 
@@ -389,7 +389,7 @@ DoorPool::~DoorPool()
 }
 
 MATCH_FUNC(0x4DEEB0)
-s32 DoorData::GetOppositeFace_4DEEB0(s32 v)
+s32 DoorData::GetOppositeFace(s32 v)
 {
     switch (v)
     {

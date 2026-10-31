@@ -5,11 +5,11 @@ DEFINE_GLOBAL(LightPool*, gLight_1D4CC_6F5520, 0x6F5520);
 MATCH_FUNC(0x4bebc0)
 LightPool::~LightPool()
 {
-    LightGrid::FreeGrid_4D6E30();
+    LightGrid::FreeGrid();
 }
 
 MATCH_FUNC(0x52B2A0)
-Light* LightPool::CreateLight_52B2A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
+Light* LightPool::CreateLight(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
 {
     return Init_469010(xpos, ypos, zpos, argb, radius, intensity);
 }

@@ -7,7 +7,7 @@ DEFINE_STATIC_MEMBER(TaxiListPool*, TaxiList, sTaxi4Pool, 0x6783F8);
 DEFINE_GLOBAL(TaxiList*, gTaxi_4_704130, 0x704130);
 
 MATCH_FUNC(0x457ba0)
-void TaxiList::PushTaxi_457BA0(Car* pCar)
+void TaxiList::PushTaxi(Car* pCar)
 {
     TaxiListNode* pNode = sTaxi4Pool->Allocate();
     pNode->mpCar = pCar;
@@ -16,7 +16,7 @@ void TaxiList::PushTaxi_457BA0(Car* pCar)
 }
 
 MATCH_FUNC(0x457bc0)
-void TaxiList::PopAll_457BC0()
+void TaxiList::PopAll()
 {
     TaxiListNode* pIter = this->mpFirst;
     while (pIter)
@@ -30,7 +30,7 @@ void TaxiList::PopAll_457BC0()
 
 // https://decomp.me/scratch/tPr1q
 MATCH_FUNC(0x457bf0)
-Car* TaxiList::GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos)
+Car* TaxiList::GetTaxiNear(Fix16 xpos, Fix16 ypos)
 {
     Car* pCarRet = NULL;
     Fix16 smallest(99999);

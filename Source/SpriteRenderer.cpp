@@ -5,7 +5,7 @@
 #include "sprite.hpp"
 
 // Forward declarations: the functions below are in address order
-EXPORT s32 get_rdtsc_5BEE90();
+EXPORT s32 get_rdtsc();
 EXTERN_GLOBAL(u32, gCyclesPerMs_705334);
 
 DEFINE_GLOBAL(SpriteRenderer*, gSpriteRenderer_67B580, 0x67B580);
@@ -18,31 +18,31 @@ DEFINE_STATIC_GLOBAL_INIT(Fix16, kFp96, Fix16(96), 0x705B80);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpZero, Fix16(0), 0x705AC4);
 
 MATCH_FUNC(0x4954f0)
-void SpriteRenderer::ResetAll_4954F0()
+void SpriteRenderer::ResetAll()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(mLayers); i++)
     {
-        mLayers[i]->Reset_5C5E50();
+        mLayers[i]->Reset();
     }
 }
 
 MATCH_FUNC(0x495510)
-void SpriteRenderer::DisplayAdd_495510(Sprite* pSprite)
+void SpriteRenderer::DisplayAdd(Sprite* pSprite)
 {
-    const s32 rdtsc = get_rdtsc_5BEE90();
+    const s32 rdtsc = get_rdtsc();
     if (pSprite->mZpos >= kFpOne_67B434)
     {
-        mLayers[pSprite->ComputeZLayer_5A1BD0()]->AddSprite_5C5CF0(pSprite);
+        mLayers[pSprite->ComputeZLayer()]->AddSprite(pSprite);
     }
-    gDisplayAdd_67B578 += get_rdtsc_5BEE90() - rdtsc;
+    gDisplayAdd_67B578 += get_rdtsc() - rdtsc;
 }
 
 MATCH_FUNC(0x495560)
-void SpriteRenderer::Draw_495560(s32 layer)
+void SpriteRenderer::Draw(s32 layer)
 {
-    const s32 rdtsc = get_rdtsc_5BEE90();
-    mLayers[layer - 1]->Draw_5C5DF0();
-    gDisplayDraw_67B57C += get_rdtsc_5BEE90() - rdtsc;
+    const s32 rdtsc = get_rdtsc();
+    mLayers[layer - 1]->Draw();
+    gDisplayDraw_67B57C += get_rdtsc() - rdtsc;
 }
 
 MATCH_FUNC(0x4955a0)
@@ -69,7 +69,7 @@ SpriteRenderer::~SpriteRenderer()
 
 // https://decomp.me/scratch/qe97a
 MATCH_FUNC(0x5BEE90)
-EXPORT s32 get_rdtsc_5BEE90()
+EXPORT s32 get_rdtsc()
 {
     // NOTE: Actually is inline assembly, surprisingly
     unsigned __int64 t;
@@ -88,16 +88,16 @@ EXPORT s32 get_rdtsc_5BEE90()
     return static_cast<s32>(t);
 }
 
-// Converts a cycle count from get_rdtsc_5BEE90 to milliseconds for the profiler display
+// Converts a cycle count from get_rdtsc to milliseconds for the profiler display
 MATCH_FUNC(0x5BEED0)
-EXPORT s32 __stdcall ConvertCycleCount_5BEED0(s32 cycles)
+EXPORT s32 __stdcall ConvertCycleCount(s32 cycles)
 {
     return static_cast<u32>(cycles) / gCyclesPerMs_705334;
 }
 
 // https://decomp.me/scratch/qyVgM
 MATCH_FUNC(0x5c5cf0)
-void SpriteTree::AddSprite_5C5CF0(Sprite* pSprite)
+void SpriteTree::AddSprite(Sprite* pSprite)
 {
     SpriteTreeNode* pRoot = mpRoot;
     Fix16 node_z;
@@ -185,7 +185,7 @@ void SpriteTree::AddSprite_5C5CF0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5C5DF0)
-void SpriteTree::Draw_5C5DF0()
+void SpriteTree::Draw()
 {
     SpriteTreeNode* pIter = this->mpRoot;
     for (;;)
@@ -201,7 +201,7 @@ void SpriteTree::Draw_5C5DF0()
         }
 
         pIter = gSpriteTreeStack_705BC0->Pop_4C4BA0();
-        pIter->mpSprite->Draw_59EFF0();
+        pIter->mpSprite->Draw();
         pIter = pIter->mpRight;
     }
 }
@@ -209,7 +209,7 @@ void SpriteTree::Draw_5C5DF0()
 DEFINE_GLOBAL_INIT(u32, gCyclesPerMs_705334, 1701493, 0x705334);
 
 MATCH_FUNC(0x5c5e50)
-void SpriteTree::Reset_5C5E50()
+void SpriteTree::Reset()
 {
     gSpriteTreeNodePool_705BBC->Reset_4C4B70();
     mpRoot = NULL;
@@ -227,7 +227,7 @@ SpriteTree::SpriteTree()
     {
         gSpriteTreeStack_705BC0 = new SpriteTreeStack();
     }
-    Reset_5C5E50();
+    Reset();
 }
 
 MATCH_FUNC(0x5c5f10)

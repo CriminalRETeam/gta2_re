@@ -7,7 +7,7 @@ struct object_info;
 class Sprite;
 
 // Static table entry (gMapObjectOverrides_6FC5F8): overrides the properties of an existing (map) object definition,
-// see ObjectDefinitions::ApplyMapObjectOverrides_533360
+// see ObjectDefinitions::ApplyMapObjectOverrides
 class MapObjectOverride
 {
   public:
@@ -58,7 +58,7 @@ class MapObjectOverride
 GTA2_ASSERT_SIZEOF_ALWAYS(MapObjectOverride, 0x54);
 
 // Static table entry (gCodeObjectTemplates_6F9038): template of a code object, converted into an ObjectDefinition by
-// ObjectDefinitions::CreateCodeObjectDefinitions_533B30
+// ObjectDefinitions::CreateCodeObjectDefinitions
 class CodeObjectTemplate
 {
   public:
@@ -165,8 +165,8 @@ enum
     pickup_animated_8 = 8, // animated pickup (like animated_2)
     pickup_physics_animated_9 = 9, // pickup that moves and animates (like physics_animated_4)
     shop_10 = 10, // simple object with special hit logic; takes a shop type from scripts
-    light_11 = 11, // runs DispatchFrameAction_525910 + UpdateEffectPool_525B20 only
-    effect_only_12 = 12 // runs UpdateEffectPool_525B20 only
+    light_11 = 11, // runs DispatchFrameAction + UpdateEffectPool only
+    effect_only_12 = 12 // runs UpdateEffectPool only
 };
 } // namespace object_behavior_type
 
@@ -175,12 +175,12 @@ class ObjectDefinition
 {
   public:
     EXPORT ~ObjectDefinition();
-    EXPORT void SetDimensions_533060(Fix16 width, Fix16 height, Fix16 depth);
-    EXPORT void SetDimensionsFromSprite_533090();
-    EXPORT void SetRemap_533110(s16 remap);
-    EXPORT void OffsetBaseSpriteIdxAndSetNumFrames_533150(s16 sprite_idx_offset, s16 num_frames);
-    EXPORT Sprite* CreateSpriteFromDefinition_533170() const;
-    EXPORT void ApplyDefinitionToSprite_5331A0(Sprite* pSprite) const;
+    EXPORT void SetDimensions(Fix16 width, Fix16 height, Fix16 depth);
+    EXPORT void SetDimensionsFromSprite();
+    EXPORT void SetRemap(s16 remap);
+    EXPORT void OffsetBaseSpriteIdxAndSetNumFrames(s16 sprite_idx_offset, s16 num_frames);
+    EXPORT Sprite* CreateSpriteFromDefinition() const;
+    EXPORT void ApplyDefinitionToSprite(Sprite* pSprite) const;
     EXPORT ObjectDefinition();
 
 
@@ -231,25 +231,25 @@ class ObjectDefinitions
     };
 
     EXPORT ~ObjectDefinitions();
-    EXPORT ObjectDefinition* AllocDefinitionWithSprite_5332D0(s32 idx, s32 sprite_type, s16 base_sprite_idx, u8 num_frames);
-    EXPORT void CreateMapObjectDefinitions_533300();
-    EXPORT void ApplyMapObjectOverrides_533360();
-    EXPORT void CloneAnimatedDefinitions_533420();
-    EXPORT void CreateCodeObjectDefinitions_533B30();
-    EXPORT void CloneRemappedDefinitions_533C90();
-    EXPORT void ClearColour1PixelsOfDefinitions287To293_534270();
-    EXPORT void CacheDef112BaseSpriteIdx_5342D0();
-    EXPORT void ClearColour1PixelsOfDefinitionSprite_5342F0(s32 idx);
-    EXPORT void InitDefinitions_534330();
-    EXPORT ObjectDefinition* GetObjectDefinition_534360(s32 idx) const;
+    EXPORT ObjectDefinition* AllocDefinitionWithSprite(s32 idx, s32 sprite_type, s16 base_sprite_idx, u8 num_frames);
+    EXPORT void CreateMapObjectDefinitions();
+    EXPORT void ApplyMapObjectOverrides();
+    EXPORT void CloneAnimatedDefinitions();
+    EXPORT void CreateCodeObjectDefinitions();
+    EXPORT void CloneRemappedDefinitions();
+    EXPORT void ClearColour1PixelsOfDefinitions287To293();
+    EXPORT void CacheDef112BaseSpriteIdx();
+    EXPORT void ClearColour1PixelsOfDefinitionSprite(s32 idx);
+    EXPORT void InitDefinitions();
+    EXPORT ObjectDefinition* GetObjectDefinition(s32 idx) const;
 
     // 9.6f 0x4C6E30
     inline s16 GetObjectBaseSpriteIdx_4C6E30(s32 idx) const
     {
-        return GetObjectDefinition_534360(idx)->mBaseSpriteIdx;
+        return GetObjectDefinition(idx)->mBaseSpriteIdx;
     }
-    EXPORT ObjectDefinition* CloneDefinition_534370(s32 dst_idx, s32 src_idx);
-    EXPORT ObjectDefinition* AllocDefinition_5343C0(s32 idx);
+    EXPORT ObjectDefinition* CloneDefinition(s32 dst_idx, s32 src_idx);
+    EXPORT ObjectDefinition* AllocDefinition(s32 idx);
     EXPORT ObjectDefinitions();
 
     u16 mNextIdx; // 0x0

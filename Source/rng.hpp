@@ -23,17 +23,17 @@ class rng
         return mRnd;
     }
 
-    EXPORT void AdvanceCycle_48B900();
-    EXPORT void ShowCycle_48B920();
+    EXPORT void AdvanceCycle();
+    EXPORT void ShowCycle();
 
     EXPORT void srand_4F7A40();
-    EXPORT s16 get_int_4F7AE0(const s16& max_rnd);
-    EXPORT u8 get_uint8_4F7B70(const u8& max_rnd);
+    EXPORT s16 get_int(const s16& max_rnd);
+    EXPORT u8 get_uint8(const u8& max_rnd);
     EXPORT s32 rand_4F7C00();
 
-    // Two uses, one per instance: on gpRng_67AB34 the game's tick counter (AdvanceCycle_48B900 adds one per tick, ShowCycle_48B920
+    // Two uses, one per instance: on gpRng_67AB34 the game's tick counter (AdvanceCycle adds one per tick, ShowCycle
     // shows it), which timers are stamped with (CarPhysics::mDamagedUntilCycle, Ped::mLastVoiceRng); on
-    // gRng_6F6784 the last number get_int_4F7AE0 / get_uint8_4F7B70 drew while bLog_random_67D5FC is set
+    // gRng_6F6784 the last number get_int / get_uint8 drew while bLog_random_67D5FC is set
     s32 mRng; // 0x0
     s32 mRnd; // 0x4
 };

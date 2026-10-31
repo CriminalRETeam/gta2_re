@@ -27,7 +27,7 @@ EXTERN_GLOBAL(Fix16, gArrowSteerAngVel_6FE0B0);
 EXTERN_GLOBAL(Fix16, kF16Zero_677B90);
 EXTERN_GLOBAL(Fix16_Point, CollisionIntersectionPoint_6FE1A0);
 
-EXPORT Fix16_Point __stdcall ComputeCollisionImpulse_55F3B0(Fix16 OwnerMass,
+EXPORT Fix16_Point __stdcall ComputeCollisionImpulse(Fix16 OwnerMass,
                                                                 Fix16 TargetMass,
                                                                 Fix16_Point& RelativeVelocity,
                                                                 Fix16_Point& DistToCollision_ByRef,
@@ -151,97 +151,97 @@ class CarPhysics
         return mIsHandBrakeOn;
     }
 
-    EXPORT Fix16 ComputeZPosition_559E90();
+    EXPORT Fix16 ComputeZPosition();
 
-    EXPORT Fix16_Point get_cp1_40B560();
+    EXPORT Fix16_Point get_cp1();
     EXPORT ~CarPhysics();
-    EXPORT void ShowPhysicsDebug_559430();
-    EXPORT void ShowSpeedRevsDamage_5597B0();
-    EXPORT bool IsNotMoving_5599D0();
-    EXPORT void UpdateTrailerPhysicsFromTowingCar_559A40();
-    EXPORT void UpdateTrailerAlignment_559B40();
-    EXPORT void EnforceTrailerControlLimits_559B50();
-    EXPORT void SetOilSpinDir_559B90(const s32& spin_dir);
-    EXPORT void SpinOutOnOil_559BA0();
-    EXPORT void ScarePedsOnDrivingFast_559C30();
-    EXPORT void ApplyForcedSteering_559DD0();
-    EXPORT void ApplyConveyorPush_559E20(Object* pObj);
-    EXPORT Fix16_Point ComputeCombinedCenterOfMass_559EC0();
-    EXPORT Fix16 CalculateMass_559FF0();
-    EXPORT Fix16 GetEffectiveMomentOfInertia_55A050();
-    EXPORT bool IsInAir_55A0B0();
-    EXPORT Fix16 GetTrailerAwareTurnRatio_55A100();
-    // Inlined in UpdateSteeringAngle_562560. The scale is computed before the turn ratio call, which
+    EXPORT void ShowPhysicsDebug();
+    EXPORT void ShowSpeedRevsDamage();
+    EXPORT bool IsNotMoving();
+    EXPORT void UpdateTrailerPhysicsFromTowingCar();
+    EXPORT void UpdateTrailerAlignment();
+    EXPORT void EnforceTrailerControlLimits();
+    EXPORT void SetOilSpinDir(const s32& spin_dir);
+    EXPORT void SpinOutOnOil();
+    EXPORT void ScarePedsOnDrivingFast();
+    EXPORT void ApplyForcedSteering();
+    EXPORT void ApplyConveyorPush(Object* pObj);
+    EXPORT Fix16_Point ComputeCombinedCenterOfMass();
+    EXPORT Fix16 CalculateMass();
+    EXPORT Fix16 GetEffectiveMomentOfInertia();
+    EXPORT bool IsInAir();
+    EXPORT Fix16 GetTrailerAwareTurnRatio();
+    // Inlined in UpdateSteeringAngle. The scale is computed before the turn ratio call, which
     // needs it as a by-value argument ahead of the turn direction (arguments are evaluated right to left)
     inline Fix16 GetScaledTurnRatio(Fix16 scale, s32 turn_direction)
     {
-        return GetTrailerAwareTurnRatio_55A100() * turn_direction * scale;
+        return GetTrailerAwareTurnRatio() * turn_direction * scale;
     }
-    EXPORT char_type IsFootBrakeOn_55A150();
-    EXPORT bool IsAccelerationOrReverseOn_55A180();
-    EXPORT void SetVelocityTowardTarget_55A1D0(Fix16 targetX, Fix16 targetY, Fix16 targetAngle, s32* rotationMode);
-    EXPORT void restore_saved_physics_state_55A400();
-    EXPORT void save_physics_state_55A4B0();
-    EXPORT void restore_state_55A550();
-    EXPORT void save_state_55A600();
-    EXPORT Fix16 ComputeRequiredSweepSteps_55A6A0();
-    EXPORT void ResetForceAccumulators_55A840();
-    EXPORT void HandleUserInputs_55A860(char_type bForwardGasOn,
+    EXPORT char_type IsFootBrakeOn();
+    EXPORT bool IsAccelerationOrReverseOn();
+    EXPORT void SetVelocityTowardTarget(Fix16 targetX, Fix16 targetY, Fix16 targetAngle, s32* rotationMode);
+    EXPORT void restore_saved_physics_state();
+    EXPORT void save_physics_state();
+    EXPORT void restore_state();
+    EXPORT void save_state();
+    EXPORT Fix16 ComputeRequiredSweepSteps();
+    EXPORT void ResetForceAccumulators();
+    EXPORT void HandleUserInputs(char_type bForwardGasOn,
                                             char_type bFootBrakeOn,
                                             char_type bLeftOn,
                                             char_type bRightOn,
                                             char_type bHandBrakeOn);
-    EXPORT void HandleGravityOnSlope_55AA00();
-    EXPORT Fix16 ComputeSlopeCorrection_55AB50(Fix16* pOutY);
-    EXPORT void UpdateZPhysics_55AD90(Fix16 dt);
-    EXPORT void SyncZWithTrailer_55B3F0(Fix16 dt);
+    EXPORT void HandleGravityOnSlope();
+    EXPORT Fix16 ComputeSlopeCorrection(Fix16* pOutY);
+    EXPORT void UpdateZPhysics(Fix16 dt);
+    EXPORT void SyncZWithTrailer(Fix16 dt);
     EXPORT void UpdateZPosition_55B4F0(Fix16 dt);
     EXPORT void UpdateZPosition_55B7B0(Fix16 dt);
-    EXPORT void EmitImpactParticles_55B7E0(u8 apply_to_corners_mask);
-    EXPORT char_type ProcessGroundCollisionAndSurfaceType_55B970(char_type* check_mask);
-    EXPORT void ProcessGroundCollisionAndEmitImpactParticles_55BFE0();
-    EXPORT bool TestCollision_55C150();
-    EXPORT bool SweepTestMovementForCollision_55C3B0(Fix16* outHitStep, Fix16* outNoHitStep);
-    EXPORT void BinarySearchCollisionTime_55C560(Fix16& low, Fix16& high);
-    EXPORT void HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& point, Ang16 angle);
-    EXPORT void HandleMapBoundaryCollisionX_55C820(Fix16_Point& point, Ang16 angle);
-    EXPORT void DispatchCollision_55CA70(Fix16_Point& point, Ang16 angle);
-    EXPORT void ReplayAndDispatchCollision_55CBB0(Fix16 step_a, Fix16 step_b);
-    EXPORT void SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point wheel_offset, s32 surface);
-    EXPORT void UpdateWheelSkidEffects_55DC00();
-    EXPORT void DoSkidmarks_55E260();
-    EXPORT bool StepMovementAndCollisions_55E470();
-    EXPORT bool CheckAndHandleCarAndTrailerCollisions_55EB80();
-    EXPORT void ApplyVerticalEdgeNudge_55EC30();
-    EXPORT void ApplyHorizontalEdgeNudge_55EF20();
-    EXPORT void ApplyTurningForce_55F020();
-    EXPORT bool ApplyMovementCommand_55F240();
-    EXPORT char_type ProcessCollisionAndClampVelocity_55F280();
-    EXPORT void StepPhysics_55F330();
-    EXPORT char_type CheckPendingCollision_55F360();
-    EXPORT void ApplyForceWithTrailerRedirect_55F740(Fix16_Point* pPoint, Fix16_Point* pForce);
-    EXPORT void ApplyForceAndIntegrate_55F7A0(Fix16_Point* pPoint, Fix16_Point force);
-    EXPORT void ApplyForceAtPoint_55F800(Fix16_Point* pPoint, Fix16_Point* pForce, s32 bRotate);
+    EXPORT void EmitImpactParticles(u8 apply_to_corners_mask);
+    EXPORT char_type ProcessGroundCollisionAndSurfaceType(char_type* check_mask);
+    EXPORT void ProcessGroundCollisionAndEmitImpactParticles();
+    EXPORT bool TestCollision();
+    EXPORT bool SweepTestMovementForCollision(Fix16* outHitStep, Fix16* outNoHitStep);
+    EXPORT void BinarySearchCollisionTime(Fix16& low, Fix16& high);
+    EXPORT void HandleMapBoundaryCollisionY(Fix16_Point& point, Ang16 angle);
+    EXPORT void HandleMapBoundaryCollisionX(Fix16_Point& point, Ang16 angle);
+    EXPORT void DispatchCollision(Fix16_Point& point, Ang16 angle);
+    EXPORT void ReplayAndDispatchCollision(Fix16 step_a, Fix16 step_b);
+    EXPORT void SpawnSkidSegment(s32 box_idx, Fix16_Point wheel_offset, s32 surface);
+    EXPORT void UpdateWheelSkidEffects();
+    EXPORT void DoSkidmarks();
+    EXPORT bool StepMovementAndCollisions();
+    EXPORT bool CheckAndHandleCarAndTrailerCollisions();
+    EXPORT void ApplyVerticalEdgeNudge();
+    EXPORT void ApplyHorizontalEdgeNudge();
+    EXPORT void ApplyTurningForce();
+    EXPORT bool ApplyMovementCommand();
+    EXPORT char_type ProcessCollisionAndClampVelocity();
+    EXPORT void StepPhysics();
+    EXPORT char_type CheckPendingCollision();
+    EXPORT void ApplyForceWithTrailerRedirect(Fix16_Point* pPoint, Fix16_Point* pForce);
+    EXPORT void ApplyForceAndIntegrate(Fix16_Point* pPoint, Fix16_Point force);
+    EXPORT void ApplyForceAtPoint(Fix16_Point* pPoint, Fix16_Point* pForce, s32 bRotate);
     EXPORT void AccumulateImpulse_55F930(Fix16_Point* pPoint);
-    EXPORT void ApplyAngularImpulse_55F970(Fix16 impulse);
-    EXPORT void ApplyForceScaledByMass_55F9A0(Fix16_Point& force);
-    EXPORT void ApplyImpulseWithTrailerRedirect_55FA10(Fix16_Point* pPoint);
-    EXPORT Fix16 ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce, Fix16_Point& Impulse, s32 base_dmg);
+    EXPORT void ApplyAngularImpulse(Fix16 impulse);
+    EXPORT void ApplyForceScaledByMass(Fix16_Point& force);
+    EXPORT void ApplyImpulseWithTrailerRedirect(Fix16_Point* pPoint);
+    EXPORT Fix16 ApplyImpactForcesAndDamage(Fix16_Point& PointOfForce, Fix16_Point& Impulse, s32 base_dmg);
     EXPORT void AccumulateImpulse_55FC30(Fix16_Point& point, s32 base_dmg);
-    EXPORT void HandleWorldCollision_55FD00(Fix16_Point& relative_velocity);
-    EXPORT void HandleCarCollision_55FF20(Car* pOtherCar);
-    EXPORT void HandleObjectCollision_5606C0(Object* pObject, char_type damage_area);
-    EXPORT void ProcessPedImpact_560B40(Char* pChar, u8 overlap_count);
-    EXPORT void UpdateLinearAndAngularAccel_560EB0();
-    EXPORT void ApplyMovementStep_560F20(Fix16 time_scale);
-    EXPORT void IntegrateAndClampVelocities_5610B0();
-    EXPORT Fix16_Point ComputeRelativePointVelocity_561130(Fix16_Point* pPoint);
-    EXPORT Fix16_Point GetPointVelocity_561350(Fix16_Point* pPoint);
-    EXPORT Fix16_Point ComputePointVelocity_561380(Fix16_Point& point);
-    EXPORT Fix16 ApplyDriveForce_5615D0(Fix16_Point& wheel_point, Ang16 angle, Fix16_Point& friction, Fix16 slip_speed);
-    EXPORT bool IsTurboActive_561940();
-    EXPORT Fix16 ComputeEngineTorque_561970();
-    EXPORT Fix16 ComputeTorqueFromThrottle_561DD0();
+    EXPORT void HandleWorldCollision(Fix16_Point& relative_velocity);
+    EXPORT void HandleCarCollision(Car* pOtherCar);
+    EXPORT void HandleObjectCollision(Object* pObject, char_type damage_area);
+    EXPORT void ProcessPedImpact(Char* pChar, u8 overlap_count);
+    EXPORT void UpdateLinearAndAngularAccel();
+    EXPORT void ApplyMovementStep(Fix16 time_scale);
+    EXPORT void IntegrateAndClampVelocities();
+    EXPORT Fix16_Point ComputeRelativePointVelocity(Fix16_Point* pPoint);
+    EXPORT Fix16_Point GetPointVelocity(Fix16_Point* pPoint);
+    EXPORT Fix16_Point ComputePointVelocity(Fix16_Point& point);
+    EXPORT Fix16 ApplyDriveForce(Fix16_Point& wheel_point, Ang16 angle, Fix16_Point& friction, Fix16 slip_speed);
+    EXPORT bool IsTurboActive();
+    EXPORT Fix16 ComputeEngineTorque();
+    EXPORT Fix16 ComputeTorqueFromThrottle();
 
     // FUNCTION: 96f 0x40f840
     bool IsVelocityAlignedWithHeading_40F840()
@@ -252,7 +252,7 @@ class CarPhysics
 
     Fix16 inline_ComputeTorqueFromThrottle_561DD0()
     {
-        if (IsTurboActive_561940())
+        if (IsTurboActive())
         {
             return gCarInfo_2C_6FE0E4->mHalfThrust +
                 ((mGasPedal * ((gDamageSpeedFactor_6FE348 * gCarInfo_2C_6FE0E4->mFithThrust)))) * 2;
@@ -264,41 +264,41 @@ class CarPhysics
         }
     }
 
-    // ComputeTorqueFromThrottle_561DD0 as inlined into ComputeEngineTorque_561970 (out of line operators)
+    // ComputeTorqueFromThrottle as inlined into ComputeEngineTorque (out of line operators)
     Fix16 inline_ComputeTorqueFromThrottle_561DD0_ool()
     {
-        if (IsTurboActive_561940())
+        if (IsTurboActive())
         {
-            return gCarInfo_2C_6FE0E4->mHalfThrust.Add_408660(
-                gCarInfo_2C_6FE0E4->mFithThrust.Multiply_408680(gDamageSpeedFactor_6FE348)
-                    .Multiply_408680(mGasPedal)
-                    .MultiplyInt_561DB0(2));
+            return gCarInfo_2C_6FE0E4->mHalfThrust.Add(
+                gCarInfo_2C_6FE0E4->mFithThrust.Multiply(gDamageSpeedFactor_6FE348)
+                    .Multiply(mGasPedal)
+                    .MultiplyInt(2));
         }
         else
         {
-            return gCarInfo_2C_6FE0E4->mHalfThrust.Add_408660(
-                gCarInfo_2C_6FE0E4->mFithThrust.Multiply_408680(gDamageSpeedFactor_6FE348).Multiply_408680(mGasPedal));
+            return gCarInfo_2C_6FE0E4->mHalfThrust.Add(
+                gCarInfo_2C_6FE0E4->mFithThrust.Multiply(gDamageSpeedFactor_6FE348).Multiply(mGasPedal));
         }
     }
 
-    // ComputeUndamagedThrottleTorque_49E8E0 as inlined into ComputeEngineTorque_561970 (out of line operators)
+    // ComputeUndamagedThrottleTorque_49E8E0 as inlined into ComputeEngineTorque (out of line operators)
     Fix16 ComputeUndamagedThrottleTorque_49E8E0_ool()
     {
-        if (IsTurboActive_561940())
+        if (IsTurboActive())
         {
-            return gCarInfo_2C_6FE0E4->mHalfThrust.Add_408660(
-                gCarInfo_2C_6FE0E4->mFithThrust.Multiply_408680(mGasPedal).MultiplyInt_561DB0(2));
+            return gCarInfo_2C_6FE0E4->mHalfThrust.Add(
+                gCarInfo_2C_6FE0E4->mFithThrust.Multiply(mGasPedal).MultiplyInt(2));
         }
         else
         {
-            return gCarInfo_2C_6FE0E4->mHalfThrust.Add_408660(
-                gCarInfo_2C_6FE0E4->mFithThrust.Multiply_408680(mGasPedal));
+            return gCarInfo_2C_6FE0E4->mHalfThrust.Add(
+                gCarInfo_2C_6FE0E4->mFithThrust.Multiply(mGasPedal));
         }
     }
 
     Fix16 CarPhysics::ComputeUndamagedThrottleTorque_49E8E0()
     {
-        if (IsTurboActive_561940())
+        if (IsTurboActive())
         {
             return gCarInfo_2C_6FE0E4->mHalfThrust + (gCarInfo_2C_6FE0E4->mFithThrust * this->mGasPedal) * 2;
         }
@@ -320,48 +320,48 @@ class CarPhysics
         return false;
     }
 
-    EXPORT Fix16 CalculateFrontWheelForce_561E50();
-    EXPORT Fix16 CalculateRearWheelForce_5620D0();
-    EXPORT void ApplyThrottleInput_562480();
-    EXPORT void ApplyBrakePhysics_5624F0();
-    EXPORT void UpdateSteeringAngle_562560();
-    EXPORT bool IsGasPedalPressedEnough_5626A0();
-    EXPORT Fix16 MinGasPedalPressure_5626C0();
-    EXPORT void ApplyArrowSteerAssist_5626F0();
-    EXPORT void StabilizeVelocityAtSpeed_562910();
-    EXPORT void EnforceGearSensitiveMaxSpeed_562D00();
-    EXPORT void SetModelPhysicsGlobal_562EB0();
-    EXPORT void SetCarInfoGlobal_562ED0();
-    EXPORT void SetCurrentCarInfoAndModelPhysics_562EF0();
+    EXPORT Fix16 CalculateFrontWheelForce();
+    EXPORT Fix16 CalculateRearWheelForce();
+    EXPORT void ApplyThrottleInput();
+    EXPORT void ApplyBrakePhysics();
+    EXPORT void UpdateSteeringAngle();
+    EXPORT bool IsGasPedalPressedEnough();
+    EXPORT Fix16 MinGasPedalPressure();
+    EXPORT void ApplyArrowSteerAssist();
+    EXPORT void StabilizeVelocityAtSpeed();
+    EXPORT void EnforceGearSensitiveMaxSpeed();
+    EXPORT void SetModelPhysicsGlobal();
+    EXPORT void SetCarInfoGlobal();
+    EXPORT void SetCurrentCarInfoAndModelPhysics();
 
     // 9.6f 0x482CC0
     inline void HandleObjectCollisionAt_482CC0(Object* pObj, Fix16_Point& point, char_type damage_area)
     {
-        SetCurrentCarInfoAndModelPhysics_562EF0();
+        SetCurrentCarInfoAndModelPhysics();
         CollisionIntersectionPoint_6FE1A0 = point;
-        HandleObjectCollision_5606C0(pObj, damage_area);
+        HandleObjectCollision(pObj, damage_area);
     }
-    EXPORT void ApplyInputsAndIntegratePhysics_562F30();
-    EXPORT bool UpdateLastMovementTimer_562FA0();
-    EXPORT bool ProcessCarPhysicsStateMachine_562FE0();
-    EXPORT void UpdateCp1FromCm1_563280();
-    EXPORT void UpdateCenterOfMassPoint_563350();
-    EXPORT void UpdateReferencePoint_563460();
-    EXPORT void SetSprite_563560(Sprite* pSprite);
-    EXPORT void SnapVelocityToSpriteDirection_563590(Sprite* pSprt);
-    EXPORT void UpdateSpriteFromPhysics_563670();
-    EXPORT void UpdateCarAndTrailerSpriteFromPhysics_5636C0();
-    EXPORT bool IsNearlyStopped_5636E0();
-    EXPORT void Init_5637A0();
+    EXPORT void ApplyInputsAndIntegratePhysics();
+    EXPORT bool UpdateLastMovementTimer();
+    EXPORT bool ProcessCarPhysicsStateMachine();
+    EXPORT void UpdateCp1FromCm1();
+    EXPORT void UpdateCenterOfMassPoint();
+    EXPORT void UpdateReferencePoint();
+    EXPORT void SetSprite(Sprite* pSprite);
+    EXPORT void SnapVelocityToSpriteDirection(Sprite* pSprt);
+    EXPORT void UpdateSpriteFromPhysics();
+    EXPORT void UpdateCarAndTrailerSpriteFromPhysics();
+    EXPORT bool IsNearlyStopped();
+    EXPORT void Init();
     EXPORT void PoolAllocate();
 
-    EXPORT Fix16_Point get_linvel_447010();
+    EXPORT Fix16_Point get_linvel();
 
     void PoolDeallocate()
     {
     }
 
-    EXPORT void SetCar_5638C0(Car* pCar);
+    EXPORT void SetCar(Car* pCar);
     EXPORT CarPhysics();
 
     inline Fix16 GetLinearSpeed_4211A0()
@@ -481,11 +481,11 @@ class CarPhysics
         mPointingAngRad = kF16Zero_677B90;
     }
 
-    EXPORT Fix16 vec_len_552DE0(); // Char_B4.cpp func
+    EXPORT Fix16 vec_len(); // Char_B4.cpp func
 
-    EXPORT void ClearDriverInputs_453F90();
+    EXPORT void ClearDriverInputs();
     EXPORT void ForceNeutralInput_453F50();
-    EXPORT void ForceForwardAcceleration_453F70();
+    EXPORT void ForceForwardAcceleration();
 
 
     Fix16_Point mVelReadOnly; // 0x0
@@ -542,7 +542,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(CarPhysics, 0xB0);
 #pragma warning(disable : 4101)
 inline void CarPhysics::TurnClockwise_42ABA0()
 {
-    // Never read: its optimizer entry is needed by CarAI::UpdateStateMachine_44E560 (docs/match_attempts.md)
+    // Never read: its optimizer entry is needed by CarAI::UpdateStateMachine (docs/match_attempts.md)
     s32 unused;
     mTurnDirection = car_turn_direction::clockwise_m1;
 }

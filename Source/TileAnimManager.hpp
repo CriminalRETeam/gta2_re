@@ -9,10 +9,10 @@ struct gmp_tile_animation;
 class TileAnimManager
 {
   public:
-    EXPORT void AddAnim_5BC260(s16 base, s16 start_frame, s16 length, s16 frame_rate, s16 repeat);
-    EXPORT void AddGmpAnim_5BC2C0(const gmp_tile_animation* pTileAnimation);
-    EXPORT void Empty_5BC300();
-    EXPORT void UpdateTileAnimations_5BC310();
+    EXPORT void AddAnim(s16 base, s16 start_frame, s16 length, s16 frame_rate, s16 repeat);
+    EXPORT void AddGmpAnim(const gmp_tile_animation* pTileAnimation);
+    EXPORT void Empty();
+    EXPORT void UpdateTileAnimations();
     EXPORT TileAnimManager();
     EXPORT ~TileAnimManager();
     s16 mCount; // 0x0
@@ -38,9 +38,9 @@ class TileAnim
     {
       
     }
-    EXPORT void ApplyCurrentFrame_5BC150();
-    EXPORT void InitFromGmpAnim_5BC190(const gmp_tile_animation* pAnimation);
-    EXPORT void Start_5BC1D0();
+    EXPORT void ApplyCurrentFrame();
+    EXPORT void InitFromGmpAnim(const gmp_tile_animation* pAnimation);
+    EXPORT void Start();
     EXPORT bool PoolUpdate();
     EXPORT TileAnim();
     EXPORT ~TileAnim();

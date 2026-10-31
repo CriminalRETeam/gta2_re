@@ -23,8 +23,8 @@ class Object;
 class TrafficLight
 {
   public:
-    EXPORT void Init_5C1D00(u8 x, u8 y, u8 w, u8 h);
-    EXPORT void UpdateLightsFromPhase_5C27A0(u8 phase);
+    EXPORT void Init(u8 x, u8 y, u8 w, u8 h);
+    EXPORT void UpdateLightsFromPhase(u8 phase);
 
     Object* mNorthHeadlightObj; // 0x0
     Object* mSouthHeadlightObj; // 0x4
@@ -40,16 +40,16 @@ GTA2_ASSERT_SIZEOF_ALWAYS(TrafficLight, 0x20);
 class TrafficLights
 {
   private:
-    EXPORT void AddTrafficLight_5C2910(u8 x, u8 y, u8 w, u8 h);
+    EXPORT void AddTrafficLight(u8 x, u8 y, u8 w, u8 h);
 
   public:
-    EXPORT void TrafficLightsService_5C2950();
+    EXPORT void TrafficLightsService();
 
   private:
-    EXPORT void ShowTrafficLightsInfo_5C2A10();
+    EXPORT void ShowTrafficLightsInfo();
 
   public:
-    EXPORT void CreateFromMapZones_5C2AC0();
+    EXPORT void CreateFromMapZones();
     EXPORT TrafficLights();
     EXPORT ~TrafficLights();
     bool ArePedsCrossing_434960() const

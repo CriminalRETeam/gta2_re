@@ -1,6 +1,6 @@
 #pragma once
 
-// CarThreadTrigger::mType: what has to enter the touch point (checked in CarThreadTriggers::CheckThreadTrigger_5C8780).
+// CarThreadTrigger::mType: what has to enter the touch point (checked in CarThreadTriggers::CheckThreadTrigger).
 namespace car_thread_trigger_type
 {
 enum

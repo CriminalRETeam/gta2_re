@@ -45,6 +45,6 @@ class SoundObject
     // Type depends on what mObjectType is
     SoundObjectType mpAny; // 0xC
 
-    EXPORT void Release_40EF20();
+    EXPORT void Release();
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SoundObject, 0x10);

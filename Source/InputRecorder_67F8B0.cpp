@@ -52,7 +52,7 @@ DEFINE_GUID(GUID_SysKeyboard, 0x6F1D2B61, 0xD5A0, 0x11CF, 0xBF, 0xC7, 0x44, 0x45
 const AttractFile attractFiles_62083C[ATTRACT_COUNT] = {"data\\attract\\attr1.rep", "data\\attract\\attr2.rep", "data\\attract\\attr3.rep"};
 
 MATCH_FUNC(0x498730)
-bool InputDevices::acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDevice)
+bool InputDevices::acquire_input_device(LPDIRECTINPUTDEVICEA pGamePadDevice)
 {
     if (!pGamePadDevice)
     {
@@ -75,7 +75,7 @@ bool InputDevices::acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDevi
 }
 
 MATCH_FUNC(0x4987A0)
-void InputDevices::free_input_devices_4987A0()
+void InputDevices::free_input_devices()
 {
     if (gpDInput_67B804)
     {
@@ -96,7 +96,7 @@ void InputDevices::free_input_devices_4987A0()
 }
 
 MATCH_FUNC(0x498800)
-BOOL __stdcall InputDevices::make_input_devices_498800(HINSTANCE hInstance)
+BOOL __stdcall InputDevices::make_input_devices(HINSTANCE hInstance)
 {
     DIPROPDWORD prop;
 
@@ -127,7 +127,7 @@ BOOL __stdcall InputDevices::make_input_devices_498800(HINSTANCE hInstance)
     HRESULT hr = gKeyboardDevice_67B5C0->SetProperty(DIPROP_BUFFERSIZE, &prop.diph);
     if (FAILED(hr))
     {
-        FatalDXError_4A3CF0(hr, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 300);
+        FatalDXError(hr, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 300);
     }
 
     prop.dwData = 0;
@@ -136,7 +136,7 @@ BOOL __stdcall InputDevices::make_input_devices_498800(HINSTANCE hInstance)
 }
 
 MATCH_FUNC(0x498910)
-EXPORT BOOL CALLBACK DirectInputDeviceEnumCallBack_498910(LPCDIDEVICEINSTANCEA lpddi, LPVOID pvRef)
+EXPORT BOOL CALLBACK DirectInputDeviceEnumCallBack(LPCDIDEVICEINSTANCEA lpddi, LPVOID pvRef)
 {
     const GUID guidInstanceCopy = lpddi->guidInstance;
     LPDIRECTINPUTDEVICEA tempDevice;
@@ -166,7 +166,7 @@ EXPORT BOOL CALLBACK DirectInputDeviceEnumCallBack_498910(LPCDIDEVICEINSTANCEA l
 }
 
 MATCH_FUNC(0x4989C0)
-void InputDevices::set_game_pad_device_properties_4989C0()
+void InputDevices::set_game_pad_device_properties()
 {
     DIPROPDWORD prop;
     DIPROPRANGE range;
@@ -193,7 +193,7 @@ void InputDevices::set_game_pad_device_properties_4989C0()
         HRESULT hr = gGamePadDevice_67B6C0->SetProperty(DIPROP_BUFFERSIZE, &prop.diph);
         if (FAILED(hr))
         {
-            FatalDXError_4A3CF0(hr, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 434);
+            FatalDXError(hr, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 434);
         }
 
         prop.dwData = 0;
@@ -241,7 +241,7 @@ void InputDevices::set_game_pad_device_properties_4989C0()
 }
 
 MATCH_FUNC(0x498BA0)
-bool InputDevices::game_pads_init_498BA0()
+bool InputDevices::game_pads_init()
 {
     if (gpDInput_67B804)
     {
@@ -271,44 +271,44 @@ bool InputDevices::game_pads_init_498BA0()
 #endif
     }
 
-    gpDInput_67B804->EnumDevices(DIDEVTYPE_JOYSTICK, DirectInputDeviceEnumCallBack_498910, this, DIEDFL_ATTACHEDONLY);
+    gpDInput_67B804->EnumDevices(DIDEVTYPE_JOYSTICK, DirectInputDeviceEnumCallBack, this, DIEDFL_ATTACHEDONLY);
 
     if (!gGamePadDevice_67B6C0)
     {
         return false;
     }
-    set_game_pad_device_properties_4989C0();
+    set_game_pad_device_properties();
     return true;
 }
 
 MATCH_FUNC(0x498C00)
-void InputDevices::get_registry_controls_498C00()
+void InputDevices::get_registry_controls()
 {
     LOCAL_STATIC_ARRAY_INIT(s32, sDefaultControls, 12, 0x61A9E4, DIK_UP COMMA DIK_DOWN COMMA DIK_LEFT COMMA DIK_RIGHT COMMA DIK_LCONTROL COMMA DIK_RETURN COMMA DIK_SPACE COMMA DIK_Z COMMA DIK_X COMMA DIK_TAB COMMA DIK_LMENU COMMA DIK_RSHIFT);
     for (u32 i = 0; i < 12; ++i)
     {
-        const u32 setting = gRegistry_6FF968.Get_Control_Setting_587010(i, sDefaultControls[i]);
+        const u32 setting = gRegistry_6FF968.Get_Control_Setting(i, sDefaultControls[i]);
         sControlDeviceType[i] = setting >> 15;
         sPlayerControlsBinding[i] = static_cast<u8>(setting);
     }
 }
 
 MATCH_FUNC(0x498C40)
-void __stdcall InputDevices::input_devices_init_498C40(HINSTANCE hInstance)
+void __stdcall InputDevices::input_devices_init(HINSTANCE hInstance)
 {
-    get_registry_controls_498C00();
+    get_registry_controls();
 
     sAltKeyDown = 0;
 
-    if (!make_input_devices_498800(hInstance))
+    if (!make_input_devices(hInstance))
     {
         sNeedKbAcquire = true;
     }
-    game_pads_init_498BA0();
+    game_pads_init();
 }
 
 MATCH_FUNC(0x498C80)
-void InputDevices::AddKeyToInputBits_498C80(s32* pInputBits, DIDEVICEOBJECTDATA* device_data_keys)
+void InputDevices::AddKeyToInputBits(s32* pInputBits, DIDEVICEOBJECTDATA* device_data_keys)
 {
     *pInputBits = (device_data_keys->dwOfs << input_bit::KeyShift) | *pInputBits;
     if ((device_data_keys->dwData & 0x80) != 0)
@@ -319,7 +319,7 @@ void InputDevices::AddKeyToInputBits_498C80(s32* pInputBits, DIDEVICEOBJECTDATA*
 
 // https://decomp.me/scratch/LbfoG ridiculous function to match
 MATCH_FUNC(0x498CB0)
-void InputDevices::SetAltKeyState_498CB0(u32 alt_down)
+void InputDevices::SetAltKeyState(u32 alt_down)
 {
     // An if/else on the DirectInput key state bit: VC6 turns it into a dword load + `shr $7,%al`,
     // the expression forms all give a byte load or `and $1`
@@ -334,7 +334,7 @@ void InputDevices::SetAltKeyState_498CB0(u32 alt_down)
 }
 
 MATCH_FUNC(0x498CC0)
-void InputDevices::flush_keyboard_and_gamepad_498CC0()
+void InputDevices::flush_keyboard_and_gamepad()
 {
     sDeviceDataCount = -1;
     if (gKeyboardDevice_67B5C0)
@@ -350,10 +350,10 @@ void InputDevices::flush_keyboard_and_gamepad_498CC0()
 }
 
 MATCH_FUNC(0x498D20)
-bool InputDevices::game_pad_read_498D20()
+bool InputDevices::game_pad_read()
 {
     DWORD num_items = -1;
-    if (acquire_input_device_498730(gGamePadDevice_67B6C0))
+    if (acquire_input_device(gGamePadDevice_67B6C0))
     {
         HRESULT jres = gGamePadDevice_67B6C0->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), NULL, &num_items, DIGDD_PEEK);
         if (jres >= DI_OK)
@@ -370,22 +370,22 @@ bool InputDevices::game_pad_read_498D20()
 
 // https://decomp.me/scratch/75Pau
 MATCH_FUNC(0x498DA0)
-void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboardControls)
+void InputDevices::read_input_device(s32* input_bits, bool bApplyKeyboardControls)
 {
     LOCAL_STATIC(DIDEVICEOBJECTDATA, sKeyboardDeviceData, 0x67B610);
     bool bFirstPass = true;
     s32 bReleased = 0;
     DWORD padItems = 1;
-    if (acquire_input_device_498730(gKeyboardDevice_67B5C0) || acquire_input_device_498730(gGamePadDevice_67B6C0))
+    if (acquire_input_device(gKeyboardDevice_67B5C0) || acquire_input_device(gGamePadDevice_67B6C0))
     {
         memset(&sKeyboardDeviceData, 0, sizeof(mini_device_obj_data));
         memset(&sGamePadDeviceData, 0, sizeof(mini_device_obj_data));
-        if (acquire_input_device_498730(gGamePadDevice_67B6C0))
+        if (acquire_input_device(gGamePadDevice_67B6C0))
         {
             static_cast<LPDIRECTINPUTDEVICE2A>(gGamePadDevice_67B6C0)->Poll();
         }
 
-        while (game_pad_read_498D20() || bFirstPass)
+        while (game_pad_read() || bFirstPass)
         {
             HRESULT kbResult;
             HRESULT padResult;
@@ -418,7 +418,7 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
                             padItems,
                             sGamePadDeviceData.dwOfs,
                             sGamePadDeviceData.dwData);
-                    gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
+                    gErrorLog_67C530.Write(gTmpBuffer_67C598);
                 }
             }
             else
@@ -434,7 +434,7 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
 
             if (sKeyboardDeviceData.dwOfs == DIK_LMENU)
             {
-                SetAltKeyState_498CB0(sKeyboardDeviceData.dwData);
+                SetAltKeyState(sKeyboardDeviceData.dwData);
             }
             else if ((sKeyboardDeviceData.dwOfs == DIK_SPACE || sKeyboardDeviceData.dwOfs == DIK_TAB ||
                       sKeyboardDeviceData.dwOfs == DIK_RETURN) &&
@@ -443,7 +443,7 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
                 return;
             }
 
-            if (!gHud_2B00_706620->IsInputKeyConsumed_5D6C70(sKeyboardDeviceData.dwOfs))
+            if (!gHud_2B00_706620->IsInputKeyConsumed(sKeyboardDeviceData.dwOfs))
             {
                 // The pad fields are read directly: VC6 keeps them in edi/edx across the loop and
                 // reloads them after each set/clear call, as the original does
@@ -461,14 +461,14 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
                         {
                             if (bApplyKeyboardControls)
                             {
-                                gInputRecorder_67F8B0.set_input_4CDCF0(input);
+                                gInputRecorder_67F8B0.set_input(input);
                             }
                         }
                         else
                         {
                             if (bApplyKeyboardControls)
                             {
-                                gInputRecorder_67F8B0.clear_input_4CDD10(input);
+                                gInputRecorder_67F8B0.clear_input(input);
                             }
                         }
                     }
@@ -560,14 +560,14 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
                             bHandled = true;
                             if (bApplyKeyboardControls)
                             {
-                                gInputRecorder_67F8B0.set_input_4CDCF0(input);
+                                gInputRecorder_67F8B0.set_input(input);
                             }
                         }
                         else if (bReleased)
                         {
                             if (bApplyKeyboardControls && gInputRecorder_67F8B0.IsInputSet_44C050(input))
                             {
-                                gInputRecorder_67F8B0.clear_input_4CDD10(input);
+                                gInputRecorder_67F8B0.clear_input(input);
                             }
                             bHandled = true;
                         }
@@ -582,7 +582,7 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
             }
             else
             {
-                AddKeyToInputBits_498C80(input_bits, &sKeyboardDeviceData);
+                AddKeyToInputBits(input_bits, &sKeyboardDeviceData);
                 bFirstPass = false;
                 if (bLog_directinput_67D6C0)
                 {
@@ -603,25 +603,25 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
 // ================================================
 
 MATCH_FUNC(0x4cdcd0)
-void InputRecorder_67F8B0::StaticShutdown_4CDCD0()
+void InputRecorder_67F8B0::StaticShutdown()
 {
-    gInputRecorder_67F8B0.Shutdown_4CEA00();
+    gInputRecorder_67F8B0.Shutdown();
 }
 
 MATCH_FUNC(0x4cdce0)
-void InputRecorder_67F8B0::clear_inputs_4CDCE0()
+void InputRecorder_67F8B0::clear_inputs()
 {
     mInputBits &= ~0xFFFFF000;
 }
 
 MATCH_FUNC(0x4cdcf0)
-void InputRecorder_67F8B0::set_input_4CDCF0(s32 mask_idx)
+void InputRecorder_67F8B0::set_input(s32 mask_idx)
 {
     mInputBits |= mInputMasks[mask_idx];
 }
 
 MATCH_FUNC(0x4cdd10)
-void InputRecorder_67F8B0::clear_input_4CDD10(s32 mask_idx)
+void InputRecorder_67F8B0::clear_input(s32 mask_idx)
 {
     mInputBits &= ~mInputMasks[mask_idx];
 }
@@ -638,30 +638,30 @@ InputRecorder_67F8B0::InputRecorder_67F8B0()
     memset(mRecBuff, 0, sizeof(mRecBuff));
     mUsedRecsCount = 205;
     mRecBufIdx = 205;
-    VerifyAttractFilesExist_4CE650();
+    VerifyAttractFilesExist();
 }
 
 MATCH_FUNC(0x4cdd80)
-bool InputRecorder_67F8B0::should_ignore_input_4CDD80(s32 dinput_key)
+bool InputRecorder_67F8B0::should_ignore_input(s32 dinput_key)
 {
     return dinput_key == DIK_NUMPAD1 || dinput_key == DIK_NUMPAD2 || dinput_key == DIK_NUMPAD3 || dinput_key == DIK_NUMPAD4 ||
         dinput_key == DIK_NUMPAD5 || dinput_key == DIK_NUMPAD6 || dinput_key == DIK_NUMPAD7 || dinput_key == DIK_NUMPAD8 ||
         dinput_key == DIK_NUMPAD9 || dinput_key == DIK_MULTIPLY || dinput_key == DIK_SUBTRACT || dinput_key == DIK_ESCAPE ||
-        dinput_key == DIK_F6 || dinput_key == DIK_ADD || gHud_2B00_706620->IsQuitMessageInputKey_5D6CB0(dinput_key);
+        dinput_key == DIK_F6 || dinput_key == DIK_ADD || gHud_2B00_706620->IsQuitMessageInputKey(dinput_key);
 }
 
 MATCH_FUNC(0x4cddf0)
-bool InputRecorder_67F8B0::should_record_input_4CDDF0(s32 dinput_key)
+bool InputRecorder_67F8B0::should_record_input(s32 dinput_key)
 {
-    return !should_ignore_input_4CDD80(dinput_key) && dinput_key != DIK_ADD;
+    return !should_ignore_input(dinput_key) && dinput_key != DIK_ADD;
 }
 
 MATCH_FUNC(0x4cde20)
-void InputRecorder_67F8B0::save_replay_record_4CDE20(u32 inputs)
+void InputRecorder_67F8B0::save_replay_record(u32 inputs)
 {
     if ((inputs & input_bit::KeyBits) != 0)
     {
-        if (should_ignore_input_4CDD80((inputs >> input_bit::KeyShift) & input_bit::KeyMask))
+        if (should_ignore_input((inputs >> input_bit::KeyShift) & input_bit::KeyMask))
         {
             inputs &= 0xFFC00FFF;
         }
@@ -679,7 +679,7 @@ void InputRecorder_67F8B0::save_replay_record_4CDE20(u32 inputs)
             {
                 const s32 rec_idx = this->mRecBufIdx;
                 u32 rec_len = sizeof(InputRecord);
-                File::AppendBufferToFile_4A6F50("test\\replay.rep", &mRecBuff[rec_idx], &rec_len);
+                File::AppendBufferToFile("test\\replay.rep", &mRecBuff[rec_idx], &rec_len);
             }
 
             mRecBufIdx++;
@@ -688,19 +688,19 @@ void InputRecorder_67F8B0::save_replay_record_4CDE20(u32 inputs)
 }
 
 MATCH_FUNC(0x4cded0)
-void InputRecorder_67F8B0::SaveReplay_4CDED0()
+void InputRecorder_67F8B0::SaveReplay()
 {
     if (bConstant_replay_save_67D5C4 != 1 && bDo_release_replay_67D4EB && mReplayState != Disabled_2 && mRecBufIdx > 0 &&
-        !IsPlayingBack_4CEDF0())
+        !IsPlayingBack())
     {
         size_t len = sizeof(InputRecord) * mRecBufIdx;
-        File::AppendBufferToFile_4A6F50("test\\replay.rep", mRecBuff, &len);
+        File::AppendBufferToFile("test\\replay.rep", mRecBuff, &len);
     }
 }
 
 // https://decomp.me/scratch/c6Gy5
 MATCH_FUNC(0x4cdf30)
-void InputRecorder_67F8B0::modify_inputs_4CDF30(s32 match_mask)
+void InputRecorder_67F8B0::modify_inputs(s32 match_mask)
 {
 
     for (s32 i = 0; i < 12; i++)
@@ -725,7 +725,7 @@ void InputRecorder_67F8B0::modify_inputs_4CDF30(s32 match_mask)
 }
 
 MATCH_FUNC(0x4cdf70)
-void InputRecorder_67F8B0::AppendReplayHeader_4CDF70()
+void InputRecorder_67F8B0::AppendReplayHeader()
 {
     ReplayHeader header;
 
@@ -739,9 +739,9 @@ void InputRecorder_67F8B0::AppendReplayHeader_4CDF70()
     sprintf(header.mDate, pDate);
 
     GetUserNameA(header.mComputerName, &computer_name_size);
-    strcpy(header.mMapName, gGameSession_67E8E0.GetMapName_4C5940());
-    strcpy(header.mStyleName, gGameSession_67E8E0.GetStyleName_4C5950());
-    strcpy(header.mScriptName, gGameSession_67E8E0.GetScriptName_4C5960());
+    strcpy(header.mMapName, gGameSession_67E8E0.GetMapName());
+    strcpy(header.mStyleName, gGameSession_67E8E0.GetStyleName());
+    strcpy(header.mScriptName, gGameSession_67E8E0.GetScriptName());
     strcpy(header.mDebugStr, gGameSession_67E8E0.GetSaveFileName_4C5970());
 
     header.mVersion[7] = '\n';
@@ -786,11 +786,11 @@ void InputRecorder_67F8B0::AppendReplayHeader_4CDF70()
     header.mFlags[30] = bDo_police_3_67D56A ? '1' : '0';
 
     size_t header_size = sizeof(header);
-    File::AppendBufferToFile_4A6F50("test\\replay.rep", &header, &header_size);
+    File::AppendBufferToFile("test\\replay.rep", &header, &header_size);
 }
 
 MATCH_FUNC(0x4ce380)
-void InputRecorder_67F8B0::LoadReplayHeader_4CE380(bool bLoadDebug)
+void InputRecorder_67F8B0::LoadReplayHeader(bool bLoadDebug)
 {
     u32 header_size = sizeof(ReplayHeader);
     ReplayHeader header;
@@ -801,10 +801,10 @@ void InputRecorder_67F8B0::LoadReplayHeader_4CE380(bool bLoadDebug)
         s32 major;
         s32 minor;
         sscanf(header.mVersion, "v%d.%d", &major, &minor);
-        gGameSession_67E8E0.SetMapName_4C5870(header.mMapName);
-        gGameSession_67E8E0.SetStyleName_4C5890(header.mStyleName);
-        gGameSession_67E8E0.SetScriptName_4C58B0(header.mScriptName);
-        gGameSession_67E8E0.SetSaveFileName_4C58D0(header.mDebugStr);
+        gGameSession_67E8E0.SetMapName(header.mMapName);
+        gGameSession_67E8E0.SetStyleName(header.mStyleName);
+        gGameSession_67E8E0.SetScriptName(header.mScriptName);
+        gGameSession_67E8E0.SetSaveFileName(header.mDebugStr);
 
         if (bLoadDebug)
         {
@@ -844,7 +844,7 @@ void InputRecorder_67F8B0::LoadReplayHeader_4CE380(bool bLoadDebug)
 }
 
 MATCH_FUNC(0x4ce650)
-void InputRecorder_67F8B0::VerifyAttractFilesExist_4CE650()
+void InputRecorder_67F8B0::VerifyAttractFilesExist()
 {
     const AttractFile* pAttractFile = &attractFiles_62083C[0];
     for (s32 i = 0; i < ATTRACT_COUNT; i++)
@@ -862,7 +862,7 @@ void InputRecorder_67F8B0::VerifyAttractFilesExist_4CE650()
 }
 
 MATCH_FUNC(0x4ce6e0)
-void InputRecorder_67F8B0::GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut)
+void InputRecorder_67F8B0::GetNextAttrReplay(char_type* pAttrPathOut)
 {
     strcpy(pAttrPathOut, attractFiles_62083C[mAttractIdx].mPath);
 
@@ -873,12 +873,12 @@ void InputRecorder_67F8B0::GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut)
 }
 
 MATCH_FUNC(0x4ce740)
-void InputRecorder_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
+void InputRecorder_67F8B0::input_init_replay(HINSTANCE hInstance)
 {
     char_type FileName[256];
 
     this->mbShutDown = false;
-    InputRecorder_67F8B0::GetNextAttrReplay_4CE6E0(FileName);
+    InputRecorder_67F8B0::GetNextAttrReplay(FileName);
     this->mInputMasks[0] = input_bit::Forward;
     this->mInputMasks[1] = input_bit::Backward;
     this->mInputMasks[2] = input_bit::Left;
@@ -893,16 +893,16 @@ void InputRecorder_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
     this->mInputMasks[11] = input_bit::Special3;
     this->mInputBits = 0;
     this->mReplayState = Attract_3;
-    gInputDevices_67B990->input_devices_init_498C40(hInstance);
+    gInputDevices_67B990->input_devices_init(hInstance);
     memset(this->mRecBuff, 0, sizeof(this->mRecBuff));
     this->mRecBufIdx = 0;
     bConstant_replay_save_67D5C4 = false;
-    File::Global_Open_4A7060(FileName);
-    LoadReplayHeader_4CE380(false);
+    File::Global_Open(FileName);
+    LoadReplayHeader(false);
 
     u32 bufLen = sizeof(mRecBuff);
-    const u32 remainderSize = File::Global_ReadRemainder_4A7250(this->mRecBuff, &bufLen);
-    File::Global_Close_4A70C0();
+    const u32 remainderSize = File::Global_ReadRemainder(this->mRecBuff, &bufLen);
+    File::Global_Close();
     this->mUsedRecsCount = remainderSize / sizeof(InputRecord);
     if (sizeof(InputRecord) * (remainderSize / sizeof(InputRecord)) != remainderSize)
     {
@@ -916,7 +916,7 @@ void InputRecorder_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
 }
 
 MATCH_FUNC(0x4ce880)
-void InputRecorder_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
+void InputRecorder_67F8B0::input_init_live(HINSTANCE hInstance)
 {
     mbShutDown = false;
     mInputMasks[0] = input_bit::Forward;
@@ -940,7 +940,7 @@ void InputRecorder_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\input.cpp", 675);
     }
 
-    gInputDevices_67B990->input_devices_init_498C40(hInstance);
+    gInputDevices_67B990->input_devices_init(hInstance);
     memset(mRecBuff, 0, sizeof(mRecBuff));
 
     mRecBufIdx = 0;
@@ -948,11 +948,11 @@ void InputRecorder_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
     if (bPlay_replay_67D4F4 == 1)
     {
         bConstant_replay_save_67D5C4 = false;
-        File::Global_Open_4A7060("test\\replay.rep");
-        InputRecorder_67F8B0::LoadReplayHeader_4CE380(true);
+        File::Global_Open("test\\replay.rep");
+        InputRecorder_67F8B0::LoadReplayHeader(true);
         u32 size = sizeof(mRecBuff);
-        size_t remainderSize = File::Global_ReadRemainder_4A7250(mRecBuff, &size);
-        File::Global_Close_4A70C0();
+        size_t remainderSize = File::Global_ReadRemainder(mRecBuff, &size);
+        File::Global_Close();
         mUsedRecsCount = remainderSize / sizeof(InputRecord);
         if (sizeof(InputRecord) * (remainderSize / sizeof(InputRecord)) != remainderSize)
         {
@@ -965,7 +965,7 @@ void InputRecorder_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
         if (bDo_release_replay_67D4EB)
         {
             File::CreateFile_4A7000("test\\replay.rep");
-            InputRecorder_67F8B0::AppendReplayHeader_4CDF70();
+            InputRecorder_67F8B0::AppendReplayHeader();
         }
         mReplayState = Live_0;
     }
@@ -976,26 +976,26 @@ void InputRecorder_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
             if (bDo_release_replay_67D4EB)
             {
                 File::CreateFile_4A7000("test\\replay.rep");
-                InputRecorder_67F8B0::AppendReplayHeader_4CDF70();
+                InputRecorder_67F8B0::AppendReplayHeader();
             }
         }
     }
 }
 
 MATCH_FUNC(0x4cea00)
-void InputRecorder_67F8B0::Shutdown_4CEA00()
+void InputRecorder_67F8B0::Shutdown()
 {
     if (!mbShutDown)
     {
         mbShutDown = true;
-        gInputDevices_67B990->free_input_devices_4987A0();
-        SaveReplay_4CDED0();
+        gInputDevices_67B990->free_input_devices();
+        SaveReplay();
         GTA2_DELETE_AND_NULL(gInputDevices_67B990);
     }
 }
 
 MATCH_FUNC(0x4cea40)
-void InputRecorder_67F8B0::replay_save_4CEA40(u32* input_bits)
+void InputRecorder_67F8B0::replay_save(u32* input_bits)
 {
     if ((*input_bits & 0xFFFFF000) == 0x37000)
     {
@@ -1004,7 +1004,7 @@ void InputRecorder_67F8B0::replay_save_4CEA40(u32* input_bits)
         if (bDo_release_replay_67D4EB)
         {
             File::CreateFile_4A7000("test\\replay.rep");
-            AppendReplayHeader_4CDF70();
+            AppendReplayHeader();
         }
 
         // Clear out the unused records
@@ -1013,19 +1013,19 @@ void InputRecorder_67F8B0::replay_save_4CEA40(u32* input_bits)
                sizeof(InputRecord) * ((GTA2_COUNTOF(mRecBuff) - mRecBufIdx)));
         if (bConstant_replay_save_67D5C4)
         {
-            SaveReplay_4CDED0();
+            SaveReplay();
         }
     }
 }
 
 // https://decomp.me/scratch/t5tNu
 MATCH_FUNC(0x4ceac0)
-u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
+u32 InputRecorder_67F8B0::get_input_bits()
 {
     s32 inputs;
     u32 saved_input = mInputBits;
     u32* control_status = reinterpret_cast<u32*>(&mInputBits);
-    InputRecorder_67F8B0::clear_inputs_4CDCE0();
+    InputRecorder_67F8B0::clear_inputs();
 
     s32 replay_state = mReplayState;
 
@@ -1043,14 +1043,14 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
                 {
                     if (bDo_exit_after_replay_67D6E4)
                     {
-                        gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::CloseGameImmediately_1);
+                        gGame_0x40_67E008->ExitGameNoBonus(0, GameExitType::CloseGameImmediately_1);
                     }
                     else
                     {
                         if (bDo_release_replay_67D4EB)
                         {
                             File::CreateFile_4A7000("test\\replay.rep");
-                            InputRecorder_67F8B0::AppendReplayHeader_4CDF70();
+                            InputRecorder_67F8B0::AppendReplayHeader();
                         }
                         mReplayState = Live_0;
                     }
@@ -1064,7 +1064,7 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
                 {
                     saved_input = mInputMasks[3 * mRecBufIdx + 8];
                 }
-                InputRecorder_67F8B0::modify_inputs_4CDF30(inputs);
+                InputRecorder_67F8B0::modify_inputs(inputs);
             }
             if (mbInputEnabled)
             {
@@ -1073,9 +1073,9 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
                 if ((saved_input & input_bit::KeyBits) == 0 || (*control_status & input_bit::KeyBits) == 0)
                 {
                     *control_status = 0;
-                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), false);
+                    gInputDevices_67B990->read_input_device(reinterpret_cast<s32*>(control_status), false);
                     *control_status |= saved_input;
-                    InputRecorder_67F8B0::replay_save_4CEA40(control_status);
+                    InputRecorder_67F8B0::replay_save(control_status);
                 }
             }
             break;
@@ -1087,7 +1087,7 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
                 mRecBufIdx++;
                 if (mRecBufIdx >= static_cast<u32>(mUsedRecsCount))
                 {
-                    gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::ReplayExit_6);
+                    gGame_0x40_67E008->ExitGameNoBonus(0, GameExitType::ReplayExit_6);
                 }
 
                 if (mRecBufIdx < 2)
@@ -1098,7 +1098,7 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
                 {
                     saved_input = mInputMasks[3 * mRecBufIdx + 8];
                 }
-                InputRecorder_67F8B0::modify_inputs_4CDF30(inputs);
+                InputRecorder_67F8B0::modify_inputs(inputs);
             }
             if (mbInputEnabled)
             {
@@ -1107,13 +1107,13 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
                 if ((saved_input & input_bit::KeyBits) == 0 || (*control_status & input_bit::KeyBits) == 0)
                 {
                     *control_status = 0;
-                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), false);
+                    gInputDevices_67B990->read_input_device(reinterpret_cast<s32*>(control_status), false);
                     if ((*control_status & 0xFFFFF000) != 0)
                     {
-                        gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::ReplayExit_6);
+                        gGame_0x40_67E008->ExitGameNoBonus(0, GameExitType::ReplayExit_6);
                     }
                     *control_status |= saved_input;
-                    InputRecorder_67F8B0::replay_save_4CEA40(control_status);
+                    InputRecorder_67F8B0::replay_save(control_status);
                 }
             }
             break;
@@ -1123,18 +1123,18 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
             {
                 if (!gGame_0x40_67E008->IsPaused_416BC0())
                 {
-                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), true);
-                    InputRecorder_67F8B0::save_replay_inputs_4CED00(*control_status, saved_input);
+                    gInputDevices_67B990->read_input_device(reinterpret_cast<s32*>(control_status), true);
+                    InputRecorder_67F8B0::save_replay_inputs(*control_status, saved_input);
                 }
                 else
                 {
-                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), false);
-                    if (InputRecorder_67F8B0::should_record_input_4CDDF0((static_cast<u32>(*control_status) >> input_bit::KeyShift) & input_bit::KeyMask))
+                    gInputDevices_67B990->read_input_device(reinterpret_cast<s32*>(control_status), false);
+                    if (InputRecorder_67F8B0::should_record_input((static_cast<u32>(*control_status) >> input_bit::KeyShift) & input_bit::KeyMask))
                     {
                         *control_status = remove_bit;
                     }
                 }
-                InputRecorder_67F8B0::replay_save_4CEA40(control_status);
+                InputRecorder_67F8B0::replay_save(control_status);
             }
             break;
     }
@@ -1144,14 +1144,14 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
         if (*control_status != saved_input)
         {
             sprintf(gTmpBuffer_67C598, "%d: control_status = %d", gpRng_67AB34->get_cur_rng_41CFE0(), *control_status);
-            gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
+            gErrorLog_67C530.Write(gTmpBuffer_67C598);
         }
     }
     return *control_status;
 }
 
 MATCH_FUNC(0x4ced00)
-void InputRecorder_67F8B0::save_replay_inputs_4CED00(s32 input_old, s32 input_new)
+void InputRecorder_67F8B0::save_replay_inputs(s32 input_old, s32 input_new)
 {
     u32 calc_inputs = 0;
     if (input_old != input_new)
@@ -1210,13 +1210,13 @@ void InputRecorder_67F8B0::save_replay_inputs_4CED00(s32 input_old, s32 input_ne
         }
         if (calc_inputs)
         {
-            InputRecorder_67F8B0::save_replay_record_4CDE20(calc_inputs);
+            InputRecorder_67F8B0::save_replay_record(calc_inputs);
         }
     }
 }
 
 MATCH_FUNC(0x4ced90)
-void InputRecorder_67F8B0::DisplayInputBits_4CED90()
+void InputRecorder_67F8B0::DisplayInputBits()
 {
     s8 i = 0;
     s32 bit_idx = 0;
@@ -1225,7 +1225,7 @@ void InputRecorder_67F8B0::DisplayInputBits_4CED90()
         if (((1 << bit_idx) & mInputBits) != 0)
         {
             swprintf(tmpBuff_67BD9C, L"Control %d", bit_idx);
-            gHud_2B00_706620->mTexts.DisplayText_5D1F50(tmpBuff_67BD9C, 10, 16 * (i + 1), gDebugFont_706600, 1);
+            gHud_2B00_706620->mTexts.DisplayText(tmpBuff_67BD9C, 10, 16 * (i + 1), gDebugFont_706600, 1);
         }
         ++i;
         ++bit_idx;
@@ -1233,7 +1233,7 @@ void InputRecorder_67F8B0::DisplayInputBits_4CED90()
 }
 
 MATCH_FUNC(0x4cedf0)
-bool InputRecorder_67F8B0::IsPlayingBack_4CEDF0() const
+bool InputRecorder_67F8B0::IsPlayingBack() const
 {
     if (mReplayState == Playback_1 || mReplayState == Attract_3)
     {
@@ -1243,15 +1243,15 @@ bool InputRecorder_67F8B0::IsPlayingBack_4CEDF0() const
 }
 
 MATCH_FUNC(0x4cee10)
-void InputRecorder_67F8B0::ShowInput_4CEE10()
+void InputRecorder_67F8B0::ShowInput()
 {
-    if (IsPlayingBack_4CEDF0())
+    if (IsPlayingBack())
     {
-        gHud_2B00_706620->mTexts.DisplayText_5D1F50(L"PLAYBACK", -1, 0, gDebugFont_706600, 1);
+        gHud_2B00_706620->mTexts.DisplayText(L"PLAYBACK", -1, 0, gDebugFont_706600, 1);
     }
     else
     {
-        gHud_2B00_706620->mTexts.DisplayText_5D1F50(L"RECORDING", -1, 0, gDebugFont_706600, 1);
+        gHud_2B00_706620->mTexts.DisplayText(L"RECORDING", -1, 0, gDebugFont_706600, 1);
     }
-    DisplayInputBits_4CED90();
+    DisplayInputBits();
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-// Ped::mFireMode, read by Ped::ApplyAimJitter_46F1E0
+// Ped::mFireMode, read by Ped::ApplyAimJitter
 namespace ped_fire_mode
 {
 enum

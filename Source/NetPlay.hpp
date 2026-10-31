@@ -175,83 +175,83 @@ struct NetPlay
     STATIC_MEMBER_ARRAY(s32, sLastPlayerInputs, 6);
     STATIC_MEMBER_ARRAY(char_type, sLastPlayerInputSeq, 24);
     EXPORT NetPlay();
-    EXPORT void* vdtor_51D7B0(char_type flags);
+    EXPORT void* vdtor(char_type flags);
     EXPORT virtual ~NetPlay();
-    EXPORT void AddEnumeratedConnection_51D930(EnumeratedConnection* pConnectionInfo);
-    EXPORT static s32 __stdcall EnumConnections_cb_51DA30(const GUID* lpguidSP,
+    EXPORT void AddEnumeratedConnection(EnumeratedConnection* pConnectionInfo);
+    EXPORT static s32 __stdcall EnumConnections_cb(const GUID* lpguidSP,
                                          void* lpConnection,
                                          unsigned long dwConnectionSize,
                                          const DPNAME* lpName,
                                          unsigned long dwFlags,
                                          void* lpContext);
-    EXPORT s32 SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, Network_Buffer* pUseThisConnection);
-    EXPORT void DirectPlayDestroy_51DC90();
+    EXPORT s32 SetProtoAndConnection(GUID* pProtocolGuid, Network_Buffer* pUseThisConnection);
+    EXPORT void DirectPlayDestroy();
     EXPORT s32 DirectPlayCreate_51DCD0();
     EXPORT s32 DirectPlayCreate_51DED0();
-    EXPORT static BOOL PASCAL EnumAddress_cb_51E030(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpData, LPVOID lpContext);
-    EXPORT s32 PushConnection_51E0E0(wchar_t* Source);
-    EXPORT s32 CreateTcpIpAddress_51E140(wchar_t* pIpAddress, s32* ppAddress, size_t* pAddressLen);
-    EXPORT s32 CreateModemAddress_51E2B0(wchar_t* pPhoneNumber, wchar_t* pModemName, s32* ppAddress, size_t* pAddressLen);
-    EXPORT s32 CreateSerialAddress_51E450(DPCOMPORTADDRESS* pComPort, u32* ppAddress, size_t* pAddressLen);
-    EXPORT s32 InitializeConnection_51E5C0();
-    EXPORT s32 EnumSessions_51E650();
-    EXPORT s32 HostSession_51E7A0(wchar_t* pSessionName, wchar_t* pPlayerName, Network_Buffer* pGroupData, Network_Buffer* pPlayerData);
-    EXPORT u32 AddPlayer_51E9C0(Network_Buffer* pData, s32 player_id, DPNAME name, Network_Game_Session* pStru);
-    EXPORT static s32 __stdcall EnumSessions_cb_51EAE0(DPSESSIONDESC2* lpThisSD, s32 lpDwTimeOut, char_type dwFlags, NetPlay* lpContext);
-    EXPORT s32 AddEnumeratedSession_51EB00(DPSESSIONDESC2* pSession);
-    EXPORT void Set15_51ECD0(s32 pFunc, NetUi* pParam);
-    EXPORT void NetworkTick_51ED00();
-    EXPORT s32 SendPing_51EF60();
-    EXPORT bool Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long* recvId, unsigned long* senderId);
-    EXPORT void DispatchReceivedMessage_51F0D0(void* pPacket, s32 packetLen, s32 recvId, s32 bSendOrRecv);
-    EXPORT void OnPlayerMessage_51F110(void* pPacket, s32 packetLen, s32 recvId, s32 sendFlag);
-    EXPORT s32 DecodeReceivedPacket_51F210(s32 pPacket, u32 packetLen); // Also converts enums back
-    EXPORT void MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pDataLen); // Format data before using IDirectPlay3::Send
-    EXPORT void OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, s32 sendFlag);
-    EXPORT s32 MovePlayerToGroup_520040(s32 toFind, Network_Game_Session* pStru, Network_Game_Session* pDst, u32* pOutIdx);
-    EXPORT void FreePlayerSlot_5201A0(s32 idx, Network_Game_Session* pStru);
-    EXPORT void InvokeCallback_520230(s32 idx, u32 event_data);
-    EXPORT void Set6_520530(void* pFunc, void* pParam);
-    EXPORT s32 JoinSession_520570(u32 session_idx, wchar_t* pPlayerName, Network_Buffer* pPlayerData, Network_Buffer* pOutGroupData);
-    EXPORT static s32 __stdcall EnumGroups_cb_520C20(s32 group_id, s32 callback_type, s32 pName, char_type flags, NetPlay* pContext);
-    EXPORT s32 AddEnumeratedGroupPlayer_520CA0(s32 player_id, DPNAME* pName);
-    EXPORT void SetGroupId_520D00(s32 group_id);
-    EXPORT void Disconnect_520D10();
-    EXPORT void ClearPlayersAndSession_520DE0(Network_Game_Session* pStru);
-    EXPORT u32 IndexOf_520E30(s32 toFind, Network_Game_Session* pObj);
-    EXPORT void Set9_520E60(s32 pFunc, s32 pParam);
-    EXPORT void Set3_Disconnect_520E80(s32 pCallback, s32 pContext);
-    EXPORT void NoRefs_null_520EA0();
-    EXPORT void UpdatePlayerPing_520EB0(s32 player_id, s32 ping, Network_Game_Session* pStru);
-    EXPORT void Set18_520F50(s32 pCallback, s32 pContext);
-    EXPORT s32 RemovePlayerByName_520F80(wchar_t* String2);
-    EXPORT s32 DeletePlayerFromGroup_521000(u32 idx);
-    EXPORT s32 SendChatMessage_521060(wchar_t* pMsg, s32 idx_always_m1);
-    EXPORT void Set21_5210D0(s32 pCallback, s32 pContext);
-    EXPORT void GetPlayerName_521100(wchar_t* Destination, u32 idx);
-    EXPORT void Set24_521140(s32 pCallback, s32 pContext);
-    EXPORT s32 SetGameSettings_521170(Network_Buffer* pObj);
-    EXPORT void Set27SavePlayerName_5211F0(s32 pCallback, s32 pContext);
-    EXPORT void DisableJoining_521220();
-    EXPORT s32 IsUserHost_5212E0();
-    EXPORT void SetExitGameCallBack_521330(s32 pFunc, Game* pGame);
-    EXPORT s32 CountActivePlayers_521350();
-    EXPORT void SendAcknowledgment_521370();
-    EXPORT bool WaitForPlayersSync_5213E0();
-    EXPORT s32 CopyConnection_5215B0(u32 idx, u32* ppConnection, size_t* pLen);
-    EXPORT s32 SendToPlayer_521630(Network_Buffer* pSendData, s32 player_idx, char_type delayed_ticks);
-    EXPORT void Add_5216E0(Network_Buffer* pData, s32 id, char_type game_tick);
-    EXPORT u32 GetOldestBufferedPacket_521770(Network_Buffer* pOut, char_type* pSeq, u32* pPlayerId);
-    EXPORT void ResolvePlayerInput_521820(s32** ppData, s32 idx);
-    EXPORT void Remove_521870(s32 idx);
-    EXPORT bool ReceiveGameMessage_521890(Network_Buffer* pOut, s32* pPlayerIdx, u32* packet_subtype);
-    EXPORT void SendToAll_521B20(Network_Buffer* pSendData);
+    EXPORT static BOOL PASCAL EnumAddress_cb(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpData, LPVOID lpContext);
+    EXPORT s32 PushConnection(wchar_t* Source);
+    EXPORT s32 CreateTcpIpAddress(wchar_t* pIpAddress, s32* ppAddress, size_t* pAddressLen);
+    EXPORT s32 CreateModemAddress(wchar_t* pPhoneNumber, wchar_t* pModemName, s32* ppAddress, size_t* pAddressLen);
+    EXPORT s32 CreateSerialAddress(DPCOMPORTADDRESS* pComPort, u32* ppAddress, size_t* pAddressLen);
+    EXPORT s32 InitializeConnection();
+    EXPORT s32 EnumSessions();
+    EXPORT s32 HostSession(wchar_t* pSessionName, wchar_t* pPlayerName, Network_Buffer* pGroupData, Network_Buffer* pPlayerData);
+    EXPORT u32 AddPlayer(Network_Buffer* pData, s32 player_id, DPNAME name, Network_Game_Session* pStru);
+    EXPORT static s32 __stdcall EnumSessions_cb(DPSESSIONDESC2* lpThisSD, s32 lpDwTimeOut, char_type dwFlags, NetPlay* lpContext);
+    EXPORT s32 AddEnumeratedSession(DPSESSIONDESC2* pSession);
+    EXPORT void Set15(s32 pFunc, NetUi* pParam);
+    EXPORT void NetworkTick();
+    EXPORT s32 SendPing();
+    EXPORT bool Receive(s32* pOutData, s32* pOutDataLen, unsigned long* recvId, unsigned long* senderId);
+    EXPORT void DispatchReceivedMessage(void* pPacket, s32 packetLen, s32 recvId, s32 bSendOrRecv);
+    EXPORT void OnPlayerMessage(void* pPacket, s32 packetLen, s32 recvId, s32 sendFlag);
+    EXPORT s32 DecodeReceivedPacket(s32 pPacket, u32 packetLen); // Also converts enums back
+    EXPORT void MakeSendData(Packet_SubType_3* pPacket, s32* pData, u32* pDataLen); // Format data before using IDirectPlay3::Send
+    EXPORT void OnPacketReceived(void* pPacket, s32 packetLen, s32 recvId, s32 sendFlag);
+    EXPORT s32 MovePlayerToGroup(s32 toFind, Network_Game_Session* pStru, Network_Game_Session* pDst, u32* pOutIdx);
+    EXPORT void FreePlayerSlot(s32 idx, Network_Game_Session* pStru);
+    EXPORT void InvokeCallback(s32 idx, u32 event_data);
+    EXPORT void Set6(void* pFunc, void* pParam);
+    EXPORT s32 JoinSession(u32 session_idx, wchar_t* pPlayerName, Network_Buffer* pPlayerData, Network_Buffer* pOutGroupData);
+    EXPORT static s32 __stdcall EnumGroups_cb(s32 group_id, s32 callback_type, s32 pName, char_type flags, NetPlay* pContext);
+    EXPORT s32 AddEnumeratedGroupPlayer(s32 player_id, DPNAME* pName);
+    EXPORT void SetGroupId(s32 group_id);
+    EXPORT void Disconnect();
+    EXPORT void ClearPlayersAndSession(Network_Game_Session* pStru);
+    EXPORT u32 IndexOf(s32 toFind, Network_Game_Session* pObj);
+    EXPORT void Set9(s32 pFunc, s32 pParam);
+    EXPORT void Set3_Disconnect(s32 pCallback, s32 pContext);
+    EXPORT void NoRefs_null();
+    EXPORT void UpdatePlayerPing(s32 player_id, s32 ping, Network_Game_Session* pStru);
+    EXPORT void Set18(s32 pCallback, s32 pContext);
+    EXPORT s32 RemovePlayerByName(wchar_t* String2);
+    EXPORT s32 DeletePlayerFromGroup(u32 idx);
+    EXPORT s32 SendChatMessage(wchar_t* pMsg, s32 idx_always_m1);
+    EXPORT void Set21(s32 pCallback, s32 pContext);
+    EXPORT void GetPlayerName(wchar_t* Destination, u32 idx);
+    EXPORT void Set24(s32 pCallback, s32 pContext);
+    EXPORT s32 SetGameSettings(Network_Buffer* pObj);
+    EXPORT void Set27SavePlayerName(s32 pCallback, s32 pContext);
+    EXPORT void DisableJoining();
+    EXPORT s32 IsUserHost();
+    EXPORT void SetExitGameCallBack(s32 pFunc, Game* pGame);
+    EXPORT s32 CountActivePlayers();
+    EXPORT void SendAcknowledgment();
+    EXPORT bool WaitForPlayersSync();
+    EXPORT s32 CopyConnection(u32 idx, u32* ppConnection, size_t* pLen);
+    EXPORT s32 SendToPlayer(Network_Buffer* pSendData, s32 player_idx, char_type delayed_ticks);
+    EXPORT void Add(Network_Buffer* pData, s32 id, char_type game_tick);
+    EXPORT u32 GetOldestBufferedPacket(Network_Buffer* pOut, char_type* pSeq, u32* pPlayerId);
+    EXPORT void ResolvePlayerInput(s32** ppData, s32 idx);
+    EXPORT void Remove(s32 idx);
+    EXPORT bool ReceiveGameMessage(Network_Buffer* pOut, s32* pPlayerIdx, u32* packet_subtype);
+    EXPORT void SendToAll(Network_Buffer* pSendData);
     EXPORT s32 NoRefs_Send_521BE0(Network_Buffer* pSendData, s32 tick_delay);
     EXPORT s32 NoRefs_Send_521C80(s32 pSendData);
-    EXPORT s32 SendPlayerIsQuitting_521D20();
-    EXPORT s32 SendGiveUp_521DB0(s32 value);
-    EXPORT s32 SendSyncCheckData_521E40(s32 pSendData);
-    EXPORT static void static_dtor_5E4DD0();
+    EXPORT s32 SendPlayerIsQuitting();
+    EXPORT s32 SendGiveUp(s32 value);
+    EXPORT s32 SendSyncCheckData(s32 pSendData);
+    EXPORT static void static_dtor();
 
     // 9.6f 0x461DA0
     inline u32 GetPlayerCount_461DA0()
@@ -295,7 +295,7 @@ struct NetPlay
     s32 mpReceivedDataBuffer; // 0x8E4: 0x1800 of alloc size
     s32 mTime; // 0x8E8
     s32 mUnused8EC; // 0x8EC
-    char_type mReceiveDisabled; // 0x8F0: Receive_51F010 and ReceiveGameMessage_521890 always returns false if this var is true
+    char_type mReceiveDisabled; // 0x8F0: Receive and ReceiveGameMessage always returns false if this var is true
     char_type mUnused8F1; // 0x8F1
     char_type mUnused8F2; // 0x8F2
     char_type mUnused8F3; // 0x8F3

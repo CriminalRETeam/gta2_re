@@ -10,7 +10,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpFour_706148, Fix16(4), 0x706148);
 MATCH_FUNC(0x4beb00)
 EmergencyCrew::EmergencyCrew()
 {
-    Init_5CBC00();
+    Init();
 }
 
 MATCH_FUNC(0x4beb10)
@@ -24,12 +24,12 @@ EmergencyCrewPool::~EmergencyCrewPool()
 }
 
 MATCH_FUNC(0x5cbb70)
-void EmergencyCrewPool::init_5CBB70()
+void EmergencyCrewPool::init()
 {
 }
 
 MATCH_FUNC(0x5cbb80)
-EmergencyCrew* EmergencyCrewPool::AllocateSlot_5CBB80()
+EmergencyCrew* EmergencyCrewPool::AllocateSlot()
 {
     for (u8 i = 0; i < GTA2_COUNTOF(mSlots); i++)
     {
@@ -42,13 +42,13 @@ EmergencyCrew* EmergencyCrewPool::AllocateSlot_5CBB80()
 }
 
 MATCH_FUNC(0x5cbbd0)
-void EmergencyCrewPool::ServiceAll_5CBBD0()
+void EmergencyCrewPool::ServiceAll()
 {
     for (s32 i = 0; i < 10; i++)
     {
         if (mSlots[i].mIsUsed)
         {
-            if (mSlots[i].Service_5CC480())
+            if (mSlots[i].Service())
             {
                 mSlots[i].mIsUsed = false;
             }
@@ -57,7 +57,7 @@ void EmergencyCrewPool::ServiceAll_5CBBD0()
 }
 
 MATCH_FUNC(0x5cbc00)
-void EmergencyCrew::Init_5CBC00()
+void EmergencyCrew::Init()
 {
     mIdleLimit = 150;
     mIsUsed = false;
@@ -72,21 +72,21 @@ void EmergencyCrew::Init_5CBC00()
 }
 
 MATCH_FUNC(0x5cbc30)
-void EmergencyCrew::ReInit_5CBC30()
+void EmergencyCrew::ReInit()
 {
-    Init_5CBC00();
+    Init();
 }
 
 MATCH_FUNC(0x5cbc40)
-void EmergencyCrew::RemovePed_5CBC40(Ped* pPed)
+void EmergencyCrew::RemovePed(Ped* pPed)
 {
-    mGroup->RemovePed_4C9970(pPed);
+    mGroup->RemovePed(pPed);
     mPed = mGroup->mPedLeader;
 }
 
 // https://decomp.me/scratch/HmQPr
 MATCH_FUNC(0x5cbc60)
-bool EmergencyCrew::IsLeaderAlive_5CBC60() const
+bool EmergencyCrew::IsLeaderAlive() const
 {
     if (mPed && mPed->isDead_403B60())
     {
@@ -108,7 +108,7 @@ bool EmergencyCrew::IsLeaderAlive_5CBC60() const
 }
 
 MATCH_FUNC(0x5cbc90)
-bool EmergencyCrew::ReplaceLeaderIfNeeded_5CBC90()
+bool EmergencyCrew::ReplaceLeaderIfNeeded()
 {
     PedGroup* pGroup = this->mGroup;
     if (!pGroup)
@@ -125,17 +125,17 @@ bool EmergencyCrew::ReplaceLeaderIfNeeded_5CBC90()
             Ped* pLeaderPed = this->mPed;
             if (pLeaderPed->mCar)
             {
-                RemovePed_5CBC40(pLeaderPed);
+                RemovePed(pLeaderPed);
             }
             else
             {
-                pGroup->PromoteMemberToLeader_4C9680(idx);
+                pGroup->PromoteMemberToLeader(idx);
                 Ped* pLeader = this->mGroup->mPedLeader;
                 this->mPed = pLeader;
                 pLeader->SetObjective(objectives_enum::no_obj_0);
                 const s32 occupation = pPedAtIdx->get_occupation_403980();
                 pPedAtIdx->set_occupation_403970(ped_ocupation_enum::dummy);
-                pPedAtIdx->Kill_46F9D0();
+                pPedAtIdx->Kill();
                 pPedAtIdx->set_occupation_403970(occupation);
                 pPedAtIdx->SetObjective(objectives_enum::dead_patient_28);
             }
@@ -149,7 +149,7 @@ bool EmergencyCrew::ReplaceLeaderIfNeeded_5CBC90()
 
 // https://decomp.me/scratch/sUPg8
 MATCH_FUNC(0x5cbd50)
-void EmergencyCrew::UpdateStateMachine_5CBD50()
+void EmergencyCrew::UpdateStateMachine()
 {
     bool bCarGone = false;
     bool bNoneOnFoot = true;
@@ -160,7 +160,7 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
     {
         if (!mGroup->mCount34)
         {
-            mGroup->ClearGroupData_4C8E90();
+            mGroup->ClearGroupData();
             mGroup = NULL;
         }
     }
@@ -177,7 +177,7 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
             {
                 bCarGone = true;
             }
-            if (mCar->HasSpriteZoom_43A230())
+            if (mCar->HasSpriteZoom())
             {
                 bCarGone = true;
             }
@@ -257,7 +257,7 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
                 }
                 if (mCar->mpChaseTask)
                 {
-                    gCarChaseTaskTable_678E30->FreeEntry_474CC0(mCar->mpChaseTask);
+                    gCarChaseTaskTable_678E30->FreeEntry(mCar->mpChaseTask);
                     mCar->mpChaseTask = NULL;
                 }
                 mCar = NULL;
@@ -268,7 +268,7 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
                 {
                     mPed->set_occupation_403970(ped_ocupation_enum::dummy);
                     mPed->ClearGroupAndGroupIdx_403A30();
-                    mPed->Deallocate_45EB60();
+                    mPed->Deallocate();
                 }
                 idx = 0;
                 if (mGroup)
@@ -277,10 +277,10 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
                     {
                         pMember->set_occupation_403970(ped_ocupation_enum::dummy);
                         pMember->ClearGroupAndGroupIdx_403A30();
-                        pMember->Deallocate_45EB60();
+                        pMember->Deallocate();
                         ++idx;
                     }
-                    mGroup->ClearGroupData_4C8E90();
+                    mGroup->ClearGroupData();
                 }
                 mGroup = NULL;
                 mPed = NULL;
@@ -296,7 +296,7 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
                         mPhase = crew_phase::on_foot_0;
                         if (mGroup)
                         {
-                            mGroup->ResetGroupObjectives_4C8F20();
+                            mGroup->ResetGroupObjectives();
                         }
                         return;
                     }
@@ -305,20 +305,20 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
 
             if (mGroup)
             {
-                if (mGroup->PurgeMembersInCars_4C9040())
+                if (mGroup->PurgeMembersInCars())
                 {
                     if (mGroup->mPedLeader)
                     {
                         mPhase = crew_phase::on_foot_0;
-                        mGroup->ResetGroupObjectives_4C8F20();
+                        mGroup->ResetGroupObjectives();
                     }
                     else if (mGroup->mCount34 == 1)
                     {
                         mPed = mGroup->mPedList[0];
-                        mGroup->ClearGroupData_4C8E90();
+                        mGroup->ClearGroupData();
                         mGroup = NULL;
                         mPed->SetObjective(objectives_enum::no_obj_0);
-                        mPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                        mPed->SetObjective2(objectives_enum::no_obj_0);
                         mPhase = crew_phase::on_foot_0;
                     }
                     else
@@ -328,17 +328,17 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
                         --mGroup->mCount36;
                         --mGroup->mCount34;
                         mPed = mGroup->mPedLeader;
-                        mGroup->ResetGroupObjectives_4C8F20();
+                        mGroup->ResetGroupObjectives();
                         mPhase = crew_phase::on_foot_0;
                     }
                 }
                 else
                 {
                     mPed = mGroup->mPedLeader;
-                    mGroup->DestroyGroup_4C93A0();
+                    mGroup->DestroyGroup();
                     mGroup = NULL;
                     mPed->SetObjective(objectives_enum::no_obj_0);
-                    mPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                    mPed->SetObjective2(objectives_enum::no_obj_0);
                     mPhase = crew_phase::on_foot_0;
                 }
             }
@@ -347,7 +347,7 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
                 if (mPed->mGameObject)
                 {
                     mPed->SetObjective(objectives_enum::no_obj_0);
-                    mPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                    mPed->SetObjective2(objectives_enum::no_obj_0);
                     mPhase = crew_phase::on_foot_0;
                 }
             }
@@ -418,7 +418,7 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
         {
             if (mCar->mpChaseTask)
             {
-                gCarChaseTaskTable_678E30->FreeEntry_474CC0(mCar->mpChaseTask);
+                gCarChaseTaskTable_678E30->FreeEntry(mCar->mpChaseTask);
                 mCar->mpChaseTask = NULL;
             }
         }
@@ -428,7 +428,7 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
 
 // 9.6f 0x4C5A00
 MATCH_FUNC(0x5cc1c0)
-void EmergencyCrew::CleanupExpiredEntities_5CC1C0()
+void EmergencyCrew::CleanupExpiredEntities()
 {
     bool bReleaseCar = false;
     bool bClearPedAndGroup = true;
@@ -438,7 +438,7 @@ void EmergencyCrew::CleanupExpiredEntities_5CC1C0()
     {
         if (mGroup->mCount34 == 0)
         {
-            mGroup->ClearGroupData_4C8E90();
+            mGroup->ClearGroupData();
             this->mGroup = NULL;
         }
     }
@@ -508,7 +508,7 @@ void EmergencyCrew::CleanupExpiredEntities_5CC1C0()
             {
                 if (mCar->mpChaseTask)
                 {
-                    gCarChaseTaskTable_678E30->FreeEntry_474CC0(mCar->mpChaseTask);
+                    gCarChaseTaskTable_678E30->FreeEntry(mCar->mpChaseTask);
                     mCar->mpChaseTask = NULL;
                 }
             }
@@ -520,7 +520,7 @@ void EmergencyCrew::CleanupExpiredEntities_5CC1C0()
                 {
                     mPed->set_occupation_403970(ped_ocupation_enum::dummy);
                     mPed->ClearGroupAndGroupIdx_403A30();
-                    mPed->Deallocate_45EB60();
+                    mPed->Deallocate();
                 }
 
                 u8 i = 0;
@@ -530,11 +530,11 @@ void EmergencyCrew::CleanupExpiredEntities_5CC1C0()
                     {
                         pPedListIter->set_occupation_403970(ped_ocupation_enum::dummy);
                         pPedListIter->ClearGroupAndGroupIdx_403A30();
-                        pPedListIter->Deallocate_45EB60();
+                        pPedListIter->Deallocate();
                         i++;
                         pPedListIter = mGroup->mPedList[i];
                     }
-                    mGroup->ClearGroupData_4C8E90();
+                    mGroup->ClearGroupData();
                 }
                 this->mGroup = NULL;
                 this->mReady = true;
@@ -577,7 +577,7 @@ void EmergencyCrew::CleanupExpiredEntities_5CC1C0()
         if (mPed)
         {
             mPed->ClearGroupAndGroupIdx_403A30();
-            mPed->Deallocate_45EB60();
+            mPed->Deallocate();
         }
 
         u8 i = 0;
@@ -587,18 +587,18 @@ void EmergencyCrew::CleanupExpiredEntities_5CC1C0()
             while(pPedListIter)
             {
                 pPedListIter->ClearGroupAndGroupIdx_403A30();
-                pPedListIter->Deallocate_45EB60();
+                pPedListIter->Deallocate();
                 i++;
                 pPedListIter = mGroup->mPedList[i];
             }
-            mGroup->ClearGroupData_4C8E90();
+            mGroup->ClearGroupData();
         }
         mReady = true;
     }
 }
 
 MATCH_FUNC(0x5cc480)
-bool EmergencyCrew::Service_5CC480()
+bool EmergencyCrew::Service()
 {
     if (mSpawnDelay > 0)
     {
@@ -614,11 +614,11 @@ bool EmergencyCrew::Service_5CC480()
     switch (this->mState)
     {
         case crew_state::clean_up_5:
-            CleanupExpiredEntities_5CC1C0();
+            CleanupExpiredEntities();
             return false;
 
         case crew_state::update_6:
-            UpdateStateMachine_5CBD50();
+            UpdateStateMachine();
             return false;
 
         case crew_state::spawn_car_3:
@@ -631,9 +631,9 @@ bool EmergencyCrew::Service_5CC480()
     switch (mCrewType)
     {
         case crew_type::paramedic_1:
-            if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::paramedic_car_4))
+            if (gCarManager_6C_677930->CanAllocateCarOfKind(car_kind::paramedic_car_4))
             {
-                this->mCar = gCarManager_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::MEDICAR,
+                this->mCar = gCarManager_6C_677930->SpawnCarAtRoadDirection(car_model_enum::MEDICAR,
                                                                                    this->mSpawnX,
                                                                                    this->mSpawnY,
                                                                                    this->mSpawnZ);
@@ -646,14 +646,14 @@ bool EmergencyCrew::Service_5CC480()
             if (this->mCar)
             {
                 this->mReady = true;
-                mCar->IncrementCarStats_443D70(car_kind::paramedic_car_4);
+                mCar->IncrementCarStats(car_kind::paramedic_car_4);
             }
             break;
 
         case crew_type::police_3:
-            if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::police_6))
+            if (gCarManager_6C_677930->CanAllocateCarOfKind(car_kind::police_6))
             {
-                this->mCar = gCarManager_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR,
+                this->mCar = gCarManager_6C_677930->SpawnCarAtRoadDirection(car_model_enum::COPCAR,
                                                                                    this->mSpawnX,
                                                                                    this->mSpawnY,
                                                                                    this->mSpawnZ);
@@ -665,14 +665,14 @@ bool EmergencyCrew::Service_5CC480()
             if (this->mCar)
             {
                 this->mReady = true;
-                mCar->IncrementCarStats_443D70(car_kind::police_6);
+                mCar->IncrementCarStats(car_kind::police_6);
             }
             break;
 
         case crew_type::swat_5:
-            if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::police_6))
+            if (gCarManager_6C_677930->CanAllocateCarOfKind(car_kind::police_6))
             {
-                this->mCar = gCarManager_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::SWATVAN,
+                this->mCar = gCarManager_6C_677930->SpawnCarAtRoadDirection(car_model_enum::SWATVAN,
                                                                                    this->mSpawnX,
                                                                                    this->mSpawnY,
                                                                                    this->mSpawnZ);
@@ -685,7 +685,7 @@ bool EmergencyCrew::Service_5CC480()
             if (this->mCar)
             {
                 this->mReady = true;
-                mCar->IncrementCarStats_443D70(car_kind::police_6);
+                mCar->IncrementCarStats(car_kind::police_6);
             }
             break;
 

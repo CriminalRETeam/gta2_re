@@ -30,28 +30,28 @@ class PlayerScoreTracker
     }
 
     EXPORT PlayerScoreTracker();
-    EXPORT void Service_591C70();
-    EXPORT void Init_5922F0(Player* pPlayer, s16 digit_transition_speed, s32 max_score_value, s16 palette, u16 max_frag_value);
-    EXPORT void Reset_592330();
-    EXPORT RollingDigitCounter* GetScoreDigits_592360();
-    EXPORT s32 GetScore_592370() const;
-    EXPORT void ResetCarModelFlags_592380(char_type bits);
-    EXPORT void CheckAllCarModelsFlagged_592430(char_type bits);
-    EXPORT void SetCarModelFlag_592570(char_type flag, s32 car_model);
-    EXPORT s32 GetCarScoreValue_5925B0(u32 car_model, u8 reward_tier);
-    EXPORT void AddCash_592620(s32 cash);
-    EXPORT void AwardPedKilledScore_592660(Ped* pVictim, Ped* pKiller);
-    EXPORT void AwardCarDestroyedScore_592DD0(Car* pCar, Ped* pKiller);
-    EXPORT void AwardCarDamageScore_593030(Car* pCar, s16 damage);
-    EXPORT void AwardCarDamageScoreHit_593150(Car* pCar, s16 damage);
-    EXPORT void AddCashWithMultiplier_593220();
-    EXPORT void AwardCarHijackedScore_593240(Car* pCar);
-    EXPORT void AwardBusStolenScore_593370(Car* pCar);
-    EXPORT void AwardFullBusDestroyedScore_593410(Car* pCar);
-    EXPORT void UpdateAccuracyCount_5934F0(u32 event, s32 weapon_model, Ped* pTarget);
-    EXPORT RollingDigitCounter* GetMultiplayerFragDigits_5935B0();
-    EXPORT s32 GetFrags_5935C0() const;
-    EXPORT void ChangeFragsByAmount_5935D0(s32 amount);
+    EXPORT void Service();
+    EXPORT void Init(Player* pPlayer, s16 digit_transition_speed, s32 max_score_value, s16 palette, u16 max_frag_value);
+    EXPORT void Reset();
+    EXPORT RollingDigitCounter* GetScoreDigits();
+    EXPORT s32 GetScore() const;
+    EXPORT void ResetCarModelFlags(char_type bits);
+    EXPORT void CheckAllCarModelsFlagged(char_type bits);
+    EXPORT void SetCarModelFlag(char_type flag, s32 car_model);
+    EXPORT s32 GetCarScoreValue(u32 car_model, u8 reward_tier);
+    EXPORT void AddCash(s32 cash);
+    EXPORT void AwardPedKilledScore(Ped* pVictim, Ped* pKiller);
+    EXPORT void AwardCarDestroyedScore(Car* pCar, Ped* pKiller);
+    EXPORT void AwardCarDamageScore(Car* pCar, s16 damage);
+    EXPORT void AwardCarDamageScoreHit(Car* pCar, s16 damage);
+    EXPORT void AddCashWithMultiplier();
+    EXPORT void AwardCarHijackedScore(Car* pCar);
+    EXPORT void AwardBusStolenScore(Car* pCar);
+    EXPORT void AwardFullBusDestroyedScore(Car* pCar);
+    EXPORT void UpdateAccuracyCount(u32 event, s32 weapon_model, Ped* pTarget);
+    EXPORT RollingDigitCounter* GetMultiplayerFragDigits();
+    EXPORT s32 GetFrags() const;
+    EXPORT void ChangeFragsByAmount(s32 amount);
 
     RollingDigitCounter mMoney; // 0x0
     RollingDigitCounter mMultiplayerFrags; // 0x38

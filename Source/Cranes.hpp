@@ -30,34 +30,34 @@ class Crane
     EXPORT Crane();
     EXPORT void ComputeHookPos_47E620(Fix16 radius, Ang16 ang, Fix16_Point* pOutPoint);
     EXPORT void ComputeHookPos_47E730(Ang16 radius, Fix16 ang, Fix16_Point* pOutPoint);
-    EXPORT void ComputeHookOffset_47E840(Ang16 ang, Fix16_Point* pOutPoint);
-    EXPORT bool IsDropPositionClear_47E920();
-    EXPORT bool IsTarget1PositionClear_47EB00();
-    EXPORT void DropHookedCar_47ECC0();
-    EXPORT void DropHookedCarOnTransporter_47ED60();
-    EXPORT void HookTransporterCargo_47EDF0();
-    EXPORT void HookPickupCar_47EF80();
-    EXPORT void DropInPlaceOrReturnHome_47F170();
-    EXPORT void SetTransporterCargoTarget_47F220(Fix16 radius, Fix16 angle, Sprite* pCargo, Sprite* pTransporter);
-    EXPORT void SetDropTransporterTarget_47F290(Fix16 radius, Fix16 angle, Sprite* pSprite);
-    EXPORT void SetPickupCarTarget_47F2F0(Fix16 radius, Fix16 angle, Sprite* pSprite);
-    EXPORT bool IsTransporterCargoTargetValid_47F350();
-    EXPORT bool IsPickupCarTargetValid_47F3D0();
-    EXPORT bool IsDropTransporterTargetValid_47F450();
-    EXPORT void UpdateCraneTargets_47F4C0();
-    EXPORT bool ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* pOutAng);
-    EXPORT void TargetTransporter_47F7F0(Car* pCar);
-    EXPORT void PickUpCar_47F930(Car* pCar);
-    EXPORT void TryNextDropPosition_47FB40();
-    EXPORT s32 MoveTowardsTargets_47FBA0();
-    EXPORT void ReleaseHookedCar_47FD10();
-    EXPORT void UpdateCraneTick_47FD50();
-    EXPORT void UpdateCraneSprites_47FE10();
-    EXPORT void Service_480310();
-    EXPORT void InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type obj_id);
-    EXPORT void SetTarget1_480900(Fix16 xpos, Fix16 ypos, Ang16 ang);
-    EXPORT void SetTarget2_480B60(Fix16 xpos, Fix16 ypos, Ang16 ang);
-    EXPORT Car* GetCarFromCrane_480DA0();
+    EXPORT void ComputeHookOffset(Ang16 ang, Fix16_Point* pOutPoint);
+    EXPORT bool IsDropPositionClear();
+    EXPORT bool IsTarget1PositionClear();
+    EXPORT void DropHookedCar();
+    EXPORT void DropHookedCarOnTransporter();
+    EXPORT void HookTransporterCargo();
+    EXPORT void HookPickupCar();
+    EXPORT void DropInPlaceOrReturnHome();
+    EXPORT void SetTransporterCargoTarget(Fix16 radius, Fix16 angle, Sprite* pCargo, Sprite* pTransporter);
+    EXPORT void SetDropTransporterTarget(Fix16 radius, Fix16 angle, Sprite* pSprite);
+    EXPORT void SetPickupCarTarget(Fix16 radius, Fix16 angle, Sprite* pSprite);
+    EXPORT bool IsTransporterCargoTargetValid();
+    EXPORT bool IsPickupCarTargetValid();
+    EXPORT bool IsDropTransporterTargetValid();
+    EXPORT void UpdateCraneTargets();
+    EXPORT bool ComputeHookPolar(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* pOutAng);
+    EXPORT void TargetTransporter(Car* pCar);
+    EXPORT void PickUpCar(Car* pCar);
+    EXPORT void TryNextDropPosition();
+    EXPORT s32 MoveTowardsTargets();
+    EXPORT void ReleaseHookedCar();
+    EXPORT void UpdateCraneTick();
+    EXPORT void UpdateCraneSprites();
+    EXPORT void Service();
+    EXPORT void InitCrane(Fix16 x_pos, Fix16 y_pos, char_type obj_id);
+    EXPORT void SetTarget1(Fix16 xpos, Fix16 ypos, Ang16 ang);
+    EXPORT void SetTarget2(Fix16 xpos, Fix16 ypos, Ang16 ang);
+    EXPORT Car* GetCarFromCrane();
 
     inline void SetHomeRotation_4768E0(Ang16 rotation)
     {
@@ -173,9 +173,9 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Crane, 0x15C);
 class CranePool
 {
   public:
-    EXPORT void PickUpCar_480E00(Car* pCar, u8 crane_idx);
-    EXPORT void CranesService_480E50();
-    EXPORT Crane* NewCrane_480EC0(Fix16 x_pos, Fix16 y_pos);
+    EXPORT void PickUpCar(Car* pCar, u8 crane_idx);
+    EXPORT void CranesService();
+    EXPORT Crane* NewCrane(Fix16 x_pos, Fix16 y_pos);
     EXPORT CranePool();
     EXPORT ~CranePool();
 

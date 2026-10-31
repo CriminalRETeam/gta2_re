@@ -25,10 +25,10 @@ class DoorData // Contains only position, face and DoorInfo id
 {
   public:
     EXPORT void PoolAllocate();
-    EXPORT void Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip);
-    EXPORT void Open_49C4E0(u8 bFlip);
-    EXPORT void Close_49C590(u8 bDoFlip);
-    EXPORT static s32 __stdcall GetOppositeFace_4DEEB0(s32 v);
+    EXPORT void Init(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip);
+    EXPORT void Open(u8 bFlip);
+    EXPORT void Close(u8 bDoFlip);
+    EXPORT static s32 __stdcall GetOppositeFace(s32 v);
 
     u8 get_z_489640() const
     {
@@ -66,11 +66,11 @@ inline void Door::CloseDoors_476A30()
     {
         if (mPrimaryDoorData)
         {
-            mPrimaryDoorData->Close_49C590(0);
+            mPrimaryDoorData->Close(0);
         }
         if (mSecondaryDoorData)
         {
-            mSecondaryDoorData->Close_49C590(mbDoFlip);
+            mSecondaryDoorData->Close(mbDoFlip);
         }
     }
 }
@@ -105,10 +105,10 @@ class DoorPool
 {
   public:
     STATIC_MEMBER(DoorDataPool*, sDoor10Pool);
-    EXPORT DoorData* AllocDoorData_49CF10(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type bDoFlip);
-    EXPORT Door* RegisterSingleDoorNoCheck_49CF50(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 reversed);
-    EXPORT Door* RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed);
-    EXPORT Door* RegisterSingleDoor_49D170(u8 gr_id,
+    EXPORT DoorData* AllocDoorData(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type bDoFlip);
+    EXPORT Door* RegisterSingleDoorNoCheck(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 reversed);
+    EXPORT Door* RegisterDoubleDoorNoCheck(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed);
+    EXPORT Door* RegisterSingleDoor(u8 gr_id,
                                               u8 x,
                                               u8 y,
                                               u8 z,
@@ -120,7 +120,7 @@ class DoorPool
                                               Fix16 check_height,
                                               u8 flip,
                                               u8 reversed);
-    EXPORT Door* RegisterDoubleDoor_49D1F0(u8 gr_id,
+    EXPORT Door* RegisterDoubleDoor(u8 gr_id,
                                               u8 x,
                                               u8 y,
                                               u8 z,
@@ -132,12 +132,12 @@ class DoorPool
                                               Fix16 check_height,
                                               u8 flip,
                                               u8 reversed);
-    EXPORT void RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type speed);
-    EXPORT void TryOpenDoorForCar_49D340(Car* pCar, u8 door_idx);
-    EXPORT void TryOpenDoorForPed_49D370(Ped* pPed, u8 idx);
-    EXPORT Door* GetNextFreeDoor_49D3A0();
-    EXPORT bool CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx);
-    EXPORT void DoorsService_49D460();
+    EXPORT void RegisterDoorInfo(s16 start_frame, s16 end_frame, char_type speed);
+    EXPORT void TryOpenDoorForCar(Car* pCar, u8 door_idx);
+    EXPORT void TryOpenDoorForPed(Ped* pPed, u8 idx);
+    EXPORT Door* GetNextFreeDoor();
+    EXPORT bool CheckDoorAccess(Sprite* pSprite, u8 door_idx);
+    EXPORT void DoorsService();
     EXPORT DoorPool();
     EXPORT ~DoorPool();
 

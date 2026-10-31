@@ -44,18 +44,18 @@ class KanjiFont
     u8 mColour; // 0x8E8
     u8 mOutlineColour; // 0x8E9
 
-    EXPORT void LoadChunks_4D1FC0(const char_type* pChunkId, u32 chunk_len);
-    EXPORT void Load_kanji_dat_4D2090();
-    EXPORT void OutlineGlyph_4D2150(u8* pPixelData, u16 width, u16 height);
-    EXPORT u8* ExpandSmallGlyph_4D2240(const u8* pGlyph);
-    EXPORT u8* ExpandLargeGlyph_4D23B0(const u8* pGlyph);
-    EXPORT void RenderSmallGlyph_4D2610(wchar_t text_char);
-    EXPORT void RenderLargeGlyph_4D2690(wchar_t text_char);
-    EXPORT STexture* GetSmallGlyphTexture_4D2710(wchar_t text_char);
-    EXPORT STexture* GetLargeGlyphTexture_4D27D0(wchar_t text_char);
-    EXPORT void SetGlyphParamsFromFont_4D28A0(u16 font_type);
-    EXPORT void SetGlyphParamsFromRemap_4D29D0(u16 remap);
-    EXPORT void InitGlyphCaches_4D2B40();
+    EXPORT void LoadChunks(const char_type* pChunkId, u32 chunk_len);
+    EXPORT void Load_kanji_dat();
+    EXPORT void OutlineGlyph(u8* pPixelData, u16 width, u16 height);
+    EXPORT u8* ExpandSmallGlyph(const u8* pGlyph);
+    EXPORT u8* ExpandLargeGlyph(const u8* pGlyph);
+    EXPORT void RenderSmallGlyph(wchar_t text_char);
+    EXPORT void RenderLargeGlyph(wchar_t text_char);
+    EXPORT STexture* GetSmallGlyphTexture(wchar_t text_char);
+    EXPORT STexture* GetLargeGlyphTexture(wchar_t text_char);
+    EXPORT void SetGlyphParamsFromFont(u16 font_type);
+    EXPORT void SetGlyphParamsFromRemap(u16 remap);
+    EXPORT void InitGlyphCaches();
     EXPORT KanjiFont();
     EXPORT ~KanjiFont();
 };

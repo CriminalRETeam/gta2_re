@@ -11,7 +11,7 @@ DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng225, Ang16(0x384), 0x6F67DC);
 EXTERN_GLOBAL(Ang16, kAng180_669156);
 
 MATCH_FUNC(0x405640)
-void Ang16::SnapToAng4_405640()
+void Ang16::SnapToAng4()
 {
     if (rValue < 180 || rValue > 1260)
     {
@@ -28,19 +28,19 @@ void Ang16::SnapToAng4_405640()
 }
 
 MATCH_FUNC(0x405680)
-u8 Ang16::ToAng4_405680() const
+u8 Ang16::ToAng4() const
 {
     return rValue / 360;
 }
 
 MATCH_FUNC(0x4056A0)
-u8 Ang16::GetOctant_4056A0() const
+u8 Ang16::GetOctant() const
 {
     return rValue / 180;
 }
 
 MATCH_FUNC(0x405B60)
-Fix16 __stdcall Ang16::NormalizeAngleDeltaScaled_405B60(Ang16& from, Ang16& to, Ang16& divisor)
+Fix16 __stdcall Ang16::NormalizeAngleDeltaScaled(Ang16& from, Ang16& to, Ang16& divisor)
 {
     Ang16 d = to - from;
     if (d > kAng180_669156)
@@ -55,7 +55,7 @@ Fix16 __stdcall Ang16::NormalizeAngleDeltaScaled_405B60(Ang16& from, Ang16& to, 
 }
 
 MATCH_FUNC(0x405C60)
-bool __stdcall Ang16::IsAngleAhead_405C60(Ang16* pFrom, Ang16* pTo)
+bool __stdcall Ang16::IsAngleAhead(Ang16* pFrom, Ang16* pTo)
 {
     if (*pTo - *pFrom <= kAng180_669156)
     {
@@ -71,7 +71,7 @@ void Ang16::Normalize_406C20()
 }
 
 MATCH_FUNC(0x409300)
-Ang16* Ang16::AssignNormalized_409300(const s16& value, s32 not_used)
+Ang16* Ang16::AssignNormalized(const s16& value, s32 not_used)
 {
     rValue = value;
     Normalize();
@@ -79,7 +79,7 @@ Ang16* Ang16::AssignNormalized_409300(const s16& value, s32 not_used)
 }
 
 MATCH_FUNC(0x409340)
-Ang16 Ang16::SubtractNormalized_409340(const Ang16& toSub)
+Ang16 Ang16::SubtractNormalized(const Ang16& toSub)
 {
     return Ang16(rValue - toSub.rValue, static_cast<u8>(0));
 }
@@ -104,9 +104,9 @@ Ang16 Ang16::Fix16_To_Ang16_482740(const Fix16& value)
     return Ang16(value.mValue / 71, 0);
 }
 
-// The road_direction the angle faces: the inverse of ReturnAngleFromRoadDirection_4F7940.
+// The road_direction the angle faces: the inverse of ReturnAngleFromRoadDirection.
 MATCH_FUNC(0x4F78F0)
-s32 __stdcall Ang16::GetAngleFace_4F78F0(const Ang16& angle)
+s32 __stdcall Ang16::GetAngleFace(const Ang16& angle)
 {
     if (angle <= kAng45_6F677C || angle > kAng315)
     {

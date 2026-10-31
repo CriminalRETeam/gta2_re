@@ -31,7 +31,7 @@ class text_tdat
     }
     u8* mData; // 0x0
     s32 mLen; // 0x4
-    EXPORT void TDAT_Load_5B5A80(u32 size);
+    EXPORT void TDAT_Load(u32 size);
 };
 
 class text_tkey
@@ -69,39 +69,39 @@ class TextTable
     text_tdat mTDat; // 0x8
     char_type mLangCode; // 0x10
 
-    EXPORT u16 RemapExtendedChar_5B58D0(u16 ch) const;
+    EXPORT u16 RemapExtendedChar(u16 ch) const;
 
-    EXPORT void RemapExtendedCharsIfNotJapanese_5B5910(wchar_t* pText);
+    EXPORT void RemapExtendedCharsIfNotJapanese(wchar_t* pText);
 
-    EXPORT void RemapExtendedChars_5B5930(wchar_t* pStr);
+    EXPORT void RemapExtendedChars(wchar_t* pStr);
 
-    EXPORT void TKEY_Load_5B5960(u32 chunk_size);
+    EXPORT void TKEY_Load(u32 chunk_size);
 
-    EXPORT void TDAT_Offsets2Strings_5B59B0(u8* pDat);
+    EXPORT void TDAT_Offsets2Strings(u8* pDat);
 
     EXPORT bool TKeyFind_5B59E0(const char_type* pIdStr) const;
 
-    EXPORT static s32 __cdecl TKeySearch_5B5A10(const void* a, const void* b);
+    EXPORT static s32 __cdecl TKeySearch(const void* a, const void* b);
 
     EXPORT wchar_t* TKeyFind_5B5A50(const char_type* pIdStr) const;
 
-    EXPORT u16 ToUpper_5B5AD0(wchar_t ch) const;
+    EXPORT u16 ToUpper(wchar_t ch) const;
 
-    EXPORT wchar_t* StrToUpper_5B5B80(wchar_t* pWideStr);
+    EXPORT wchar_t* StrToUpper(wchar_t* pWideStr);
 
-    EXPORT static s32 __stdcall InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr, const wchar_t* pSrcStr, s32 max_line_width, u16 font_type);
+    EXPORT static s32 __stdcall InsertLineBreaksAndGetNumLines(wchar_t* pDestStr, const wchar_t* pSrcStr, s32 max_line_width, u16 font_type);
 
-    EXPORT static char_type* __stdcall Wide2PesudoAscii_5B5D10(const wchar_t* pText);
+    EXPORT static char_type* __stdcall Wide2PesudoAscii(const wchar_t* pText);
 
-    EXPORT static wchar_t* __stdcall Ascii2Wide_5B5DF0(const char_type* pStr);
+    EXPORT static wchar_t* __stdcall Ascii2Wide(const char_type* pStr);
 
-    EXPORT void load_chunk_5B5E20(const char_type* chunk_type, u32 chunk_len);
+    EXPORT void load_chunk(const char_type* chunk_type, u32 chunk_len);
 
-    EXPORT void Load_5B5E90();
+    EXPORT void Load();
 
-    EXPORT wchar_t* Find_5B5F90(const char_type* pIdStr) const;
+    EXPORT wchar_t* Find(const char_type* pIdStr) const;
 
-    EXPORT bool KeyExists_5B5FA0(const char_type* pIdStr) const;
+    EXPORT bool KeyExists(const char_type* pIdStr) const;
 
     // 0x5B5FB0
     EXPORT TextTable();

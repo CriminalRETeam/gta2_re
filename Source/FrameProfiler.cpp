@@ -13,14 +13,14 @@
 DEFINE_GLOBAL(FrameProfiler*, gMike_A80_6F7328, 0x6F7328);
 
 MATCH_FUNC(0x4ff1b0)
-void FrameProfiler::Init_4FF1B0()
+void FrameProfiler::Init()
 {
     mHistoryIdx = 0;
     mCount = 0;
 }
 
 MATCH_FUNC(0x4ff1c0)
-s32 FrameProfiler::sDrawFlatRect_4FF1C0(f32 left, f32 top, f32 right, f32 bottom, s32 colour)
+s32 FrameProfiler::sDrawFlatRect(f32 left, f32 top, f32 right, f32 bottom, s32 colour)
 {
     Vert verts[4];
     verts[0].x = left;
@@ -41,10 +41,10 @@ s32 FrameProfiler::sDrawFlatRect_4FF1C0(f32 left, f32 top, f32 right, f32 bottom
 EXTERN_GLOBAL(u32, gBufferMode_706B34);
 EXTERN_GLOBAL(s32, gDisplayDraw_67B57C);
 EXTERN_GLOBAL(s32, gDisplayAdd_67B578);
-EXPORT s32 __stdcall ConvertCycleCount_5BEED0(s32 cycles);
+EXPORT s32 __stdcall ConvertCycleCount(s32 cycles);
 
 MATCH_FUNC(0x4ff250)
-void FrameProfiler::DebugDrawProfiling_4FF250()
+void FrameProfiler::DebugDrawProfiling()
 {
     LOCAL_STATIC(s32, sLargeFrameTimer, 0x6F754C);
     LOCAL_STATIC(s32, sMemTotalCounter, 0x6F7550);
@@ -94,7 +94,7 @@ void FrameProfiler::DebugDrawProfiling_4FF250()
         row++;
     }
 
-    sDrawString_4FF910(0, 280, L"Total Num Textures %d - %d bytes", total_textures_used, total_texture_bytes);
+    sDrawString(0, 280, L"Total Num Textures %d - %d bytes", total_textures_used, total_texture_bytes);
 
     swprintf(tmpBuff_67BD9C, L"Polys Drawn:");
     DrawText_4B87A0(tmpBuff_67BD9C, 0, 300, gStyleTextFont_703BAA, 1);
@@ -118,39 +118,39 @@ void FrameProfiler::DebugDrawProfiling_4FF250()
 
     if (++sMemTotalCounter > 100)
     {
-        GetMemTotal_4FF970(&sMemTotal);
+        GetMemTotal(&sMemTotal);
         sMemTotalCounter = 0;
     }
-    sDrawString_4FF910(0, 380, L"Mem Total %5d", sMemTotal);
+    sDrawString(0, 380, L"Mem Total %5d", sMemTotal);
 
     s32 total = mProcessAvg.Average() + mDrawAvg.Average() + mRenderAvg.Average() +
         mAudioAvg.Average() + mInputAvg.Average();
-    sDrawString_4FF910(280, 20, L"Process %3d", mProcessAvg.Average());
-    sDrawString_4FF910(280, 40, L"Draw    %3d", mDrawAvg.Average());
-    sDrawString_4FF910(280, 60, L"Render  %3d", mRenderAvg.Average());
-    sDrawString_4FF910(280, 80, L"Audio   %3d", mAudioAvg.Average());
-    sDrawString_4FF910(280, 100, L"Input   %3d", mInputAvg.Average());
-    sDrawString_4FF910(280, 120, L"Total   %3d", total);
+    sDrawString(280, 20, L"Process %3d", mProcessAvg.Average());
+    sDrawString(280, 40, L"Draw    %3d", mDrawAvg.Average());
+    sDrawString(280, 60, L"Render  %3d", mRenderAvg.Average());
+    sDrawString(280, 80, L"Audio   %3d", mAudioAvg.Average());
+    sDrawString(280, 100, L"Input   %3d", mInputAvg.Average());
+    sDrawString(280, 120, L"Total   %3d", total);
 
     s32 large_timer = total > 30 ? 15 : sLargeFrameTimer;
     if (large_timer)
     {
         sLargeFrameTimer = large_timer - 1;
-        sDrawString_4FF910(280, 140, L"LARGE");
+        sDrawString(280, 140, L"LARGE");
     }
 
-    s32 display_add = ConvertCycleCount_5BEED0(gDisplayAdd_67B578);
-    s32 display_draw = ConvertCycleCount_5BEED0(gDisplayDraw_67B57C);
-    sDrawString_4FF910(280, 160, L"DisplayAdd   %3d", display_add);
-    sDrawString_4FF910(280, 180, L"DisplayDraw  %3d", display_draw);
+    s32 display_add = ConvertCycleCount(gDisplayAdd_67B578);
+    s32 display_draw = ConvertCycleCount(gDisplayDraw_67B57C);
+    sDrawString(280, 160, L"DisplayAdd   %3d", display_add);
+    sDrawString(280, 180, L"DisplayDraw  %3d", display_draw);
     gDisplayAdd_67B578 = 0;
     gDisplayDraw_67B57C = 0;
 
-    DrawProfileHistory_4FFD90();
+    DrawProfileHistory();
 }
 
 MATCH_FUNC(0x4ff910)
-void FrameProfiler::sDrawString_4FF910(s32 xpos, s32 ypos, const wchar_t* pFormat, ...)
+void FrameProfiler::sDrawString(s32 xpos, s32 ypos, const wchar_t* pFormat, ...)
 {
     wchar_t buffer[240];
     va_list args;
@@ -160,18 +160,18 @@ void FrameProfiler::sDrawString_4FF910(s32 xpos, s32 ypos, const wchar_t* pForma
 }
 
 MATCH_FUNC(0x4ff970)
-void __stdcall FrameProfiler::GetMemTotal_4FF970(u32* pValue)
+void __stdcall FrameProfiler::GetMemTotal(u32* pValue)
 {
     *pValue = 0;
 }
 
 MATCH_FUNC(0x4ff980)
-void FrameProfiler::Service_4FF980()
+void FrameProfiler::Service()
 {
 }
 
 MATCH_FUNC(0x4ff990)
-void FrameProfiler::StartProfileTimer_4FF990(u32 idx)
+void FrameProfiler::StartProfileTimer(u32 idx)
 {
     switch (idx)
     {
@@ -191,7 +191,7 @@ void FrameProfiler::StartProfileTimer_4FF990(u32 idx)
 }
 
 MATCH_FUNC(0x4ff9f0)
-void FrameProfiler::StopProfileTimer_4FF9F0(u32 idx)
+void FrameProfiler::StopProfileTimer(u32 idx)
 {
     switch (idx)
     {
@@ -211,7 +211,7 @@ void FrameProfiler::StopProfileTimer_4FF9F0(u32 idx)
 }
 
 MATCH_FUNC(0x4ffa50)
-void FrameProfiler::DebugPrintf_4FFA50(const char_type* pFormat, ...)
+void FrameProfiler::DebugPrintf(const char_type* pFormat, ...)
 {
     char_type buffer[240];
     va_list args;
@@ -221,7 +221,7 @@ void FrameProfiler::DebugPrintf_4FFA50(const char_type* pFormat, ...)
 }
 
 MATCH_FUNC(0x4ffa90)
-void FrameProfiler::UpdateProfiling_4FFA90()
+void FrameProfiler::UpdateProfiling()
 {
     s32 process_time = mProcessWatch.TakeElapsed();
     s32 draw_time = mDrawWatch.TakeElapsed();
@@ -308,7 +308,7 @@ void FrameProfiler::UpdateProfiling_4FFA90()
 }
 
 MATCH_FUNC(0x4ffd90)
-void FrameProfiler::DrawProfileHistory_4FFD90()
+void FrameProfiler::DrawProfileHistory()
 {
     s32 count = mCount < 100 ? mCount : 100;
 

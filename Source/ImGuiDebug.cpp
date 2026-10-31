@@ -89,7 +89,7 @@ void wchar_to_char(const wchar_t* wchar, char* out, u8 size)
 
 void get_car_name(Car* pCar, char* out)
 {
-    wchar_t* car_wname = pCar->GetCarStr_439F80();
+    wchar_t* car_wname = pCar->GetCarStr();
     wchar_to_char(car_wname, out, 33);
 }
 
@@ -235,7 +235,7 @@ static Sprite* GetPlayerAssociatedSprite()
     {
         if (pPed->mCar)
         {
-            return pPed->mCar->GetSprite_440840();
+            return pPed->mCar->GetSprite();
         }
         return NULL;
     }
@@ -451,12 +451,12 @@ EXTERN_GLOBAL(Car*, gTestArrowCar_7043F0);
 
 // Builds a test scene: a few blocks, cars with weapons and gang icons, and a row of each object
 MATCH_FUNC(0x5B1170)
-EXPORT void __stdcall NoRefs_sub_5B1170()
+EXPORT void __stdcall NoRefs_sub()
 {
     gmp_block_info block;
-    gGtx_0x106C_703DD4->get_sprite_index_5AA440(
-        gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::font_7,
-                                                      gGtx_0x106C_703DD4->GetSpriteIdxFromFont_5AA710(gKanjiSmallFont_703C3E, 0)));
+    gGtx_0x106C_703DD4->get_sprite_index(
+        gGtx_0x106C_703DD4->GetSpriteTrueIndex(sprite_types_enum::font_7,
+                                                      gGtx_0x106C_703DD4->GetSpriteIdxFromFont(gKanjiSmallFont_703C3E, 0)));
     block.init_44C840();
     block.mLeft = 7206;
     block.mRight = 7206;
@@ -464,179 +464,179 @@ EXPORT void __stdcall NoRefs_sub_5B1170()
     block.mBottom = 7206;
     block.mLid = 0;
     block.mSlopeType = 215;
-    gMap_0x370_6F6268->AddNewBlock_4E87C0(112, 147, 2, &block);
+    gMap_0x370_6F6268->AddNewBlock(112, 147, 2, &block);
     block.mSlopeType = 219;
-    gMap_0x370_6F6268->AddNewBlock_4E87C0(110, 147, 2, &block);
+    gMap_0x370_6F6268->AddNewBlock(110, 147, 2, &block);
     block.mSlopeType = 223;
-    gMap_0x370_6F6268->AddNewBlock_4E87C0(112, 149, 2, &block);
+    gMap_0x370_6F6268->AddNewBlock(112, 149, 2, &block);
     block.mSlopeType = 227;
-    gMap_0x370_6F6268->AddNewBlock_4E87C0(110, 149, 2, &block);
+    gMap_0x370_6F6268->AddNewBlock(110, 149, 2, &block);
     block.mSlopeType = 231;
-    gMap_0x370_6F6268->AddNewBlock_4E87C0(112, 143, 2, &block);
+    gMap_0x370_6F6268->AddNewBlock(112, 143, 2, &block);
     block.mSlopeType = 235;
-    gMap_0x370_6F6268->AddNewBlock_4E87C0(110, 143, 2, &block);
+    gMap_0x370_6F6268->AddNewBlock(110, 143, 2, &block);
     block.mSlopeType = 239;
-    gMap_0x370_6F6268->AddNewBlock_4E87C0(112, 145, 2, &block);
+    gMap_0x370_6F6268->AddNewBlock(112, 145, 2, &block);
     block.mSlopeType = 243;
-    gMap_0x370_6F6268->AddNewBlock_4E87C0(110, 145, 2, &block);
+    gMap_0x370_6F6268->AddNewBlock(110, 145, 2, &block);
     block.mSlopeType = 247;
-    gMap_0x370_6F6268->AddNewBlock_4E87C0(111, 148, 2, &block);
+    gMap_0x370_6F6268->AddNewBlock(111, 148, 2, &block);
     block.mSlopeType = 171;
-    gMap_0x370_6F6268->AddNewBlock_4E87C0(111, 143, 2, &block);
+    gMap_0x370_6F6268->AddNewBlock(111, 143, 2, &block);
     block.mSlopeType = 3;
-    gMap_0x370_6F6268->AddNewBlock_4E87C0(111, 141, 2, &block);
+    gMap_0x370_6F6268->AddNewBlock(111, 141, 2, &block);
     block.mSlopeType = 199;
-    gMap_0x370_6F6268->AddNewBlock_4E87C0(112, 152, 2, &block);
+    gMap_0x370_6F6268->AddNewBlock(112, 152, 2, &block);
     gTestCar1_704418 =
         gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(98), Fix16(180), kAng90_70420C, car_model_enum::GT24640, kFpHalf_7042A4);
     gTestCar1_704418->LockPermanently_475C30();
-    gTestCar1_704418->IncrementCarStats_443D70(car_kind::mission_car_8);
+    gTestCar1_704418->IncrementCarStats(car_kind::mission_car_8);
     gTestCar1_704418->SetMiniCar_476270();
-    gTestCar1_704418->UpdateDrawLayer_4435F0();
+    gTestCar1_704418->UpdateDrawLayer();
     gWeapon_8_707018->allocate_5E3D50(23, 1, gTestCar1_704418);
-    gTestCar1_704418->IsBeingCrushed_43DD50();
+    gTestCar1_704418->IsBeingCrushed();
     gTestTrailer_7041A8 =
-        gCarManager_6C_677930->SpawnCabAndTrailer_446530(98, 179, kAng90_70420C, car_model_enum::TRUKCAB2, car_model_enum::TRUKTRNS);
-    gTestTrailer_7041A8->mTruckCab->IncrementCarStats_443D70(car_kind::mission_car_8);
+        gCarManager_6C_677930->SpawnCabAndTrailer(98, 179, kAng90_70420C, car_model_enum::TRUKCAB2, car_model_enum::TRUKTRNS);
+    gTestTrailer_7041A8->mTruckCab->IncrementCarStats(car_kind::mission_car_8);
     gWeapon_8_707018->allocate_5E3D50(15, 1, gTestTrailer_7041A8->mTruckCab);
     gTestCar2_704410 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(92) + kFpQuarter_704420,
                                                                         Fix16(175),
                                                                         kAng90_70420C,
                                                                         car_model_enum::MONSTER,
                                                                         kFpOne_7043AC);
-    gTestCar2_704410->IncrementCarStats_443D70(car_kind::mission_car_8);
+    gTestCar2_704410->IncrementCarStats(car_kind::mission_car_8);
     gTestCar3_7043D4 =
         gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(97), Fix16(178), kAng90_70420C, car_model_enum::EDSELFBI, kFpOne_7043AC);
-    gTestCar3_7043D4->IncrementCarStats_443D70(car_kind::mission_car_8);
+    gTestCar3_7043D4->IncrementCarStats(car_kind::mission_car_8);
     gWeapon_8_707018->allocate_5E3D50(18, 99, gTestCar3_7043D4);
     gWeapon_8_707018->allocate_5E3D50(15, 1, gTestCar3_7043D4);
     gWeapon_8_707018->allocate_5E3D50(16, 99, gTestCar3_7043D4);
     gWeapon_8_707018->allocate_5E3D50(17, 99, gTestCar3_7043D4);
     gTestArrowCar_7043F0 =
         gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(95), Fix16(178), kAng90_70420C, car_model_enum::TANK, kFpOne_7043AC);
-    gTestArrowCar_7043F0->IncrementCarStats_443D70(car_kind::mission_car_8);
+    gTestArrowCar_7043F0->IncrementCarStats(car_kind::mission_car_8);
     gTestCar3_7043D4 =
         gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(95), Fix16(180), kAng90_70420C, car_model_enum::MIURA, kFpOne_7043AC);
     gWeapon_8_707018->allocate_5E3D50(17, 99, gTestCar3_7043D4);
     gTestCar3_7043D4->mCarSprite->SetRemap(14);
-    gTestCar3_7043D4->AttachGangIcon_440660(2);
-    gTestCar3_7043D4->IncrementCarStats_443D70(car_kind::mission_car_8);
+    gTestCar3_7043D4->AttachGangIcon(2);
+    gTestCar3_7043D4->IncrementCarStats(car_kind::mission_car_8);
     gTestCar3_7043D4 =
         gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(95), Fix16(179), kAng90_70420C, car_model_enum::STINGRAY, kFpOne_7043AC);
     gWeapon_8_707018->allocate_5E3D50(16, 99, gTestCar3_7043D4);
     gTestCar3_7043D4->mCarSprite->SetRemap(2);
-    gTestCar3_7043D4->AttachGangIcon_440660(3);
-    gTestCar3_7043D4->IncrementCarStats_443D70(car_kind::mission_car_8);
+    gTestCar3_7043D4->AttachGangIcon(3);
+    gTestCar3_7043D4->IncrementCarStats(car_kind::mission_car_8);
     gTestCar3_7043D4 =
         gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(93), Fix16(179), kAng90_70420C, car_model_enum::ISETTA, kFpOne_7043AC);
     gTestCar3_7043D4->mCarSprite->SetRemap(5);
-    gTestCar3_7043D4->AttachGangIcon_440660(1);
-    gTestCar3_7043D4->IncrementCarStats_443D70(car_kind::mission_car_8);
+    gTestCar3_7043D4->AttachGangIcon(1);
+    gTestCar3_7043D4->IncrementCarStats(car_kind::mission_car_8);
     gTestCar3_7043D4 =
         gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(93), Fix16(178), kAng90_70420C, car_model_enum::KRSNABUS, kFpOne_7043AC);
-    gTestCar3_7043D4->AttachGangIcon_440660(6);
-    gTestCar3_7043D4->IncrementCarStats_443D70(car_kind::mission_car_8);
+    gTestCar3_7043D4->AttachGangIcon(6);
+    gTestCar3_7043D4->IncrementCarStats(car_kind::mission_car_8);
     gTestCar3_7043D4 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(98) + kFpQuarter_704420,
                                                                         Fix16(178),
                                                                         kAng90_70420C,
                                                                         car_model_enum::STRATOSB,
                                                                         kFpOne_7043AC);
     gTestCar3_7043D4->mCarSprite->SetRemap(10);
-    gTestCar3_7043D4->AttachGangIcon_440660(5);
-    gTestCar3_7043D4->IncrementCarStats_443D70(car_kind::mission_car_8);
+    gTestCar3_7043D4->AttachGangIcon(5);
+    gTestCar3_7043D4->IncrementCarStats(car_kind::mission_car_8);
     gTestCar3_7043D4 =
         gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(100), Fix16(180), kAng90_70420C, car_model_enum::ZCX5, kFpOne_7043AC);
-    gTestCar3_7043D4->IncrementCarStats_443D70(car_kind::mission_car_8);
+    gTestCar3_7043D4->IncrementCarStats(car_kind::mission_car_8);
     gTestCar3_7043D4 =
         gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(101), Fix16(178), kAng90_70420C, car_model_enum::BUICK, kFpOne_7043AC);
     gTestCar3_7043D4->mCarSprite->SetRemap(28);
-    gTestCar3_7043D4->AttachGangIcon_440660(7);
-    gTestCar3_7043D4->IncrementCarStats_443D70(car_kind::mission_car_8);
+    gTestCar3_7043D4->AttachGangIcon(7);
+    gTestCar3_7043D4->IncrementCarStats(car_kind::mission_car_8);
     gTestCar3_7043D4 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(102) + kFpHalf_7041F0,
                                                                         Fix16(178),
                                                                         kAng90_70420C,
                                                                         car_model_enum::boxtruck,
                                                                         kFpOne_7043AC);
-    gTestCar3_7043D4->IncrementCarStats_443D70(car_kind::mission_car_8);
+    gTestCar3_7043D4->IncrementCarStats(car_kind::mission_car_8);
     gTestCar3_7043D4 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(104) + kFpHalf_7041F0,
                                                                         Fix16(178),
                                                                         kAng90_70420C,
                                                                         car_model_enum::TRUKCAB1,
                                                                         kFpOne_7043AC);
-    gTestCar3_7043D4->IncrementCarStats_443D70(car_kind::mission_car_8);
+    gTestCar3_7043D4->IncrementCarStats(car_kind::mission_car_8);
     gTestCar3_7043D4 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(106) + kFpHalf_7041F0,
                                                                         Fix16(178),
                                                                         kAng90_70420C,
                                                                         car_model_enum::TRUKCAB2,
                                                                         kFpOne_7043AC);
-    gTestCar3_7043D4->IncrementCarStats_443D70(car_kind::mission_car_8);
+    gTestCar3_7043D4->IncrementCarStats(car_kind::mission_car_8);
     gTestCar3_7043D4 = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(108) + kFpHalf_7041F0,
                                                                         Fix16(178),
                                                                         kAng90_70420C,
                                                                         car_model_enum::bank_van,
                                                                         kFpOne_7043AC);
-    gTestCar3_7043D4->IncrementCarStats_443D70(car_kind::mission_car_8);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::bollard_2, 97, 181, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::power_generator_281, 98, 181, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::secret_token_266, 99, 181, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::secret_token_266, 100, 181, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(228, 101, 181, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(229, 102, 181, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::health_powerup_230, 103, 181, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::armor_powerup_231, 104, 181, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::get_out_jail_powerup_232, 105, 181, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(233, 106, 181, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::invulnerability_powerup_234, 107, 181, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(235, 108, 181, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(236, 109, 181, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(237, 110, 181, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(238, 111, 181, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::invisibility_powerup_239, 112, 181, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(240, 113, 181, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(228, 101, 180, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(229, 102, 180, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::health_powerup_230, 103, 180, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::armor_powerup_231, 104, 180, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::get_out_jail_powerup_232, 105, 180, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(233, 106, 180, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::invulnerability_powerup_234, 107, 180, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(235, 108, 180, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(236, 109, 180, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(237, 110, 180, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(238, 111, 180, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::invisibility_powerup_239, 112, 180, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(240, 113, 180, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(247, 107, 180, 2, kAng0_704500);
-    gTestObject_704274 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::car_shop_130, 107, 180, 2, kAng0_704500);
+    gTestCar3_7043D4->IncrementCarStats(car_kind::mission_car_8);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::bollard_2, 97, 181, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::power_generator_281, 98, 181, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::secret_token_266, 99, 181, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::secret_token_266, 100, 181, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(228, 101, 181, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(229, 102, 181, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::health_powerup_230, 103, 181, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::armor_powerup_231, 104, 181, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::get_out_jail_powerup_232, 105, 181, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(233, 106, 181, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::invulnerability_powerup_234, 107, 181, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(235, 108, 181, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(236, 109, 181, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(237, 110, 181, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(238, 111, 181, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::invisibility_powerup_239, 112, 181, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(240, 113, 181, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(228, 101, 180, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(229, 102, 180, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::health_powerup_230, 103, 180, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::armor_powerup_231, 104, 180, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::get_out_jail_powerup_232, 105, 180, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(233, 106, 180, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::invulnerability_powerup_234, 107, 180, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(235, 108, 180, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(236, 109, 180, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(237, 110, 180, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(238, 111, 180, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::invisibility_powerup_239, 112, 180, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(240, 113, 180, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(247, 107, 180, 2, kAng0_704500);
+    gTestObject_704274 = gObject_5C_6F8F84->NewPhysicsObj(objects::car_shop_130, 107, 180, 2, kAng0_704500);
     gTestObject_704274->SetParam_447E90(1);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(247, 105, 180, 2, kAng0_704500);
-    gTestObject_704274 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::car_shop_130, 105, 180, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(247, 105, 180, 2, kAng0_704500);
+    gTestObject_704274 = gObject_5C_6F8F84->NewPhysicsObj(objects::car_shop_130, 105, 180, 2, kAng0_704500);
     gTestObject_704274->SetParam_447E90(254);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(247, 103, 180, 2, kAng0_704500);
-    gTestObject_704274 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::car_shop_130, 103, 180, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(247, 103, 180, 2, kAng0_704500);
+    gTestObject_704274 = gObject_5C_6F8F84->NewPhysicsObj(objects::car_shop_130, 103, 180, 2, kAng0_704500);
     gTestObject_704274->SetParam_447E90(250);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(175, 101, 180, 2, kAng0_704500);
-    gTestObject_704274 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::car_shop_130, 101, 180, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(175, 101, 180, 2, kAng0_704500);
+    gTestObject_704274 = gObject_5C_6F8F84->NewPhysicsObj(objects::car_shop_130, 101, 180, 2, kAng0_704500);
     gTestObject_704274->SetParam_447E90(252);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::cone_3, 106, 180, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::footy_13, 107, 180, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::invisible_powergen_283, 108, 180, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pistol_weapon_200, 105, 179, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::machine_gun_weapon_201, 106, 179, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(202, 107, 179, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(203, 108, 179, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::molotov_weapon_204, 109, 179, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(205, 110, 179, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::shotgun_weapon_206, 111, 179, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(207, 112, 179, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::flamethrower_weapon_208, 121, 179, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(209, 122, 179, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(210, 123, 179, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(215, 124, 179, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(216, 125, 179, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(217, 126, 179, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::armor_powerup_231, 127, 179, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(218, 128, 179, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::cone_3, 106, 180, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::footy_13, 107, 180, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::invisible_powergen_283, 108, 180, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::pistol_weapon_200, 105, 179, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::machine_gun_weapon_201, 106, 179, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(202, 107, 179, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(203, 108, 179, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::molotov_weapon_204, 109, 179, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(205, 110, 179, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::shotgun_weapon_206, 111, 179, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(207, 112, 179, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::flamethrower_weapon_208, 121, 179, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(209, 122, 179, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(210, 123, 179, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(215, 124, 179, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(216, 125, 179, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(217, 126, 179, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(objects::armor_powerup_231, 127, 179, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj(218, 128, 179, 2, kAng0_704500);
 }
 
 static const char* ObjectIdToString(s32 id)
@@ -835,7 +835,7 @@ static void DisplayWideTextAtSprite(wchar_t* pStr, Sprite* pSprt, s16 x_offset, 
             Fix16 sprt_xpos = pSprt->mXy.x;
             Fix16 sprt_ypos = pSprt->mXy.y;
             Fix16 sprt_zpos = pSprt->mZpos;
-            if (pPlayerCam->IsCoordsPosVisible_435A70(sprt_xpos, sprt_ypos, sprt_zpos))
+            if (pPlayerCam->IsCoordsPosVisible(sprt_xpos, sprt_ypos, sprt_zpos))
             {
                 Fix16 screen_xpos_f16;
                 Fix16 screen_ypos_f16;
@@ -846,7 +846,7 @@ static void DisplayWideTextAtSprite(wchar_t* pStr, Sprite* pSprt, s16 x_offset, 
 
                 if (gHud_2B00_706620->mTexts.mpFreeList) // avoid annoying crash when pausing the game
                 {
-                    gHud_2B00_706620->mTexts.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, gDebugFont_706600, 1);
+                    gHud_2B00_706620->mTexts.DisplayText(pStr, screen_xpos, screen_ypos, gDebugFont_706600, 1);
                 }
             }
         }
@@ -855,7 +855,7 @@ static void DisplayWideTextAtSprite(wchar_t* pStr, Sprite* pSprt, s16 x_offset, 
 
 static void DisplayTextAtSprite(char* pStr, Sprite* pSprt, s16 x_offset, s16 y_offset)
 {
-    DisplayWideTextAtSprite(TextTable::Ascii2Wide_5B5DF0(pStr), pSprt, x_offset, y_offset);
+    DisplayWideTextAtSprite(TextTable::Ascii2Wide(pStr), pSprt, x_offset, y_offset);
 }
 
 // Draw Text at fixed position in screen (like OG debug stuff)
@@ -863,13 +863,13 @@ static void DisplayWideTextAtScreenCoords(wchar_t* pStr, s16 screen_xpos, s16 sc
 {
     if (gHud_2B00_706620 && gHud_2B00_706620->mTexts.mpFreeList) // avoid annoying crash when pausing the game
     {
-        gHud_2B00_706620->mTexts.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, gDebugFont_706600, 1);
+        gHud_2B00_706620->mTexts.DisplayText(pStr, screen_xpos, screen_ypos, gDebugFont_706600, 1);
     }
 }
 
 static void DisplayTextAtScreenCoords(char* pStr, s16 screen_xpos, s16 screen_ypos)
 {
-    DisplayWideTextAtScreenCoords(TextTable::Ascii2Wide_5B5DF0(pStr), screen_xpos, screen_ypos);
+    DisplayWideTextAtScreenCoords(TextTable::Ascii2Wide(pStr), screen_xpos, screen_ypos);
 }
 
 static void DisplayWideTextAtXYZ(wchar_t* pStr, Fix16 xpos, Fix16 ypos, Fix16 zpos)
@@ -879,7 +879,7 @@ static void DisplayWideTextAtXYZ(wchar_t* pStr, Fix16 xpos, Fix16 ypos, Fix16 zp
         Camera* pPlayerCam = GetPlayerCam();
         if (pPlayerCam)
         {
-            if (pPlayerCam->IsCoordsPosVisible_435A70(xpos, ypos, zpos))
+            if (pPlayerCam->IsCoordsPosVisible(xpos, ypos, zpos))
             {
                 Fix16 screen_xpos_f16;
                 Fix16 screen_ypos_f16;
@@ -890,7 +890,7 @@ static void DisplayWideTextAtXYZ(wchar_t* pStr, Fix16 xpos, Fix16 ypos, Fix16 zp
 
                 if (gHud_2B00_706620->mTexts.mpFreeList) // avoid annoying crash when pausing the game
                 {
-                    gHud_2B00_706620->mTexts.DisplayText_5D1F50(pStr, screen_xpos, screen_ypos, gDebugFont_706600, 1);
+                    gHud_2B00_706620->mTexts.DisplayText(pStr, screen_xpos, screen_ypos, gDebugFont_706600, 1);
                 }
             }
         }
@@ -1027,7 +1027,7 @@ bool PointArrowToEntity(Ped* pPed, Car* pCar, Object* pObj)
     {
         if (!gpArrow)
         {
-            gpArrow = gHud_2B00_706620->mArrows.AllocArrow_5D1050();
+            gpArrow = gHud_2B00_706620->mArrows.AllocArrow();
         }
         if (gpArrow)
         {
@@ -1217,18 +1217,18 @@ void BootMap(const char* mapName, const char* styName, const char* scrName)
     {
         char fullPath[256];
 
-        gGameSession_67E8E0.SetSaveFileName_4C58D0("");
+        gGameSession_67E8E0.SetSaveFileName("");
         strcpy(fullPath, "data\\");
         strcat(fullPath, mapName);
-        gGameSession_67E8E0.SetMapName_4C5870(fullPath);
+        gGameSession_67E8E0.SetMapName(fullPath);
         strcpy(fullPath, "data\\");
         strcat(fullPath, styName);
-        gGameSession_67E8E0.SetStyleName_4C5890(fullPath);
+        gGameSession_67E8E0.SetStyleName(fullPath);
         strcpy(fullPath, "data\\");
         strcat(fullPath, scrName);
-        gGameSession_67E8E0.SetScriptName_4C58B0(fullPath);
+        gGameSession_67E8E0.SetScriptName(fullPath);
 
-        gGameSession_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(false);
+        gGameSession_67E8E0.SetStartedFromPlayBonusMenu(false);
 
         if (!HookManagement::GetEnumerateFuncsFn()) // if standalone version
         {
@@ -1293,7 +1293,7 @@ void CC ImGuiDebugDraw()
                 score.mExplodeCounter = 2;
                 score.mXOffsetMult = 1;
                 score.mYOffsetMult = 1;
-                score.DrawSingleNumber_597100(number, 10);
+                score.DrawSingleNumber(number, 10);
             }
         }
 
@@ -1301,7 +1301,7 @@ void CC ImGuiDebugDraw()
         {
             if (pPlayerSprite && gExplodingScorePool)
             {
-                gExplodingScorePool->PushScore_596890(pPlayerSprite->GetXPos(), pPlayerSprite->GetYPos(), pPlayerSprite->GetZPos(), 999999999);
+                gExplodingScorePool->PushScore(pPlayerSprite->GetXPos(), pPlayerSprite->GetYPos(), pPlayerSprite->GetZPos(), 999999999);
             }
         }
     }
@@ -1310,22 +1310,22 @@ void CC ImGuiDebugDraw()
     {
         if (ImGui::Button("CycleRadioStation_40F070 (next)"))
         {
-            gRoot_sound_66B038.CycleRadioStation_40F070(0);
+            gRoot_sound_66B038.CycleRadioStation(0);
         }
 
         if (ImGui::Button("CycleRadioStation_40F070 (prev)"))
         {
-            gRoot_sound_66B038.CycleRadioStation_40F070(1);
+            gRoot_sound_66B038.CycleRadioStation(1);
         }
 
         if (ImGui::Button("AppendRadioMessageSuffix_4273B0"))
         {
-            gSound_obj_66F680.AppendRadioMessageSuffix_4273B0();
+            gSound_obj_66F680.AppendRadioMessageSuffix();
         }
 
         if (ImGui::Button("EnqueueRadioWord_4271B0"))
         {
-            gSound_obj_66F680.EnqueueRadioWord_4271B0(0x78u);
+            gSound_obj_66F680.EnqueueRadioWord(0x78u);
         }
 
     }
@@ -1337,7 +1337,7 @@ void CC ImGuiDebugDraw()
 
         static char tmpBuffer[512];
         sprintf(tmpBuffer, "c%02d", model_num);
-        ImGui::Text(gText_0x14_704DFC->Wide2PesudoAscii_5B5D10(gText_0x14_704DFC->Find_5B5F90(tmpBuffer)));
+        ImGui::Text(gText_0x14_704DFC->Wide2PesudoAscii(gText_0x14_704DFC->Find(tmpBuffer)));
 
         static s32 currentCharIndex = 0;
         const char* char_lang_codes[] = {"english", "french", "italian", "german", "spanish", "russian", "japanese"};
@@ -1352,10 +1352,10 @@ void CC ImGuiDebugDraw()
         if (ImGui::Button("Change language"))
         {
             gText_0x14_704DFC->mLangCode = char_lang[currentCharIndex];
-            gText_0x14_704DFC->Load_5B5E90();
+            gText_0x14_704DFC->Load();
             if (gFrontend_67DC84)
             {
-                gFrontend_67DC84->SetupMenuStringsOptionsElements_4B0220();
+                gFrontend_67DC84->SetupMenuStringsOptionsElements();
             }
         }
         ImGui::Text("Curr Lang Code: %c", gText_0x14_704DFC->mLangCode);
@@ -1376,7 +1376,7 @@ void CC ImGuiDebugDraw()
                     Sprite* pPedSprite = GetPedSprite(pIter);
                     if (pPedSprite && pPedSprite != pPlayerSprite)
                     {
-                        gParticle_8_6FD5E8->EmitFireTruckSprayParticle_53FAE0(pPedSprite);
+                        gParticle_8_6FD5E8->EmitFireTruckSprayParticle(pPedSprite);
                     }
                     pIter = pIter->mpNext;
                 }
@@ -1404,12 +1404,12 @@ void CC ImGuiDebugDraw()
 
             if (ImGui::Button("Testing1"))
             {
-                gGame_0x40_67E008->mPlayers[0]->mScores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 6);
+                gGame_0x40_67E008->mPlayers[0]->mScores.GetScoreDigits()->ColorDigits(palette_types_enum::user_remaps_7, 6);
             }
 
             if (ImGui::Button("Testing2"))
             {
-                gGame_0x40_67E008->mPlayers[0]->mScores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::sprites_2, 0);
+                gGame_0x40_67E008->mPlayers[0]->mScores.GetScoreDigits()->ColorDigits(palette_types_enum::sprites_2, 0);
             }
         }
         else
@@ -1426,7 +1426,7 @@ void CC ImGuiDebugDraw()
                 while (pCarIter)
                 {
                     swprintf(tmpBuff_67BD9C, L"%d", pCarIter->mDespawnStatus);
-                    DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->GetSprite_440840(), 0, 0);
+                    DisplayWideTextAtSprite(tmpBuff_67BD9C, pCarIter->GetSprite(), 0, 0);
                     pCarIter = pCarIter->mpNext;
                 }
                 ImGui::TreePop();
@@ -1437,7 +1437,7 @@ void CC ImGuiDebugDraw()
             while (pCarIter)
             {
                 char buffer[128];
-                sprintf(buffer, "Car %S %X", pCarIter->GetCarStr_439F80(), reinterpret_cast<u32>(pCarIter));
+                sprintf(buffer, "Car %S %X", pCarIter->GetCarStr(), reinterpret_cast<u32>(pCarIter));
                 if (ImGui::TreeNode(buffer))
                 {
 
@@ -1452,13 +1452,13 @@ void CC ImGuiDebugDraw()
                     if (ImGui::Button("TurnToWreck_4436A0"))
                     {
                         pCarIter->mDespawnStatus = car_despawn_status::marked_for_despawn_4;
-                        pCarIter->TurnToWreck_4436A0();
+                        pCarIter->TurnToWreck();
                     }
 
                     if (ImGui::Button("SpawnDamageFireEffect_43B870 1"))
                     {
                         Fix16_Point p = pCarIter->mCarSprite->get_x_y_443580();
-                        pCarIter->SpawnDamageFireEffect_43B870(1, &p);
+                        pCarIter->SpawnDamageFireEffect(1, &p);
                     }
 
                     if (ImGui::Button("SpawnDamageFireEffect_43B870 2"))
@@ -1466,12 +1466,12 @@ void CC ImGuiDebugDraw()
                         Fix16_Point p;
                         p.x = 0;
                         p.y = 0;
-                        pCarIter->SpawnDamageFireEffect_43B870(3, &p);
+                        pCarIter->SpawnDamageFireEffect(3, &p);
                     }
                     
                     if (ImGui::Button("AssignRandomRemap_43A7D0"))
                     {
-                        pCarIter->AssignRandomRemap_43A7D0();
+                        pCarIter->AssignRandomRemap();
                     }
 
                     if (pCarIter->mDriver)
@@ -1555,7 +1555,7 @@ void CC ImGuiDebugDraw()
 
                 if (ImGui::Button("Apply Shading Level"))
                 {
-                    gpMapRenderer_6F66E4->set_shading_lev_4E9DB0(shading_level);
+                    gpMapRenderer_6F66E4->set_shading_lev(shading_level);
                 }
                 if (ImGui::TreeNode("Colours"))
                 {
@@ -1631,7 +1631,7 @@ void CC ImGuiDebugDraw()
                     u8 xpos = gViewCamera_676978->mViewBounds.mLeft.ToInt() + 5;
                     u8 ypos = gViewCamera_676978->mViewBounds.mTop.ToInt() + 5;
                     u8 zpos = 2;
-                    if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(0, &xpos, &ypos, &zpos, true))
+                    if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType(0, &xpos, &ypos, &zpos, true))
                     {
                     }
                 }
@@ -1661,7 +1661,7 @@ void CC ImGuiDebugDraw()
         {
             if (ImGui::Button("TryDispatchFirefightersToCar_4A8820"))
             {
-                gFirefighterPool_54_67D4C0->TryDispatchFirefightersToCar_4A8820(NULL);
+                gFirefighterPool_54_67D4C0->TryDispatchFirefightersToCar(NULL);
             }
             ImGui::TreePop();
         }
@@ -1718,26 +1718,26 @@ void CC ImGuiDebugDraw()
                 if (ImGui::Button("Spawn car"))
                 {
 
-                    pNewCar = gCarManager_6C_677930->SpawnCarAt_446230(xpos + xOff, ypos, zpos, 0, currentCarModelIndex, scale);
+                    pNewCar = gCarManager_6C_677930->SpawnCarAt(xpos + xOff, ypos, zpos, 0, currentCarModelIndex, scale);
 
-                    pNewCar->IncrementCarStats_443D70(car_kind::recycled_1); // avoid crashes when entering the car
+                    pNewCar->IncrementCarStats(car_kind::recycled_1); // avoid crashes when entering the car
 
-                    s8 zone_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(pNewCar->mCarInfoIdx);
+                    s8 zone_idx = gGangPool_CA8_67E274->FindGangByCarModel(pNewCar->mCarInfoIdx);
                     if (zone_idx > -1)
                     {
-                        Gang* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(zone_idx);
-                        pNewCar->AttachGangIcon_440660(pGang->mArrowColour);
+                        Gang* pGang = gGangPool_CA8_67E274->GangByIdx(zone_idx);
+                        pNewCar->AttachGangIcon(pGang->mArrowColour);
                         pNewCar->SetCarRemap(pGang->mGangCarRemap);
                     }
                 }
                 if (ImGui::Button("Spawn car with trailer"))
                 {
-                    pNewCar = gCarManager_6C_677930->SpawnCarAt_446230(xpos + xOff, ypos, zpos, 0, currentCarModelIndex, scale);
+                    pNewCar = gCarManager_6C_677930->SpawnCarAt(xpos + xOff, ypos, zpos, 0, currentCarModelIndex, scale);
 
-                    pNewCar->IncrementCarStats_443D70(car_kind::recycled_1); // avoid crashes when entering the car
+                    pNewCar->IncrementCarStats(car_kind::recycled_1); // avoid crashes when entering the car
 
                     // Spawns a cab and connected trailer, can spawn trains too apparently
-                    gCarManager_6C_677930->SpawnCabAndTrailer_446530(xpos + xOff, ypos, 0, car_model_enum::TRUKCAB1, car_model_enum::TRUKTRNS);
+                    gCarManager_6C_677930->SpawnCabAndTrailer(xpos + xOff, ypos, 0, car_model_enum::TRUKCAB1, car_model_enum::TRUKTRNS);
 
                     pNewCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
                     if (!pNewCar->mAI)
@@ -1745,7 +1745,7 @@ void CC ImGuiDebugDraw()
                         printf("Alloc AI (?)\n");
                         pNewCar->mAI = gCarAI_78_Pool_677CF8->Allocate();
                     }
-                    pNewCar->mAI->SetCar_453BF0(pNewCar);
+                    pNewCar->mAI->SetCar(pNewCar);
                     pNewCar->SpawnDriverPed();
 
                     pNewCar->mPedType = ped_type::script_created_5;
@@ -1757,9 +1757,9 @@ void CC ImGuiDebugDraw()
 
                     pNewCar->mFlags |= 0x10u;
 
-                    pNewCar->UpdateDrawLayer_4435F0();
+                    pNewCar->UpdateDrawLayer();
 
-                    pPlayer->AddCarToHistory_5645B0(pNewCar);
+                    pPlayer->AddCarToHistory(pNewCar);
                 }
 
             }
@@ -1777,11 +1777,11 @@ void CC ImGuiDebugDraw()
 
                 if (ImGui::Button("EmitExplosion_43D690"))
                 {
-                    pNewCar->EmitExplosion_43D690(explosion_type, x_explosion_offset, y_explosion_offset);
+                    pNewCar->EmitExplosion(explosion_type, x_explosion_offset, y_explosion_offset);
                 }
                 if (ImGui::Button("HandleCarExplosion_43D840"))
                 {
-                    pNewCar->HandleCarExplosion_43D840(explosion_type);
+                    pNewCar->HandleCarExplosion(explosion_type);
                 }
 
                 ImGui::InputInt("field_88_despawn_status", &pNewCar->mDespawnStatus, 1, 1);
@@ -1912,7 +1912,7 @@ void CC ImGuiDebugDraw()
                 static s32 spawnObjectType = 0;
                 ImGui::InputInt("Object type", &spawnObjectType, 1, 1);
                 ImGui::Text("Object name %s", ObjectIdToString(spawnObjectType));
-                ObjectDefinition* pObjectDef = gObjectDefinitions_6FCF00->GetObjectDefinition_534360(spawnObjectType);
+                ObjectDefinition* pObjectDef = gObjectDefinitions_6FCF00->GetObjectDefinition(spawnObjectType);
                 if (pObjectDef)
                 {
                     ImGui::Value("Behaviour", pObjectDef->mBehaviorType);
@@ -1922,7 +1922,7 @@ void CC ImGuiDebugDraw()
                 {
                     Char* pPlayerChar = pPlayerPed->mGameObject;
                     Sprite* pSprite = pPlayerChar->mSpritePtr;
-                    spawned_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(spawnObjectType,
+                    spawned_obj = gObject_5C_6F8F84->NewPhysicsObj(spawnObjectType,
                                                                           pSprite->mXy.x + Fix16(1),
                                                                           pSprite->mXy.y,
                                                                           pSprite->mZpos,
@@ -1973,8 +1973,8 @@ void CC ImGuiDebugDraw()
                 bFound = false;
                 for (; id < 8000; id++)
                 {
-                    u16 true_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::code_obj1_4, id);
-                    sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(true_idx);
+                    u16 true_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex(sprite_types_enum::code_obj1_4, id);
+                    sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index(true_idx);
                     if (pSpriteIndex)
                     {
                         if (pSpriteIndex->mWidth == 20
@@ -2033,7 +2033,7 @@ void CC ImGuiDebugDraw()
                     Ped* pPlayerPed = pPlayer->mPlayerPed;
                     if (ImGui::Button("Instant gang"))
                     {
-                        pPlayerPed->RecruitNearbyPeds_46E080(9, Fix16(8));
+                        pPlayerPed->RecruitNearbyPeds(9, Fix16(8));
                     }
 
                     ImGui::SliderS16("wanted points", &pPlayerPed->mWantedPoints, 0, 12000);
@@ -2047,7 +2047,7 @@ void CC ImGuiDebugDraw()
 
                     if (ImGui::Button("Scare people (wielding weapon or in car)"))
                     {
-                        pPlayer->mPlayerPed->AddThreateningPedToList_46FC70();
+                        pPlayer->mPlayerPed->AddThreateningPedToList();
                     }
 
                     ImGui::SliderU16("F-210", &pPlayer->mPlayerPed->mShockCounter, 0, 500);
@@ -2097,7 +2097,7 @@ void CC ImGuiDebugDraw()
                                 if (ImGui::TreeNode("Model Physics"))
                                 {
                                     ModelPhysics* pModelPhy =
-                                        gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(pPlayerCar->mCarInfoIdx);
+                                        gCarInfo_808_678098->GetModelPhysicsFromIdx(pPlayerCar->mCarInfoIdx);
                                     if (pModelPhy)
                                     {
                                         ImGui::SliderInt("Turn In", &pModelPhy->mTurnIn.mValue, 0, 4 * 16384);
@@ -2131,7 +2131,7 @@ void CC ImGuiDebugDraw()
                                     {
                                         if (ImGui::Button("Attach gang icon"))
                                         {
-                                            pPlayerCar->AttachGangIcon_440660(pGang->mArrowColour);
+                                            pPlayerCar->AttachGangIcon(pGang->mArrowColour);
                                         }
                                     }
                                     ImGui::TreePop();
@@ -2182,7 +2182,7 @@ void CC ImGuiDebugDraw()
                         if (ImGui::TreeNode("Display CharB4 flags"))
                         {
                             ConvertBitSetIntoString(TmpBitSetChar, 8, pPlayerPed->mGameObject->mFlags, 8 * sizeof(pPlayerPed->mGameObject->mFlags));
-                            DisplayTextAtSprite(TmpBitSetChar, pPlayerPed->GetSprite_46DF50(), 0, 0);
+                            DisplayTextAtSprite(TmpBitSetChar, pPlayerPed->GetSprite(), 0, 0);
                             ImGui::TreePop();
                         }
                     }
@@ -2214,19 +2214,19 @@ void CC ImGuiDebugDraw()
                     }
                     if (ImGui::Button("Add player weapon"))
                     {
-                        pPlayerPed->AddWeaponWithAmmo_45DD30(currentWeaponIndex, 99);
+                        pPlayerPed->AddWeaponWithAmmo(currentWeaponIndex, 99);
                     }
 
                     if (ImGui::Button("Shoot bullet 198"))
                     {
                         if (pPlayerPed->mSelectedWeapon)
                         {
-                            pPlayerPed->mSelectedWeapon->spawn_bullet_5DCF60(198,
+                            pPlayerPed->mSelectedWeapon->spawn_bullet(198,
                                 pPlayerPed->get_cam_x(),
                                 pPlayerPed->get_cam_y(),
                                 pPlayerPed->get_cam_z(),
                                 pPlayerPed->GetAimAngle_4CCA90(),
-                                pPlayerPed->GetVelocityVector_45B520());
+                                pPlayerPed->GetVelocityVector());
                         }
                     }
 
@@ -2249,7 +2249,7 @@ void CC ImGuiDebugDraw()
                     {
                         if (pPlayer->mPlayerPed->mGameObject)
                         {
-                            pPlayer->mPlayerPed->mGameObject->DrownPed_5459E0();
+                            pPlayer->mPlayerPed->mGameObject->DrownPed();
                         }
                     }
 
@@ -2295,7 +2295,7 @@ void CC ImGuiDebugDraw()
         {
             if (ImGui::Button("DebugToggleRemoteControl_569E70"))
             {
-                gGame_0x40_67E008->mLocalPlayer->DebugToggleRemoteControl_569E70();
+                gGame_0x40_67E008->mLocalPlayer->DebugToggleRemoteControl();
             }
             ImGui::InputInt("Game State", &gGame_0x40_67E008->mGameState, 1, 1);
 
@@ -2305,7 +2305,7 @@ void CC ImGuiDebugDraw()
 
             if (ImGui::Button("Apply exit state"))
             {
-                gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, exit_state);
+                gGame_0x40_67E008->ExitGameNoBonus(0, exit_state);
             }
 
             ImGui::TreePop();
@@ -2346,24 +2346,24 @@ void CC ImGuiDebugDraw()
                 {
                     if (ImGui::Button("CreateTimer_5D31F0"))
                     {
-                        gHud_2B00_706620->mPagers.CreateTimer_5D31F0(40);
+                        gHud_2B00_706620->mPagers.CreateTimer(40);
                     }
 
                     static s32 v = 0;
                     ImGui::InputInt("Timer num", static_cast<s32*>(&v), 1, 1);
                     if (ImGui::Button("Stop timer") && v <= 3)
                     {
-                        gHud_2B00_706620->mPagers.ClearClockOnly_5D32D0(v);
+                        gHud_2B00_706620->mPagers.ClearClockOnly(v);
                     }
 
                     if (ImGui::Button("ClearPager_5D3280") && v <= 3)
                     {
-                        gHud_2B00_706620->mPagers.ClearPager_5D3280(v);
+                        gHud_2B00_706620->mPagers.ClearPager(v);
                     }
 
                     if (ImGui::Button("AddOnScreenCounter_5D3220") && v <= 3)
                     {
-                        gHud_2B00_706620->mPagers.AddOnScreenCounter_5D3220(&v);
+                        gHud_2B00_706620->mPagers.AddOnScreenCounter(&v);
                     }
 
                     if (gHud_2B00_706620->mPagers.mPagersArray[1].mPtrCounter)
@@ -2453,15 +2453,15 @@ void CC ImGuiDebugDraw()
             {
                 if (ImGui::Button("Player invisible Ian Test 8"))
                 {
-                    gPedManager_6787BC->DoIanTest_471060(8);
+                    gPedManager_6787BC->DoIanTest(8);
                 }
                 if (ImGui::Button("Player visible Ian Test 9"))
                 {
-                    gPedManager_6787BC->DoIanTest_471060(9);
+                    gPedManager_6787BC->DoIanTest(9);
                 }
                 if (ImGui::Button("Set player on fire PIan Test 10"))
                 {
-                    gPedManager_6787BC->DoIanTest_471060(10);
+                    gPedManager_6787BC->DoIanTest(10);
                 }
 
                 ImGui::Text("field_0_max_dummy_chars %d", gPedManager_6787BC->mMaxDummyChars);
@@ -2491,8 +2491,8 @@ void CC ImGuiDebugDraw()
                     {
                         if (pIter != GetPlayerPed())
                         {
-                            pIter->ChangeNextPedState1_45C500(ped_state);
-                            pIter->ChangeNextPedState2_45C540(move_state);
+                            pIter->ChangeNextPedState1(ped_state);
+                            pIter->ChangeNextPedState2(move_state);
                         }
                         pIter = pIter->mpNext;
                     }
@@ -2506,7 +2506,7 @@ void CC ImGuiDebugDraw()
                         if (1) // pPedIter->mGameObject
                         {
                             swprintf(tmpBuff_67BD9C, L"%d", pPedIter->mPedType);
-                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
+                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite(), 0, 0);
                         }
                         pPedIter = pPedIter->mpNext;
                     }
@@ -2558,47 +2558,47 @@ void CC ImGuiDebugDraw()
                             swprintf(tmpBuff_67BD9C, L"(%d, %d)", 
                             pPedIter->mBf21C.bPanicking,
                             pPedIter->mBf21C.bAttacking);
-                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
+                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite(), 0, 0);
                         }
                         else if (pPedIter->mObjective == objectives_enum::run_to_char_7)
                         {
-                            DisplayTextAtSprite("Obj 7", pPedIter->GetSprite_46DF50(), 0, 0);
+                            DisplayTextAtSprite("Obj 7", pPedIter->GetSprite(), 0, 0);
                         }
                         else if (pPedIter->mObjective == objectives_enum::left_behind_by_leader_8)
                         {
-                            DisplayTextAtSprite("Obj 8", pPedIter->GetSprite_46DF50(), 0, 0);
+                            DisplayTextAtSprite("Obj 8", pPedIter->GetSprite(), 0, 0);
                         }
                         else if (pPedIter->mObjective == objectives_enum::follow_char_9)
                         {
-                            DisplayTextAtSprite("Obj 9", pPedIter->GetSprite_46DF50(), 0, 0);
+                            DisplayTextAtSprite("Obj 9", pPedIter->GetSprite(), 0, 0);
                         }
                         else if (pPedIter->mObjective == objectives_enum::follow_char_in_car_10) 
                         {
-                            DisplayTextAtSprite("Obj 10", pPedIter->GetSprite_46DF50(), 0, 0);
+                            DisplayTextAtSprite("Obj 10", pPedIter->GetSprite(), 0, 0);
                         }
                         else if (pPedIter->mObjective == objectives_enum::stay_close_to_char_11) 
                         {
-                            DisplayTextAtSprite("Obj 11", pPedIter->GetSprite_46DF50(), 0, 0);
+                            DisplayTextAtSprite("Obj 11", pPedIter->GetSprite(), 0, 0);
                         }
                         else if (pPedIter->mObjective == objectives_enum::follow_path_points_15) 
                         {
-                            DisplayTextAtSprite("Obj 15", pPedIter->GetSprite_46DF50(), 0, 0);
+                            DisplayTextAtSprite("Obj 15", pPedIter->GetSprite(), 0, 0);
                         }
                         else if (pPedIter->mObjective == objectives_enum::walk_to_point_17) 
                         {
-                            DisplayTextAtSprite("Obj 17", pPedIter->GetSprite_46DF50(), 0, 0);
+                            DisplayTextAtSprite("Obj 17", pPedIter->GetSprite(), 0, 0);
                         }
                         else if (pPedIter->mObjective == objectives_enum::walk_to_car_door_18) 
                         {
-                            DisplayTextAtSprite("Obj 18", pPedIter->GetSprite_46DF50(), 0, 0);
+                            DisplayTextAtSprite("Obj 18", pPedIter->GetSprite(), 0, 0);
                         }
                         else if (pPedIter->mObjective == objectives_enum::dead_patient_28) 
                         {
-                            DisplayTextAtSprite("Obj 28", pPedIter->GetSprite_46DF50(), 0, 0);
+                            DisplayTextAtSprite("Obj 28", pPedIter->GetSprite(), 0, 0);
                         }
                         else if (pPedIter->mObjective == objectives_enum::patrol_in_car_43) 
                         {
-                            DisplayTextAtSprite("Obj 43", pPedIter->GetSprite_46DF50(), 0, 0);
+                            DisplayTextAtSprite("Obj 43", pPedIter->GetSprite(), 0, 0);
                         }
                         pPedIter = pPedIter->mpNext;
                     }
@@ -2612,7 +2612,7 @@ void CC ImGuiDebugDraw()
                         if (pPedIter->mGameObject)
                         {
                             swprintf(tmpBuff_67BD9C, L"%d", pPedIter->mGameObject->mIsCollidingWithSprite);
-                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
+                            DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite(), 0, 0);
                         }
                         pPedIter = pPedIter->mpNext;
                     }
@@ -2751,7 +2751,7 @@ void CC ImGuiDebugDraw()
                             if (pCrew->mSubObj && pCrew->mSubObj->mGroup && pCrew->mSubObj->mGroup->mPedLeader)
                             {
                                 swprintf(tmpBuff_67BD9C, L"State %d", pCrew->mState);
-                                DisplayWideTextAtSprite(tmpBuff_67BD9C, pCrew->mSubObj->mGroup->mPedLeader->GetSprite_46DF50(), 0, 0);
+                                DisplayWideTextAtSprite(tmpBuff_67BD9C, pCrew->mSubObj->mGroup->mPedLeader->GetSprite(), 0, 0);
                             }
                             ypos += 16;
                         }
@@ -2782,11 +2782,11 @@ void CC ImGuiDebugDraw()
             Fix16 player_ypos;
             Fix16 player_zpos;
             GetPlayerPos(player_xpos, player_ypos, player_zpos);
-            gmp_block_info* pPlayerBlock = gMap_0x370_6F6268->GetBlock_4DFE10(player_xpos.ToInt(), player_ypos.ToInt(), player_zpos.ToInt() - 1);
+            gmp_block_info* pPlayerBlock = gMap_0x370_6F6268->GetBlock(player_xpos.ToInt(), player_ypos.ToInt(), player_zpos.ToInt() - 1);
             if (pPlayerBlock)
             {
-                s32 value_1 = gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pPlayerBlock, 0);
-                s32 value_2 = gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pPlayerBlock, 1);
+                s32 value_1 = gMap_0x370_6F6268->GetArrowDirectionFromBlock(pPlayerBlock, 0);
+                s32 value_2 = gMap_0x370_6F6268->GetArrowDirectionFromBlock(pPlayerBlock, 1);
                 ImGui::Value("GetArrowDirectionFromBlock_4E5FC0 type 0", value_1);
                 ImGui::Value("GetArrowDirectionFromBlock_4E5FC0 type 1", value_2);
             }
@@ -2800,18 +2800,18 @@ void CC ImGuiDebugDraw()
                 gPathFinder_6FDEF0->mXpos25 = xpos;
                 gPathFinder_6FDEF0->mYpos26 = ypos;
                 gPathFinder_6FDEF0->mZpos27 = zpos;
-                ImGui::Value("PathFinder Direction 1", gPathFinder_6FDEF0->CanMoveInDirection_554080(path_direction::up_1));
-                ImGui::Value("PathFinder Direction 2", gPathFinder_6FDEF0->CanMoveInDirection_554080(path_direction::down_2));
-                ImGui::Value("PathFinder Direction 3", gPathFinder_6FDEF0->CanMoveInDirection_554080(path_direction::right_3));
-                ImGui::Value("PathFinder Direction 4", gPathFinder_6FDEF0->CanMoveInDirection_554080(path_direction::left_4));
+                ImGui::Value("PathFinder Direction 1", gPathFinder_6FDEF0->CanMoveInDirection(path_direction::up_1));
+                ImGui::Value("PathFinder Direction 2", gPathFinder_6FDEF0->CanMoveInDirection(path_direction::down_2));
+                ImGui::Value("PathFinder Direction 3", gPathFinder_6FDEF0->CanMoveInDirection(path_direction::right_3));
+                ImGui::Value("PathFinder Direction 4", gPathFinder_6FDEF0->CanMoveInDirection(path_direction::left_4));
             }
             
             u8 slope_z_delta;
             static bool bReportStepUp;
-            ImGui::Value("Can Move Dir 1", gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(xpos, ypos, zpos, path_direction::up_1, &slope_z_delta, bReportStepUp));
-            ImGui::Value("Can Move Dir 2", gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(xpos, ypos, zpos, path_direction::down_2, &slope_z_delta, bReportStepUp));
-            ImGui::Value("Can Move Dir 3", gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(xpos, ypos, zpos, path_direction::right_3, &slope_z_delta, bReportStepUp));
-            ImGui::Value("Can Move Dir 4", gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(xpos, ypos, zpos, path_direction::left_4, &slope_z_delta, bReportStepUp));
+            ImGui::Value("Can Move Dir 1", gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked(xpos, ypos, zpos, path_direction::up_1, &slope_z_delta, bReportStepUp));
+            ImGui::Value("Can Move Dir 2", gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked(xpos, ypos, zpos, path_direction::down_2, &slope_z_delta, bReportStepUp));
+            ImGui::Value("Can Move Dir 3", gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked(xpos, ypos, zpos, path_direction::right_3, &slope_z_delta, bReportStepUp));
+            ImGui::Value("Can Move Dir 4", gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked(xpos, ypos, zpos, path_direction::left_4, &slope_z_delta, bReportStepUp));
             ImGui::TreePop();
         }
 
@@ -2906,7 +2906,7 @@ void CC ImGuiDebugDraw()
             if (ImGui::Button("Create Particle"))
             {
                 particle_velocity.FromPolar_41E210(speed, pPlayerSprite->mRotation);
-                Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(particle_velocity.x, particle_velocity.y, speed_z, 0, 0, 0);
+                Particle_4C* pParticle = gParticle_8_6FD5E8->New(particle_velocity.x, particle_velocity.y, speed_z, 0, 0, 0);
 
                 if (pParticle)
                 {
@@ -2931,35 +2931,35 @@ void CC ImGuiDebugDraw()
                 xOff.FromInt(1);
 
                 // From player when stood idle
-                gParticle_8_6FD5E8->SpawnCigaretteSmokePuff_5406B0(pPlayerSprite, 1);
-                gParticle_8_6FD5E8->SpawnCigaretteSmokePuff_5406B0(pPlayerSprite, 0);
+                gParticle_8_6FD5E8->SpawnCigaretteSmokePuff(pPlayerSprite, 1);
+                gParticle_8_6FD5E8->SpawnCigaretteSmokePuff(pPlayerSprite, 0);
 
                 // Drowning peds/cars in water etc
-                gParticle_8_6FD5E8->EmitWaterSplash_53F060(pPlayerSprite->mXy.x,
+                gParticle_8_6FD5E8->EmitWaterSplash(pPlayerSprite->mXy.x,
                                                            pPlayerSprite->mXy.y,
                                                            pPlayerSprite->mZpos,
                                                            0,
                                                            false);
 
-                gParticle_8_6FD5E8->GunMuzzelFlash_53E970(pPlayerSprite);
+                gParticle_8_6FD5E8->GunMuzzelFlash(pPlayerSprite);
 
-                // The electro gun's arc segments (DrawElectricArc_5DE910)
+                // The electro gun's arc segments (DrawElectricArc)
                 gParticle_8_6FD5E8->EmitElectricArcParticle(pPlayerSprite->mXy.x,
                                                             pPlayerSprite->mXy.y,
                                                             pPlayerSprite->mZpos,
                                                             0);
 
-                gParticle_8_6FD5E8->EmitFireTruckSprayParticle_53FAE0(pPlayerSprite);
-                gParticle_8_6FD5E8->EmitFlameStreamSegment_53F4C0(pPlayerSprite);
+                gParticle_8_6FD5E8->EmitFireTruckSprayParticle(pPlayerSprite);
+                gParticle_8_6FD5E8->EmitFlameStreamSegment(pPlayerSprite);
 
                 // When being shot etc
-                gParticle_8_6FD5E8->EmitBloodBurst_53E450(pPlayerSprite->mXy.x,
+                gParticle_8_6FD5E8->EmitBloodBurst(pPlayerSprite->mXy.x,
                                                           pPlayerSprite->mXy.y,
                                                           pPlayerSprite->mZpos,
                                                           0);
 
                 // Like when a car crashes
-                gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pPlayerSprite->mXy.x,
+                gParticle_8_6FD5E8->EmitImpactParticles(pPlayerSprite->mXy.x,
                                                                pPlayerSprite->mXy.y,
                                                                pPlayerSprite->mZpos,
                                                                Fix16_Point(0, 0));
@@ -3160,9 +3160,9 @@ void CC ImGuiDebugDraw()
                 // fix softlock crashes after trying to change player name in standalone
                 if (ImGui::Button("Set Player"))
                 {
-                    gGameSession_67E8E0.SetPlySlotIdx_4C5920(player_idx);
-                    gFrontend_67DC84->UpdateMenuForCurrPlayer_4B42E0();
-                    gRegistry_6FF968.Set_Player_Setting_5878C0("plyrslot", player_idx);
+                    gGameSession_67E8E0.SetPlySlotIdx(player_idx);
+                    gFrontend_67DC84->UpdateMenuForCurrPlayer();
+                    gRegistry_6FF968.Set_Player_Setting("plyrslot", player_idx);
                 }
                 ImGui::TreePop();
             }

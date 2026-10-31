@@ -40,7 +40,7 @@ static inline bool is_line_break_or_space(wchar_t letter)
 }
 
 MATCH_FUNC(0x4D5DA0)
-void KeyboardLayout::ReadCfg_4D5DA0(FILE* Stream, wchar_t* pOut)
+void KeyboardLayout::ReadCfg(FILE* Stream, wchar_t* pOut)
 {
     u8 i = 0;
     for (;;)
@@ -57,10 +57,10 @@ void KeyboardLayout::ReadCfg_4D5DA0(FILE* Stream, wchar_t* pOut)
 
 
 MATCH_FUNC(0x4D5E00)
-void KeyboardLayout::LoadKbCfg_4D5E00()
+void KeyboardLayout::LoadKbCfg()
 {
     mKeyBoardLayout = 0;
-    mKeyBoardLayout = GetLayout_4D6000();
+    mKeyBoardLayout = GetLayout();
 
     char_type FileName[128];
     const char_type* pKeyboardCfgFile;
@@ -110,7 +110,7 @@ void KeyboardLayout::LoadKbCfg_4D5E00()
     for (s32 i = 0; i < 256; i++)
     {
         wchar_t token[16];
-        ReadCfg_4D5DA0(hConfigFile, token);
+        ReadCfg(hConfigFile, token);
         if (token[0] == '~')
         {
             mKeys[i] = 0;
@@ -129,14 +129,14 @@ void KeyboardLayout::LoadKbCfg_4D5E00()
 }
 
 MATCH_FUNC(0x4D5F40)
-wchar_t KeyboardLayout::GetKey_4D5F40(u16 key_idx)
+wchar_t KeyboardLayout::GetKey(u16 key_idx)
 {
     return mKeys[key_idx];
 }
 
 
 MATCH_FUNC(0x4D5F50)
-void __stdcall KeyboardLayout::create_4D5F50()
+void __stdcall KeyboardLayout::create()
 {
     if (!gKeybrd_0x204_6F52F4)
     {
@@ -146,11 +146,11 @@ void __stdcall KeyboardLayout::create_4D5F50()
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\keybrd.cpp", 244);
         }
     }
-    gKeybrd_0x204_6F52F4->LoadKbCfg_4D5E00();
+    gKeybrd_0x204_6F52F4->LoadKbCfg();
 }
 
 MATCH_FUNC(0x4D5FA0)
-void KeyboardLayout::destroy_4D5FA0()
+void KeyboardLayout::destroy()
 {
     if (gKeybrd_0x204_6F52F4)
     {
@@ -161,28 +161,28 @@ void KeyboardLayout::destroy_4D5FA0()
 
 
 MATCH_FUNC(0x4D5FD0)
-void KeyboardLayout::RecreateIfLayoutChanged_4D5FD0()
+void KeyboardLayout::RecreateIfLayoutChanged()
 {
     if (gKeybrd_0x204_6F52F4)
     {
         s32 curLayout = gKeybrd_0x204_6F52F4->mKeyBoardLayout;
-        if (curLayout == KeyboardLayout::GetLayout_4D6000())
+        if (curLayout == KeyboardLayout::GetLayout())
         {
             return;
         }
-        KeyboardLayout::destroy_4D5FA0();
-        KeyboardLayout::create_4D5F50();
+        KeyboardLayout::destroy();
+        KeyboardLayout::create();
     }
     else
     {
-        KeyboardLayout::create_4D5F50();
+        KeyboardLayout::create();
     }
 }
 
 // __stdcall, not __cdecl: with __cdecl VC6 gives the loads after GetKeyboardLayoutNameA no call-clobber
 // latency, so the KLID byte loads are scheduled before `lea &Buffer` (see matching_quirks.md)
 MATCH_FUNC(0x4D6000)
-s32 __stdcall KeyboardLayout::GetLayout_4D6000()
+s32 __stdcall KeyboardLayout::GetLayout()
 {
     s32 result;
     char_type Buffer[4];

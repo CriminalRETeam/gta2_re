@@ -30,9 +30,9 @@ class Light
 
     EXPORT ~Light();
 
-    EXPORT void AddToGrid_4D6D70();
+    EXPORT void AddToGrid();
 
-    EXPORT Light* RemoveFromGrid_4D6DC0();
+    EXPORT Light* RemoveFromGrid();
 
     // 0x45B330
     s32 PoolUpdate()
@@ -46,7 +46,7 @@ class Light
                 mTimer = mOffTime;
                 if (mFlickerRange)
                 {
-                    mTimer += gRng_6F6784.get_uint8_4F7B70(mFlickerRange);
+                    mTimer += gRng_6F6784.get_uint8(mFlickerRange);
                 }
             }
             else
@@ -57,7 +57,7 @@ class Light
                 mTimer = mOnTime;
                 if (mFlickerRange)
                 {
-                    mTimer += gRng_6F6784.get_uint8_4F7B70(mFlickerRange);
+                    mTimer += gRng_6F6784.get_uint8(mFlickerRange);
                 }
             }
         }
@@ -97,11 +97,11 @@ class Light
 
     void SetPosition_482D30(Fix16 x, Fix16 y, Fix16 z)
     {
-        RemoveFromGrid_4D6DC0();
+        RemoveFromGrid();
         mX = x;
         mY = y;
         mZ = z;
-        AddToGrid_4D6D70();
+        AddToGrid();
     }
 
     LightIntensityRadius mIntensityRadius; // 0x0: low byte: current intensity, second byte: radius
@@ -124,9 +124,9 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Light, 0x28);
 class LightGrid
 {
   public:
-    EXPORT static void __stdcall AllocGrid_4D6E00();
+    EXPORT static void __stdcall AllocGrid();
 
-    EXPORT static void FreeGrid_4D6E30();
+    EXPORT static void FreeGrid();
 
-    EXPORT static void __stdcall SubmitLightsInArea_4D6E50(s32 min_x, s32 min_y, s32 max_x, s32 max_y);
+    EXPORT static void __stdcall SubmitLightsInArea(s32 min_x, s32 min_y, s32 max_x, s32 max_y);
 };

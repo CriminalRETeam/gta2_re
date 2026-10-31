@@ -29,7 +29,7 @@ ExplodingScorePool::~ExplodingScorePool()
 }
 
 MATCH_FUNC(0x596860)
-s16 ExplodingScorePool::NextPalette_596860()
+s16 ExplodingScorePool::NextPalette()
 {
     mLastPalette++;
     if (mLastPalette > 13u)
@@ -40,13 +40,13 @@ s16 ExplodingScorePool::NextPalette_596860()
 }
 
 MATCH_FUNC(0x596880)
-void ExplodingScorePool::IncrementFreeScores_596880()
+void ExplodingScorePool::IncrementFreeScores()
 {
     mFreeScores++;
 }
 
 MATCH_FUNC(0x596890)
-void ExplodingScorePool::PushScore_596890(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score)
+void ExplodingScorePool::PushScore(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score)
 {
     if (this->mFreeScores == 0)
     {
@@ -72,24 +72,24 @@ void ExplodingScorePool::PushScore_596890(Fix16 xpos, Fix16 ypos, Fix16 zpos, u3
         if (pNew)
         {
             --this->mFreeScores;
-            pNew->InitScore_596A90(xpos, ypos, zpos, score);
+            pNew->InitScore(xpos, ypos, zpos, score);
         }
     }
 }
 
 MATCH_FUNC(0x596940)
-void ExplodingScorePool::Update_596940()
+void ExplodingScorePool::Update()
 {
     mPool.UpdatePool();
 }
 
 MATCH_FUNC(0x5969e0)
-void ExplodingScorePool::DrawExplodingScores_5969E0()
+void ExplodingScorePool::DrawExplodingScores()
 {
     ExplodingScore* pIter = mPool.GetFirstUsed_4B8FD0();
     while (pIter)
     {
-        pIter->DrawNumbers_596C90();
+        pIter->DrawNumbers();
         pIter = pIter->mpNext;
     }
 }
@@ -129,7 +129,7 @@ void ExplodingScore::PoolDeallocate()
 }
 
 MATCH_FUNC(0x596a70)
-void ExplodingScore::ClearNumbersArrayFrom_596A70(s32 start_idx)
+void ExplodingScore::ClearNumbersArrayFrom(s32 start_idx)
 {
     for (u32 i = start_idx; i > 0; i--)
     {
@@ -138,7 +138,7 @@ void ExplodingScore::ClearNumbersArrayFrom_596A70(s32 start_idx)
 }
 
 MATCH_FUNC(0x596a90)
-void ExplodingScore::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score)
+void ExplodingScore::InitScore(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score)
 {
     u32 remaining_score = score;
 
@@ -149,7 +149,7 @@ void ExplodingScore::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 sc
     {
         this->mHighestDigitIdx = 8;
         this->mDigits[8] = score / 100000000;
-        ClearNumbersArrayFrom_596A70(7);
+        ClearNumbersArrayFrom(7);
         remaining_score = score % 100000000;
     }
 
@@ -160,7 +160,7 @@ void ExplodingScore::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 sc
             this->mHighestDigitIdx = 7;
         }
         this->mDigits[7] = remaining_score / 10000000;
-        ClearNumbersArrayFrom_596A70(6);
+        ClearNumbersArrayFrom(6);
         remaining_score %= 10000000u;
     }
 
@@ -171,7 +171,7 @@ void ExplodingScore::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 sc
             this->mHighestDigitIdx = 6;
         }
         this->mDigits[6] = remaining_score / 1000000;
-        ClearNumbersArrayFrom_596A70(5);
+        ClearNumbersArrayFrom(5);
         remaining_score %= 1000000u;
     }
 
@@ -182,7 +182,7 @@ void ExplodingScore::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 sc
             this->mHighestDigitIdx = 5;
         }
         this->mDigits[5] = remaining_score / 100000;
-        ClearNumbersArrayFrom_596A70(4);
+        ClearNumbersArrayFrom(4);
         remaining_score %= 100000u;
     }
 
@@ -193,7 +193,7 @@ void ExplodingScore::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 sc
             this->mHighestDigitIdx = 4;
         }
         this->mDigits[4] = remaining_score / 10000;
-        ClearNumbersArrayFrom_596A70(3);
+        ClearNumbersArrayFrom(3);
         remaining_score %= 10000u;
     }
 
@@ -204,7 +204,7 @@ void ExplodingScore::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 sc
             this->mHighestDigitIdx = 3;
         }
         this->mDigits[3] = remaining_score / 1000;
-        ClearNumbersArrayFrom_596A70(2);
+        ClearNumbersArrayFrom(2);
         remaining_score %= 1000u;
     }
 
@@ -215,7 +215,7 @@ void ExplodingScore::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 sc
             this->mHighestDigitIdx = 2;
         }
         this->mDigits[2] = remaining_score / 100;
-        ClearNumbersArrayFrom_596A70(1);
+        ClearNumbersArrayFrom(1);
         remaining_score %= 100u;
     }
 
@@ -237,7 +237,7 @@ void ExplodingScore::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 sc
     this->mY = ypos;
     this->mZ = zpos;
 
-    this->mPalette = gExplodingScorePool->NextPalette_596860();
+    this->mPalette = gExplodingScorePool->NextPalette();
 
     this->mAlpha = 25;
     this->mExplodeCounter = 2;
@@ -246,7 +246,7 @@ void ExplodingScore::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 sc
 }
 
 MATCH_FUNC(0x596c90)
-void ExplodingScore::DrawNumbers_596C90()
+void ExplodingScore::DrawNumbers()
 {
     Fix16 screen_x;
     Fix16 screen_y;
@@ -283,75 +283,75 @@ void ExplodingScore::DrawNumbers_596C90()
     switch (this->mHighestDigitIdx)
     {
         case 0:
-            DrawSingleNumber_597100(this->mDigits[0], 10);
+            DrawSingleNumber(this->mDigits[0], 10);
             break;
 
         case 1:
-            DrawSingleNumber_597100(this->mDigits[1], 21);
-            DrawSingleNumber_597100(this->mDigits[0], 0);
+            DrawSingleNumber(this->mDigits[1], 21);
+            DrawSingleNumber(this->mDigits[0], 0);
             break;
 
         case 2:
-            DrawSingleNumber_597100(this->mDigits[2], 31);
-            DrawSingleNumber_597100(this->mDigits[1], 10);
-            DrawSingleNumber_597100(this->mDigits[0], -11);
+            DrawSingleNumber(this->mDigits[2], 31);
+            DrawSingleNumber(this->mDigits[1], 10);
+            DrawSingleNumber(this->mDigits[0], -11);
             break;
 
         case 3:
-            DrawSingleNumber_597100(this->mDigits[3], 42);
-            DrawSingleNumber_597100(this->mDigits[2], 21);
-            DrawSingleNumber_597100(this->mDigits[1], 0);
-            DrawSingleNumber_597100(this->mDigits[0], -21);
+            DrawSingleNumber(this->mDigits[3], 42);
+            DrawSingleNumber(this->mDigits[2], 21);
+            DrawSingleNumber(this->mDigits[1], 0);
+            DrawSingleNumber(this->mDigits[0], -21);
             break;
 
         case 4:
-            DrawSingleNumber_597100(this->mDigits[4], 52);
-            DrawSingleNumber_597100(this->mDigits[3], 31);
-            DrawSingleNumber_597100(this->mDigits[2], 10);
-            DrawSingleNumber_597100(this->mDigits[1], -11);
-            DrawSingleNumber_597100(this->mDigits[0], -32);
+            DrawSingleNumber(this->mDigits[4], 52);
+            DrawSingleNumber(this->mDigits[3], 31);
+            DrawSingleNumber(this->mDigits[2], 10);
+            DrawSingleNumber(this->mDigits[1], -11);
+            DrawSingleNumber(this->mDigits[0], -32);
             break;
 
         case 5:
-            DrawSingleNumber_597100(this->mDigits[5], 63);
-            DrawSingleNumber_597100(this->mDigits[4], 42);
-            DrawSingleNumber_597100(this->mDigits[3], 21);
-            DrawSingleNumber_597100(this->mDigits[2], 0);
-            DrawSingleNumber_597100(this->mDigits[1], -21);
-            DrawSingleNumber_597100(this->mDigits[0], -42);
+            DrawSingleNumber(this->mDigits[5], 63);
+            DrawSingleNumber(this->mDigits[4], 42);
+            DrawSingleNumber(this->mDigits[3], 21);
+            DrawSingleNumber(this->mDigits[2], 0);
+            DrawSingleNumber(this->mDigits[1], -21);
+            DrawSingleNumber(this->mDigits[0], -42);
             break;
 
         case 6:
-            DrawSingleNumber_597100(this->mDigits[6], 73);
-            DrawSingleNumber_597100(this->mDigits[5], 52);
-            DrawSingleNumber_597100(this->mDigits[4], 31);
-            DrawSingleNumber_597100(this->mDigits[3], 10);
-            DrawSingleNumber_597100(this->mDigits[2], -11);
-            DrawSingleNumber_597100(this->mDigits[1], -32);
-            DrawSingleNumber_597100(this->mDigits[0], -53);
+            DrawSingleNumber(this->mDigits[6], 73);
+            DrawSingleNumber(this->mDigits[5], 52);
+            DrawSingleNumber(this->mDigits[4], 31);
+            DrawSingleNumber(this->mDigits[3], 10);
+            DrawSingleNumber(this->mDigits[2], -11);
+            DrawSingleNumber(this->mDigits[1], -32);
+            DrawSingleNumber(this->mDigits[0], -53);
             break;
 
         case 7:
-            DrawSingleNumber_597100(this->mDigits[7], 84);
-            DrawSingleNumber_597100(this->mDigits[6], 63);
-            DrawSingleNumber_597100(this->mDigits[5], 42);
-            DrawSingleNumber_597100(this->mDigits[4], 21);
-            DrawSingleNumber_597100(this->mDigits[3], 0);
-            DrawSingleNumber_597100(this->mDigits[2], -21);
-            DrawSingleNumber_597100(this->mDigits[1], -42);
-            DrawSingleNumber_597100(this->mDigits[0], -63);
+            DrawSingleNumber(this->mDigits[7], 84);
+            DrawSingleNumber(this->mDigits[6], 63);
+            DrawSingleNumber(this->mDigits[5], 42);
+            DrawSingleNumber(this->mDigits[4], 21);
+            DrawSingleNumber(this->mDigits[3], 0);
+            DrawSingleNumber(this->mDigits[2], -21);
+            DrawSingleNumber(this->mDigits[1], -42);
+            DrawSingleNumber(this->mDigits[0], -63);
             break;
 
         case 8:
-            DrawSingleNumber_597100(this->mDigits[8], 94);
-            DrawSingleNumber_597100(this->mDigits[7], 73);
-            DrawSingleNumber_597100(this->mDigits[6], 52);
-            DrawSingleNumber_597100(this->mDigits[5], 31);
-            DrawSingleNumber_597100(this->mDigits[4], 10);
-            DrawSingleNumber_597100(this->mDigits[3], -11);
-            DrawSingleNumber_597100(this->mDigits[2], -32);
-            DrawSingleNumber_597100(this->mDigits[1], -53);
-            DrawSingleNumber_597100(this->mDigits[0], -74);
+            DrawSingleNumber(this->mDigits[8], 94);
+            DrawSingleNumber(this->mDigits[7], 73);
+            DrawSingleNumber(this->mDigits[6], 52);
+            DrawSingleNumber(this->mDigits[5], 31);
+            DrawSingleNumber(this->mDigits[4], 10);
+            DrawSingleNumber(this->mDigits[3], -11);
+            DrawSingleNumber(this->mDigits[2], -32);
+            DrawSingleNumber(this->mDigits[1], -53);
+            DrawSingleNumber(this->mDigits[0], -74);
             break;
 
         default:
@@ -376,7 +376,7 @@ bool ExplodingScore::PoolUpdate()
         else
         {
             mAlpha = 0;
-            gExplodingScorePool->IncrementFreeScores_596880();
+            gExplodingScorePool->IncrementFreeScores();
             return true;
         }
     }
@@ -389,7 +389,7 @@ bool ExplodingScore::PoolUpdate()
 
 // 9.6f 0x4B92B0
 MATCH_FUNC(0x597100)
-void ExplodingScore::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub)
+void ExplodingScore::DrawSingleNumber(s32 number_to_draw, s32 xpos_sub)
 {
 
     Camera* pCam = &gGame_0x40_67E008->mLocalPlayer->mViewCamera;
@@ -439,7 +439,7 @@ void ExplodingScore::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub)
                 {
                     s32 palette_type = palette_types_enum::user_remaps_7;
                     Fix16 finalScale = pCam->mUiScale * base_scale;
-                    DrawFigure_5D7EC0(sprite_types_enum::user_6,
+                    DrawFigure(sprite_types_enum::user_6,
                                       number_to_draw + 163,
                                       x_to_use,
                                       y_to_use,

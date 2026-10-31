@@ -4,7 +4,7 @@
 MATCH_FUNC(0x484ED0)
 PlayerCrimeStats::PlayerCrimeStats() // 0x484ED0
 {
-    Reset_484EF0();
+    Reset();
 }
 
 MATCH_FUNC(0x484EE0)
@@ -14,7 +14,7 @@ PlayerCrimeStats::~PlayerCrimeStats() // 0x484EE0
 }
 
 MATCH_FUNC(0x484EF0)
-void PlayerCrimeStats::Reset_484EF0()
+void PlayerCrimeStats::Reset()
 {
     bool* pByteIter = mbCountAllowed;
     u32* pIntIter = mCrimeCountList;
@@ -30,13 +30,13 @@ void PlayerCrimeStats::Reset_484EF0()
 }
 
 MATCH_FUNC(0x484F20)
-void PlayerCrimeStats::Service_484F20()
+void PlayerCrimeStats::Service()
 {
-    ResetCrimeCountFlags_484F30();
+    ResetCrimeCountFlags();
 }
 
 MATCH_FUNC(0x484F30)
-void PlayerCrimeStats::ResetCrimeCountFlags_484F30()
+void PlayerCrimeStats::ResetCrimeCountFlags()
 {
     for (u8 i = crime_stats_type::car_damaged_1; i < crime_stats_type::count_10; i++)
     {
@@ -45,7 +45,7 @@ void PlayerCrimeStats::ResetCrimeCountFlags_484F30()
 }
 
 MATCH_FUNC(0x484F50)
-void PlayerCrimeStats::IncrementCrimeCount_484F50(s32 crime_type)
+void PlayerCrimeStats::IncrementCrimeCount(s32 crime_type)
 {
     switch (crime_type)
     {
@@ -73,13 +73,13 @@ void PlayerCrimeStats::IncrementCrimeCount_484F50(s32 crime_type)
 }
 
 MATCH_FUNC(0x484FA0)
-void PlayerCrimeStats::AddCarDamageCost_484FA0(s32 cost)
+void PlayerCrimeStats::AddCarDamageCost(s32 cost)
 {
     mCarDamageCost += cost;
 }
 
 MATCH_FUNC(0x484FB0)
-void PlayerCrimeStats::AddEvasionRating_484FB0(s32 amount)
+void PlayerCrimeStats::AddEvasionRating(s32 amount)
 {
     mEvasionRating += amount;
 }

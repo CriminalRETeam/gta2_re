@@ -19,11 +19,11 @@ enum
 class Generator
 {
   public:
-    EXPORT void Activate_4C1A70();
-    EXPORT s32 next_cycle_4C1AB0() const;
-    EXPORT void SpawnObject_4C1B10();
-    EXPORT void Service_4C1C50();
-    EXPORT void Init_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generator_type, s16 min_delay, s16 max_delay);
+    EXPORT void Activate();
+    EXPORT s32 next_cycle() const;
+    EXPORT void SpawnObject();
+    EXPORT void Service();
+    EXPORT void Init(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generator_type, s16 min_delay, s16 max_delay);
 
     s32 mGenType; // 0x0
     Fix16 mX; // 0x4
@@ -48,9 +48,9 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Generator, 0x2C);
 class GeneratorPool
 {
   public:
-    EXPORT void FinalizeAfterScriptLoad_4C1CD0();
-    EXPORT void GeneratorsService_4C1D70();
-    EXPORT Generator* CreateGenerator_4C1DC0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 type, s16 min_delay, s16 max_delay);
+    EXPORT void FinalizeAfterScriptLoad();
+    EXPORT void GeneratorsService();
+    EXPORT Generator* CreateGenerator(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 type, s16 min_delay, s16 max_delay);
     EXPORT GeneratorPool();
     Generator mPool[120]; // 0x0
     s32 mCount; // 0x14A0

@@ -5,7 +5,7 @@
 class ProfilerTimer
 {
   public:
-    EXPORT void AccumulateElapsed_5BEBF0();
+    EXPORT void AccumulateElapsed();
 
     EXPORT ProfilerTimer();
     EXPORT ~ProfilerTimer();

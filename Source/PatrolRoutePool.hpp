@@ -28,13 +28,13 @@ class PatrolRoute
 
 
     EXPORT ~PatrolRoute();
-    EXPORT void Init_543EC0();
+    EXPORT void Init();
     EXPORT PatrolRoute();
     PatrolPoint mPoints[k_max_points]; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PatrolRoute, 0x96);
 
-// Pool of 50 patrol routes handed out to peds by AllocPatrolList_543F10
+// Pool of 50 patrol routes handed out to peds by AllocPatrolList
 class PatrolRoutePool
 {
   public:
@@ -46,7 +46,7 @@ class PatrolRoutePool
 
     EXPORT ~PatrolRoutePool();
     EXPORT PatrolRoutePool();
-    EXPORT PatrolRoute* AllocPatrolList_543F10(u8* pRouteIdx);
+    EXPORT PatrolRoute* AllocPatrolList(u8* pRouteIdx);
     PatrolRoute mRoutes[k_max_routes]; // 0x0
     bool mbUsed[k_max_routes]; // 0x1D4C
 };

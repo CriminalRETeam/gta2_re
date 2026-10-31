@@ -77,7 +77,7 @@ class PedListNodePool
 class PedManager
 {
   private:
-    EXPORT void SpawnDummies_46EB60(Camera* pCam);
+    EXPORT void SpawnDummies(Camera* pCam);
 
   public:
     STATIC_MEMBER(u8, sSpawnSideLocked);
@@ -85,22 +85,22 @@ class PedManager
     STATIC_MEMBER(s8, sSpawnSide);
     STATIC_MEMBER(s8, sSpawnIndex);
     STATIC_MEMBER(u16, sPedsServiceTickCount);
-    EXPORT void PedsService_4703F0();
+    EXPORT void PedsService();
     EXPORT PedManager();
     EXPORT ~PedManager();
     EXPORT Ped* SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rotation);
-    EXPORT Ped* SpawnDriver_470B00(Car* pCar);
-    EXPORT Ped* SpawnGangDriver_470BA0(Car* pCar, Gang* pGang);
-    EXPORT Ped* CreateDummyDriver_470CC0(Car* pCar);
-    EXPORT Ped* SpawnRunAwayGuy_470D60();
-    EXPORT Ped* SpawnTrainLeaver_470E30();
-    EXPORT Ped* AllocatePed_470F30();
-    EXPORT Ped* ClonePed_470F90(Ped* pSrc);
-    EXPORT void DoIanTest_471060(u16 key);
+    EXPORT Ped* SpawnDriver(Car* pCar);
+    EXPORT Ped* SpawnGangDriver(Car* pCar, Gang* pGang);
+    EXPORT Ped* CreateDummyDriver(Car* pCar);
+    EXPORT Ped* SpawnRunAwayGuy();
+    EXPORT Ped* SpawnTrainLeaver();
+    EXPORT Ped* AllocatePed();
+    EXPORT Ped* ClonePed(Ped* pSrc);
+    EXPORT void DoIanTest(u16 key);
     EXPORT Ped* PedById(s32 pedId);
 
   private:
-    EXPORT void Dummies_470330();
+    EXPORT void Dummies();
 
   public:
     s16 mMaxDummyChars; // 0x0

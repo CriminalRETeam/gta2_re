@@ -8,7 +8,7 @@ DEFINE_GLOBAL(Ped_List, gThreateningPedsList_678468, 0x678468);
 DEFINE_GLOBAL_INIT(Ang16, kAng0_678B40, Ang16(0), 0x678B40);
 
 MATCH_FUNC(0x471140)
-PedListNode* Ped_List::AddPedToFront_471140(Ped* pPed)
+PedListNode* Ped_List::AddPedToFront(Ped* pPed)
 {
     PedListNode* pNew = gChar_8_Pool_678b50->Allocate_445EF0();
 
@@ -21,7 +21,7 @@ PedListNode* Ped_List::AddPedToFront_471140(Ped* pPed)
 }
 
 MATCH_FUNC(0x471160)
-void Ped_List::AddPedToBackIfMissing_471160(Ped* pPed)
+void Ped_List::AddPedToBackIfMissing(Ped* pPed)
 {
     PedListNode* pIter = mpFirstPed;
     PedListNode* pTail = NULL;
@@ -57,7 +57,7 @@ void Ped_List::AddPedToBackIfMissing_471160(Ped* pPed)
 }
 
 MATCH_FUNC(0x4711B0)
-void Ped_List::AddPedToFrontIfMissing_4711B0(Ped* pPed)
+void Ped_List::AddPedToFrontIfMissing(Ped* pPed)
 {
     PedListNode* pIter = mpFirstPed;
     PedListNode* pTail = NULL;
@@ -134,7 +134,7 @@ void Ped_List::RemovePed_471240(Ped* pPed)
 }
 
 MATCH_FUNC(0x471290)
-u8 Ped_List::RemoveNonCorpses_471290()
+u8 Ped_List::RemoveNonCorpses()
 {
     PedListNode* pPrevKept = NULL;
     PedListNode* pIter = mpFirstPed;
@@ -169,7 +169,7 @@ u8 Ped_List::RemoveNonCorpses_471290()
 }
 
 MATCH_FUNC(0x4712F0)
-void Ped_List::ClearPeds_4712F0()
+void Ped_List::ClearPeds()
 {
     PedListNode* pIter = mpFirstPed;
     while (pIter)
@@ -183,7 +183,7 @@ void Ped_List::ClearPeds_4712F0()
 }
 
 MATCH_FUNC(0x471320)
-Ped* Ped_List::RemoveFirstPed_471320()
+Ped* Ped_List::RemoveFirstPed()
 {
     PedListNode* pIter = mpFirstPed;
     if (!pIter)
@@ -201,7 +201,7 @@ Ped* Ped_List::RemoveFirstPed_471320()
 // 9.6f calls MaxAbsDistance_42A6B0 here. By value, with the y difference first, VC6 keeps
 // both differences and the max in registers as the original does.
 MATCH_FUNC(0x471340)
-Ped* Ped_List::FindClosestActivePed_471340(Fix16 x, Fix16 y) const
+Ped* Ped_List::FindClosestActivePed(Fix16 x, Fix16 y) const
 {
     Fix16 closestDistance(99999);
     PedListNode* pIter = this->mpFirstPed;
@@ -225,7 +225,7 @@ Ped* Ped_List::FindClosestActivePed_471340(Fix16 x, Fix16 y) const
 
 // https://decomp.me/scratch/GJ2JR
 MATCH_FUNC(0x4713C0)
-Ped* Ped_List::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 facing, Ang16 half_cone) const
+Ped* Ped_List::FindClosestPedInViewCone(Fix16 x, Fix16 y, Ang16 facing, Ang16 half_cone) const
 {
     Fix16 closestDistance = Fix16(99999);
     PedListNode* pIter = mpFirstPed;
@@ -238,7 +238,7 @@ Ped* Ped_List::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 facing, A
             bool withinCone = false;
             Fix16 distance = Fix16::MaxAbsDistance_42A6B0(x, y, pIter->mCharPed->get_cam_x(), pIter->mCharPed->get_cam_y());
 
-            Ang16 angle_diff = Fix16::atan2_fixed_405320(pIter->mCharPed->get_cam_y() - y, pIter->mCharPed->get_cam_x() - x) - facing;
+            Ang16 angle_diff = Fix16::atan2_fixed(pIter->mCharPed->get_cam_y() - y, pIter->mCharPed->get_cam_x() - x) - facing;
 
             Ang16 neg_half_cone = kAng0_678B40 - half_cone;
 
@@ -257,13 +257,13 @@ Ped* Ped_List::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 facing, A
 }
 
 MATCH_FUNC(0x4715a0)
-void Ped_List::KillAndClearAllPeds_4715A0()
+void Ped_List::KillAndClearAllPeds()
 {
     PedListNode* pIter = mpFirstPed;
     while (pIter)
     {
         PedListNode* pFreed = pIter;
-        pIter->mCharPed->Kill_46F9D0();
+        pIter->mCharPed->Kill();
         pIter = pIter->mpNext;
         gChar_8_Pool_678b50->DeAllocate_445F00(pFreed);
     }
@@ -272,13 +272,13 @@ void Ped_List::KillAndClearAllPeds_4715A0()
 }
 
 MATCH_FUNC(0x4715e0)
-void Ped_List::KillAndClearAllPedsResetCarRef_4715E0()
+void Ped_List::KillAndClearAllPedsResetCarRef()
 {
     PedListNode* pIter = mpFirstPed;
     while (pIter)
     {
         PedListNode* pFreed = pIter;
-        pIter->mCharPed->Kill_46F9D0();
+        pIter->mCharPed->Kill();
         pIter->mCharPed->mCar = NULL;
         pIter = pIter->mpNext;
         gChar_8_Pool_678b50->DeAllocate_445F00(pFreed);
@@ -288,13 +288,13 @@ void Ped_List::KillAndClearAllPedsResetCarRef_4715E0()
 }
 
 MATCH_FUNC(0x471630)
-void Ped_List::ApplyPassengerBusStopBehavior_471630()
+void Ped_List::ApplyPassengerBusStopBehavior()
 {
     for (PedListNode* pIter = mpFirstPed; pIter; pIter = pIter->mpNext)
     {
         if (pIter->mCharPed->get_occupation_403980() == ped_ocupation_enum::bus_customer_8)
         {
-            pIter->mCharPed->SetObjective2_463830(objectives_enum::no_obj_0);
+            pIter->mCharPed->SetObjective2(objectives_enum::no_obj_0);
             pIter->mCharPed->SetObjective(objectives_enum::leave_car_and_flee_34);
             pIter->mCharPed->SetTargetObjectiveCar(pIter->mCharPed->mCar);
         }
@@ -302,7 +302,7 @@ void Ped_List::ApplyPassengerBusStopBehavior_471630()
 }
 
 MATCH_FUNC(0x471680)
-void Ped_List::ForceTaxiPassengersToExit_471680()
+void Ped_List::ForceTaxiPassengersToExit()
 {
     for (PedListNode* pIter = mpFirstPed; pIter; pIter = pIter->mpNext)
     {
@@ -314,7 +314,7 @@ void Ped_List::ForceTaxiPassengersToExit_471680()
 }
 
 MATCH_FUNC(0x4716b0)
-u16 Ped_List::GetPedsCount_4716B0() const
+u16 Ped_List::GetPedsCount() const
 {
     u16 count;
     PedListNode* pIter = mpFirstPed;
@@ -326,7 +326,7 @@ u16 Ped_List::GetPedsCount_4716B0() const
 }
 
 MATCH_FUNC(0x4716d0)
-void Ped_List::SyncPassengersWithCarState_4716D0(Car* pCar)
+void Ped_List::SyncPassengersWithCarState(Car* pCar)
 {
     for (PedListNode* pIter = mpFirstPed; pIter; pIter = pIter->mpNext)
     {
@@ -337,7 +337,7 @@ void Ped_List::SyncPassengersWithCarState_4716D0(Car* pCar)
 }
 
 MATCH_FUNC(0x471710)
-bool Ped_List::HasScriptCreatedPed_471710() const
+bool Ped_List::HasScriptCreatedPed() const
 {
     PedListNode* pIter = mpFirstPed;
     while (pIter)

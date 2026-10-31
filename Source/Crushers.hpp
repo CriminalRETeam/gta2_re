@@ -40,9 +40,9 @@ class Crusher
 
     EXPORT Crusher();
     EXPORT ~Crusher();
-    EXPORT void CrushCar_488310(Car* pCar);
-    EXPORT void Service_488350();
-    EXPORT void InitCrusher_4885A0(Fix16 xpos, Fix16 ypos, char_type crusher_idx);
+    EXPORT void CrushCar(Car* pCar);
+    EXPORT void Service();
+    EXPORT void InitCrusher(Fix16 xpos, Fix16 ypos, char_type crusher_idx);
 
     Car* GetCarBeingCrushed() const 
     {
@@ -76,10 +76,10 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Crusher, 0x30);
 class CrusherPool
 {
   public:
-    EXPORT bool IsCarBeingCrushed_4887A0(Car* pCar);
-    EXPORT void CrushCarWithCrusher_4887D0(Car* pCar, u8 crusher_idx);
-    EXPORT void CrushersService_4887F0();
-    EXPORT Crusher* CreateCrusher_488820(Fix16 xpos, Fix16 ypos);
+    EXPORT bool IsCarBeingCrushed(Car* pCar);
+    EXPORT void CrushCarWithCrusher(Car* pCar, u8 crusher_idx);
+    EXPORT void CrushersService();
+    EXPORT Crusher* CreateCrusher(Fix16 xpos, Fix16 ypos);
     EXPORT CrusherPool();
     EXPORT ~CrusherPool();
 

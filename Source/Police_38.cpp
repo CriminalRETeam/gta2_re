@@ -26,7 +26,7 @@ DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpEight, Fix16(8), 0x6FED48);
 MATCH_FUNC(0x4beb30)
 PoliceCrew::PoliceCrew()
 {
-    Init_5709C0();
+    Init();
 }
 
 MATCH_FUNC(0x4beb40)
@@ -35,7 +35,7 @@ PoliceCrew::~PoliceCrew()
 }
 
 MATCH_FUNC(0x5709c0)
-void PoliceCrew::Init_5709C0()
+void PoliceCrew::Init()
 {
     mTargX = 0;
     mTargY = 0;
@@ -58,7 +58,7 @@ void PoliceCrew::Init_5709C0()
 }
 
 MATCH_FUNC(0x570a10)
-void PoliceCrew::AddToPursuit_570A10()
+void PoliceCrew::AddToPursuit()
 {
     if (mpPursuitTarget->mNumCrews < 6)
     {
@@ -92,7 +92,7 @@ void PoliceCrew::AddToPursuit_570A10()
 }
 
 MATCH_FUNC(0x570ab0)
-void PoliceCrew::RemoveFromPursuit_570AB0()
+void PoliceCrew::RemoveFromPursuit()
 {
     if (!mUsed || (mState != police_crew_state::none_0 
         && mState != police_crew_state::patrol_1 
@@ -142,13 +142,13 @@ void PoliceCrew::RemoveFromPursuit_570AB0()
 }
 
 MATCH_FUNC(0x570bf0)
-void PoliceCrew::SpawnPoliceInCar_570BF0()
+void PoliceCrew::SpawnPoliceInCar()
 {
-    PedGroup* pGroup = PedGroup::New_4CB0D0();
-    Ped* pCopLeader = gPedManager_6787BC->AllocatePed_470F30();
+    PedGroup* pGroup = PedGroup::New();
+    Ped* pCopLeader = gPedManager_6787BC->AllocatePed();
     pCopLeader->SetPedType_403920(ped_type::special_ped_4);
     pCopLeader->set_occupation_403970(ped_ocupation_enum::police);
-    pCopLeader->SpawnPedInCar_45C730(mSubObj->mCar);
+    pCopLeader->SpawnPedInCar(mSubObj->mCar);
     pCopLeader->SetObjective(objectives_enum::goto_area_in_car_14, 0);
     pCopLeader->mObjectiveTargetX = Fix16(mTargX);
     pCopLeader->mObjectiveTargetY = Fix16(mTargY);
@@ -163,17 +163,17 @@ void PoliceCrew::SpawnPoliceInCar_570BF0()
         case cop_level_enum::none_0:
         case cop_level_enum::police_1:
             pCopLeader->mSelectedWeapon = NULL;
-            pCopLeader->GiveWeapon_46F650(weapon_type::pistol);
+            pCopLeader->GiveWeapon(weapon_type::pistol);
             pCopLeader->set_health_4039A0(50);
             pCopLeader->mMaxSpeed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
             break;
         case cop_level_enum::police_2:
-            pCopLeader->GiveWeapon_46F650(weapon_type::pistol);
+            pCopLeader->GiveWeapon(weapon_type::pistol);
             pCopLeader->set_health_4039A0(100);
             pCopLeader->mMaxSpeed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
             break;
         default:
-            pCopLeader->GiveWeapon_46F650(weapon_type::pistol);
+            pCopLeader->GiveWeapon(weapon_type::pistol);
             pCopLeader->set_health_4039A0(100);
             break;
     }
@@ -181,8 +181,8 @@ void PoliceCrew::SpawnPoliceInCar_570BF0()
     pCopLeader->mThreatSearch = threat_search_enum::line_of_sight_1;
     pCopLeader->mThreatReaction = threat_reaction_enum::react_as_emergency_1;
 
-    Ped* pCopSupporter = gPedManager_6787BC->AllocatePed_470F30();
-    pCopSupporter->EnterCarAsPassenger_45C7F0(mSubObj->mCar);
+    Ped* pCopSupporter = gPedManager_6787BC->AllocatePed();
+    pCopSupporter->EnterCarAsPassenger(mSubObj->mCar);
     pCopSupporter->SetPedType_403920(ped_type::special_ped_4);
     pCopSupporter->set_occupation_403970(ped_ocupation_enum::police);
     pCopSupporter->SetObjective(objectives_enum::no_obj_0);
@@ -192,17 +192,17 @@ void PoliceCrew::SpawnPoliceInCar_570BF0()
     {
         case cop_level_enum::police_1:
             pCopSupporter->mSelectedWeapon = NULL;
-            pCopSupporter->GiveWeapon_46F650(weapon_type::pistol);
+            pCopSupporter->GiveWeapon(weapon_type::pistol);
             pCopSupporter->mHealth = 50;
             pCopSupporter->mMaxSpeed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
             break;
         case cop_level_enum::police_2:
-            pCopSupporter->GiveWeapon_46F650(weapon_type::pistol);
+            pCopSupporter->GiveWeapon(weapon_type::pistol);
             pCopSupporter->mHealth = 100;
             pCopSupporter->mMaxSpeed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
             break;
         default:
-            pCopSupporter->GiveWeapon_46F650(weapon_type::pistol);
+            pCopSupporter->GiveWeapon(weapon_type::pistol);
             pCopSupporter->mHealth = 100;
             break;
     }
@@ -210,78 +210,78 @@ void PoliceCrew::SpawnPoliceInCar_570BF0()
     pCopSupporter->mThreatSearch = threat_search_enum::line_of_sight_1;
     pCopSupporter->mThreatReaction = threat_reaction_enum::react_as_emergency_1;
     pCopSupporter->mGraphicType = ped_graphic_type::cop_2;
-    pGroup->add_ped_leader_4C9B10(pCopLeader);
+    pGroup->add_ped_leader(pCopLeader);
     pGroup->SetCounts_433360(1);
-    pGroup->add_ped_to_list_4C9B30(pCopSupporter, 0);
+    pGroup->add_ped_to_list(pCopSupporter, 0);
     pGroup->mRemoveDeadMembers = false;
     mSubObj->mPed = pCopLeader;
     mSubObj->mState = crew_state::update_6;
     mSubObj->mCar->SetDriverPedType_421560(ped_type::script_created_5);
-    mSubObj->mCar->InitCarAIControl_440590();
-    mSubObj->mCar->ResumeAIDriving_43AF40();
-    mSubObj->mCar->ActivateEmergencyLights_43C920();
+    mSubObj->mCar->InitCarAIControl();
+    mSubObj->mCar->ResumeAIDriving();
+    mSubObj->mCar->ActivateEmergencyLights();
     mSubObj->mGroup = pGroup;
 }
 
 MATCH_FUNC(0x570e30)
-void PoliceCrew::SpawnSWAT_570E30()
+void PoliceCrew::SpawnSWAT()
 {
-    PedGroup* pSwatGroup = PedGroup::New_4CB0D0();
-    Ped* pSwatLeader = gPedManager_6787BC->AllocatePed_470F30();
+    PedGroup* pSwatGroup = PedGroup::New();
+    Ped* pSwatLeader = gPedManager_6787BC->AllocatePed();
     pSwatLeader->SetPedType_403920(ped_type::special_ped_4);
     pSwatLeader->set_occupation_403970(ped_ocupation_enum::swat);
-    pSwatLeader->SpawnPedInCar_45C730(mSubObj->mCar);
+    pSwatLeader->SpawnPedInCar(mSubObj->mCar);
     pSwatLeader->SetObjective(objectives_enum::goto_area_in_car_14, 0);
     pSwatLeader->mObjectiveTargetX = Fix16(mTargX);
     pSwatLeader->mObjectiveTargetY = Fix16(mTargY);
     pSwatLeader->mObjectiveTargetZ = Fix16(mTargZ);
     pSwatLeader->set_remap_433B90(-1);
-    pSwatLeader->ForceWeapon_46F600(weapon_type::pistol);
+    pSwatLeader->ForceWeapon(weapon_type::pistol);
     pSwatLeader->set_health_4039A0(400);
     pSwatLeader->mThreatSearch = threat_search_enum::line_of_sight_1;
     pSwatLeader->mThreatReaction = threat_reaction_enum::react_as_emergency_1;
     pSwatLeader->mGraphicType = ped_graphic_type::cop_2;
-    pSwatGroup->add_ped_leader_4C9B10(pSwatLeader);
+    pSwatGroup->add_ped_leader(pSwatLeader);
     pSwatGroup->SetCounts_433360(3);
     for (u8 i = 0; i < 3; ++i)
     {
-        Ped* pSwatMember = gPedManager_6787BC->AllocatePed_470F30();
-        pSwatMember->EnterCarAsPassenger_45C7F0(mSubObj->mCar);
+        Ped* pSwatMember = gPedManager_6787BC->AllocatePed();
+        pSwatMember->EnterCarAsPassenger(mSubObj->mCar);
         pSwatMember->SetPedType_403920(ped_type::special_ped_4);
         pSwatMember->set_occupation_403970(ped_ocupation_enum::swat);
         pSwatMember->SetObjective(objectives_enum::no_obj_0);
         pSwatMember->set_remap_433B90(-1);
-        pSwatMember->ForceWeapon_46F600(weapon_type::pistol);
+        pSwatMember->ForceWeapon(weapon_type::pistol);
         pSwatMember->set_health_4039A0(400);
         pSwatMember->mThreatSearch = threat_search_enum::line_of_sight_1;
         pSwatMember->mThreatReaction = threat_reaction_enum::react_as_emergency_1;
         pSwatMember->mGraphicType = ped_graphic_type::cop_2;
 
-        pSwatGroup->add_ped_to_list_4C9B30(pSwatMember, i);
+        pSwatGroup->add_ped_to_list(pSwatMember, i);
     }
     pSwatGroup->mRemoveDeadMembers = false;
     mSubObj->mPed = pSwatLeader;
     mSubObj->mState = crew_state::update_6;
     mSubObj->mCar->SetDriverPedType_421560(ped_type::script_created_5);
-    mSubObj->mCar->InitCarAIControl_440590();
-    mSubObj->mCar->ResumeAIDriving_43AF40();
-    mSubObj->mCar->ActivateEmergencyLights_43C920();
+    mSubObj->mCar->InitCarAIControl();
+    mSubObj->mCar->ResumeAIDriving();
+    mSubObj->mCar->ActivateEmergencyLights();
     mSubObj->mGroup = pSwatGroup;
 }
 
 MATCH_FUNC(0x571150)
-void PoliceCrew::SpawnFBI_nonused_571150()
+void PoliceCrew::SpawnFBI_nonused()
 {
-    Ped* pFBI = gPedManager_6787BC->AllocatePed_470F30();
+    Ped* pFBI = gPedManager_6787BC->AllocatePed();
     pFBI->SetPedType_403920(ped_type::special_ped_4);
     pFBI->set_occupation_403970(ped_ocupation_enum::fbi);
-    pFBI->SpawnPedInCar_45C730(mSubObj->mCar);
+    pFBI->SpawnPedInCar(mSubObj->mCar);
     pFBI->SetObjective(objectives_enum::goto_area_in_car_14, 0);
     pFBI->mObjectiveTargetX = Fix16(mTargX);
     pFBI->mObjectiveTargetY = Fix16(mTargY);
     pFBI->mObjectiveTargetZ = Fix16(mTargZ);
     pFBI->set_remap_433B90(ped_remap_enum::ped_remap_blue_police);
-    pFBI->ForceWeapon_46F600(weapon_type::smg);
+    pFBI->ForceWeapon(weapon_type::smg);
     pFBI->set_health_4039A0(200);
     pFBI->mThreatSearch = threat_search_enum::line_of_sight_1;
     pFBI->mThreatReaction = threat_reaction_enum::react_as_emergency_1;
@@ -289,32 +289,32 @@ void PoliceCrew::SpawnFBI_nonused_571150()
     mSubObj->mPed = pFBI;
     mSubObj->mState = crew_state::update_6;
     mSubObj->mCar->SetDriverPedType_421560(ped_type::script_created_5);
-    mSubObj->mCar->InitCarAIControl_440590();
-    mSubObj->mCar->ResumeAIDriving_43AF40();
-    mSubObj->mCar->ActivateEmergencyLights_43C920();
+    mSubObj->mCar->InitCarAIControl();
+    mSubObj->mCar->ResumeAIDriving();
+    mSubObj->mCar->ActivateEmergencyLights();
     mSubObj->mGroup = NULL;
 }
 
 MATCH_FUNC(0x571350)
-void PoliceCrew::TryDespawnOffscreenCrew_571350()
+void PoliceCrew::TryDespawnOffscreenCrew()
 {
     mState = police_crew_state::despawning_2;
     PedGroup* pGroup = mSubObj->mGroup;
     if (pGroup)
     {
-        if (pGroup->AreAllMembersOffScreen_4C9150())
+        if (pGroup->AreAllMembersOffScreen())
         {
             u8 ped_idx = 0;
             for (Ped* pPedIter = mSubObj->mPed; pPedIter; pPedIter = mSubObj->mGroup->mPedList[ped_idx++])
             {
                 pPedIter->ClearGroupAndGroupIdx_403A30();
-                pPedIter->Deallocate_45EB60();
+                pPedIter->Deallocate();
                 if (!mSubObj->mGroup)
                 {
                     break;
                 }
             }
-            mSubObj->mGroup->ClearGroupData_4C8E90();
+            mSubObj->mGroup->ClearGroupData();
             mSubObj->mState = crew_state::clean_up_5;
             mSubObj->mReady = true;
         }
@@ -326,7 +326,7 @@ void PoliceCrew::TryDespawnOffscreenCrew_571350()
         {
             if (pPed->GetOffscreenCounter_4039F0() >= 0x1Eu)
             {
-                pPed->Deallocate_45EB60();
+                pPed->Deallocate();
                 mSubObj->mState = crew_state::clean_up_5;
                 mSubObj->mReady = true;
             }
@@ -340,7 +340,7 @@ void PoliceCrew::TryDespawnOffscreenCrew_571350()
 }
 
 MATCH_FUNC(0x571540)
-void PoliceCrew::TryDespawnFinishedCrew_571540()
+void PoliceCrew::TryDespawnFinishedCrew()
 {
     Car* pCar = mSubObj->mCar;
     PedGroup* pGroup = mSubObj->mGroup;
@@ -348,19 +348,19 @@ void PoliceCrew::TryDespawnFinishedCrew_571540()
     {
         if (pGroup)
         {
-            if (pCar->GetLastSeenTimer_4A9AD0() > 200 && pGroup->AreAllMembersOffScreen_4C9150())
+            if (pCar->GetLastSeenTimer_4A9AD0() > 200 && pGroup->AreAllMembersOffScreen())
             {
                 u8 ped_idx = 0;
                 for (Ped* pPedIter = mSubObj->mPed; pPedIter; pPedIter = mSubObj->mGroup->mPedList[ped_idx++])
                 {
                     pPedIter->ClearGroupAndGroupIdx_403A30();
-                    pPedIter->Deallocate_45EB60();
+                    pPedIter->Deallocate();
                     if (!mSubObj->mGroup)
                     {
                         break;
                     }
                 }
-                mSubObj->mGroup->ClearGroupData_4C8E90();
+                mSubObj->mGroup->ClearGroupData();
                 mSubObj->mCar->MarkForDespawn_421470();
                 mSubObj->mState = crew_state::clean_up_5;
                 mSubObj->mReady = true;
@@ -373,7 +373,7 @@ void PoliceCrew::TryDespawnFinishedCrew_571540()
             {
                 if (pPed->GetOffscreenCounter_4039F0() > 30 && pCar->GetLastSeenTimer_4A9AD0() > 200)
                 {
-                    pPed->Deallocate_45EB60();
+                    pPed->Deallocate();
                     mSubObj->mCar->MarkForDespawn_421470();
                     mSubObj->mState = crew_state::clean_up_5;
                     mSubObj->mReady = true;
@@ -389,19 +389,19 @@ void PoliceCrew::TryDespawnFinishedCrew_571540()
     }
     else if (pGroup)
     {
-        if (pGroup->AreAllMembersOffScreen_4C9150())
+        if (pGroup->AreAllMembersOffScreen())
         {
             u8 ped_idx = 0;
             for (Ped* pPedIter = mSubObj->mPed; pPedIter; pPedIter = mSubObj->mGroup->mPedList[ped_idx++])
             {
                 pPedIter->ClearGroupAndGroupIdx_403A30();
-                pPedIter->Deallocate_45EB60();
+                pPedIter->Deallocate();
                 if (!mSubObj->mGroup)
                 {
                     break;
                 }
             }
-            mSubObj->mGroup->ClearGroupData_4C8E90();
+            mSubObj->mGroup->ClearGroupData();
             mSubObj->mState = crew_state::clean_up_5;
             mSubObj->mReady = true;
         }
@@ -413,13 +413,13 @@ void PoliceCrew::TryDespawnFinishedCrew_571540()
         {
             if (pPed->GetOffscreenCounter_4039F0() >= 30)
             {
-                pPed->Deallocate_45EB60();
+                pPed->Deallocate();
                 mSubObj->mState = crew_state::clean_up_5;
                 mSubObj->mReady = true;
             }
             else if (pPed->mCar)
             {
-                pPed->Deallocate_45EB60();
+                pPed->Deallocate();
                 mSubObj->mState = crew_state::clean_up_5;
                 mSubObj->mReady = true;
             }
@@ -438,7 +438,7 @@ void PoliceCrew::TryDespawnFinishedCrew_571540()
 }
 
 MATCH_FUNC(0x571a30)
-void PoliceCrew::TryDespawnInCarCrew_571A30()
+void PoliceCrew::TryDespawnInCarCrew()
 {
     Car* pCrewPedCar = sCurrentCrewPed->mCar;
     if (pCrewPedCar && sCurrentCrewPed == pCrewPedCar->mDriver)
@@ -451,7 +451,7 @@ void PoliceCrew::TryDespawnInCarCrew_571A30()
                 return;
             }
 
-            if (pGroup->IsAllMembersInSomeCar_4CAA20())
+            if (pGroup->IsAllMembersInSomeCar())
             {
                 u8 i = 0;
                 for (Ped* pPedIter = mSubObj->mPed; pPedIter; pPedIter = mSubObj->mGroup->mPedList[i++])
@@ -463,7 +463,7 @@ void PoliceCrew::TryDespawnInCarCrew_571A30()
                         break;
                     }
                 }
-                mSubObj->mGroup->ClearGroupData_4C8E90();
+                mSubObj->mGroup->ClearGroupData();
                 mSubObj->mCar->MarkForDespawn_421470();
                 mSubObj->mState = crew_state::clean_up_5;
                 mSubObj->mReady = true;
@@ -471,7 +471,7 @@ void PoliceCrew::TryDespawnInCarCrew_571A30()
             else
             {
                 bool bAllReady = true;
-                mSubObj->mCar->HaltAIDriving_43AF60();
+                mSubObj->mCar->HaltAIDriving();
 
                 PedGroup* pGroup2 = mSubObj->mGroup;
                 u8 j = 0;
@@ -498,10 +498,10 @@ void PoliceCrew::TryDespawnInCarCrew_571A30()
                     if (pPed->mGameObject)
                     {
                         pPed->ClearGroupAndGroupIdx_403A30();
-                        pPed->Deallocate_45EB60();
+                        pPed->Deallocate();
                     }
                 }
-                mSubObj->mGroup->ClearGroupData_4C8E90();
+                mSubObj->mGroup->ClearGroupData();
                 mSubObj->mState = crew_state::clean_up_5;
                 mSubObj->mReady = true;
             }
@@ -522,7 +522,7 @@ void PoliceCrew::TryDespawnInCarCrew_571A30()
         PedGroup* pGroup = mSubObj->mGroup;
         if (pGroup)
         {
-            if (!pGroup->AreAllMembersOffScreen_4C9150())
+            if (!pGroup->AreAllMembersOffScreen())
             {
                 return;
             }
@@ -537,13 +537,13 @@ void PoliceCrew::TryDespawnInCarCrew_571A30()
             for (Ped* pPedIter = mSubObj->mPed; pPedIter; pPedIter = mSubObj->mGroup->mPedList[i++])
             {
                 pPedIter->ClearGroupAndGroupIdx_403A30();
-                pPedIter->Deallocate_45EB60();
+                pPedIter->Deallocate();
                 if (!mSubObj->mGroup)
                 {
                     break;
                 }
             }
-            mSubObj->mGroup->ClearGroupData_4C8E90();
+            mSubObj->mGroup->ClearGroupData();
 
             pCar = mSubObj->mCar;
             if (pCar->mPedType != ped_type::player_2)
@@ -568,7 +568,7 @@ void PoliceCrew::TryDespawnInCarCrew_571A30()
             {
                 pCar->MarkForDespawn_421470();
             }
-            mSubObj->mPed->Deallocate_45EB60();
+            mSubObj->mPed->Deallocate();
             mSubObj->mState = crew_state::clean_up_5;
             mSubObj->mReady = true;
         }
@@ -576,7 +576,7 @@ void PoliceCrew::TryDespawnInCarCrew_571A30()
 }
 
 MATCH_FUNC(0x5720c0)
-void PoliceCrew::HandleShutdownAndDespawn_5720C0()
+void PoliceCrew::HandleShutdownAndDespawn()
 {
     if (mSubObj->mPhase == crew_phase::finished_2)
     {
@@ -591,7 +591,7 @@ void PoliceCrew::HandleShutdownAndDespawn_5720C0()
 
         if (mState != police_crew_state::shutdown_6)
         {
-            UnlinkFromPursuitTarget_575650();
+            UnlinkFromPursuitTarget();
             mState = police_crew_state::shutdown_6;
             return;
         }
@@ -603,22 +603,22 @@ void PoliceCrew::HandleShutdownAndDespawn_5720C0()
 
     if (mSubObj->mPhase == crew_phase::on_foot_0)
     {
-        TryDespawnOffscreenCrew_571350();
+        TryDespawnOffscreenCrew();
     }
     else if (mSubObj->mPhase == crew_phase::finished_2)
     {
-        TryDespawnFinishedCrew_571540();
+        TryDespawnFinishedCrew();
     }
     else
     {
-        TryDespawnInCarCrew_571A30();
+        TryDespawnInCarCrew();
     }
 }
 
 // https://decomp.me/scratch/p2NiN
 // MaxAbsDistance_42A6B0 with a by-value max, which keeps the compare in registers
 MATCH_FUNC(0x572210)
-bool PoliceCrew::CanTrackCriminal_572210() const
+bool PoliceCrew::CanTrackCriminal() const
 {
     if (mpPursuitTarget->mCriminalPed && !mIsDismissed && mpPursuitTarget->mTimer > 0)
     {
@@ -641,7 +641,7 @@ bool PoliceCrew::CanTrackCriminal_572210() const
 }
 
 MATCH_FUNC(0x572340)
-void PoliceCrew::State3_AlertedSearch_572340()
+void PoliceCrew::State3_AlertedSearch()
 {
     bool bSpawned = true;
     u8 idx = 0;
@@ -651,7 +651,7 @@ void PoliceCrew::State3_AlertedSearch_572340()
     {
         if (mSubObj->mState == crew_state::update_6)
         {
-            PoliceCrew::HandleShutdownAndDespawn_5720C0();
+            PoliceCrew::HandleShutdownAndDespawn();
         }
     }
     else if (mSubObj->mReady)
@@ -661,10 +661,10 @@ void PoliceCrew::State3_AlertedSearch_572340()
             switch (mSubObj->mCrewType)
             {
                 case crew_type::police_3:
-                    PoliceCrew::SpawnPoliceInCar_570BF0();
+                    PoliceCrew::SpawnPoliceInCar();
                     break;
                 case crew_type::swat_5:
-                    PoliceCrew::SpawnSWAT_570E30();
+                    PoliceCrew::SpawnSWAT();
                 default:
                     break;
             }
@@ -679,7 +679,7 @@ void PoliceCrew::State3_AlertedSearch_572340()
                 pCar->MarkForDespawn_421470();
                 mSubObj->mCar = NULL;
                 mState = police_crew_state::shutdown_6;
-                PoliceCrew::UnlinkFromPursuitTarget_575650();
+                PoliceCrew::UnlinkFromPursuitTarget();
             }
         }
     }
@@ -689,7 +689,7 @@ void PoliceCrew::State3_AlertedSearch_572340()
         if (mSubObj->mSpawnDelay == -80)
         {
             mState = police_crew_state::shutdown_6;
-            PoliceCrew::UnlinkFromPursuitTarget_575650();
+            PoliceCrew::UnlinkFromPursuitTarget();
         }
     }
 
@@ -720,7 +720,7 @@ void PoliceCrew::State3_AlertedSearch_572340()
                                 sCurrentCrewPed->mObjectiveTargetZ = Fix16(mpPursuitTarget->mZ.ToUInt8());
                                 break;
                             case objectives_enum::goto_area_in_car_14:
-                                PoliceCrew::HandleGotoAreaInCarObjective_5752C0();
+                                PoliceCrew::HandleGotoAreaInCarObjective();
                                 xpos_f = mpPursuitTarget->mX;
                                 if (sCurrentCrewPed->mObjectiveTargetX != mpPursuitTarget->mX ||
                                     sCurrentCrewPed->mObjectiveTargetY != mpPursuitTarget->mY)
@@ -728,7 +728,7 @@ void PoliceCrew::State3_AlertedSearch_572340()
                                     u8 xpos = xpos_f.ToInt();
                                     u8 ypos = mpPursuitTarget->mY.ToInt();
                                     u8 zpos = mpPursuitTarget->mZ.ToInt();
-                                    if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(ROAD, &xpos, &ypos, &zpos, false))
+                                    if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType(ROAD, &xpos, &ypos, &zpos, false))
                                     {
                                         sCurrentCrewPed->mObjectiveTargetX = Fix16(xpos);
                                         mpPursuitTarget->mX = sCurrentCrewPed->mObjectiveTargetX;
@@ -745,14 +745,14 @@ void PoliceCrew::State3_AlertedSearch_572340()
                                 {
                                     if (pPed->mCar)
                                     {
-                                        pPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                        pPed->SetObjective2(objectives_enum::no_obj_0);
                                         sCurrentCrewPed->SetObjective(objectives_enum::leave_car_36);
                                         sCurrentCrewPed->SetTargetObjectiveCar(mSubObj->mCar);
                                         break;
                                     }
                                     else
                                     {
-                                        pPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                        pPed->SetObjective2(objectives_enum::no_obj_0);
                                         sCurrentCrewPed->SetObjective(objectives_enum::goto_area_on_foot_12);
                                         sCurrentCrewPed->mObjectiveTargetX = mpPursuitTarget->mX;
                                         sCurrentCrewPed->mObjectiveTargetY = mpPursuitTarget->mY;
@@ -761,10 +761,10 @@ void PoliceCrew::State3_AlertedSearch_572340()
                                 }
                                 break;
                             case objectives_enum::leave_car_36:
-                                PoliceCrew::HandleLeaveCarObjective_575270();
+                                PoliceCrew::HandleLeaveCarObjective();
                                 break;
                             case objectives_enum::enter_car_as_driver_35:
-                                PoliceCrew::HandleEnterCarObjective_575210();
+                                PoliceCrew::HandleEnterCarObjective();
                                 break;
                             case objectives_enum::wander_until_timeout_51:
                                 if (pPed->GetObjectiveStatus_450CB0() == objective_status::failed_2)
@@ -774,7 +774,7 @@ void PoliceCrew::State3_AlertedSearch_572340()
                                 }
                                 break;
                             case objectives_enum::kill_char_on_foot_20:
-                                pPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                pPed->SetObjective2(objectives_enum::no_obj_0);
                                 sCurrentCrewPed->SetObjective(objectives_enum::goto_area_on_foot_12);
                                 sCurrentCrewPed->mObjectiveTargetX = mpPursuitTarget->mX;
                                 sCurrentCrewPed->mObjectiveTargetY = mpPursuitTarget->mY;
@@ -784,19 +784,19 @@ void PoliceCrew::State3_AlertedSearch_572340()
                                 mUseCar = false;
                                 if (sCurrentCrewPed->GetObjectiveStatus_450CB0() == objective_status::passed_1)
                                 {
-                                    sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                    sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                                     sCurrentCrewPed->SetObjective(objectives_enum::wander_until_timeout_51, 200);
                                 }
                                 break;
                             case objectives_enum::dead_patient_28:
                                 if (pPed->GetObjectiveStatus_450CB0() != objective_status::not_finished_0)
                                 {
-                                    pPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                    pPed->SetObjective2(objectives_enum::no_obj_0);
                                     sCurrentCrewPed->SetObjective(objectives_enum::no_obj_0);
                                 }
                                 break;
                             case objectives_enum::pull_driver_out_32:
-                                pPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                pPed->SetObjective2(objectives_enum::no_obj_0);
                                 sCurrentCrewPed->SetObjective(objectives_enum::no_obj_0);
                                 break;
                             default:
@@ -824,7 +824,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_6FEB44, Fix16(0x666, 0), 0x6FEB44);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpFour, Fix16(4), 0x6FED08);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint02, Fix16(0x147, 0), 0x6FECB8);
 
-// MaxAbsDistance_42A6B0 as State5_PursueOrChase_572920 inlines it: past the nested inline budget, Max is the named
+// MaxAbsDistance_42A6B0 as State5_PursueOrChase inlines it: past the nested inline budget, Max is the named
 // out-of-line copy Max_44E540 (as in Weapon's MaxAbsDistance_5DF270)
 static inline Fix16 MaxAbsDistance_572920(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
 {
@@ -837,13 +837,13 @@ static inline Fix16 MaxAbsDistance_572920(Fix16& x1, Fix16& y1, Fix16& x2, Fix16
     return result;
 }
 
-// The crew chasing the criminal: like State3_AlertedSearch_572340, then each member follows the criminal on foot
+// The crew chasing the criminal: like State3_AlertedSearch, then each member follows the criminal on foot
 // or in the car depending on how far away and how fast the criminal is.
 // The inline cut-offs of MaxAbsDistance (one Abs negate inline, Max out of line) need its nested budget at 287..321,
 // i.e. the 18 sites left after it: the enter-car test reads mPedState1 directly. `default: break;` first in
 // the objective switch keeps goto_area_in_car_14's trailing `field_28 = 1; break;` as the copy patrol_in_car_43 merges into.
 MATCH_FUNC(0x572920)
-void PoliceCrew::State5_PursueOrChase_572920()
+void PoliceCrew::State5_PursueOrChase()
 {
     bool bSpawned = true;
     bool bChaseOnFoot = false;
@@ -852,7 +852,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
     if (!mpPursuitTarget->mCriminalPed)
     {
         mState = police_crew_state::shutdown_6;
-        PoliceCrew::UnlinkFromPursuitTarget_575650();
+        PoliceCrew::UnlinkFromPursuitTarget();
         return;
     }
 
@@ -860,11 +860,11 @@ void PoliceCrew::State5_PursueOrChase_572920()
     {
         if (mSubObj->mState == crew_state::update_6)
         {
-            PoliceCrew::HandleShutdownAndDespawn_5720C0();
+            PoliceCrew::HandleShutdownAndDespawn();
             if (mSubObj->mState == crew_state::clean_up_5 || mState == police_crew_state::shutdown_6)
             {
                 mState = police_crew_state::shutdown_6;
-                PoliceCrew::UnlinkFromPursuitTarget_575650();
+                PoliceCrew::UnlinkFromPursuitTarget();
                 return;
             }
         }
@@ -878,10 +878,10 @@ void PoliceCrew::State5_PursueOrChase_572920()
                 switch (mSubObj->mCrewType)
                 {
                     case crew_type::police_3:
-                        PoliceCrew::SpawnPoliceInCar_570BF0();
+                        PoliceCrew::SpawnPoliceInCar();
                         break;
                     case crew_type::swat_5:
-                        PoliceCrew::SpawnSWAT_570E30();
+                        PoliceCrew::SpawnSWAT();
                     default:
                         break;
                 }
@@ -896,7 +896,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                     pCar->MarkForDespawn_421470();
                     mSubObj->mCar = NULL;
                     mState = police_crew_state::shutdown_6;
-                    PoliceCrew::UnlinkFromPursuitTarget_575650();
+                    PoliceCrew::UnlinkFromPursuitTarget();
                 }
             }
         }
@@ -906,7 +906,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
             if (mSubObj->mSpawnDelay == -80)
             {
                 mState = police_crew_state::shutdown_6;
-                PoliceCrew::UnlinkFromPursuitTarget_575650();
+                PoliceCrew::UnlinkFromPursuitTarget();
             }
         }
     }
@@ -916,7 +916,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
     }
 
     sCurrentCrewPed = mSubObj->mPed;
-    if (PoliceCrew::CanTrackCriminal_572210())
+    if (PoliceCrew::CanTrackCriminal())
     {
         mpPursuitTarget->mX = mpPursuitTarget->mCriminalPed->get_cam_x();
         mpPursuitTarget->mY = mpPursuitTarget->mCriminalPed->get_cam_y();
@@ -927,7 +927,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
         if (mSubObj->mPhase == crew_phase::on_foot_0)
         {
             mState = police_crew_state::shutdown_6;
-            PoliceCrew::UnlinkFromPursuitTarget_575650();
+            PoliceCrew::UnlinkFromPursuitTarget();
             return;
         }
         if (mpPursuitTarget->mCriminalPed->mCar)
@@ -942,7 +942,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
         if (mSubObj->mPhase == crew_phase::on_foot_0)
         {
             mState = police_crew_state::shutdown_6;
-            PoliceCrew::UnlinkFromPursuitTarget_575650();
+            PoliceCrew::UnlinkFromPursuitTarget();
             return;
         }
         mState = police_crew_state::alerted_search_3;
@@ -965,16 +965,16 @@ void PoliceCrew::State5_PursueOrChase_572920()
                         {
                             if (mSubObj->mGroup)
                             {
-                                if (mSubObj->mGroup->IsAllMembersInSomeCar_4CAA20())
+                                if (mSubObj->mGroup->IsAllMembersInSomeCar())
                                 {
-                                    sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                    sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                                     sCurrentCrewPed->SetObjective(objectives_enum::chase_char_in_car_52);
                                     sCurrentCrewPed->set_objective_target_ped_403AC0(mpPursuitTarget->mCriminalPed);
                                     mUseCar = true;
                                 }
                                 else
                                 {
-                                    sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                    sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                                     sCurrentCrewPed->SetObjective(objectives_enum::no_obj_0);
                                     mUseCar = true;
                                     break;
@@ -982,7 +982,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                             }
                             else
                             {
-                                sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                                 sCurrentCrewPed->SetObjective(objectives_enum::chase_char_in_car_52);
                                 sCurrentCrewPed->set_objective_target_ped_403AC0(mpPursuitTarget->mCriminalPed);
                                 mUseCar = true;
@@ -994,14 +994,14 @@ void PoliceCrew::State5_PursueOrChase_572920()
                     case objectives_enum::chase_char_in_car_52:
                         mUseCar = true;
                         if (mSubObj->mCar &&
-                            (!mSubObj->mGroup || mSubObj->mGroup->HasNoActiveMembers_4CAAE0()))
+                            (!mSubObj->mGroup || mSubObj->mGroup->HasNoActiveMembers()))
                         {
-                            PoliceCrew::HandleChaseInCarObjective_575310();
+                            PoliceCrew::HandleChaseInCarObjective();
                             mUseCar = true;
                         }
                         else
                         {
-                            sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                            sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                             sCurrentCrewPed->SetObjective(objectives_enum::no_obj_0);
                         }
                         break;
@@ -1013,18 +1013,18 @@ void PoliceCrew::State5_PursueOrChase_572920()
                             {
                                 if (mpPursuitTarget->mCriminalPed->mCar)
                                 {
-                                    if (mSubObj->mGroup && !mSubObj->mGroup->HasNoActiveMembers_4CAAE0())
+                                    if (mSubObj->mGroup && !mSubObj->mGroup->HasNoActiveMembers())
                                     {
                                         break;
                                     }
-                                    sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                    sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                                     sCurrentCrewPed->SetObjective(objectives_enum::chase_char_in_car_52);
                                     sCurrentCrewPed->set_objective_target_ped_403AC0(mpPursuitTarget->mCriminalPed);
                                     mUseCar = true;
                                 }
                                 else
                                 {
-                                    sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                    sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                                     sCurrentCrewPed->SetObjective(objectives_enum::leave_car_36);
                                     sCurrentCrewPed->SetTargetObjectiveCar(mSubObj->mCar);
                                     mUseCar = false;
@@ -1034,7 +1034,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                             {
                                 if (!pPed->mBf21C.bLeftVehicle)
                                 {
-                                    sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                    sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                                     sCurrentCrewPed->SetObjective(objectives_enum::enter_car_as_driver_35);
                                     sCurrentCrewPed->SetTargetObjectiveCar(mSubObj->mCar);
                                     sCurrentCrewPed->ClearPanicking_403960();
@@ -1042,7 +1042,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                             }
                             else if (!pPed->mBf21C.bLeftVehicle)
                             {
-                                sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                                 sCurrentCrewPed->SetObjective(objectives_enum::kill_char_on_foot_20);
                                 sCurrentCrewPed->set_objective_target_ped_403AC0(mpPursuitTarget->mCriminalPed);
                                 sCurrentCrewPed->ClearPanicking_403960();
@@ -1057,12 +1057,12 @@ void PoliceCrew::State5_PursueOrChase_572920()
                         break;
 
                     case objectives_enum::leave_car_36:
-                        PoliceCrew::HandleLeaveCarObjective_575270();
+                        PoliceCrew::HandleLeaveCarObjective();
                         mUseCar = false;
                         break;
 
                     case objectives_enum::enter_car_as_driver_35:
-                        PoliceCrew::HandleEnterCarObjective_575210();
+                        PoliceCrew::HandleEnterCarObjective();
                         mUseCar = true;
                         break;
 
@@ -1085,7 +1085,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                         // wander_until_timeout_51 and dead_patient_28 (9.6f 0x4AC580 matches this function exactly with VC7)
                         if (sCurrentCrewPed->GetObjectiveStatus_450CB0() == objective_status::failed_2)
                         {
-                            sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                            sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                             sCurrentCrewPed->SetObjective(objectives_enum::no_obj_0);
                         }
                         else
@@ -1113,7 +1113,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                                 }
                                 else if (mpPursuitTarget->mCriminalPed->mCar)
                                 {
-                                    if (mpPursuitTarget->mCriminalPed->mCar->GetCarLinearSpeed_43A240() > kFpPoint1_6FEB44)
+                                    if (mpPursuitTarget->mCriminalPed->mCar->GetCarLinearSpeed() > kFpPoint1_6FEB44)
                                     {
                                         if (++mFastTargetCounter > 30)
                                         {
@@ -1139,7 +1139,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                                     }
                                     if (!sCurrentCrewPed->mBf21C.bLeftVehicle)
                                     {
-                                        sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                        sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                                         sCurrentCrewPed->SetObjective(objectives_enum::enter_car_as_driver_35);
                                         sCurrentCrewPed->SetTargetObjectiveCar(mSubObj->mCar);
                                         sCurrentCrewPed->ClearPanicking_403960();
@@ -1153,7 +1153,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                             {
                                 if (mpPursuitTarget->mCriminalPed->mGameObject && sCurrentCrewPed->mBf21C.bLeftVehicle)
                                 {
-                                    sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                    sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                                     sCurrentCrewPed->SetObjective(objectives_enum::kill_char_on_foot_20);
                                     sCurrentCrewPed->set_objective_target_ped_403AC0(mpPursuitTarget->mCriminalPed);
                                     sCurrentCrewPed->ClearPanicking_403960();
@@ -1171,32 +1171,32 @@ void PoliceCrew::State5_PursueOrChase_572920()
                     }
 
                     case objectives_enum::goto_area_on_foot_12:
-                        sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                        sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                         sCurrentCrewPed->SetObjective(objectives_enum::no_obj_0);
                         break;
                     case objectives_enum::wander_until_timeout_51:
-                        sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                        sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                         sCurrentCrewPed->SetObjective(objectives_enum::no_obj_0);
                         break;
 
                     case objectives_enum::dead_patient_28:
                         if (pPed->GetObjectiveStatus_450CB0())
                         {
-                            sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                            sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                             sCurrentCrewPed->SetObjective(objectives_enum::no_obj_0);
                         }
                         break;
 
                     case objectives_enum::flee_char_on_foot_till_safe_2:
                         gPoliceCrew_Unused_6FEB48 = 0;
-                        PoliceCrew::RemoveFromPursuit_570AB0();
+                        PoliceCrew::RemoveFromPursuit();
                         break;
 
                     case objectives_enum::patrol_in_car_43:
-                        pPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                        pPed->SetObjective2(objectives_enum::no_obj_0);
                         if (mSubObj->mGroup)
                         {
-                            if (mSubObj->mGroup->IsAllMembersInSomeCar_4CAA20())
+                            if (mSubObj->mGroup->IsAllMembersInSomeCar())
                             {
                                 sCurrentCrewPed->SetObjective(objectives_enum::chase_char_in_car_52);
                                 sCurrentCrewPed->set_objective_target_ped_403AC0(mpPursuitTarget->mCriminalPed);
@@ -1216,7 +1216,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                         break;
 
                     case objectives_enum::wait_in_car_27:
-                        if (mSubObj->mCar->GetCarLinearSpeed_43A240() <= kFpPoint02)
+                        if (mSubObj->mCar->GetCarLinearSpeed() <= kFpPoint02)
                         {
                             sCurrentCrewPed->SetObjective(objectives_enum::leave_car_36);
                             sCurrentCrewPed->SetTargetObjectiveCar(sCurrentCrewPed->mCar);
@@ -1239,16 +1239,16 @@ void PoliceCrew::State5_PursueOrChase_572920()
     }
     else
     {
-        sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+        sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
         sCurrentCrewPed->SetObjective(objectives_enum::no_obj_0);
         mState = police_crew_state::shutdown_6;
-        PoliceCrew::UnlinkFromPursuitTarget_575650();
+        PoliceCrew::UnlinkFromPursuitTarget();
     }
 }
 
 // https://decomp.me/scratch/mAN9o
 MATCH_FUNC(0x574720)
-void PoliceCrew::State6_ShutDown_574720()
+void PoliceCrew::State6_ShutDown()
 {
     u8 i = 0;
     gPoliceCrew_Unused_6FEB48 = 1;
@@ -1257,12 +1257,12 @@ void PoliceCrew::State6_ShutDown_574720()
     {
         if (mSubObj->mCar->mpChaseTask)
         {
-            gCarChaseTaskTable_678E30->FreeEntry_474CC0(mSubObj->mCar->mpChaseTask);
+            gCarChaseTaskTable_678E30->FreeEntry(mSubObj->mCar->mpChaseTask);
             mSubObj->mCar->mpChaseTask = NULL;
         }
         if (mSubObj->mCar->HasEmergencyLights_414F20())
         {
-            mSubObj->mCar->DeactivateEmergencyLights_43C9D0();
+            mSubObj->mCar->DeactivateEmergencyLights();
         }
     }
 
@@ -1270,7 +1270,7 @@ void PoliceCrew::State6_ShutDown_574720()
     {
         if (mSubObj->mState == crew_state::update_6)
         {
-            PoliceCrew::HandleShutdownAndDespawn_5720C0();
+            PoliceCrew::HandleShutdownAndDespawn();
         }
         if (mSubObj->mState == crew_state::clean_up_5)
         {
@@ -1280,12 +1280,12 @@ void PoliceCrew::State6_ShutDown_574720()
                 {
                     if (mSubObj->mCar->mAI->mRouteIdx > 0)
                     {
-                        gRouteFinder_6FFDC8->CancelRoute_589930(mSubObj->mCar->mAI->mRouteIdx);
+                        gRouteFinder_6FFDC8->CancelRoute(mSubObj->mCar->mAI->mRouteIdx);
                         mSubObj->mCar->mAI->mRouteIdx = -1;
                     }
                 }
             }
-            PoliceCrew::UnlinkFromPursuitTarget_575650();
+            PoliceCrew::UnlinkFromPursuitTarget();
             if (mbCountedInPoliceCount)
             {
                 if (gPolice_7B8_6FEE40->mPoliceCarCount > 0)
@@ -1297,11 +1297,11 @@ void PoliceCrew::State6_ShutDown_574720()
 
             if (mSubObj->mPed)
             {
-                mSubObj->mPed->ForceDoNothing_462590();
+                mSubObj->mPed->ForceDoNothing();
             }
             mSubObj->mState = crew_state::idle_0;
-            mSubObj->ReInit_5CBC30();
-            PoliceCrew::Init_5709C0();
+            mSubObj->ReInit();
+            PoliceCrew::Init();
             return;
         }
 
@@ -1311,7 +1311,7 @@ void PoliceCrew::State6_ShutDown_574720()
             {
                 if (mpPursuitTarget->mCriminalPed)
                 {
-                    if (PoliceCrew::CanTrackCriminal_572210())
+                    if (PoliceCrew::CanTrackCriminal())
                     {
                         if (mSubObj->mCrewType == crew_type::army_6 ||
                             (mpPursuitTarget->mWantedLevel != cop_level_enum::army_6 && mpPursuitTarget->mWantedLevel))
@@ -1319,14 +1319,14 @@ void PoliceCrew::State6_ShutDown_574720()
                             if (sCurrentCrewPed->get_objective_403A80() == objectives_enum::enter_car_as_driver_35 &&
                                 !sCurrentCrewPed->mBf21C.bLeftVehicle)
                             {
-                                sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                                 sCurrentCrewPed->SetObjective(objectives_enum::no_obj_0);
                             }
                             mpPursuitTarget->mX = mpPursuitTarget->mCriminalPed->get_cam_x();
                             mpPursuitTarget->mY = mpPursuitTarget->mCriminalPed->get_cam_y();
                             mpPursuitTarget->mZ = mpPursuitTarget->mCriminalPed->get_cam_z();
 
-                            gPolice_7B8_6FEE40->AssignCrewToPursuit_570790(this, mpPursuitTarget);
+                            gPolice_7B8_6FEE40->AssignCrewToPursuit(this, mpPursuitTarget);
                             return;
                         }
                     }
@@ -1350,12 +1350,12 @@ void PoliceCrew::State6_ShutDown_574720()
                             // body the zero constant has one store fewer, its priority drops below the ~4 of
                             // ClearPanicking_403960 and VC6 keeps 0 in ebp for the whole function.
                             case objectives_enum::goto_area_in_car_14:
-                                sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                                 sCurrentCrewPed->SetObjective(objectives_enum::patrol_in_car_43);
                                 gPoliceCrew_Unused_6FEB48 = 0;
                                 break;
                             case objectives_enum::chase_char_in_car_52:
-                                sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                                 sCurrentCrewPed->SetObjective(objectives_enum::patrol_in_car_43);
                                 gPoliceCrew_Unused_6FEB48 = 0;
                                 break;
@@ -1366,12 +1366,12 @@ void PoliceCrew::State6_ShutDown_574720()
                                 }
                                 if (sCurrentCrewPed->mCar)
                                 {
-                                    if (!mSubObj->mGroup || mSubObj->mGroup->IsAllMembersInSomeCar_4CAA20())
+                                    if (!mSubObj->mGroup || mSubObj->mGroup->IsAllMembersInSomeCar())
                                     {
-                                        sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                        sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                                         sCurrentCrewPed->SetObjective(objectives_enum::patrol_in_car_43);
-                                        sCurrentCrewPed->mCar->InitCarAIControl_440590();
-                                        sCurrentCrewPed->mCar->ResumeAIDriving_43AF40();
+                                        sCurrentCrewPed->mCar->InitCarAIControl();
+                                        sCurrentCrewPed->mCar->ResumeAIDriving();
                                         gPoliceCrew_Unused_6FEB48 = 0;
                                     }
                                 }
@@ -1379,7 +1379,7 @@ void PoliceCrew::State6_ShutDown_574720()
                                 {
                                     if (mSubObj->mPhase == crew_phase::in_car_1 && !sCurrentCrewPed->mBf21C.bLeftVehicle)
                                     {
-                                        sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                        sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                                         sCurrentCrewPed->SetObjective(objectives_enum::enter_car_as_driver_35);
                                         sCurrentCrewPed->SetTargetObjectiveCar(mSubObj->mCar);
                                         sCurrentCrewPed->ClearPanicking_403960();
@@ -1393,20 +1393,20 @@ void PoliceCrew::State6_ShutDown_574720()
                             case objectives_enum::dead_no_ambulance_50:
                                 break;
                             case objectives_enum::enter_car_as_driver_35:
-                                PoliceCrew::HandleEnterCarObjective_575210();
+                                PoliceCrew::HandleEnterCarObjective();
                                 break;
                             case objectives_enum::leave_car_36:
-                                PoliceCrew::HandleLeaveCarObjective_575270();
+                                PoliceCrew::HandleLeaveCarObjective();
                                 break;
                             case objectives_enum::dead_patient_28:
                                 if (sCurrentCrewPed->GetObjectiveStatus_450CB0())
                                 {
-                                    sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                    sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                                     sCurrentCrewPed->SetObjective(objectives_enum::no_obj_0);
                                 }
                                 break;
                             default:
-                                sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+                                sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
                                 sCurrentCrewPed->SetObjective(objectives_enum::no_obj_0);
                                 break;
                         }
@@ -1432,13 +1432,13 @@ void PoliceCrew::State6_ShutDown_574720()
             {
                 if (mSubObj->mCar->mAI->mRouteIdx > 0)
                 {
-                    gRouteFinder_6FFDC8->CancelRoute_589930(mSubObj->mCar->mAI->mRouteIdx);
+                    gRouteFinder_6FFDC8->CancelRoute(mSubObj->mCar->mAI->mRouteIdx);
                     mSubObj->mCar->mAI->mRouteIdx = -1;
                 }
             }
         }
         mSubObj->mState = crew_state::idle_0;
-        mSubObj->ReInit_5CBC30();
+        mSubObj->ReInit();
         if (mbCountedInPoliceCount)
         {
             if (gPolice_7B8_6FEE40->mPoliceCarCount > 0)
@@ -1446,13 +1446,13 @@ void PoliceCrew::State6_ShutDown_574720()
                 --gPolice_7B8_6FEE40->mPoliceCarCount;
             }
         }
-        PoliceCrew::Init_5709C0();
-        PoliceCrew::UnlinkFromPursuitTarget_575650();
+        PoliceCrew::Init();
+        PoliceCrew::UnlinkFromPursuitTarget();
     }
 }
 
 MATCH_FUNC(0x574f10)
-void PoliceCrew::State1_Patrol_574F10()
+void PoliceCrew::State1_Patrol()
 {
     Car* pCrewCar;
 
@@ -1468,7 +1468,7 @@ void PoliceCrew::State1_Patrol_574F10()
         pCrewCar->ClearAIHalted_421550();
         if (mSubObj->mState == crew_state::update_6)
         {
-            PoliceCrew::HandleShutdownAndDespawn_5720C0();
+            PoliceCrew::HandleShutdownAndDespawn();
         }
 
         if (mSubObj->mState == crew_state::clean_up_5)
@@ -1482,12 +1482,12 @@ void PoliceCrew::State1_Patrol_574F10()
                     char_type route_idx = pAI->mRouteIdx;
                     if (route_idx > 0)
                     {
-                        gRouteFinder_6FFDC8->CancelRoute_589930(route_idx);
+                        gRouteFinder_6FFDC8->CancelRoute(route_idx);
                         mSubObj->mCar->mAI->mRouteIdx = -1;
                     }
                 }
             }
-            PoliceCrew::UnlinkFromPursuitTarget_575650();
+            PoliceCrew::UnlinkFromPursuitTarget();
             if (mbCountedInPoliceCount)
             {
                 if (gPolice_7B8_6FEE40->mPoliceCarCount > 0)
@@ -1496,18 +1496,18 @@ void PoliceCrew::State1_Patrol_574F10()
                 }
             }
             mSubObj->mState = crew_state::idle_0;
-            mSubObj->ReInit_5CBC30();
-            PoliceCrew::Init_5709C0();
+            mSubObj->ReInit();
+            PoliceCrew::Init();
         }
         else
         {
-            if (mpPursuitTarget && mpPursuitTarget->mCriminalPed && PoliceCrew::CanTrackCriminal_572210() &&
+            if (mpPursuitTarget && mpPursuitTarget->mCriminalPed && PoliceCrew::CanTrackCriminal() &&
                 (mSubObj->mCrewType == crew_type::army_6 || mpPursuitTarget->mWantedLevel != cop_level_enum::army_6))
             {
                 mpPursuitTarget->mX = mpPursuitTarget->mCriminalPed->get_cam_x();
                 mpPursuitTarget->mY = mpPursuitTarget->mCriminalPed->get_cam_y();
                 mpPursuitTarget->mZ = mpPursuitTarget->mCriminalPed->get_cam_z();
-                gPolice_7B8_6FEE40->AssignCrewToPursuit_570790(this, mpPursuitTarget);
+                gPolice_7B8_6FEE40->AssignCrewToPursuit(this, mpPursuitTarget);
             }
             else
             {
@@ -1524,7 +1524,7 @@ void PoliceCrew::State1_Patrol_574F10()
                             pChaseTask = mSubObj->mCar->mpChaseTask;
                             if (pChaseTask)
                             {
-                                gCarChaseTaskTable_678E30->FreeEntry_474CC0(pChaseTask);
+                                gCarChaseTaskTable_678E30->FreeEntry(pChaseTask);
                                 mSubObj->mCar->mpChaseTask = NULL;
                             }
                             break;
@@ -1537,7 +1537,7 @@ void PoliceCrew::State1_Patrol_574F10()
                                 }
                                 else if (!pPedIter->mBf21C.bLeftVehicle)
                                 {
-                                    pPedIter->SetObjective2_463830(objectives_enum::no_obj_0);
+                                    pPedIter->SetObjective2(objectives_enum::no_obj_0);
                                     sCurrentCrewPed->SetObjective(objectives_enum::enter_car_as_driver_35);
                                     sCurrentCrewPed->SetTargetObjectiveCar(mSubObj->mCar);
                                     sCurrentCrewPed->ClearPanicking_403960();
@@ -1545,21 +1545,21 @@ void PoliceCrew::State1_Patrol_574F10()
                             }
                             break;
                         case objectives_enum::leave_car_36:
-                            PoliceCrew::HandleLeaveCarObjective_575270();
+                            PoliceCrew::HandleLeaveCarObjective();
                             break;
                         case objectives_enum::enter_car_as_driver_35:
-                            PoliceCrew::HandleEnterCarObjective_575210();
+                            PoliceCrew::HandleEnterCarObjective();
                             break;
                         case objectives_enum::flee_char_on_foot_till_safe_2:
                         case objectives_enum::goto_area_on_foot_12:
                         case objectives_enum::kill_char_on_foot_20:
-                            pPedIter->SetObjective2_463830(objectives_enum::no_obj_0);
+                            pPedIter->SetObjective2(objectives_enum::no_obj_0);
                             sCurrentCrewPed->SetObjective(objectives_enum::no_obj_0);
                             break;
                         case objectives_enum::dead_patient_28:
                             if (pPedIter->GetObjectiveStatus_450CB0() != objective_status::not_finished_0)
                             {
-                                pPedIter->SetObjective2_463830(objectives_enum::no_obj_0);
+                                pPedIter->SetObjective2(objectives_enum::no_obj_0);
                                 sCurrentCrewPed->SetObjective(objectives_enum::no_obj_0);
                             }
                             break;
@@ -1583,20 +1583,20 @@ void PoliceCrew::State1_Patrol_574F10()
 }
 
 MATCH_FUNC(0x575200)
-void PoliceCrew::State2_SwitchToShutDown_575200()
+void PoliceCrew::State2_SwitchToShutDown()
 {
     gPoliceCrew_Unused_6FEB48 = 1;
     mState = police_crew_state::shutdown_6;
 }
 
 MATCH_FUNC(0x575210)
-void PoliceCrew::HandleEnterCarObjective_575210()
+void PoliceCrew::HandleEnterCarObjective()
 {
     if (mSubObj->mPhase)
     {
         if (sCurrentCrewPed->GetObjectiveStatus_450CB0())
         {
-            sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+            sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
             sCurrentCrewPed->SetObjective(objectives_enum::no_obj_0);
         }
         else
@@ -1606,36 +1606,36 @@ void PoliceCrew::HandleEnterCarObjective_575210()
     }
     else
     {
-        sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+        sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
         sCurrentCrewPed->SetObjective(objectives_enum::no_obj_0);
     }
 }
 
 MATCH_FUNC(0x575270)
-void PoliceCrew::HandleLeaveCarObjective_575270()
+void PoliceCrew::HandleLeaveCarObjective()
 {
     if (mSubObj->mPhase)
     {
         if (sCurrentCrewPed->GetObjectiveStatus_450CB0())
         {
-            sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+            sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
             sCurrentCrewPed->SetObjective(objectives_enum::no_obj_0);
         }
     }
     else
     {
-        sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+        sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
         sCurrentCrewPed->SetObjective(objectives_enum::no_obj_0);
     }
 }
 
 MATCH_FUNC(0x5752c0)
-void PoliceCrew::HandleGotoAreaInCarObjective_5752C0()
+void PoliceCrew::HandleGotoAreaInCarObjective()
 {
     if (sCurrentCrewPed->GetObjectiveStatus_450CB0() != objective_status::not_finished_0)
     {
         mSubObj->mState = crew_state::update_6;
-        sCurrentCrewPed->SetObjective2_463830(objectives_enum::no_obj_0);
+        sCurrentCrewPed->SetObjective2(objectives_enum::no_obj_0);
         sCurrentCrewPed->SetObjective(objectives_enum::no_obj_0);
     }
     gPoliceCrew_Unused_6FEB48 = 1;
@@ -1647,7 +1647,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpThree_6FECF4, Fix16(3), 0x6FECF4);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint03, Fix16(0x1EB, 0), 0x6FEDE0);
 
 MATCH_FUNC(0x575310)
-void PoliceCrew::HandleChaseInCarObjective_575310()
+void PoliceCrew::HandleChaseInCarObjective()
 {
     gPoliceCrew_Unused_6FEB48 = 1;
     sCurrentCrewPed->set_objective_target_ped_403AC0(mpPursuitTarget->mCriminalPed);
@@ -1664,7 +1664,7 @@ void PoliceCrew::HandleChaseInCarObjective_575310()
             sCurrentCrewPed->SetObjective(objectives_enum::wait_in_car_27);
             if (mSubObj && mSubObj->mCar && mSubObj->mCar->mpChaseTask)
             {
-                gCarChaseTaskTable_678E30->FreeEntry_474CC0(mSubObj->mCar->mpChaseTask);
+                gCarChaseTaskTable_678E30->FreeEntry(mSubObj->mCar->mpChaseTask);
                 mSubObj->mCar->mpChaseTask = NULL;
             }
         }
@@ -1695,7 +1695,7 @@ void PoliceCrew::HandleChaseInCarObjective_575310()
                 mpPursuitTarget->mBlockCounter += mSubObj->mCar->mpChaseTask->mBlockCounter;
                 if (mSubObj->mCar->mpChaseTask)
                 {
-                    gCarChaseTaskTable_678E30->FreeEntry_474CC0(mSubObj->mCar->mpChaseTask);
+                    gCarChaseTaskTable_678E30->FreeEntry(mSubObj->mCar->mpChaseTask);
                     mSubObj->mCar->mpChaseTask = NULL;
                 }
                 return;
@@ -1719,13 +1719,13 @@ void PoliceCrew::HandleChaseInCarObjective_575310()
             mSubObj->mCar->mpChaseTask->mBlockCounter = mpPursuitTarget->mBlockCounter;
         }
 
-        if (dist < kFpThree_6FECF4 && mSubObj->mCar->GetVelocity_43A4C0() < kFpPoint03 &&
-            mpPursuitTarget->mCriminalPed->mCar->GetVelocity_43A4C0() < kFpPoint03)
+        if (dist < kFpThree_6FECF4 && mSubObj->mCar->GetVelocity() < kFpPoint03 &&
+            mpPursuitTarget->mCriminalPed->mCar->GetVelocity() < kFpPoint03)
         {
             sCurrentCrewPed->SetObjective(objectives_enum::wait_in_car_27);
             if (mSubObj->mCar->mpChaseTask)
             {
-                gCarChaseTaskTable_678E30->FreeEntry_474CC0(mSubObj->mCar->mpChaseTask);
+                gCarChaseTaskTable_678E30->FreeEntry(mSubObj->mCar->mpChaseTask);
                 mSubObj->mCar->mpChaseTask = NULL;
             }
         }
@@ -1733,7 +1733,7 @@ void PoliceCrew::HandleChaseInCarObjective_575310()
 }
 
 MATCH_FUNC(0x575590)
-void PoliceCrew::Service_575590()
+void PoliceCrew::Service()
 {
     if (mSubObj)
     {
@@ -1754,8 +1754,8 @@ void PoliceCrew::Service_575590()
                 Ped* pNewLeader = pGroup->mPedList[0];
                 if (pNewLeader)
                 {
-                    pGroup->RemovePed_4C9970(pNewLeader);
-                    mSubObj->mGroup->add_ped_leader_4C9B10(pNewLeader);
+                    pGroup->RemovePed(pNewLeader);
+                    mSubObj->mGroup->add_ped_leader(pNewLeader);
                     mSubObj->mPed = pNewLeader;
                 }
             }
@@ -1764,19 +1764,19 @@ void PoliceCrew::Service_575590()
     switch (mState)
     {
         case police_crew_state::alerted_search_3:
-            PoliceCrew::State3_AlertedSearch_572340();
+            PoliceCrew::State3_AlertedSearch();
             break;
         case police_crew_state::pursue_or_chase_5:
-            PoliceCrew::State5_PursueOrChase_572920();
+            PoliceCrew::State5_PursueOrChase();
             break;
         case police_crew_state::shutdown_6:
-            PoliceCrew::State6_ShutDown_574720();
+            PoliceCrew::State6_ShutDown();
             break;
         case police_crew_state::patrol_1:
-            PoliceCrew::State1_Patrol_574F10();
+            PoliceCrew::State1_Patrol();
             break;
         case police_crew_state::despawning_2:
-            PoliceCrew::State2_SwitchToShutDown_575200();
+            PoliceCrew::State2_SwitchToShutDown();
             break;
         default:
             return;
@@ -1784,7 +1784,7 @@ void PoliceCrew::Service_575590()
 }
 
 MATCH_FUNC(0x575650)
-void PoliceCrew::UnlinkFromPursuitTarget_575650()
+void PoliceCrew::UnlinkFromPursuitTarget()
 {
     PolicePursuitTarget* pPursuitTarget = mpPursuitTarget;
     if (pPursuitTarget)
@@ -1826,7 +1826,7 @@ void PoliceCrew::UnlinkFromPursuitTarget_575650()
 }
 
 MATCH_FUNC(0x575710)
-void PoliceRoadblock::Reset_575710()
+void PoliceRoadblock::Reset()
 {
     mbActive = false;
     mUnused4 = 0;
@@ -1873,7 +1873,7 @@ void PoliceRoadblock::Reset_575710()
 }
 
 MATCH_FUNC(0x5757b0)
-void PoliceRoadblock::Update_5757B0()
+void PoliceRoadblock::Update()
 {
     bool bAllClear = true;
 
@@ -1979,7 +1979,7 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (mBarrier1->mId == mBarrier1Id)
                 {
-                    if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(mBarrier1->mSprite->mXy.x,
+                    if (gGame_0x40_67E008->IsPointOnScreen(mBarrier1->mSprite->mXy.x,
                                                                      mBarrier1->mSprite->mXy.y))
                     {
                         bAllClear = false;
@@ -1991,7 +1991,7 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (mBarrier2->mId == mBarrier2Id)
                 {
-                    if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(mBarrier2->mSprite->mXy.x,
+                    if (gGame_0x40_67E008->IsPointOnScreen(mBarrier2->mSprite->mXy.x,
                                                                      mBarrier2->mSprite->mXy.y))
                     {
                         bAllClear = false;
@@ -2003,7 +2003,7 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (mBarrier3->mId == mBarrier3Id)
                 {
-                    if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(mBarrier3->mSprite->mXy.x,
+                    if (gGame_0x40_67E008->IsPointOnScreen(mBarrier3->mSprite->mXy.x,
                                                                      mBarrier3->mSprite->mXy.y))
                     {
                         bAllClear = false;
@@ -2015,7 +2015,7 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (mBarrier4->mId == mBarrier4Id)
                 {
-                    if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(mBarrier4->mSprite->mXy.x,
+                    if (gGame_0x40_67E008->IsPointOnScreen(mBarrier4->mSprite->mXy.x,
                                                                      mBarrier4->mSprite->mXy.y))
                     {
                         bAllClear = false;
@@ -2027,7 +2027,7 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (mBarrier5->mId == mBarrier5Id)
                 {
-                    if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(mBarrier5->mSprite->mXy.x,
+                    if (gGame_0x40_67E008->IsPointOnScreen(mBarrier5->mSprite->mXy.x,
                                                                      mBarrier5->mSprite->mXy.y))
                     {
                         bAllClear = false;
@@ -2039,7 +2039,7 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (mBarrier6->mId == mBarrier6Id)
                 {
-                    if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(mBarrier6->mSprite->mXy.x,
+                    if (gGame_0x40_67E008->IsPointOnScreen(mBarrier6->mSprite->mXy.x,
                                                                      mBarrier6->mSprite->mXy.y))
                     {
                         bAllClear = false;
@@ -2051,7 +2051,7 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (mBarrier7->mId == mBarrier7Id)
                 {
-                    if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(mBarrier7->mSprite->mXy.x,
+                    if (gGame_0x40_67E008->IsPointOnScreen(mBarrier7->mSprite->mXy.x,
                                                                      mBarrier7->mSprite->mXy.y))
                     {
                         bAllClear = false;
@@ -2063,7 +2063,7 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (mBarrier8->mId == mBarrier8Id)
                 {
-                    if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(mBarrier8->mSprite->mXy.x,
+                    if (gGame_0x40_67E008->IsPointOnScreen(mBarrier8->mSprite->mXy.x,
                                                                      mBarrier8->mSprite->mXy.y))
                     {
                         bAllClear = false;
@@ -2075,7 +2075,7 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (mBarrier9->mId == mBarrier9Id)
                 {
-                    if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(mBarrier9->mSprite->mXy.x,
+                    if (gGame_0x40_67E008->IsPointOnScreen(mBarrier9->mSprite->mXy.x,
                                                                      mBarrier9->mSprite->mXy.y))
                     {
                         bAllClear = false;
@@ -2087,7 +2087,7 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (mBarrier10->mId == mBarrier10Id)
                 {
-                    if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(mBarrier10->mSprite->mXy.x,
+                    if (gGame_0x40_67E008->IsPointOnScreen(mBarrier10->mSprite->mXy.x,
                                                                      mBarrier10->mSprite->mXy.y))
                     {
                         bAllClear = false;
@@ -2099,7 +2099,7 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (mBarrier11->mId == mBarrier11Id)
                 {
-                    if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(mBarrier11->mSprite->mXy.x,
+                    if (gGame_0x40_67E008->IsPointOnScreen(mBarrier11->mSprite->mXy.x,
                                                                      mBarrier11->mSprite->mXy.y))
                     {
                         bAllClear = false;
@@ -2111,7 +2111,7 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (mBarrier12->mId == mBarrier12Id)
                 {
-                    if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(mBarrier12->mSprite->mXy.x,
+                    if (gGame_0x40_67E008->IsPointOnScreen(mBarrier12->mSprite->mXy.x,
                                                                      mBarrier12->mSprite->mXy.y))
                     {
                         bAllClear = false;
@@ -2221,7 +2221,7 @@ void PoliceRoadblock::Update_5757B0()
                                                  Fix16(mX),
                                                  Fix16(mY)) > kFpTen)
                 {
-                    PoliceRoadblock::RemoveRoadblock_575CA0();
+                    PoliceRoadblock::RemoveRoadblock();
                     return;
                 }
             }
@@ -2231,7 +2231,7 @@ void PoliceRoadblock::Update_5757B0()
 }
 
 MATCH_FUNC(0x575ca0)
-void PoliceRoadblock::RemoveRoadblock_575CA0()
+void PoliceRoadblock::RemoveRoadblock()
 {
     if (mCar1)
     {
@@ -2278,7 +2278,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
     {
         if (mBarrier1->mId == mBarrier1Id)
         {
-            mBarrier1->Dealloc_5291B0();
+            mBarrier1->Dealloc();
         }
         mBarrier1 = NULL;
     }
@@ -2287,7 +2287,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
     {
         if (mBarrier2->mId == mBarrier2Id)
         {
-            mBarrier2->Dealloc_5291B0();
+            mBarrier2->Dealloc();
         }
         mBarrier2 = NULL;
     }
@@ -2296,7 +2296,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
     {
         if (mBarrier3->mId == mBarrier3Id)
         {
-            mBarrier3->Dealloc_5291B0();
+            mBarrier3->Dealloc();
         }
         mBarrier3 = NULL;
     }
@@ -2305,7 +2305,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
     {
         if (mBarrier4->mId == mBarrier4Id)
         {
-            mBarrier4->Dealloc_5291B0();
+            mBarrier4->Dealloc();
         }
         mBarrier4 = NULL;
     }
@@ -2314,7 +2314,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
     {
         if (mBarrier5->mId == mBarrier5Id)
         {
-            mBarrier5->Dealloc_5291B0();
+            mBarrier5->Dealloc();
         }
         mBarrier5 = NULL;
     }
@@ -2323,7 +2323,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
     {
         if (mBarrier6->mId == mBarrier6Id)
         {
-            mBarrier6->Dealloc_5291B0();
+            mBarrier6->Dealloc();
         }
         mBarrier6 = NULL;
     }
@@ -2332,7 +2332,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
     {
         if (mBarrier7->mId == mBarrier7Id)
         {
-            mBarrier7->Dealloc_5291B0();
+            mBarrier7->Dealloc();
         }
         mBarrier7 = NULL;
     }
@@ -2341,7 +2341,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
     {
         if (mBarrier8->mId == mBarrier8Id)
         {
-            mBarrier8->Dealloc_5291B0();
+            mBarrier8->Dealloc();
         }
         mBarrier8 = NULL;
     }
@@ -2350,7 +2350,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
     {
         if (mBarrier9->mId == mBarrier9Id)
         {
-            mBarrier9->Dealloc_5291B0();
+            mBarrier9->Dealloc();
         }
         mBarrier9 = NULL;
     }
@@ -2359,7 +2359,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
     {
         if (mBarrier10->mId == mBarrier10Id)
         {
-            mBarrier10->Dealloc_5291B0();
+            mBarrier10->Dealloc();
         }
         mBarrier10 = NULL;
     }
@@ -2368,7 +2368,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
     {
         if (mBarrier11->mId == mBarrier11Id)
         {
-            mBarrier11->Dealloc_5291B0();
+            mBarrier11->Dealloc();
         }
         mBarrier11 = NULL;
     }
@@ -2377,7 +2377,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
     {
         if (mBarrier12->mId == mBarrier12Id)
         {
-            mBarrier12->Dealloc_5291B0();
+            mBarrier12->Dealloc();
         }
         mBarrier12 = NULL;
     }
@@ -2386,7 +2386,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
     {
         if (mGuard1->mOffscreenCounter)
         {
-            mGuard1->Deallocate_45EB60();
+            mGuard1->Deallocate();
         }
         else
         {
@@ -2399,7 +2399,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
     {
         if (mGuard2->mOffscreenCounter)
         {
-            mGuard2->Deallocate_45EB60();
+            mGuard2->Deallocate();
         }
         else
         {
@@ -2412,7 +2412,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
     {
         if (mGuard3->mOffscreenCounter)
         {
-            mGuard3->Deallocate_45EB60();
+            mGuard3->Deallocate();
         }
         else
         {
@@ -2425,7 +2425,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
     {
         if (mGuard4->mOffscreenCounter)
         {
-            mGuard4->Deallocate_45EB60();
+            mGuard4->Deallocate();
         }
         else
         {
@@ -2438,7 +2438,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
     {
         if (mGuard5->mOffscreenCounter)
         {
-            mGuard5->Deallocate_45EB60();
+            mGuard5->Deallocate();
         }
         else
         {
@@ -2451,7 +2451,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
     {
         if (mGuard6->mOffscreenCounter)
         {
-            mGuard6->Deallocate_45EB60();
+            mGuard6->Deallocate();
             mGuard6 = NULL;
             mbActive = false;
             return;
@@ -2478,7 +2478,7 @@ DEFINE_STATIC_GLOBAL_INIT(u8, sRoadblockLaneHasGuard, 1, 0x624FBD); // the next 
 // 9.6f (built with /Ob0, so they were never inline helpers). As inline helpers they used up VC6's
 // inline budget and the x branch's Ang16 Normalize went out of line.
 MATCH_FUNC(0x575ff0)
-bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
+bool PoliceRoadblock::CreateRoadblock(u8 x, u8 y, u8 z, s32 orientation)
 {
     Car* pCar = NULL;
     bool bEdge; // tested with == 1 below: a plain test changes the codegen
@@ -2602,11 +2602,11 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
         zpos = Fix16(z);
         mRect->SetRect_41E350(x_left - kFpHalf_6FEBF4, x_right + kFpHalf_6FEBF4, y_top, y_bottom);
         mRect->SetHiLowZ_41E370(zpos - kFpOne_6FECEC, zpos + kFpOne_6FECEC);
-        if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(mRect, false, sprite_types_enum::none_0, NULL))
+        if (gSpriteGrid_1_679208->CheckRectForCollisions(mRect, false, sprite_types_enum::none_0, NULL))
         {
             return false;
         }
-        if (gMap_0x370_6F6268->HasWallInArea_4E18A0((x_left - kFpHalf_6FEBF4).ToInt(),
+        if (gMap_0x370_6F6268->HasWallInArea((x_left - kFpHalf_6FEBF4).ToInt(),
                                                     (x_right + kFpHalf_6FEBF4 - kFpOne64th_6FEDA0).ToInt(),
                                                     y_top.ToInt(),
                                                     (y_bottom - kFpOne64th_6FEDA0).ToInt(),
@@ -2615,7 +2615,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
             return false;
         }
 
-        Reset_575710();
+        Reset();
         for (lane = 0; lane < width; lane++)
         {
             if (lane % 2)
@@ -2623,7 +2623,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                 if (lane > 0 && lane < width - 1)
                 {
                     s16 max = 32;
-                    angle = Ang16::Fix16_To_Ang16_40F540((Fix16(gRng_6F6784.get_int_4F7AE0(max)) - kFpSixteen) * kFpOne64th_6FEB88) +
+                    angle = Ang16::Fix16_To_Ang16_40F540((Fix16(gRng_6F6784.get_int(max)) - kFpSixteen) * kFpOne64th_6FEB88) +
                         kAng0_6FEE30;
                 }
                 else
@@ -2631,7 +2631,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                     angle = kAng0_6FEE30;
                 }
 
-                if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::roadblock_car_7))
+                if (gCarManager_6C_677930->CanAllocateCarOfKind(car_kind::roadblock_car_7))
                 {
                     switch (gCrewKind_6FEDB8)
                     {
@@ -2674,11 +2674,11 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                                                                                  kFpOne_6FECEC);
                                 sRoadblockLaneHasBarriers = 0;
                                 sRoadblockLaneHasGuard = 0;
-                                Ped* pDriver = gPedManager_6787BC->SpawnDriver_470B00(pCar);
+                                Ped* pDriver = gPedManager_6787BC->SpawnDriver(pCar);
                                 pDriver->SetPedType_403920(ped_type::script_created_5);
                                 pDriver->set_occupation_403970(ped_ocupation_enum::road_block_tank_man);
                                 pDriver->mThreatReaction = threat_reaction_enum::react_as_emergency_1;
-                                pCar->mAttachments.GetSpriteForModel_5A6A50(objects::tank_cannon_148)->mOffsetRot =
+                                pCar->mAttachments.GetSpriteForModel(objects::tank_cannon_148)->mOffsetRot =
                                     kAng90_6FEB74;
                             }
                             break;
@@ -2686,10 +2686,10 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                     if (pCar)
                     {
                         pCar->SetDriverPedType_421560(ped_type::special_ped_4);
-                        pCar->IncrementCarStats_443D70(car_kind::roadblock_car_7);
+                        pCar->IncrementCarStats(car_kind::roadblock_car_7);
                         if (pCar->HasEmergencyLights_414F20())
                         {
-                            pCar->ActivateEmergencyLights_43C920();
+                            pCar->ActivateEmergencyLights();
                         }
                         if (!mCar1)
                         {
@@ -2722,12 +2722,12 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
             {
                 if (sRoadblockLaneHasBarriers)
                 {
-                    Object* pBarrier1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::roadblock_21,
+                    Object* pBarrier1 = gObject_5C_6F8F84->NewPhysicsObj(objects::roadblock_21,
                                                                                 Fix16(x_start) + kFpPoint2_6FEB50,
                                                                                 Fix16(y_start + lane) + kFpHalf_6FEBF4,
                                                                                 z,
                                                                                 kAng90_6FEB74);
-                    Object* pBarrier2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::roadblock_21,
+                    Object* pBarrier2 = gObject_5C_6F8F84->NewPhysicsObj(objects::roadblock_21,
                                                                                 Fix16(x_start) + kFpPoint8_6FEB68,
                                                                                 Fix16(y_start + lane) + kFpHalf_6FEBF4,
                                                                                 z,
@@ -2777,7 +2777,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                 }
                 if (sRoadblockLaneHasGuard)
                 {
-                    Ped* pGuard = gPolice_7B8_6FEE40->SpawnRoadblockGuard_56F5C0(Fix16(x_start) + kFpHalf_6FEB5C,
+                    Ped* pGuard = gPolice_7B8_6FEE40->SpawnRoadblockGuard(Fix16(x_start) + kFpHalf_6FEB5C,
                                                                             Fix16(y_start + lane) + kFpHalf_6FEBF4,
                                                                             z,
                                                                             kAng90_6FEB74);
@@ -2917,11 +2917,11 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
         zpos = Fix16(z);
         mRect->SetRect_41E350(x_left, x_right, y_top - kFpHalf_6FEBF4, y_bottom + kFpHalf_6FEBF4);
         mRect->SetHiLowZ_41E370(zpos - kFpOne_6FECEC, zpos + kFpOne_6FECEC);
-        if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(mRect, false, sprite_types_enum::none_0, NULL))
+        if (gSpriteGrid_1_679208->CheckRectForCollisions(mRect, false, sprite_types_enum::none_0, NULL))
         {
             return false;
         }
-        if (gMap_0x370_6F6268->HasWallInArea_4E18A0(x_left.ToInt(),
+        if (gMap_0x370_6F6268->HasWallInArea(x_left.ToInt(),
                                                     (x_right - kFpOne64th_6FEDA0).ToInt(),
                                                     (y_top - kFpHalf_6FEBF4).ToInt(),
                                                     (y_bottom + kFpHalf_6FEBF4 - kFpOne64th_6FEDA0).ToInt(),
@@ -2930,7 +2930,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
             return false;
         }
 
-        Reset_575710();
+        Reset();
         for (lane = 0; lane < width; lane++)
         {
             if (lane % 2)
@@ -2939,14 +2939,14 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                 {
                     s16 max = 16;
                     angle =
-                        Ang16::Fix16_To_Ang16_40F540((Fix16(gRng_6F6784.get_int_4F7AE0(max)) - kFpEight_6FED0C) * kFpOne64th_6FEB88) + kAng90_6FEB74;
+                        Ang16::Fix16_To_Ang16_40F540((Fix16(gRng_6F6784.get_int(max)) - kFpEight_6FED0C) * kFpOne64th_6FEB88) + kAng90_6FEB74;
                 }
                 else
                 {
                     angle = kAng90_6FEB74;
                 }
 
-                if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::roadblock_car_7))
+                if (gCarManager_6C_677930->CanAllocateCarOfKind(car_kind::roadblock_car_7))
                 {
                     switch (gCrewKind_6FEDB8)
                     {
@@ -2986,7 +2986,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                                                                                  kFpOne_6FECEC);
                                 sRoadblockLaneHasBarriers = 0;
                                 sRoadblockLaneHasGuard = 0;
-                                Ped* pDriver = gPedManager_6787BC->SpawnDriver_470B00(pCar);
+                                Ped* pDriver = gPedManager_6787BC->SpawnDriver(pCar);
                                 pDriver->SetPedType_403920(ped_type::script_created_5);
                                 pDriver->set_occupation_403970(ped_ocupation_enum::road_block_tank_man);
                                 pDriver->mThreatReaction = threat_reaction_enum::react_as_emergency_1;
@@ -2996,10 +2996,10 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                     if (pCar)
                     {
                         pCar->SetDriverPedType_421560(ped_type::special_ped_4);
-                        pCar->IncrementCarStats_443D70(car_kind::roadblock_car_7);
+                        pCar->IncrementCarStats(car_kind::roadblock_car_7);
                         if (pCar->HasEmergencyLights_414F20())
                         {
-                            pCar->ActivateEmergencyLights_43C920();
+                            pCar->ActivateEmergencyLights();
                         }
                         if (!mCar1)
                         {
@@ -3032,12 +3032,12 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
             {
                 if (sRoadblockLaneHasBarriers)
                 {
-                    Object* pBarrier1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::roadblock_21,
+                    Object* pBarrier1 = gObject_5C_6F8F84->NewPhysicsObj(objects::roadblock_21,
                                                                                 Fix16(x_start + lane) + kFpHalf_6FEBF4,
                                                                                 Fix16(y_start) + kFpPoint2_6FEB50,
                                                                                 z,
                                                                                 kAng0_6FEE30);
-                    Object* pBarrier2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::roadblock_21,
+                    Object* pBarrier2 = gObject_5C_6F8F84->NewPhysicsObj(objects::roadblock_21,
                                                                                 Fix16(x_start + lane) + kFpHalf_6FEBF4,
                                                                                 Fix16(y_start) + kFpPoint8_6FEB68,
                                                                                 z,
@@ -3087,7 +3087,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                 }
                 if (sRoadblockLaneHasGuard)
                 {
-                    Ped* pGuard = gPolice_7B8_6FEE40->SpawnRoadblockGuard_56F5C0(Fix16(x_start + lane) + kFpHalf_6FEBF4,
+                    Ped* pGuard = gPolice_7B8_6FEE40->SpawnRoadblockGuard(Fix16(x_start + lane) + kFpHalf_6FEBF4,
                                                                             Fix16(y_start) + kFpHalf_6FEB5C,
                                                                             z,
                                                                             kAng0_6FEE30);
@@ -3128,7 +3128,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
 MATCH_FUNC(0x577480)
 PoliceRoadblock::PoliceRoadblock()
 {
-    Reset_575710();
+    Reset();
     mRect = new Fix16_Rect();
 }
 

@@ -14,8 +14,8 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 
-EXPORT void __stdcall SmoothApproachAngle_405CE0(Fix16& target_angle, Fix16& angle_speed, Fix16& angle, Fix16& accel, Fix16& max_speed);
-EXPORT void __stdcall SmoothApproach_4F7540(Fix16& Coord_1, Fix16& Velocity_1, Fix16& Coord_2, Fix16& Velocity_2, Fix16& Velocity_3);
+EXPORT void __stdcall SmoothApproachAngle(Fix16& target_angle, Fix16& angle_speed, Fix16& angle, Fix16& accel, Fix16& max_speed);
+EXPORT void __stdcall SmoothApproach(Fix16& Coord_1, Fix16& Velocity_1, Fix16& Coord_2, Fix16& Velocity_2, Fix16& Velocity_3);
 
 DEFINE_STATIC_MEMBER_INIT(Fix16, Crane, kHomeHookRadius, Fix16(0x2000, 0), 0x679E58);
 DEFINE_GLOBAL_INIT(Fix16, kZero_679E70, Fix16(0), 0x679E70);
@@ -98,7 +98,7 @@ void Crane::ComputeHookPos_47E620(Fix16 radius, Ang16 ang, Fix16_Point* pOutPoin
     Fix16 cos = Ang16::cosine_40F520(ang);
     Fix16 x_old = pOutPoint->x;
     pOutPoint->x = (pOutPoint->x * cos) + (pOutPoint->y * sin);
-    pOutPoint->y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(pOutPoint->y * cos);
+    pOutPoint->y = x_old.Negate_4086A0().Multiply(sin).Add(pOutPoint->y * cos);
 
     *pOutPoint += mRotorObj->mSprite->get_x_y();
 }
@@ -112,13 +112,13 @@ void Crane::ComputeHookPos_47E730(Ang16 radius, Fix16 ang, Fix16_Point* pOutPoin
     Fix16 cos = Ang16::cosine_40F520(radius);
     Fix16 x_old = pOutPoint->x;
     pOutPoint->x = (pOutPoint->x * cos) + (pOutPoint->y * sin);
-    pOutPoint->y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(pOutPoint->y * cos);
+    pOutPoint->y = x_old.Negate_4086A0().Multiply(sin).Add(pOutPoint->y * cos);
     *pOutPoint += mRotorObj->mSprite->get_x_y();
 }
 
 // 9.6f 0x448030
 MATCH_FUNC(0x47e840)
-void Crane::ComputeHookOffset_47E840(Ang16 ang, Fix16_Point* pOutPoint)
+void Crane::ComputeHookOffset(Ang16 ang, Fix16_Point* pOutPoint)
 {
 
     pOutPoint->SetXY_432860(kZero_679E70, -kFpHalf_679D64);
@@ -127,13 +127,13 @@ void Crane::ComputeHookOffset_47E840(Ang16 ang, Fix16_Point* pOutPoint)
     Fix16 cos = Ang16::cosine_40F520(ang);
     Fix16 x_old = pOutPoint->x;
     pOutPoint->x = (pOutPoint->x * cos) + (pOutPoint->y * sin);
-    pOutPoint->y = (-x_old).Multiply_408680(sin).Add_408660(pOutPoint->y.Multiply_408680(cos));
+    pOutPoint->y = (-x_old).Multiply(sin).Add(pOutPoint->y.Multiply(cos));
     *pOutPoint += mRotorObj->mSprite->get_x_y();
 }
 
 // 9.6f 0x448090
 MATCH_FUNC(0x47e920)
-bool Crane::IsDropPositionClear_47E920()
+bool Crane::IsDropPositionClear()
 {
     Fix16_Point pos;
     ComputeHookPos_47E620(mDropRadius, Ang16::Fix16_To_Ang16_40F540(mDropAngle), &pos);
@@ -142,13 +142,13 @@ bool Crane::IsDropPositionClear_47E920()
     mProbeSprite->set_xyz_lazy_420600(pos.x, pos.y, this->mGroundZ - this->mDropHookDepth);
     mProbeSprite->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(mDropRot));
 
-    return !gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(mProbeSprite, sprite_types_enum::none_0) &&
-        !mProbeSprite->CheckSpriteMovementRegion_5A2500();
+    return !gSpriteGrid_1_679208->FindCollidingSpritePreferType(mProbeSprite, sprite_types_enum::none_0) &&
+        !mProbeSprite->CheckSpriteMovementRegion();
 }
 
 // 9.6f 0x448150
 MATCH_FUNC(0x47eb00)
-bool Crane::IsTarget1PositionClear_47EB00()
+bool Crane::IsTarget1PositionClear()
 {
     Fix16_Point hookPos;
     ComputeHookPos_47E620(mTarget1Radius, Ang16::Fix16_To_Ang16_40F540(mTarget1Angle), &hookPos);
@@ -157,15 +157,15 @@ bool Crane::IsTarget1PositionClear_47EB00()
     mProbeSprite->set_xyz_lazy_420600(hookPos.x, hookPos.y, mGroundZ - mTarget1HookDepth);
     mProbeSprite->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(mTarget1Rot));
 
-    return gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(mProbeSprite, sprite_types_enum::none_0) == NULL;
+    return gSpriteGrid_1_679208->FindCollidingSpritePreferType(mProbeSprite, sprite_types_enum::none_0) == NULL;
 }
 
 MATCH_FUNC(0x47ecc0)
-void Crane::DropHookedCar_47ECC0()
+void Crane::DropHookedCar()
 {
     Car* pCar = mpSpriteOnHook->AsCar_40FEB0();
-    gSpriteGrid_1_679208->AddToRegionBuckets_477B20(mpSpriteOnHook);
-    pCar->UpdateDrawLayer_4435F0();
+    gSpriteGrid_1_679208->AddToRegionBuckets(mpSpriteOnHook);
+    pCar->UpdateDrawLayer();
     pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
     gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
     pCar->ResetDespawnStatus_447EA0();
@@ -181,42 +181,42 @@ void Crane::DropHookedCar_47ECC0()
             else
             {
                 mLoadPhase = 1;
-                mStrct4.AddSprite_5A6CD0(mpSpriteOnHook);
+                mStrct4.AddSprite(mpSpriteOnHook);
             }
         }
         else
         {
-            mStrct4.AddSprite_5A6CD0(mpSpriteOnHook);
+            mStrct4.AddSprite(mpSpriteOnHook);
         }
     }
     mpSpriteOnHook = NULL;
     mHookJob = 0;
-    Crane::DropInPlaceOrReturnHome_47F170();
+    Crane::DropInPlaceOrReturnHome();
 }
 
 MATCH_FUNC(0x47ed60)
-void Crane::DropHookedCarOnTransporter_47ED60()
+void Crane::DropHookedCarOnTransporter()
 {
     Car* pCar = mpSpriteOnHook->AsCar_40FEB0();
     gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
     pCar->ResetDespawnStatus_447EA0();
-    gSpriteGrid_1_679208->AddToRegionBuckets_477B20(mpSpriteOnHook);
-    mDropTransporter->AttachSprite_5A3100(mpSpriteOnHook, kZero_679E70, kZero_679E70, kAngZero_679FC4);
-    mStrct4.AddSprite_5A6CD0(mDropTransporter);
+    gSpriteGrid_1_679208->AddToRegionBuckets(mpSpriteOnHook);
+    mDropTransporter->AttachSprite(mpSpriteOnHook, kZero_679E70, kZero_679E70, kAngZero_679FC4);
+    mStrct4.AddSprite(mDropTransporter);
     mpSpriteOnHook = NULL;
     mHookJob = 0;
     mDropTransporter = NULL;
-    Crane::DropInPlaceOrReturnHome_47F170();
+    Crane::DropInPlaceOrReturnHome();
 }
 
 // 9.6 0x448300
 MATCH_FUNC(0x47edf0)
-void Crane::HookTransporterCargo_47EDF0()
+void Crane::HookTransporterCargo()
 {
     Car* pCar = mCargoTransporter->AsCar_40FEB0();
 
-    pCar->mAttachments.RemoveSprite_5A6B10(mTransporterCargo);
-    gSpriteGrid_3_679210->Remove_477B00(mTransporterCargo);
+    pCar->mAttachments.RemoveSprite(mTransporterCargo);
+    gSpriteGrid_3_679210->Remove(mTransporterCargo);
 
     this->mpSpriteOnHook = this->mTransporterCargo;
     this->mHookedSpriteOffset = mpSpriteOnHook->get_x_y() - mHookObj->mSprite->get_x_y();
@@ -248,7 +248,7 @@ void Crane::HookTransporterCargo_47EDF0()
 
 // 9.6f 0x448450
 MATCH_FUNC(0x47ef80)
-void Crane::HookPickupCar_47EF80()
+void Crane::HookPickupCar()
 {
     this->mHookedCarThisFrame = true;
 
@@ -269,10 +269,10 @@ void Crane::HookPickupCar_47EF80()
 
     pCar->SetDeactivatedStatus_4214E0();
     pCar->DeAllocateCarPhysics_43BD00();
-    gSpriteGrid_1_679208->RemoveFromRegionBuckets_477B60(mPickupCar);
+    gSpriteGrid_1_679208->RemoveFromRegionBuckets(mPickupCar);
 
     this->mpSpriteOnHook = this->mPickupCar;
-    this->mHookedSpriteOffset = mpSpriteOnHook->get_x_y().Sub_40AC80(mHookObj->mSprite->get_x_y());
+    this->mHookedSpriteOffset = mpSpriteOnHook->get_x_y().Sub(mHookObj->mSprite->get_x_y());
 
     mProbeSprite->mpCollisionShape->CopyDimensions_447DF0(mpSpriteOnHook->mpCollisionShape);
 
@@ -305,7 +305,7 @@ void Crane::HookPickupCar_47EF80()
 
 // 9.6f 0x447D40
 MATCH_FUNC(0x47f170)
-void Crane::DropInPlaceOrReturnHome_47F170()
+void Crane::DropInPlaceOrReturnHome()
 {
     if (mHookJob)
     {
@@ -330,7 +330,7 @@ void Crane::DropInPlaceOrReturnHome_47F170()
 }
 
 MATCH_FUNC(0x47f220)
-void Crane::SetTransporterCargoTarget_47F220(Fix16 radius, Fix16 angle, Sprite* pCargo, Sprite* pTransporter)
+void Crane::SetTransporterCargoTarget(Fix16 radius, Fix16 angle, Sprite* pCargo, Sprite* pTransporter)
 {
     mTransporterCargoRadius = radius;
     mTransporterCargoAngle = angle;
@@ -344,7 +344,7 @@ void Crane::SetTransporterCargoTarget_47F220(Fix16 radius, Fix16 angle, Sprite* 
 }
 
 MATCH_FUNC(0x47f290)
-void Crane::SetDropTransporterTarget_47F290(Fix16 radius, Fix16 angle, Sprite* pSprite)
+void Crane::SetDropTransporterTarget(Fix16 radius, Fix16 angle, Sprite* pSprite)
 {
     mDropTransporterRadius = radius;
     mDropTransporterAngle = angle;
@@ -357,7 +357,7 @@ void Crane::SetDropTransporterTarget_47F290(Fix16 radius, Fix16 angle, Sprite* p
 }
 
 MATCH_FUNC(0x47f2f0)
-void Crane::SetPickupCarTarget_47F2F0(Fix16 radius, Fix16 angle, Sprite* pSprite)
+void Crane::SetPickupCarTarget(Fix16 radius, Fix16 angle, Sprite* pSprite)
 {
     mPickupCarRadius = radius;
     mPickupCarAngle = angle;
@@ -371,7 +371,7 @@ void Crane::SetPickupCarTarget_47F2F0(Fix16 radius, Fix16 angle, Sprite* pSprite
 
 // 9.6f 0x448730
 MATCH_FUNC(0x47f350)
-bool Crane::IsTransporterCargoTargetValid_47F350()
+bool Crane::IsTransporterCargoTargetValid()
 {
     Car* pCar1 = mCargoTransporter->AsCar_40FEB0();
     if (!pCar1->IsDespawning_4215B0())
@@ -389,12 +389,12 @@ bool Crane::IsTransporterCargoTargetValid_47F350()
 
 // 9.6f 0x4487D0
 MATCH_FUNC(0x47f3d0)
-bool Crane::IsPickupCarTargetValid_47F3D0()
+bool Crane::IsPickupCarTargetValid()
 {
     Car* pCar = mPickupCar->AsCar_40FEB0();
     if (!pCar->IsDespawning_4215B0() && this->mPickupCarX == mPickupCar->mXy.x && this->mPickupCarY == mPickupCar->mXy.y &&
         this->mPickupCarZ == mPickupCar->mZpos && this->mPickupCarRot == Ang16::Ang16_to_Fix16(mPickupCar->mRotation) && !pCar->mDriver &&
-        pCar->AreAllDoorsClosed_441A40())
+        pCar->AreAllDoorsClosed())
     {
         return true;
     }
@@ -402,23 +402,23 @@ bool Crane::IsPickupCarTargetValid_47F3D0()
 }
 
 MATCH_FUNC(0x47f450)
-bool Crane::IsDropTransporterTargetValid_47F450()
+bool Crane::IsDropTransporterTargetValid()
 {
     Car* pCar = mDropTransporter->AsCar_40FEB0();
     if (!pCar->IsDespawning_4215B0() && this->mDropTransporterPos.x == mDropTransporter->mXy.x && this->mDropTransporterPos.y == mDropTransporter->mXy.y &&
         this->mDropTransporterZ == mDropTransporter->mZpos && this->mDropTransporterRot == Ang16::Ang16_to_Fix16(mDropTransporter->mRotation))
     {
-        return pCar->mAttachments.FirstSpriteOfType_5A6CA0(sprite_types_enum::car_2) ? false : true;
+        return pCar->mAttachments.FirstSpriteOfType(sprite_types_enum::car_2) ? false : true;
     }
     return false;
 }
 
 MATCH_FUNC(0x47f4c0)
-void Crane::UpdateCraneTargets_47F4C0()
+void Crane::UpdateCraneTargets()
 {
     if (this->mTransporterCargo)
     {
-        if (!IsTransporterCargoTargetValid_47F350())
+        if (!IsTransporterCargoTargetValid())
         {
             this->mTransporterCargo = NULL;
             this->mReturnDelay = 60;
@@ -427,7 +427,7 @@ void Crane::UpdateCraneTargets_47F4C0()
 
     if (this->mPickupCar)
     {
-        if (!IsPickupCarTargetValid_47F3D0())
+        if (!IsPickupCarTargetValid())
         {
             this->mPickupCar = NULL;
             this->mReturnDelay = 60;
@@ -436,7 +436,7 @@ void Crane::UpdateCraneTargets_47F4C0()
 
     if (this->mDropTransporter)
     {
-        if (!IsDropTransporterTargetValid_47F450())
+        if (!IsDropTransporterTargetValid())
         {
             this->mDropTransporter = NULL;
             this->mReturnDelay = 60;
@@ -445,7 +445,7 @@ void Crane::UpdateCraneTargets_47F4C0()
 
     if (mHookJob == 2 || mHookJob == 3 || mHookJob == 4)
     {
-        if (IsDropPositionClear_47E920())
+        if (IsDropPositionClear())
         {
             this->mIsBusy = true;
         }
@@ -454,7 +454,7 @@ void Crane::UpdateCraneTargets_47F4C0()
             this->mIsBusy = false;
             if (mHookJob != 4)
             {
-                TryNextDropPosition_47FB40();
+                TryNextDropPosition();
             }
         }
     }
@@ -498,7 +498,7 @@ void Crane::UpdateCraneTargets_47F4C0()
 
         if (!mReturnDelay)
         {
-            DropInPlaceOrReturnHome_47F170();
+            DropInPlaceOrReturnHome();
         }
         else
         {
@@ -509,9 +509,9 @@ void Crane::UpdateCraneTargets_47F4C0()
 
 // 9.6f 0x448900
 MATCH_FUNC(0x47f6c0)
-bool Crane::ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* pOutAng)
+bool Crane::ComputeHookPolar(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* pOutAng)
 {
-    Fix16_Point to_hook = (pPoint.Sub_40AC80(mRotorObj->mSprite->get_x_y()));
+    Fix16_Point to_hook = (pPoint.Sub(mRotorObj->mSprite->get_x_y()));
     *pOutF16 = to_hook.GetLength_41E260();
 
     // 9.6f (0x448900) only has the minimum radius test
@@ -529,20 +529,20 @@ bool Crane::ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* 
 // 9.6f 0x448980
 // 10.5 https://decomp.me/scratch/XYPfQ
 MATCH_FUNC(0x47f7f0)
-void Crane::TargetTransporter_47F7F0(Car* pCar)
+void Crane::TargetTransporter(Car* pCar)
 {
     Fix16 point;
     Fix16 t;
-    Sprite* pFoundSprite = pCar->mAttachments.FirstSpriteOfType_5A6CA0(sprite_types_enum::car_2);
+    Sprite* pFoundSprite = pCar->mAttachments.FirstSpriteOfType(sprite_types_enum::car_2);
     if (pFoundSprite)
     {
         if (!mHookJob)
         {
-            if (ComputeHookPolar_47F6C0(pFoundSprite->get_x_y_443580(), &point, &t))
+            if (ComputeHookPolar(pFoundSprite->get_x_y_443580(), &point, &t))
             {
                 if (mTransporterCargo == NULL || pFoundSprite == mTransporterCargo)
                 {
-                    SetTransporterCargoTarget_47F220(point, t, pFoundSprite, pCar->mCarSprite);
+                    SetTransporterCargoTarget(point, t, pFoundSprite, pCar->mCarSprite);
                     mDropTransporter = NULL;
                     mPickupCar = NULL;
                 }
@@ -552,11 +552,11 @@ void Crane::TargetTransporter_47F7F0(Car* pCar)
     else if (mTransporterCargo == NULL && (mHookJob == 0 || mHookJob == 1) && mCraneMode == 0)
     {
         Sprite* pSprt = pCar->mCarSprite;
-        if (ComputeHookPolar_47F6C0(pSprt->get_x_y_443580(), &point, &t))
+        if (ComputeHookPolar(pSprt->get_x_y_443580(), &point, &t))
         {
             if (mDropTransporter == NULL || pSprt == mDropTransporter)
             {
-                SetDropTransporterTarget_47F290(point, t, pSprt);
+                SetDropTransporterTarget(point, t, pSprt);
             }
         }
     }
@@ -565,34 +565,34 @@ void Crane::TargetTransporter_47F7F0(Car* pCar)
 // 9.6f 0x448A80
 // 10.5 https://decomp.me/scratch/HB5R5 return jump issue
 MATCH_FUNC(0x47f930)
-void Crane::PickUpCar_47F930(Car* pCar)
+void Crane::PickUpCar(Car* pCar)
 {
 
-    if (!pCar->IsDespawning_4215B0() && !mStrct4.TagSpriteWithRng_5A6C10(pCar->mCarSprite))
+    if (!pCar->IsDespawning_4215B0() && !mStrct4.TagSpriteWithRng(pCar->mCarSprite))
     {
         if (pCar->IsTruckTransport_447EC0())
         {
-            TargetTransporter_47F7F0(pCar);
+            TargetTransporter(pCar);
         }
         else if (mDropTransporter || (mCraneMode == 1) || (mCraneMode == 2 || mCraneMode == 3) && mLoadPhase == 1 && !pCar->IsEngineCrushed_447EB0() ||
                  mLoadPhase == 2 && pCar->IsEngineCrushed_447EB0())
         {
             if (!mHookJob && !pCar->mDriver)
             {
-                if (pCar->AreAllDoorsClosed_441A40())
+                if (pCar->AreAllDoorsClosed())
                 {
                     if (pCar->CanBeLiftedByCrane_447F00())
                     {
                         Fix16 hook_radius;
                         Fix16 hook_angle;
                         Sprite* pSprt = pCar->mCarSprite;
-                        if (ComputeHookPolar_47F6C0(pSprt->get_x_y(), &hook_radius, &hook_angle))
+                        if (ComputeHookPolar(pSprt->get_x_y(), &hook_radius, &hook_angle))
                         {
-                            if (mCraneMode != 1 || IsTarget1PositionClear_47EB00())
+                            if (mCraneMode != 1 || IsTarget1PositionClear())
                             {
                                 if (mPickupCar == NULL || pSprt == mPickupCar)
                                 {
-                                    SetPickupCarTarget_47F2F0(hook_radius, hook_angle, pSprt);
+                                    SetPickupCarTarget(hook_radius, hook_angle, pSprt);
                                 }
                             }
                         }
@@ -603,8 +603,8 @@ void Crane::PickUpCar_47F930(Car* pCar)
                         if (!pTrailer || pTrailer->mTrailerCar == NULL || !pTrailer->mTrailerCar->IsTruckTransport_447EC0())
                         {
                             gHud_2B00_706620->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, "nespray");
-                            mStrct4.AddSprite_5A6CD0(pCar->mCarSprite);
-                            mStrct4.TagSpriteWithRng_5A6C10(pCar->mCarSprite);
+                            mStrct4.AddSprite(pCar->mCarSprite);
+                            mStrct4.TagSpriteWithRng(pCar->mCarSprite);
                         }
                     }
                 }
@@ -615,7 +615,7 @@ void Crane::PickUpCar_47F930(Car* pCar)
 
 // 9.6f 0x448C00
 MATCH_FUNC(0x47fb40)
-void Crane::TryNextDropPosition_47FB40()
+void Crane::TryNextDropPosition()
 {
     if (mDropRadius == kFpTwo_679F8C)
     {
@@ -629,13 +629,13 @@ void Crane::TryNextDropPosition_47FB40()
 }
 
 MATCH_FUNC(0x47fba0)
-s32 Crane::MoveTowardsTargets_47FBA0()
+s32 Crane::MoveTowardsTargets()
 {
     if (this->mHookDepth == kZero_679E70)
     {
-        SmoothApproach_4F7540(this->mHookRadiusTarget, this->mHookRadiusSpeed, this->mHookRadius, kHookRadiusAccel, kHookRadiusMaxSpeed);
-        SmoothApproachAngle_405CE0(mCraneAngleTarget, mCraneAngleSpeed, mCraneAngle, kCraneAngleAccel, kCraneAngleMaxSpeed);
-        SmoothApproachAngle_405CE0(mHookAngleTarget, mHookAxialAngleSpeed, mHookAxialAngle, kHookAxialAngleAccel, kHookAxialAngleMaxSpeed);
+        SmoothApproach(this->mHookRadiusTarget, this->mHookRadiusSpeed, this->mHookRadius, kHookRadiusAccel, kHookRadiusMaxSpeed);
+        SmoothApproachAngle(mCraneAngleTarget, mCraneAngleSpeed, mCraneAngle, kCraneAngleAccel, kCraneAngleMaxSpeed);
+        SmoothApproachAngle(mHookAngleTarget, mHookAxialAngleSpeed, mHookAxialAngle, kHookAxialAngleAccel, kHookAxialAngleMaxSpeed);
         if (this->mpSpriteOnHook)
         {
             this->mHookedSpriteOffset = this->mHookedSpriteOffsetTarget;
@@ -657,7 +657,7 @@ s32 Crane::MoveTowardsTargets_47FBA0()
         f_B8_hook_depth_target = kZero_679E70;
     }
 
-    SmoothApproach_4F7540(f_B8_hook_depth_target, this->mHookDepthSpeed, this->mHookDepth, kHookDepthAccel, kHookDepthMaxSpeed);
+    SmoothApproach(f_B8_hook_depth_target, this->mHookDepthSpeed, this->mHookDepth, kHookDepthAccel, kHookDepthMaxSpeed);
 
     this->mIsRotating = this->mCraneAngle != this->mCraneAngleTarget;
     this->mIsRadiusChanging = this->mHookRadius != this->mHookRadiusTarget;
@@ -666,76 +666,76 @@ s32 Crane::MoveTowardsTargets_47FBA0()
 }
 
 MATCH_FUNC(0x47fd10)
-void Crane::ReleaseHookedCar_47FD10()
+void Crane::ReleaseHookedCar()
 {
     if (mPowerupCmd)
     {
-        gScriptManager_6F8060->AddCranePowerupTrigger_511B10(mPowerupCmd);
+        gScriptManager_6F8060->AddCranePowerupTrigger(mPowerupCmd);
     }
 
     switch (mHookJob)
     {
         case 1:
-            DropHookedCarOnTransporter_47ED60();
+            DropHookedCarOnTransporter();
             break;
 
         case 2:
         case 3:
         case 4:
-            DropHookedCar_47ECC0();
+            DropHookedCar();
             break;
     }
 }
 
 MATCH_FUNC(0x47fd50)
-void Crane::UpdateCraneTick_47FD50()
+void Crane::UpdateCraneTick()
 {
     Fix16 old_crane_angle = mCraneAngle;
     Fix16 old_hook_radius = mHookRadius;
     Fix16 old_hook_axial_angle = mHookAxialAngle;
     Fix16 old_hook_depth = mHookDepth;
 
-    u8 bMoved = Crane::MoveTowardsTargets_47FBA0();
+    u8 bMoved = Crane::MoveTowardsTargets();
 
     if (old_crane_angle != mCraneAngle || old_hook_radius != mHookRadius ||
         old_hook_axial_angle != mHookAxialAngle || old_hook_depth != mHookDepth)
     {
-        Crane::UpdateCraneSprites_47FE10();
+        Crane::UpdateCraneSprites();
     }
     if (bMoved != 0)
     {
         if (mTransporterCargo)
         {
-            Crane::HookTransporterCargo_47EDF0();
+            Crane::HookTransporterCargo();
         }
         else if (mPickupCar && (mDropTransporter || (mCraneMode == 1) || mCraneMode == 2 || mCraneMode == 3))
         {
-            Crane::HookPickupCar_47EF80();
+            Crane::HookPickupCar();
         }
         else
         {
-            Crane::ReleaseHookedCar_47FD10();
+            Crane::ReleaseHookedCar();
         }
     }
 }
 
 // 9.6f 0x448E30
 MATCH_FUNC(0x47fe10)
-void Crane::UpdateCraneSprites_47FE10()
+void Crane::UpdateCraneSprites()
 {
     Fix16_Point pos;
     Ang16 crane_angle = Ang16::Fix16_To_Ang16_40F540(mCraneAngle);
 
-    mPartObj0->RemoveFromCollisionBuckets_527D00();
-    mPartObj1->RemoveFromCollisionBuckets_527D00();
-    mPartObj2->RemoveFromCollisionBuckets_527D00();
-    mPartObj3->RemoveFromCollisionBuckets_527D00();
-    mPartObj4->RemoveFromCollisionBuckets_527D00();
-    mPartObj5->RemoveFromCollisionBuckets_527D00();
-    mPartObj6->RemoveFromCollisionBuckets_527D00();
-    mPartObj7->RemoveFromCollisionBuckets_527D00();
-    mPartObj8->RemoveFromCollisionBuckets_527D00();
-    mHookObj->RemoveFromCollisionBuckets_527D00();
+    mPartObj0->RemoveFromCollisionBuckets();
+    mPartObj1->RemoveFromCollisionBuckets();
+    mPartObj2->RemoveFromCollisionBuckets();
+    mPartObj3->RemoveFromCollisionBuckets();
+    mPartObj4->RemoveFromCollisionBuckets();
+    mPartObj5->RemoveFromCollisionBuckets();
+    mPartObj6->RemoveFromCollisionBuckets();
+    mPartObj7->RemoveFromCollisionBuckets();
+    mPartObj8->RemoveFromCollisionBuckets();
+    mHookObj->RemoveFromCollisionBuckets();
 
     ComputeHookPos_47E730(crane_angle, kFpHalf, &pos);
     mPartObj0->mSprite->set_ang_lazy_420690(crane_angle);
@@ -767,7 +767,7 @@ void Crane::UpdateCraneSprites_47FE10()
 
     mPartObj8->mSprite->set_ang_lazy_420690(crane_angle);
 
-    ComputeHookOffset_47E840(crane_angle, &pos);
+    ComputeHookOffset(crane_angle, &pos);
     mCounterweightObj->mSprite->set_ang_lazy_420690(crane_angle);
     mCounterweightObj->mSprite->set_xy_lazy_447E20(pos.x, pos.y);
 
@@ -784,39 +784,39 @@ void Crane::UpdateCraneSprites_47FE10()
         mpSpriteOnHook->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(mHookAxialAngle));
     }
 
-    mPartObj0->AssignToBucket_527AE0();
-    mPartObj1->AssignToBucket_527AE0();
-    mPartObj2->AssignToBucket_527AE0();
-    mPartObj3->AssignToBucket_527AE0();
-    mPartObj4->AssignToBucket_527AE0();
-    mPartObj5->AssignToBucket_527AE0();
-    mPartObj6->AssignToBucket_527AE0();
-    mPartObj7->AssignToBucket_527AE0();
-    mPartObj8->AssignToBucket_527AE0();
-    mHookObj->AssignToBucket_527AE0();
+    mPartObj0->AssignToBucket();
+    mPartObj1->AssignToBucket();
+    mPartObj2->AssignToBucket();
+    mPartObj3->AssignToBucket();
+    mPartObj4->AssignToBucket();
+    mPartObj5->AssignToBucket();
+    mPartObj6->AssignToBucket();
+    mPartObj7->AssignToBucket();
+    mPartObj8->AssignToBucket();
+    mHookObj->AssignToBucket();
 }
 
 MATCH_FUNC(0x480310)
-void Crane::Service_480310()
+void Crane::Service()
 {
     mHookedCarThisFrame = false;
-    mStrct4.RemoveAllExceptRngValue_5A6C40(gpRng_67AB34->get_cur_rng_41CFE0() - 1);
+    mStrct4.RemoveAllExceptRngValue(gpRng_67AB34->get_cur_rng_41CFE0() - 1);
     if (mpSpriteOnHook)
     {
-        gSpriteGrid_3_679210->Remove_477B00(mpSpriteOnHook);
+        gSpriteGrid_3_679210->Remove(mpSpriteOnHook);
     }
-    Crane::UpdateCraneTargets_47F4C0();
+    Crane::UpdateCraneTargets();
     if (!mDisabled)
     {
         if (mHomeCrane == NULL || !IsAtHomeAngle_447F40() || mHomeCrane->IsAtHomeAngle_447F40())
         {
-            Crane::UpdateCraneTick_47FD50();
+            Crane::UpdateCraneTick();
         }
     }
 
     if (mpSpriteOnHook)
     {
-        mpSpriteOnHook->AsCar_40FEB0()->UpdateOnCraneHook_443330();
+        mpSpriteOnHook->AsCar_40FEB0()->UpdateOnCraneHook();
     }
 
     if (mpSpriteOnHook)
@@ -826,26 +826,26 @@ void Crane::Service_480310()
 }
 
 MATCH_FUNC(0x4803b0)
-void Crane::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type obj_id)
+void Crane::InitCrane(Fix16 x_pos, Fix16 y_pos, char_type obj_id)
 {
     mCraneMode = 0;
     SetDisabled_447F60(0);
 
-    mGroundZ = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x_pos, y_pos);
-    mRotorObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_rotor_135, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
-    mPartObj0 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_cables_134, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
-    mPartObj1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_cables_134, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
-    mPartObj2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_cables_134, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
-    mPartObj3 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_cables_134, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
-    mPartObj4 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_arm_252, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
-    mPartObj5 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(260, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
-    mPartObj6 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(261, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
-    mPartObj7 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(262, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
-    mPartObj8 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(263, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
-    mCounterweightObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_counterweight_140, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
-    mHookObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_hook_136, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
+    mGroundZ = gMap_0x370_6F6268->FindGroundZForCoord(x_pos, y_pos);
+    mRotorObj = gObject_5C_6F8F84->NewPhysicsObj(objects::crane_rotor_135, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
+    mPartObj0 = gObject_5C_6F8F84->NewPhysicsObj(objects::crane_cables_134, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
+    mPartObj1 = gObject_5C_6F8F84->NewPhysicsObj(objects::crane_cables_134, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
+    mPartObj2 = gObject_5C_6F8F84->NewPhysicsObj(objects::crane_cables_134, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
+    mPartObj3 = gObject_5C_6F8F84->NewPhysicsObj(objects::crane_cables_134, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
+    mPartObj4 = gObject_5C_6F8F84->NewPhysicsObj(objects::crane_arm_252, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
+    mPartObj5 = gObject_5C_6F8F84->NewPhysicsObj(260, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
+    mPartObj6 = gObject_5C_6F8F84->NewPhysicsObj(261, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
+    mPartObj7 = gObject_5C_6F8F84->NewPhysicsObj(262, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
+    mPartObj8 = gObject_5C_6F8F84->NewPhysicsObj(263, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
+    mCounterweightObj = gObject_5C_6F8F84->NewPhysicsObj(objects::crane_counterweight_140, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
+    mHookObj = gObject_5C_6F8F84->NewPhysicsObj(objects::crane_hook_136, x_pos, y_pos, mGroundZ, kAngZero_679FC4);
 
-    mCraneBaseObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_base_137, x_pos, y_pos, mGroundZ - kFpTwo, kAngZero_679FC4);
+    mCraneBaseObj = gObject_5C_6F8F84->NewPhysicsObj(objects::crane_base_137, x_pos, y_pos, mGroundZ - kFpTwo, kAngZero_679FC4);
     mCraneBaseObj->SetParam_447E90(obj_id);
     mHomeCrane = NULL;
     mHookRadiusSpeed = kZero_679E70;
@@ -890,7 +890,7 @@ void Crane::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type obj_id)
 
     Sprite* current_sprite = gSpritePool_703818->get_new_sprite();
     mProbeSprite = current_sprite;
-    current_sprite->AllocCollisionShape_59F950(kZero_679E70, kZero_679E70, kZero_679E70);
+    current_sprite->AllocCollisionShape(kZero_679E70, kZero_679E70, kZero_679E70);
     mReturnDelay = 60;
     mDropTransporterRadius = kZero_679E70;
     mDropTransporterAngle = kZero_679E70;
@@ -913,7 +913,7 @@ void Crane::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type obj_id)
     mTarget2Offset.y = 0;
     mTarget2HookDepth = kZero_679E70;
     mLoadPhase = 1;
-    Crane::UpdateCraneSprites_47FE10();
+    Crane::UpdateCraneSprites();
     mIsRotating = 0;
     mIsRadiusChanging = 0;
     mIsHookDepthChanging = 0;
@@ -921,17 +921,17 @@ void Crane::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type obj_id)
     mPowerupCmd = 0;
     if (!mSound && !bSkip_audio_67D6BE)
     {
-        mSound = gRoot_sound_66B038.CreateSoundObject_40EF40(this, SoundObjectTypeEnum::Crane_15C_8);
+        mSound = gRoot_sound_66B038.CreateSoundObject(this, SoundObjectTypeEnum::Crane_15C_8);
     }
     mStrct4.ResetHead_4207E0();
 }
 
 MATCH_FUNC(0x480900)
-void Crane::SetTarget1_480900(Fix16 xpos, Fix16 ypos, Ang16 ang)
+void Crane::SetTarget1(Fix16 xpos, Fix16 ypos, Ang16 ang)
 {
     Fix16_Point target_pos(xpos, ypos);
     Fix16_Point t;
-    ComputeHookPolar_47F6C0(target_pos, &mTarget1Radius, &mTarget1Angle);
+    ComputeHookPolar(target_pos, &mTarget1Radius, &mTarget1Angle);
 
     mTarget1Rot = Ang16::Ang16_to_Fix16(ang);
 
@@ -948,16 +948,16 @@ void Crane::SetTarget1_480900(Fix16 xpos, Fix16 ypos, Ang16 ang)
     ComputeHookPos_47E620(mTarget1Radius, Ang16::Fix16_To_Ang16_40F540(mTarget1Angle), &t);
     mTarget1Offset = target_pos - t;
 
-    mTarget1HookDepth = mGroundZ - gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos);
+    mTarget1HookDepth = mGroundZ - gMap_0x370_6F6268->FindGroundZForCoord(xpos, ypos);
 }
 
 // 9.6f 0x4496E0
 MATCH_FUNC(0x480b60)
-void Crane::SetTarget2_480B60(Fix16 xpos, Fix16 ypos, Ang16 ang)
+void Crane::SetTarget2(Fix16 xpos, Fix16 ypos, Ang16 ang)
 {
     Fix16_Point target_pos(xpos, ypos);
     Fix16_Point t;
-    ComputeHookPolar_47F6C0(target_pos, &mTarget2Radius, &mTarget2Angle);
+    ComputeHookPolar(target_pos, &mTarget2Radius, &mTarget2Angle);
 
     mTarget2Rot = Ang16::Ang16_to_Fix16(ang);
 
@@ -974,11 +974,11 @@ void Crane::SetTarget2_480B60(Fix16 xpos, Fix16 ypos, Ang16 ang)
     ComputeHookPos_47E620(mTarget2Radius, Ang16::Fix16_To_Ang16_40F540(mTarget2Angle), &t);
     mTarget2Offset = target_pos - t;
 
-    mTarget2HookDepth = mGroundZ - gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos);
+    mTarget2HookDepth = mGroundZ - gMap_0x370_6F6268->FindGroundZForCoord(xpos, ypos);
 }
 
 MATCH_FUNC(0x480da0)
-Car* Crane::GetCarFromCrane_480DA0()
+Car* Crane::GetCarFromCrane()
 {
     if (mpSpriteOnHook)
     {
@@ -988,29 +988,29 @@ Car* Crane::GetCarFromCrane_480DA0()
 }
 
 MATCH_FUNC(0x480e00)
-void CranePool::PickUpCar_480E00(Car* pCar, u8 crane_idx)
+void CranePool::PickUpCar(Car* pCar, u8 crane_idx)
 {
-    mCranes[crane_idx].PickUpCar_47F930(pCar);
+    mCranes[crane_idx].PickUpCar(pCar);
 }
 
 MATCH_FUNC(0x480e50)
-void CranePool::CranesService_480E50()
+void CranePool::CranesService()
 {
     s32 i = 0;
     Crane* pIter = mCranes;
     while (i < mCount)
     {
-        pIter->Service_480310();
+        pIter->Service();
         i++;
         pIter++;
     }
 }
 
 MATCH_FUNC(0x480ec0)
-Crane* CranePool::NewCrane_480EC0(Fix16 x_pos, Fix16 y_pos)
+Crane* CranePool::NewCrane(Fix16 x_pos, Fix16 y_pos)
 {
     Crane* pNewCrane = &mCranes[mCount];
-    pNewCrane->InitCrane_4803B0(x_pos, y_pos, mCount);
+    pNewCrane->InitCrane(x_pos, y_pos, mCount);
     mCount++;
     return pNewCrane;
 }

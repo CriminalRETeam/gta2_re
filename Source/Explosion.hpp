@@ -14,25 +14,25 @@ class Explosion
     STATIC_MEMBER(u8, sExplosionWantsFlash);
     EXPORT Explosion();
     EXPORT ~Explosion();
-    EXPORT void EmitRandomDiagonalParticle_540A40();
-    EXPORT void EmitFireTrail_3_12_540D30(Ang16 ang, Fix16 speed);
-    EXPORT void EmitFireTrail_4_540F90(Ang16 ang, Fix16 speed);
-    EXPORT void EmitFireTrail_13_14_5411E0(Ang16 ang, Fix16 speed);
-    EXPORT void EmitFireTrail_5_541430(Ang16 ang, Fix16 speed);
-    EXPORT Fix16 GetBlastRadius_541680() const;
-    EXPORT Fix16 GetBlastHeight_541710() const;
-    EXPORT void SpawnFlashParticle_541760();
-    EXPORT void ApplyBlastDamage_541850(u16 timerVal);
-    EXPORT void EmitExplosion_18_33_541D60();
-    EXPORT void EmitExplosion_19_32_542060();
-    EXPORT void EmitExplosion_20_542340();
-    EXPORT void UpdateExplosion_18_19_20_32_33_542790();
-    EXPORT void EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx);
-    EXPORT bool Update_5434A0(Fix16 speed, Ang16 ang);
-    EXPORT bool IsFireType_5435D0() const;
-    EXPORT void Release_543610();
-    EXPORT void Init_543650();
-    EXPORT void SetObject_543680(Object* pObj);
+    EXPORT void EmitRandomDiagonalParticle();
+    EXPORT void EmitFireTrail_3_12(Ang16 ang, Fix16 speed);
+    EXPORT void EmitFireTrail_4(Ang16 ang, Fix16 speed);
+    EXPORT void EmitFireTrail_13_14(Ang16 ang, Fix16 speed);
+    EXPORT void EmitFireTrail_5(Ang16 ang, Fix16 speed);
+    EXPORT Fix16 GetBlastRadius() const;
+    EXPORT Fix16 GetBlastHeight() const;
+    EXPORT void SpawnFlashParticle();
+    EXPORT void ApplyBlastDamage(u16 timerVal);
+    EXPORT void EmitExplosion_18_33();
+    EXPORT void EmitExplosion_19_32();
+    EXPORT void EmitExplosion_20();
+    EXPORT void UpdateExplosion_18_19_20_32_33();
+    EXPORT void EmitBuildingDebris_22_23_24_25(u8 direction_idx);
+    EXPORT bool Update(Fix16 speed, Ang16 ang);
+    EXPORT bool IsFireType() const;
+    EXPORT void Release();
+    EXPORT void Init();
+    EXPORT void SetObject(Object* pObj);
 
     // 9.6f 0x482A90
     inline void SetType_482A90(s32 type_or_state)
@@ -61,8 +61,8 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Explosion, 0x30);
 class ExplosionPool
 {
   public:
-    EXPORT s32 FreeLowestPriority_543690();
-    EXPORT Explosion* Allocate_543800();
+    EXPORT s32 FreeLowestPriority();
+    EXPORT Explosion* Allocate();
     EXPORT ExplosionPool();
     EXPORT ~ExplosionPool();
     Explosion mExplosions[40]; // 0x0
@@ -73,7 +73,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(ExplosionPool, 0x7A8);
 class ExplosionPool_3D4
 {
   public:
-    EXPORT Explosion* Allocate_543900();
+    EXPORT Explosion* Allocate();
     EXPORT ExplosionPool_3D4();
     EXPORT ~ExplosionPool_3D4();
     Explosion mExplosions[20]; // 0x0

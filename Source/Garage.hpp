@@ -13,9 +13,9 @@ class Garage
 {
   public:
     EXPORT ~Garage();
-    EXPORT void ValidateParkCommand_534650();
-    EXPORT u8 ParkCarAtDoor_534700(Car* pCar, Door* pDoor);
-    EXPORT void GaragesService_5349D0();
+    EXPORT void ValidateParkCommand();
+    EXPORT u8 ParkCarAtDoor(Car* pCar, Door* pDoor);
+    EXPORT void GaragesService();
     EXPORT Garage();
 
     // inlined 0x44C870

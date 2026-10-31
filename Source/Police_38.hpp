@@ -16,14 +16,14 @@ enum
 {
     none_0 = 0,
     patrol_1 = 1,
-    despawning_2 = 2, // PoliceCrew::TryDespawnOffscreenCrew_571350, back to shutdown_6 next update
+    despawning_2 = 2, // PoliceCrew::TryDespawnOffscreenCrew, back to shutdown_6 next update
     alerted_search_3 = 3,
     pursue_or_chase_5 = 5,
     shutdown_6 = 6,
 };
 } // namespace police_crew_state
 
-// PolicePursuitTarget::mState, see Police::UpdatePursuitTargets_56FBD0
+// PolicePursuitTarget::mState, see Police::UpdatePursuitTargets
 namespace pursuit_state
 {
 enum
@@ -42,28 +42,28 @@ class PoliceCrew
     STATIC_MEMBER(Ped*, sCurrentCrewPed);
     EXPORT PoliceCrew();
     EXPORT ~PoliceCrew();
-    EXPORT void Init_5709C0();
-    EXPORT void AddToPursuit_570A10();
-    EXPORT void RemoveFromPursuit_570AB0();
-    EXPORT void SpawnPoliceInCar_570BF0();
-    EXPORT void SpawnSWAT_570E30();
-    EXPORT void SpawnFBI_nonused_571150();
-    EXPORT void TryDespawnOffscreenCrew_571350();
-    EXPORT void TryDespawnFinishedCrew_571540();
-    EXPORT void TryDespawnInCarCrew_571A30();
-    EXPORT void HandleShutdownAndDespawn_5720C0();
-    EXPORT bool CanTrackCriminal_572210() const;
-    EXPORT void State3_AlertedSearch_572340();
-    EXPORT void State5_PursueOrChase_572920();
-    EXPORT void State6_ShutDown_574720();
-    EXPORT void State1_Patrol_574F10();
-    EXPORT void State2_SwitchToShutDown_575200();
-    EXPORT void HandleEnterCarObjective_575210();
-    EXPORT void HandleLeaveCarObjective_575270();
-    EXPORT void HandleGotoAreaInCarObjective_5752C0();
-    EXPORT void HandleChaseInCarObjective_575310();
-    EXPORT void Service_575590();
-    EXPORT void UnlinkFromPursuitTarget_575650();
+    EXPORT void Init();
+    EXPORT void AddToPursuit();
+    EXPORT void RemoveFromPursuit();
+    EXPORT void SpawnPoliceInCar();
+    EXPORT void SpawnSWAT();
+    EXPORT void SpawnFBI_nonused();
+    EXPORT void TryDespawnOffscreenCrew();
+    EXPORT void TryDespawnFinishedCrew();
+    EXPORT void TryDespawnInCarCrew();
+    EXPORT void HandleShutdownAndDespawn();
+    EXPORT bool CanTrackCriminal() const;
+    EXPORT void State3_AlertedSearch();
+    EXPORT void State5_PursueOrChase();
+    EXPORT void State6_ShutDown();
+    EXPORT void State1_Patrol();
+    EXPORT void State2_SwitchToShutDown();
+    EXPORT void HandleEnterCarObjective();
+    EXPORT void HandleLeaveCarObjective();
+    EXPORT void HandleGotoAreaInCarObjective();
+    EXPORT void HandleChaseInCarObjective();
+    EXPORT void Service();
+    EXPORT void UnlinkFromPursuitTarget();
 
     u16 mId; // 0x0
     u8 mTargX; // 0x2
@@ -143,10 +143,10 @@ GTA2_ASSERT_SIZEOF_ALWAYS(PolicePursuitTarget, 0x7C);
 class PoliceRoadblock
 {
   public:
-    EXPORT void Reset_575710();
-    EXPORT void Update_5757B0();
-    EXPORT void RemoveRoadblock_575CA0();
-    EXPORT bool CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation);
+    EXPORT void Reset();
+    EXPORT void Update();
+    EXPORT void RemoveRoadblock();
+    EXPORT bool CreateRoadblock(u8 x, u8 y, u8 z, s32 orientation);
 
     EXPORT PoliceRoadblock();
     EXPORT ~PoliceRoadblock();

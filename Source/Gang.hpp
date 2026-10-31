@@ -87,20 +87,20 @@ class Gang
     EXPORT Gang(); //  0x4BE4E0
     EXPORT ~Gang(); // 0x4BE4F0
 
-    EXPORT wchar_t* GetNameWide_4BED30() const;
-    EXPORT void Init_4BED70();
-    EXPORT bool IsHostileToGang_4BEDF0(u8 gang_idx) const;
-    EXPORT void SetRespect_4BEE30(u8 player_idx, char_type respect);
-    EXPORT void IncrementRespect_4BEE50(u8 player_idx, char_type respect);
-    EXPORT void DecrementRespect_4BEEA0(u8 player_idx, char_type respect);
-    EXPORT char_type GetRespectForPlayer_4BEEF0(u8 player_idx) const;
-    EXPORT bool IsRespectNegativeForPlayer_4BEF10(u8 player_idx) const;
-    EXPORT void SetGangKillReaction_4BEF50(u8 gang_idx, char_type kill_reaction_value);
-    EXPORT void ApplyKillRespectChange_4BEF70(u8 player_idx, u8 respect);
-    EXPORT void ChangeRespectAndUpdate_4BF000(u8 player_idx, char_type respect);
-    EXPORT s32 GetCurrentWeapon_4BF0C0() const;
-    EXPORT void SetName_4BF090(const char_type* pName, u8 nameLen);
-    EXPORT wchar_t* GetArrowColourText_4BF340() const;
+    EXPORT wchar_t* GetNameWide() const;
+    EXPORT void Init();
+    EXPORT bool IsHostileToGang(u8 gang_idx) const;
+    EXPORT void SetRespect(u8 player_idx, char_type respect);
+    EXPORT void IncrementRespect(u8 player_idx, char_type respect);
+    EXPORT void DecrementRespect(u8 player_idx, char_type respect);
+    EXPORT char_type GetRespectForPlayer(u8 player_idx) const;
+    EXPORT bool IsRespectNegativeForPlayer(u8 player_idx) const;
+    EXPORT void SetGangKillReaction(u8 gang_idx, char_type kill_reaction_value);
+    EXPORT void ApplyKillRespectChange(u8 player_idx, u8 respect);
+    EXPORT void ChangeRespectAndUpdate(u8 player_idx, char_type respect);
+    EXPORT s32 GetCurrentWeapon() const;
+    EXPORT void SetName(const char_type* pName, u8 nameLen);
+    EXPORT wchar_t* GetArrowColourText() const;
 
     bool mUsed; // 0x0
     u8 mGangIdx; // 0x1
@@ -144,15 +144,15 @@ class GangPool
     }
 
     EXPORT ~GangPool();
-    EXPORT Gang* FirstGang_4BECA0();
-    EXPORT Gang* NextGang_4BECE0();
-    EXPORT Gang* FindGangByName_4BF100(const char_type* pGangName);
-    EXPORT Gang* AllocGang_4BF170();
-    EXPORT Gang* GangByIdx_4BF1C0(u8 gang_idx);
-    EXPORT void AddGangForMapZone_4BF1E0(gmp_map_zone* pMapZone);
-    EXPORT s8 GetGangIdxByName_4BF210(const char_type* pGangName);
-    EXPORT void SwapGangSlots_4BF230(Gang* pGang, u8 gang_idx);
-    EXPORT s8 FindGangByCarModel_4BF2F0(s32 car_model);
+    EXPORT Gang* FirstGang();
+    EXPORT Gang* NextGang();
+    EXPORT Gang* FindGangByName(const char_type* pGangName);
+    EXPORT Gang* AllocGang();
+    EXPORT Gang* GangByIdx(u8 gang_idx);
+    EXPORT void AddGangForMapZone(gmp_map_zone* pMapZone);
+    EXPORT s8 GetGangIdxByName(const char_type* pGangName);
+    EXPORT void SwapGangSlots(Gang* pGang, u8 gang_idx);
+    EXPORT s8 FindGangByCarModel(s32 car_model);
 
     Gang mGangList[10]; // 0x0
 };

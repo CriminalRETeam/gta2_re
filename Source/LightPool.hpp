@@ -31,7 +31,7 @@ class LightPool : public LightBase
   public:
     LightPool()
     {
-        LightGrid::AllocGrid_4D6E00();
+        LightGrid::AllocGrid();
     }
 
     inline void AddToUpdateList_464C60(Light* pLight)
@@ -70,11 +70,11 @@ class LightPool : public LightBase
         pLight->mIntensityRadius.SetRadius_463F10(radius);
         pLight->SetCurrentIntensity_45B2D0(intensity);
         pLight->mIntensity = intensity;
-        pLight->AddToGrid_4D6D70();
+        pLight->AddToGrid();
         return pLight;
     }
 
-    // Same as Init_469010, but TrafficLight::Init_5C1D00 calls the out-of-line copies
+    // Same as Init_469010, but TrafficLight::Init calls the out-of-line copies
     // Alloc_5C2B70 and LightIntensityRadius::SetRadius_5C5CD0 in 10.5.
     inline Light* InitOutOfLine_469010(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
     {
@@ -87,7 +87,7 @@ class LightPool : public LightBase
         pLight->mIntensityRadius.SetRadius_5C5CD0(radius);
         pLight->SetCurrentIntensity_45B2D0(intensity);
         pLight->mIntensity = intensity;
-        pLight->AddToGrid_4D6D70();
+        pLight->AddToGrid();
         return pLight;
     }
 
@@ -125,7 +125,7 @@ class LightPool : public LightBase
 
     inline void DeallocLight_47F4F0(Light* pLight)
     {
-        pLight->RemoveFromGrid_4D6DC0();
+        pLight->RemoveFromGrid();
         if (pLight->mOnTime)
         {
             mPool.FindAndDeAllocate(pLight);
@@ -138,7 +138,7 @@ class LightPool : public LightBase
 
     EXPORT ~LightPool();
     EXPORT Light* Alloc_5C2B70();
-    EXPORT Light* CreateLight_52B2A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);
+    EXPORT Light* CreateLight(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(LightPool, 0x1D4CC);
 

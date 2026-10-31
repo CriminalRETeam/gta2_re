@@ -328,7 +328,7 @@ enum
 { /* The ocupation that a PED can have */
     player = 0,
     empty = 1,
-    deallocate_on_death_2 = 2, // PedGroup::PromoteMemberToLeader_4C9680 scratch ped: removed without a corpse
+    deallocate_on_death_2 = 2, // PedGroup::PromoteMemberToLeader scratch ped: removed without a corpse
     dummy = 3,
     dummy_driver_4 = 4, // CarManager spare driver, one Ped shared by the ambient traffic cars
     driver = 5,
@@ -357,7 +357,7 @@ enum
     guard = 28,
     walking_guard_29 = 29,
     walking_swat_guard_30 = 30, // scored as SWAT, like walking_guard_29 as police
-    walking_army_guard_31 = 31, // Police::SpawnWalkingGuard_570320 when the army is in pursuit
+    walking_army_guard_31 = 31, // Police::SpawnWalkingGuard when the army is in pursuit
     guard_against_player = 32,
     criminal_type_1 = 33,
     criminal_type_2 = 34,
@@ -445,11 +445,11 @@ enum
     entering_train_5 = 5, // with ped_state_1::entering_train_5
     ped2_entering_a_car_6 = 6,
     ped2_getting_out_a_car_7 = 7,
-    carjack_opening_door_8 = 8, // Ped::PullDriverOutOfCarStateMachine_46B2F0
+    carjack_opening_door_8 = 8, // Ped::PullDriverOutOfCarStateMachine
     carjack_pulling_out_9 = 9, // then closes the door and goes to ped2_staying_14
     ped2_driving_10 = 10,
     ped2_staying_14 = 14,
-    ped2_dead_15 = 15, // with ped_state_1::dead_9 (Ped::Kill_46F9D0)
+    ped2_dead_15 = 15, // with ped_state_1::dead_9 (Ped::Kill)
     Unknown_16 = 16,
     ped2_at_car_door_17 = 17, // immobilized at a car door: a driver pulled out by a car-jacker (char.cpp), or a ped left without its car
     Unknown_18 = 18,
@@ -462,8 +462,8 @@ enum
     knocked_down_25 = 25, // 25 goes to lying_on_floor_22,
     knocked_fatal_26 = 26, // and 26 kills the ped
     electrocuted_27 = 27,
-    initial_28 = 28, // start value (Char constructor and PoolAllocate, Ped::Reset_45AFC0), no state change sets it
-    ped2_respawned_29 = 29, // Ped::RespawnPed_45C350; a player in it has its wanted level cleared
+    initial_28 = 28, // start value (Char constructor and PoolAllocate, Ped::Reset), no state change sets it
+    ped2_respawned_29 = 29, // Ped::RespawnPed; a player in it has its wanted level cleared
     Unknown_30 = 30,
 };
 } // namespace ped_state_2
@@ -482,7 +482,7 @@ enum
     Standing_7 = 7,
     Veer_Right_From_Wall_8 = 8,
     Veer_Left_From_Wall_9 = 9,
-    Avoiding_Ped_10 = 10, // turned aside after bumping into another ped (Char::HandlePedCollision_548BD0)
+    Avoiding_Ped_10 = 10, // turned aside after bumping into another ped (Char::HandlePedCollision)
     Unknown_11 = 11,
     Unknown_12 = 12,
     Unknown_13 = 13,
@@ -815,7 +815,7 @@ enum
     left_behind_by_leader_8 = 8, // group member with no seat in the leader's car, rejoins him once he is on foot within 8 blocks
     follow_char_9 = 9,
     follow_char_in_car_10 = 10,
-    stay_close_to_char_11 = 11, // on foot, within 1/8 block of the internal target ped; passes when it dies (Ped::StayCloseToTargetPed_46B170)
+    stay_close_to_char_11 = 11, // on foot, within 1/8 block of the internal target ped; passes when it dies (Ped::StayCloseToTargetPed)
     goto_area_on_foot_12 = 12,
     goto_area_any_means_13 = 13,
     goto_area_in_car_14 = 14,
@@ -898,7 +898,7 @@ enum
 } // namespace ped_type
 
 // Keeps the number of distinct names in headers MapRenderer.cpp includes unchanged after merging ped_type_enum into
-// ped_type; it flips Draw3SidedDiagonalDownRight_4EF520 / Draw4SidedDiagonalUpLeft_4EF880 otherwise (see car_flags.hpp
+// ped_type; it flips Draw3SidedDiagonalDownRight / Draw4SidedDiagonalUpLeft otherwise (see car_flags.hpp
 // and docs/matching_quirks.md). Do not remove without running the whole build.
 enum
 {

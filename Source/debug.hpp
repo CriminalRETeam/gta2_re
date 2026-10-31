@@ -5,9 +5,9 @@
 
 struct Debug
 {
-    EXPORT void Init_4ABBD0();
+    EXPORT void Init();
 
-    EXPORT bool HaveOnlyFrenchGxt_4AC200();
+    EXPORT bool HaveOnlyFrenchGxt();
 };
 EXTERN_GLOBAL(Debug, gDebug_67D52C);
 

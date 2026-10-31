@@ -15,9 +15,9 @@ GTA2_ASSERT_SIZEOF_ALWAYS(PedRef, 0x8);
 class PedRefTable
 {
   public:
-    EXPORT u8 AllocForPed_59B060(s32 ped_id);
-    EXPORT void IncrementRefCount_59B0B0(u8 idx);
-    EXPORT void DecrementRefCount_59B0D0(u8 idx);
+    EXPORT u8 AllocForPed(s32 ped_id);
+    EXPORT void IncrementRefCount(u8 idx);
+    EXPORT void DecrementRefCount(u8 idx);
     EXPORT PedRefTable();
     EXPORT ~PedRefTable();
 

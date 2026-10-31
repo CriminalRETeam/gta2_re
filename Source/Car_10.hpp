@@ -13,12 +13,12 @@ class Car_Door
         return mpObj;
     }
 
-    EXPORT void AnimateOpening_439CD0(u32* pDeltaMask);
-    EXPORT void AnimateClosing_439D40(u32* pDeltaMask);
-    EXPORT void Service_439DA0(u32* pDeltaMask);
-    EXPORT void Init_439E40(u8 door_idx);
-    EXPORT void Open_439E60();
-    EXPORT void Close_439EA0();
+    EXPORT void AnimateOpening(u32* pDeltaMask);
+    EXPORT void AnimateClosing(u32* pDeltaMask);
+    EXPORT void Service(u32* pDeltaMask);
+    EXPORT void Init(u8 door_idx);
+    EXPORT void Open();
+    EXPORT void Close();
     EXPORT Car_Door(); // 447330
     EXPORT ~Car_Door(); // 447350
 
@@ -34,13 +34,13 @@ class Car_Door
         mState = 0;
     }
 
-    // Inlined in sound_obj::HandleCarDoorSounds_4182E0
+    // Inlined in sound_obj::HandleCarDoorSounds
     inline bool IsStartingToOpen() const
     {
         return mState == 2 && mAnimationFrame == 0 && mFrameDelay == 0;
     }
 
-    // Inlined in sound_obj::HandleCarDoorSounds_4182E0
+    // Inlined in sound_obj::HandleCarDoorSounds
     inline bool IsStartingToClose() const
     {
         return mState == 3 && mAnimationFrame == 1;

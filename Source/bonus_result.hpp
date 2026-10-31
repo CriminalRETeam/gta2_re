@@ -1,6 +1,6 @@
 #pragma once
 
-// BonusTracker::GetBonusResult_432080. The script's bonus counter keeps passed/failed in place of the rule index.
+// BonusTracker::GetBonusResult. The script's bonus counter keeps passed/failed in place of the rule index.
 namespace bonus_result
 {
 enum

@@ -61,9 +61,9 @@ class TaxiList
         return mpFirst == NULL;
     }
 
-    EXPORT void PushTaxi_457BA0(Car* pCar);
-    EXPORT void PopAll_457BC0();
-    EXPORT Car* GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos);
+    EXPORT void PushTaxi(Car* pCar);
+    EXPORT void PopAll();
+    EXPORT Car* GetTaxiNear(Fix16 xpos, Fix16 ypos);
     EXPORT TaxiList();
     EXPORT ~TaxiList();
 

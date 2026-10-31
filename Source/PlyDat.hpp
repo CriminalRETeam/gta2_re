@@ -23,9 +23,9 @@ struct PlySlot
     EXPORT PlySlot();
     EXPORT ~PlySlot();
 
-    EXPORT void ResetPlayerSlot_56B630();
-    EXPORT s32 GetTotalLatestScore_56B680() const;
-    EXPORT s32 GetTotalBestScore_56B6B0() const;
+    EXPORT void ResetPlayerSlot();
+    EXPORT s32 GetTotalLatestScore() const;
+    EXPORT s32 GetTotalBestScore() const;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PlySlot, 0xA4);
 
@@ -43,9 +43,9 @@ struct HighScoreTable
     EXPORT HighScoreTable();
     EXPORT ~HighScoreTable();
 
-    EXPORT void Init_56B520();
+    EXPORT void Init();
 
-    EXPORT bool InsertScore_56B550(const wchar_t* pFindStr, s32 findScore);
+    EXPORT bool InsertScore(const wchar_t* pFindStr, s32 findScore);
 
     ScoreTableLine mScoreTableLine[10]; // 0x0
 };
@@ -75,39 +75,39 @@ struct PlyDat
     EXPORT PlyDat();
     EXPORT ~PlyDat();
 
-    EXPORT void UpdateStageScore_56BB10(Player* pPlayer);
+    EXPORT void UpdateStageScore(Player* pPlayer);
 
-    EXPORT void UpdateHiScores_56C010();
+    EXPORT void UpdateHiScores();
 
-    EXPORT void GetPlySlotDatName_56B8A0(u16 slot_idx, char_type* pName);
+    EXPORT void GetPlySlotDatName(u16 slot_idx, char_type* pName);
 
-    EXPORT bool PlySlotDatExists_56B940(s32 slot_idx);
+    EXPORT bool PlySlotDatExists(s32 slot_idx);
 
-    EXPORT void GetHiScoreHscFileName_56BCF0(char_type* pName);
+    EXPORT void GetHiScoreHscFileName(char_type* pName);
 
-    EXPORT bool HiScoreHscExists_56BCA0();
+    EXPORT bool HiScoreHscExists();
 
-    EXPORT void LoadPlySlotDat_56B990(u16 slotIdx);
+    EXPORT void LoadPlySlotDat(u16 slotIdx);
 
-    EXPORT void SavePlySlotDat_56BA60(s16 slotIdx);
+    EXPORT void SavePlySlotDat(s16 slotIdx);
 
-    EXPORT void LoadHiScores_56BE50();
+    EXPORT void LoadHiScores();
 
-    EXPORT void BuildMergedHiScores_56C170();
+    EXPORT void BuildMergedHiScores();
 
-    EXPORT void InitDefaultHiScores_56C1D0();
+    EXPORT void InitDefaultHiScores();
 
-    EXPORT void SaveHiScores_56BF20();
+    EXPORT void SaveHiScores();
 
-    EXPORT void InitAltHiScores_56BD20();
+    EXPORT void InitAltHiScores();
 
-    EXPORT void UnlockStage_56BBD0(u8 map_num, u8 bonus_num);
+    EXPORT void UnlockStage(u8 map_num, u8 bonus_num);
 
-    EXPORT void UnlockAllStages_56BC40();
+    EXPORT void UnlockAllStages();
 
-    EXPORT void DoMuchCashCheat_56C250();
-    EXPORT static void Create_56C2C0();
-    EXPORT static void Destroy_56C340();
+    EXPORT void DoMuchCashCheat();
+    EXPORT static void Create();
+    EXPORT static void Destroy();
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PlyDat, 0x2BC0);
 
