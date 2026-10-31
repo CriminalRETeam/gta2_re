@@ -5,16 +5,16 @@
 #include "fix16.hpp"
 #include "Fix16_Vec.hpp"
 
-EXTERN_GLOBAL(Fix16, gFix16_6777CC);
+EXTERN_GLOBAL(Fix16, kFpZero_6777CC);
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
 EXTERN_GLOBAL(Fix16, kFP16One256th);
 EXTERN_GLOBAL(Fix16, kFpZero_6F77C0);
 
 // GetLength_41E260 compares against a zero constant that each TU of the original has its own copy of
 // (a header static, like 9.6f's single 0x5E3DC8 in vec_len 0x41E260). A TU whose copy isn't
-// gFix16_6777CC defines FIX16_POINT_ZERO to it before its first include.
+// kFpZero_6777CC defines FIX16_POINT_ZERO to it before its first include.
 #ifndef FIX16_POINT_ZERO
-    #define FIX16_POINT_ZERO gFix16_6777CC
+    #define FIX16_POINT_ZERO kFpZero_6777CC
 #endif
 EXTERN_GLOBAL(Fix16, kFpZero_6F610C);
 EXTERN_GLOBAL(Fix16, kF16Zero);
@@ -540,11 +540,11 @@ class Fix16_Point
     // GetLength_no_sqrt_inline
     inline Fix16 GetLength_inline_443710()
     {
-        if (x == gFix16_6777CC)
+        if (x == kFpZero_6777CC)
         {
             return Fix16::Abs(y);
         }
-        else if (y == gFix16_6777CC)
+        else if (y == kFpZero_6777CC)
         {
             return Fix16::Abs(x);
         }
@@ -557,11 +557,11 @@ class Fix16_Point
     // GetLength_41E260 as inlined into NormalizeSafe (out of line helpers where the inline budget ran out)
     inline Fix16 GetLength_inline_442AD0()
     {
-        if (x == gFix16_6777CC)
+        if (x == kFpZero_6777CC)
         {
             return Fix16::Abs_negate_out_of_line(y);
         }
-        else if (y == gFix16_6777CC)
+        else if (y == kFpZero_6777CC)
         {
             return Fix16::Abs_436A50(x);
         }
@@ -600,11 +600,11 @@ class Fix16_Point
     // Same, for the scaled point in NormalizeSafe
     inline Fix16 GetLength_scaled_inline_442AD0()
     {
-        if (x == gFix16_6777CC)
+        if (x == kFpZero_6777CC)
         {
             return Fix16::Abs_negate_out_of_line(y);
         }
-        else if (y == gFix16_6777CC)
+        else if (y == kFpZero_6777CC)
         {
             return Fix16::Abs_negate_out_of_line(x);
         }

@@ -83,7 +83,7 @@ enum
 
 DEFINE_GLOBAL(s32, gCachedScreenDimension, 0x706C58);
 
-EXTERN_GLOBAL(u32, counter_706C4C);
+EXTERN_GLOBAL(u32, gGammaReapplyCount);
 EXTERN_GLOBAL(char_type, gLighting);
 
 DEFINE_GLOBAL(Game*, gGame_0x40, 0x67E008);
@@ -446,7 +446,7 @@ void Game::UpdatePaused()
 
     gHud_2B00->UpdatePauseSection();
 
-    if (counter_706C4C > 0)
+    if (gGammaReapplyCount > 0)
     {
         ReapplySavedGamma();
     }
@@ -539,7 +539,7 @@ void Game::UpdateGame()
         gRouteFinder->ShowJunctionIds();
     }
 
-    if (counter_706C4C > 0)
+    if (gGammaReapplyCount > 0)
     {
         ReapplySavedGamma();
     }

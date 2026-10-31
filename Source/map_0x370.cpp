@@ -1696,7 +1696,7 @@ bool Map_0x370::SpriteHitsDiagonalWall(s32 z_pos)
                         wall_end.y = Fix16(y_pos + 1);
                     }
 
-                    if (gSprite->PointInsideRotatedBounds(wall_start, wall_end))
+                    if (gMapCollisionSprite->PointInsideRotatedBounds(wall_start, wall_end))
                     {
                         Sprite* pSprt = gObject_5C->GetDirectionalObject(slope_type)->mSprite;
                         // (u32): the block centre goes through the Fix16(u32) constructor (out-of-line copy 0x4926F0);
@@ -1787,7 +1787,7 @@ bool Map_0x370::SpriteHitsBlockFacesInArea(s32 x_min, s32 x_max, s32 y_min, s32 
                     {
                         if (!IsNorthOrSouthGradSlope(pBlock1))
                         {
-                            if (gSprite->HitTestVerticalLine(static_cast<u32>(y), y + 1, x + 1))
+                            if (gMapCollisionSprite->HitTestVerticalLine(static_cast<u32>(y), y + 1, x + 1))
                             {
                                 return true;
                             }
@@ -1801,7 +1801,7 @@ bool Map_0x370::SpriteHitsBlockFacesInArea(s32 x_min, s32 x_max, s32 y_min, s32 
                     {
                         if (!IsNorthOrSouthGradSlope(pBlock2))
                         {
-                            if (gSprite->HitTestVerticalLine(static_cast<u32>(y), y + 1, x + 1))
+                            if (gMapCollisionSprite->HitTestVerticalLine(static_cast<u32>(y), y + 1, x + 1))
                             {
                                 return true;
                             }
@@ -1819,7 +1819,7 @@ bool Map_0x370::SpriteHitsBlockFacesInArea(s32 x_min, s32 x_max, s32 y_min, s32 
                     {
                         if (!IsWestOrEastGradSlope(pBlock3))
                         {
-                            if (gSprite->CheckBBoxScanlineIntersection(static_cast<u32>(x), x + 1, y + 1))
+                            if (gMapCollisionSprite->CheckBBoxScanlineIntersection(static_cast<u32>(x), x + 1, y + 1))
                             {
                                 return true;
                             }
@@ -1834,7 +1834,7 @@ bool Map_0x370::SpriteHitsBlockFacesInArea(s32 x_min, s32 x_max, s32 y_min, s32 
                     {
                         if (!IsWestOrEastGradSlope(pBlock4))
                         {
-                            if (gSprite->CheckBBoxScanlineIntersection(static_cast<u32>(x), x + 1, y + 1))
+                            if (gMapCollisionSprite->CheckBBoxScanlineIntersection(static_cast<u32>(x), x + 1, y + 1))
                             {
                                 return true;
                             }
@@ -1876,13 +1876,13 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
     sEastTileZ = zLevel;
     sWestTileZ = zLevel;
 
-    if (gSprite)
+    if (gMapCollisionSprite)
     {
-        if (!IsZOnGround(gSprite->mXy.x, gSprite->mXy.y, gSprite->mZpos))
+        if (!IsZOnGround(gMapCollisionSprite->mXy.x, gMapCollisionSprite->mXy.y, gMapCollisionSprite->mZpos))
         {
-            if (!IsGradientSlopeAt(gSprite->mXy.x.ToInt(),
-                                          gSprite->mXy.y.ToInt(),
-                                          gSprite->mZpos.ToInt()))
+            if (!IsGradientSlopeAt(gMapCollisionSprite->mXy.x.ToInt(),
+                                          gMapCollisionSprite->mXy.y.ToInt(),
+                                          gMapCollisionSprite->mZpos.ToInt()))
             {
                 return SpriteHitsBlockFacesInArea(regionLeft, regionRight, regionTop, regionBottom, zLevel);
             }
@@ -1933,7 +1933,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
         {
             if (sBlockAbove && (static_cast<u16>(gFaceCollisionMask) & sBlockAbove->mTop) != 0)
             {
-                if (!gSprite || gSprite->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY))
+                if (!gMapCollisionSprite || gMapCollisionSprite->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY))
                 {
                     return true;
                 }
@@ -1943,7 +1943,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
                  gCurrentBlockSlope->mGradientDirection != WEST_3 &&
                  gCurrentBlockSlope->mGradientDirection != EAST_4)
         {
-            if (!gSprite || gSprite->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY))
+            if (!gMapCollisionSprite || gMapCollisionSprite->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY))
             {
                 return true;
             }
@@ -1954,7 +1954,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
         {
             if ((static_cast<u16>(gFaceCollisionMask) & sNorthBlock->mBottom) != 0)
             {
-                if (!gSprite || gSprite->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY))
+                if (!gMapCollisionSprite || gMapCollisionSprite->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY))
                 {
                     return true;
                 }
@@ -1970,7 +1970,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
         {
             if (sBlockAbove && (static_cast<u16>(gFaceCollisionMask) & sBlockAbove->mBottom) != 0)
             {
-                if (!gSprite || gSprite->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY + 1))
+                if (!gMapCollisionSprite || gMapCollisionSprite->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY + 1))
                 {
                     return true;
                 }
@@ -1980,7 +1980,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
                  gCurrentBlockSlope->mGradientDirection != WEST_3 &&
                  gCurrentBlockSlope->mGradientDirection != EAST_4)
         {
-            if (!gSprite || gSprite->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY + 1))
+            if (!gMapCollisionSprite || gMapCollisionSprite->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY + 1))
             {
                 return true;
             }
@@ -1991,7 +1991,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
         {
             if ((static_cast<u16>(gFaceCollisionMask) & sSouthBlock->mTop) != 0)
             {
-                if (!gSprite || gSprite->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY + 1))
+                if (!gMapCollisionSprite || gMapCollisionSprite->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY + 1))
                 {
                     return true;
                 }
@@ -2007,7 +2007,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
         {
             if (sBlockAbove && (static_cast<u16>(gFaceCollisionMask) & sBlockAbove->mLeft) != 0)
             {
-                if (!gSprite || gSprite->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX))
+                if (!gMapCollisionSprite || gMapCollisionSprite->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX))
                 {
                     return true;
                 }
@@ -2017,7 +2017,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
                  gCurrentBlockSlope->mGradientDirection != NORTH_1 &&
                  gCurrentBlockSlope->mGradientDirection != SOUTH_2)
         {
-            if (!gSprite || gSprite->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX))
+            if (!gMapCollisionSprite || gMapCollisionSprite->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX))
             {
                 return true;
             }
@@ -2028,7 +2028,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
         {
             if ((static_cast<u16>(gFaceCollisionMask) & sWestBlock->mRight) != 0)
             {
-                if (!gSprite || gSprite->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX))
+                if (!gMapCollisionSprite || gMapCollisionSprite->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX))
                 {
                     return true;
                 }
@@ -2042,7 +2042,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
                 (static_cast<u16>(gFaceCollisionMask) & sNorthBlock->mLeft) != 0 &&
                 sNorthSlope->mGradientDirection != NORTH_1 && sNorthSlope->mGradientDirection != SOUTH_2)
             {
-                if (!gSprite || gSprite->HitTestVerticalLine(tileY - 1, static_cast<u32>(tileY), tileX))
+                if (!gMapCollisionSprite || gMapCollisionSprite->HitTestVerticalLine(tileY - 1, static_cast<u32>(tileY), tileX))
                 {
                     return true;
                 }
@@ -2052,7 +2052,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
                 (static_cast<u16>(gFaceCollisionMask) & sWestBlock->mTop) != 0 &&
                 sWestSlope->mGradientDirection != WEST_3 && sWestSlope->mGradientDirection != EAST_4)
             {
-                if (!gSprite || gSprite->CheckBBoxScanlineIntersection(tileX - 1, static_cast<u32>(tileX), tileY))
+                if (!gMapCollisionSprite || gMapCollisionSprite->CheckBBoxScanlineIntersection(tileX - 1, static_cast<u32>(tileX), tileY))
                 {
                     return true;
                 }
@@ -2063,14 +2063,14 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
             {
                 if ((static_cast<u16>(gFaceCollisionMask) & sNorthWestBlock->mRight) != 0)
                 {
-                    if (!gSprite || gSprite->HitTestVerticalLine(tileY - 1, static_cast<u32>(tileY), tileX))
+                    if (!gMapCollisionSprite || gMapCollisionSprite->HitTestVerticalLine(tileY - 1, static_cast<u32>(tileY), tileX))
                     {
                         return true;
                     }
                 }
                 if (sNorthWestBlock && (static_cast<u16>(gFaceCollisionMask) & sNorthWestBlock->mBottom) != 0)
                 {
-                    if (!gSprite || gSprite->CheckBBoxScanlineIntersection(tileX - 1, static_cast<u32>(tileX), tileY))
+                    if (!gMapCollisionSprite || gMapCollisionSprite->CheckBBoxScanlineIntersection(tileX - 1, static_cast<u32>(tileX), tileY))
                     {
                         return true;
                     }
@@ -2084,7 +2084,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
                 (static_cast<u16>(gFaceCollisionMask) & sSouthBlock->mLeft) != 0 &&
                 sSouthSlope->mGradientDirection != NORTH_1 && sSouthSlope->mGradientDirection != SOUTH_2)
             {
-                if (!gSprite || gSprite->HitTestVerticalLine(tileY + 1, tileY + 2, tileX))
+                if (!gMapCollisionSprite || gMapCollisionSprite->HitTestVerticalLine(tileY + 1, tileY + 2, tileX))
                 {
                     return true;
                 }
@@ -2094,7 +2094,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
                 (static_cast<u16>(gFaceCollisionMask) & sWestBlock->mBottom) != 0 &&
                 sWestSlope->mGradientDirection != WEST_3 && sWestSlope->mGradientDirection != EAST_4)
             {
-                if (!gSprite || gSprite->CheckBBoxScanlineIntersection(tileX - 1, static_cast<u32>(tileX), tileY + 1))
+                if (!gMapCollisionSprite || gMapCollisionSprite->CheckBBoxScanlineIntersection(tileX - 1, static_cast<u32>(tileX), tileY + 1))
                 {
                     return true;
                 }
@@ -2105,14 +2105,14 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
             {
                 if ((static_cast<u16>(gFaceCollisionMask) & sSouthWestBlock->mRight) != 0)
                 {
-                    if (!gSprite || gSprite->HitTestVerticalLine(tileY + 1, tileY + 2, tileX))
+                    if (!gMapCollisionSprite || gMapCollisionSprite->HitTestVerticalLine(tileY + 1, tileY + 2, tileX))
                     {
                         return true;
                     }
                 }
                 if (sSouthWestBlock && (static_cast<u16>(gFaceCollisionMask) & sSouthWestBlock->mTop) != 0)
                 {
-                    if (!gSprite || gSprite->CheckBBoxScanlineIntersection(tileX - 1, static_cast<u32>(tileX), tileY + 1))
+                    if (!gMapCollisionSprite || gMapCollisionSprite->CheckBBoxScanlineIntersection(tileX - 1, static_cast<u32>(tileX), tileY + 1))
                     {
                         return true;
                     }
@@ -2128,7 +2128,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
         {
             if (sBlockAbove && (static_cast<u16>(gFaceCollisionMask) & sBlockAbove->mRight) != 0)
             {
-                if (!gSprite || gSprite->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX + 1))
+                if (!gMapCollisionSprite || gMapCollisionSprite->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX + 1))
                 {
                     return true;
                 }
@@ -2138,7 +2138,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
                  gCurrentBlockSlope->mGradientDirection != NORTH_1 &&
                  gCurrentBlockSlope->mGradientDirection != SOUTH_2)
         {
-            if (!gSprite || gSprite->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX + 1))
+            if (!gMapCollisionSprite || gMapCollisionSprite->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX + 1))
             {
                 return true;
             }
@@ -2149,7 +2149,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
         {
             if ((static_cast<u16>(gFaceCollisionMask) & sEastBlock->mLeft) != 0)
             {
-                if (!gSprite || gSprite->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX + 1))
+                if (!gMapCollisionSprite || gMapCollisionSprite->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX + 1))
                 {
                     return true;
                 }
@@ -2163,7 +2163,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
                 (static_cast<u16>(gFaceCollisionMask) & sNorthBlock->mRight) != 0 &&
                 sNorthSlope->mGradientDirection != NORTH_1 && sNorthSlope->mGradientDirection != SOUTH_2)
             {
-                if (!gSprite || gSprite->HitTestVerticalLine(tileY - 1, static_cast<u32>(tileY), tileX + 1))
+                if (!gMapCollisionSprite || gMapCollisionSprite->HitTestVerticalLine(tileY - 1, static_cast<u32>(tileY), tileX + 1))
                 {
                     return true;
                 }
@@ -2173,7 +2173,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
                 (static_cast<u16>(gFaceCollisionMask) & sEastBlock->mTop) != 0 &&
                 sEastSlope->mGradientDirection != WEST_3 && sEastSlope->mGradientDirection != EAST_4)
             {
-                if (!gSprite || gSprite->CheckBBoxScanlineIntersection(tileX + 1, tileX + 2, tileY))
+                if (!gMapCollisionSprite || gMapCollisionSprite->CheckBBoxScanlineIntersection(tileX + 1, tileX + 2, tileY))
                 {
                     return true;
                 }
@@ -2184,14 +2184,14 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
             {
                 if ((static_cast<u16>(gFaceCollisionMask) & sNorthEastBlock->mLeft) != 0)
                 {
-                    if (!gSprite || gSprite->HitTestVerticalLine(tileY - 1, static_cast<u32>(tileY), tileX + 1))
+                    if (!gMapCollisionSprite || gMapCollisionSprite->HitTestVerticalLine(tileY - 1, static_cast<u32>(tileY), tileX + 1))
                     {
                         return true;
                     }
                 }
                 if (sNorthEastBlock && (static_cast<u16>(gFaceCollisionMask) & sNorthEastBlock->mBottom) != 0)
                 {
-                    if (!gSprite || gSprite->CheckBBoxScanlineIntersection(tileX + 1, tileX + 2, tileY))
+                    if (!gMapCollisionSprite || gMapCollisionSprite->CheckBBoxScanlineIntersection(tileX + 1, tileX + 2, tileY))
                     {
                         return true;
                     }
@@ -2205,7 +2205,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
                 (static_cast<u16>(gFaceCollisionMask) & sSouthBlock->mRight) != 0 &&
                 sSouthSlope->mGradientDirection != NORTH_1 && sSouthSlope->mGradientDirection != SOUTH_2)
             {
-                if (!gSprite || gSprite->HitTestVerticalLine(tileY + 1, tileY + 2, tileX + 1))
+                if (!gMapCollisionSprite || gMapCollisionSprite->HitTestVerticalLine(tileY + 1, tileY + 2, tileX + 1))
                 {
                     return true;
                 }
@@ -2215,7 +2215,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
                 (static_cast<u16>(gFaceCollisionMask) & sEastBlock->mBottom) != 0 &&
                 sEastSlope->mGradientDirection != WEST_3 && sEastSlope->mGradientDirection != EAST_4)
             {
-                if (!gSprite || gSprite->CheckBBoxScanlineIntersection(tileX + 1, tileX + 2, tileY + 1))
+                if (!gMapCollisionSprite || gMapCollisionSprite->CheckBBoxScanlineIntersection(tileX + 1, tileX + 2, tileY + 1))
                 {
                     return true;
                 }
@@ -2226,14 +2226,14 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
             {
                 if ((static_cast<u16>(gFaceCollisionMask) & sSouthEastBlock->mLeft) != 0)
                 {
-                    if (!gSprite || gSprite->HitTestVerticalLine(tileY + 1, tileY + 2, tileX + 1))
+                    if (!gMapCollisionSprite || gMapCollisionSprite->HitTestVerticalLine(tileY + 1, tileY + 2, tileX + 1))
                     {
                         return true;
                     }
                 }
                 if (sSouthEastBlock && (static_cast<u16>(gFaceCollisionMask) & sSouthEastBlock->mTop) != 0)
                 {
-                    if (!gSprite || gSprite->CheckBBoxScanlineIntersection(tileX + 1, tileX + 2, tileY + 1))
+                    if (!gMapCollisionSprite || gMapCollisionSprite->CheckBBoxScanlineIntersection(tileX + 1, tileX + 2, tileY + 1))
                     {
                         return true;
                     }
@@ -2247,7 +2247,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
 MATCH_FUNC(0x4E4460)
 bool Map_0x370::IsMovementRegionBlocked(s32 tile_x, s32 tile_y, s32 tile_z, Sprite* pSprite, s16 collision_mask)
 {
-    gSprite = pSprite;
+    gMapCollisionSprite = pSprite;
     gFaceCollisionMask = collision_mask;
     if (gSpriteGrid_right - gSpriteGrid_left >= 3 || tile_x > gSpriteGrid_left + 1 || tile_x < gSpriteGrid_right - 1)
     {

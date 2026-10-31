@@ -80,6 +80,8 @@ bSkip_user_67D506	bSkip_user
 bSkip_window_check_67D54E	bSkip_window_check
 bStartNetworkGame_7081F0	bStartNetworkGame
 bThreateningPedAdded_6787EF	bThreateningPedAdded
+counter_706C4C	gGammaReapplyCount
+font_type_703C14	gFrontendFont7
 gAmbulance_110_6F70A8	gAmbulance_110
 gAng16_703804	gAng16
 gArrowSteerAngVel_6FE0B0	gArrowSteerAngVel
@@ -190,11 +192,15 @@ gEmergencyCrewPool_706280	gEmergencyCrewPool
 gEmptyWStr_67DC8C	gEmptyWStr
 gErrStr2_67C3A8	gErrStr2
 gErrStr_67C29C	gErrStr
+gErrorLog_67C530	gWarningLog
+gErrorLog_67CF58	gErrorLog
 gExplosionPool_3D4_6FD5EC	gExplosionPool_3D4
 gExplosionPool_7A8_6FD5F0	gExplosionPool_7A8
 gF16fOne_677B94	gF16fOne
 gFaceCollisionMask_6F6002	gFaceCollisionMask
 gFirefighterPool_54_67D4C0	gFirefighterPool_54
+gFix16_6777CC	kFpZero_6777CC
+gFix16_7035C0	kFpZero_7035C0
 gFix16_Two_6FD9EC	gFix16_Two
 gFlags_67ACF8	gFlags
 gFpsCounter_7055D4	gFpsCounter
@@ -357,7 +363,7 @@ gSpriteRenderer_67B580	gSpriteRenderer
 gSpriteShapePool_70381C	gSpriteShapePool
 gSpriteTreeNodePool_705BBC	gSpriteTreeNodePool
 gSpriteTreeStack_705BC0	gSpriteTreeStack
-gSprite_6F61E8	gSprite
+gSprite_6F61E8	gMapCollisionSprite
 gStoredCarId_6F78B4	gStoredCarId
 gStoredCar_6F7560	gStoredCar
 gStyleCarNameFont_703D98	gStyleCarNameFont
@@ -384,6 +390,8 @@ gTextureCache_15D8_705064	gTextureCache_15D8
 gThreateningPedsList_678468	gThreateningPedsList
 gTileAnimPool_7052C8	gTileAnimPool
 gTileAnim_2_7052C4	gTileAnim_2
+gTileVerts_6F65A8	gTileVerts
+gTileVerts_7036D0	gSpriteVerts
 gTmpBuffer_67C598	gTmpBuffer
 gTmpGxtKey_67CE50	gTmpGxtKey
 gTmpWideStr_67C7D8	gTmpWideStr
@@ -412,6 +420,7 @@ gpGBH_Globals_7085E4	gpGBH_Globals
 gpMapRenderer_6F66E4	gpMapRenderer
 gpRng_67AB34	gpRng
 gtext_0x14_6F87F0	gtext_0x14
+hDmaVideoDll_7085E8	gDmaVideoDllHandle
 kAng32_677A3A	kAng32
 kAng344_6FD8F8	kAng344
 kAng354_6FD9D8	kAng354

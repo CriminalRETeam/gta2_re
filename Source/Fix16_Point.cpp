@@ -38,7 +38,7 @@ MATCH_FUNC(0x442AD0)
 Fix16_Point Fix16_Point::NormalizeSafe()
 {
     Fix16 length = GetLength_inline_442AD0();
-    if (length == gFix16_6777CC)
+    if (length == kFpZero_6777CC)
     {
         Fix16_Point scaled = MultBy(128);
         length = scaled.GetLength_scaled_inline_442AD0();
@@ -71,11 +71,11 @@ Fix16_Point Fix16_Point::Divide(Fix16& in) const
 MATCH_FUNC(0x453590)
 Fix16 Fix16_Point::GetLength_453590() const
 {
-    if (x == gFix16_6777CC)
+    if (x == kFpZero_6777CC)
     {
         return Fix16::Abs(y);
     }
-    else if (y == gFix16_6777CC)
+    else if (y == kFpZero_6777CC)
     {
         return Fix16::Abs(x);
     }

@@ -418,7 +418,7 @@ void InputDevices::read_input_device(s32* input_bits, bool bApplyKeyboardControl
                             padItems,
                             sGamePadDeviceData.dwOfs,
                             sGamePadDeviceData.dwData);
-                    gErrorLog_67C530.Write(gTmpBuffer);
+                    gWarningLog.Write(gTmpBuffer);
                 }
             }
             else
@@ -1144,7 +1144,7 @@ u32 InputRecorder_67F8B0::get_input_bits()
         if (*control_status != saved_input)
         {
             sprintf(gTmpBuffer, "%d: control_status = %d", gpRng->get_cur_rng(), *control_status);
-            gErrorLog_67C530.Write(gTmpBuffer);
+            gWarningLog.Write(gTmpBuffer);
         }
     }
     return *control_status;

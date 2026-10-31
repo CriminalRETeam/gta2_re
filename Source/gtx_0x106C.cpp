@@ -640,7 +640,7 @@ void gtx_0x106C::InitFontTypes(u16 fontCount)
         gFrontendNormalFont = 4;
         gFrontendSelectedFont = 5;
         gFrontendFont6 = 6;
-        font_type_703C14 = 7;
+        gFrontendFont7 = 7;
         gFrontendHeadingFont = 8;
         gFrontendPlayMenuScoreFont = 9;
         gFrontendScoreFont = 10;

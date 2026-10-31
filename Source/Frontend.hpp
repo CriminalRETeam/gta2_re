@@ -515,7 +515,7 @@ EXPORT void __cdecl FreeSurface();
 EXPORT void __stdcall DrawDebugLine(s32 x1, s32 y1, s32 x2, s32 y2, u16 colour);
 EXPORT void __stdcall SetColourDepthAndConvertBanks();
 
-EXTERN_GLOBAL(s16, font_type_703C14);
+EXTERN_GLOBAL(s16, gFrontendFont7);
 
 EXTERN_GLOBAL(s16, gFrontendHeadingFont);
 
@@ -535,7 +535,7 @@ EXTERN_GLOBAL(s16, gFrontendFont12);
 
 EXTERN_GLOBAL(s16, gFrontendTitleFont);
 
-EXTERN_GLOBAL(u32, counter_706C4C);
+EXTERN_GLOBAL(u32, gGammaReapplyCount);
 
 EXTERN_GLOBAL(bool, gCheatOnlyMuggerPeds);
 EXTERN_GLOBAL(bool, gCheatUnlimitedElectroGun);

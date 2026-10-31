@@ -843,16 +843,16 @@ void SpriteGrid::DebugLog(s32 x_pos, s32 y_pos) const
         if (cell_x == x_pos)
         {
             sprintf(gTmpBuffer, "(%d,%d):", x_pos, y_pos);
-            gErrorLog_67C530.Write_Log(gTmpBuffer);
+            gWarningLog.Write_Log(gTmpBuffer);
             for (GridSpriteLink* j = i->mpSpriteLinks; j; j = j->mpNext)
             {
                 if (j->mpSprite)
                 {
                     sprintf(gTmpBuffer, " %d", static_cast<u16>(j->mpSprite->mInstanceId));
-                    gErrorLog_67C530.Write_Log(gTmpBuffer);
+                    gWarningLog.Write_Log(gTmpBuffer);
                 }
             }
-            gErrorLog_67C530.Write_Log("\n");
+            gWarningLog.Write_Log("\n");
         }
     }
 }

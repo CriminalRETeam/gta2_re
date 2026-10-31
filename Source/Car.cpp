@@ -110,7 +110,7 @@ DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint03, Fix16(0x1EB, 0), 0x6FF6A4);
 // In fact, it's only allocated and deallocated, it's never used.
 DEFINE_STATIC_MEMBER(Sprite*, CarManager, sSpriteUnused, 0x677938);
 
-DEFINE_GLOBAL_INIT(Fix16, gFix16_6777CC, Fix16(0), 0x6777CC);
+DEFINE_GLOBAL_INIT(Fix16, kFpZero_6777CC, Fix16(0), 0x6777CC);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kTvAntennaOffsetY, Fix16(0x100, 0), 0x6778A0);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kMachineGunOffsetY, Fix16(0xFFFFEE00, 0), 0x6777FC);
 
@@ -616,7 +616,7 @@ u32 CarManager::SelectTrafficCarModel(Player* pPlayer, gmp_zone_info* pZoneInfo,
 {
     s32 result;
     Fix16 density_calc = Fix16(pZoneInfo->mCarDensity) / Fix16(1000);
-    if (density_calc == gFix16_6777CC)
+    if (density_calc == kFpZero_6777CC)
     {
         *pOutCategory = k_traffic_none;
         return car_model_enum::none;
@@ -877,7 +877,7 @@ bool Car::TrySnapCarToNearestDrivableRoadAndDriveForward(Fix16 xpos, Fix16 ypos,
                 break;
         }
 
-        if (xpos < gFix16_6777CC || xpos > kFp255_676D98 || ypos < gFix16_6777CC || ypos > kFp255_676D98 || search_z < 0 || search_z > 7)
+        if (xpos < kFpZero_6777CC || xpos > kFp255_676D98 || ypos < kFpZero_6777CC || ypos > kFp255_676D98 || search_z < 0 || search_z > 7)
         {
             time_out_counter = 200;
         }
@@ -987,7 +987,7 @@ Car* CarManager::GetNearestFrontVehicle(Sprite* pSprite, u8 max_rings)
         if (pCar->IsTrain())
         {
             Car* pLeadCar = gPublicTransport_181C->GetLeadTrainCar(pNearest->mCarBcPtr);
-            if (pLeadCar->GetCarLinearSpeed() == gFix16_6777CC)
+            if (pLeadCar->GetCarLinearSpeed() == kFpZero_6777CC)
             {
                 return pCar;
             }
@@ -1149,7 +1149,7 @@ Car* CarManager::SpawnBusAtValidRoadPosition(Fix16 x, Fix16 y, s32 road_directio
             default:
                 break;
         }
-        if (x < gFix16_6777CC || x > kFp255_676D98 || y < gFix16_6777CC || y > kFp255_676D98 || found_z < 0 || found_z > 1)
+        if (x < kFpZero_6777CC || x > kFp255_676D98 || y < kFpZero_6777CC || y > kFp255_676D98 || found_z < 0 || found_z > 1)
         {
             attempts = 200;
         }
@@ -1353,7 +1353,7 @@ Car* CarManager::SpawnCarOnRoadNetwork(Fix16 xpos, Fix16 ypos, s32 road_directio
             default:
                 break;
         }
-        if (x < gFix16_6777CC || x > kFp255_676D98 || y < gFix16_6777CC || y > kFp255_676D98 || found_z < 0 || found_z > 7)
+        if (x < kFpZero_6777CC || x > kFp255_676D98 || y < kFpZero_6777CC || y > kFp255_676D98 || found_z < 0 || found_z > 7)
         {
             attempts = 200;
         }
@@ -1739,7 +1739,7 @@ CarManager::CarManager()
         }
     }
 
-    mZpos = gFix16_6777CC;
+    mZpos = kFpZero_6777CC;
     mImpactMode = car_impact_mode::none_0;
     mSpareDriver = NULL;
     mNextCarId = 1;
@@ -1769,7 +1769,7 @@ CarManager::CarManager()
 
     if (!sSpriteUnused)
     {
-        sSpriteUnused = new Sprite(kAngZero_67791C, gFix16_6777CC);
+        sSpriteUnused = new Sprite(kAngZero_67791C, kFpZero_6777CC);
         if (!sSpriteUnused)
         {
             FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8375);
@@ -1999,7 +1999,7 @@ Fix16 Car::GetCarLinearSpeed()
         pPhysics = gPublicTransport_181C->GetLeadTrainCar(this)->mPhysics;
         if (!pPhysics)
         {
-            return gFix16_6777CC;
+            return kFpZero_6777CC;
         }
         return GetLinearSpeed_43A240(pPhysics);
     }
@@ -2008,7 +2008,7 @@ Fix16 Car::GetCarLinearSpeed()
         pPhysics = this->mPhysics;
         if (!pPhysics)
         {
-            return gFix16_6777CC;
+            return kFpZero_6777CC;
         }
         return GetLinearSpeed_43A240(pPhysics);
     }
@@ -2604,7 +2604,7 @@ bool Car::IsStoppedWithPavementAtDoor(u8 target_car_door)
     Ang16 angToUse;
 
     u8 door_count = GetDoorCount();
-    if (GetCarLinearSpeed() > gFix16_6777CC)
+    if (GetCarLinearSpeed() > kFpZero_6777CC)
     {
         return false;
     }
@@ -2777,11 +2777,11 @@ void Car::GetDoorWorldPosition(u8 target_door, Fix16* pOutX, Fix16* pOutY)
             door_relative_xpos -= kFpPoint2_6772BC;
             break;
         case 2:
-            if (door_relative_xpos == gFix16_6777CC)
+            if (door_relative_xpos == kFpZero_6777CC)
             {
                 door_relative_ypos -= kFpPoint2_6772BC;
             }
-            else if (door_relative_xpos < gFix16_6777CC)
+            else if (door_relative_xpos < kFpZero_6777CC)
             {
                 door_relative_xpos -= kFpPoint2_6772BC;
             }
@@ -2922,7 +2922,7 @@ void Car::SpawnDamageFireEffect(s32 fire_size, const Fix16_Point* pPos)
                 y_hit = Get_rear_window_offset(pCarInfo);
                 if (gCarManager_6C->mFireEffectCycle && gCarManager_6C->mFireEffectCycle != 2)
                 {
-                    x_hit = gFix16_6777CC;
+                    x_hit = kFpZero_6777CC;
                 }
                 else
                 {
@@ -2946,7 +2946,7 @@ void Car::SpawnDamageFireEffect(s32 fire_size, const Fix16_Point* pPos)
                 y_hit = Get_front_window_offset(pCarInfo);
                 if (gCarManager_6C->mFireEffectCycle && gCarManager_6C->mFireEffectCycle != 2)
                 {
-                    x_hit = gFix16_6777CC;
+                    x_hit = kFpZero_6777CC;
                 }
                 else
                 {
@@ -3013,7 +3013,7 @@ void Car::SpawnFire()
             gObject_5C->CreateExplosion(mCarSprite->mXy.x, mCarSprite->mXy.y, 4, kAngZero_67791C, explosion_type::car_fire_4, mExploderPedId);
         if (pExplosion)
         {
-            mCarSprite->AttachSprite(pExplosion->mSprite, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
+            mCarSprite->AttachSprite(pExplosion->mSprite, kFpZero_6777CC, kFpZero_6777CC, kAngZero_67791C);
         }
     }
 }
@@ -3511,7 +3511,7 @@ void Car::EmitExplosion(s32 type, Fix16 x, Fix16 y)
 {
     Fix16_Point unused; // EH frame with state 0 before the first call: the original has a destructible local
 
-    Object* pObject = gObject_5C->CreateExplosion(gFix16_6777CC, gFix16_6777CC, 2, kAngZero_67791C, type, mExploderPedId);
+    Object* pObject = gObject_5C->CreateExplosion(kFpZero_6777CC, kFpZero_6777CC, 2, kAngZero_67791C, type, mExploderPedId);
     if (pObject)
     {
         mCarSprite->AttachSprite(pObject->mSprite, x, y, kAngZero_67791C);
@@ -3521,7 +3521,7 @@ void Car::EmitExplosion(s32 type, Fix16 x, Fix16 y)
 MATCH_FUNC(0x43d7b0)
 void Car::TriggerExplosion(s32 type)
 {
-    if (GetAntiStrength() != gFix16_6777CC && !this->IsMaxDamage())
+    if (GetAntiStrength() != kFpZero_6777CC && !this->IsMaxDamage())
     {
         HandleCarExplosion(type);
     }
@@ -3632,7 +3632,7 @@ s16 Car::AccumulateDamage(s16 damage, const Fix16_Point* pVec)
 
     if (applied_damage == 0)
     {
-        if (anti_strength != gFix16_6777CC)
+        if (anti_strength != kFpZero_6777CC)
         {
             applied_damage = 1;
         }
@@ -3702,7 +3702,7 @@ void Car::StopMovement()
     if (pPhysics)
     {
         pPhysics->mLinvel1 = kZeroPoint;
-        this->mPhysics->mAngVelRad = gFix16_6777CC;
+        this->mPhysics->mAngVelRad = kFpZero_6777CC;
     }
 }
 
@@ -3820,7 +3820,7 @@ void Car::DestroyWhileSinking()
         SetEngineDamaged();
         PrepareForExplosion();
         mAttachments.DestroyAllSprites();
-        mCarSprite->set_z_lazy(gFix16_6777CC);
+        mCarSprite->set_z_lazy(kFpZero_6777CC);
         MarkForDespawn();
         DeAllocateCarPhysicsWithTrailer();
     }
@@ -4244,8 +4244,8 @@ MATCH_FUNC(0x440660)
 void Car::AttachGangIcon(u8 arrow_colour)
 {
     Object* pIcon =
-        gObject_5C->NewPhysicsObj(arrow_colour + 286, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
-    mCarSprite->AttachSprite(pIcon->mSprite, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
+        gObject_5C->NewPhysicsObj(arrow_colour + 286, kFpZero_6777CC, kFpZero_6777CC, kFpZero_6777CC, kAngZero_67791C);
+    mCarSprite->AttachSprite(pIcon->mSprite, kFpZero_6777CC, kFpZero_6777CC, kAngZero_67791C);
 }
 
 MATCH_FUNC(0x4406b0)
@@ -4352,31 +4352,31 @@ MATCH_FUNC(0x440ac0)
 void Car::PutWaterCannonOnRoof()
 {
     Object* pObject =
-        gObject_5C->NewPhysicsObj(objects::water_cannon_114, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
-    mCarSprite->AttachSprite(pObject->mSprite, gFix16_6777CC, kWaterCannonOffsetY, kAng180_677326);
+        gObject_5C->NewPhysicsObj(objects::water_cannon_114, kFpZero_6777CC, kFpZero_6777CC, kFpZero_6777CC, kAngZero_67791C);
+    mCarSprite->AttachSprite(pObject->mSprite, kFpZero_6777CC, kWaterCannonOffsetY, kAng180_677326);
 }
 
 MATCH_FUNC(0x440b10)
 void Car::PutTankCannonOnRoof()
 {
     Object* pObject =
-        gObject_5C->NewPhysicsObj(objects::tank_cannon_148, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
-    mCarSprite->AttachSprite(pObject->mSprite, gFix16_6777CC, kTankCannonOffsetY, kAngZero_67791C);
+        gObject_5C->NewPhysicsObj(objects::tank_cannon_148, kFpZero_6777CC, kFpZero_6777CC, kFpZero_6777CC, kAngZero_67791C);
+    mCarSprite->AttachSprite(pObject->mSprite, kFpZero_6777CC, kTankCannonOffsetY, kAngZero_67791C);
 }
 
 MATCH_FUNC(0x440b60)
 void Car::PutMachineGunOnRoof()
 {
-    Object* pObj = gObject_5C->NewPhysicsObj(248, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
-    mCarSprite->AttachSprite(pObj->mSprite, gFix16_6777CC, kMachineGunOffsetY, kAngZero_67791C);
+    Object* pObj = gObject_5C->NewPhysicsObj(248, kFpZero_6777CC, kFpZero_6777CC, kFpZero_6777CC, kAngZero_67791C);
+    mCarSprite->AttachSprite(pObj->mSprite, kFpZero_6777CC, kMachineGunOffsetY, kAngZero_67791C);
 }
 
 MATCH_FUNC(0x440bb0)
 void Car::PutTV_Antenna()
 {
     Object* pNewObj =
-        gObject_5C->NewPhysicsObj(objects::tv_antenna_149, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
-    mCarSprite->AttachSprite(pNewObj->mSprite, gFix16_6777CC, kTvAntennaOffsetY, GetRadioTowerAngle());
+        gObject_5C->NewPhysicsObj(objects::tv_antenna_149, kFpZero_6777CC, kFpZero_6777CC, kFpZero_6777CC, kAngZero_67791C);
+    mCarSprite->AttachSprite(pNewObj->mSprite, kFpZero_6777CC, kTvAntennaOffsetY, GetRadioTowerAngle());
 }
 
 MATCH_FUNC(0x440c10)
@@ -4506,16 +4506,16 @@ void Car::FireCarBomb(char_type instant_bomb)
     else
     {
         Object* pNewObject = gObject_5C->NewPhysicsObj(objects::car_bomb_132,
-                                                                    gFix16_6777CC,
-                                                                    gFix16_6777CC,
-                                                                    gFix16_6777CC,
+                                                                    kFpZero_6777CC,
+                                                                    kFpZero_6777CC,
+                                                                    kFpZero_6777CC,
                                                                     kAngZero_67791C);
         Ped* pDriver = this->mDriver;
         if (pDriver)
         {
             pNewObject->SetDamageOwner(pDriver->get_ped_ref_idx());
         }
-        mCarSprite->AttachSprite(pNewObject->mSprite, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
+        mCarSprite->AttachSprite(pNewObject->mSprite, kFpZero_6777CC, kFpZero_6777CC, kAngZero_67791C);
     }
 }
 
@@ -5506,7 +5506,7 @@ void Car::ManageTVAntenna()
         towerAng = GetRadioTowerAngle();
         if (pSprite->mOffsetRot != towerAng)
         {
-            zero = gFix16_6777CC;
+            zero = kFpZero_6777CC;
             // A reference makes VC6 reload the rotation instead of reusing the compared value
             Ang16& rot = pSprite->mOffsetRot;
             spriteAngFp = Ang16::Ang16_to_Fix16(rot);
@@ -5686,7 +5686,7 @@ bool Car::TrainUpdate()
     Fix16 player_x;
     Fix16 player_y;
     Fix16 player_z;
-    if (GetCarLinearSpeed() > gFix16_6777CC)
+    if (GetCarLinearSpeed() > kFpZero_6777CC)
     {
         gGame_0x40->mLocalPlayer->get_pos(&player_x, &player_y, &player_z);
 
@@ -5949,7 +5949,7 @@ bool Car::UpdateAttachedToSprite(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot)
     Fix16 sprite_x;
     Fix16 sprite_y;
 
-    if (x != gFix16_6777CC || y != gFix16_6777CC)
+    if (x != kFpZero_6777CC || y != kFpZero_6777CC)
     {
         sprite_x = x;
         sprite_y = y;
@@ -6075,7 +6075,7 @@ void Car::ApplyExplosionImpulse(Fix16_Point* xy)
         // flag tested twice isn't merged by VC6.
         {
             Fix16 vecLen = impulse_dir.GetLength_41E260();
-            if (vecLen == gFix16_6777CC)
+            if (vecLen == kFpZero_6777CC)
             {
                 goto done;
             }

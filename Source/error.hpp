@@ -65,5 +65,5 @@ EXTERN_GLOBAL(char_type, bDestroyed);
 EXTERN_GLOBAL(char_type, gErrStr[256]);
 EXTERN_GLOBAL(char_type, gErrStr2[256]);
 
-EXTERN_GLOBAL(ErrorLog, gErrorLog_67C530);
+EXTERN_GLOBAL(ErrorLog, gWarningLog);
 EXTERN_GLOBAL(ErrorLog, gMiss2Log);

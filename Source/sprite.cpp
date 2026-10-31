@@ -43,9 +43,9 @@ DEFINE_GLOBAL(SpritePool*, gSpritePool, 0x703818);
 DEFINE_GLOBAL(SpriteMaskCache*, gSpriteMaskCache, 0x67AF1C);
 DEFINE_GLOBAL(AttachedSpritePool*, gAttachedSpritePool, 0x703B80);
 DEFINE_STATIC_GLOBAL(Sprite*, sSprite, 0x703814);
-DEFINE_GLOBAL(Sprite*, gSprite, 0x6F61E8);
+DEFINE_GLOBAL(Sprite*, gMapCollisionSprite, 0x6F61E8);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_7035C4, Fix16(1), 0x7035C4);
-DEFINE_GLOBAL_INIT(Fix16, gFix16_7035C0, Fix16(0), 0x7035C0);
+DEFINE_GLOBAL_INIT(Fix16, kFpZero_7035C0, Fix16(0), 0x7035C0);
 DEFINE_GLOBAL_INIT(Ang16, gAng16, Ang16(0), 0x703804);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint2_703424, Fix16(0xCCC, 0), 0x703424);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Eight_7035E4, Fix16(8), 0x7035E4);
@@ -55,7 +55,7 @@ DEFINE_STATIC_GLOBAL_INIT(Fix16, kMaxSpriteZ, kFP16Eight_7035E4 - kFpOne64th_703
 DEFINE_GLOBAL_INIT(Ang16, kAng90_70344C, Ang16(360), 0x70344C);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_70351E, Ang16(720), 0x70351E);
 DEFINE_GLOBAL_INIT(Ang16, kAng270_703544, Ang16(1080), 0x703544);
-DEFINE_GLOBAL_ARRAY(Vert, gTileVerts_7036D0, 8, 0x7036D0);
+DEFINE_GLOBAL_ARRAY(Vert, gSpriteVerts, 8, 0x7036D0);
 DEFINE_GLOBAL_INIT(u32, kGlobalMask0, 0x0C00060, 0x61A9AC); // BitSet32 flag
 DEFINE_GLOBAL_INIT(u32, kGlobalMask1, 0x0C70060, 0x61A9A8); // BitSet32 flag
 DEFINE_GLOBAL_INIT(u32, kGlobalMask2, 0x0C78060, 0x61A9A4); // BitSet32 flag
@@ -80,11 +80,11 @@ static inline Fix16 __stdcall RoundZToLayer(Fix16& in)
 // 9.6f 0x4B9990
 static inline void __stdcall SaveUnprojectedVertex(f32 xCoord, f32 yCoord, f32 z_val, Vert* pVerts)
 {
-    s32 next_idx = (pVerts - gTileVerts_7036D0) + 4;
+    s32 next_idx = (pVerts - gSpriteVerts) + 4;
 
-    gTileVerts_7036D0[next_idx].x = xCoord;
-    gTileVerts_7036D0[next_idx].y = yCoord;
-    gTileVerts_7036D0[next_idx].z = z_val;
+    gSpriteVerts[next_idx].x = xCoord;
+    gSpriteVerts[next_idx].y = yCoord;
+    gSpriteVerts[next_idx].z = z_val;
 }
 
 // partially matched: https://decomp.me/scratch/qtmIe
@@ -122,17 +122,17 @@ static inline void ProjectWorldPointToScreen_First_4BA4D0(Fix16_Point& point, Ve
 // not exactly __fastcall but something similar... https://decomp.me/scratch/N5g2D
 static inline void __fastcall SetTileVertUVs(f32& u, f32& v)
 {
-    gTileVerts_7036D0[0].u = 0.30000001f;
-    gTileVerts_7036D0[0].v = 0.30000001f;
+    gSpriteVerts[0].u = 0.30000001f;
+    gSpriteVerts[0].v = 0.30000001f;
 
-    gTileVerts_7036D0[1].u = u;
-    gTileVerts_7036D0[1].v = 0.30000001f;
+    gSpriteVerts[1].u = u;
+    gSpriteVerts[1].v = 0.30000001f;
 
-    gTileVerts_7036D0[2].u = u;
-    gTileVerts_7036D0[2].v = v;
+    gSpriteVerts[2].u = u;
+    gSpriteVerts[2].v = v;
 
-    gTileVerts_7036D0[3].u = 0.30000001f;
-    gTileVerts_7036D0[3].v = v;
+    gSpriteVerts[3].u = 0.30000001f;
+    gSpriteVerts[3].v = v;
 }
 
 // matched https://decomp.me/scratch/RhBO0
@@ -550,7 +550,7 @@ s32 Sprite::IsOnWater()
     gmp_block_info* pBlock;
 
     const Fix16 zpos = mZpos;
-    if (zpos > gFix16_7035C0)
+    if (zpos > kFpZero_7035C0)
     {
         pBlock = gMap_0x370->GetBlock(mXy.x.ToInt(), mXy.y.ToInt(), (zpos - kFP16One_7035C4).ToInt());
     }
@@ -654,23 +654,23 @@ bool Sprite::ShrinkSprite(Fix16 xoff, Fix16 yoff, s32 bShrinkCollisionShape)
         mpVisualShape->GetDimensions(&w_val2, &h_val2, &d_val2);
 
         Fix16 new_w;
-        if (w_val != gFix16_7035C0)
+        if (w_val != kFpZero_7035C0)
         {
             new_w = (w_val1 / w_val) * w_val2;
         }
         else
         {
-            new_w = gFix16_7035C0;
+            new_w = kFpZero_7035C0;
         }
 
         Fix16 new_h;
-        if (h_val != gFix16_7035C0)
+        if (h_val != kFpZero_7035C0)
         {
             new_h = ((h_val1 / h_val) * h_val2);
         }
         else
         {
-            new_h = gFix16_7035C0;
+            new_h = kFpZero_7035C0;
         }
 
         mpCollisionShape->SetWidthHeightLazy(new_w, new_h);
@@ -760,7 +760,7 @@ Sprite* Sprite::QuerySpriteCollision(s32 sprite_type)
 
     UpdateCollisionBoundsIfNeeded();
     mpCollisionShape->SetCurrentRect();
-    gSprite = this;
+    gMapCollisionSprite = this;
     if (gMap_0x370->SpriteHitsDiagonalWall(mZpos.ToInt()))
     {
         return gCollisionTarget.mpHitSprite;
@@ -1134,10 +1134,10 @@ void Sprite::Draw()
 
     Fix16 new_zpos = RoundZToLayer(mZpos);
 
-    ProjectWorldPointToScreen_First_4BA4D0(pRect[0], &gTileVerts_7036D0[0], new_zpos);
-    ProjectWorldPointToScreen(pRect[1], &gTileVerts_7036D0[1], new_zpos);
-    ProjectWorldPointToScreen(pRect[2], &gTileVerts_7036D0[2], new_zpos);
-    ProjectWorldPointToScreen(pRect[3], &gTileVerts_7036D0[3], new_zpos);
+    ProjectWorldPointToScreen_First_4BA4D0(pRect[0], &gSpriteVerts[0], new_zpos);
+    ProjectWorldPointToScreen(pRect[1], &gSpriteVerts[1], new_zpos);
+    ProjectWorldPointToScreen(pRect[2], &gSpriteVerts[2], new_zpos);
+    ProjectWorldPointToScreen(pRect[3], &gSpriteVerts[3], new_zpos);
     SetTileVertUVs(u, v);
 
     Car* pCar = AsCar();
@@ -1202,11 +1202,11 @@ void Sprite::Draw()
     {
         Vert pShadowVerts[4];
 
-        memcpy(&pShadowVerts[0], &gTileVerts_7036D0[0], sizeof(Vert));
+        memcpy(&pShadowVerts[0], &gSpriteVerts[0], sizeof(Vert));
 
-        memcpy(&pShadowVerts[1], &gTileVerts_7036D0[1], sizeof(Vert));
-        memcpy(&pShadowVerts[2], &gTileVerts_7036D0[2], sizeof(Vert));
-        memcpy(&pShadowVerts[3], &gTileVerts_7036D0[3], sizeof(Vert));
+        memcpy(&pShadowVerts[1], &gSpriteVerts[1], sizeof(Vert));
+        memcpy(&pShadowVerts[2], &gSpriteVerts[2], sizeof(Vert));
+        memcpy(&pShadowVerts[3], &gSpriteVerts[3], sizeof(Vert));
 
         f32 shadow_offset = (gViewCamera->mUiScale * 5).ToFloat();
         pShadowVerts[0].diff = 0xA0000000;
@@ -1214,10 +1214,10 @@ void Sprite::Draw()
         pShadowVerts[2].diff = 0xA0000000;
         pShadowVerts[3].diff = 0xA0000000;
 
-        pShadowVerts[0].x = gTileVerts_7036D0[0].x + shadow_offset;
-        pShadowVerts[1].x = gTileVerts_7036D0[1].x + shadow_offset;
-        pShadowVerts[2].x = gTileVerts_7036D0[2].x + shadow_offset;
-        pShadowVerts[3].x = gTileVerts_7036D0[3].x + shadow_offset;
+        pShadowVerts[0].x = gSpriteVerts[0].x + shadow_offset;
+        pShadowVerts[1].x = gSpriteVerts[1].x + shadow_offset;
+        pShadowVerts[2].x = gSpriteVerts[2].x + shadow_offset;
+        pShadowVerts[3].x = gSpriteVerts[3].x + shadow_offset;
 
         pShadowVerts[0].y += shadow_offset;
         pShadowVerts[1].y += shadow_offset;
@@ -1227,7 +1227,7 @@ void Sprite::Draw()
         pgbh_DrawQuad(8576, pTexture, pShadowVerts, 255);
     }
 
-    pgbh_DrawQuad(Sprite::ComputeDrawFlags(), pTexture, gTileVerts_7036D0, 255);
+    pgbh_DrawQuad(Sprite::ComputeDrawFlags(), pTexture, gSpriteVerts, 255);
 
     if (pCar && gLighting)
     {
@@ -1246,7 +1246,7 @@ void Sprite::Draw()
             }
             pTexture = gTextureCache_15D8->GetCarDamageTexture(damage_mask_idx);
             SetTileVertUVs(u, v);
-            pgbh_DrawQuad(128, pTexture, gTileVerts_7036D0, 255);
+            pgbh_DrawQuad(128, pTexture, gSpriteVerts, 255);
         }
         pCar->mDamagedAreas.m_var = car_flags;
     }
@@ -1260,8 +1260,8 @@ void Sprite::Draw()
         }
     }
 
-    Sprite::ShowId(gTileVerts_7036D0[1].x, gTileVerts_7036D0[1].y);
-    Sprite::ShowHorn(gTileVerts_7036D0[3].x, gTileVerts_7036D0[3].y);
+    Sprite::ShowId(gSpriteVerts[1].x, gSpriteVerts[1].y);
+    Sprite::ShowHorn(gSpriteVerts[3].x, gSpriteVerts[3].y);
 }
 
 MATCH_FUNC(0x59f950)
@@ -2289,9 +2289,9 @@ void Sprite::PoolAllocate()
     this->mFlags = 0;
     this->mDrawLayer = 0;
     this->mCarBcPtr = NULL;
-    this->mXy.x = gFix16_7035C0;
-    this->mXy.y = gFix16_7035C0;
-    this->mZpos = gFix16_7035C0;
+    this->mXy.x = kFpZero_7035C0;
+    this->mXy.y = kFpZero_7035C0;
+    this->mZpos = kFpZero_7035C0;
     this->mZCol = -1;
     this->mRotation = gAng16;
     this->mTypeSpriteIdx = 0;
@@ -2624,7 +2624,7 @@ MATCH_FUNC(0x5a5870)
 void SpriteManager_8::AllocScratchSprite()
 {
     sSprite = gSpritePool->get_new_sprite();
-    sSprite->AllocCollisionShape(gFix16_7035C0, gFix16_7035C0, gFix16_7035C0);
+    sSprite->AllocCollisionShape(kFpZero_7035C0, kFpZero_7035C0, kFpZero_7035C0);
 }
 
 MATCH_FUNC(0x5a58a0)
@@ -2708,9 +2708,9 @@ MATCH_FUNC(0x5a5e50)
 Sprite::Sprite() : mRotation(gAng16)
 {
     mpVisualShape = NULL;
-    mXy.x = gFix16_7035C0;
-    mXy.y = gFix16_7035C0;
-    mZpos = gFix16_7035C0;
+    mXy.x = kFpZero_7035C0;
+    mXy.y = kFpZero_7035C0;
+    mZpos = kFpZero_7035C0;
     mInstanceId = 0;
     mTypeSpriteIdx = 0;
     mRemap = 0;

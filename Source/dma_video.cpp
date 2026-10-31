@@ -28,7 +28,7 @@ DEFINE_GLOBAL_INIT(T_Vid_WindowProc,     pVid_WindowProc,     reinterpret_cast<T
 DEFINE_GLOBAL_INIT(T_Vid_InitDLL,        pVid_InitDLL,        reinterpret_cast<T_Vid_InitDLL>(DMA_Video_Stub),        0x626D40);
 DEFINE_GLOBAL_INIT(T_Vid_SetGamma,       pVid_SetGamma,       reinterpret_cast<T_Vid_SetGamma>(DMA_Video_Stub),       0x626D44);
 
-DEFINE_GLOBAL(HMODULE, hDmaVideoDll_7085E8, 0x7085E8);
+DEFINE_GLOBAL(HMODULE, gDmaVideoDllHandle, 0x7085E8);
 DEFINE_GLOBAL(SVideoFunctions, gVidFuncs, 0x708600);
 
 
@@ -46,7 +46,7 @@ EXPORT void __stdcall DMA_Video_Unload(SVideo* pVidSys)
         pVid_ShutDown_SYS(pVidSys);
     }
 
-    FreeLibrary(hDmaVideoDll_7085E8);
+    FreeLibrary(gDmaVideoDllHandle);
 
     pVid_GetVersion = reinterpret_cast<T_Vid_GetVersion>(DMA_Video_Stub);
     pVid_Init_SYS = reinterpret_cast<T_Vid_Init_SYS>(DMA_Video_Stub);
@@ -73,13 +73,13 @@ EXPORT void __stdcall DMA_Video_Unload(SVideo* pVidSys)
 }
 
 #define load_gbh_func(varName, varType, funcName)                      \
-    varName = reinterpret_cast<varType>(GetProcAddress(hDmaVideoDll_7085E8, funcName)); \
+    varName = reinterpret_cast<varType>(GetProcAddress(gDmaVideoDllHandle, funcName)); \
     if (!varName)                                                      \
     {                                                                  \
         char_type Text[120];                                           \
         sprintf(Text, "Can't Find Function Called %s", funcName);      \
         MessageBoxA(NULL, Text, "Error Patching DLL Function", MB_OK);    \
-        FreeLibrary(hDmaVideoDll_7085E8);                             \
+        FreeLibrary(gDmaVideoDllHandle);                             \
         return -1;                                                     \
     }
 
@@ -112,8 +112,8 @@ EXPORT s32 __stdcall DMA_Video_LoadDll(const char_type* lpLibFileName)
     gVidFuncs.pVid_WindowProc = &pVid_WindowProc;
     gVidFuncs.pVid_InitDLL = &pVid_InitDLL;
 
-    hDmaVideoDll_7085E8 = LoadLibraryA(lpLibFileName);
-    if (hDmaVideoDll_7085E8)
+    gDmaVideoDllHandle = LoadLibraryA(lpLibFileName);
+    if (gDmaVideoDllHandle)
     {
         load_gbh_func(pVid_GetVersion, T_Vid_GetVersion, "Vid_GetVersion");
         load_gbh_func(pVid_Init_SYS, T_Vid_Init_SYS, "Vid_Init_SYS");
@@ -138,7 +138,7 @@ EXPORT s32 __stdcall DMA_Video_LoadDll(const char_type* lpLibFileName)
         load_gbh_func(pVid_WindowProc, T_Vid_WindowProc, "Vid_WindowProc");
         load_gbh_func(pVid_SetGamma, T_Vid_SetGamma, "Vid_SetGamma");
 
-        pVid_InitDLL(hDmaVideoDll_7085E8, &gVidFuncs);
+        pVid_InitDLL(gDmaVideoDllHandle, &gVidFuncs);
         return 0;
     }
     else

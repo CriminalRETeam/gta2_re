@@ -10,10 +10,10 @@
 #include "gbh_graphics.hpp"
 
 EXTERN_GLOBAL(Ang16, gAng16);
-EXTERN_GLOBAL(Fix16, gFix16_7035C0);
+EXTERN_GLOBAL(Fix16, kFpZero_7035C0);
 
 EXTERN_GLOBAL(u32, gLightingDrawFlag);
-EXTERN_GLOBAL_ARRAY(Vert, gTileVerts_7036D0, 8);
+EXTERN_GLOBAL_ARRAY(Vert, gSpriteVerts, 8);
 
 EXPORT bool __stdcall ComputeScanlineIntersectionX(Fix16& minX, Fix16& minY, Fix16& scanLineX, Fix16_Point& p0, Fix16_Point& p1);
 EXPORT bool __stdcall ComputeScanlineIntersectionY(Fix16& minX, Fix16& minY, Fix16& scanLineY, Fix16_Point& p0, Fix16_Point& p1);
@@ -114,12 +114,12 @@ class SpriteShape
     bool ReduceWidthBy(Fix16 amount)
     {
         mWidth -= amount;
-        if (mWidth <= gFix16_7035C0)
+        if (mWidth <= kFpZero_7035C0)
         {
-            mWidth = gFix16_7035C0;
+            mWidth = kFpZero_7035C0;
         }
         mBboxUpToDate = false;
-        return mWidth == gFix16_7035C0 ? true : false;
+        return mWidth == kFpZero_7035C0 ? true : false;
     }
 
     // 9.6f 0x4BA110
@@ -140,12 +140,12 @@ class SpriteShape
     bool ReduceHeightBy(Fix16 amount)
     {
         mHeight -= amount;
-        if (mHeight <= gFix16_7035C0)
+        if (mHeight <= kFpZero_7035C0)
         {
-            mHeight = gFix16_7035C0;
+            mHeight = kFpZero_7035C0;
         }
         mBboxUpToDate = false;
-        return mHeight == gFix16_7035C0 ? true : false;
+        return mHeight == kFpZero_7035C0 ? true : false;
     }
 
     // 9.6f 0x4BA0A0
@@ -159,15 +159,15 @@ class SpriteShape
     void ScaleWidthHeight(Fix16 scale)
     {
         mWidth *= scale;
-        if (mWidth <= gFix16_7035C0)
+        if (mWidth <= kFpZero_7035C0)
         {
-            mWidth = gFix16_7035C0;
+            mWidth = kFpZero_7035C0;
         }
 
         mHeight *= scale;
-        if (mHeight <= gFix16_7035C0)
+        if (mHeight <= kFpZero_7035C0)
         {
-            mHeight = gFix16_7035C0;
+            mHeight = kFpZero_7035C0;
         }
         mBboxUpToDate = false;
     }
@@ -442,17 +442,17 @@ class Sprite
                 return GetLightingDrawFlag() | 0x80;
             case 1:
                 flags = GetAlphaBits();
-                gTileVerts_7036D0[0].diff = (flags << 24) | 0xFFFFFF;
-                gTileVerts_7036D0[1].diff = (flags << 24) | 0xFFFFFF;
-                gTileVerts_7036D0[2].diff = (flags << 24) | 0xFFFFFF;
-                gTileVerts_7036D0[3].diff = (flags << 24) | 0xFFFFFF;
+                gSpriteVerts[0].diff = (flags << 24) | 0xFFFFFF;
+                gSpriteVerts[1].diff = (flags << 24) | 0xFFFFFF;
+                gSpriteVerts[2].diff = (flags << 24) | 0xFFFFFF;
+                gSpriteVerts[3].diff = (flags << 24) | 0xFFFFFF;
                 return GetLightingDrawFlag() | 0x2180;
             case 2:
                 flags = GetAlphaBits();
-                gTileVerts_7036D0[0].diff = (flags << 24) | 0xFFFFFF;
-                gTileVerts_7036D0[1].diff = (flags << 24) | 0xFFFFFF;
-                gTileVerts_7036D0[2].diff = (flags << 24) | 0xFFFFFF;
-                gTileVerts_7036D0[3].diff = (flags << 24) | 0xFFFFFF;
+                gSpriteVerts[0].diff = (flags << 24) | 0xFFFFFF;
+                gSpriteVerts[1].diff = (flags << 24) | 0xFFFFFF;
+                gSpriteVerts[2].diff = (flags << 24) | 0xFFFFFF;
+                gSpriteVerts[3].diff = (flags << 24) | 0xFFFFFF;
                 return GetLightingDrawFlag() | 0x2280;
             default:
                 return 0;
@@ -841,4 +841,4 @@ EXTERN_GLOBAL(SpriteMaskCache*, gSpriteMaskCache);
 
 EXTERN_GLOBAL(AttachedSpritePool*, gAttachedSpritePool);
 
-EXTERN_GLOBAL(Sprite*, gSprite);
+EXTERN_GLOBAL(Sprite*, gMapCollisionSprite);

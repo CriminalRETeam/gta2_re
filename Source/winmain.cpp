@@ -653,7 +653,7 @@ EXPORT void __stdcall SetSavedGamma()
     DWORD gamma = gRegistry.Get_Screen_Setting("gamma", 10);
     if (SetGamma(gamma))
     {
-        counter_706C4C = 30;
+        gGammaReapplyCount = 30;
     }
 }
 
@@ -900,7 +900,7 @@ void __stdcall ExitGameCallback(Game* pGame, s32 reason)
 {
     char_type Buffer[260];
     sprintf(Buffer, "(ExitGameCallback)Called with reason - %d", reason);
-    gErrorLog_67C530.Write(Buffer);
+    gWarningLog.Write(Buffer);
     pGame->ExitGameNoBonus(0, GameExitType::CloseGameImmediately_1);
 }
 

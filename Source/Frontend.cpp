@@ -39,12 +39,12 @@
 void Start_GTA2Manager();
 
 DEFINE_GLOBAL(Frontend*, gFrontend, 0x67DC84);
-DEFINE_GLOBAL_INIT(u32, counter_706C4C, 0, 0x706C4C);
+DEFINE_GLOBAL_INIT(u32, gGammaReapplyCount, 0, 0x706C4C);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_67D930, Fix16(0, 0), 0x67D930);
 u16 gTableSize_61FF20 = 25; // Note is constant but can't be marked const
 DEFINE_GLOBAL_ARRAY(wchar_t, gEmptyWStr, 2, 0x67DC8C);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpOne, Fix16(1), 0x67D9FC);
-DEFINE_GLOBAL(s16, font_type_703C14, 0x703C14);
+DEFINE_GLOBAL(s16, gFrontendFont7, 0x703C14);
 DEFINE_GLOBAL(s16, gFrontendHeadingFont, 0x703C3C);
 DEFINE_GLOBAL(s16, gFrontendNormalFont, 0x703D0C);
 DEFINE_GLOBAL(s16, gFrontendSelectedFont, 0x703C16);
@@ -309,7 +309,7 @@ EXPORT s32 __stdcall SetGamma(s32 gamma)
     {
         s32 result = pVid_SetGamma(gVidSys, gamma_f, gamma_f, gamma_f);
         sprintf(gTmpBuffer, "gammma(%d) : %d", gamma, result);
-        gErrorLog_67C530.Write(gTmpBuffer);
+        gWarningLog.Write(gTmpBuffer);
         return result;
     }
     return gamma;
@@ -319,15 +319,15 @@ MATCH_FUNC(0x5D9970)
 EXPORT void __stdcall ReapplySavedGamma()
 {
     const s32 gamma = gRegistry.Get_Screen_Setting("gamma", 10);
-    if (counter_706C4C > 0)
+    if (gGammaReapplyCount > 0)
     {
         if (!SetGamma(gamma))
         {
-            counter_706C4C = 0;
+            gGammaReapplyCount = 0;
         }
         else
         {
-            --counter_706C4C;
+            --gGammaReapplyCount;
         }
     }
 }
@@ -983,7 +983,7 @@ void Frontend::DrawMenu()
     if (mCurrentPageIdx == MENUPAGE_START_MENU)
     {
         swprintf(tmpBuff, L"GTA2 V%d.%d", gGTA2VersionMajor, gGTA2VersionMinor);
-        DrawStringDefaultPalette(tmpBuff, 300, 460, font_type_703C14, 1);
+        DrawStringDefaultPalette(tmpBuff, 300, 460, gFrontendFont7, 1);
     }
 
     if (mCurrentPageIdx == MENUPAGE_PLAY)
@@ -1605,7 +1605,7 @@ void Frontend::Update()
         gRoot_sound.Service();
     }
 
-    if (counter_706C4C > 0)
+    if (gGammaReapplyCount > 0)
     {
         ReapplySavedGamma();
     }
@@ -3485,7 +3485,7 @@ void Frontend::SetFontTypes()
         this->mTextFont = gFrontendNormalFont;
         this->mSelectedFont = gFrontendSelectedFont;
         this->mUnused122 = gFrontendFont6;
-        this->mFontType = font_type_703C14;
+        this->mFontType = gFrontendFont7;
         this->mHeadingFont = gFrontendHeadingFont;
         this->mPlayMenuScoreFont = gFrontendPlayMenuScoreFont;
         this->mScoreFont = gFrontendScoreFont;

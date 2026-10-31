@@ -123,8 +123,8 @@ void ErrorLog::log_intro()
     Write(gTmpBuffer);
 }
 
-DEFINE_GLOBAL_INIT(ErrorLog, gErrorLog_67CF58, ErrorLog("test\\error.log", 1), 0x67CF58);
-DEFINE_GLOBAL_INIT(ErrorLog, gErrorLog_67C530, ErrorLog("test\\warning.log", 1), 0x67C530);
+DEFINE_GLOBAL_INIT(ErrorLog, gErrorLog, ErrorLog("test\\error.log", 1), 0x67CF58);
+DEFINE_GLOBAL_INIT(ErrorLog, gWarningLog, ErrorLog("test\\warning.log", 1), 0x67C530);
 DEFINE_GLOBAL(ErrorLog, gMiss2Log, 0x6F7698);
 
 DEFINE_GLOBAL_ARRAY(char_type, gTmpBuffer, 256, 0x67C598);
@@ -196,7 +196,7 @@ EXPORT void ReportFatalError(s32 code, const char_type* pFileName, s32 lineNo, .
     va_start(va, lineNo);
 
     sprintf(gTmpBuffer, "Fatal Error %d in %s(%d)", code, SourceFileNameFromPath(pFileName), lineNo);
-    gErrorLog_67CF58.Write(gTmpBuffer);
+    gErrorLog.Write(gTmpBuffer);
 
     switch (code)
     {
@@ -2269,7 +2269,7 @@ EXPORT void ReportFatalError(s32 code, const char_type* pFileName, s32 lineNo, .
     }
 
     ErrorMsgBox(gTmpBuffer);
-    gErrorLog_67CF58.Write(gTmpBuffer);
+    gErrorLog.Write(gTmpBuffer);
 }
 
 MATCH_FUNC(0x4A38C0)

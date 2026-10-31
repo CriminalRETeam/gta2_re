@@ -284,7 +284,7 @@ void RouteFinder::Load_RGEN()
                     mJunctions[junction_idx].mS.GetIndex_0040CE90(),
                     mJunctions[junction_idx].mW.GetIndex_0040CE90(),
                     mJunctions[junction_idx].mE.GetIndex_0040CE90());
-            gErrorLog_67C530.Write(gTmpBuffer);
+            gWarningLog.Write(gTmpBuffer);
 
             if (junction_idx > 0 && mJunctions[junction_idx].mMinX == 0 && mJunctions[junction_idx].mMinY == 0)
             {
@@ -293,7 +293,7 @@ void RouteFinder::Load_RGEN()
             junction_idx++;
         } while (junction_idx < 0x221);
 
-        gErrorLog_67C530.Write("     ");
+        gWarningLog.Write("     ");
     }
 }
 
@@ -1102,7 +1102,7 @@ void RouteFinder::DebugPrintRoute(char_type route_idx)
                 pJunc->mMinY,
                 pJunc->mMaxX,
                 pJunc->mMaxY);
-        gErrorLog_67C530.Write(gTmpBuffer);
+        gWarningLog.Write(gTmpBuffer);
         ++route_pos;
         i = this->mRoutes[route_idx].mJunctions[static_cast<u16>(route_pos)];
     }

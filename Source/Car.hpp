@@ -1544,7 +1544,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(TrafficSpawner, 0x14);
 
 EXTERN_GLOBAL(CarPool*, gCar_BC_Pool);
 
-EXTERN_GLOBAL(Sprite*, gSprite);
+EXTERN_GLOBAL(Sprite*, gMapCollisionSprite);
 
 EXTERN_GLOBAL(TrailerPool*, gTrailerPool);
 

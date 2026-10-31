@@ -70,7 +70,7 @@ s16 rng::get_int(const s16& max_rnd)
             this->mRng = rand() % max_rnd;
         }
         sprintf(gTmpBuffer, "%d: random (get_int) %d", gpRng->get_cur_rng(), static_cast<s16>(this->get_cur_rng()));
-        gErrorLog_67C530.Write(gTmpBuffer);
+        gWarningLog.Write(gTmpBuffer);
         return static_cast<s16>(this->get_cur_rng());
     }
     else
@@ -100,7 +100,7 @@ u8 rng::get_uint8(const u8& max_rnd)
             this->mRng = rand() % max_rnd;
         }
         sprintf(gTmpBuffer, "%d: random (get_uint8) %d", gpRng->get_cur_rng(), static_cast<u8>(mRng));
-        gErrorLog_67C530.Write(gTmpBuffer);
+        gWarningLog.Write(gTmpBuffer);
         return static_cast<u8>(this->mRng);
     }
     else
