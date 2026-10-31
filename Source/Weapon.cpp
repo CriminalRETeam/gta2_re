@@ -679,12 +679,12 @@ void Weapon::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge)
                     if (field_24_pPed->field_15C_player)
                     {
                         field_2_reload_timer = 4;
-                        field_24_pPed->field_21C_bf.bFlag22 = true;
+                        field_24_pPed->field_21C_bf.bHoldPosition = true;
                     }
                     else
                     {
                         field_2_reload_timer = 50;
-                        field_24_pPed->field_21C_bf.bFlag22 = true;
+                        field_24_pPed->field_21C_bf.bHoldPosition = true;
                     }
                     field_21_bThrown = 1;
                     Weapon::ApplyFastReload_5DCF40();
@@ -707,13 +707,13 @@ void Weapon::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge)
         {
             if (field_20_bAiTestShotFired == 0)
             {
-                field_24_pPed->field_21C_bf.bFlag22 = false;
+                field_24_pPed->field_21C_bf.bHoldPosition = false;
             }
             --field_2_reload_timer;
             if (field_2_reload_timer < 30 && field_21_bThrown)
             {
                 field_21_bThrown = 0;
-                field_24_pPed->field_21C_bf.bFlag22 = false;
+                field_24_pPed->field_21C_bf.bHoldPosition = false;
             }
         }
     }
@@ -2059,7 +2059,7 @@ void Weapon::rocket_5E3850()
     {
         if (!field_20_bAiTestShotFired)
         {
-            field_24_pPed->field_21C_bf.bFlag22 = false;
+            field_24_pPed->field_21C_bf.bHoldPosition = false;
         }
         field_2_reload_timer--;
     }

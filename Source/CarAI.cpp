@@ -675,7 +675,7 @@ void CarAI::BrakeForBlockedRoadAhead_4482C0()
     u8 probe_steps = 0;
     Fix16 default_probe_x = Fix16(static_cast<u8>(gCurrCarAI_ProbeX_677A74.ToInt()));
     Fix16 default_probe_y = Fix16(static_cast<u8>(gCurrCarAI_ProbeY_677A80.ToInt()));
-    if (gBlockedRoadBrakeTimer_677CFC && !this->field_24_bf.bFlag17)
+    if (gBlockedRoadBrakeTimer_677CFC && !this->field_24_bf.bHasRightOfWay)
     {
         if (gBlockedRoadBrakeTimer_677CFC > 0)
         {
@@ -684,13 +684,13 @@ void CarAI::BrakeForBlockedRoadAhead_4482C0()
 
         this->field_0_car->DoBrake_43A950();
         this->field_8_maneuver_active = 0;
-        this->field_24_bf.bFlag7 = false;
+        this->field_24_bf.bTurning = false;
     }
     else
     {
         gBlockedRoadBrakeTimer_677CFC = 50;
         u8 bSecondPass;
-        if (!this->field_24_bf.bFlag17)
+        if (!this->field_24_bf.bHasRightOfWay)
         {
             this->field_48_probe_direction = car_ai_direction::west_4;
             this->field_9_probe_x = default_probe_x.ToInt();
@@ -838,7 +838,7 @@ void CarAI::BrakeForBlockedRoadAhead_4482C0()
                 if (pHit && pHit->GetType_416B40() == sprite_types_enum::car_2)
                 {
                     CarAI* pAi = pHit->field_8_car_bc_ptr->field_5C_AI;
-                    if (pAi && !pAi->field_24_bf.bFlag17 && pAi->field_48_probe_direction != this->field_48_probe_direction)
+                    if (pAi && !pAi->field_24_bf.bHasRightOfWay && pAi->field_48_probe_direction != this->field_48_probe_direction)
                     {
                         if (bSecondPass)
                         {
@@ -847,7 +847,7 @@ void CarAI::BrakeForBlockedRoadAhead_4482C0()
                                 pAi->field_6C_yield_to_car = this->field_0_car;
                                 pAi->field_2C_yield_timer = 5;
                                 this->field_8_maneuver_active = 0;
-                                this->field_24_bf.bFlag7 = false;
+                                this->field_24_bf.bTurning = false;
                             }
                         }
                         else if (pAi->field_4C_curr_direction != this->field_48_probe_direction)
@@ -855,14 +855,14 @@ void CarAI::BrakeForBlockedRoadAhead_4482C0()
                             pAi->field_6C_yield_to_car = this->field_0_car;
                             pAi->field_2C_yield_timer = 5;
                             this->field_8_maneuver_active = 0;
-                            this->field_24_bf.bFlag7 = false;
+                            this->field_24_bf.bTurning = false;
                         }
                     }
                 }
             }
         } while (++bSecondPass < 2);
 
-        this->field_24_bf.bFlag17 = true;
+        this->field_24_bf.bHasRightOfWay = true;
     }
 }
 
@@ -921,7 +921,7 @@ void CarAI::CheckRoadAhead_448770()
 
     if (pHalfAheadBlock)
     {
-        if (gGtx_0x106C_703DD4->IsRoadTile_42A810(pHalfAheadBlock->field_8_lid & block_face::tile_idx_mask) || this->field_24_bf.bFlag17)
+        if (gGtx_0x106C_703DD4->IsRoadTile_42A810(pHalfAheadBlock->field_8_lid & block_face::tile_idx_mask) || this->field_24_bf.bHasRightOfWay)
         {
             if (!gCurrCarAI_IsChasing_677BBC)
             {
@@ -966,7 +966,7 @@ void CarAI::CheckRoadAhead_448770()
                     {
                         this->field_0_car->DoBrake_43A950();
                         this->field_8_maneuver_active = 0;
-                        this->field_24_bf.bFlag7 = false;
+                        this->field_24_bf.bTurning = false;
                     }
                 }
             }
@@ -1036,7 +1036,7 @@ void CarAI::CheckRoadAhead_448770()
         {
             this->field_8_maneuver_active = 20;
             this->field_24_flags &= ~0xC000u;
-            this->field_24_bf.bFlag7 = true;
+            this->field_24_bf.bTurning = true;
         }
         else if (!pFarBlock)
         {
@@ -1190,14 +1190,14 @@ void CarAI::ManageTrafficCarDirection_448CE0()
         {
             case car_ai_direction::north_1:
             {
-                if (field_24_bf.bFlag7 != 0)
+                if (field_24_bf.bTurning != 0)
                 {
                     field_40_prev_target_direction = field_44_target_direction;
                     if (field_44_target_direction == car_ai_target_direction::northwards_1)
                     {
                         ClearSteeringIfTurning_4538B0();
-                        field_24_bf.bFlag7 = false;
-                        field_24_bf.bFlag17 = false;
+                        field_24_bf.bTurning = false;
+                        field_24_bf.bHasRightOfWay = false;
                     }
                     else if (field_44_target_direction == car_ai_target_direction::eastwards_3)
                     {
@@ -1238,7 +1238,7 @@ void CarAI::ManageTrafficCarDirection_448CE0()
                         break;
                     }
 
-                    field_24_bf.bFlag13 = false;
+                    field_24_bf.bArrowSteerAssist = false;
                     field_24_bf.bFlag16 = false;
                     if (off <= kFpPoint4_6779C8)
                     {
@@ -1280,7 +1280,7 @@ void CarAI::ManageTrafficCarDirection_448CE0()
                     break;
                 }
 
-                field_24_bf.bFlag13 = false;
+                field_24_bf.bArrowSteerAssist = false;
                 field_24_bf.bFlag16 = false;
                 if (cur_angle > target_angle)
                 {
@@ -1296,7 +1296,7 @@ void CarAI::ManageTrafficCarDirection_448CE0()
 
             case car_ai_direction::south_2:
             {
-                if (field_24_bf.bFlag7 != 0)
+                if (field_24_bf.bTurning != 0)
                 {
                     field_40_prev_target_direction = field_44_target_direction;
                     if (field_44_target_direction != car_ai_target_direction::southwards_2)
@@ -1313,8 +1313,8 @@ void CarAI::ManageTrafficCarDirection_448CE0()
                     else
                     {
                         ClearSteeringIfTurning_4538B0();
-                        field_24_bf.bFlag7 = false;
-                        field_24_bf.bFlag17 = false;
+                        field_24_bf.bTurning = false;
+                        field_24_bf.bHasRightOfWay = false;
                     }
                     return;
                 }
@@ -1347,7 +1347,7 @@ void CarAI::ManageTrafficCarDirection_448CE0()
                         return;
                     }
 
-                    field_24_bf.bFlag13 = false;
+                    field_24_bf.bArrowSteerAssist = false;
                     field_24_bf.bFlag16 = false;
                     if (off <= kFpPoint4_6779C8)
                     {
@@ -1389,7 +1389,7 @@ void CarAI::ManageTrafficCarDirection_448CE0()
                     break;
                 }
 
-                field_24_bf.bFlag13 = false;
+                field_24_bf.bArrowSteerAssist = false;
                 field_24_bf.bFlag16 = false;
                 if (cur_angle > target_angle)
                 {
@@ -1407,7 +1407,7 @@ void CarAI::ManageTrafficCarDirection_448CE0()
                 cur_angle = field_10_angle;
                 field_40_prev_target_direction = car_ai_target_direction::eastwards_3;
                 target_angle = kAng90_6779E4;
-                if (field_24_bf.bFlag7 != 0)
+                if (field_24_bf.bTurning != 0)
                 {
                     field_40_prev_target_direction = field_44_target_direction;
                     if (field_44_target_direction != car_ai_target_direction::eastwards_3)
@@ -1424,8 +1424,8 @@ void CarAI::ManageTrafficCarDirection_448CE0()
                     else
                     {
                         ClearSteeringIfTurning_4538B0();
-                        field_24_bf.bFlag7 = false;
-                        field_24_bf.bFlag17 = false;
+                        field_24_bf.bTurning = false;
+                        field_24_bf.bHasRightOfWay = false;
                     }
                     return;
                 }
@@ -1456,7 +1456,7 @@ void CarAI::ManageTrafficCarDirection_448CE0()
                         return;
                     }
 
-                    field_24_bf.bFlag13 = false;
+                    field_24_bf.bArrowSteerAssist = false;
                     field_24_bf.bFlag16 = false;
                     if (off <= kFpPoint4_6779C8)
                     {
@@ -1497,7 +1497,7 @@ void CarAI::ManageTrafficCarDirection_448CE0()
                     return;
                 }
 
-                field_24_bf.bFlag13 = false;
+                field_24_bf.bArrowSteerAssist = false;
                 field_24_bf.bFlag16 = false;
                 if (cur_angle > target_angle)
                 {
@@ -1513,7 +1513,7 @@ void CarAI::ManageTrafficCarDirection_448CE0()
 
             case car_ai_direction::west_4:
             {
-                if (field_24_bf.bFlag7 != 0)
+                if (field_24_bf.bTurning != 0)
                 {
                     field_40_prev_target_direction = field_44_target_direction;
                     if (field_44_target_direction != car_ai_target_direction::westwards_4)
@@ -1531,8 +1531,8 @@ void CarAI::ManageTrafficCarDirection_448CE0()
                     else
                     {
                         ClearSteeringIfTurning_4538B0();
-                        field_24_bf.bFlag7 = false;
-                        field_24_bf.bFlag17 = false;
+                        field_24_bf.bTurning = false;
+                        field_24_bf.bHasRightOfWay = false;
                     }
                     return;
                 }
@@ -1565,7 +1565,7 @@ void CarAI::ManageTrafficCarDirection_448CE0()
                         return;
                     }
 
-                    field_24_bf.bFlag13 = false;
+                    field_24_bf.bArrowSteerAssist = false;
                     field_24_bf.bFlag16 = false;
                     if (off <= kFpPoint4_6779C8)
                     {
@@ -1607,7 +1607,7 @@ void CarAI::ManageTrafficCarDirection_448CE0()
                     break;
                 }
 
-                field_24_bf.bFlag13 = false;
+                field_24_bf.bArrowSteerAssist = false;
                 field_24_bf.bFlag16 = false;
                 if (cur_angle > target_angle)
                 {
@@ -1640,7 +1640,7 @@ void CarAI::FollowRoadDirection_44A1F0()
     Fix16 vec_y;
 
     vec_y = kF16Zero_677B90;
-    field_24_bf.bFlag13 = false;
+    field_24_bf.bArrowSteerAssist = false;
 
     Ang16 lane_angle_copy = lane_angle;
 
@@ -1722,13 +1722,13 @@ void CarAI::FollowRoadDirection_44A1F0()
                     return;
 
                 case car_ai_direction::east_3:
-                    if (field_24_bf.bFlag7 && field_44_target_direction == car_ai_target_direction::northwards_1)
+                    if (field_24_bf.bTurning && field_44_target_direction == car_ai_target_direction::northwards_1)
                     {
                         field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                     }
                     else if (field_10_angle > kAng45_677A38)
                     {
-                        if (field_24_bf.bFlag6)
+                        if (field_24_bf.bReversing)
                         {
                             field_0_car->field_58_physics->TurnClockwise_42ABA0();
                         }
@@ -1737,7 +1737,7 @@ void CarAI::FollowRoadDirection_44A1F0()
                             field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                         }
                     }
-                    else if (field_24_bf.bFlag6)
+                    else if (field_24_bf.bReversing)
                     {
                         field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                     }
@@ -1763,7 +1763,7 @@ void CarAI::FollowRoadDirection_44A1F0()
             {
                 if (field_10_angle > kAng270_677B08)
                 {
-                    if (field_24_bf.bFlag6)
+                    if (field_24_bf.bReversing)
                     {
                         field_0_car->field_58_physics->TurnClockwise_42ABA0();
                     }
@@ -1774,7 +1774,7 @@ void CarAI::FollowRoadDirection_44A1F0()
                 }
                 else
                 {
-                    if (field_24_bf.bFlag6)
+                    if (field_24_bf.bReversing)
                     {
                         field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                     }
@@ -1794,7 +1794,7 @@ void CarAI::FollowRoadDirection_44A1F0()
             }
             else if (field_4C_curr_direction == car_ai_direction::north_1)
             {
-                if (field_24_bf.bFlag7 && field_44_target_direction == car_ai_target_direction::westwards_4)
+                if (field_24_bf.bTurning && field_44_target_direction == car_ai_target_direction::westwards_4)
                 {
                     field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                 }
@@ -1809,7 +1809,7 @@ void CarAI::FollowRoadDirection_44A1F0()
             switch (field_4C_curr_direction)
             {
                 case car_ai_direction::north_1:
-                    if (field_24_bf.bFlag6)
+                    if (field_24_bf.bReversing)
                     {
                         field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                     }
@@ -1881,7 +1881,7 @@ void CarAI::FollowRoadDirection_44A1F0()
                 }
 
                 case car_ai_direction::west_4:
-                    if (field_24_bf.bFlag7 && field_44_target_direction == car_ai_target_direction::southwards_2)
+                    if (field_24_bf.bTurning && field_44_target_direction == car_ai_target_direction::southwards_2)
                     {
                         field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                     }
@@ -1913,7 +1913,7 @@ void CarAI::FollowRoadDirection_44A1F0()
                     return;
 
                 case car_ai_direction::south_2:
-                    if (field_24_bf.bFlag7 && field_44_target_direction == car_ai_target_direction::westwards_4)
+                    if (field_24_bf.bTurning && field_44_target_direction == car_ai_target_direction::westwards_4)
                     {
                         field_0_car->field_58_physics->TurnClockwise_42ABA0();
                         return;
@@ -1925,7 +1925,7 @@ void CarAI::FollowRoadDirection_44A1F0()
                     return;
 
                 case car_ai_direction::east_3:
-                    if (field_24_bf.bFlag7 && field_44_target_direction == car_ai_target_direction::northwards_1)
+                    if (field_24_bf.bTurning && field_44_target_direction == car_ai_target_direction::northwards_1)
                     {
                         field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                     }
@@ -2011,7 +2011,7 @@ MATCH_FUNC(0x44af00)
 void CarAI::AlignToLaneCenter_44AF00()
 {
     s8 arrow_run_len = 0;
-    if (this->field_24_bf.bFlag8)
+    if (this->field_24_bf.bChangingLane)
     {
         gCurrCarAI_AllowTrafficSteering_677A5D = false;
         s8 count = this->field_0_car->CountConsecutiveArrowBlocks_4410D0(this->field_10_angle,
@@ -2169,7 +2169,7 @@ void CarAI::AlignToLaneCenter_44AF00()
 
             if (field_24_bf.bFlag4 && field_24_bf.bFlag16)
             {
-                this->field_24_bf.bFlag8 = false;
+                this->field_24_bf.bChangingLane = false;
             }
         }
         else if (count < static_cast<u8>(this->field_2F_arrow_end))
@@ -2527,7 +2527,7 @@ void CarAI::DetectCarAhead_44D1D0()
 
             if (pBlock && TrySetTargetDirectionFromArrows_447D40(pBlock))
             {
-                this->field_24_bf.bFlag8 = false;
+                this->field_24_bf.bChangingLane = false;
                 return;
             }
         }
@@ -2644,7 +2644,7 @@ void CarAI::DetectCarAhead_44D1D0()
 
     tail_1:
         this->field_2D_arrow_start = arrow_idx;
-        this->field_24_bf.bFlag8 = true;
+        this->field_24_bf.bChangingLane = true;
         this->field_2E_arrow_cur = arrow_idx;
         this->field_2F_arrow_end = arrow_idx - 1;
         return;
@@ -2764,7 +2764,7 @@ probe_sides:
         }
 
     tail_2:
-        this->field_24_bf.bFlag8 = true;
+        this->field_24_bf.bChangingLane = true;
         this->field_2D_arrow_start = 0;
         this->field_2E_arrow_cur = 0;
         u8 next_idx = arrow_idx + 1;
@@ -2844,7 +2844,7 @@ void CarAI::UpdateChase_44E0C0()
             {
                 if (this->field_0_car->field_58_physics)
                 {
-                    if (!this->field_24_bf.bFlag6)
+                    if (!this->field_24_bf.bReversing)
                     {
                         if (field_0_car->SnapCarToGreenArrow_444E40(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_TargetZ_6779F8))
                         {
@@ -3510,7 +3510,7 @@ void CarAI::UpdateStateMachine_44E560()
 
         if (Ang16::IsAngleAhead_405C60(&heading_copy, &aim_angle) != 0)
         {
-            if (this->field_24_bf.bFlag6 != 0)
+            if (this->field_24_bf.bReversing != 0)
             {
                 this->field_0_car->field_58_physics->TurnClockwise_42ABA0();
             }
@@ -3521,7 +3521,7 @@ void CarAI::UpdateStateMachine_44E560()
         }
         else
         {
-            if (this->field_24_bf.bFlag6 != 0)
+            if (this->field_24_bf.bReversing != 0)
             {
                 this->field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
             }
@@ -3543,7 +3543,7 @@ void CarAI::UpdateStateMachine_44E560()
         {
             if (gRng_6F6784.get_int_4F7AE0(4) == 0)
             {
-                if (this->field_24_bf.bFlag6 != 0)
+                if (this->field_24_bf.bReversing != 0)
                 {
                     this->field_0_car->field_58_physics->TurnClockwise_42ABA0();
                 }
@@ -3559,7 +3559,7 @@ void CarAI::UpdateStateMachine_44E560()
             {
                 if (gRng_6F6784.get_int_4F7AE0(4) == 0)
                 {
-                    if (this->field_24_bf.bFlag6 != 0)
+                    if (this->field_24_bf.bReversing != 0)
                     {
                         this->field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                     }
@@ -4095,7 +4095,7 @@ void CarAI::ReactToNearbyCar_451980()
 
     if (dist_to_target > kFpTwo_677B98)
     {
-        if (gCurrCarAI_IsChasing_677BBC || field_24_bf.bFlag21)
+        if (gCurrCarAI_IsChasing_677BBC || field_24_bf.bDriveAggressively)
         {
             bNoBrake = true;
         }
@@ -4119,7 +4119,7 @@ void CarAI::ReactToNearbyCar_451980()
             bNoBrake = true;
             if (ComputeShortestAngleDelta_4056C0(pCar->field_50_car_sprite->field_0_rotation, field_0_car->field_50_car_sprite->field_0_rotation) > kAng90_6779E4)
             {
-                if (field_24_bf.bFlag21)
+                if (field_24_bf.bDriveAggressively)
                 {
                     bNoBrake = true;
                 }
@@ -4130,7 +4130,7 @@ void CarAI::ReactToNearbyCar_451980()
                 }
                 field_0_car->TryHonkHorn_4416D0(2);
             }
-            else if (field_24_bf.bFlag17)
+            else if (field_24_bf.bHasRightOfWay)
             {
                 gCurrCarAI_PedalsFree_677B3C = 0;
                 field_0_car->DoBrake_43A950();
@@ -4171,7 +4171,7 @@ void CarAI::ReactToNearbyCar_451980()
                     field_0_car->field_58_physics->NeutralGear_42AC00();
                 }
             }
-            else if (field_24_bf.bFlag21)
+            else if (field_24_bf.bDriveAggressively)
             {
                 bNoBrake = true;
             }
@@ -4183,7 +4183,7 @@ void CarAI::ReactToNearbyCar_451980()
         }
         else if (pCar->field_7C_ped_type == ped_type::player_2)
         {
-            if (field_24_bf.bFlag21)
+            if (field_24_bf.bDriveAggressively)
             {
                 bNoBrake = true;
             }
@@ -4208,7 +4208,7 @@ void CarAI::ReactToNearbyCar_451980()
         }
     }
 
-    if (field_24_bf.bFlag8)
+    if (field_24_bf.bChangingLane)
     {
         bNoBrake = true;
     }
@@ -4314,7 +4314,7 @@ void CarAI::ReactToNearbyCar_451980()
     else
     {
         gCurrCarAI_PedalsFree_677B3C = 0;
-        if (!field_24_bf.bFlag12 || field_68_car_in_collision->field_7C_ped_type != ped_type::player_2)
+        if (!field_24_bf.bCollidedWithCar || field_68_car_in_collision->field_7C_ped_type != ped_type::player_2)
         {
             if (gCurrCarAI_Velocity_677B00 > kFpPoint4_6779C8)
             {
@@ -4346,7 +4346,7 @@ void CarAI::ReactToNearbyObject_451FA0()
 MATCH_FUNC(0x451ff0)
 void CarAI::ReactToNearbyPed_451FF0()
 {
-    if (!field_24_bf.bFlag21)
+    if (!field_24_bf.bDriveAggressively)
     {
         if (!gCurrCarAI_IsChasing_677BBC || (field_0_car->field_60_pChaseTask->field_8_task_type != car_task_type::kill_ped_5) ||
             field_0_car->field_60_pChaseTask->field_30_pTargetPed != field_70_nearest_entity->field_8_char_b4_ptr->field_7C_pPed)
@@ -4411,7 +4411,7 @@ void CarAI::ScanAheadForObstacles_452060()
 
     SetProbingAhead_42ACE0(1);
 
-    if (this->field_24_bf.bFlag7)
+    if (this->field_24_bf.bTurning)
     {
         field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_xpos_677C38, gCurrCarAI_ypos_677C30, gCurrCarAI_zpos_677C48);
 
@@ -4456,7 +4456,7 @@ void CarAI::ScanAheadForObstacles_452060()
 
     char_type bCheckMovement;
 
-    if (field_24_bf.bFlag6)
+    if (field_24_bf.bReversing)
     {
         Ang16::PolarToCartesian_41FC20(this->field_10_angle, kFpHalf_677A84, offset_x, offset_y);
         field_0_car->field_50_car_sprite->set_xyz_lazy_420600(offset_x + field_0_car->field_50_car_sprite->field_14_xy.x,
@@ -4501,12 +4501,12 @@ void CarAI::ScanAheadForObstacles_452060()
     Sprite* pNearestEntity = this->field_70_nearest_entity;
     if (!pNearestEntity && !bCheckMovement)
     {
-        if (field_24_bf.bFlag6)
+        if (field_24_bf.bReversing)
         {
             if (this->field_5A_obstacle_timer > 0xAu)
             {
                 this->field_5A_obstacle_timer = 0;
-                this->field_24_bf.bFlag6 = false;
+                this->field_24_bf.bReversing = false;
             }
             else
             {
@@ -4531,7 +4531,7 @@ void CarAI::ScanAheadForObstacles_452060()
             gCurrCarAI_DoSpeedControl_677B8C = 0;
             ReverseOrNeutral_453C00();
         }
-        else if (!this->field_24_bf.bFlag6)
+        else if (!this->field_24_bf.bReversing)
         {
             gCurrCarAI_DoSpeedControl_677B8C = 1;
             gCurrCarAI_PedalsFree_677B3C = 0;
@@ -4595,7 +4595,7 @@ void CarAI::ScanAheadForObstacles_452060()
                     break;
 
                 case sprite_types_enum::ped_3:
-                    if (!field_24_bf.bFlag7)
+                    if (!field_24_bf.bTurning)
                     {
                         ReactToNearbyPed_451FF0();
                     }
@@ -4608,7 +4608,7 @@ void CarAI::ScanAheadForObstacles_452060()
     {
         if (this->field_6C_yield_to_car->field_5C_AI)
         {
-            if (this->field_6C_yield_to_car->field_5C_AI->field_24_bf.bFlag17)
+            if (this->field_6C_yield_to_car->field_5C_AI->field_24_bf.bHasRightOfWay)
             {
                 gCurrCarAI_PedalsFree_677B3C = 0;
                 field_0_car->DoBrakeAndHandbrake_43A970();
@@ -4699,7 +4699,7 @@ void CarAI::ManageCollisions_452A20()
 {
     Fix16_Point impact_point;
 
-    if (field_24_bf.bFlag12)
+    if (field_24_bf.bCollidedWithCar)
     {
         if (field_68_car_in_collision->IsDespawning_4215B0())
         {
@@ -4709,8 +4709,8 @@ void CarAI::ManageCollisions_452A20()
         if (field_3C_seeking_road == 1)
         {
             field_3C_seeking_road = 0;
-            field_24_bf.bFlag6 = false;
-            field_24_bf.bFlag7 = false;
+            field_24_bf.bReversing = false;
+            field_24_bf.bTurning = false;
         }
 
         if (gCurrCarAI_IsChasing_677BBC)
@@ -4765,14 +4765,14 @@ void CarAI::ManageCollisions_452A20()
 
         Ped* pDriver = field_68_car_in_collision->field_54_driver;
 
-        if (pDriver && pDriver->PedTypeIs_45EDE0(ped_type::player_2) && !field_24_bf.bFlag21)
+        if (pDriver && pDriver->PedTypeIs_45EDE0(ped_type::player_2) && !field_24_bf.bDriveAggressively)
         {
             field_0_car->field_58_physics->NeutralGear_42AC00();
             gCurrCarAI_AllowTrafficSteering_677A5D = false;
             return;
         }
 
-        if (field_24_bf.bFlag21)
+        if (field_24_bf.bDriveAggressively)
         {
             if (rotX > field_0_car->field_50_car_sprite->field_14_xy.x)
             {
@@ -4828,7 +4828,7 @@ void CarAI::ManageCollisions_452A20()
         }
         gCurrCarAI_AllowTrafficSteering_677A5D = false;
 
-        if (field_24_bf.bFlag21 && field_2A_stopped_timer < 60 && gCurrCarAI_Velocity_677B00 < kFpPoint03_677B58)
+        if (field_24_bf.bDriveAggressively && field_2A_stopped_timer < 60 && gCurrCarAI_Velocity_677B00 < kFpPoint03_677B58)
         {
             field_0_car->field_58_physics->Accelerate_421210();
         }
@@ -4894,7 +4894,7 @@ void CarAI::UpdateDrivingAI_452DF0()
         gCurrCarAI_ArrowDirection_677C06 = 0;
     }
 
-    field_24_bf.bFlag13 = true;
+    field_24_bf.bArrowSteerAssist = true;
     gCurrCarAI_WentStraight_677A5C = 0;
 
     field_4C_curr_direction = Ang16::GetAngleFace_4F78F0(field_10_angle);
@@ -4908,7 +4908,7 @@ void CarAI::UpdateDrivingAI_452DF0()
         if (!field_0_car->field_60_pChaseTask->field_22_following_route)
         {
             bUpdateStateMachine = true;
-            field_24_bf.bFlag21 = true;
+            field_24_bf.bDriveAggressively = true;
         }
     }
 
@@ -4928,7 +4928,7 @@ void CarAI::UpdateDrivingAI_452DF0()
         }
 
         bUpdateStateMachine = false;
-        if (field_24_bf.bFlag6)
+        if (field_24_bf.bReversing)
         {
             field_50_seek_road_turn = 3;
         }
@@ -4943,13 +4943,13 @@ void CarAI::UpdateDrivingAI_452DF0()
             case 1:
                 field_24_flags &= ~0x2040;
                 field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
-                field_24_bf.bFlag7 = true;
+                field_24_bf.bTurning = true;
                 break;
 
             case 2:
                 field_24_flags &= ~0x2040;
                 field_0_car->field_58_physics->TurnClockwise_42ABA0();
-                field_24_bf.bFlag7 = true;
+                field_24_bf.bTurning = true;
                 break;
 
             case 3:
@@ -5017,7 +5017,7 @@ void CarAI::UpdateDrivingAI_452DF0()
 
     if (!gCurrCarAI_AllowTrafficSteering_677A5D || field_54_accel_cooldown)
     {
-        field_24_bf.bFlag13 = false;
+        field_24_bf.bArrowSteerAssist = false;
     }
     else
     {
@@ -5026,11 +5026,11 @@ void CarAI::UpdateDrivingAI_452DF0()
 
     if (gCurrCarAI_WentStraight_677A5C)
     {
-        field_24_bf.bFlag13 = true;
+        field_24_bf.bArrowSteerAssist = true;
     }
 
     field_68_car_in_collision = NULL;
-    field_24_bf.bFlag12 = false;
+    field_24_bf.bCollidedWithCar = false;
 }
 
 MATCH_FUNC(0x453470)
@@ -5072,7 +5072,7 @@ void CarAI::UpdateDriving_453470()
                 field_0_car->DoBrake_43A950();
             }
             this->field_68_car_in_collision = NULL;
-            this->field_24_bf.bFlag12 = false;
+            this->field_24_bf.bCollidedWithCar = false;
         }
         else
         {
@@ -5085,7 +5085,7 @@ void CarAI::UpdateDriving_453470()
                 field_0_car->field_58_physics->NeutralGear_42AC00();
             }
             this->field_68_car_in_collision = NULL;
-            this->field_24_bf.bFlag12 = false;
+            this->field_24_bf.bCollidedWithCar = false;
         }
     }
     else
@@ -5113,7 +5113,7 @@ void CarAI::ChooseRandomTurn_4537D0()
 MATCH_FUNC(0x4538b0)
 void CarAI::ClearSteeringIfTurning_4538B0()
 {
-    if (this->field_24_bf.bFlag7)
+    if (this->field_24_bf.bTurning)
     {
         this->field_0_car->ClearTurnLeft_42ACB0();
         this->field_0_car->ClearTurnRight_42ACA0();

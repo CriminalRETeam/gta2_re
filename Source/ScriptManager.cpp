@@ -863,14 +863,14 @@ bool ScriptManager::TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, 
             {
                 if (bIsPed)
                 {
-                    if (HasCheckFlag4_4759C0(pTable))
+                    if (IsPedCheck_4759C0(pTable))
                     {
                         return true;
                     }
                 }
                 else
                 {
-                    if (HasCheckFlag2_4759A0(pTable))
+                    if (IsCarCheck_4759A0(pTable))
                     {
                         return true;
                     }
@@ -907,7 +907,7 @@ void ScriptManager::ClearWeaponHitFlag_512BA0(s32 id, bool bIsPed)
         {
             if (bIsPed)
             {
-                if (HasCheckFlag4_4759C0(pTable))
+                if (IsPedCheck_4759C0(pTable))
                 {
                     // je clear; jmp next in the original: the shared tail needs a goto (duplicated
                     // bodies, early continue/return and a combined condition all change the code)
@@ -915,7 +915,7 @@ void ScriptManager::ClearWeaponHitFlag_512BA0(s32 id, bool bIsPed)
                 }
                 continue;
             }
-            if (!HasCheckFlag2_4759A0(pTable))
+            if (!IsCarCheck_4759A0(pTable))
             {
                 continue;
             }
@@ -945,7 +945,7 @@ void ScriptManager::RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, 
             {
                 if (bIsPed)
                 {
-                    if (HasCheckFlag4_4759C0(pTable))
+                    if (IsPedCheck_4759C0(pTable))
                     {
                         // je set; jmp next in the original: the shared tail needs a goto (duplicated
                         // bodies, early continue/return and a combined condition all change the code)
@@ -953,7 +953,7 @@ void ScriptManager::RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, 
                     }
                     return;
                 }
-                if (!HasCheckFlag2_4759A0(pTable))
+                if (!IsCarCheck_4759A0(pTable))
                 {
                     return;
                 }
@@ -979,16 +979,16 @@ bool ScriptManager::IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, boo
             {
                 if (bIsPed)
                 {
-                    if (HasCheckFlag4_4759C0(pTable))
+                    if (IsPedCheck_4759C0(pTable))
                     {
-                        return HasCheckFlag1_475980(pTable);
+                        return IsCheckHit_475980(pTable);
                     }
                 }
                 else
                 {
-                    if (HasCheckFlag2_4759A0(pTable))
+                    if (IsCarCheck_4759A0(pTable))
                     {
-                        return HasCheckFlag1_475980(pTable);
+                        return IsCheckHit_475980(pTable);
                     }
                 }
             }

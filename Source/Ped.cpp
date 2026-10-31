@@ -624,8 +624,8 @@ void Ped::Reset_45AFC0()
     field_0_patrol_points[0].field_1_y = 0;
     field_261_unused = 0;
     field_18C_current_path_point = NULL;
-    field_21C_bf.bFlag15 = false;
-    field_21C_bf.bFlag16 = false;
+    field_21C_bf.bFindingPath = false;
+    field_21C_bf.bPathSteppedThisRound = false;
     field_190_patrol_route = NULL;
     field_194_current_patrol_point = NULL;
     field_265_patrol_list_idx = 0;
@@ -649,12 +649,12 @@ void Ped::Reset_45AFC0()
     field_28C_threat_reaction = threat_reaction_enum::run_away_3;
     field_188_last_char_punched = NULL;
     field_266_path_point_count = 0;
-    field_21C_bf.bFlag17 = false;
+    field_21C_bf.bNoPathFound = false;
     field_21C_bf.bUnused18 = false;
-    field_21C_bf.bFlag19 = false;
+    field_21C_bf.bLosCheckedThisRound = false;
     field_21C_bf.bUnused20 = false;
     field_21C_bf.bUnused21 = false;
-    field_21C_bf.bFlag22 = false;
+    field_21C_bf.bHoldPosition = false;
     field_21C_bf.bSpottedPlayer = false;
     field_21C_bf.bOnFire = false;
     field_21C_bf.bInvisible = false;
@@ -845,8 +845,8 @@ void Ped::CopyStatsFromPed_45B5B0(const Ped* pSrc)
     field_0_patrol_points[0].field_1_y = 0;
     field_261_unused = pSrc->field_261_unused;
     field_18C_current_path_point = pSrc->field_18C_current_path_point;
-    field_21C_bf.bFlag15 = pSrc->field_21C_bf.bFlag15;
-    field_21C_bf.bFlag16 = pSrc->field_21C_bf.bFlag16;
+    field_21C_bf.bFindingPath = pSrc->field_21C_bf.bFindingPath;
+    field_21C_bf.bPathSteppedThisRound = pSrc->field_21C_bf.bPathSteppedThisRound;
     field_1D0_internal_target_x = pSrc->field_1D0_internal_target_x;
     field_1D4_internal_target_y = pSrc->field_1D4_internal_target_y;
     field_1D8_internal_target_z = pSrc->field_1D8_internal_target_z;
@@ -858,7 +858,7 @@ void Ped::CopyStatsFromPed_45B5B0(const Ped* pSrc)
     field_280_stored_ped_state_1 = pSrc->field_280_stored_ped_state_1;
     field_284_stored_ped_state_2 = pSrc->field_284_stored_ped_state_2;
     field_208_invulnerability = pSrc->field_208_invulnerability;
-    field_21C_bf.bFlag17 = pSrc->field_21C_bf.bFlag17;
+    field_21C_bf.bNoPathFound = pSrc->field_21C_bf.bNoPathFound;
     field_20A_wanted_points = pSrc->field_20A_wanted_points;
     field_21C_bf.bOnFire = pSrc->field_21C_bf.bOnFire;
     field_21C_bf.bInvisible = pSrc->field_21C_bf.bInvisible;
@@ -3155,7 +3155,7 @@ void Ped::TaxiCustomer_AI_460820()
                 dx = Fix16::Abs(dx);
                 dy = Fix16::Abs(dy);
 
-                if (((dx > dy) ? dx : dy) > kFpTwo_678658 || this->field_21C_bf.bFlag17)
+                if (((dx > dy) ? dx : dy) > kFpTwo_678658 || this->field_21C_bf.bNoPathFound)
                 {
                     this->field_150_target_objective_car->ResumeAIDriving_43AF40();
                     SetObjective(objectives_enum::no_obj_0);
@@ -4385,11 +4385,11 @@ bool Ped::PoolUpdate()
     }
     if (gPathStepRoundDone_6787D8 == 1)
     {
-        field_21C_bf.bFlag16 = false;
+        field_21C_bf.bPathSteppedThisRound = false;
     }
     if (gLosCheckRoundDone_6787D9 == 1)
     {
-        field_21C_bf.bFlag19 = false;
+        field_21C_bf.bLosCheckedThisRound = false;
     }
     if (field_21C_bf.bActive == 1)
     {
@@ -4654,7 +4654,7 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
         u8 mode = ped_states_mode::unchanged_99;
 
         field_21C_bf.bPanicking = false;
-        field_21C_bf.bFlag22 = false;
+        field_21C_bf.bHoldPosition = false;
 
         switch (objective)
         {
@@ -5436,7 +5436,7 @@ void Ped::Threat_Reaction_AI_465270()
             if ((field_288_threat_search == threat_search_enum::line_of_sight_1 ||
                  field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||
                  field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4) &&
-                !field_21C_bf.bFlag19 && gLosCheckSlotFree_61A8A2 == 1)
+                !field_21C_bf.bLosCheckedThisRound && gLosCheckSlotFree_61A8A2 == 1)
             {
                 field_288_threat_search = threat_search_enum::line_of_sight_player_only_6;
                 Ped* pPlayerPed = Ped::FindBestTargetPed_Mode5_466BD0(3);
@@ -5537,7 +5537,7 @@ void Ped::Threat_Reaction_AI_465270()
                     field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||
                     field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4)
                 {
-                    if (!field_21C_bf.bFlag19 && gLosCheckSlotFree_61A8A2 == 1)
+                    if (!field_21C_bf.bLosCheckedThisRound && gLosCheckSlotFree_61A8A2 == 1)
                     {
                         pTarget = Ped::FindBestTargetPed_Mode5_466BD0(3);
                         bLineOfSightChecked = true;
@@ -5604,7 +5604,7 @@ void Ped::Threat_Reaction_AI_465270()
                     {
                         field_20C_target_unseen_counter = 0;
                     }
-                    else if (!field_21C_bf.bFlag19 && gLosCheckSlotFree_61A8A2 == 1)
+                    else if (!field_21C_bf.bLosCheckedThisRound && gLosCheckSlotFree_61A8A2 == 1)
                     {
                         if (!gMap_0x370_6F6268->IsProbePathClear_4E5640(gSpawnJitterScale_678618,
                                                            kFpQuarter_678484,
@@ -5639,7 +5639,7 @@ void Ped::Threat_Reaction_AI_465270()
                      field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4) &&
                     bLineOfSightChecked == true)
                 {
-                    field_21C_bf.bFlag19 = true;
+                    field_21C_bf.bLosCheckedThisRound = true;
                     gLosCheckSlotFree_61A8A2 = 0;
                 }
 
@@ -5704,7 +5704,7 @@ void Ped::Threat_Reaction_AI_465270()
                         field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||
                         field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4)
                     {
-                        if (!field_21C_bf.bFlag19 && gLosCheckSlotFree_61A8A2 == 1)
+                        if (!field_21C_bf.bLosCheckedThisRound && gLosCheckSlotFree_61A8A2 == 1)
                         {
                             pTarget = Ped::FindBestTargetPed_Mode5_466BD0(3);
                             bLineOfSightChecked = true;
@@ -5758,7 +5758,7 @@ void Ped::Threat_Reaction_AI_465270()
                          field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4) &&
                         bLineOfSightChecked == true)
                     {
-                        field_21C_bf.bFlag19 = true;
+                        field_21C_bf.bLosCheckedThisRound = true;
                         gLosCheckSlotFree_61A8A2 = 0;
                     }
                 }
@@ -6793,7 +6793,7 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
     bool bNextPoint = false;
     bool bUseCurrentPath = false;
     bool bGiveUp = false;
-    field_21C_bf.bFlag17 = false;
+    field_21C_bf.bNoPathFound = false;
 
     switch (type)
     {
@@ -6841,8 +6841,8 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
             break;
     }
     angle = Fix16::atan2_fixed_405320(y - field_1AC_cam.y, x - field_1AC_cam.x);
-    field_21C_bf.bFlag15 = true;
-    if (field_21C_bf.bFlag15 == true)
+    field_21C_bf.bFindingPath = true;
+    if (field_21C_bf.bFindingPath == true)
     {
         if (distance < kFpTwo_678658)
         {
@@ -6947,10 +6947,10 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                     }
                     else
                     {
-                        field_21C_bf.bFlag17 = true;
+                        field_21C_bf.bNoPathFound = true;
                         Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
                         Ped::ChangeNextPedState2_45C540(ped_state_2::running_to_target_2);
-                        field_21C_bf.bFlag15 = false;
+                        field_21C_bf.bFindingPath = false;
                         field_0_patrol_points[0].field_0_x = 0;
                         field_0_patrol_points[0].field_1_y = 0;
                     }
@@ -6969,7 +6969,7 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                     {
                         Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
                         Ped::ChangeNextPedState2_45C540(ped_state_2::running_to_target_2);
-                        field_21C_bf.bFlag15 = false;
+                        field_21C_bf.bFindingPath = false;
                         field_0_patrol_points[0].field_0_x = 0;
                         field_0_patrol_points[0].field_1_y = 0;
                     }
@@ -6987,7 +6987,7 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                         abs_dx = Fix16::Abs(dist_1);
                         abs_dy = Fix16::Abs(dist_2);
 
-                        if (Fix16::Max(abs_dx, abs_dy) < kFpHalf_678790 || (field_168_game_object->field_58_flags_bf.bFlag6))
+                        if (Fix16::Max(abs_dx, abs_dy) < kFpHalf_678790 || (field_168_game_object->field_58_flags_bf.bJumpedOffEdge))
                         {
                             field_18C_current_path_point++;
                             field_1C4_move_target_x = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_0_x);
@@ -7009,7 +7009,7 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                     field_0_patrol_points[0].field_1_y = 0;
                     Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
                     Ped::ChangeNextPedState2_45C540(ped_state_2::running_to_target_2);
-                    field_21C_bf.bFlag15 = false;
+                    field_21C_bf.bFindingPath = false;
                 }
             }
 
@@ -7018,7 +7018,7 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                 field_1C4_move_target_x = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_0_x);
                 field_1C8_move_target_y = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_1_y);
                 field_1CC_move_target_z = Fix16(field_18C_current_path_point->field_2_z);
-                field_21C_bf.bFlag16 = true;
+                field_21C_bf.bPathSteppedThisRound = true;
                 gPathStepSlotFree_61A8A1 = 0;
                 bMoveTargetSet = true;
             }
@@ -7033,8 +7033,8 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
     {
         Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
         Ped::ChangeNextPedState2_45C540(ped_state_2::running_to_target_2);
-        field_21C_bf.bFlag15 = false;
-        field_21C_bf.bFlag16 = false;
+        field_21C_bf.bFindingPath = false;
+        field_21C_bf.bPathSteppedThisRound = false;
     }
 
     if (bMoveTargetSet)
@@ -8421,7 +8421,7 @@ void Ped::GuardSpot_469BF0()
 {
     bool bUpdateMovement = true;
 
-    this->field_21C_bf.bFlag22 = true;
+    this->field_21C_bf.bHoldPosition = true;
 
     if (!gObjectiveMayAct_61A8A3)
     {
@@ -8497,7 +8497,7 @@ void Ped::GuardArea_469D60()
     {
         if (field_21C_bf.bPanicking && gDistanceToTarget_678750 > field_1E8_target_distance_limit)
         {
-            field_21C_bf.bFlag22 = true;
+            field_21C_bf.bHoldPosition = true;
         }
     }
 }
@@ -10506,7 +10506,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
         attack_range = kFpFour_678680; // probably in a car
     }
 
-    field_21C_bf.bFlag15 = false;
+    field_21C_bf.bFindingPath = false;
     Fix16 zpos;
 
     switch (targetType)
@@ -10592,7 +10592,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
         }
 
         if (field_266_path_point_count < 4 && gDistanceToTarget_678750 < attack_range && abs_sub_less_than_epislon_45AE40(field_1AC_cam.z, zpos) ||
-            field_21C_bf.bFlag22 == true)
+            field_21C_bf.bHoldPosition == true)
         {
             if (pWeapon)
             {
@@ -10606,7 +10606,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                         gCloseRangeHit_6787D4 = 1;
                         field_168_game_object->RegulateVelocity_433970(field_1F0_max_speed);
 
-                        if (field_168_game_object->field_58_flags_bf.bFlag7)
+                        if (field_168_game_object->field_58_flags_bf.bDetouring)
                         {
                             Ped::SetObjective2_463830(objectives_enum::flee_on_foot_till_safe_1);
                             field_1C4_move_target_x = field_1AC_cam.x;
@@ -10615,7 +10615,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                         return;
                     }
 
-                    if (!field_21C_bf.bFlag22)
+                    if (!field_21C_bf.bHoldPosition)
                     {
                         Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
                         Ped::ChangeNextPedState2_45C540(ped_state_2::running_to_target_2);
@@ -10638,9 +10638,9 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                             field_21C_bf.bAttacking = false;
                         }
 
-                        if (!field_21C_bf.bFlag22)
+                        if (!field_21C_bf.bHoldPosition)
                         {
-                            if (field_168_game_object->field_58_flags_bf.bFlag7)
+                            if (field_168_game_object->field_58_flags_bf.bDetouring)
                             {
                                 Ped::SetObjective2_463830(objectives_enum::flee_on_foot_till_safe_1);
                                 field_1C4_move_target_x = field_1AC_cam.x;

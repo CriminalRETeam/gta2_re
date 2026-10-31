@@ -310,14 +310,14 @@ static void ShowPedBitMask(Ped* pPed)
             ImGui::Value("bUnused12", pPed->field_21C_bf.bUnused12);
             ImGui::Value("bWeaponChosen", pPed->field_21C_bf.bWeaponChosen);
             ImGui::Value("bInPathList", pPed->field_21C_bf.bInPathList);
-            ImGui::Value("bFlag15", pPed->field_21C_bf.bFlag15);
-            ImGui::Value("bFlag16", pPed->field_21C_bf.bFlag16);
-            ImGui::Value("bFlag17", pPed->field_21C_bf.bFlag17);
+            ImGui::Value("bFlag15", pPed->field_21C_bf.bFindingPath);
+            ImGui::Value("bFlag16", pPed->field_21C_bf.bPathSteppedThisRound);
+            ImGui::Value("bFlag17", pPed->field_21C_bf.bNoPathFound);
             ImGui::Value("bUnused18", pPed->field_21C_bf.bUnused18);
-            ImGui::Value("bFlag19", pPed->field_21C_bf.bFlag19);
+            ImGui::Value("bFlag19", pPed->field_21C_bf.bLosCheckedThisRound);
             ImGui::Value("bUnused20", pPed->field_21C_bf.bUnused20);
             ImGui::Value("bUnused21", pPed->field_21C_bf.bUnused21);
-            ImGui::Value("bFlag22", pPed->field_21C_bf.bFlag22);
+            ImGui::Value("bFlag22", pPed->field_21C_bf.bHoldPosition);
             ImGui::Value("bSpottedPlayer", pPed->field_21C_bf.bSpottedPlayer);
             ImGui::Value("bOnFire", pPed->field_21C_bf.bOnFire);
             ImGui::Value("bInvisible", pPed->field_21C_bf.bInvisible);
@@ -491,7 +491,7 @@ EXPORT void __stdcall NoRefs_sub_5B1170()
         gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(98), Fix16(180), kAng90_70420C, car_model_enum::GT24640, kFpHalf_7042A4);
     gTestCar1_704418->LockPermanently_475C30();
     gTestCar1_704418->IncrementCarStats_443D70(car_kind::mission_car_8);
-    gTestCar1_704418->SetFlag4_476270();
+    gTestCar1_704418->SetMiniCar_476270();
     gTestCar1_704418->UpdateDrawLayer_4435F0();
     gWeapon_8_707018->allocate_5E3D50(23, 1, gTestCar1_704418);
     gTestCar1_704418->IsBeingCrushed_43DD50();

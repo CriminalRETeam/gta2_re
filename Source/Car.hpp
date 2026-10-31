@@ -935,9 +935,9 @@ class Car
     }
 
     // 9.6f 0x476270
-    inline void SetFlag4_476270()
+    inline void SetMiniCar_476270()
     {
-        AddFlags_421890(car_flag::Flag4);
+        AddFlags_421890(car_flag::MiniCar);
     }
 
     // 9.6f 0x475C80
@@ -964,14 +964,14 @@ class Car
         }
     }
 
-    void SetFlag3_4218A0()
+    void SetNoCollisionDamage_4218A0()
     {
-        AddFlags_421890(car_flag::Flag3);
+        AddFlags_421890(car_flag::NoCollisionDamage);
     }
 
-    void SetFlag6_4218B0()
+    void SetTrain_4218B0()
     {
-        AddFlags_421890(car_flag::Flag6);
+        AddFlags_421890(car_flag::Train);
     }
 
     inline s32 GetCarKind_4343B0() const

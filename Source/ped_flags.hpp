@@ -3,7 +3,7 @@
 #include "types.hpp"
 
 // Ped::field_21C_bf. Same layout as CompilerBitField32 (the bit field form is needed to match), with the meaning of
-// each bit. Bits marked "Flag" are used but their meaning is not understood yet, "Unused" bits are only reset / copied.
+// each bit. "Unused" bits are only reset / copied.
 struct PedFlags32
 {
     u32 bActive : 1; // bit 0
@@ -21,14 +21,14 @@ struct PedFlags32
     u32 bUnused12 : 1; // bit 12
     u32 bWeaponChosen : 1; // bit 13
     u32 bInPathList : 1; // bit 14
-    u32 bFlag15 : 1; // bit 15
-    u32 bFlag16 : 1; // bit 16
-    u32 bFlag17 : 1; // bit 17
+    u32 bFindingPath : 1; // bit 15
+    u32 bPathSteppedThisRound : 1; // bit 16
+    u32 bNoPathFound : 1; // bit 17
     u32 bUnused18 : 1; // bit 18
-    u32 bFlag19 : 1; // bit 19
+    u32 bLosCheckedThisRound : 1; // bit 19
     u32 bUnused20 : 1; // bit 20
     u32 bUnused21 : 1; // bit 21
-    u32 bFlag22 : 1; // bit 22
+    u32 bHoldPosition : 1; // bit 22
     u32 bSpottedPlayer : 1; // bit 23
     u32 bOnFire : 1; // bit 24
     u32 bInvisible : 1; // bit 25
@@ -74,14 +74,14 @@ enum
     unused12_12 = 12,
     weapon_chosen_13 = 13,
     in_path_list_14 = 14,
-    flag15_15 = 15,
-    flag16_16 = 16,
-    flag17_17 = 17,
+    finding_path_15 = 15,
+    path_stepped_this_round_16 = 16,
+    no_path_found_17 = 17,
     unused18_18 = 18,
-    flag19_19 = 19,
+    los_checked_this_round_19 = 19,
     unused20_20 = 20,
     unused21_21 = 21,
-    flag22_22 = 22,
+    hold_position_22 = 22,
     spotted_player_23 = 23,
     on_fire_24 = 24,
     invisible_25 = 25,

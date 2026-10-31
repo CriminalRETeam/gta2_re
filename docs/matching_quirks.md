@@ -3001,7 +3001,7 @@ Matched by replacing all five gotos with structure VC6 threads away (206 -> 0, w
   is threaded away so the jump table points at the shared code.
 - **The exit block in the middle (`jcc exit` targets at 0x412) and the last block ending in its own
   epilogue copy** (dupB, `Scripts/flowopt/README.md`) come from the last source statement sitting *after*
-  the big if/else: `if (bFlag15 == true) { ... } else { bGiveUp = true; } if (bGiveUp) { flee } if (bUnk2)
+  the big if/else: `if (bFindingPath == true) { ... } else { bGiveUp = true; } if (bGiveUp) { flee } if (bUnk2)
   { type check }`. The else arm (the `jne` target, explored first, laid out last) reaches the `if (bUnk2)`
   test with the flag known false, so VC6 threads it into `jmp exit`: the last block now ends in a `jmp`,
   dupB's first loop moves the exit up behind the type check's own `jmp exit`, and the last block gets an
