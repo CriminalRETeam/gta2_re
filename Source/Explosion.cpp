@@ -32,9 +32,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD328, kFpOne64th_6FD448, 0x6FD328);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneThirtySecond_6FD330, kFpOne64th_6FD328 * 2, 0x6FD330);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne6400th_6FD450, kFpOne64th_6FD328 / 100, 0x6FD450);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne3200th_6FD44C, kFpOne64th_6FD328 / 50, 0x6FD44C);
-DEFINE_GLOBAL(s16, gDebrisDirection_6FD5F8, 0x6FD5F8);
 
-DEFINE_GLOBAL_INIT(s16, gExplosionId_623F18, 1, 0x623F18);
 DEFINE_GLOBAL_INIT(s16, gExplosionId20_623F1A, 1, 0x623F1A); // ids for ExplosionPool_3D4
 
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint2_6FD2F0, Fix16(0xCCC, 0), 0x6FD2F0);
@@ -99,11 +97,12 @@ Explosion::~Explosion()
 MATCH_FUNC(0x540A40)
 void Explosion::EmitRandomDiagonalParticle_540A40()
 {
+    LOCAL_STATIC(s16, sDebrisDirection, 0x6FD5F8);
     if (this->field_18_particle_cooldown == 0)
     {
         Particle_4C* pParticle;
-        gDebrisDirection_6FD5F8 = gRng_6F6784.get_int_4F7AE0(4);
-        switch (gDebrisDirection_6FD5F8)
+        sDebrisDirection = gRng_6F6784.get_int_4F7AE0(4);
+        switch (sDebrisDirection)
         {
             case 0:
                 pParticle = gParticle_8_6FD5E8->New_53E3C0(kFpOne3200th_6FD44C, kFpOne3200th_6FD44C, kFpOneThirtySecond_6FD330, kFpOne6400th_6FD450, kFpOne6400th_6FD450, 0);
@@ -1188,6 +1187,7 @@ s32 ExplosionPool::FreeLowestPriority_543690()
 MATCH_FUNC(0x543800)
 Explosion* ExplosionPool::Allocate_543800()
 {
+    LOCAL_STATIC_INIT(s16, sExplosionId, 1, 0x623F18);
     // 9.6f has the init block twice, 10.5 merges both into one block. Indexing field_0_explosions at each
     // use (no pNew local) gives both copies the same registers, so they merge completely.
     u8 idx;
@@ -1198,9 +1198,9 @@ Explosion* ExplosionPool::Allocate_543800()
         {
             this->field_0_explosions[idx].Init_543650();
             this->field_0_explosions[idx].field_4_pool_slot_idx = idx;
-            this->field_0_explosions[idx].field_6_id = gExplosionId_623F18;
+            this->field_0_explosions[idx].field_6_id = sExplosionId;
             this->field_0_explosions[idx].field_0_bIn20Pool = 0;
-            gExplosionId_623F18++;
+            sExplosionId++;
             this->field_780_bUsed[idx] = true;
             return &this->field_0_explosions[idx];
         }
@@ -1214,9 +1214,9 @@ Explosion* ExplosionPool::Allocate_543800()
         {
             this->field_0_explosions[idx].Init_543650();
             this->field_0_explosions[idx].field_4_pool_slot_idx = idx;
-            this->field_0_explosions[idx].field_6_id = gExplosionId_623F18;
+            this->field_0_explosions[idx].field_6_id = sExplosionId;
             this->field_0_explosions[idx].field_0_bIn20Pool = 0;
-            gExplosionId_623F18++;
+            sExplosionId++;
             this->field_780_bUsed[idx] = true;
             return &this->field_0_explosions[idx];
         }
