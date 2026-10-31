@@ -4932,7 +4932,7 @@ void Ped::ProcessMainObjective()
         switch (mObjective)
         {
             case objectives_enum::flee_on_foot_till_safe_1:
-                Ped::FleeOnFootTillSafe_4678E0();
+                Ped::ProcessObjectiveFleeOnFootTillSafe();
                 break;
             case objectives_enum::flee_char_on_foot_till_safe_2:
                 Ped::FleeCharOnFootTillSafe();
@@ -4981,7 +4981,7 @@ void Ped::ProcessMainObjective()
                 Ped::TimeWaitedInCar();
                 break;
             case objectives_enum::goto_area_in_car_14:
-                Ped::GotoAreaInCar_468310();
+                Ped::ProcessObjectiveGotoAreaInCar();
                 break;
             case objectives_enum::enter_car_as_driver_35:
                 Ped::EnterTargetObjectiveCar();
@@ -4996,7 +4996,7 @@ void Ped::ProcessMainObjective()
                 Ped::UpdateFollowPedObjective();
                 break;
             case objectives_enum::goto_area_on_foot_12:
-                Ped::GotoAreaOnFoot_468DE0();
+                Ped::ProcessObjectiveGotoAreaOnFoot();
                 break;
             case objectives_enum::goto_area_any_means_13:
                 Ped::GotoAreaByAnyMeans();
@@ -5029,7 +5029,7 @@ void Ped::ProcessMainObjective()
                 Ped::WaitInCurrentCar();
                 break;
             case objectives_enum::follow_char_in_car_10:
-                Ped::FollowPedInCar_469F30();
+                Ped::ProcessObjectiveFollowPedInCar();
                 break;
             case objectives_enum::call_police_car_54:
                 Ped::CallPoliceCar();
@@ -5167,7 +5167,7 @@ void Ped::ProcessInternalObjective()
         switch (this->mInternalObjective)
         {
             case objectives_enum::flee_on_foot_till_safe_1:
-                Ped::FleeOnFootTillSafe_46A8F0();
+                Ped::ProcessInternalObjectiveFleeOnFootTillSafe();
                 break;
             case objectives_enum::flee_char_on_foot_till_safe_2:
                 Ped::FleeFromPedTillSafe();
@@ -5203,7 +5203,7 @@ void Ped::ProcessInternalObjective()
                 Ped::ExitCarStateMachine();
                 break;
             case objectives_enum::goto_area_on_foot_12:
-                Ped::GotoAreaOnFoot_46C7E0();
+                Ped::ProcessInternalObjectiveGotoAreaOnFoot();
                 break;
             case objectives_enum::follow_path_points_15:
                 Ped::FollowPathPoints();
@@ -5212,7 +5212,7 @@ void Ped::ProcessInternalObjective()
                 Ped::WalkToTargetPoint();
                 break;
             case objectives_enum::goto_area_in_car_14:
-                Ped::GotoAreaInCar_46CA60();
+                Ped::ProcessInternalObjectiveGotoAreaInCar();
                 break;
             case objectives_enum::walk_to_car_door_18:
                 Ped::WalkToTargetThenStop();
@@ -5249,7 +5249,7 @@ void Ped::ProcessInternalObjective()
                 break;
 
             case objectives_enum::chase_char_in_car_52:
-                Ped::FollowPedInCar_46CA70();
+                Ped::ProcessInternalObjectiveChasePedInCar();
                 break;
             case objectives_enum::follow_car_on_foot_with_offset_56:
                 Ped::FollowCarOnFoot();
@@ -7048,7 +7048,7 @@ void Ped::UpdateMovementTowardsTarget(Fix16 distance, u8 type)
 }
 
 MATCH_FUNC(0x4678e0)
-void Ped::FleeOnFootTillSafe_4678E0()
+void Ped::ProcessObjectiveFleeOnFootTillSafe()
 {
     if (gObjectiveMayAct)
     {
@@ -7473,7 +7473,7 @@ void Ped::TimeWaitedInCar()
 }
 
 MATCH_FUNC(0x468310)
-void Ped::GotoAreaInCar_468310()
+void Ped::ProcessObjectiveGotoAreaInCar()
 {
     LOCAL_STATIC(Object*, sNullTargetObject, 0x678558);
     if (this->mObjectiveStatus != objective_status::passed_1)
@@ -7868,7 +7868,7 @@ void Ped::PatrolOnFoot()
 }
 
 MATCH_FUNC(0x468de0)
-void Ped::GotoAreaOnFoot_468DE0()
+void Ped::ProcessObjectiveGotoAreaOnFoot()
 {
     if (mOccupation == ped_ocupation_enum::drone)
     {
@@ -8551,7 +8551,7 @@ void Ped::SetupCarFollowTargetPed()
 }
 
 MATCH_FUNC(0x469f30)
-void Ped::FollowPedInCar_469F30()
+void Ped::ProcessObjectiveFollowPedInCar()
 {
     if (!mCar->mpChaseTask)
     {
@@ -8939,7 +8939,7 @@ void Ped::DestroyTargetCar()
 }
 
 MATCH_FUNC(0x46a8f0)
-void Ped::FleeOnFootTillSafe_46A8F0()
+void Ped::ProcessInternalObjectiveFleeOnFootTillSafe()
 {
     if (gDistanceToTarget > kFpSix)
     {
@@ -9998,7 +9998,7 @@ void Ped::WalkToTargetPoint()
 }
 
 MATCH_FUNC(0x46c7e0)
-void Ped::GotoAreaOnFoot_46C7E0()
+void Ped::ProcessInternalObjectiveGotoAreaOnFoot()
 {
     if (mPedState1 != ped_state_1::immobilized_8)
     {
@@ -10118,12 +10118,12 @@ void Ped::CrossRoad()
 }
 
 MATCH_FUNC(0x46ca60)
-void Ped::GotoAreaInCar_46CA60()
+void Ped::ProcessInternalObjectiveGotoAreaInCar()
 {
 }
 
 MATCH_FUNC(0x46ca70)
-void Ped::FollowPedInCar_46CA70()
+void Ped::ProcessInternalObjectiveChasePedInCar()
 {
     if (!this->mCar->mpChaseTask)
     {

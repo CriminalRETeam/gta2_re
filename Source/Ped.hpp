@@ -267,7 +267,7 @@ class Ped
     EXPORT Sprite* ResetAnimAndFindNearestSprite();
   private:
     EXPORT void UpdateMovementTowardsTarget(Fix16 distance, u8 type);
-    EXPORT void FleeOnFootTillSafe_4678E0();
+    EXPORT void ProcessObjectiveFleeOnFootTillSafe();
     EXPORT void FleeCharOnFootTillSafe();
     EXPORT void FleeFromCharOnFootAlways();
     EXPORT void FleeCharAlwaysOnceCarStopped();
@@ -278,14 +278,14 @@ class Ped
     EXPORT void PunchChar();
     EXPORT void WaitOnFootAtTarget();
     EXPORT void TimeWaitedInCar();
-    EXPORT void GotoAreaInCar_468310();
+    EXPORT void ProcessObjectiveGotoAreaInCar();
     EXPORT void EnterTargetObjectiveCar();
     EXPORT void LeaveTargetObjectiveCar();
     EXPORT void EnterTrain();
     EXPORT void LeaveTrain();
     EXPORT void LeaveCarThenStop();
     EXPORT void PatrolOnFoot();
-    EXPORT void GotoAreaOnFoot_468DE0();
+    EXPORT void ProcessObjectiveGotoAreaOnFoot();
     EXPORT void UpdateFollowPedObjective();
     EXPORT s32 GetValueByIdParity() const;
     EXPORT void UpdateKillerIdTimer();
@@ -296,7 +296,7 @@ class Ped
     EXPORT void FailWhenObjectiveTimerExpired();
     EXPORT void SetCarAiSpeedOne();
     EXPORT void SetupCarFollowTargetPed();
-    EXPORT void FollowPedInCar_469F30();
+    EXPORT void ProcessObjectiveFollowPedInCar();
     EXPORT void WaitInCurrentCar();
     EXPORT void CallPoliceCar();
     EXPORT void PullDriverOutOfCar();
@@ -307,7 +307,7 @@ class Ped
     EXPORT void AimVehicleTurretStateMachine();
     EXPORT void DestroyTargetObject();
     EXPORT void DestroyTargetCar();
-    EXPORT void FleeOnFootTillSafe_46A8F0();
+    EXPORT void ProcessInternalObjectiveFleeOnFootTillSafe();
     EXPORT void FleeFromPedTillSafe();
     EXPORT void FleeFromPedAlways();
     EXPORT void CheckFollowTargetPedStillValid();
@@ -320,12 +320,12 @@ class Ped
     EXPORT void EnterCarStateMachine();
     EXPORT void ExitCarStateMachine();
     EXPORT void WalkToTargetPoint();
-    EXPORT void GotoAreaOnFoot_46C7E0();
+    EXPORT void ProcessInternalObjectiveGotoAreaOnFoot();
     EXPORT void WalkToTargetThenStop();
     EXPORT void FollowPathPoints();
     EXPORT void CrossRoad();
-    EXPORT void GotoAreaInCar_46CA60();
-    EXPORT void FollowPedInCar_46CA70();
+    EXPORT void ProcessInternalObjectiveGotoAreaInCar();
+    EXPORT void ProcessInternalObjectiveChasePedInCar();
     EXPORT void StartPedCrossingAtTrafficLight_Y_Backward();
     EXPORT void StartPedCrossingAtTrafficLight_X_Forwards();
     EXPORT void StartPedCrossingAtTrafficLight_Y_Forwards();
