@@ -59,7 +59,6 @@ DEFINE_GLOBAL_INIT(Fix16, kFpOneThirtySecond_6F8F5C, Fix16(0x200, 0), 0x6F8F5C);
 DEFINE_GLOBAL_INIT(Fix16, kObjectGravity_6F8DA8, Fix16(0xFFFFFFF8, 0), 0x6F8DA8);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_6F8E14, Fix16(1), 0x6F8E14);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_6F8C58, Fix16(0x666, 0), 0x6F8C58);
-DEFINE_GLOBAL_INIT(u8, gObject2C_Unused_623EC4, 1, 0x623EC4);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6F8DC8, Fix16(256, 0), 0x6F8DC8);
 DEFINE_GLOBAL_INIT(Fix16, kFpEighteen_6F8CE8, Fix16(18), 0x6F8CE8);
@@ -651,12 +650,13 @@ void Object::Sprite_UpdateZFromSlopeAndTile_522FA0(Sprite* pSprite)
 MATCH_FUNC(0x5233a0)
 bool Object::TryStartSlide_5233A0(Fix16 speed)
 {
+    LOCAL_STATIC_INIT(u8, sObject2CUnused, 1, 0x623EC4);
     gObject2C_LastCollisionSprite_6F8F8C = NULL;
 
     if (SelectCollisionSprite_522460(this->field_4_sprite))
     {
 
-        gObject2C_Unused_623EC4 = 0;
+        sObject2CUnused = 0;
         if (gObject2C_HitWallOrDoor_6F8F94)
         {
             return false;
