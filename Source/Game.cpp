@@ -68,7 +68,7 @@
 #include "winmain.hpp"
 
 DEFINE_GLOBAL_INIT(Fix16, kFpFive_67DECC, Fix16(5), 0x67DECC);
-DEFINE_GLOBAL_INIT(Fix16, kFpFive_67DFB4, kFpFive_67DECC, 0x67DFB4);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpFive, kFpFive_67DECC, 0x67DFB4);
 EXTERN_GLOBAL(NetworkGameSettings, gNetworkGameSettings_707098);
 // Network game speed setting; selects the frame duration in ApplyNetworkGameSettings_4B8E50
 namespace network_game_speed
@@ -902,7 +902,7 @@ void Game::ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(Sprite* pSprite, Playe
         Player* p = gGame_0x40_67E008->GetPlayer_4219E0(i);
         if (p && p != pExclude)
         {
-            if (gGame_0x40_67E008->IsSpriteInPlayerBounds_4B9950(pSprite, i, kFpFive_67DFB4))
+            if (gGame_0x40_67E008->IsSpriteInPlayerBounds_4B9950(pSprite, i, kFpFive))
             {
                 if (p->field_680_traffic_spawn_counter > p->field_682_traffic_spawn_threshold)
                 {
