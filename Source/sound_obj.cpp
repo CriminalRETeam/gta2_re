@@ -1042,7 +1042,7 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
             switch (interactionType)
             {
                 case 3:
-                    // 9.6f: Car::sub_414F60 (field_78_flags & 0x100 via sub_411930, inlined, a bool helper changes the code)
+                    // 9.6f: Car::IsBulletproof_414F60 (field_78_flags & 0x100 via IsFlagSet_411930, inlined, a bool helper changes the code)
                     if ((pEvent->field_10_car->field_78_flags & car_flag::Bulletproof))
                     {
                         samp_idx = field_1454_anRandomTable[1] % 3 + 46;

@@ -8231,7 +8231,6 @@ void Ped::GotoAreaByAnyMeans_469060()
 
                         if (pCar)
                         {
-                            // 9.6f: Car::sub_421510 (allocates field_5C_AI if needed)
                             pCar->AllocateAI_421510();
                             pCar->field_5C_AI->SetCar_453BF0(pCar);
                             pCar->SpawnDriverPed();
