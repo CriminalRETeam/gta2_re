@@ -144,7 +144,7 @@ EXTERN_GLOBAL_ARRAY(u8, kDecidePowerupGenTypes, 19);
 // Sets the generator type for `car_model` from the script's car list, or type 0x41 when it isn't
 // in the list. Reads the global rather than `this`.
 MATCH_FUNC(0x509180)
-void ScriptThread::SCRCMD_STORE_CAR_INFO_509180()
+void ScriptThread::Handle_STORE_CAR_INFO()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));

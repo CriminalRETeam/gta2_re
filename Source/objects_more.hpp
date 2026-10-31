@@ -5,7 +5,7 @@ namespace objects
 {
 enum
 {
-    dead_phone_174 = 174, // SCRCMD_SET_PHONE_DEAD_50C040; a blue_phone_not_ringing_163 that can't be touched
+    dead_phone_174 = 174, // Handle_SET_PHONE_DEAD; a blue_phone_not_ringing_163 that can't be touched
     red_phone_not_ringing_176 = 176,
     yellow_phone_not_ringing_178 = 178,
     green_phone_not_ringing_180 = 180,

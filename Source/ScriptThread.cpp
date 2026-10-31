@@ -133,7 +133,7 @@ void ScriptThread::MissionFailOnDeathOrArrest()
         }
 
         mGosubStack->remove_5031E0(2);
-        SCRCMD_RETURN_506B80();
+        Handle_RETURN();
 
         s32 msg_offset;
         if (gGame_0x40->mLocalPlayer->IsWastedOrBustedNotObjective54())
@@ -414,7 +414,7 @@ void ScriptThread::SCRCMD_OBJ_DECSET(SCR_OBJ_DATA* pCmd, SCR_POINTER* pPointer)
 }
 
 MATCH_FUNC(0x503a20)
-void ScriptThread::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
+void ScriptThread::Handle_PLAYER_PED(SCR_PLAYER_PED* pCmd)
 {
     Player* pPlayer = gGame_0x40->GetFirstPlayerWithoutPed();
 
@@ -618,7 +618,7 @@ void ScriptThread::SetCharObjective(SCR_CHAR_OBJECTIVE* pCmd, SCR_POINTER* pPoin
 }
 
 MATCH_FUNC(0x504150)
-void ScriptThread::SCRCMD_MAP_ZONE_SET_504150(SCR_MAP_ZONE_SET* pCmd)
+void ScriptThread::Handle_MAP_ZONE_SET(SCR_MAP_ZONE_SET* pCmd)
 {
     str_table_entry* pZoneStr = gScriptManager->FindStringById(pCmd->mCmdThis);
     gMap_0x370->SetZoneInfo(pZoneStr->mZoneIdx,
@@ -636,7 +636,7 @@ void ScriptThread::SCRCMD_MAP_ZONE_SET_504150(SCR_MAP_ZONE_SET* pCmd)
 }
 
 MATCH_FUNC(0x5041b0)
-void ScriptThread::SCRCMD_ARROW_DEC_5041B0(SCR_TWO_PARAMS* pCmd)
+void ScriptThread::Handle_ARROW_DEC(SCR_TWO_PARAMS* pCmd)
 {
     pCmd->mU32 = 0;
 }
@@ -762,13 +762,13 @@ void ScriptThread::SCRCMD_DESTRUCTOR_DECSET(SCR_DESTRUCTOR* pCmd, SCR_POINTER* p
 }
 
 MATCH_FUNC(0x5045a0)
-void ScriptThread::SCRCMD_CRUSHER_BASIC_5045A0(SCR_CRUSHER_BASIC* pCmd, SCR_POINTER* pPointer)
+void ScriptThread::Handle_CRUSHER_BASIC(SCR_CRUSHER_BASIC* pCmd, SCR_POINTER* pPointer)
 {
     pPointer->mCrusher = gCrusherPool_94->CreateCrusher(pCmd->mPos.mX, pCmd->mPos.mY);
 }
 
 MATCH_FUNC(0x5045d0)
-void ScriptThread::SCRCMD_THREAD_DECLARE2_5045D0(SCR_THREAD* pCmd, s16* pThreadIdx)
+void ScriptThread::Handle_THREAD_DECLARE2(SCR_THREAD* pCmd, s16* pThreadIdx)
 {
     SCR_POINTER* pCharPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(pCmd->mCharVarIdx));
     SCR_POINTER* pCarPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(pCmd->mCarOrPhoneIdx));
@@ -781,7 +781,7 @@ void ScriptThread::SCRCMD_THREAD_DECLARE2_5045D0(SCR_THREAD* pCmd, s16* pThreadI
 }
 
 MATCH_FUNC(0x504660)
-void ScriptThread::SCRCMD_THREAD_DECLARE3_504660(SCR_THREAD* pCmd)
+void ScriptThread::Handle_THREAD_DECLARE3(SCR_THREAD* pCmd)
 {
     if (static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(pCmd->mCharIdx10))->mChar)
     {
@@ -798,7 +798,7 @@ void ScriptThread::SCRCMD_THREAD_DECLARE3_504660(SCR_THREAD* pCmd)
 }
 
 MATCH_FUNC(0x504710)
-void ScriptThread::SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd)
+void ScriptThread::Handle_THREAD_DECLARE5(SCR_CHAR_AREA_ANY* pCmd)
 {
     if (static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(pCmd->mCharIdx24))->mChar)
     {
@@ -833,7 +833,7 @@ void ScriptThread::SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd)
 }
 
 MATCH_FUNC(0x5047c0)
-void ScriptThread::SCRCMD_THREAD_DECLARE4_5047C0(SCR_THREAD* pCmd, s16* pThreadIdx)
+void ScriptThread::Handle_THREAD_DECLARE4(SCR_THREAD* pCmd, s16* pThreadIdx)
 {
     SCR_POINTER* pCharPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(pCmd->mCharVarIdx));
     SCR_POINTER* pPhonePointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(pCmd->mCarOrPhoneIdx));
@@ -846,7 +846,7 @@ void ScriptThread::SCRCMD_THREAD_DECLARE4_5047C0(SCR_THREAD* pCmd, s16* pThreadI
 }
 
 MATCH_FUNC(0x504830)
-void ScriptThread::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
+void ScriptThread::ApplyGangInfo(SCR_SET_GANG_INFO* pCmd)
 {
     str_table_entry* pGangStr = gScriptManager->FindStringById(pCmd->mGangname);
 
@@ -881,7 +881,7 @@ void ScriptThread::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
 }
 
 MATCH_FUNC(0x504950)
-void ScriptThread::SCRCMD_SET_DOOR_INFO_504950(SCR_FOUR_PARAMS* pCmd)
+void ScriptThread::Handle_SET_DOOR_INFO(SCR_FOUR_PARAMS* pCmd)
 {
     gDoor_4D4->RegisterDoorInfo(pCmd->mUnsigned1, pCmd->mUnsigned2, static_cast<char_type>(pCmd->mUnsigned3));
 }
@@ -1131,7 +1131,7 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D2_S2(SCR_DOOR_DATA_DEC* pCmd)
 }
 
 MATCH_FUNC(0x504dd0)
-void ScriptThread::SCRCMD_DECLARE_MISSION_504DD0(SCR_TWO_PARAMS* pCmd)
+void ScriptThread::Handle_DECLARE_MISSION(SCR_TWO_PARAMS* pCmd)
 {
     gScriptManager->GetBasePointer(pCmd->mUnsigned1); //  player pointer not used because missions are singleplayer
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(pCmd->mUnsigned2));
@@ -1207,7 +1207,7 @@ void ScriptThread::SCRCMD_SET_STATION_EMPTY_STATION(SCR_SET_STATION* pCmd)
 }
 
 MATCH_FUNC(0x5051d0)
-void ScriptThread::SCRCMD_RADIOSTATION_DEC_5051D0(SCR_RADIOSTATION_DEC* pCmd)
+void ScriptThread::Handle_RADIOSTATION_DEC(SCR_RADIOSTATION_DEC* pCmd)
 {
     gRoot_sound.DeclareRadioStation(pCmd->mStationType, pCmd->mPos.mX, pCmd->mPos.mY);
 }
@@ -1226,7 +1226,7 @@ void ScriptThread::SCRCMD_SET_TRAIN_STATIONS(SCR_TWO_PARAMS* pCmd)
 }
 
 MATCH_FUNC(0x5052c0)
-void ScriptThread::SCRCMD_DECLARE_POLICE_5052C0(SCR_DECLARE_POLICELEVEL* pCmd)
+void ScriptThread::Handle_DECLARE_POLICE(SCR_DECLARE_POLICELEVEL* pCmd)
 {
     u8 max_wanted_level = static_cast<u8>(pCmd->mWantedLevel);
     if (max_wanted_level == 0)
@@ -1237,7 +1237,7 @@ void ScriptThread::SCRCMD_DECLARE_POLICE_5052C0(SCR_DECLARE_POLICELEVEL* pCmd)
 }
 
 MATCH_FUNC(0x505340)
-void ScriptThread::SCRCMD_SOUND_DECSET_505340(SCR_SOUND_DECSET* pCmd, SCR_POINTER* pPointer)
+void ScriptThread::Handle_SOUND_DECSET(SCR_SOUND_DECSET* pCmd, SCR_POINTER* pPointer)
 {
     if (!pCmd->mPlayType)
     {
@@ -1313,13 +1313,13 @@ void ScriptThread::SCRCMD_PASSED_FAILED_FLAGS(SCR_TWO_PARAMS* pCmd)
 }
 
 MATCH_FUNC(0x505710)
-void ScriptThread::SCRCMD_FINISH_SCORE_505710(SCR_TWO_PARAMS* pCmd)
+void ScriptThread::Handle_FINISH_SCORE(SCR_TWO_PARAMS* pCmd)
 {
     gScriptManager->mFinishScore = pCmd->mS32;
 }
 
 MATCH_FUNC(0x505750)
-void ScriptThread::SCRCMD_DECLARE_CARLIST_505750(SCR_TWO_PARAMS* pCmd)
+void ScriptThread::Handle_DECLARE_CARLIST(SCR_TWO_PARAMS* pCmd)
 {
     gScriptManager->mCarList = &pCmd->mU32;
 }
@@ -1491,14 +1491,14 @@ void ScriptThread::SCRCMD_DEC_DEATH_BASE(SCR_FOUR_PARAMS* pCmd)
 }
 
 MATCH_FUNC(0x5060d0)
-void ScriptThread::SCRCMD_DO_CRANE_POWERUP_5060D0(SCR_DECLARE_CRANE_POWERUP* pCmd)
+void ScriptThread::Handle_DO_CRANE_POWERUP(SCR_DECLARE_CRANE_POWERUP* pCmd)
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(pCmd->mCraneIdx));
     pPointer->mCrane->mPowerupCmd = pCmd->mCmdThis;
 }
 
 MATCH_FUNC(0x506140)
-void ScriptThread::SCRCMD_START_BASIC_KF_506140(u16* pKfValue)
+void ScriptThread::RegisterBasicKf(u16* pKfValue)
 {
     for (u16 idx = 0; idx < 25; idx++)
     {
@@ -1521,7 +1521,7 @@ void ScriptThread::ExecOpCode()
             switch (pBasePtr->mType)
             {
                 case SCRCMD_PLAYER_PED:
-                    ScriptThread::SCRCMD_PLAYER_PED_503A20(reinterpret_cast<SCR_PLAYER_PED*>(pBasePtr));
+                    ScriptThread::Handle_PLAYER_PED(reinterpret_cast<SCR_PLAYER_PED*>(pBasePtr));
                     break;
                 case SCRCMD_CAR_DECSET_2D:
                 case SCRCMD_CAR_DECSET_3D:
@@ -1544,10 +1544,10 @@ void ScriptThread::ExecOpCode()
                     ScriptThread::SCRCMD_OBJ_DECSET(static_cast<SCR_OBJ_DATA*>(pBasePtr), static_cast<SCR_POINTER*>(pBasePtr));
                     break;
                 case SCRCMD_MAP_ZONE_SET:
-                    ScriptThread::SCRCMD_MAP_ZONE_SET_504150(static_cast<SCR_MAP_ZONE_SET*>(pBasePtr));
+                    ScriptThread::Handle_MAP_ZONE_SET(static_cast<SCR_MAP_ZONE_SET*>(pBasePtr));
                     break;
                 case SCRCMD_ARROW_DEC:
-                    ScriptThread::SCRCMD_ARROW_DEC_5041B0(static_cast<SCR_TWO_PARAMS*>(pBasePtr));
+                    ScriptThread::Handle_ARROW_DEC(static_cast<SCR_TWO_PARAMS*>(pBasePtr));
                     break;
                 case SCRCMD_CRANE_BASIC_DEC:
                 case SCRCMD_CRANE_TARGET_DEC:
@@ -1569,26 +1569,26 @@ void ScriptThread::ExecOpCode()
                     ScriptThread::SCRCMD_DESTRUCTOR_DECSET(static_cast<SCR_DESTRUCTOR*>(pBasePtr), static_cast<SCR_POINTER*>(pBasePtr));
                     break;
                 case SCRCMD_THREAD_DECLARE2:
-                    ScriptThread::SCRCMD_THREAD_DECLARE2_5045D0(static_cast<SCR_THREAD*>(pBasePtr), &pBasePtr->mCmdThis);
+                    ScriptThread::Handle_THREAD_DECLARE2(static_cast<SCR_THREAD*>(pBasePtr), &pBasePtr->mCmdThis);
                     break;
                 case SCRCMD_THREAD_DECLARE4:
-                    ScriptThread::SCRCMD_THREAD_DECLARE4_5047C0(static_cast<SCR_THREAD*>(pBasePtr), &pBasePtr->mCmdThis);
+                    ScriptThread::Handle_THREAD_DECLARE4(static_cast<SCR_THREAD*>(pBasePtr), &pBasePtr->mCmdThis);
                     break;
                 case SCRCMD_THREAD_DECLARE3:
-                    ScriptThread::SCRCMD_THREAD_DECLARE3_504660(static_cast<SCR_THREAD*>(pBasePtr));
+                    ScriptThread::Handle_THREAD_DECLARE3(static_cast<SCR_THREAD*>(pBasePtr));
                     break;
                 case SCRCMD_SET_GANG_INFO1:
-                    ScriptThread::SCRCMD_SET_GANG_INFO1_504830(static_cast<SCR_SET_GANG_INFO*>(pBasePtr));
+                    ScriptThread::ApplyGangInfo(static_cast<SCR_SET_GANG_INFO*>(pBasePtr));
                     break;
                 case SCRCMD_SET_DOOR_INFO:
-                    ScriptThread::SCRCMD_SET_DOOR_INFO_504950(static_cast<SCR_FOUR_PARAMS*>(pBasePtr));
+                    ScriptThread::Handle_SET_DOOR_INFO(static_cast<SCR_FOUR_PARAMS*>(pBasePtr));
                     break;
                 case SCRCMD_CRUSHER_BASIC:
-                    ScriptThread::SCRCMD_CRUSHER_BASIC_5045A0(static_cast<SCR_CRUSHER_BASIC*>(pBasePtr), static_cast<SCR_POINTER*>(pBasePtr));
+                    ScriptThread::Handle_CRUSHER_BASIC(static_cast<SCR_CRUSHER_BASIC*>(pBasePtr), static_cast<SCR_POINTER*>(pBasePtr));
                     break;
                 case SCRCMD_CHAR_AREA_ANY_MEANS:
                 case SCRCMD_THREAD_DECLARE5:
-                    ScriptThread::SCRCMD_THREAD_DECLARE5_504710(static_cast<SCR_CHAR_AREA_ANY*>(pBasePtr));
+                    ScriptThread::Handle_THREAD_DECLARE5(static_cast<SCR_CHAR_AREA_ANY*>(pBasePtr));
                     break;
                 case SCRCMD_DOOR_DECLARE_S1:
                 case SCRCMD_DOOR_DECLARE_D1:
@@ -1602,7 +1602,7 @@ void ScriptThread::ExecOpCode()
                 case SCRCMD_DEC_GANG_2_FLAG:
                 case SCRCMD_DEC_GANG_3_FLAG:
                 case SCRCMD_DECLARE_MISSION:
-                    ScriptThread::SCRCMD_DECLARE_MISSION_504DD0(static_cast<SCR_TWO_PARAMS*>(pBasePtr));
+                    ScriptThread::Handle_DECLARE_MISSION(static_cast<SCR_TWO_PARAMS*>(pBasePtr));
                     break;
                 case SCRCMD_CREATE_LIGHT2:
                 case SCRCMD_LIGHT_DEC:
@@ -1613,7 +1613,7 @@ void ScriptThread::ExecOpCode()
                     ScriptThread::SCRCMD_SET_STATION_EMPTY_STATION(static_cast<SCR_SET_STATION*>(pBasePtr));
                     break;
                 case SCRCMD_RADIOSTATION_DEC:
-                    ScriptThread::SCRCMD_RADIOSTATION_DEC_5051D0(static_cast<SCR_RADIOSTATION_DEC*>(pBasePtr));
+                    ScriptThread::Handle_RADIOSTATION_DEC(static_cast<SCR_RADIOSTATION_DEC*>(pBasePtr));
                     break;
                 case SCRCMD_SET_STATION_4:
                 case SCRCMD_SET_STATION_3:
@@ -1622,13 +1622,13 @@ void ScriptThread::ExecOpCode()
                     ScriptThread::SCRCMD_SET_TRAIN_STATIONS(static_cast<SCR_TWO_PARAMS*>(pBasePtr));
                     break;
                 case SCRCMD_DECLARE_POLICE:
-                    ScriptThread::SCRCMD_DECLARE_POLICE_5052C0(static_cast<SCR_DECLARE_POLICELEVEL*>(pBasePtr));
+                    ScriptThread::Handle_DECLARE_POLICE(static_cast<SCR_DECLARE_POLICELEVEL*>(pBasePtr));
                     break;
                 case SCRCMD_SOUND_DECSET:
-                    ScriptThread::SCRCMD_SOUND_DECSET_505340(static_cast<SCR_SOUND_DECSET*>(pBasePtr), static_cast<SCR_POINTER*>(pBasePtr));
+                    ScriptThread::Handle_SOUND_DECSET(static_cast<SCR_SOUND_DECSET*>(pBasePtr), static_cast<SCR_POINTER*>(pBasePtr));
                     break;
                 case SCRCMD_FINISH_SCORE:
-                    ScriptThread::SCRCMD_FINISH_SCORE_505710(static_cast<SCR_TWO_PARAMS*>(pBasePtr));
+                    ScriptThread::Handle_FINISH_SCORE(static_cast<SCR_TWO_PARAMS*>(pBasePtr));
                     break;
                 case SCRCMD_TOTAL_MISSIONS:
                 case SCRCMD_TOTAL_SECRETS:
@@ -1646,7 +1646,7 @@ void ScriptThread::ExecOpCode()
                     ScriptThread::SCRCMD_PASSED_FAILED_FLAGS(static_cast<SCR_TWO_PARAMS*>(pBasePtr));
                     break;
                 case SCRCMD_DECLARE_CARLIST:
-                    ScriptThread::SCRCMD_DECLARE_CARLIST_505750(static_cast<SCR_TWO_PARAMS*>(pBasePtr));
+                    ScriptThread::Handle_DECLARE_CARLIST(static_cast<SCR_TWO_PARAMS*>(pBasePtr));
                     break;
                 case SCRCMD_DISPLAY_MESSAGE:
                 case SCRCMD_DISPLAY_BRIEF:
@@ -1666,10 +1666,10 @@ void ScriptThread::ExecOpCode()
                     ScriptThread::SCRCMD_DEC_DEATH_BASE(static_cast<SCR_FOUR_PARAMS*>(pBasePtr));
                     break;
                 case SCRCMD_DO_CRANE_POWERUP:
-                    ScriptThread::SCRCMD_DO_CRANE_POWERUP_5060D0(static_cast<SCR_DECLARE_CRANE_POWERUP*>(pBasePtr));
+                    ScriptThread::Handle_DO_CRANE_POWERUP(static_cast<SCR_DECLARE_CRANE_POWERUP*>(pBasePtr));
                     break;
                 case SCRCMD_START_BASIC_KF:
-                    ScriptThread::SCRCMD_START_BASIC_KF_506140(reinterpret_cast<u16*>(&pBasePtr->mCmdThis));
+                    ScriptThread::RegisterBasicKf(reinterpret_cast<u16*>(&pBasePtr->mCmdThis));
                     break;
                 case SCRCMD_OBJ_DEC:
                 case SCRCMD_COUNTER:
@@ -1694,7 +1694,7 @@ void ScriptThread::ExecOpCode()
 }
 
 MATCH_FUNC(0x5069c0)
-void ScriptThread::SCRCMD_LEVELSTART_5069C0()
+void ScriptThread::Handle_LEVELSTART()
 {
     gRoot_sound.PlayVoice(voice_line::respectis_24); //  "And remember, respect is everything!"
     mInLevelStart = true;
@@ -1702,14 +1702,14 @@ void ScriptThread::SCRCMD_LEVELSTART_5069C0()
 }
 
 MATCH_FUNC(0x5069f0)
-void ScriptThread::SCRCMD_LEVELEND_5069F0()
+void ScriptThread::Handle_LEVELEND()
 {
     mInLevelStart = false;
     ScriptThread::EndCmd();
 }
 
 MATCH_FUNC(0x506a00)
-void ScriptThread::SCRCMD_CREATE_THREAD_506A00()
+void ScriptThread::Handle_CREATE_THREAD()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_THREAD* pThread = static_cast<SCR_THREAD*>(gScriptManager->GetBasePointer(pCmd->mUnsigned2));
@@ -1722,7 +1722,7 @@ void ScriptThread::SCRCMD_CREATE_THREAD_506A00()
 }
 
 MATCH_FUNC(0x506a60)
-void ScriptThread::SCRCMD_STOP_THREAD_506A60()
+void ScriptThread::Handle_STOP_THREAD()
 {
     SCR_THREAD* pThread = static_cast<SCR_THREAD*>(
         gScriptManager->GetBasePointer(reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr)->mUnsigned2));
@@ -1758,7 +1758,7 @@ void ScriptThread::SCRCMD_STOP_THREAD_506A60()
 }
 
 MATCH_FUNC(0x506af0)
-void ScriptThread::SCRCMD_IF_JUMP_506AF0()
+void ScriptThread::Handle_IF_JUMP()
 {
     //  mCondResult = 1  means the boolean opcode has returned true
     //  mCondResult = 0  means the boolean opcode has returned false
@@ -1777,7 +1777,7 @@ void ScriptThread::SCRCMD_IF_JUMP_506AF0()
 }
 
 MATCH_FUNC(0x506b30)
-void ScriptThread::SCRCMD_GOSUB_506B30()
+void ScriptThread::Handle_GOSUB()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     ScriptStackFrame* pFrame = mGosubStack->AllocFrame();
@@ -1788,7 +1788,7 @@ void ScriptThread::SCRCMD_GOSUB_506B30()
 }
 
 MATCH_FUNC(0x506b80)
-void ScriptThread::SCRCMD_RETURN_506B80() // MISSIONEND
+void ScriptThread::Handle_RETURN() // MISSIONEND
 {
     ScriptStackFrame* pFrame = mGosubStack->remove_503180();
 
@@ -2072,14 +2072,14 @@ void ScriptThread::SCRCMD_I_OP_S()
 }
 
 MATCH_FUNC(0x507750)
-void ScriptThread::SCRCMD_NOT_507750()
+void ScriptThread::Handle_NOT()
 {
     mCondResult = mCondResult == 0; //  just toggle the boolean value
     ScriptThread::Next(gBasePtr);
 }
 
 MATCH_FUNC(0x5078d0)
-void ScriptThread::SCRCMD_START_EXEC_5078D0()
+void ScriptThread::Handle_START_EXEC()
 {
     s16 exec_flag = mExecFlag;
 
@@ -2093,7 +2093,7 @@ void ScriptThread::SCRCMD_START_EXEC_5078D0()
 }
 
 MATCH_FUNC(0x5079a0)
-void ScriptThread::SCRCMD_STOP_EXEC_5079A0()
+void ScriptThread::Handle_STOP_EXEC()
 {
     s16 exec_flag = mExecFlag;
 
@@ -2106,7 +2106,7 @@ void ScriptThread::SCRCMD_STOP_EXEC_5079A0()
 }
 
 MATCH_FUNC(0x507a70)
-void ScriptThread::SCRCMD_INCREMENT_507A70()
+void ScriptThread::Handle_INCREMENT()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
 
@@ -2115,7 +2115,7 @@ void ScriptThread::SCRCMD_INCREMENT_507A70()
 }
 
 MATCH_FUNC(0x507b50)
-void ScriptThread::SCRCMD_DECREMENT_507B50()
+void ScriptThread::Handle_DECREMENT()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
 
@@ -2173,7 +2173,7 @@ void ScriptThread::SCRCMD_CREATE_CAR()
 }
 
 MATCH_FUNC(0x508220)
-void ScriptThread::SCRCMD_MAKE_CAR_DUMMY_508220()
+void ScriptThread::Handle_MAKE_CAR_DUMMY()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
 
@@ -2237,7 +2237,7 @@ void ScriptThread::SCRCMD_SET_DENSITY()
 }
 
 MATCH_FUNC(0x508550)
-void ScriptThread::SCRCMD_POINT_ARROW_3D_508550() //  SCRCMD_POINT_ARROW_3D and SCRCMD_LEVEL_END_ARROW2
+void ScriptThread::Handle_POINT_ARROW_3D() //  SCRCMD_POINT_ARROW_3D and SCRCMD_LEVEL_END_ARROW2
 {
     SCR_LEVEL_END_ARROW2* pCmd = reinterpret_cast<SCR_LEVEL_END_ARROW2*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(pCmd->mArrowname));
@@ -2256,7 +2256,7 @@ void ScriptThread::SCRCMD_POINT_ARROW_3D_508550() //  SCRCMD_POINT_ARROW_3D and 
 }
 
 MATCH_FUNC(0x5086f0)
-void ScriptThread::SCRCMD_POINT_ARROW_AT_5086F0()
+void ScriptThread::Handle_POINT_ARROW_AT()
 {
     SCR_POINT_ARROW_AT* pParams = reinterpret_cast<SCR_POINT_ARROW_AT*>(gBasePtr);
     SCR_POINT_ARROW_AT* pCmd = reinterpret_cast<SCR_POINT_ARROW_AT*>(gBasePtr);
@@ -2320,7 +2320,7 @@ void ScriptThread::SCRCMD_POINT_ARROW_AT_5086F0()
 }
 
 MATCH_FUNC(0x508dc0)
-void ScriptThread::SCRCMD_ARROW_COLOUR_508DC0()
+void ScriptThread::Handle_ARROW_COLOUR()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -2333,7 +2333,7 @@ void ScriptThread::SCRCMD_ARROW_COLOUR_508DC0()
 }
 
 MATCH_FUNC(0x508e80)
-void ScriptThread::SCRCMD_REMOVE_ARROW_508E80()
+void ScriptThread::Handle_REMOVE_ARROW()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     Hud_Arrow* pArrow = pPointer->mArrow;
@@ -2346,7 +2346,7 @@ void ScriptThread::SCRCMD_REMOVE_ARROW_508E80()
 }
 
 MATCH_FUNC(0x508f00)
-void ScriptThread::SCRCMD_CHECK_CAR_DAMAGE_508F00()
+void ScriptThread::Handle_CHECK_CAR_DAMAGE()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -2363,7 +2363,7 @@ void ScriptThread::SCRCMD_CHECK_CAR_DAMAGE_508F00()
 }
 
 MATCH_FUNC(0x509030)
-void ScriptThread::SCRCMD_CHECK_HEALTH_509030()
+void ScriptThread::Handle_CHECK_HEALTH()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -2383,7 +2383,7 @@ void ScriptThread::SCRCMD_CHECK_HEALTH_509030()
 }
 
 MATCH_FUNC(0x5093c0)
-void ScriptThread::SCRCMD_DISPLAY_MESSAGE_5093C0()
+void ScriptThread::Handle_DISPLAY_MESSAGE()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     u8 type = static_cast<u8>(reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr)->mUnsigned2);
@@ -2532,7 +2532,7 @@ void ScriptThread::SCRCMD_DISPLAY_MESSAGE_5093C0()
 }
 
 MATCH_FUNC(0x5096e0)
-void ScriptThread::SCRCMD_DISPLAY_TIMER_5096E0()
+void ScriptThread::Handle_DISPLAY_TIMER()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -2554,7 +2554,7 @@ void ScriptThread::SCRCMD_CREATE_CHAR()
 }
 
 MATCH_FUNC(0x509790)
-void ScriptThread::SCRCMD_SET_CHAR_OCCUPATION_509790()
+void ScriptThread::Handle_SET_CHAR_OCCUPATION()
 {
     SCR_FOUR_PARAMS* pCmd = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -2564,7 +2564,7 @@ void ScriptThread::SCRCMD_SET_CHAR_OCCUPATION_509790()
 }
 
 MATCH_FUNC(0x5097d0)
-void ScriptThread::SCRCMD_SET_CHAR_OBJ1_5097D0()
+void ScriptThread::Handle_SET_CHAR_OBJ1()
 {
     SCR_POINTER* pPointer =
         static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -2573,7 +2573,7 @@ void ScriptThread::SCRCMD_SET_CHAR_OBJ1_5097D0()
 }
 
 MATCH_FUNC(0x509810)
-void ScriptThread::SCRCMD_IS_CHAR_OBJ_PASS_509810()
+void ScriptThread::Handle_IS_CHAR_OBJ_PASS()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     Ped* pPed = pPointer->mChar;
@@ -2597,7 +2597,7 @@ void ScriptThread::SCRCMD_IS_CHAR_OBJ_PASS_509810()
 }
 
 MATCH_FUNC(0x509880)
-void ScriptThread::SCRCMD_IS_CHAR_OBJ_FAIL_509880()
+void ScriptThread::Handle_IS_CHAR_OBJ_FAIL()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     Ped* pPed = pPointer->mChar;
@@ -2644,7 +2644,7 @@ void ScriptThread::SCRCMD_GIVE_WEAPON()
 }
 
 MATCH_FUNC(0x509990)
-void ScriptThread::SCRCMD_IS_CAR_IN_BLOCK_509990()
+void ScriptThread::Handle_IS_CAR_IN_BLOCK()
 {
     SCR_IS_CAR_IN_BLOCK* pCmd = reinterpret_cast<SCR_IS_CAR_IN_BLOCK*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -2668,7 +2668,7 @@ void ScriptThread::SCRCMD_IS_CAR_IN_BLOCK_509990()
 }
 
 MATCH_FUNC(0x509a70)
-void ScriptThread::SCRCMD_CAR_IN_AREA_509A70()
+void ScriptThread::Handle_CAR_IN_AREA()
 {
     SCR_ONEVAR_RECT* pCmd = reinterpret_cast<SCR_ONEVAR_RECT*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -2699,7 +2699,7 @@ void ScriptThread::SCRCMD_CAR_IN_AREA_509A70()
 }
 
 MATCH_FUNC(0x509bb0)
-void ScriptThread::SCRCMD_HAS_CHAR_DIED_509BB0()
+void ScriptThread::Handle_HAS_CHAR_DIED()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
 
@@ -2715,7 +2715,7 @@ void ScriptThread::SCRCMD_HAS_CHAR_DIED_509BB0()
 }
 
 MATCH_FUNC(0x509c10)
-void ScriptThread::SCRCMD_IS_CHAR_IN_CAR_509C10()
+void ScriptThread::Handle_IS_CHAR_IN_CAR()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pCharPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -2738,7 +2738,7 @@ void ScriptThread::SCRCMD_IS_CHAR_IN_CAR_509C10()
 }
 
 MATCH_FUNC(0x509c90)
-void ScriptThread::SCRCMD_IS_CHAR_IN_MODEL_509C90()
+void ScriptThread::Handle_IS_CHAR_IN_MODEL()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pCharPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -2757,7 +2757,7 @@ void ScriptThread::SCRCMD_IS_CHAR_IN_MODEL_509C90()
 }
 
 MATCH_FUNC(0x509d00)
-void ScriptThread::SCRCMD_IS_CHAR_IN_ANY_CAR_509D00()
+void ScriptThread::Handle_IS_CHAR_IN_ANY_CAR()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     Ped* pPed = pPointer->mChar;
@@ -2774,7 +2774,7 @@ void ScriptThread::SCRCMD_IS_CHAR_IN_ANY_CAR_509D00()
 }
 
 MATCH_FUNC(0x509d60)
-void ScriptThread::SCRCMD_DELETE_ITEM_509D60()
+void ScriptThread::Handle_DELETE_ITEM()
 {
     ScriptThread::DeallocOrDeleteItem(gBasePtr->mIndex); //  delete item
     ScriptThread::Next(gBasePtr);
@@ -2807,7 +2807,7 @@ void ScriptThread::SCRCMD_ADD_SCORE()
 }
 
 MATCH_FUNC(0x509e00)
-void ScriptThread::SCRCMD_ADD_SCORE2_509E00()
+void ScriptThread::Handle_ADD_SCORE2()
 {
     SCR_FOUR_PARAMS* pCmd = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -2826,7 +2826,7 @@ void ScriptThread::SCRCMD_ADD_SCORE2_509E00()
 }
 
 MATCH_FUNC(0x509e70)
-void ScriptThread::SCRCMD_IS_CHAR_STOPPED_509E70()
+void ScriptThread::Handle_IS_CHAR_STOPPED()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     Ped* pPed = pPointer->mChar;
@@ -2843,7 +2843,7 @@ void ScriptThread::SCRCMD_IS_CHAR_STOPPED_509E70()
 }
 
 MATCH_FUNC(0x509ed0)
-void ScriptThread::SCRCMD_EXPLODE_509ED0()
+void ScriptThread::Handle_EXPLODE()
 {
     SCR_EXPLODE* pCmd = reinterpret_cast<SCR_EXPLODE*>(gBasePtr);
     switch (gBasePtr->mType)
@@ -2885,7 +2885,7 @@ void ScriptThread::SCRCMD_EXPLODE_509ED0()
 }
 
 MATCH_FUNC(0x509f60)
-void ScriptThread::SCRCMD_EXPLODE_BUILDING_509F60()
+void ScriptThread::Handle_EXPLODE_BUILDING()
 {
     SCR_EXPLODE_WALL* pCmd = reinterpret_cast<SCR_EXPLODE_WALL*>(gBasePtr);
     switch (pCmd->mFace)
@@ -3009,7 +3009,7 @@ void ScriptThread::Locate()
 }
 
 MATCH_FUNC(0x50a200)
-void ScriptThread::SCRCMD_SET_CHAR_OBJ2_50A200()
+void ScriptThread::Handle_SET_CHAR_OBJ2()
 {
     SCR_CHAR_OBJECTIVE* pCmd = reinterpret_cast<SCR_CHAR_OBJECTIVE*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -3066,7 +3066,7 @@ void ScriptThread::SCRCMD_SET_CHAR_OBJ2_50A200()
 }
 
 MATCH_FUNC(0x50a3e0)
-void ScriptThread::SCRCMD_SET_CHAR_OBJ3_50A3E0()
+void ScriptThread::Handle_SET_CHAR_OBJ3()
 {
     SCR_CHAR_OBJ3* pCmd = reinterpret_cast<SCR_CHAR_OBJ3*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -3084,7 +3084,7 @@ void ScriptThread::SCRCMD_SET_CHAR_OBJ3_50A3E0()
 }
 
 MATCH_FUNC(0x50a460)
-void ScriptThread::SCRCMD_SET_CHAR_OBJ_FOLLOW_50A460()
+void ScriptThread::Handle_SET_CHAR_OBJ_FOLLOW()
 {
     SCR_CHAR_OBJECTIVE* pCmd = reinterpret_cast<SCR_CHAR_OBJECTIVE*>(gBasePtr);
     SCR_POINTER* pPointer =
@@ -3119,7 +3119,7 @@ void ScriptThread::SCRCMD_SET_CHAR_OBJ_FOLLOW_50A460()
 }
 
 MATCH_FUNC(0x50a570)
-void ScriptThread::SCRCMD_CHANGE_CAR_REMAP_50A570()
+void ScriptThread::Handle_CHANGE_CAR_REMAP()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -3131,7 +3131,7 @@ void ScriptThread::SCRCMD_CHANGE_CAR_REMAP_50A570()
 }
 
 MATCH_FUNC(0x50a5b0)
-void ScriptThread::SCRCMD_CHANGE_CHAR_REMAP_50A5B0()
+void ScriptThread::Handle_CHANGE_CHAR_REMAP()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -3144,7 +3144,7 @@ void ScriptThread::SCRCMD_CHANGE_CHAR_REMAP_50A5B0()
 }
 
 MATCH_FUNC(0x50a610)
-void ScriptThread::SCRCMD_CHECK_CAR_MODEL_50A610()
+void ScriptThread::Handle_CHECK_CAR_MODEL()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -3164,7 +3164,7 @@ void ScriptThread::SCRCMD_CHECK_CAR_MODEL_50A610()
 }
 
 MATCH_FUNC(0x50a670)
-void ScriptThread::SCRCMD_CHECK_CAR_REMAP_50A670()
+void ScriptThread::Handle_CHECK_CAR_REMAP()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -3184,7 +3184,7 @@ void ScriptThread::SCRCMD_CHECK_CAR_REMAP_50A670()
 }
 
 MATCH_FUNC(0x50a6e0)
-void ScriptThread::SCRCMD_CHECK_CAR_BOTH_50A6E0()
+void ScriptThread::Handle_CHECK_CAR_BOTH()
 {
     SCR_FOUR_PARAMS* pCmd = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -3308,7 +3308,7 @@ void ScriptThread::IsOnScreen()
 }
 
 MATCH_FUNC(0x50a940)
-void ScriptThread::SCRCMD_DELAY_HERE_50A940()
+void ScriptThread::Handle_DELAY_HERE()
 {
     s16* pDelay = &reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr)->mSigned1;
 
@@ -3328,7 +3328,7 @@ void ScriptThread::SCRCMD_DELAY_HERE_50A940()
 }
 
 MATCH_FUNC(0x50a980)
-void ScriptThread::SCRCMD_DELAY_50A980()
+void ScriptThread::Handle_DELAY()
 {
     s16 delay = gBasePtr->mIndex;
     s16* pDelay = &reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr)->mSigned1;
@@ -3362,7 +3362,7 @@ void ScriptThread::EnableThread(u16 idx)
     switch (pCmd->mType)
     {
         case SCRCMD_THREAD_DECLARE2:
-            SCRCMD_THREAD_DECLARE2_5045D0(static_cast<SCR_THREAD*>(pCmd), reinterpret_cast<s16*>(pCmd));
+            Handle_THREAD_DECLARE2(static_cast<SCR_THREAD*>(pCmd), reinterpret_cast<s16*>(pCmd));
             break;
         case SCRCMD_THREAD_DECLARE3:
         {
@@ -3374,13 +3374,13 @@ void ScriptThread::EnableThread(u16 idx)
             }
             else
             {
-                SCRCMD_THREAD_DECLARE3_504660(static_cast<SCR_THREAD*>(pCmd));
+                Handle_THREAD_DECLARE3(static_cast<SCR_THREAD*>(pCmd));
             }
 
             break;
         }
         case SCRCMD_THREAD_DECLARE4:
-            SCRCMD_THREAD_DECLARE4_5047C0(static_cast<SCR_THREAD*>(pCmd), reinterpret_cast<s16*>(pCmd));
+            Handle_THREAD_DECLARE4(static_cast<SCR_THREAD*>(pCmd), reinterpret_cast<s16*>(pCmd));
             break;
         case SCRCMD_THREAD_DECLARE5:
         case SCRCMD_CHAR_AREA_ANY_MEANS:
@@ -3393,7 +3393,7 @@ void ScriptThread::EnableThread(u16 idx)
             }
             else
             {
-                SCRCMD_THREAD_DECLARE5_504710(pAny);
+                Handle_THREAD_DECLARE5(pAny);
             }
 
             break;
@@ -3404,14 +3404,14 @@ void ScriptThread::EnableThread(u16 idx)
 }
 
 MATCH_FUNC(0x50abc0)
-void ScriptThread::SCRCMD_DISABLE_THREAD_50ABC0()
+void ScriptThread::Handle_DISABLE_THREAD()
 {
     ScriptThread::DisableThread(gBasePtr->mIndex);
     ScriptThread::Next(gBasePtr);
 }
 
 MATCH_FUNC(0x50abf0)
-void ScriptThread::SCRCMD_ENABLE_THREAD_50ABF0()
+void ScriptThread::Handle_ENABLE_THREAD()
 {
     ScriptThread::EnableThread(gBasePtr->mIndex);
     ScriptThread::Next(gBasePtr);
@@ -3446,7 +3446,7 @@ void ScriptThread::SCRCMD_SET_GANG_KILL_REACTION()
 }
 
 MATCH_FUNC(0x50acf0)
-void ScriptThread::SCRCMD_CHANGE_RESPECT_50ACF0()
+void ScriptThread::Handle_CHANGE_RESPECT()
 {
     SCR_FOUR_PARAMS* pCmd = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr);
 
@@ -3543,7 +3543,7 @@ void ScriptThread::RespectOperator()
 }
 
 MATCH_FUNC(0x50b0e0)
-void ScriptThread::SCRCMD_ADD_PATROL_POINT_50B0E0()
+void ScriptThread::Handle_ADD_PATROL_POINT()
 {
     SCR_ADD_PATROL_POINT* pCmd = reinterpret_cast<SCR_ADD_PATROL_POINT*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -3562,7 +3562,7 @@ void ScriptThread::SCRCMD_ADD_PATROL_POINT_50B0E0()
 }
 
 MATCH_FUNC(0x50b150)
-void ScriptThread::SCRCMD_SET_AMBIENT_50B150()
+void ScriptThread::Handle_SET_AMBIENT()
 {
     SCR_SET_AMBIENT* pCmd = reinterpret_cast<SCR_SET_AMBIENT*>(gBasePtr);
     gpMapRenderer->SetAmbientLevel(pCmd->mLevel, pCmd->mTime);
@@ -3570,7 +3570,7 @@ void ScriptThread::SCRCMD_SET_AMBIENT_50B150()
 }
 
 MATCH_FUNC(0x50b180)
-void ScriptThread::SCRCMD_ANSWER_PHONE_50B180()
+void ScriptThread::Handle_ANSWER_PHONE()
 {
     SCR_ANSWER_PHONE* pCmd = reinterpret_cast<SCR_ANSWER_PHONE*>(gBasePtr);
     SCR_POINTER* pPtrPed = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(pCmd->mPedIdx));
@@ -3597,7 +3597,7 @@ void ScriptThread::SCRCMD_ANSWER_PHONE_50B180()
 }
 
 MATCH_FUNC(0x50b230)
-void ScriptThread::SCRCMD_CHECK_PHONE_50B230()
+void ScriptThread::Handle_CHECK_PHONE()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     ThreadTrigger* pTrigger = gScriptManager->FindPhoneThreadByObjId(pPointer->mObj->mId);
@@ -3615,7 +3615,7 @@ void ScriptThread::SCRCMD_CHECK_PHONE_50B230()
 }
 
 MATCH_FUNC(0x50b2c0)
-void ScriptThread::SCRCMD_CHECK_PHONETIMER_50B2C0()
+void ScriptThread::Handle_CHECK_PHONETIMER()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     ThreadTrigger* pTrigger = gScriptManager->FindPhoneThreadByObjId(pPointer->mObj->mId);
@@ -3644,7 +3644,7 @@ void ScriptThread::SCRCMD_CHECK_PHONETIMER_50B2C0()
 }
 
 MATCH_FUNC(0x50b360)
-void ScriptThread::SCRCMD_STOP_PHONE_RING_50B360()
+void ScriptThread::Handle_STOP_PHONE_RING()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     Object* pObj = pPointer->mObj;
@@ -3661,7 +3661,7 @@ void ScriptThread::SCRCMD_STOP_PHONE_RING_50B360()
 }
 
 MATCH_FUNC(0x50b3d0)
-void ScriptThread::SCRCMD_IS_CHAR_FIRE_ONSCREEN_50B3D0()
+void ScriptThread::Handle_IS_CHAR_FIRE_ONSCREEN()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     Ped* pPed = pPointer->mChar;
@@ -3677,7 +3677,7 @@ void ScriptThread::SCRCMD_IS_CHAR_FIRE_ONSCREEN_50B3D0()
 }
 
 MATCH_FUNC(0x50b440)
-void ScriptThread::SCRCMD_CAR_DRIVE_AWAY_50B440()
+void ScriptThread::Handle_CAR_DRIVE_AWAY()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     pPointer->mCar->InitCarAIControl();
@@ -3685,7 +3685,7 @@ void ScriptThread::SCRCMD_CAR_DRIVE_AWAY_50B440()
 }
 
 MATCH_FUNC(0x50b470)
-void ScriptThread::SCRCMD_GET_CAR_FROM_CRANE_50B470()
+void ScriptThread::Handle_GET_CAR_FROM_CRANE()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer1 = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(
@@ -3713,7 +3713,7 @@ void ScriptThread::SCRCMD_GET_CAR_FROM_CRANE_50B470()
 }
 
 MATCH_FUNC(0x50b4f0)
-void ScriptThread::SCRCMD_CHAR_TO_DRIVE_CAR_50B4F0()
+void ScriptThread::Handle_CHAR_TO_DRIVE_CAR()
 {
     SCR_CHAR_ENTER_CAR* pCmd = reinterpret_cast<SCR_CHAR_ENTER_CAR*>(gBasePtr);
     SCR_POINTER* pPtrPed = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -3737,7 +3737,7 @@ void ScriptThread::SCRCMD_CHAR_TO_DRIVE_CAR_50B4F0()
 }
 
 MATCH_FUNC(0x50b5a0)
-void ScriptThread::SCRCMD_DRIVER_OUT_CAR_50B5A0()
+void ScriptThread::Handle_DRIVER_OUT_CAR()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     if (pPointer->mChar)
@@ -3750,7 +3750,7 @@ void ScriptThread::SCRCMD_DRIVER_OUT_CAR_50B5A0()
 }
 
 MATCH_FUNC(0x50b600)
-void ScriptThread::SCRCMD_GIVE_DRIVER_BRAKE_50B600()
+void ScriptThread::Handle_GIVE_DRIVER_BRAKE()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     if (pPointer->mCar)
@@ -3767,15 +3767,15 @@ void ScriptThread::SCRCMD_GIVE_DRIVER_BRAKE_50B600()
 }
 
 MATCH_FUNC(0x50b670)
-void ScriptThread::SCRCMD_SET_GANG_INFO1_50B670()
+void ScriptThread::Handle_SET_GANG_INFO1()
 {
     // mid-game change
-    ScriptThread::SCRCMD_SET_GANG_INFO1_504830(reinterpret_cast<SCR_SET_GANG_INFO*>(gBasePtr));
+    ScriptThread::ApplyGangInfo(reinterpret_cast<SCR_SET_GANG_INFO*>(gBasePtr));
     ScriptThread::Next(gBasePtr);
 }
 
 MATCH_FUNC(0x50b690)
-void ScriptThread::SCRCMD_CLEAR_TIMERS_50B690()
+void ScriptThread::Handle_CLEAR_TIMERS()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
 
@@ -3788,7 +3788,7 @@ void ScriptThread::SCRCMD_CLEAR_TIMERS_50B690()
 }
 
 MATCH_FUNC(0x50b6f0)
-void ScriptThread::SCRCMD_CHECK_SCORE_50B6F0()
+void ScriptThread::Handle_CHECK_SCORE()
 {
     SCR_CHECK_SCORE_GREATER* pCmd = reinterpret_cast<SCR_CHECK_SCORE_GREATER*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -3809,7 +3809,7 @@ void ScriptThread::SCRCMD_CHECK_SCORE_50B6F0()
 }
 
 MATCH_FUNC(0x50b760)
-void ScriptThread::SCRCMD_GET_SCORE_50B760()
+void ScriptThread::Handle_GET_SCORE()
 {
     SCR_GET_SCORE* pCmd = reinterpret_cast<SCR_GET_SCORE*>(gBasePtr);
     SCR_POINTER* pPtrPed = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -3826,7 +3826,7 @@ void ScriptThread::SCRCMD_GET_SCORE_50B760()
 }
 
 MATCH_FUNC(0x50b7d0)
-void ScriptThread::SCRCMD_IS_CHAR_IN_GANG_50B7D0()
+void ScriptThread::Handle_IS_CHAR_IN_GANG()
 {
     SCR_IS_CHAR_IN_GANG_ZONE* pCmd = reinterpret_cast<SCR_IS_CHAR_IN_GANG_ZONE*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -3861,7 +3861,7 @@ void ScriptThread::SCRCMD_IS_CHAR_IN_GANG_50B7D0()
 }
 
 MATCH_FUNC(0x50b8b0)
-void ScriptThread::SCRCMD_SET_NO_COLLIDE_50B8B0()
+void ScriptThread::Handle_SET_NO_COLLIDE()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     Car* pCar = pPointer->mCar;
@@ -3882,7 +3882,7 @@ void ScriptThread::SCRCMD_SET_NO_COLLIDE_50B8B0()
 }
 
 MATCH_FUNC(0x50b910)
-void ScriptThread::SCRCMD_IS_CHAR_FIRING_AREA_50B910()
+void ScriptThread::Handle_IS_CHAR_FIRING_AREA()
 {
     SCR_ONEVAR_RECT* pCmd = reinterpret_cast<SCR_ONEVAR_RECT*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -3901,7 +3901,7 @@ void ScriptThread::SCRCMD_IS_CHAR_FIRING_AREA_50B910()
 }
 
 MATCH_FUNC(0x50b9c0)
-void ScriptThread::SCRCMD_GET_PASSENGER_NUM_50B9C0()
+void ScriptThread::Handle_GET_PASSENGER_NUM()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -3920,7 +3920,7 @@ void ScriptThread::SCRCMD_GET_PASSENGER_NUM_50B9C0()
 }
 
 MATCH_FUNC(0x50ba30)
-void ScriptThread::SCRCMD_CLEAR_WANTED_LEVEL_50BA30()
+void ScriptThread::Handle_CLEAR_WANTED_LEVEL()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     pPointer->mChar->ClearWantedPoints();
@@ -3928,7 +3928,7 @@ void ScriptThread::SCRCMD_CLEAR_WANTED_LEVEL_50BA30()
 }
 
 MATCH_FUNC(0x50ba70)
-void ScriptThread::SCRCMD_ALT_WANTED_LEVEL_50BA70()
+void ScriptThread::Handle_ALT_WANTED_LEVEL()
 {
     SCR_CMD_ALTER_WANTED_LEVEL* pCmd = reinterpret_cast<SCR_CMD_ALTER_WANTED_LEVEL*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -3949,7 +3949,7 @@ void ScriptThread::SCRCMD_ALT_WANTED_LEVEL_50BA70()
 }
 
 MATCH_FUNC(0x50bad0)
-void ScriptThread::SCRCMD_CAR_WRECK_IN_LOCATION_50BAD0()
+void ScriptThread::Handle_CAR_WRECK_IN_LOCATION()
 {
     SCR_ONEVAR_RECT* pCmd = reinterpret_cast<SCR_ONEVAR_RECT*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -3967,7 +3967,7 @@ void ScriptThread::SCRCMD_CAR_WRECK_IN_LOCATION_50BAD0()
 }
 
 MATCH_FUNC(0x50bb80)
-void ScriptThread::SCRCMD_SEND_CAR_TO_BLOCK_50BB80()
+void ScriptThread::Handle_SEND_CAR_TO_BLOCK()
 {
     SCR_CAR_DATA_DEC* pCmd = reinterpret_cast<SCR_CAR_DATA_DEC*>(gBasePtr);
     SCR_POINTER* pScrPtr = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(pCmd->mCarIdx));
@@ -4001,7 +4001,7 @@ void ScriptThread::SCRCMD_THREAT_SEARCH_REACT_ADD_GROUP()
 }
 
 MATCH_FUNC(0x50bc60)
-void ScriptThread::SCRCMD_CHECK_NUM_ALIVE_50BC60()
+void ScriptThread::Handle_CHECK_NUM_ALIVE()
 {
     SCR_CHAR_OBJECTIVE* pCmd = reinterpret_cast<SCR_CHAR_OBJECTIVE*>(gBasePtr);
     SCR_POINTER* pScrPtr =
@@ -4021,7 +4021,7 @@ void ScriptThread::SCRCMD_CHECK_NUM_ALIVE_50BC60()
 }
 
 MATCH_FUNC(0x50bcd0)
-void ScriptThread::SCRCMD_SET_MIN_ALIVE_50BCD0()
+void ScriptThread::Handle_SET_MIN_ALIVE()
 {
     SCR_CHAR_OBJECTIVE* pCmd = reinterpret_cast<SCR_CHAR_OBJECTIVE*>(gBasePtr);
     SCR_POINTER* pPointer =
@@ -4071,7 +4071,7 @@ void ScriptThread::SCRCMD_SET_COUNTER() // Set counter to a given constant value
 }
 
 MATCH_FUNC(0x50be00)
-void ScriptThread::SCRCMD_HAS_CAR_WEAPON_50BE00()
+void ScriptThread::Handle_HAS_CAR_WEAPON()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -4089,7 +4089,7 @@ void ScriptThread::SCRCMD_HAS_CAR_WEAPON_50BE00()
 }
 
 MATCH_FUNC(0x50be70)
-void ScriptThread::SCRCMD_IS_CHAR_HORN_50BE70()
+void ScriptThread::Handle_IS_CHAR_HORN()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     Ped* pPed = pPointer->mChar;
@@ -4107,7 +4107,7 @@ void ScriptThread::SCRCMD_IS_CHAR_HORN_50BE70()
 }
 
 MATCH_FUNC(0x50bed0)
-void ScriptThread::SCRCMD_CHECK_MAX_PASS_50BED0()
+void ScriptThread::Handle_CHECK_MAX_PASS()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -4125,7 +4125,7 @@ void ScriptThread::SCRCMD_CHECK_MAX_PASS_50BED0()
 }
 
 MATCH_FUNC(0x50bf40)
-void ScriptThread::SCRCMD_IS_CHAR_IN_ZONE_50BF40()
+void ScriptThread::Handle_IS_CHAR_IN_ZONE()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -4164,7 +4164,7 @@ void ScriptThread::SCRCMD_IS_CHAR_IN_ZONE_50BF40()
 }
 
 MATCH_FUNC(0x50c040)
-void ScriptThread::SCRCMD_SET_PHONE_DEAD_50C040()
+void ScriptThread::Handle_SET_PHONE_DEAD()
 {
     u16* pIndex = &gBasePtr->mIndex;
     SCR_POINTER* pScrPtr = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(*pIndex));
@@ -4188,7 +4188,7 @@ void ScriptThread::SCRCMD_SET_PHONE_DEAD_50C040()
 }
 
 MATCH_FUNC(0x50c0e0)
-void ScriptThread::SCRCMD_IS_TRAILER_ATT_50C0E0()
+void ScriptThread::Handle_IS_TRAILER_ATT()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pCarPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -4226,7 +4226,7 @@ void ScriptThread::SCRCMD_IS_TRAILER_ATT_50C0E0()
 }
 
 MATCH_FUNC(0x50c1b0)
-void ScriptThread::SCRCMD_IS_CAR_ON_TRAIL_50C1B0()
+void ScriptThread::Handle_IS_CAR_ON_TRAIL()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pCarPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -4266,7 +4266,7 @@ void ScriptThread::SCRCMD_ENABLE_DISABLE_CRANE()
 }
 
 MATCH_FUNC(0x50c2a0)
-void ScriptThread::SCRCMD_CAR_GOT_DRIVER_50C2A0()
+void ScriptThread::Handle_CAR_GOT_DRIVER()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     if (pPointer->mCar->mDriver)
@@ -4281,7 +4281,7 @@ void ScriptThread::SCRCMD_CAR_GOT_DRIVER_50C2A0()
 }
 
 MATCH_FUNC(0x50c2f0)
-void ScriptThread::SCRCMD_SPOTTED_PLAYER_50C2F0()
+void ScriptThread::Handle_SPOTTED_PLAYER()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     if (pPointer->mChar->HasSpottedPlayer())
@@ -4296,7 +4296,7 @@ void ScriptThread::SCRCMD_SPOTTED_PLAYER_50C2F0()
 }
 
 MATCH_FUNC(0x50c350)
-void ScriptThread::SCRCMD_GET_LAST_PUNCHED_50C350()
+void ScriptThread::Handle_GET_LAST_PUNCHED()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pCharTargetPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -4309,7 +4309,7 @@ void ScriptThread::SCRCMD_GET_LAST_PUNCHED_50C350()
 }
 
 MATCH_FUNC(0x50c3b0)
-void ScriptThread::SCRCMD_IS_CHAR_STUNNED_50C3B0()
+void ScriptThread::Handle_IS_CHAR_STUNNED()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     Ped* pPed = pPointer->mChar;
@@ -4326,7 +4326,7 @@ void ScriptThread::SCRCMD_IS_CHAR_STUNNED_50C3B0()
 }
 
 MATCH_FUNC(0x50c410)
-void ScriptThread::SCRCMD_KILL_ALL_PASSENG_50C410()
+void ScriptThread::Handle_KILL_ALL_PASSENG()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     pPointer->mCar->mPassengersList.KillAndClearAllPeds();
@@ -4339,7 +4339,7 @@ void ScriptThread::SCRCMD_KILL_ALL_PASSENG_50C410()
 }
 
 MATCH_FUNC(0x50c470)
-void ScriptThread::SCRCMD_IS_GROUP_IN_CAR_50C470()
+void ScriptThread::Handle_IS_GROUP_IN_CAR()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     Ped* pGroupLeader = pPointer->mChar;
@@ -4366,7 +4366,7 @@ void ScriptThread::SCRCMD_IS_GROUP_IN_CAR_50C470()
 }
 
 MATCH_FUNC(0x50c4e0)
-void ScriptThread::SCRCMD_PUNCHED_SOMEONE_50C4E0()
+void ScriptThread::Handle_PUNCHED_SOMEONE()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     if (pPointer->mChar->get_last_char_punched() != NULL)
@@ -4381,7 +4381,7 @@ void ScriptThread::SCRCMD_PUNCHED_SOMEONE_50C4E0()
 }
 
 MATCH_FUNC(0x50c540)
-void ScriptThread::SCRCMD_ADD_CHAR_TO_GANG_50C540()
+void ScriptThread::Handle_ADD_CHAR_TO_GANG()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -4395,7 +4395,7 @@ void ScriptThread::SCRCMD_ADD_CHAR_TO_GANG_50C540()
 }
 
 MATCH_FUNC(0x50c5a0)
-void ScriptThread::SCRCMD_EXPLODE_50C5A0()
+void ScriptThread::Handle_EXPLODE_ITEM()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
 
@@ -4461,7 +4461,7 @@ void ScriptThread::SCRCMD_EXPLODE_50C5A0()
 }
 
 MATCH_FUNC(0x50c6f0)
-void ScriptThread::SCRCMD_PARK_50C6F0() // PARK and PARK_NO_RESPAWN
+void ScriptThread::Handle_PARK() // PARK and PARK_NO_RESPAWN
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pCarPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -4476,7 +4476,7 @@ void ScriptThread::SCRCMD_PARK_50C6F0() // PARK and PARK_NO_RESPAWN
 }
 
 MATCH_FUNC(0x50c760)
-void ScriptThread::SCRCMD_BEEN_PUNCHED_BY_50C760()
+void ScriptThread::Handle_BEEN_PUNCHED_BY()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointerVictim = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -4494,7 +4494,7 @@ void ScriptThread::SCRCMD_BEEN_PUNCHED_BY_50C760()
 }
 
 MATCH_FUNC(0x50c7d0)
-void ScriptThread::SCRCMD_UPDATE_DOOR_50C7D0()
+void ScriptThread::Handle_UPDATE_DOOR()
 {
     SCR_UPDATE_DOOR* pCmd = reinterpret_cast<SCR_UPDATE_DOOR*>(gBasePtr);
     SCR_POINTER* pDoorPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(pCmd->mDoorIdx));
@@ -4581,7 +4581,7 @@ void ScriptThread::SCRCMD_DOOR()
 }
 
 MATCH_FUNC(0x50c990)
-void ScriptThread::SCRCMD_REMOVE_WEAPON_50C990()
+void ScriptThread::Handle_REMOVE_WEAPON()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
 
@@ -4600,7 +4600,7 @@ void ScriptThread::SCRCMD_REMOVE_WEAPON_50C990()
 }
 
 MATCH_FUNC(0x50c9f0)
-void ScriptThread::SCRCMD_REMOVE_BLOCK_50C9F0()
+void ScriptThread::Handle_REMOVE_BLOCK()
 {
     SCR_REMOVE_BLOCK* pCmd = reinterpret_cast<SCR_REMOVE_BLOCK*>(gBasePtr);
 
@@ -4612,7 +4612,7 @@ void ScriptThread::SCRCMD_REMOVE_BLOCK_50C9F0()
 }
 
 MATCH_FUNC(0x50ca30)
-void ScriptThread::SCRCMD_LOWER_LEVEL_50CA30()
+void ScriptThread::Handle_LOWER_LEVEL()
 {
     SCR_LOWER_LEVEL* pCmd = reinterpret_cast<SCR_LOWER_LEVEL*>(gBasePtr);
 
@@ -4636,7 +4636,7 @@ void ScriptThread::SCRCMD_CHANGE_BLOCK()
 }
 
 MATCH_FUNC(0x50cab0)
-void ScriptThread::SCRCMD_ADD_NEW_BLOCK_50CAB0()
+void ScriptThread::Handle_ADD_NEW_BLOCK()
 {
     gmp_block_info block;
 
@@ -4650,7 +4650,7 @@ void ScriptThread::SCRCMD_ADD_NEW_BLOCK_50CAB0()
 }
 
 MATCH_FUNC(0x50cb20)
-void ScriptThread::SCRCMD_ROAD_ON_OFF_50CB20()
+void ScriptThread::Handle_ROAD_ON_OFF()
 {
     SCR_SWITCH_ROAD_ON_OFF* pCmd = reinterpret_cast<SCR_SWITCH_ROAD_ON_OFF*>(gBasePtr);
 
@@ -4666,7 +4666,7 @@ void ScriptThread::SCRCMD_ROAD_ON_OFF_50CB20()
 }
 
 MATCH_FUNC(0x50cb70)
-void ScriptThread::SCRCMD_CHECK_CAR_DRIVER_50CB70()
+void ScriptThread::Handle_CHECK_CAR_DRIVER()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     mCondResult = false;
@@ -4743,7 +4743,7 @@ void ScriptThread::SCRCMD_CHECK_CAR_DRIVER_50CB70()
 }
 
 MATCH_FUNC(0x50ccb0)
-void ScriptThread::SCRCMD_SWITCH_GENERATOR1_50CCB0()
+void ScriptThread::Handle_SWITCH_GENERATOR1()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -4768,7 +4768,7 @@ void ScriptThread::SCRCMD_SWITCH_GENERATOR1_50CCB0()
 }
 
 MATCH_FUNC(0x50cd30)
-void ScriptThread::SCRCMD_SWITCH_GENERATOR3_50CD30()
+void ScriptThread::Handle_SWITCH_GENERATOR3()
 {
     SCR_FOUR_PARAMS* pCmd = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -4794,7 +4794,7 @@ void ScriptThread::SCRCMD_SWITCH_GENERATOR3_50CD30()
 }
 
 MATCH_FUNC(0x50cdb0)
-void ScriptThread::SCRCMD_CAR_DAMAGE_POS_50CDB0()
+void ScriptThread::Handle_CAR_DAMAGE_POS()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -4811,7 +4811,7 @@ void ScriptThread::SCRCMD_CAR_DAMAGE_POS_50CDB0()
 }
 
 MATCH_FUNC(0x50ce10)
-void ScriptThread::SCRCMD_PARK_FINISHED_50CE10()
+void ScriptThread::Handle_PARK_FINISHED()
 {
     if (gGarage_48->mState == garage_state::park_finished_3)
     {
@@ -4835,7 +4835,7 @@ void ScriptThread::Gosub(SCR_CMD_HEADER* pCmd, u16 cmd_idx)
 }
 
 MATCH_FUNC(0x50ce90)
-void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
+void ScriptThread::Handle_PHONE_TEMPLATE()
 {
     SCR_PHONE_TEMPLATE* pCmd = reinterpret_cast<SCR_PHONE_TEMPLATE*>(gBasePtr);
 
@@ -4995,7 +4995,7 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
 }
 
 MATCH_FUNC(0x50d200)
-void ScriptThread::SCRCMD_REMOTE_CONTROL_50D200()
+void ScriptThread::Handle_REMOTE_CONTROL()
 {
     SCR_REMOTE_CONTROL* pCmd = reinterpret_cast<SCR_REMOTE_CONTROL*>(gBasePtr);
     SCR_POINTER* pPlayerPtr = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -5007,14 +5007,14 @@ void ScriptThread::SCRCMD_REMOTE_CONTROL_50D200()
 }
 
 MATCH_FUNC(0x50d2e0)
-void ScriptThread::SCRCMD_LAUNCH_MISSION_50D2E0()
+void ScriptThread::Handle_LAUNCH_MISSION()
 {
     str_table_entry* pMissionStr = gScriptManager->FindStringById(gBasePtr->mIndex);
     ScriptThread::launch_mission(gBasePtr, pMissionStr->get_name());
 }
 
 MATCH_FUNC(0x50d340)
-void ScriptThread::SCRCMD_SAVE_GAME_50D340()
+void ScriptThread::Handle_SAVE_GAME()
 {
     char_type* pSaveFileName = gGameSession.GetSaveFileName_4C5970();
     gScriptManager->SaveGame(pSaveFileName);
@@ -5022,7 +5022,7 @@ void ScriptThread::SCRCMD_SAVE_GAME_50D340()
 }
 
 MATCH_FUNC(0x50d3c0)
-void ScriptThread::SCRCMD_DO_SAVE_GAME_50D3C0()
+void ScriptThread::Handle_DO_SAVE_GAME()
 {
     if (!mCmdInitialised)
     {
@@ -5080,7 +5080,7 @@ void ScriptThread::SCRCMD_DO_SAVE_GAME_50D3C0()
 }
 
 MATCH_FUNC(0x50d680)
-void ScriptThread::SCRCMD_CHANGE_CAR_LOCK_50D680()
+void ScriptThread::Handle_CHANGE_CAR_LOCK()
 {
     SCR_CHANGE_CAR_LOCK* pCmd = reinterpret_cast<SCR_CHANGE_CAR_LOCK*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -5129,7 +5129,7 @@ void ScriptThread::SCRCMD_CHANGE_CAR_LOCK_50D680()
 }
 
 MATCH_FUNC(0x50d870)
-void ScriptThread::SCRCMD_CHANGE_INTENSITY_50D870()
+void ScriptThread::Handle_CHANGE_INTENSITY()
 {
     SCR_CHANGE_LIGHT_INTENSITY* pCmd = reinterpret_cast<SCR_CHANGE_LIGHT_INTENSITY*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -5140,7 +5140,7 @@ void ScriptThread::SCRCMD_CHANGE_INTENSITY_50D870()
 }
 
 MATCH_FUNC(0x50d900)
-void ScriptThread::SCRCMD_CHANGE_COLOUR_50D900()
+void ScriptThread::Handle_CHANGE_COLOUR()
 {
     SCR_FOUR_PARAMS* pCmd = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -5151,7 +5151,7 @@ void ScriptThread::SCRCMD_CHANGE_COLOUR_50D900()
 }
 
 MATCH_FUNC(0x50d9a0)
-void ScriptThread::SCRCMD_CHANGE_RADIUS_50D9A0()
+void ScriptThread::Handle_CHANGE_RADIUS()
 {
     SCR_CHANGE_LIGHT_RADIUS* pCmd = reinterpret_cast<SCR_CHANGE_LIGHT_RADIUS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -5244,7 +5244,7 @@ void ScriptThread::SCRCMD_GET_LIVES_MULT() // GET_NUM_LIVES or GET_NUM_MULT
 }
 
 MATCH_FUNC(0x50dd90)
-void ScriptThread::SCRCMD_SET_DIR_OF_TVVAN_50DD90()
+void ScriptThread::Handle_SET_DIR_OF_TVVAN()
 {
     SCR_SET_DIR_OF_TVVAN* pCmd = reinterpret_cast<SCR_SET_DIR_OF_TVVAN*>(gBasePtr);
 
@@ -5255,7 +5255,7 @@ void ScriptThread::SCRCMD_SET_DIR_OF_TVVAN_50DD90()
 }
 
 MATCH_FUNC(0x50de00)
-void ScriptThread::SCRCMD_POINT_ONSCREEN_50DE00()
+void ScriptThread::Handle_POINT_ONSCREEN()
 {
     SCR_IS_POINT_ON_SCREEN* pCmd = reinterpret_cast<SCR_IS_POINT_ON_SCREEN*>(gBasePtr);
     if (gGame_0x40->IsPointOnScreen(pCmd->mXpos, pCmd->mYpos))
@@ -5270,7 +5270,7 @@ void ScriptThread::SCRCMD_POINT_ONSCREEN_50DE00()
 }
 
 MATCH_FUNC(0x50de50)
-void ScriptThread::SCRCMD_CHAR_IN_AIR_50DE50()
+void ScriptThread::Handle_CHAR_IN_AIR()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     Ped* pPed = pPointer->mChar;
@@ -5287,7 +5287,7 @@ void ScriptThread::SCRCMD_CHAR_IN_AIR_50DE50()
 }
 
 MATCH_FUNC(0x50deb0)
-void ScriptThread::SCRCMD_CHAR_SUNK_50DEB0()
+void ScriptThread::Handle_CHAR_SUNK()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     Ped* pPed = pPointer->mChar;
@@ -5420,14 +5420,14 @@ void ScriptThread::SCRCMD_CHECK_BONUS()
 }
 
 MATCH_FUNC(0x50e120)
-void ScriptThread::SCRCMD_SETUP_MODEL_CHECK_50E120()
+void ScriptThread::Handle_SETUP_MODEL_CHECK()
 {
     gCarManager_6C->mModelToCheckDestroy = gBasePtr->mIndex;
     ScriptThread::Next(gBasePtr);
 }
 
 MATCH_FUNC(0x50e150)
-void ScriptThread::SCRCMD_MODEL_CHECK_50E150()
+void ScriptThread::Handle_MODEL_CHECK()
 {
     if (gCarManager_6C->mModelCheckDestroyed)
     {
@@ -5487,7 +5487,7 @@ void ScriptThread::GetSpeed()
 }
 
 MATCH_FUNC(0x50e360)
-void ScriptThread::SCRCMD_CHECK_CAR_SPEED_50E360()
+void ScriptThread::Handle_CHECK_CAR_SPEED()
 {
     SCR_CHECK_CAR_SPEED* pCmd = reinterpret_cast<SCR_CHECK_CAR_SPEED*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -5507,7 +5507,7 @@ void ScriptThread::SCRCMD_CHECK_CAR_SPEED_50E360()
 }
 
 MATCH_FUNC(0x50e460)
-void ScriptThread::SCRCMD_SET_CAR_GRAPHIC_50E460()
+void ScriptThread::Handle_SET_CAR_GRAPHIC()
 {
     SCR_SET_CAR_GRAPHIC* pCmd = reinterpret_cast<SCR_SET_CAR_GRAPHIC*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -5517,7 +5517,7 @@ void ScriptThread::SCRCMD_SET_CAR_GRAPHIC_50E460()
 }
 
 MATCH_FUNC(0x50e4a0)
-void ScriptThread::SCRCMD_CHAR_ARRESTED_50E4A0()
+void ScriptThread::Handle_CHAR_ARRESTED()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     if (pPointer->mChar->mBf21C.bBusted)
@@ -5594,7 +5594,7 @@ void ScriptThread::SCRCMD_S_IS_S_OP_I()
 }
 
 MATCH_FUNC(0x50e730)
-void ScriptThread::SCRCMD_CHAR_DRIVE_AGGR_50E730()
+void ScriptThread::Handle_CHAR_DRIVE_AGGR()
 {
     SCR_SET_CHAR_DRIVE_AGGR* pCmd = reinterpret_cast<SCR_SET_CHAR_DRIVE_AGGR*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -5620,7 +5620,7 @@ void ScriptThread::SCRCMD_SET_SPEED()
 }
 
 MATCH_FUNC(0x50e7f0)
-void ScriptThread::SCRCMD_GIVE_CAR_ALARM_50E7F0()
+void ScriptThread::Handle_GIVE_CAR_ALARM()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     pPointer->mCar->mFlags |= car_flag::CarAlarm;
@@ -5675,7 +5675,7 @@ void ScriptThread::SCRCMD_CAR_WEAPON_KIND_PROOF()
 }
 
 MATCH_FUNC(0x50e900)
-void ScriptThread::SCRCMD_PUT_CAR_ON_TRAILER_50E900()
+void ScriptThread::Handle_PUT_CAR_ON_TRAILER()
 {
     SCR_PUT_CAR_ON_TRAILER* pCmd = reinterpret_cast<SCR_PUT_CAR_ON_TRAILER*>(gBasePtr);
     SCR_POINTER* pCarPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -5705,7 +5705,7 @@ void ScriptThread::SCRCMD_PUT_CAR_ON_TRAILER_50E900()
 }
 
 MATCH_FUNC(0x50e9a0)
-void ScriptThread::SCRCMD_CLEAR_BRIEFS_50E9A0()
+void ScriptThread::Handle_CLEAR_BRIEFS()
 {
     gHud_2B00->mBrief.ClearAllBriefsWithPriority(hud_brief_priority::normal_1);
     gHud_2B00->mBrief.ClearAllBriefsWithPriority(hud_brief_priority::now_3);
@@ -5713,7 +5713,7 @@ void ScriptThread::SCRCMD_CLEAR_BRIEFS_50E9A0()
 }
 
 MATCH_FUNC(0x50e9e0)
-void ScriptThread::SCRCMD_CHECK_HEADS_50E9E0()
+void ScriptThread::Handle_CHECK_HEADS()
 {
     SCR_CHECK_HEADS_GREATER* pCmd = reinterpret_cast<SCR_CHECK_HEADS_GREATER*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -5730,7 +5730,7 @@ void ScriptThread::SCRCMD_CHECK_HEADS_50E9E0()
 }
 
 MATCH_FUNC(0x50ea40)
-void ScriptThread::SCRCMD_FINISH_LEVEL_50EA40()
+void ScriptThread::Handle_FINISH_LEVEL()
 {
     SCR_FINISH_LEVEL* pCmd = reinterpret_cast<SCR_FINISH_LEVEL*>(gBasePtr);
     char_type bonus_type;
@@ -5770,7 +5770,7 @@ void ScriptThread::SCRCMD_FINISH_LEVEL_50EA40()
 }
 
 MATCH_FUNC(0x50eb00)
-void ScriptThread::SCRCMD_CHECK_WEAPONHIT_50EB00()
+void ScriptThread::Handle_CHECK_WEAPONHIT()
 {
     SCR_CHECK_WEAPONHIT* pCmd = reinterpret_cast<SCR_CHECK_WEAPONHIT*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -5798,7 +5798,7 @@ void ScriptThread::SCRCMD_CHECK_WEAPONHIT_50EB00()
 }
 
 MATCH_FUNC(0x50ebd0)
-void ScriptThread::SCRCMD_WEAP_HIT_CAR_50EBD0()
+void ScriptThread::Handle_WEAP_HIT_CAR()
 {
     SCR_CHECK_WEAPONHIT* pCmd = reinterpret_cast<SCR_CHECK_WEAPONHIT*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -5841,7 +5841,7 @@ void ScriptThread::SCRCMD_WEAP_HIT_CAR_50EBD0()
 }
 
 MATCH_FUNC(0x50ece0)
-void ScriptThread::SCRCMD_IS_CHAR_ON_FIRE_50ECE0()
+void ScriptThread::Handle_IS_CHAR_ON_FIRE()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     if (pPointer->mChar->IsOnFire())
@@ -5856,7 +5856,7 @@ void ScriptThread::SCRCMD_IS_CHAR_ON_FIRE_50ECE0()
 }
 
 MATCH_FUNC(0x50ed40)
-void ScriptThread::SCRCMD_BRIEF_ONSCREEN_50ED40()
+void ScriptThread::Handle_BRIEF_ONSCREEN()
 {
     Hud_BriefEntry* pCurrBrief = gHud_2B00->mBrief.mCurrBriefs;
     if (pCurrBrief != NULL && pCurrBrief->mBriefPriority != 0)
@@ -5871,15 +5871,15 @@ void ScriptThread::SCRCMD_BRIEF_ONSCREEN_50ED40()
 }
 
 MATCH_FUNC(0x50ed80)
-void ScriptThread::SCRCMD_CREATE_SOUND_50ED80()
+void ScriptThread::Handle_CREATE_SOUND()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
-    ScriptThread::SCRCMD_SOUND_DECSET_505340(reinterpret_cast<SCR_SOUND_DECSET*>(gBasePtr), pPointer);
+    ScriptThread::Handle_SOUND_DECSET(reinterpret_cast<SCR_SOUND_DECSET*>(gBasePtr), pPointer);
     ScriptThread::Next(gBasePtr);
 }
 
 MATCH_FUNC(0x50edc0)
-void ScriptThread::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
+void ScriptThread::Handle_DO_EASY_PHONE() //  EASY_PHONE_TEMPLATE
 {
     SCR_PHONE_TEMPLATE* pCmd = reinterpret_cast<SCR_PHONE_TEMPLATE*>(gBasePtr);
 
@@ -5979,7 +5979,7 @@ void ScriptThread::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
 }
 
 MATCH_FUNC(0x50f060)
-void ScriptThread::SCRCMD_CHAR_INTO_CAR_50F060()
+void ScriptThread::Handle_CHAR_INTO_CAR()
 {
     SCR_CHAR_INTO_CAR* pCmd = reinterpret_cast<SCR_CHAR_INTO_CAR*>(gBasePtr);
     SCR_POINTER* pCharPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(pCmd->mCharIdx));
@@ -6019,7 +6019,7 @@ void ScriptThread::SCRCMD_CHAR_INTO_CAR_50F060()
 }
 
 MATCH_FUNC(0x50f150)
-void ScriptThread::SCRCMD_DECIDE_POWERUP_50F150()
+void ScriptThread::Handle_DECIDE_POWERUP()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pCarPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -6066,7 +6066,7 @@ void ScriptThread::SCRCMD_DECIDE_POWERUP_50F150()
 }
 
 MATCH_FUNC(0x50f220)
-void ScriptThread::SCRCMD_SUPPRESS_MODEL_50F220()
+void ScriptThread::Handle_SUPPRESS_MODEL()
 {
     if (gBasePtr->mIndex == 0xFFFFu)
     {
@@ -6080,7 +6080,7 @@ void ScriptThread::SCRCMD_SUPPRESS_MODEL_50F220()
 }
 
 MATCH_FUNC(0x50f270)
-void ScriptThread::SCRCMD_WARP_CHAR_50F270() // WARP_FROM_CAR_TO_POINT
+void ScriptThread::Handle_WARP_CHAR() // WARP_FROM_CAR_TO_POINT
 {
     SCR_WARP_FROM_CAR* pCmd = reinterpret_cast<SCR_WARP_FROM_CAR*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -6111,7 +6111,7 @@ void ScriptThread::SCRCMD_WARP_CHAR_50F270() // WARP_FROM_CAR_TO_POINT
 }
 
 MATCH_FUNC(0x50f3d0)
-void ScriptThread::SCRCMD_SET_GROUP_TYPE_50F3D0()
+void ScriptThread::Handle_SET_GROUP_TYPE()
 {
     SCR_SET_GROUP_TYPE* pCmd = reinterpret_cast<SCR_SET_GROUP_TYPE*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -6126,7 +6126,7 @@ void ScriptThread::SCRCMD_SET_GROUP_TYPE_50F3D0()
 }
 
 MATCH_FUNC(0x50f410)
-void ScriptThread::SCRCMD_CHAR_DO_NOTHING_50F410()
+void ScriptThread::Handle_CHAR_DO_NOTHING()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     Ped* pPed = pPointer->mChar;
@@ -6139,7 +6139,7 @@ void ScriptThread::SCRCMD_CHAR_DO_NOTHING_50F410()
 }
 
 MATCH_FUNC(0x50f450)
-void ScriptThread::SCRCMD_EMERG_LIGHTS_50F450()
+void ScriptThread::Handle_EMERG_LIGHTS()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -6159,7 +6159,7 @@ void ScriptThread::SCRCMD_EMERG_LIGHTS_50F450()
 }
 
 MATCH_FUNC(0x50f4d0)
-void ScriptThread::SCRCMD_CHECK_OBJ_MODEL_50F4D0()
+void ScriptThread::Handle_CHECK_OBJ_MODEL()
 {
     SCR_FOUR_PARAMS* pCmd = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -6179,7 +6179,7 @@ void ScriptThread::SCRCMD_CHECK_OBJ_MODEL_50F4D0()
 }
 
 MATCH_FUNC(0x50f550)
-void ScriptThread::SCRCMD_PED_GRAPHIC_50F550()
+void ScriptThread::Handle_PED_GRAPHIC()
 {
     SCR_SET_CHAR_GRAPHIC_TYPE* pCmd = reinterpret_cast<SCR_SET_CHAR_GRAPHIC_TYPE*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -6245,7 +6245,7 @@ void ScriptThread::SCRCMD_SET_CHAR_FLAGS()
 }
 
 MATCH_FUNC(0x50f770)
-void ScriptThread::SCRCMD_MAKE_MUGGERS_50F770()
+void ScriptThread::Handle_MAKE_MUGGERS()
 {
     SCR_SET_STATE* pCmd = reinterpret_cast<SCR_SET_STATE*>(gBasePtr);
     if (pCmd->mStatus == 1)
@@ -6311,7 +6311,7 @@ void ScriptThread::LocSecChar()
 }
 
 MATCH_FUNC(0x50f900)
-void ScriptThread::SCRCMD_STOP_CAR_DRIVE_50F900()
+void ScriptThread::Handle_STOP_CAR_DRIVE()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     Car* pCar = pPointer->mChar->get_car();
@@ -6324,7 +6324,7 @@ void ScriptThread::SCRCMD_STOP_CAR_DRIVE_50F900()
 }
 
 MATCH_FUNC(0x50f940)
-void ScriptThread::SCRCMD_IS_BUS_FULL_50F940()
+void ScriptThread::Handle_IS_BUS_FULL()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     mCondResult = false;
@@ -6339,7 +6339,7 @@ void ScriptThread::SCRCMD_IS_BUS_FULL_50F940()
 }
 
 MATCH_FUNC(0x50f9b0)
-void ScriptThread::SCRCMD_NO_CHARS_OFF_BUS_50F9B0()
+void ScriptThread::Handle_NO_CHARS_OFF_BUS()
 {
     SCR_SET_STATE* pCmd = reinterpret_cast<SCR_SET_STATE*>(gBasePtr);
     if (pCmd->mStatus == 1)
@@ -6354,7 +6354,7 @@ void ScriptThread::SCRCMD_NO_CHARS_OFF_BUS_50F9B0()
 }
 
 MATCH_FUNC(0x50fa00)
-void ScriptThread::SCRCMD_KILL_CHAR_50FA00()
+void ScriptThread::Handle_KILL_CHAR()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     Ped* pPed = pPointer->mChar;
@@ -6367,14 +6367,14 @@ void ScriptThread::SCRCMD_KILL_CHAR_50FA00()
 }
 
 MATCH_FUNC(0x50fa40)
-void ScriptThread::SCRCMD_SET_SHADING_LEV_50FA40()
+void ScriptThread::Handle_SET_SHADING_LEV()
 {
     gpMapRenderer->set_shading_lev(static_cast<u8>(reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr)->mUnsigned2));
     ScriptThread::Next(gBasePtr);
 }
 
 MATCH_FUNC(0x50fa70)
-void ScriptThread::SCRCMD_SET_CAR_JAMMED_50FA70()
+void ScriptThread::Handle_SET_CAR_JAMMED()
 {
     SCR_SET_CAR_JAMMED* pCmd = reinterpret_cast<SCR_SET_CAR_JAMMED*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -6395,14 +6395,14 @@ void ScriptThread::SCRCMD_SET_CAR_JAMMED_50FA70()
 }
 
 MATCH_FUNC(0x50fad0)
-void ScriptThread::SCRCMD_FINISH_MISSION_50FAD0()
+void ScriptThread::Handle_FINISH_MISSION()
 {
     gMiss2_25C->MissionCleanUp();
     ScriptThread::Next(gBasePtr);
 }
 
 MATCH_FUNC(0x50faf0)
-void ScriptThread::SCRCMD_STORE_BONUS_50FAF0()
+void ScriptThread::Handle_STORE_BONUS()
 {
     SCR_STORE_BONUS_COUNT* pCmd = reinterpret_cast<SCR_STORE_BONUS_COUNT*>(gBasePtr);
     SCR_POINTER* pPointerBonus = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -6419,7 +6419,7 @@ void ScriptThread::SCRCMD_STORE_BONUS_50FAF0()
 }
 
 MATCH_FUNC(0x50fb60)
-void ScriptThread::SCRCMD_SET_ENTER_STATUS_50FB60() // SCRCMD_SET_ENTER_STATUS and SCRCMD_SET_ALL_CONTROLS
+void ScriptThread::Handle_SET_ENTER_STATUS() // SCRCMD_SET_ENTER_STATUS and SCRCMD_SET_ALL_CONTROLS
 {
     SCR_SET_PLAYER_CONTROLS* pCmd = reinterpret_cast<SCR_SET_PLAYER_CONTROLS*>(gBasePtr);
 
@@ -6451,7 +6451,7 @@ void ScriptThread::SCRCMD_SET_ENTER_STATUS_50FB60() // SCRCMD_SET_ENTER_STATUS a
 }
 
 MATCH_FUNC(0x50fc20)
-void ScriptThread::SCRCMD_SET_FAV_CAR_50FC20()
+void ScriptThread::Handle_SET_FAV_CAR()
 {
     SCR_SET_FAV_CAR* pCmd = reinterpret_cast<SCR_SET_FAV_CAR*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -6522,7 +6522,7 @@ void ScriptThread::GroupInArea()
 }
 
 MATCH_FUNC(0x50fe00)
-void ScriptThread::SCRCMD_SET_KF_WEAPON_50FE00()
+void ScriptThread::Handle_SET_KF_WEAPON()
 {
     SCR_SET_KF_WEAPON* pCmd = reinterpret_cast<SCR_SET_KF_WEAPON*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -6541,7 +6541,7 @@ void ScriptThread::SCRCMD_SET_KF_WEAPON_50FE00()
 }
 
 MATCH_FUNC(0x50fed0)
-void ScriptThread::SCRCMD_CLEAR_KF_WEAPON_50FED0()
+void ScriptThread::Handle_CLEAR_KF_WEAPON()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     Player* pPlayer = pPointer->mChar->mPlayer;
@@ -6551,7 +6551,7 @@ void ScriptThread::SCRCMD_CLEAR_KF_WEAPON_50FED0()
 }
 
 MATCH_FUNC(0x50ff50)
-void ScriptThread::SCRCMD_ADD_ONSCREEN_COUNTER_50FF50()
+void ScriptThread::Handle_ADD_ONSCREEN_COUNTER()
 {
     SCR_ADD_ONSCREEN_COUNTER* pCmd = reinterpret_cast<SCR_ADD_ONSCREEN_COUNTER*>(gBasePtr);
     SCR_POINTER* pOnScreenCounter = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -6562,7 +6562,7 @@ void ScriptThread::SCRCMD_ADD_ONSCREEN_COUNTER_50FF50()
 }
 
 MATCH_FUNC(0x50ffb0)
-void ScriptThread::SCRCMD_CLEAR_COUNTER_50FFB0() // SCRCMD_CLEAR_COUNTER and SCRCMD_CLEAR_CLOCK_ONLY
+void ScriptThread::Handle_CLEAR_COUNTER() // SCRCMD_CLEAR_COUNTER and SCRCMD_CLEAR_CLOCK_ONLY
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     u16 idx = pPointer->mIndex;
@@ -6582,14 +6582,14 @@ void ScriptThread::SCRCMD_CLEAR_COUNTER_50FFB0() // SCRCMD_CLEAR_COUNTER and SCR
 }
 
 MATCH_FUNC(0x510030)
-void ScriptThread::SCRCMD_CHANGE_POLICE_510030()
+void ScriptThread::Handle_CHANGE_POLICE()
 {
-    ScriptThread::SCRCMD_DECLARE_POLICE_5052C0(reinterpret_cast<SCR_DECLARE_POLICELEVEL*>(gBasePtr));
+    ScriptThread::Handle_DECLARE_POLICE(reinterpret_cast<SCR_DECLARE_POLICELEVEL*>(gBasePtr));
     ScriptThread::Next(gBasePtr);
 }
 
 MATCH_FUNC(0x510050)
-void ScriptThread::SCRCMD_DESTROY_GROUP_510050()
+void ScriptThread::Handle_DESTROY_GROUP()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
     Ped* pGroupLeader = pPointer->mChar;
@@ -6603,7 +6603,7 @@ void ScriptThread::SCRCMD_DESTROY_GROUP_510050()
 }
 
 MATCH_FUNC(0x510090)
-void ScriptThread::SCRCMD_CHECK_CURRENT_WEAPON_510090()
+void ScriptThread::Handle_CHECK_CURRENT_WEAPON()
 {
     SCR_CHECK_CURRENT_WEAPON* pCmd = reinterpret_cast<SCR_CHECK_CURRENT_WEAPON*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -6622,13 +6622,13 @@ void ScriptThread::SCRCMD_CHECK_CURRENT_WEAPON_510090()
 }
 
 MATCH_FUNC(0x510100)
-void ScriptThread::SCRCMD_START_BASIC_KF_510100() // START_BASIC_KF_TEMPLATE
+void ScriptThread::Handle_START_BASIC_KF() // START_BASIC_KF_TEMPLATE
 {
     SCR_START_BASIC_KF_TEMPLATE* pCmd = reinterpret_cast<SCR_START_BASIC_KF_TEMPLATE*>(gBasePtr);
     if (gScriptManager->IsKillFrenzyActive())
     {
         ScriptThread::EnableThread(pCmd->mTriggername);
-        ScriptThread::SCRCMD_RETURN_506B80();
+        ScriptThread::Handle_RETURN();
     }
     else
     {
@@ -6675,7 +6675,7 @@ void ScriptThread::SCRCMD_START_BASIC_KF_510100() // START_BASIC_KF_TEMPLATE
 }
 
 MATCH_FUNC(0x510280)
-void ScriptThread::SCRCMD_DO_BASIC_KF_510280()
+void ScriptThread::Handle_DO_BASIC_KF()
 {
     SCR_POINTER* pTimerIDPointer;
 
@@ -6755,14 +6755,14 @@ void ScriptThread::SCRCMD_DO_BASIC_KF_510280()
 }
 
 MATCH_FUNC(0x510530)
-void ScriptThread::SCRCMD_SET_BONUS_RATING_510530()
+void ScriptThread::Handle_SET_BONUS_RATING()
 {
     gGameSession.SetBonusRatingTextIdx(reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr)->mUnsigned2);
     ScriptThread::Next(gBasePtr);
 }
 
 MATCH_FUNC(0x510560)
-void ScriptThread::SCRCMD_ADD_TIME_510560()
+void ScriptThread::Handle_ADD_TIME()
 {
     SCR_FOUR_PARAMS* pCmd = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
@@ -6772,7 +6772,7 @@ void ScriptThread::SCRCMD_ADD_TIME_510560()
 }
 
 MATCH_FUNC(0x5105b0)
-void ScriptThread::SCRCMD_SET_MODEL_WANTED_5105B0()
+void ScriptThread::Handle_SET_MODEL_WANTED()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
     s16 model_idx = pCmd->mSigned2;
@@ -6789,7 +6789,7 @@ void ScriptThread::SCRCMD_SET_MODEL_WANTED_5105B0()
 }
 
 MATCH_FUNC(0x510600)
-void ScriptThread::SCRCMD_CHECK_DEATH_ARR_510600()
+void ScriptThread::Handle_CHECK_DEATH_ARR()
 {
     if (gScriptManager->mDeathArrestFlag)
     {
@@ -6803,7 +6803,7 @@ void ScriptThread::SCRCMD_CHECK_DEATH_ARR_510600()
 }
 
 MATCH_FUNC(0x510660)
-void ScriptThread::SCRCMD_FORCE_CLEANUP_510660()
+void ScriptThread::Handle_FORCE_CLEANUP()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
 
@@ -6851,31 +6851,31 @@ void ScriptThread::PreExecOpCode()
         switch (pCmd->mType)
         {
             case SCRCMD_LEVELSTART:
-                SCRCMD_LEVELSTART_5069C0();
+                Handle_LEVELSTART();
                 break;
             case SCRCMD_LEVELEND:
-                SCRCMD_LEVELEND_5069F0();
+                Handle_LEVELEND();
                 break;
             case SCRCMD_CREATE_THREAD:
-                SCRCMD_CREATE_THREAD_506A00();
+                Handle_CREATE_THREAD();
                 break;
             case SCRCMD_STOP_THREAD:
-                SCRCMD_STOP_THREAD_506A60();
+                Handle_STOP_THREAD();
                 break;
             case SCRCMD_IF_JUMP:
-                SCRCMD_IF_JUMP_506AF0();
+                Handle_IF_JUMP();
                 break;
             case SCRCMD_NOT:
-                SCRCMD_NOT_507750();
+                Handle_NOT();
                 break;
             case SCRCMD_GOSUB:
-                SCRCMD_GOSUB_506B30();
+                Handle_GOSUB();
                 break;
             case SCRCMD_START_EXEC:
-                SCRCMD_START_EXEC_5078D0();
+                Handle_START_EXEC();
                 break;
             case SCRCMD_STOP_EXEC:
-                SCRCMD_STOP_EXEC_5079A0();
+                Handle_STOP_EXEC();
                 break;
             case SCRCMD_S_PLUS_S:
             case SCRCMD_S_MINUS_S:
@@ -6900,10 +6900,10 @@ void ScriptThread::PreExecOpCode()
                 SCRCMD_S_OP_I();
                 break;
             case SCRCMD_INCREMENT:
-                SCRCMD_INCREMENT_507A70();
+                Handle_INCREMENT();
                 break;
             case SCRCMD_DECREMENT:
-                SCRCMD_DECREMENT_507B50();
+                Handle_DECREMENT();
                 break;
             case SCRCMD_CREATE_OBJ_2D:
             case SCRCMD_CREATE_OBJ_3D:
@@ -6924,7 +6924,7 @@ void ScriptThread::PreExecOpCode()
                 SCRCMD_CREATE_CAR();
                 break;
             case SCRCMD_MAKE_CAR_DUMMY:
-                SCRCMD_MAKE_CAR_DUMMY_508220();
+                Handle_MAKE_CAR_DUMMY();
                 break;
             case SCRCMD_CREATE_CHAR_2D:
             case SCRCMD_CREATE_CHAR_3D:
@@ -6945,79 +6945,79 @@ void ScriptThread::PreExecOpCode()
                 break;
             case SCRCMD_POINT_ARROW_3D:
             case SCRCMD_LEVEL_END_ARROW2:
-                SCRCMD_POINT_ARROW_3D_508550();
+                Handle_POINT_ARROW_3D();
                 break;
             case SCRCMD_ARROW_COLOUR:
-                SCRCMD_ARROW_COLOUR_508DC0();
+                Handle_ARROW_COLOUR();
                 break;
             case SCRCMD_POINT_ARROW_AT:
             case SCRCMD_LEVEL_END_ARROW1:
-                SCRCMD_POINT_ARROW_AT_5086F0();
+                Handle_POINT_ARROW_AT();
                 break;
             case SCRCMD_REMOVE_ARROW:
-                SCRCMD_REMOVE_ARROW_508E80();
+                Handle_REMOVE_ARROW();
                 break;
             case SCRCMD_CHECK_CAR_DAMAGE:
-                SCRCMD_CHECK_CAR_DAMAGE_508F00();
+                Handle_CHECK_CAR_DAMAGE();
                 break;
             case SCRCMD_CHECK_HEALTH:
-                SCRCMD_CHECK_HEALTH_509030();
+                Handle_CHECK_HEALTH();
                 break;
             case SCRCMD_STORE_CAR_INFO:
-                SCRCMD_STORE_CAR_INFO_509180();
+                Handle_STORE_CAR_INFO();
                 break;
             case SCRCMD_DISPLAY_MESSAGE:
             case SCRCMD_DISPLAY_BRIEF:
             case SCRCMD_DISPLAY_BRIEF_NOW:
             case SCRCMD_DISPLAY_BRIEF_SOON:
-                SCRCMD_DISPLAY_MESSAGE_5093C0();
+                Handle_DISPLAY_MESSAGE();
                 break;
             case SCRCMD_DISPLAY_TIMER:
-                SCRCMD_DISPLAY_TIMER_5096E0();
+                Handle_DISPLAY_TIMER();
                 break;
             case SCRCMD_SET_CHAR_OBJ1:
-                SCRCMD_SET_CHAR_OBJ1_5097D0();
+                Handle_SET_CHAR_OBJ1();
                 break;
             case SCRCMD_IS_CHAR_OBJ_PASS:
-                SCRCMD_IS_CHAR_OBJ_PASS_509810();
+                Handle_IS_CHAR_OBJ_PASS();
                 break;
             case SCRCMD_IS_CHAR_OBJ_FAIL:
-                SCRCMD_IS_CHAR_OBJ_FAIL_509880();
+                Handle_IS_CHAR_OBJ_FAIL();
                 break;
             case SCRCMD_GIVE_WEAPON1:
             case SCRCMD_GIVE_WEAPON2:
                 SCRCMD_GIVE_WEAPON();
                 break;
             case SCRCMD_IS_CAR_IN_BLOCK:
-                SCRCMD_IS_CAR_IN_BLOCK_509990();
+                Handle_IS_CAR_IN_BLOCK();
                 break;
             case SCRCMD_HAS_CHAR_DIED:
-                SCRCMD_HAS_CHAR_DIED_509BB0();
+                Handle_HAS_CHAR_DIED();
                 break;
             case SCRCMD_IS_CHAR_IN_CAR:
-                SCRCMD_IS_CHAR_IN_CAR_509C10();
+                Handle_IS_CHAR_IN_CAR();
                 break;
             case SCRCMD_IS_CHAR_IN_MODEL:
-                SCRCMD_IS_CHAR_IN_MODEL_509C90();
+                Handle_IS_CHAR_IN_MODEL();
                 break;
             case SCRCMD_IS_CHAR_IN_ANY_CAR:
-                SCRCMD_IS_CHAR_IN_ANY_CAR_509D00();
+                Handle_IS_CHAR_IN_ANY_CAR();
                 break;
             case SCRCMD_DELETE_ITEM:
-                SCRCMD_DELETE_ITEM_509D60();
+                Handle_DELETE_ITEM();
                 break;
             case SCRCMD_ADD_SCORE1:
             case SCRCMD_ADDSCORE_NO_MULT:
                 SCRCMD_ADD_SCORE();
                 break;
             case SCRCMD_IS_CHAR_STOPPED:
-                SCRCMD_IS_CHAR_STOPPED_509E70();
+                Handle_IS_CHAR_STOPPED();
                 break;
             case SCRCMD_EXPLODE:
             case SCRCMD_EXPLODE_LARGE2:
             case SCRCMD_EXPLODE_SMALL2:
             case SCRCMD_EXPLODE_NO_RING2:
-                SCRCMD_EXPLODE_509ED0();
+                Handle_EXPLODE();
                 break;
             case SCRCMD_LOCATE_CHAR_ANY:
             case SCRCMD_LOCATE_CHAR_ONFOOT:
@@ -7028,10 +7028,10 @@ void ScriptThread::PreExecOpCode()
                 Locate();
                 break;
             case SCRCMD_SET_CHAR_OBJ2:
-                SCRCMD_SET_CHAR_OBJ2_50A200();
+                Handle_SET_CHAR_OBJ2();
                 break;
             case SCRCMD_SET_CHAR_OBJ3:
-                SCRCMD_SET_CHAR_OBJ3_50A3E0();
+                Handle_SET_CHAR_OBJ3();
                 break;
             case SCRCMD_SET_THREAT_SEARCH:
             case SCRCMD_SET_THREAT_REACT:
@@ -7041,35 +7041,35 @@ void ScriptThread::PreExecOpCode()
                 SCRCMD_THREAT_SEARCH_REACT_ADD_GROUP();
                 break;
             case SCRCMD_CHANGE_CAR_REMAP:
-                SCRCMD_CHANGE_CAR_REMAP_50A570();
+                Handle_CHANGE_CAR_REMAP();
                 break;
             case SCRCMD_CHANGE_CHAR_REMAP:
-                SCRCMD_CHANGE_CHAR_REMAP_50A5B0();
+                Handle_CHANGE_CHAR_REMAP();
                 break;
             case SCRCMD_CHECK_CAR_MODEL:
-                SCRCMD_CHECK_CAR_MODEL_50A610();
+                Handle_CHECK_CAR_MODEL();
                 break;
             case SCRCMD_CHECK_CAR_REMAP:
-                SCRCMD_CHECK_CAR_REMAP_50A670();
+                Handle_CHECK_CAR_REMAP();
                 break;
             case SCRCMD_CHECK_CAR_BOTH:
-                SCRCMD_CHECK_CAR_BOTH_50A6E0();
+                Handle_CHECK_CAR_BOTH();
                 break;
             case SCRCMD_IS_ITEM_ONSCREEN:
             case SCRCMD_ONSCREEN_ACCURACY:
                 IsOnScreen();
                 break;
             case SCRCMD_DELAY_HERE:
-                SCRCMD_DELAY_HERE_50A940();
+                Handle_DELAY_HERE();
                 break;
             case SCRCMD_DELAY:
-                SCRCMD_DELAY_50A980();
+                Handle_DELAY();
                 break;
             case SCRCMD_ENABLE_THREAD:
-                SCRCMD_ENABLE_THREAD_50ABF0();
+                Handle_ENABLE_THREAD();
                 break;
             case SCRCMD_DISABLE_THREAD:
-                SCRCMD_DISABLE_THREAD_50ABC0();
+                Handle_DISABLE_THREAD();
                 break;
             case SCRCMD_SET_GANG_RESPECT:
                 SCRCMD_SET_GANG_KILL_REACTION();
@@ -7077,7 +7077,7 @@ void ScriptThread::PreExecOpCode()
             case SCRCMD_SET_CHAR_RESPECT:
             case SCRCMD_CHANGE_RESPECT:
             case SCRCMD_CHANGE_GANG_RESP:
-                SCRCMD_CHANGE_RESPECT_50ACF0();
+                Handle_CHANGE_RESPECT();
                 break;
             case SCRCMD_CHECK_RESPECT_GREATER:
             case SCRCMD_CHECK_RESPECT_LESS:
@@ -7085,77 +7085,77 @@ void ScriptThread::PreExecOpCode()
                 RespectOperator();
                 break;
             case SCRCMD_ADD_PATROL_POINT:
-                SCRCMD_ADD_PATROL_POINT_50B0E0();
+                Handle_ADD_PATROL_POINT();
                 break;
             case SCRCMD_SET_AMBIENT:
-                SCRCMD_SET_AMBIENT_50B150();
+                Handle_SET_AMBIENT();
                 break;
             case SCRCMD_ANSWER_PHONE:
-                SCRCMD_ANSWER_PHONE_50B180();
+                Handle_ANSWER_PHONE();
                 break;
             case SCRCMD_CHECK_PHONE:
-                SCRCMD_CHECK_PHONE_50B230();
+                Handle_CHECK_PHONE();
                 break;
             case SCRCMD_CHECK_PHONETIMER:
-                SCRCMD_CHECK_PHONETIMER_50B2C0();
+                Handle_CHECK_PHONETIMER();
                 break;
             case SCRCMD_STOP_PHONE_RING:
-                SCRCMD_STOP_PHONE_RING_50B360();
+                Handle_STOP_PHONE_RING();
                 break;
             case SCRCMD_EXPLODE_BUILDING:
-                SCRCMD_EXPLODE_BUILDING_509F60();
+                Handle_EXPLODE_BUILDING();
                 break;
             case SCRCMD_IS_CHAR_FIRE_ONSCREEN:
-                SCRCMD_IS_CHAR_FIRE_ONSCREEN_50B3D0();
+                Handle_IS_CHAR_FIRE_ONSCREEN();
                 break;
             case SCRCMD_CAR_DRIVE_AWAY:
-                SCRCMD_CAR_DRIVE_AWAY_50B440();
+                Handle_CAR_DRIVE_AWAY();
                 break;
             case SCRCMD_CHAR_TO_DRIVE_CAR:
             case SCRCMD_CHAR_TO_BACKDOOR:
-                SCRCMD_CHAR_TO_DRIVE_CAR_50B4F0();
+                Handle_CHAR_TO_DRIVE_CAR();
                 break;
             case SCRCMD_DRIVER_OUT_CAR:
-                SCRCMD_DRIVER_OUT_CAR_50B5A0();
+                Handle_DRIVER_OUT_CAR();
                 break;
             case SCRCMD_GIVE_DRIVER_BRAKE:
-                SCRCMD_GIVE_DRIVER_BRAKE_50B600();
+                Handle_GIVE_DRIVER_BRAKE();
                 break;
             case SCRCMD_SET_GANG_INFO1:
-                SCRCMD_SET_GANG_INFO1_50B670();
+                Handle_SET_GANG_INFO1();
                 break;
             case SCRCMD_CLEAR_TIMERS:
-                SCRCMD_CLEAR_TIMERS_50B690();
+                Handle_CLEAR_TIMERS();
                 break;
             case SCRCMD_CHECK_SCORE:
-                SCRCMD_CHECK_SCORE_50B6F0();
+                Handle_CHECK_SCORE();
                 break;
             case SCRCMD_GET_SCORE:
-                SCRCMD_GET_SCORE_50B760();
+                Handle_GET_SCORE();
                 break;
             case SCRCMD_IS_CHAR_IN_GANG:
-                SCRCMD_IS_CHAR_IN_GANG_50B7D0();
+                Handle_IS_CHAR_IN_GANG();
                 break;
             case SCRCMD_SET_NO_COLLIDE:
-                SCRCMD_SET_NO_COLLIDE_50B8B0();
+                Handle_SET_NO_COLLIDE();
                 break;
             case SCRCMD_IS_CHAR_FIRING_AREA:
-                SCRCMD_IS_CHAR_FIRING_AREA_50B910();
+                Handle_IS_CHAR_FIRING_AREA();
                 break;
             case SCRCMD_GET_PASSENGER_NUM:
-                SCRCMD_GET_PASSENGER_NUM_50B9C0();
+                Handle_GET_PASSENGER_NUM();
                 break;
             case SCRCMD_CLEAR_WANTED_LEVEL:
-                SCRCMD_CLEAR_WANTED_LEVEL_50BA30();
+                Handle_CLEAR_WANTED_LEVEL();
                 break;
             case SCRCMD_CAR_WRECK_IN_LOCATION:
-                SCRCMD_CAR_WRECK_IN_LOCATION_50BAD0();
+                Handle_CAR_WRECK_IN_LOCATION();
                 break;
             case SCRCMD_SEND_CAR_TO_BLOCK:
-                SCRCMD_SEND_CAR_TO_BLOCK_50BB80();
+                Handle_SEND_CAR_TO_BLOCK();
                 break;
             case SCRCMD_CHECK_NUM_ALIVE:
-                SCRCMD_CHECK_NUM_ALIVE_50BC60();
+                Handle_CHECK_NUM_ALIVE();
                 break;
             case SCRCMD_ADD_CHAR_TO_GROUP:
             case SCRCMD_REMOVE_CHAR:
@@ -7166,76 +7166,76 @@ void ScriptThread::PreExecOpCode()
                 SCRCMD_SET_COUNTER();
                 break;
             case SCRCMD_HAS_CAR_WEAPON:
-                SCRCMD_HAS_CAR_WEAPON_50BE00();
+                Handle_HAS_CAR_WEAPON();
                 break;
             case SCRCMD_IS_CHAR_HORN:
-                SCRCMD_IS_CHAR_HORN_50BE70();
+                Handle_IS_CHAR_HORN();
                 break;
             case SCRCMD_CHECK_MAX_PASS:
-                SCRCMD_CHECK_MAX_PASS_50BED0();
+                Handle_CHECK_MAX_PASS();
                 break;
             case SCRCMD_IS_CHAR_IN_ZONE:
-                SCRCMD_IS_CHAR_IN_ZONE_50BF40();
+                Handle_IS_CHAR_IN_ZONE();
                 break;
             case SCRCMD_SET_PHONE_DEAD:
-                SCRCMD_SET_PHONE_DEAD_50C040();
+                Handle_SET_PHONE_DEAD();
                 break;
             case SCRCMD_IS_TRAILER_ATT:
-                SCRCMD_IS_TRAILER_ATT_50C0E0();
+                Handle_IS_TRAILER_ATT();
                 break;
             case SCRCMD_IS_CAR_ON_TRAIL:
-                SCRCMD_IS_CAR_ON_TRAIL_50C1B0();
+                Handle_IS_CAR_ON_TRAIL();
                 break;
             case SCRCMD_ENABLE_CRANE:
             case SCRCMD_DISABLE_CRANE:
                 SCRCMD_ENABLE_DISABLE_CRANE();
                 break;
             case SCRCMD_CAR_GOT_DRIVER:
-                SCRCMD_CAR_GOT_DRIVER_50C2A0();
+                Handle_CAR_GOT_DRIVER();
                 break;
             case SCRCMD_SPOTTED_PLAYER:
-                SCRCMD_SPOTTED_PLAYER_50C2F0();
+                Handle_SPOTTED_PLAYER();
                 break;
             case SCRCMD_GET_LAST_PUNCHED:
-                SCRCMD_GET_LAST_PUNCHED_50C350();
+                Handle_GET_LAST_PUNCHED();
                 break;
             case SCRCMD_IS_CHAR_STUNNED:
-                SCRCMD_IS_CHAR_STUNNED_50C3B0();
+                Handle_IS_CHAR_STUNNED();
                 break;
             case SCRCMD_KILL_ALL_PASSENG:
-                SCRCMD_KILL_ALL_PASSENG_50C410();
+                Handle_KILL_ALL_PASSENG();
                 break;
             case SCRCMD_IS_GROUP_IN_CAR:
-                SCRCMD_IS_GROUP_IN_CAR_50C470();
+                Handle_IS_GROUP_IN_CAR();
                 break;
             case SCRCMD_PUNCHED_SOMEONE:
-                SCRCMD_PUNCHED_SOMEONE_50C4E0();
+                Handle_PUNCHED_SOMEONE();
                 break;
             case SCRCMD_SET_MIN_ALIVE:
-                SCRCMD_SET_MIN_ALIVE_50BCD0();
+                Handle_SET_MIN_ALIVE();
                 break;
             case SCRCMD_ADD_CHAR_TO_GANG:
-                SCRCMD_ADD_CHAR_TO_GANG_50C540();
+                Handle_ADD_CHAR_TO_GANG();
                 break;
             case SCRCMD_EXPLODE_ITEM:
             case SCRCMD_EXPLODE_LARGE1:
             case SCRCMD_EXPLODE_SMALL1:
             case SCRCMD_EXPLODE_NO_RING1:
-                SCRCMD_EXPLODE_50C5A0();
+                Handle_EXPLODE_ITEM();
                 break;
             case SCRCMD_PARK:
             case SCRCMD_PARK_NO_RESPAWN:
-                SCRCMD_PARK_50C6F0();
+                Handle_PARK();
                 break;
             case SCRCMD_ALT_WANTED_LEVEL:
             case SCRCMD_ALTER_WANTED_LEVEL:
-                SCRCMD_ALT_WANTED_LEVEL_50BA70();
+                Handle_ALT_WANTED_LEVEL();
                 break;
             case SCRCMD_BEEN_PUNCHED_BY:
-                SCRCMD_BEEN_PUNCHED_BY_50C760();
+                Handle_BEEN_PUNCHED_BY();
                 break;
             case SCRCMD_UPDATE_DOOR:
-                SCRCMD_UPDATE_DOOR_50C7D0();
+                Handle_UPDATE_DOOR();
                 break;
             case SCRCMD_OPEN_DOOR:
             case SCRCMD_CLOSE_DOOR:
@@ -7244,16 +7244,16 @@ void ScriptThread::PreExecOpCode()
                 SCRCMD_DOOR();
                 break;
             case SCRCMD_REMOVE_WEAPON:
-                SCRCMD_REMOVE_WEAPON_50C990();
+                Handle_REMOVE_WEAPON();
                 break;
             case SCRCMD_REMOVE_BLOCK:
-                SCRCMD_REMOVE_BLOCK_50C9F0();
+                Handle_REMOVE_BLOCK();
                 break;
             case SCRCMD_LOWER_LEVEL:
-                SCRCMD_LOWER_LEVEL_50CA30();
+                Handle_LOWER_LEVEL();
                 break;
             case SCRCMD_ADD_NEW_BLOCK:
-                SCRCMD_ADD_NEW_BLOCK_50CAB0();
+                Handle_ADD_NEW_BLOCK();
                 break;
             case SCRCMD_CHANGE_BLOCK_SIDE:
             case SCRCMD_CHANGE_BLOCK_LID:
@@ -7261,55 +7261,55 @@ void ScriptThread::PreExecOpCode()
                 SCRCMD_CHANGE_BLOCK();
                 break;
             case SCRCMD_ROAD_ON_OFF:
-                SCRCMD_ROAD_ON_OFF_50CB20();
+                Handle_ROAD_ON_OFF();
                 break;
             case SCRCMD_GET_CAR_FROM_CRANE:
-                SCRCMD_GET_CAR_FROM_CRANE_50B470();
+                Handle_GET_CAR_FROM_CRANE();
                 break;
             case SCRCMD_SWITCH_GENERATOR1:
             case SCRCMD_SWITCH_GENERATOR2:
-                SCRCMD_SWITCH_GENERATOR1_50CCB0();
+                Handle_SWITCH_GENERATOR1();
                 break;
             case SCRCMD_SWITCH_GENERATOR3:
             case SCRCMD_SWITCH_GENERATOR4:
-                SCRCMD_SWITCH_GENERATOR3_50CD30();
+                Handle_SWITCH_GENERATOR3();
                 break;
             case SCRCMD_CAR_DAMAGE_POS:
-                SCRCMD_CAR_DAMAGE_POS_50CDB0();
+                Handle_CAR_DAMAGE_POS();
                 break;
             case SCRCMD_PARK_FINISHED:
-                SCRCMD_PARK_FINISHED_50CE10();
+                Handle_PARK_FINISHED();
                 break;
             case SCRCMD_CAR_IN_AREA:
-                SCRCMD_CAR_IN_AREA_509A70();
+                Handle_CAR_IN_AREA();
                 break;
             case SCRCMD_REMOTE_CONTROL:
-                SCRCMD_REMOTE_CONTROL_50D200();
+                Handle_REMOTE_CONTROL();
                 break;
             case SCRCMD_LAUNCH_MISSION:
-                SCRCMD_LAUNCH_MISSION_50D2E0();
+                Handle_LAUNCH_MISSION();
                 break;
             case SCRCMD_RETURN:
             case SCRCMD_MISSIONEND:
-                SCRCMD_RETURN_506B80();
+                Handle_RETURN();
                 break;
             case SCRCMD_PHONE_TEMPLATE:
-                SCRCMD_PHONE_TEMPLATE_50CE90();
+                Handle_PHONE_TEMPLATE();
                 break;
             case SCRCMD_SAVE_GAME:
-                SCRCMD_SAVE_GAME_50D340();
+                Handle_SAVE_GAME();
                 break;
             case SCRCMD_CHANGE_CAR_LOCK:
-                SCRCMD_CHANGE_CAR_LOCK_50D680();
+                Handle_CHANGE_CAR_LOCK();
                 break;
             case SCRCMD_CHANGE_COLOUR:
-                SCRCMD_CHANGE_COLOUR_50D900();
+                Handle_CHANGE_COLOUR();
                 break;
             case SCRCMD_CHANGE_INTENSITY:
-                SCRCMD_CHANGE_INTENSITY_50D870();
+                Handle_CHANGE_INTENSITY();
                 break;
             case SCRCMD_CHANGE_RADIUS:
-                SCRCMD_CHANGE_RADIUS_50D9A0();
+                Handle_CHANGE_RADIUS();
                 break;
             case SCRCMD_CREATE_LIGHT1:
             case SCRCMD_LIGHT_DECSET2:
@@ -7326,16 +7326,16 @@ void ScriptThread::PreExecOpCode()
                 SCRCMD_GET_LIVES_MULT();
                 break;
             case SCRCMD_SET_DIR_OF_TVVAN:
-                SCRCMD_SET_DIR_OF_TVVAN_50DD90();
+                Handle_SET_DIR_OF_TVVAN();
                 break;
             case SCRCMD_POINT_ONSCREEN:
-                SCRCMD_POINT_ONSCREEN_50DE00();
+                Handle_POINT_ONSCREEN();
                 break;
             case SCRCMD_CHAR_IN_AIR:
-                SCRCMD_CHAR_IN_AIR_50DE50();
+                Handle_CHAR_IN_AIR();
                 break;
             case SCRCMD_CHAR_SUNK:
-                SCRCMD_CHAR_SUNK_50DEB0();
+                Handle_CHAR_SUNK();
                 break;
             case SCRCMD_START_BONUS1:
             case SCRCMD_START_BONUS2:
@@ -7349,10 +7349,10 @@ void ScriptThread::PreExecOpCode()
                 SCRCMD_CHECK_BONUS();
                 break;
             case SCRCMD_SETUP_MODEL_CHECK:
-                SCRCMD_SETUP_MODEL_CHECK_50E120();
+                Handle_SETUP_MODEL_CHECK();
                 break;
             case SCRCMD_MODEL_CHECK:
-                SCRCMD_MODEL_CHECK_50E150();
+                Handle_MODEL_CHECK();
                 break;
             case SCRCMD_GET_CAR_SPEED:
             case SCRCMD_GET_CHAR_CAR_SPEED:
@@ -7360,10 +7360,10 @@ void ScriptThread::PreExecOpCode()
                 GetSpeed();
                 break;
             case SCRCMD_CHECK_CAR_SPEED:
-                SCRCMD_CHECK_CAR_SPEED_50E360();
+                Handle_CHECK_CAR_SPEED();
                 break;
             case SCRCMD_SET_CAR_GRAPHIC:
-                SCRCMD_SET_CAR_GRAPHIC_50E460();
+                Handle_SET_CAR_GRAPHIC();
                 break;
             case SCRCMD_S_IS_S_MINUS_S:
             case SCRCMD_S_IS_S_PLUS_S:
@@ -7380,7 +7380,7 @@ void ScriptThread::PreExecOpCode()
                 SCRCMD_S_IS_S_OP_I();
                 break;
             case SCRCMD_GIVE_CAR_ALARM:
-                SCRCMD_GIVE_CAR_ALARM_50E7F0();
+                Handle_GIVE_CAR_ALARM();
                 break;
             case SCRCMD_CAR_BULLETPROOF:
             case SCRCMD_CAR_ROCKETPROOF:
@@ -7388,78 +7388,78 @@ void ScriptThread::PreExecOpCode()
                 SCRCMD_CAR_WEAPON_KIND_PROOF();
                 break;
             case SCRCMD_CHAR_DRIVE_AGGR:
-                SCRCMD_CHAR_DRIVE_AGGR_50E730();
+                Handle_CHAR_DRIVE_AGGR();
                 break;
             case SCRCMD_CHAR_DRIVE_SPEED:
             case SCRCMD_SET_RUN_SPEED:
                 SCRCMD_SET_SPEED();
                 break;
             case SCRCMD_SET_CHAR_OBJ_FOLLOW:
-                SCRCMD_SET_CHAR_OBJ_FOLLOW_50A460();
+                Handle_SET_CHAR_OBJ_FOLLOW();
                 break;
             case SCRCMD_PUT_CAR_ON_TRAILER:
-                SCRCMD_PUT_CAR_ON_TRAILER_50E900();
+                Handle_PUT_CAR_ON_TRAILER();
                 break;
             case SCRCMD_CLEAR_BRIEFS:
-                SCRCMD_CLEAR_BRIEFS_50E9A0();
+                Handle_CLEAR_BRIEFS();
                 break;
             case SCRCMD_CHECK_HEADS:
-                SCRCMD_CHECK_HEADS_50E9E0();
+                Handle_CHECK_HEADS();
                 break;
             case SCRCMD_FINISH_LEVEL:
-                SCRCMD_FINISH_LEVEL_50EA40();
+                Handle_FINISH_LEVEL();
                 break;
             case SCRCMD_CHECK_WEAPONHIT:
-                SCRCMD_CHECK_WEAPONHIT_50EB00();
+                Handle_CHECK_WEAPONHIT();
                 break;
             case SCRCMD_WEAP_HIT_CAR:
             case SCRCMD_ANY_WEAPON_HIT_CAR:
-                SCRCMD_WEAP_HIT_CAR_50EBD0();
+                Handle_WEAP_HIT_CAR();
                 break;
             case SCRCMD_IS_CHAR_ON_FIRE:
-                SCRCMD_IS_CHAR_ON_FIRE_50ECE0();
+                Handle_IS_CHAR_ON_FIRE();
                 break;
             case SCRCMD_BRIEF_ONSCREEN:
-                SCRCMD_BRIEF_ONSCREEN_50ED40();
+                Handle_BRIEF_ONSCREEN();
                 break;
             case SCRCMD_CREATE_SOUND:
-                SCRCMD_CREATE_SOUND_50ED80();
+                Handle_CREATE_SOUND();
                 break;
             case SCRCMD_DO_EASY_PHONE:
-                SCRCMD_DO_EASY_PHONE_50EDC0();
+                Handle_DO_EASY_PHONE();
                 break;
             case SCRCMD_CHAR_INTO_CAR:
-                SCRCMD_CHAR_INTO_CAR_50F060();
+                Handle_CHAR_INTO_CAR();
                 break;
             case SCRCMD_ADD_SCORE2:
-                SCRCMD_ADD_SCORE2_509E00();
+                Handle_ADD_SCORE2();
                 break;
             case SCRCMD_DECIDE_POWERUP:
-                SCRCMD_DECIDE_POWERUP_50F150();
+                Handle_DECIDE_POWERUP();
                 break;
             case SCRCMD_CHAR_ARRESTED:
-                SCRCMD_CHAR_ARRESTED_50E4A0();
+                Handle_CHAR_ARRESTED();
                 break;
             case SCRCMD_SUPPRESS_MODEL:
-                SCRCMD_SUPPRESS_MODEL_50F220();
+                Handle_SUPPRESS_MODEL();
                 break;
             case SCRCMD_WARP_CHAR:
-                SCRCMD_WARP_CHAR_50F270();
+                Handle_WARP_CHAR();
                 break;
             case SCRCMD_SET_GROUP_TYPE:
-                SCRCMD_SET_GROUP_TYPE_50F3D0();
+                Handle_SET_GROUP_TYPE();
                 break;
             case SCRCMD_CHAR_DO_NOTHING:
-                SCRCMD_CHAR_DO_NOTHING_50F410();
+                Handle_CHAR_DO_NOTHING();
                 break;
             case SCRCMD_EMERG_LIGHTS:
-                SCRCMD_EMERG_LIGHTS_50F450();
+                Handle_EMERG_LIGHTS();
                 break;
             case SCRCMD_CHECK_OBJ_MODEL:
-                SCRCMD_CHECK_OBJ_MODEL_50F4D0();
+                Handle_CHECK_OBJ_MODEL();
                 break;
             case SCRCMD_PED_GRAPHIC:
-                SCRCMD_PED_GRAPHIC_50F550();
+                Handle_PED_GRAPHIC();
                 break;
             case SCRCMD_CHAR_INVINCIBLE:
             case SCRCMD_SET_STAY_IN_CAR:
@@ -7473,54 +7473,54 @@ void ScriptThread::PreExecOpCode()
                 LocSecChar();
                 break;
             case SCRCMD_STOP_CAR_DRIVE:
-                SCRCMD_STOP_CAR_DRIVE_50F900();
+                Handle_STOP_CAR_DRIVE();
                 break;
             case SCRCMD_IS_BUS_FULL:
-                SCRCMD_IS_BUS_FULL_50F940();
+                Handle_IS_BUS_FULL();
                 break;
             case SCRCMD_NO_CHARS_OFF_BUS:
-                SCRCMD_NO_CHARS_OFF_BUS_50F9B0();
+                Handle_NO_CHARS_OFF_BUS();
                 break;
             case SCRCMD_KILL_CHAR:
-                SCRCMD_KILL_CHAR_50FA00();
+                Handle_KILL_CHAR();
                 break;
             case SCRCMD_SET_SHADING_LEV:
-                SCRCMD_SET_SHADING_LEV_50FA40();
+                Handle_SET_SHADING_LEV();
                 break;
             case SCRCMD_SET_CAR_JAMMED:
-                SCRCMD_SET_CAR_JAMMED_50FA70();
+                Handle_SET_CAR_JAMMED();
                 break;
             case SCRCMD_FINISH_MISSION:
-                SCRCMD_FINISH_MISSION_50FAD0();
+                Handle_FINISH_MISSION();
                 break;
             case SCRCMD_STORE_BONUS:
-                SCRCMD_STORE_BONUS_50FAF0();
+                Handle_STORE_BONUS();
                 break;
             case SCRCMD_SET_ENTER_STATUS:
             case SCRCMD_SET_ALL_CONTROLS:
-                SCRCMD_SET_ENTER_STATUS_50FB60();
+                Handle_SET_ENTER_STATUS();
                 break;
             case SCRCMD_SET_FAV_CAR:
-                SCRCMD_SET_FAV_CAR_50FC20();
+                Handle_SET_FAV_CAR();
                 break;
             case SCRCMD_GROUP_IN_AREA:
                 GroupInArea();
                 break;
             case SCRCMD_SET_CHAR_OCCUPATION:
-                SCRCMD_SET_CHAR_OCCUPATION_509790();
+                Handle_SET_CHAR_OCCUPATION();
                 break;
             case SCRCMD_SET_KF_WEAPON:
-                SCRCMD_SET_KF_WEAPON_50FE00();
+                Handle_SET_KF_WEAPON();
                 break;
             case SCRCMD_CLEAR_KF_WEAPON:
-                SCRCMD_CLEAR_KF_WEAPON_50FED0();
+                Handle_CLEAR_KF_WEAPON();
                 break;
             case SCRCMD_ADD_ONSCREEN_COUNTER:
-                SCRCMD_ADD_ONSCREEN_COUNTER_50FF50();
+                Handle_ADD_ONSCREEN_COUNTER();
                 break;
             case SCRCMD_CLEAR_COUNTER:
             case SCRCMD_CLEAR_CLOCK_ONLY:
-                SCRCMD_CLEAR_COUNTER_50FFB0();
+                Handle_CLEAR_COUNTER();
                 break;
             case SCRCMD_CHECK_CAR_DRIVER:
             case SCRCMD_IS_CAR_WRECKED:
@@ -7529,43 +7529,43 @@ void ScriptThread::PreExecOpCode()
             case SCRCMD_IS_CAR_CRUSHED:
             case SCRCMD_CARBOMB_ACTIVE:
             case SCRCMD_EMERG_LIGHTS_ON:
-                SCRCMD_CHECK_CAR_DRIVER_50CB70();
+                Handle_CHECK_CAR_DRIVER();
                 break;
             case SCRCMD_CHANGE_POLICE:
-                SCRCMD_CHANGE_POLICE_510030();
+                Handle_CHANGE_POLICE();
                 break;
             case SCRCMD_DESTROY_GROUP:
-                SCRCMD_DESTROY_GROUP_510050();
+                Handle_DESTROY_GROUP();
                 break;
             case SCRCMD_CHECK_CURRENT_WEAPON:
-                SCRCMD_CHECK_CURRENT_WEAPON_510090();
+                Handle_CHECK_CURRENT_WEAPON();
                 break;
             case SCRCMD_MAKE_MUGGERS:
-                SCRCMD_MAKE_MUGGERS_50F770();
+                Handle_MAKE_MUGGERS();
                 break;
             case SCRCMD_START_BASIC_KF:
-                SCRCMD_START_BASIC_KF_510100();
+                Handle_START_BASIC_KF();
                 break;
             case SCRCMD_DO_BASIC_KF:
-                SCRCMD_DO_BASIC_KF_510280();
+                Handle_DO_BASIC_KF();
                 break;
             case SCRCMD_SET_BONUS_RATING:
-                SCRCMD_SET_BONUS_RATING_510530();
+                Handle_SET_BONUS_RATING();
                 break;
             case SCRCMD_ADD_TIME:
-                SCRCMD_ADD_TIME_510560();
+                Handle_ADD_TIME();
                 break;
             case SCRCMD_DO_SAVE_GAME:
-                SCRCMD_DO_SAVE_GAME_50D3C0();
+                Handle_DO_SAVE_GAME();
                 break;
             case SCRCMD_SET_MODEL_WANTED:
-                SCRCMD_SET_MODEL_WANTED_5105B0();
+                Handle_SET_MODEL_WANTED();
                 break;
             case SCRCMD_CHECK_DEATH_ARR:
-                SCRCMD_CHECK_DEATH_ARR_510600();
+                Handle_CHECK_DEATH_ARR();
                 break;
             case SCRCMD_FORCE_CLEANUP:
-                SCRCMD_FORCE_CLEANUP_510660();
+                Handle_FORCE_CLEANUP();
                 break;
             case SCRCMD_SAVE_RESPECT:
             case SCRCMD_RESTORE_RESPECT:
