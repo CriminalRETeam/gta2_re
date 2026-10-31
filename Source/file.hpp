@@ -53,5 +53,5 @@ struct CdCheckFile
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CdCheckFile, 0x84);
 
-EXTERN_GLOBAL(u16, gCdCheckFileCount_6252E0);
-EXTERN_GLOBAL_ARRAY(CdCheckFile, gCdCheckFiles_6252E8, 22);
+EXTERN_GLOBAL(u16, gCdCheckFileCount);
+EXTERN_GLOBAL_ARRAY(CdCheckFile, gCdCheckFiles, 22);

@@ -233,12 +233,12 @@ class Ang16
 
     inline static Fix16 __stdcall cosine_40F520(const Ang16& angle)
     {
-        return gCos_table_669260[angle.rValue];
+        return gCos_table[angle.rValue];
     }
 
     inline static Fix16 __stdcall sine_40F500(const Ang16& angle)
     {
-        return gSin_table_667A80[angle.rValue];
+        return gSin_table[angle.rValue];
     }
 
     // 9.6f 0x41FC20: the table value is the left operand (this) of the multiply

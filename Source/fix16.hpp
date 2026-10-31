@@ -12,9 +12,9 @@
 class Fix16;
 
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
-EXTERN_GLOBAL(Fix16, kFPZero_6691B0);
+EXTERN_GLOBAL(Fix16, kFPZero);
 EXTERN_GLOBAL(Fix16, kFpZero_6F8E10);
-EXTERN_GLOBAL(Fix16, kFP16One256th_6FE07C);
+EXTERN_GLOBAL(Fix16, kFP16One256th);
 EXTERN_GLOBAL(Fix16, kFpOne256th_6F8CF0);
 
 class Fix16
@@ -417,7 +417,7 @@ class Fix16
 
     Fix16 ApplyDeadZone_482730(Fix16 to_abs) const
     {
-        if (!(Fix16::Abs(to_abs) < kFP16One256th_6FE07C))
+        if (!(Fix16::Abs(to_abs) < kFP16One256th))
         {
             return to_abs;
         }
@@ -514,6 +514,6 @@ EXPORT void __stdcall FindMinMax(Fix16& minOut, Fix16& maxOut, const Fix16& a, c
 
 EXPORT Fix16 __stdcall TurnAngleToward(Fix16 cur, const Fix16* pTarget, const Fix16* pSpeed);
 EXPORT s32 __stdcall ClampAngleAroundTarget(const Fix16* pTarget, Fix16* pCur);
-EXTERN_GLOBAL_ARRAY(Fix16, gSin_table_667A80, 1440);
-EXTERN_GLOBAL_ARRAY(Fix16, gCos_table_669260, 1440);
+EXTERN_GLOBAL_ARRAY(Fix16, gSin_table, 1440);
+EXTERN_GLOBAL_ARRAY(Fix16, gCos_table, 1440);
 

@@ -8,8 +8,8 @@
 #include "GameSession.hpp"
 #include <io.h>
 
-DEFINE_GLOBAL(PlyDat*, gPlyDat_6FEAC0, 0x6FEAC0);
-EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 2);
+DEFINE_GLOBAL(PlyDat*, gPlyDat, 0x6FEAC0);
+EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr, 2);
 DEFINE_STATIC_GLOBAL_ARRAY_INIT(ScoreTableLine, sDefaultHiScores, 10, 0x6242B0,
     { L"ALISDAIR" COMMA 50000 } COMMA
     { L"BILLY"    COMMA 40000 } COMMA
@@ -22,7 +22,7 @@ DEFINE_STATIC_GLOBAL_ARRAY_INIT(ScoreTableLine, sDefaultHiScores, 10, 0x6242B0,
     { L"STEPHEN"  COMMA  6000 } COMMA
     { L"WILLIAM"  COMMA  5000 } COMMA
 );
-DEFINE_GLOBAL_ARRAY_INIT(ScoreTableLine, gDefaultStageHiScores_6243A0, 120, 0x6243A0,   //, , 3][4][10, 0xUNKNOWN);
+DEFINE_GLOBAL_ARRAY_INIT(ScoreTableLine, gDefaultStageHiScores, 120, 0x6243A0,   //, , 3][4][10, 0xUNKNOWN);
     {L"ALISDAIR" COMMA 50000 } COMMA
     {L"BILLY"    COMMA 40000 } COMMA
     {L"BRIAN"    COMMA 30000 } COMMA
@@ -145,7 +145,7 @@ DEFINE_GLOBAL_ARRAY_INIT(ScoreTableLine, gDefaultStageHiScores_6243A0, 120, 0x62
     {L"WILLIAM"  COMMA  5000 } COMMA
 );
 
-EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
+EXTERN_GLOBAL(s32, bStartNetworkGame);
 
 
 MATCH_FUNC(0x56B500)
@@ -164,7 +164,7 @@ void HighScoreTable::Init()
 {
     for (s32 i = 0; i < 10; i++)
     {
-        wcscpy(mScoreTableLine[i].mPlayerName, gEmptyWStr_67DC8C);
+        wcscpy(mScoreTableLine[i].mPlayerName, gEmptyWStr);
         mScoreTableLine[i].mScore = 0;
     }
 }
@@ -408,18 +408,18 @@ void PlyDat::SavePlySlotDat(s16 slotIdx)
 MATCH_FUNC(0x56BB10)
 void PlyDat::UpdateStageScore(Player* pPlayer)
 {
-    const u8 slot_idx = gGameSession_67E8E0.GetPlySlotIdx();
+    const u8 slot_idx = gGameSession.GetPlySlotIdx();
     PlySlot* pPlayerStats = &mPlyrStats[slot_idx];
     u8 map_num;
     u8 bonus_num;
-    if (!gGameSession_67E8E0.IsBonusStage())
+    if (!gGameSession.IsBonusStage())
     {
-        map_num = gGameSession_67E8E0.GetMainStageIdx();
+        map_num = gGameSession.GetMainStageIdx();
         bonus_num = 0;
     }
     else
     {
-        gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage(), &map_num, &bonus_num);
+        gGameSession.DecodeStage_453A60(gGameSession.GetStage(), &map_num, &bonus_num);
     }
 
     StageStats* pStageStats = &pPlayerStats->mPlyrStageStats[map_num][bonus_num];
@@ -435,9 +435,9 @@ void PlyDat::UpdateStageScore(Player* pPlayer)
 MATCH_FUNC(0x56BBD0)
 void PlyDat::UnlockStage(u8 map_num, u8 bonus_num)
 {
-    const u8 slot_idx = gGameSession_67E8E0.GetPlySlotIdx();
+    const u8 slot_idx = gGameSession.GetPlySlotIdx();
     this->mPlyrStats[slot_idx].mPlyrStageStats[map_num][bonus_num].mIsStageUnlocked = 1;
-    if (!bStartNetworkGame_7081F0)
+    if (!bStartNetworkGame)
     {
         SavePlySlotDat(slot_idx);
     }
@@ -446,7 +446,7 @@ void PlyDat::UnlockStage(u8 map_num, u8 bonus_num)
 MATCH_FUNC(0x56BC40)
 void PlyDat::UnlockAllStages()
 {
-    const u8 slot_idx = gGameSession_67E8E0.GetPlySlotIdx();
+    const u8 slot_idx = gGameSession.GetPlySlotIdx();
     PlySlot* pStats = &this->mPlyrStats[slot_idx];
     for (s32 k3 = 0; k3 < 3; k3++)
     {
@@ -456,7 +456,7 @@ void PlyDat::UnlockAllStages()
         }
     }
 
-    if (!bStartNetworkGame_7081F0)
+    if (!bStartNetworkGame)
     {
         SavePlySlotDat(slot_idx);
     }
@@ -583,17 +583,17 @@ void PlyDat::UpdateHiScores()
     u8 bonus_num;
     bool bBestStatsChanged = false;
 
-    if (!gGameSession_67E8E0.IsBonusStage())
+    if (!gGameSession.IsBonusStage())
     {
-        map_num = gGameSession_67E8E0.GetMainStageIdx();
+        map_num = gGameSession.GetMainStageIdx();
         bonus_num = 0;
     }
     else
     {
-        gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage(), &map_num, &bonus_num);
+        gGameSession.DecodeStage_453A60(gGameSession.GetStage(), &map_num, &bonus_num);
     }
 
-    PlySlot* pPlayerStats = &mPlyrStats[gGameSession_67E8E0.GetPlySlotIdx()];
+    PlySlot* pPlayerStats = &mPlyrStats[gGameSession.GetPlySlotIdx()];
     s32 latest = pPlayerStats->mPlyrStageStats[map_num][bonus_num].mStageLatestScore;
     const bool bNewStageScore =
         mStageScores[map_num][bonus_num].InsertScore(pPlayerStats->mstrPlayerName, latest);
@@ -604,7 +604,7 @@ void PlyDat::UpdateHiScores()
         u32* pBestStats = reinterpret_cast<u32*>(&mBestStats[map_num]);
         for (u8 i = 0; i < 10; i++, pBestStats++)
         {
-            const u32 value = gGameSession_67E8E0.GetStatistic(i);
+            const u32 value = gGameSession.GetStatistic(i);
             if (value > *pBestStats)
             {
                 *pBestStats = value;
@@ -612,14 +612,14 @@ void PlyDat::UpdateHiScores()
             }
         }
 
-        const u32 value1 = gGameSession_67E8E0.GetCarDamageCost();
+        const u32 value1 = gGameSession.GetCarDamageCost();
         if (value1 > static_cast<u32>(mBestCarDamageCost[map_num]))
         {
             mBestCarDamageCost[map_num] = value1;
             bBestStatsChanged = true;
         }
 
-        const u32 value2 = gGameSession_67E8E0.GetEvasionRating();
+        const u32 value2 = gGameSession.GetEvasionRating();
         if (value2 > static_cast<u32>(mBestEvasionRating[map_num]))
         {
             mBestEvasionRating[map_num] = value2;
@@ -662,7 +662,7 @@ void PlyDat::InitDefaultHiScores()
         ++p10StruIter;
     }
 
-    ScoreTableLine* pSruIter = gDefaultStageHiScores_6243A0;
+    ScoreTableLine* pSruIter = gDefaultStageHiScores;
     for (s32 k3 = 0; k3 < 3; k3++)
     {
         for (s32 k4 = 0; k4 < 4; k4++)
@@ -680,12 +680,12 @@ void PlyDat::InitDefaultHiScores()
 MATCH_FUNC(0x56C250)
 void PlyDat::DoMuchCashCheat()
 {
-    if (!bStartNetworkGame_7081F0)
+    if (!bStartNetworkGame)
     {
-        PlySlot* pStats = &this->mPlyrStats[gGameSession_67E8E0.GetPlySlotIdx()];
+        PlySlot* pStats = &this->mPlyrStats[gGameSession.GetPlySlotIdx()];
         if (wcscmp(pStats->mstrPlayerName, L"MUCHCASH") == 0)
         {
-            Player* pPlayer = gGame_0x40_67E008->mLocalPlayer;
+            Player* pPlayer = gGame_0x40->mLocalPlayer;
             pPlayer->mScores.AddCash(pPlayer->mMultipliers.mValue * 500000);
         }
     }
@@ -694,10 +694,10 @@ void PlyDat::DoMuchCashCheat()
 MATCH_FUNC(0x56C2C0)
 void PlyDat::Create()
 {
-    if (!gPlyDat_6FEAC0)
+    if (!gPlyDat)
     {
-        gPlyDat_6FEAC0 = new PlyDat();
-        if (!gPlyDat_6FEAC0)
+        gPlyDat = new PlyDat();
+        if (!gPlyDat)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\plydat.cpp", 1269);
         }
@@ -707,9 +707,9 @@ void PlyDat::Create()
 MATCH_FUNC(0x56C340)
 void PlyDat::Destroy()
 {
-    if (gPlyDat_6FEAC0)
+    if (gPlyDat)
     {
-        delete gPlyDat_6FEAC0;
-        gPlyDat_6FEAC0 = NULL;
+        delete gPlyDat;
+        gPlyDat = NULL;
     }
 }

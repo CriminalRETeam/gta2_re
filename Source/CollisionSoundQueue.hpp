@@ -139,5 +139,5 @@ class CollisionSoundQueue
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CollisionSoundQueue, 0xC88);
 
-EXTERN_GLOBAL(CollisionSoundQueue*, gCollisionSoundQueue_66AFE0);
-EXTERN_GLOBAL(CollisionTarget, gCollisionTarget_679188);
+EXTERN_GLOBAL(CollisionSoundQueue*, gCollisionSoundQueue);
+EXTERN_GLOBAL(CollisionTarget, gCollisionTarget);

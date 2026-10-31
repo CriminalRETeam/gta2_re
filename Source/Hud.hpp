@@ -352,14 +352,14 @@ class Hud_Pager_C_Array
 
 inline u8 __stdcall get_sprite_width_4C7220(s16 user_sprite_idx)
 {
-    s16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex(sprite_types_enum::user_6, user_sprite_idx);
-    return gGtx_0x106C_703DD4->get_sprite_width_420220(sprite_idx);
+    s16 sprite_idx = gGtx_0x106C->GetSpriteTrueIndex(sprite_types_enum::user_6, user_sprite_idx);
+    return gGtx_0x106C->get_sprite_width_420220(sprite_idx);
 }
 
 inline u8 __stdcall get_sprite_height_4C7250(s16 user_sprite_idx)
 {
-    s16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex(sprite_types_enum::user_6, user_sprite_idx);
-    return gGtx_0x106C_703DD4->get_sprite_height_4C6C90(sprite_idx);
+    s16 sprite_idx = gGtx_0x106C->GetSpriteTrueIndex(sprite_types_enum::user_6, user_sprite_idx);
+    return gGtx_0x106C->get_sprite_height_4C6C90(sprite_idx);
 }
 
 class Hud_BriefEntry
@@ -765,11 +765,11 @@ class Hud
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Hud, 0x2B00);
 
-EXTERN_GLOBAL(Hud*, gHud_2B00_706620);
+EXTERN_GLOBAL(Hud*, gHud_2B00);
 
-EXTERN_GLOBAL(s16, gDebugFont_706600);
+EXTERN_GLOBAL(s16, gDebugFont);
 
-EXTERN_GLOBAL_ARRAY(char_type, gTmpGxtKey_67CE50, 256);
+EXTERN_GLOBAL_ARRAY(char_type, gTmpGxtKey, 256);
 
 EXPORT s32 __stdcall GetPhoneTypeFromObjModel(s32 phone_model_idx);
 EXPORT char_type* __stdcall get_phone_colour(s32 phone_type);

@@ -39,24 +39,24 @@
 #include <DINPUT.H>
 
 // Forward declarations: the functions below are in address order
-EXTERN_GLOBAL(s16, gTestRouteIdx_675F14);
-EXTERN_GLOBAL(Car*, gTestFireCar_675C30);
+EXTERN_GLOBAL(s16, gTestRouteIdx);
+EXTERN_GLOBAL(Car*, gTestFireCar);
 
-EXTERN_GLOBAL(bool, gCheatUnlimitedFlameThrower_67D6CC);
-EXTERN_GLOBAL(bool, gCheatInvisibility_67D539);
-EXTERN_GLOBAL(bool, gCheatUnlimitedDoubleDamage_67D57C);
+EXTERN_GLOBAL(bool, gCheatUnlimitedFlameThrower);
+EXTERN_GLOBAL(bool, gCheatInvisibility);
+EXTERN_GLOBAL(bool, gCheatUnlimitedDoubleDamage);
 
 DEFINE_GLOBAL_INIT(Fix16, kZero_6FE610, Fix16(0), 0x6FE610);
 DEFINE_GLOBAL_INIT(Fix16, kTwo_6FE618, Fix16(2), 0x6FE618);
 DEFINE_GLOBAL_INIT(Fix16, kZero_6FE41C, kZero_6FE610, 0x6FE41C);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_6FE754, Ang16(0), 0x6FE754);
-DEFINE_GLOBAL_INIT(Ang16, kJumpTurnAccel_6FE74C, Ang16(4), 0x6FE74C);
+DEFINE_GLOBAL_INIT(Ang16, kJumpTurnAccel, Ang16(4), 0x6FE74C);
 DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng3, Ang16(12), 0x6FE750);
 DEFINE_STATIC_GLOBAL_INIT(Ang16, kAttackTurnAccel, Ang16(12), 0x6FE488);
 DEFINE_STATIC_GLOBAL_INIT(Ang16, kMaxJumpTurnSpeed, Ang16(24), 0x6FE450);
 DEFINE_STATIC_GLOBAL_INIT(Ang16, kMaxTurnSpeed, Ang16(48), 0x6FE700);
 DEFINE_GLOBAL_INIT(Fix16, kOne_6FE614, Fix16(1), 0x6FE614);
-DEFINE_GLOBAL_INIT(Fix16, k_instant_gang_radius_6FE634, Fix16(8), 0x6FE634);
+DEFINE_GLOBAL_INIT(Fix16, k_instant_gang_radius, Fix16(8), 0x6FE634);
 
 struct DebugTest
 {
@@ -64,7 +64,7 @@ struct DebugTest
     EXPORT void DoBrianTest(u16 action);
 };
 
-DEFINE_GLOBAL(Car*, gTestArrowCar_7043F0, 0x7043F0);
+DEFINE_GLOBAL(Car*, gTestArrowCar, 0x7043F0);
 
 MATCH_FUNC(0x42D870)
 void DebugTest::DoBrianTest(u16 action)
@@ -72,38 +72,38 @@ void DebugTest::DoBrianTest(u16 action)
     switch (action)
     {
         case 8:
-            gGame_0x40_67E008->ExitGame(0, GameExitType::AreaCompleted_4, 3);
+            gGame_0x40->ExitGame(0, GameExitType::AreaCompleted_4, 3);
             break;
         case 11:
-            gGame_0x40_67E008->ExitGameNoBonus(0, GameExitType::GameOverRIP_3);
+            gGame_0x40->ExitGameNoBonus(0, GameExitType::GameOverRIP_3);
             break;
         case 9:
-            gScriptManager_6F8060->SaveGame(gGameSession_67E8E0.GetSaveFileName_4C5970());
+            gScriptManager->SaveGame(gGameSession.GetSaveFileName_4C5970());
             break;
         case 6:
-            gTestRouteIdx_675F14 = gRouteFinder_6FFDC8->DoStartRoute(3, 3, 1, 0xD5, 0xAB, 1, 1);
-            gRouteFinder_6FFDC8->CancelRoute(gTestRouteIdx_675F14);
-            gTestRouteIdx_675F14 = gRouteFinder_6FFDC8->DoStartRoute(0xD5, 0xF9, 1, 3, 3, 1, 1);
+            gTestRouteIdx = gRouteFinder->DoStartRoute(3, 3, 1, 0xD5, 0xAB, 1, 1);
+            gRouteFinder->CancelRoute(gTestRouteIdx);
+            gTestRouteIdx = gRouteFinder->DoStartRoute(0xD5, 0xF9, 1, 3, 3, 1, 1);
             break;
         case 7:
         {
-            Ped* pPed = gGame_0x40_67E008->IterateFirstPlayer()->GetPlayerPed_41D020();
+            Ped* pPed = gGame_0x40->IterateFirstPlayer()->GetPlayerPed_41D020();
             if (pPed->mCar)
             {
                 pPed->mCar->GoToBlockTest(3, 3, 1, 1);
                 pPed->mCar->InitCarAIControl();
-                gRouteFinder_6FFDC8->DebugPrintRoute(pPed->mCar->mAI->mRouteIdx);
+                gRouteFinder->DebugPrintRoute(pPed->mCar->mAI->mRouteIdx);
             }
             break;
         }
         case 10:
-            gFirefighterPool_54_67D4C0->TryDispatchFirefightersToCar(gTestFireCar_675C30);
+            gFirefighterPool_54->TryDispatchFirefightersToCar(gTestFireCar);
             break;
     }
 }
 
-DEFINE_GLOBAL(s16, gTestRouteIdx_675F14, 0x675F14);
-DEFINE_GLOBAL(Car*, gTestFireCar_675C30, 0x675C30);
+DEFINE_GLOBAL(s16, gTestRouteIdx, 0x675F14);
+DEFINE_GLOBAL(Car*, gTestFireCar, 0x675C30);
 
 MATCH_FUNC(0x443CB0)
 EXPORT s32 Player::ObjectTypeToWeaponType(u8 shop_type)
@@ -141,7 +141,7 @@ MATCH_FUNC(0x5645B0)
 void Player::AddCarToHistory(Car* pNewCar)
 {
     Car** pIter = mCarHistory;
-    if (!bStartNetworkGame_7081F0)
+    if (!bStartNetworkGame)
     {
         u8 i = PromoteCarInHistory(pNewCar, false);
         if (!i)
@@ -173,7 +173,7 @@ MATCH_FUNC(0x564610)
 bool Player::PromoteCarInHistory(Car* pCar, bool dont_modify)
 {
     Car** ppCarIter = &mCarHistory[1];
-    if (!bStartNetworkGame_7081F0)
+    if (!bStartNetworkGame)
     {
         if (pCar == mCarHistory[2]) // check 2
         {
@@ -214,7 +214,7 @@ MATCH_FUNC(0x564680)
 void Player::RemoveCarFromHistory(Car* pCar)
 {
     Car** pIter = mCarHistory;
-    if (!bStartNetworkGame_7081F0)
+    if (!bStartNetworkGame)
     {
         u8 idx;
         for (idx = 0; idx < 2; pIter++, idx++)
@@ -244,7 +244,7 @@ void Player::SetKFCarWeapon(Car* pCar, s32 weapon_kind)
 {
     this->mPreKfWeaponKind = this->mCurrWeaponIdx;
 
-    Weapon* pWeapon = gWeapon_8_707018->find(pCar, weapon_kind);
+    Weapon* pWeapon = gWeapon_8->find(pCar, weapon_kind);
     if (pWeapon)
     {
         this->mPreKfAmmo = pWeapon->get_ammo_4A4FE0();
@@ -252,7 +252,7 @@ void Player::SetKFCarWeapon(Car* pCar, s32 weapon_kind)
     else
     {
         this->mPreKfAmmo = 0;
-        pWeapon = gWeapon_8_707018->allocate_5E3CE0(weapon_kind, pCar, 0);
+        pWeapon = gWeapon_8->allocate_5E3CE0(weapon_kind, pCar, 0);
     }
 
     this->mKfWeaponKind = weapon_kind;
@@ -288,15 +288,15 @@ void Player::ClearKFWeapon()
 {
     if (this->mPreKfWeaponKind != -2)
     {
-        if (gWeapon_8_707018->is_car_weapon_433820(mKfWeaponKind))
+        if (gWeapon_8->is_car_weapon_433820(mKfWeaponKind))
         {
             if (mKfCar->mCarId == this->mKfCarId)
             {
-                Weapon* pWeapon = gWeapon_8_707018->find(mKfCar, this->mKfWeaponKind);
+                Weapon* pWeapon = gWeapon_8->find(mKfCar, this->mKfWeaponKind);
                 pWeapon->SetAmmo_4A4FF0(this->mPreKfAmmo);
                 if (!this->mPreKfAmmo)
                 {
-                    gWeapon_30_Pool_707014->DeAllocate_4A4F20(pWeapon);
+                    gWeapon_30_Pool->DeAllocate_4A4F20(pWeapon);
                     Ped* pDriver = this->mKfCar->mDriver;
                     if (pDriver)
                     {
@@ -311,8 +311,8 @@ void Player::ClearKFWeapon()
         }
         else
         {
-            if (gCheatUnlimitedElectroGun_67D4F7 && mKfWeaponKind == weapon_type::shocker ||
-                gCheatUnlimitedFlameThrower_67D6CC && mKfWeaponKind == weapon_type::flamethrower)
+            if (gCheatUnlimitedElectroGun && mKfWeaponKind == weapon_type::shocker ||
+                gCheatUnlimitedFlameThrower && mKfWeaponKind == weapon_type::flamethrower)
             {
                 this->mPreKfWeaponKind = -2;
                 return;
@@ -488,7 +488,7 @@ void Player::LoadCarWeapons(Car* pCar)
     s16 last_weapon_kind = -1;
     for (s32 weapon_kind = weapon_type::car_bomb; weapon_kind < 28; weapon_kind++)
     {
-        Weapon* pWeapon = gWeapon_8_707018->find(pCar, weapon_kind);
+        Weapon* pWeapon = gWeapon_8->find(pCar, weapon_kind);
         mWeapons[weapon_kind] = pWeapon;
         if (pWeapon)
         {
@@ -529,7 +529,7 @@ void Player::CleanupEmptyAmmoWeapons()
         {
             if (!mWeapons[i]->mAmmo)
             {
-                gWeapon_30_Pool_707014->DeAllocate_4A4F20(mWeapons[i]);
+                gWeapon_30_Pool->DeAllocate_4A4F20(mWeapons[i]);
             }
         }
         mWeapons[i] = NULL;
@@ -563,8 +563,8 @@ void Player::RemovePlayerWeapons()
     Weapon* pWeapon = this->mWeapons[0];
     do
     {
-        if ((!gCheatUnlimitedElectroGun_67D4F7 || pWeapon->mWeaponType != weapon_type::shocker) &&
-            (!gCheatUnlimitedFlameThrower_67D6CC || pWeapon->mWeaponType != weapon_type::flamethrower))
+        if ((!gCheatUnlimitedElectroGun || pWeapon->mWeaponType != weapon_type::shocker) &&
+            (!gCheatUnlimitedFlameThrower || pWeapon->mWeaponType != weapon_type::flamethrower))
         {
             if (pWeapon->HasAmmo_4A4F80())
             {
@@ -589,12 +589,12 @@ void Player::ClearPowerUps()
 {
     for (s32 i = 0; i < GTA2_COUNTOF_S(mPowerUpTimers); i++)
     {
-        if (i == power_up_indices::Invisibility_11 && gCheatInvisibility_67D539)
+        if (i == power_up_indices::Invisibility_11 && gCheatInvisibility)
         {
             continue;
         }
 
-        if (i == power_up_indices::DoubleDamage_7 && gCheatUnlimitedDoubleDamage_67D57C)
+        if (i == power_up_indices::DoubleDamage_7 && gCheatUnlimitedDoubleDamage)
         {
             continue;
         }
@@ -617,7 +617,7 @@ void Player::ClearPowerUpsExceptJailCard()
     }
     if (mPowerUpTimers[power_up_indices::Invisibility_11])
     {
-        if (!gCheatInvisibility_67D539)
+        if (!gCheatInvisibility)
         {
             mPlayerPed->SetVisible();
         }
@@ -731,7 +731,7 @@ bool Player::CollectPowerUp(s32 power_up_idx)
             {
                 return false;
             }
-            mPlayerPed->RecruitNearbyPeds(4, k_instant_gang_radius_6FE634);
+            mPlayerPed->RecruitNearbyPeds(4, k_instant_gang_radius);
             break;
         default:
             if (this->mPowerUpTimers[power_up_idx] == 1)
@@ -758,7 +758,7 @@ void Player::tick_down_powerups()
 
     if (mPowerUpTimers[power_up_indices::DoubleDamage_7])
     {
-        if (!gCheatUnlimitedDoubleDamage_67D57C)
+        if (!gCheatUnlimitedDoubleDamage)
         {
             mPowerUpTimers[power_up_indices::DoubleDamage_7]--;
         }
@@ -781,7 +781,7 @@ void Player::tick_down_powerups()
     // invisiblity
     if (mPowerUpTimers[power_up_indices::Invisibility_11])
     {
-        if (!gCheatInvisibility_67D539)
+        if (!gCheatInvisibility)
         {
             mPowerUpTimers[power_up_indices::Invisibility_11]--;
             if (!mPowerUpTimers[power_up_indices::Invisibility_11])
@@ -825,13 +825,13 @@ void Player::TeleportToDebugCam()
     this->mInDebugCamMode = 0;
     this->mCameraMode = 0;
     this->mGameCamera.SetSmoothFollow_475B60();
-    gHud_2B00_706620->mMessage.ShowMessage(gText_0x14_704DFC->Find("tport"), hud_message_priority::important_3);
+    gHud_2B00->mMessage.ShowMessage(gText_0x14->Find("tport"), hud_message_priority::important_3);
 }
 
 MATCH_FUNC(0x5653E0)
 void Player::DebugWatchNearestCar()
 {
-    Car* pCar = gCarManager_6C_677930->GetNearestEnterableCarFromCoord(mViewCamera.mCurPos.mX,
+    Car* pCar = gCarManager_6C->GetNearestEnterableCarFromCoord(mViewCamera.mCurPos.mX,
                                                                           mViewCamera.mCurPos.mY,
                                                                           mViewCamera.mCurPos.mZ,
                                                                           NULL);
@@ -857,7 +857,7 @@ void Player::InitPlayerPed(Ped* pPed)
     mDeathCountdown = 0;
     mPlayerPed = pPed;
     mTurnSpeed = kAngZero_6FE754;
-    mTurnAccel = kJumpTurnAccel_6FE74C + (kAng3 + kJumpTurnAccel_6FE74C);
+    mTurnAccel = kJumpTurnAccel + (kAng3 + kJumpTurnAccel);
     mMoveDirection = kZero_6FE610;
     mUnused10 = 0;
     mTrafficSpawnCounter = 0;
@@ -869,15 +869,15 @@ void Player::InitPlayerPed(Ped* pPed)
 
     for (s32 weapon_idx = weapon_type::pistol; weapon_idx < weapon_type::car_bomb; ++weapon_idx)
     {
-        if (!bGet_all_weapons_67D684 || weapon_idx >= weapon_type::weapon_11 || weapon_idx == weapon_type::electro_batton)
+        if (!bGet_all_weapons || weapon_idx >= weapon_type::weapon_11 || weapon_idx == weapon_type::electro_batton)
         {
             ammo = 0;
         }
         else
         {
-            ammo = gWeapon_8_707018->get_max_ammo_capacity(weapon_idx);
+            ammo = gWeapon_8->get_max_ammo_capacity(weapon_idx);
         }
-        mWeapons[weapon_idx] = gWeapon_8_707018->allocate_5E3C10(weapon_idx, pPed, ammo);
+        mWeapons[weapon_idx] = gWeapon_8->allocate_5E3C10(weapon_idx, pPed, ammo);
     }
 
     Player::ClearCarWeapons();
@@ -896,10 +896,10 @@ void Player::SetInputs(u32 inputs)
 MATCH_FUNC(0x565770)
 void Player::IncrementGangRespectFromDebugKeys(u8 count)
 {
-    Gang* pZone = gGangPool_CA8_67E274->FirstGang();
+    Gang* pZone = gGangPool_CA8->FirstGang();
     for (u8 i = count; i > 0; i--)
     {
-        pZone = gGangPool_CA8_67E274->NextGang();
+        pZone = gGangPool_CA8->NextGang();
     }
 
     if (pZone)
@@ -928,83 +928,83 @@ void Player::Hud_Controls(u16 action)
     LOCAL_STATIC(DebugTest*, sTestObj, 0x7044A0);
     s32 vol;
 
-    if (!gHud_2B00_706620->HandleInputKey(action, this))
+    if (!gHud_2B00->HandleInputKey(action, this))
     {
         switch (action)
         {
             case DIK_ESCAPE:
-                if (bSkip_quit_confirm_67D4E8)
+                if (bSkip_quit_confirm)
                 {
                     if (this->IsUser_41DC70())
                     {
-                        gGame_0x40_67E008->ExitGameNoBonus(1, GameExitType::PlayerQuit_2);
+                        gGame_0x40->ExitGameNoBonus(1, GameExitType::PlayerQuit_2);
                     }
                 }
                 else
                 {
-                    gHud_2B00_706620->mQuitMessage.ShowQuitMessage(this);
+                    gHud_2B00->mQuitMessage.ShowQuitMessage(this);
                 }
                 break;
             case DIK_HOME:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     mGameCamera.ResetElevation();
                     mAuxGameCamera.ResetElevation();
                 }
                 break;
             case DIK_NEXT:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     this->mDbgZoomIn = true;
                 }
                 break;
             case DIK_PRIOR:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     this->mDbgZoomOut = true;
                 }
                 break;
             case DIK_F1:
-                gRoot_sound_66B038.CycleRadioStation(0);
+                gRoot_sound.CycleRadioStation(0);
                 break;
             case DIK_F2:
-                gRoot_sound_66B038.CycleRadioStation(1);
+                gRoot_sound.CycleRadioStation(1);
                 break;
 
             // ordered above
 
             // ordered below
             case DIK_F3:
-                if (gRoot_sound_66B038.GetCDVol() - 10 > 0)
+                if (gRoot_sound.GetCDVol() - 10 > 0)
                 {
-                    vol = gRoot_sound_66B038.GetCDVol() - 10;
+                    vol = gRoot_sound.GetCDVol() - 10;
                 }
                 else
                 {
                     vol = 0;
                 }
-                gRoot_sound_66B038.SetCDVol(vol);
-                gRegistry_6FF968.Set_Sound_Setting("CDVol", gRoot_sound_66B038.GetCDVol());
+                gRoot_sound.SetCDVol(vol);
+                gRegistry.Set_Sound_Setting("CDVol", gRoot_sound.GetCDVol());
                 break;
             case DIK_F4:
-                if (gRoot_sound_66B038.GetCDVol() + 10 < 127)
+                if (gRoot_sound.GetCDVol() + 10 < 127)
                 {
-                    vol = gRoot_sound_66B038.GetCDVol() + 10;
+                    vol = gRoot_sound.GetCDVol() + 10;
                 }
                 else
                 {
                     vol = 127;
                 }
-                gRoot_sound_66B038.SetCDVol(vol);
-                gRegistry_6FF968.Set_Sound_Setting("CDVol", gRoot_sound_66B038.GetCDVol());
+                gRoot_sound.SetCDVol(vol);
+                gRegistry.Set_Sound_Setting("CDVol", gRoot_sound.GetCDVol());
                 break;
             case DIK_F6:
-                gGame_0x40_67E008->TogglePause();
+                gGame_0x40->TogglePause();
                 break;
             case DIK_F7:
                 if (this->IsUser_41DC70())
                 {
-                    gHud_2B00_706620->mBrief.ShowBrief();
+                    gHud_2B00->mBrief.ShowBrief();
                 }
                 break;
             case DIK_F8:
@@ -1016,103 +1016,103 @@ void Player::Hud_Controls(u16 action)
             case DIK_F9:
                 if (this->IsUser_41DC70())
                 {
-                    gHud_2B00_706620->mZoneName.clear_zones();
+                    gHud_2B00->mZoneName.clear_zones();
                 }
                 break;
             case DIK_F10:
-                if (bStartNetworkGame_7081F0)
+                if (bStartNetworkGame)
                 {
-                    gHud_2B00_706620->mChatInput.StartChatting(this);
+                    gHud_2B00->mChatInput.StartChatting(this);
                 }
                 break;
             case DIK_F11:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     this->mCameraMode = 0;
                     this->mGameCamera.SetSmoothFollow_475B60();
                 }
                 break;
             case DIK_F12:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     this->mCameraMode = 1;
                     this->mGameCamera.SetSnapFollow_4A5070();
                 }
                 break;
             case DIK_ADD:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
-                    gGame_0x40_67E008->SinglePlayerStepFrame();
+                    gGame_0x40->SinglePlayerStepFrame();
                 }
                 break;
             case DIK_SUBTRACT:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
-                    gGame_0x40_67E008->ToggleFastForward_4A4750();
+                    gGame_0x40->ToggleFastForward_4A4750();
                 }
                 break;
             case DIK_NUMPAD2:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     this->mInDebugCamMode = 1;
                     this->mDbgCamSouth = true;
                 }
                 break;
             case DIK_NUMPAD8:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     this->mInDebugCamMode = 1;
                     this->mDbgCamNorth = true;
                 }
                 break;
             case DIK_NUMPAD4:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     this->mInDebugCamMode = 1;
                     this->mDbgCamWest = true;
                 }
                 break;
             case DIK_NUMPAD6:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     this->mInDebugCamMode = 1;
                     this->mDbgCamEast = true;
                 }
                 break;
             case DIK_NUMPAD7:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     this->mInDebugCamMode = 1;
                     this->mDbgCamZoomingOut = true;
                 }
                 break;
             case DIK_NUMPAD9:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     this->mInDebugCamMode = 1;
                     this->mDbgCamZoomingIn = true;
                 }
                 break;
             case DIK_NUMPAD5:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     this->mInDebugCamMode = 0;
                 }
                 break;
             case DIK_NUMPAD0:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     Player::TeleportToDebugCam(); // teleport?
                 }
                 break;
             case DIK_NUMPAD1:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     this->mDbgCamFollowPlayer = !this->mDbgCamFollowPlayer;
                 }
                 break;
             case DIK_DECIMAL:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     if (mPlayerPed)
                     {
@@ -1121,59 +1121,59 @@ void Player::Hud_Controls(u16 action)
                 }
                 break;
             case DIK_DIVIDE:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     Player::DebugWatchNearestCar();
                 }
                 break;
             case DIK_PERIOD:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
-                    gHud_2B00_706620->mBriefSelector.ShowNextNumberedBrief();
+                    gHud_2B00->mBriefSelector.ShowNextNumberedBrief();
                 }
                 break;
             case DIK_COMMA:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
-                    gHud_2B00_706620->mBriefSelector.ShowPrevNumberedBrief();
+                    gHud_2B00->mBriefSelector.ShowPrevNumberedBrief();
                 }
                 break;
             case DIK_C:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     if (this->IsUser_41DC70())
                     {
-                        gHud_2B00_706620->mShowCoords.ToggleShowCoords_4A4760();
+                        gHud_2B00->mShowCoords.ToggleShowCoords_4A4760();
                     }
                 }
                 break;
             case DIK_1:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     Player::IncrementGangRespectFromDebugKeys(0);
                 }
                 break;
             case DIK_2:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     Player::IncrementGangRespectFromDebugKeys(1);
                 }
                 break;
             case DIK_3:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     Player::IncrementGangRespectFromDebugKeys(2);
                 }
                 break;
 
             case DIK_4:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     Player::IncreaseWantedLevelFromDebugKeys();
                 }
                 break;
             case DIK_5:
-                if (bDo_debug_keys_67D6CF)
+                if (bDo_debug_keys)
                 {
                     if (mPlayerPed)
                     {
@@ -1186,17 +1186,17 @@ void Player::Hud_Controls(u16 action)
             case DIK_8:
             case DIK_9:
             case DIK_0:
-                if (bDo_test_67D4F8)
+                if (bDo_test)
                 {
                     sTestObj->DoTest(action);
                 }
-                if (bDo_brian_test_67D544)
+                if (bDo_brian_test)
                 {
                     sBrianTestObj->DoBrianTest(action);
                 }
-                else if (bDo_iain_test_67D4E9)
+                else if (bDo_iain_test)
                 {
-                    gPedManager_6787BC->DoIanTest(action);
+                    gPedManager->DoIanTest(action);
                 }
                 break;
 
@@ -1212,14 +1212,14 @@ void Player::HandleKeyRelease(u16 key)
     switch (key)
     {
         case DIK_NEXT:
-            if (bDo_debug_keys_67D6CF)
+            if (bDo_debug_keys)
             {
                 this->mDbgZoomIn = false;
             }
             break;
 
         case DIK_PRIOR:
-            if (bDo_debug_keys_67D6CF)
+            if (bDo_debug_keys)
             {
                 this->mDbgZoomOut = false;
             }
@@ -1366,7 +1366,7 @@ void Player::HandleControls(Ped* pPed)
         {
             if (pPed->get_objective_403A80() != objectives_enum::leave_car_36)
             {
-                Car* pCar = gCarManager_6C_677930->GetNearestFrontVehicle(pPed->mGameObject->mSpritePtr, 3u);
+                Car* pCar = gCarManager_6C->GetNearestFrontVehicle(pPed->mGameObject->mSpritePtr, 3u);
                 if (pCar)
                 {
                     pPed->SetObjective2(objectives_enum::no_obj_0);
@@ -1526,7 +1526,7 @@ void Player::DoPedControlInputs(Ped* pPed)
 
         if (mJumping)
         {
-            mTurnSpeed = mTurnSpeed - kJumpTurnAccel_6FE74C;
+            mTurnSpeed = mTurnSpeed - kJumpTurnAccel;
             if (mTurnSpeed < -kMaxJumpTurnSpeed)
             {
                 mTurnSpeed = -kMaxJumpTurnSpeed;
@@ -1554,7 +1554,7 @@ void Player::DoPedControlInputs(Ped* pPed)
 
         if (mJumping)
         {
-            Ang16 new_turn_speed = mTurnSpeed + kJumpTurnAccel_6FE74C;
+            Ang16 new_turn_speed = mTurnSpeed + kJumpTurnAccel;
             mTurnSpeed = new_turn_speed;
             if (new_turn_speed > kMaxJumpTurnSpeed)
             {
@@ -1632,40 +1632,40 @@ void Player::ShowDebugInfo(bool skip)
             }
         }
 
-        if (bDo_show_camera_67D58A)
+        if (bDo_show_camera)
         {
             double x = this->mGameCamera.mCurPos.mX.AsDouble();
             double y = this->mGameCamera.mCurPos.mY.AsDouble();
             double z = this->mGameCamera.mCurPos.mZ.AsDouble();
-            swprintf(tmpBuff_67BD9C, L"game camera: (%3.3f,%3.3f,%3.3f)", x, y, z);
-            gHud_2B00_706620->mTexts.DisplayText(tmpBuff_67BD9C, 0, 64, gDebugFont_706600, 1);
+            swprintf(tmpBuff, L"game camera: (%3.3f,%3.3f,%3.3f)", x, y, z);
+            gHud_2B00->mTexts.DisplayText(tmpBuff, 0, 64, gDebugFont, 1);
 
-            swprintf(tmpBuff_67BD9C,
+            swprintf(tmpBuff,
                      L"aux game camera: (%3.3f,%3.3f,%3.3f)",
                      this->mAuxGameCamera.mCurPos.mX.AsDouble(),
                      this->mAuxGameCamera.mCurPos.mY.AsDouble(),
                      this->mAuxGameCamera.mCurPos.mZ.AsDouble());
-            gHud_2B00_706620->mTexts.DisplayText(tmpBuff_67BD9C, 0, 80, gDebugFont_706600, 1);
+            gHud_2B00->mTexts.DisplayText(tmpBuff, 0, 80, gDebugFont, 1);
 
-            swprintf(tmpBuff_67BD9C,
+            swprintf(tmpBuff,
                      L"view camera: (%3.3f,%3.3f,%3.3f)",
                      this->mViewCamera.mCurPos.mX.AsDouble(),
                      this->mViewCamera.mCurPos.mY.AsDouble(),
                      this->mViewCamera.mCurPos.mZ.AsDouble());
-            gHud_2B00_706620->mTexts.DisplayText(tmpBuff_67BD9C, 0, 96, gDebugFont_706600, 1);
+            gHud_2B00->mTexts.DisplayText(tmpBuff, 0, 96, gDebugFont, 1);
         }
 
-        if (gShow_cycle_67D6BD)
+        if (gShow_cycle)
         {
-            gpRng_67AB34->ShowCycle();
+            gpRng->ShowCycle();
         }
 
-        if (gDo_show_input_67D576)
+        if (gDo_show_input)
         {
-            gInputRecorder_67F8B0.ShowInput(); // input
+            gInputRecorder.ShowInput(); // input
         }
 
-        gGame_0x40_67E008->ShowDebugOverlay();
+        gGame_0x40->ShowDebugOverlay();
     }
 }
 
@@ -1681,13 +1681,13 @@ void Player::RespawnPlayer()
         gmp_map_zone* pZone;
         if (IsNetworkGame_434B10())
         {
-            pZone = gMap_0x370_6F6268->GetNextZoneOfTypeRoundRobin(0x10u);
+            pZone = gMap_0x370->GetNextZoneOfTypeRoundRobin(0x10u);
         }
         else
         {
             s32 y_pos = mPlayerPed->get_cam_y().ToInt();
             s32 x_pos = mPlayerPed->get_cam_x().ToInt();
-            pZone = gMap_0x370_6F6268->GetNearestZoneOfType(x_pos, y_pos, Restart_16);
+            pZone = gMap_0x370->GetNearestZoneOfType(x_pos, y_pos, Restart_16);
         }
         mPlayerPed->RespawnPed(pZone);
     }
@@ -1699,14 +1699,14 @@ void Player::Wasted()
     Ped* pPed_killer;
     Player* player_killer; //  this function seems to handle the player death
 
-    if (bStartNetworkGame_7081F0)
+    if (bStartNetworkGame)
     {
         // Ped: field_204 = the ID of the ped who killed this player/Player
         if (mPlayerPed->mKillerId == 0)
         {
             player_killer = NULL;
         }
-        else if ((pPed_killer = gPedManager_6787BC->PedById(mPlayerPed->mKillerId)) == NULL)
+        else if ((pPed_killer = gPedManager->PedById(mPlayerPed->mKillerId)) == NULL)
         {
             player_killer = NULL;
         }
@@ -1719,9 +1719,9 @@ void Player::Wasted()
             player_killer = NULL;
         }
 
-        (&gTagGame_6F8450)
+        (&gTagGame)
             ->UpdateFugitive( //  tag mode death handler
-                gGame_0x40_67E008->GetPlayer_4219E0(get_idx_4219D0()),
+                gGame_0x40->GetPlayer_4219E0(get_idx_4219D0()),
                 player_killer); //  if player_killer != NULL then 'player_killer' now is "IT"
     }
 
@@ -1731,17 +1731,17 @@ void Player::Wasted()
     {
         if (IsUser_41DC70())
         {
-            if (mLives.get_value() > 1 || bStartNetworkGame_7081F0)
+            if (mLives.get_value() > 1 || bStartNetworkGame)
             {
-                gHud_2B00_706620->mMessage.ShowMessage( //  It's really ugly, it's probably inlined
-                    gText_0x14_704DFC->Find(GetDeathText()),
+                gHud_2B00->mMessage.ShowMessage( //  It's really ugly, it's probably inlined
+                    gText_0x14->Find(GetDeathText()),
                     hud_message_priority::normal_1);
-                gRoot_sound_66B038.PlayVoice(voice_line::wasted_29);
+                gRoot_sound.PlayVoice(voice_line::wasted_29);
             }
             else
             {
-                gHud_2B00_706620->mMessage.ShowMessage(gText_0x14_704DFC->Find("g_over"), hud_message_priority::important_3);
-                gRoot_sound_66B038.PlayVoice(voice_line::game_over_21);
+                gHud_2B00->mMessage.ShowMessage(gText_0x14->Find("g_over"), hud_message_priority::important_3);
+                gRoot_sound.PlayVoice(voice_line::game_over_21);
             }
         }
         SetDeathType_434950(0);
@@ -1753,7 +1753,7 @@ void Player::Wasted()
         mDeathCountdown = 70;
         if (mLives.get_value() > 1)
         {
-            mAuxPed = gPedManager_6787BC->ClonePed(mPlayerPed);
+            mAuxPed = gPedManager->ClonePed(mPlayerPed);
             mAuxPed->mSelectedWeapon = NULL;
             mAuxPed->mId = 0;
             mAuxPed->ClearAttacking_403A40();
@@ -1773,10 +1773,10 @@ void Player::Wasted()
 
         if (mDeathCountdown == 0)
         {
-            if (mLives.get_value() > 0 || bStartNetworkGame_7081F0)
+            if (mLives.get_value() > 0 || bStartNetworkGame)
             {
                 Player::ClearKFWeapon();
-                if (!bKeep_weapons_after_death_67D54D)
+                if (!bKeep_weapons_after_death)
                 {
                     Player::UnloadCarWeapons();
                     Player::RemovePlayerWeapons(); //  remove weapons from dead player
@@ -1797,7 +1797,7 @@ void Player::Wasted()
             }
             else
             {
-                gGame_0x40_67E008->ExitGameNoBonus(0, GameExitType::GameOverRIP_3);
+                gGame_0x40->ExitGameNoBonus(0, GameExitType::GameOverRIP_3);
             }
         }
         else
@@ -1831,11 +1831,11 @@ void Player::Busted()
     mPlayerPed->ClearAttacking_403A40();
     if (!mWastedOrBusted)
     {
-        gRoot_sound_66B038.PlayVoice(voice_line::busted_17);
+        gRoot_sound.PlayVoice(voice_line::busted_17);
         SetDeathType_434950(3);
         if (IsUser_41DC70())
         {
-            gHud_2B00_706620->mMessage.ShowMessage(gText_0x14_704DFC->Find(Player::GetDeathText()), hud_message_priority::normal_1);
+            gHud_2B00->mMessage.ShowMessage(gText_0x14->Find(Player::GetDeathText()), hud_message_priority::normal_1);
         }
         SetDeathType_434950(0);
         mWastedOrBusted = true;
@@ -1848,12 +1848,12 @@ void Player::Busted()
         {
             mPlayerPed->mPedGroup->DestroyGroup();
         }
-        mAuxPed = gPedManager_6787BC->ClonePed(mPlayerPed);
+        mAuxPed = gPedManager->ClonePed(mPlayerPed);
         mAuxPed->mSelectedWeapon = NULL;
         mAuxPed->mId = 0;
         mAuxPed->ClearAttacking_403A40();
         mAuxPed->mPedRefIdx = 0;
-        gPolice_7B8_6FEE40->SetArrestedPed(mPlayerPed, mAuxPed);
+        gPolice_7B8->SetArrestedPed(mPlayerPed, mAuxPed);
         mCameraMode = 2;
         memcpy(&mAuxGameCamera, &mGameCamera, sizeof(Camera));
         mAuxCamActive = true;
@@ -1869,24 +1869,24 @@ void Player::Busted()
 
         if (!mDeathCountdown)
         {
-            if (mLives.get_value() <= 0 || gGameSession_67E8E0.IsBonusStage() == 1)
+            if (mLives.get_value() <= 0 || gGameSession.IsBonusStage() == 1)
             {
-                gGame_0x40_67E008->ExitGameNoBonus(0, GameExitType::GameOverRIP_3);
+                gGame_0x40->ExitGameNoBonus(0, GameExitType::GameOverRIP_3);
             }
             else
             {
-                gHud_2B00_706620->mMessage.ClearTimeToShow();
+                gHud_2B00->mMessage.ClearTimeToShow();
                 Player::ClearKFWeapon();
                 if (HasPowerUp_434920(power_up_indices::JailCard_4))
                 {
-                    if (!gCheatUnlimitedJailCard_67D4F6)
+                    if (!gCheatUnlimitedJailCard)
                     {
                         DecPowerUp_434940(power_up_indices::JailCard_4);
                     }
                 }
                 else
                 {
-                    if (!bKeep_weapons_after_death_67D54D)
+                    if (!bKeep_weapons_after_death)
                     {
                         Player::UnloadCarWeapons();
                         Player::RemovePlayerWeapons();
@@ -1914,7 +1914,7 @@ void Player::Busted()
         }
         else
         {
-            if (mDeathCountdown == 2 && mLives.mValue > 0 && gGameSession_67E8E0.IsBonusStage() != 1)
+            if (mDeathCountdown == 2 && mLives.mValue > 0 && gGameSession.IsBonusStage() != 1)
             {
                 mPlayerPed->mShockCounter = 0;
                 mPlayerPed->ClearWantedPoints_420B80();
@@ -1932,10 +1932,10 @@ void Player::UpdateCurrentZones()
     const Fix16 cam_x_fp = pPed->mCam.x;
     const Fix16 cam_y_fp = pPed->mCam.y;
     mLocalNavigationZone =
-        gMap_0x370_6F6268->GetZoneAtPosOfType(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Local_Navigation_15);
-    mNavigationZone = gMap_0x370_6F6268->GetZoneAtPosOfType(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Navigation_1);
-    mArrowBlockerZone = gMap_0x370_6F6268->GetZoneAtPosOfType(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Arrow_Blocker_5);
-    mGangCurrLocation = gMap_0x370_6F6268->GetGangAtCoords(cam_x_fp, cam_y_fp);
+        gMap_0x370->GetZoneAtPosOfType(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Local_Navigation_15);
+    mNavigationZone = gMap_0x370->GetZoneAtPosOfType(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Navigation_1);
+    mArrowBlockerZone = gMap_0x370->GetZoneAtPosOfType(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Arrow_Blocker_5);
+    mGangCurrLocation = gMap_0x370->GetGangAtCoords(cam_x_fp, cam_y_fp);
 }
 
 MATCH_FUNC(0x568630)
@@ -2043,7 +2043,7 @@ void Player::Service()
         }
     }
 
-    if (bDo_debug_keys_67D6CF)
+    if (bDo_debug_keys)
     {
         Player::HandleDebugZoom();
     }
@@ -2293,7 +2293,7 @@ void Player::ResetAuxCamera()
 MATCH_FUNC(0x569600)
 void Player::StartRemoteControl(Car* pCar)
 {
-    mAuxPed = gPedManager_6787BC->SpawnDriver(pCar);
+    mAuxPed = gPedManager->SpawnDriver(pCar);
     mAuxPed->SetPedType_403920(ped_type::player_2);
     mAuxPed->set_occupation_403970(ped_ocupation_enum::empty);
     mAuxPed->SetPlayer(this, true);
@@ -2416,7 +2416,7 @@ void Player::get_pos(Fix16* out_x, Fix16* out_y, Fix16* out_z)
 MATCH_FUNC(0x5699F0)
 void Player::ChangeLifeCountByAmount(s32 amount)
 {
-    if (!gDo_infinite_lives_67D4C9 || amount > 0)
+    if (!gDo_infinite_lives || amount > 0)
     {
         mLives.ChangeStatByAmount(amount);
     }
@@ -2485,12 +2485,12 @@ void Player::ColorScoreFromRemap()
 MATCH_FUNC(0x569C20)
 void Player::SetScoreTextColour()
 {
-    if (bStartNetworkGame_7081F0 == false && gScriptManager_6F8060 != NULL)
+    if (bStartNetworkGame == false && gScriptManager != NULL)
     {
         if (mFinishScoreReached == 0)
         {
             u32 score = mScores.GetScore();
-            if (score >= static_cast<u32>(gScriptManager_6F8060->mFinishScore))
+            if (score >= static_cast<u32>(gScriptManager->mFinishScore))
             {
                 mFinishScoreReached = 1;
                 // Red when map "beaten"
@@ -2500,7 +2500,7 @@ void Player::SetScoreTextColour()
         else
         {
             u32 score = mScores.GetScore();
-            if (score < static_cast<u32>(gScriptManager_6F8060->mFinishScore))
+            if (score < static_cast<u32>(gScriptManager->mFinishScore))
             {
                 mFinishScoreReached = 0;
                 mScores.GetScoreDigits()->ColorDigits(palette_types_enum::sprites_2, 0);
@@ -2512,7 +2512,7 @@ void Player::SetScoreTextColour()
 MATCH_FUNC(0x569CB0)
 void Player::InitializePlayerState()
 {
-    if (!gMap_0x370_6F6268->GetFirstZoneOfType(Restart_16))
+    if (!gMap_0x370->GetFirstZoneOfType(Restart_16))
     {
         FatalError_4A38C0(Gta2Error::NoRestartZone, "C:\\Splitting\\Gta2\\Source\\player.cpp",
                           2905); // No Restart Zone
@@ -2528,13 +2528,13 @@ void Player::InitializePlayerState()
     mMultipliers.InitDigitSprites();
     mJumping = false;
     mPreKfWeaponKind = -2;
-    if (gScriptManager_6F8060->IsLoadedFromSave_475A20())
+    if (gScriptManager->IsLoadedFromSave_475A20())
     {
-        Player::UpdateGameFromSave(&gGameSave_6F78C8.mPlayerAndWorldStats);
+        Player::UpdateGameFromSave(&gGameSave.mPlayerAndWorldStats);
     }
     else
     {
-        if (!gGameSession_67E8E0.IsBonusStage()) // bonus level?
+        if (!gGameSession.IsBonusStage()) // bonus level?
         {
             mLives.ChangeStatByAmount(5);
         }
@@ -2559,19 +2559,19 @@ void Player::InitializePlayerState()
 
     if (IsUser_41DC70())
     {
-        if (!bSkip_audio_67D6BE)
+        if (!bSkip_audio)
         {
-            mSoundObj = gRoot_sound_66B038.CreateSoundObject(&mGameCamera, SoundObjectTypeEnum::Camera_0xBC_5);
+            mSoundObj = gRoot_sound.CreateSoundObject(&mGameCamera, SoundObjectTypeEnum::Camera_0xBC_5);
         }
     }
     mHudPaletteType = palette_types_enum::sprites_2;
     mHudPalette = 0;
-    if (bStartNetworkGame_7081F0)
+    if (bStartNetworkGame)
     {
         Player::ColorScoreFromRemap();
-        gNetPlay_7071E8.GetPlayerName(mPlayerName, mPlayerIdx);
-        gText_0x14_704DFC->RemapExtendedCharsIfNotJapanese(mPlayerName);
-        gGameSession_67E8E0.SetPlayerName(mPlayerIdx, mPlayerName);
+        gNetPlay.GetPlayerName(mPlayerName, mPlayerIdx);
+        gText_0x14->RemapExtendedCharsIfNotJapanese(mPlayerName);
+        gGameSession.SetPlayerName(mPlayerIdx, mPlayerName);
     }
 }
 
@@ -2592,7 +2592,7 @@ void Player::DebugToggleRemoteControl()
         Fix16 ypos;
         Fix16 xpos;
         Player::get_pos(&xpos, &ypos, &zpos);
-        Car* pCar = gCarManager_6C_677930->GetNearestCarFromCoord(xpos, ypos, zpos, NULL);
+        Car* pCar = gCarManager_6C->GetNearestCarFromCoord(xpos, ypos, zpos, NULL);
         if (pCar)
         {
             Player::DisableInputs();
@@ -2713,21 +2713,21 @@ void Player::RestoreCarsFromSave()
 {
     for (u8 i = 0; i < 3; i++)
     {
-        if (gGameSave_6F78C8.mCarAndScriptData.mSavedCars.mX[i].mValue > kZero_6FE610 &&
-            gGameSave_6F78C8.mCarAndScriptData.mSavedCars.mY[i].mValue > kZero_6FE610)
+        if (gGameSave.mCarAndScriptData.mSavedCars.mX[i].mValue > kZero_6FE610 &&
+            gGameSave.mCarAndScriptData.mSavedCars.mY[i].mValue > kZero_6FE610)
         {
-            Car* pNewCar = gCarManager_6C_677930->SpawnCar_426E10(gGameSave_6F78C8.mCarAndScriptData.mSavedCars.mX[i].mValue,
-                                                                gGameSave_6F78C8.mCarAndScriptData.mSavedCars.mY[i].mValue,
-                                                                gGameSave_6F78C8.mCarAndScriptData.mSavedCars.mZ[i].mValue,
-                                                                gGameSave_6F78C8.mCarAndScriptData.mSavedCars.mAng[i],
-                                                                gGameSave_6F78C8.mCarAndScriptData.mSavedCars.mCarModel[i],
+            Car* pNewCar = gCarManager_6C->SpawnCar_426E10(gGameSave.mCarAndScriptData.mSavedCars.mX[i].mValue,
+                                                                gGameSave.mCarAndScriptData.mSavedCars.mY[i].mValue,
+                                                                gGameSave.mCarAndScriptData.mSavedCars.mZ[i].mValue,
+                                                                gGameSave.mCarAndScriptData.mSavedCars.mAng[i],
+                                                                gGameSave.mCarAndScriptData.mSavedCars.mCarModel[i],
                                                                 kOne_6FE614);
             AddCarToHistory(pNewCar);
-            pNewCar->mDamagedAreas.m_var = gGameSave_6F78C8.mCarAndScriptData.mSavedCars.mDamagedAreas[i];
-            pNewCar->SetDamage_4A51B0(gGameSave_6F78C8.mCarAndScriptData.mSavedCars.mDamage[i]);
+            pNewCar->mDamagedAreas.m_var = gGameSave.mCarAndScriptData.mSavedCars.mDamagedAreas[i];
+            pNewCar->SetDamage_4A51B0(gGameSave.mCarAndScriptData.mSavedCars.mDamage[i]);
         }
     }
-    memset(&gGameSave_6F78C8.mCarAndScriptData.mSavedCars, 0, 68u);
+    memset(&gGameSave.mCarAndScriptData.mSavedCars, 0, 68u);
 }
 
 MATCH_FUNC(0x56A1A0)
@@ -2747,7 +2747,7 @@ void Player::CopyPlayerDataToSave(SavedPlayerStats* pSave)
 
     for (u8 gang_idx = 0; gang_idx < 10; gang_idx++)
     {
-        Gang* pGang = gGangPool_CA8_67E274->GangByIdx(gang_idx);
+        Gang* pGang = gGangPool_CA8->GangByIdx(gang_idx);
         pSave->mGangRespect[gang_idx] = pGang->GetRespectForPlayer(mPlayerIdx);
     }
 
@@ -2779,7 +2779,7 @@ void Player::UpdateGameFromSave(SavedPlayerStats* pSave)
 
     for (u8 gang_idx = 0; gang_idx < 10; gang_idx++)
     {
-        Gang* pGang = gGangPool_CA8_67E274->GangByIdx(gang_idx);
+        Gang* pGang = gGangPool_CA8->GangByIdx(gang_idx);
         pGang->SetRespect(mPlayerIdx, pSave->mGangRespect[gang_idx]);
     }
 
@@ -2802,63 +2802,63 @@ void Player::UpdateGameFromSave(SavedPlayerStats* pSave)
 MATCH_FUNC(0x56A490)
 void Player::ApplyCheats()
 {
-    if (gCheatGetPlayerPoints_67D4C8)
+    if (gCheatGetPlayerPoints)
     {
         mScores.SetMoney_4A50E0(200000);
     }
-    if (gCheatGet10MillionMoney_67D6CE)
+    if (gCheatGet10MillionMoney)
     {
         mScores.SetMoney_4A50E0(9999999);
     }
-    if (gCheatUnlimitedElectroGun_67D4F7)
+    if (gCheatUnlimitedElectroGun)
     {
         mWeapons[weapon_type::shocker]->set_infinite_ammo_4A4F90();
     }
-    if (gCheatUnlimitedFlameThrower_67D6CC)
+    if (gCheatUnlimitedFlameThrower)
     {
         mWeapons[weapon_type::flamethrower]->set_infinite_ammo_4A4F90();
     }
-    if (gCheatAllGangMaxRespect_67D587)
+    if (gCheatAllGangMaxRespect)
     {
-        for (Gang* pIter = gGangPool_CA8_67E274->FirstGang(); pIter; pIter = gGangPool_CA8_67E274->NextGang())
+        for (Gang* pIter = gGangPool_CA8->FirstGang(); pIter; pIter = gGangPool_CA8->NextGang())
         {
             pIter->SetRespect(mPlayerIdx, 100);
         }
     }
-    if (gCheatGet99Lives_67D4F1)
+    if (gCheatGet99Lives)
     {
         mLives.SetValueClamped_4A50B0(99);
     }
-    if (gCheat10xMultiplier_67D589)
+    if (gCheat10xMultiplier)
     {
         mMultipliers.ChangeStatByAmount(9);
     }
 
-    if (gCheatOnlyMuggerPeds_67D5A4)
+    if (gCheatOnlyMuggerPeds)
     {
-        gPedManager_6787BC->mMakeAllMuggers = true;
+        gPedManager->mMakeAllMuggers = true;
     }
 
-    if (gCheatUnlimitedJailCard_67D4F6)
+    if (gCheatUnlimitedJailCard)
     {
         Player::CollectPowerUp(power_up_indices::JailCard_4);
     }
 
-    if (gCheatInvisibility_67D539)
+    if (gCheatInvisibility)
     {
         Player::CollectPowerUp(power_up_indices::Invisibility_11);
     }
 
-    if (gCheatUnlimitedDoubleDamage_67D57C)
+    if (gCheatUnlimitedDoubleDamage)
     {
         Player::CollectPowerUp(power_up_indices::DoubleDamage_7);
     }
 
-    if (gCheatJailCardSmgRespect_67D56B)
+    if (gCheatJailCardSmgRespect)
     {
         Player::CollectPowerUp(power_up_indices::JailCard_4);
         Player::AddWeaponWithAmmo(weapon_type::smg, 50u);
-        for (Gang* pIter2 = gGangPool_CA8_67E274->FirstGang(); pIter2; pIter2 = gGangPool_CA8_67E274->NextGang())
+        for (Gang* pIter2 = gGangPool_CA8->FirstGang(); pIter2; pIter2 = gGangPool_CA8->NextGang())
         {
             pIter2->SetRespect(mPlayerIdx, 80);
         }
@@ -2969,7 +2969,7 @@ Player::~Player()
 
     if (mSoundObj)
     {
-        gRoot_sound_66B038.DestroySoundObj_40FE60(mSoundObj);
+        gRoot_sound.DestroySoundObj_40FE60(mSoundObj);
         mSoundObj = NULL;
     }
 
@@ -2990,27 +2990,27 @@ void DebugTest::DoTest(u16 action)
     switch (action)
     {
         case 3:
-            gHud_2B00_706620->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, "8011");
+            gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, "8011");
             break;
         case 4:
-            gHud_2B00_706620->mBrief.SetHudBrief_5D4400(hud_brief_priority::now_3, "8012");
+            gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::now_3, "8012");
             break;
         case 5:
-            gHud_2B00_706620->mBrief.SetHudBrief_5D4400(hud_brief_priority::now_3, "8013");
+            gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::now_3, "8013");
             break;
         case 6:
-            gGame_0x40_67E008->mLocalPlayer->ChangeMultipliers_4766B0(1);
+            gGame_0x40->mLocalPlayer->ChangeMultipliers_4766B0(1);
             break;
         case 7:
-            sTestArrow = gHud_2B00_706620->mArrows.AllocArrow();
-            sTestArrow->SetArrowTargetCar_476860(gTestArrowCar_7043F0);
+            sTestArrow = gHud_2B00->mArrows.AllocArrow();
+            sTestArrow->SetArrowTargetCar_476860(gTestArrowCar);
             sTestArrow->SetArrowColour(5);
             break;
         case 8:
-            gGame_0x40_67E008->mLocalPlayer->DebugToggleRemoteControl();
+            gGame_0x40->mLocalPlayer->DebugToggleRemoteControl();
             break;
         case 10:
-            sTestTimer = gHud_2B00_706620->mPagers.CreateTimer(40);
+            sTestTimer = gHud_2B00->mPagers.CreateTimer(40);
             break;
     }
 }

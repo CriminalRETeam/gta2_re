@@ -1,6 +1,6 @@
 #include "PedRefTable.hpp"
 
-DEFINE_GLOBAL(PedRefTable*, gPedRefTable_7F8_703398, 0x703398);
+DEFINE_GLOBAL(PedRefTable*, gPedRefTable_7F8, 0x703398);
 
 MATCH_FUNC(0x59b060)
 u8 PedRefTable::AllocForPed(s32 ped_id)

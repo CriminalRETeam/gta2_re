@@ -158,4 +158,4 @@ class GangPool
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(GangPool, 0xCA8);
 
-EXTERN_GLOBAL(GangPool*, gGangPool_CA8_67E274);
+EXTERN_GLOBAL(GangPool*, gGangPool_CA8);

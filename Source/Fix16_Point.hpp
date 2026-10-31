@@ -7,7 +7,7 @@
 
 EXTERN_GLOBAL(Fix16, gFix16_6777CC);
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
-EXTERN_GLOBAL(Fix16, kFP16One256th_6FE07C);
+EXTERN_GLOBAL(Fix16, kFP16One256th);
 EXTERN_GLOBAL(Fix16, kFpZero_6F77C0);
 
 // GetLength_41E260 compares against a zero constant that each TU of the original has its own copy of
@@ -17,7 +17,7 @@ EXTERN_GLOBAL(Fix16, kFpZero_6F77C0);
     #define FIX16_POINT_ZERO gFix16_6777CC
 #endif
 EXTERN_GLOBAL(Fix16, kFpZero_6F610C);
-EXTERN_GLOBAL(Fix16, kF16Zero_677B90);
+EXTERN_GLOBAL(Fix16, kF16Zero);
 EXTERN_GLOBAL(Fix16, kFpZero_706EB8);
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FD9E4);
 EXTERN_GLOBAL(Fix16, kZero_676818);
@@ -111,7 +111,7 @@ class Fix16_Point
     void ApplyDeadZone_49E3C0()
     {
         Fix16 total = (Fix16::Abs(x) + Fix16::Abs(y));
-        if (total < kFP16One256th_6FE07C)
+        if (total < kFP16One256th)
         {
             x = kFP16Zero_6FE20C;
             y = kFP16Zero_6FE20C;

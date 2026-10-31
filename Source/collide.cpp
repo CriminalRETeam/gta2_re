@@ -4,9 +4,9 @@
 #include "Globals.hpp"
 #include "enums.hpp"
 
-DEFINE_GLOBAL(CollisionCounters*, gCollisionCounters_6791FC, 0x6791FC);
-DEFINE_GLOBAL(GridSpriteLink_Pool*, gGridSpriteLink_Pool_679200, 0x679200);
-DEFINE_GLOBAL(GridCell_Pool*, gGridCell_Pool_679204, 0x679204);
+DEFINE_GLOBAL(CollisionCounters*, gCollisionCounters, 0x6791FC);
+DEFINE_GLOBAL(GridSpriteLink_Pool*, gGridSpriteLink_Pool, 0x679200);
+DEFINE_GLOBAL(GridCell_Pool*, gGridCell_Pool, 0x679204);
 
 MATCH_FUNC(0x478a20)
 void CollisionCounters::ResetCount()
@@ -22,45 +22,45 @@ CollisionCounters::CollisionCounters()
     
     mbDoorAccessCheck = 0;
 
-    gGridSpriteLink_Pool_679200 = new GridSpriteLink_Pool();
-    if (!gGridSpriteLink_Pool_679200)
+    gGridSpriteLink_Pool = new GridSpriteLink_Pool();
+    if (!gGridSpriteLink_Pool)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1416);
     }
 
-    gGridCell_Pool_679204 = new GridCell_Pool();
-    if (!gGridCell_Pool_679204)
+    gGridCell_Pool = new GridCell_Pool();
+    if (!gGridCell_Pool)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1418);
     }
 
-    gSpriteGrid_1_679208 = new SpriteGrid();
-    if (!gSpriteGrid_1_679208)
+    gSpriteGrid_1 = new SpriteGrid();
+    if (!gSpriteGrid_1)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1420);
     }
 
-    gSpriteGrid_2_67920C = new SpriteGrid();
-    if (!gSpriteGrid_2_67920C)
+    gSpriteGrid_2 = new SpriteGrid();
+    if (!gSpriteGrid_2)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1422);
     }
 
-    gSpriteGrid_3_679210 = new SpriteGrid();
-    if (!gSpriteGrid_3_679210)
+    gSpriteGrid_3 = new SpriteGrid();
+    if (!gSpriteGrid_3)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1424);
     }
 
-    gSpriteGrid_exclusion_sprite_678F84 = NULL;
+    gSpriteGrid_exclusion_sprite = NULL;
 }
 
 MATCH_FUNC(0x478bf0)
 CollisionCounters::~CollisionCounters()
 {
-    GTA2_DELETE_AND_NULL(gSpriteGrid_1_679208);
-    GTA2_DELETE_AND_NULL(gSpriteGrid_2_67920C);
-    GTA2_DELETE_AND_NULL(gSpriteGrid_3_679210);
-    GTA2_DELETE_AND_NULL(gGridSpriteLink_Pool_679200);
-    GTA2_DELETE_AND_NULL(gGridCell_Pool_679204);
+    GTA2_DELETE_AND_NULL(gSpriteGrid_1);
+    GTA2_DELETE_AND_NULL(gSpriteGrid_2);
+    GTA2_DELETE_AND_NULL(gSpriteGrid_3);
+    GTA2_DELETE_AND_NULL(gGridSpriteLink_Pool);
+    GTA2_DELETE_AND_NULL(gGridCell_Pool);
 }

@@ -8,7 +8,7 @@
 #include "rng.hpp"
 #include "crt_stubs.hpp"
 
-DEFINE_GLOBAL_ARRAY(PedGroup, pedGroups_67EF20, 20, 0x67EF20);
+DEFINE_GLOBAL_ARRAY(PedGroup, pedGroups, 20, 0x67EF20);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kNoNearestDistance, Fix16(0x270F00, 0), 0x67F60C);
 DEFINE_GLOBAL_INIT(Fix16, kFpTwo_67F608, Fix16(2), 0x67F608);
 DEFINE_GLOBAL(Fix16, kFpZero_67F610, 0x67F610);
@@ -17,7 +17,7 @@ DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpFiveSixtyFourths, Fix16(0x500, 0), 0x67EEE4)
 DEFINE_STATIC_MEMBER_INIT(char_type, PedGroup, sGroupMemberCarDoor, 1, 0x620838);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpFour, Fix16(4), 0x67F630);
 
-// The original is the compiler generated static destructor of pedGroups_67EF20: a call to the
+// The original is the compiler generated static destructor of pedGroups: a call to the
 // CRT's vector destructor iterator `??_M` (`__ehvec_dtor`, which VC6 maps to that name). The CRT's
 // version takes a __thiscall destructor pointer (`P6E`), which VC6 can't declare (no __thiscall
 // keyword), and a destructor's address can't be taken, so __ehvec_dtor (crt_stubs.cpp) takes a
@@ -30,7 +30,7 @@ static void __cdecl PedGroup_dtor_4CB870(void* pGroup)
 MATCH_FUNC(0x4c8e60)
 void PedGroup::DestroyGroupArray()
 {
-    __ehvec_dtor(pedGroups_67EF20, sizeof(PedGroup), GTA2_COUNTOF(pedGroups_67EF20), PedGroup_dtor_4CB870);
+    __ehvec_dtor(pedGroups, sizeof(PedGroup), GTA2_COUNTOF(pedGroups), PedGroup_dtor_4CB870);
 }
 
 MATCH_FUNC(0x4c8e80)
@@ -391,7 +391,7 @@ void PedGroup::DisbandGroupDueToAttack(Ped* pAttacker)
 MATCH_FUNC(0x4c9680)
 void PedGroup::PromoteMemberToLeader(u8 idx)
 {
-    Ped* pSwapPed = gPedPool_6787B8->Allocate();
+    Ped* pSwapPed = gPedPool->Allocate();
 
     Weapon* leaderWeapon = mPedLeader->mSelectedWeapon;
     Weapon* memberWeapon = mPedList[idx]->mSelectedWeapon;
@@ -633,7 +633,7 @@ void PedGroup::GroupAttackPed(Ped* pPed)
                 else
                 {
                     s16 max = pOther->mCount34 + 1;
-                    s16 rnd = gRng_6F6784.get_int(max);
+                    s16 rnd = gRng.get_int(max);
                     if (rnd == pOther->mCount34)
                     {
                         if (!pOther->mPedLeader || pOther->mPedLeader->GetPedState_403990() == ped_state_1::dead_9)
@@ -1252,7 +1252,7 @@ void PedGroup::ResetAllGroups()
 {
     ResetMemberCarDoor();
 
-    PedGroup* pIter = pedGroups_67EF20;
+    PedGroup* pIter = pedGroups;
     for (s32 i = 0; i < 20; i++)
     {
         pIter->Reset();
@@ -1265,11 +1265,11 @@ PedGroup* PedGroup::New()
 {
     for (s32 i = 0; i < 20; i++)
     {
-        if (!pedGroups_67EF20[i].get_in_use_4038F0())
+        if (!pedGroups[i].get_in_use_4038F0())
         {
-            pedGroups_67EF20[i].Reset();
-            pedGroups_67EF20[i].set_in_use_4038E0();
-            return &pedGroups_67EF20[i];
+            pedGroups[i].Reset();
+            pedGroups[i].set_in_use_4038E0();
+            return &pedGroups[i];
         }
     }
     return NULL;

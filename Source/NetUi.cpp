@@ -9,7 +9,7 @@
 
 DEFINE_STATIC_MEMBER(UINT_PTR, NetUi, sTimerId, 0x6F8A18);
 
-EXTERN_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256);
+EXTERN_GLOBAL_ARRAY(char_type, gTmpBuffer, 256);
 
 struct Network_UI_Control_Data_Array
 {
@@ -994,9 +994,9 @@ MATCH_FUNC(0x519a00)
 char_type* __stdcall GetString_519A00(const char_type* pKey)
 {
     LOCAL_STATIC_ARRAY(char_type, sDest, 256, 0x6F88A4);
-    wchar_t* pText = gtext_0x14_6F87F0->Find(pKey);
+    wchar_t* pText = gtext_0x14->Find(pKey);
 
-    if (gtext_0x14_6F87F0->LangIsJapanese_452E60())
+    if (gtext_0x14->LangIsJapanese_452E60())
     {
         WideToDbcs(sDest, pText);
     }
@@ -1010,7 +1010,7 @@ char_type* __stdcall GetString_519A00(const char_type* pKey)
 MATCH_FUNC(0x519a50)
 void NetUi::GetString(wchar_t* Dest, char_type* Source, size_t MaxCount)
 {
-    if (gtext_0x14_6F87F0->LangIsJapanese_452E60())
+    if (gtext_0x14->LangIsJapanese_452E60())
     {
         DbcsToWide(Dest, Source);
     }
@@ -1039,8 +1039,8 @@ NetUi::NetUi()
     this->mGameSettings.mPoliceOn = 0;
     this->mGameSettings.mGameTimeLimit = 0;
     memset(mMaps, 0, sizeof(mMaps));
-    gtext_0x14_6F87F0 = new TextTable();
-    gtext_0x14_6F87F0->Load();
+    gtext_0x14 = new TextTable();
+    gtext_0x14->Load();
     LoadPlayerNameFromRegistry();
     EnumerateMaps();
 }
@@ -1048,10 +1048,10 @@ NetUi::NetUi()
 MATCH_FUNC(0x519ba0)
 NetUi::~NetUi()
 {
-    if (gtext_0x14_6F87F0)
+    if (gtext_0x14)
     {
-        delete gtext_0x14_6F87F0;
-        gtext_0x14_6F87F0 = NULL;
+        delete gtext_0x14;
+        gtext_0x14 = NULL;
     }
 }
 
@@ -1059,14 +1059,14 @@ MATCH_FUNC(0x519bd0)
 s32 NetUi::ShowNetworkUiBlocking(HINSTANCE hInstance)
 {
     mhInstance = hInstance;
-    gNetPlay_7071E8.Set15(reinterpret_cast<int>(NetUi::cb_FillSessionList), this);
-    gNetPlay_7071E8.Set6(static_cast<void*>(NetUi::cb_AddPlayerToList), static_cast<void*>(this));
-    gNetPlay_7071E8.Set9(reinterpret_cast<int>(NetUi::cb_RemovePlayerFromList), reinterpret_cast<int>(this));
-    gNetPlay_7071E8.Set3_Disconnect(reinterpret_cast<int>(NetUi::cb_Disconnect), reinterpret_cast<int>(this));
-    gNetPlay_7071E8.Set18(reinterpret_cast<int>(NetUi::cb_SetPlayerPing), reinterpret_cast<int>(this));
-    gNetPlay_7071E8.Set21(reinterpret_cast<int>(NetUi::cb_AddChatMessage), reinterpret_cast<int>(this));
-    gNetPlay_7071E8.Set24(reinterpret_cast<int>(NetUi::cb_GameSettingsChanged), reinterpret_cast<int>(this));
-    gNetPlay_7071E8.Set27SavePlayerName(reinterpret_cast<int>(NetUi::cb_SavePlayerName), reinterpret_cast<int>(this));
+    gNetPlay.Set15(reinterpret_cast<int>(NetUi::cb_FillSessionList), this);
+    gNetPlay.Set6(static_cast<void*>(NetUi::cb_AddPlayerToList), static_cast<void*>(this));
+    gNetPlay.Set9(reinterpret_cast<int>(NetUi::cb_RemovePlayerFromList), reinterpret_cast<int>(this));
+    gNetPlay.Set3_Disconnect(reinterpret_cast<int>(NetUi::cb_Disconnect), reinterpret_cast<int>(this));
+    gNetPlay.Set18(reinterpret_cast<int>(NetUi::cb_SetPlayerPing), reinterpret_cast<int>(this));
+    gNetPlay.Set21(reinterpret_cast<int>(NetUi::cb_AddChatMessage), reinterpret_cast<int>(this));
+    gNetPlay.Set24(reinterpret_cast<int>(NetUi::cb_GameSettingsChanged), reinterpret_cast<int>(this));
+    gNetPlay.Set27SavePlayerName(reinterpret_cast<int>(NetUi::cb_SavePlayerName), reinterpret_cast<int>(this));
     return DialogBoxParamA(mhInstance,
                            reinterpret_cast<LPCSTR>(103), // probably IDD_NETWORK_DIALOG
                            NULL,
@@ -1132,7 +1132,7 @@ s32 NetUi::cb_FillSessionList(NetUi* pThis, Network_NameList* pSessions)
         }
     }
 
-    if (pSessions->mCount > 0 || gNetPlay_7071E8.mbModem)
+    if (pSessions->mCount > 0 || gNetPlay.mbModem)
     {
         return EnableWindow(GetDlgItem(pThis->Get_2031C_HWND(), BUTTON_JOIN_GAME_1001), TRUE);
     }
@@ -1157,7 +1157,7 @@ void NetUi::cb_AddPlayerToList(NetUi* pNetUi, wchar_t* pName, s32 player_idx)
     LVITEMA item;
     char_type name[260];
 
-    if (gtext_0x14_6F87F0->LangIsJapanese_452E60())
+    if (gtext_0x14->LangIsJapanese_452E60())
     {
         WideToDbcs(name, pName);
     }
@@ -1230,9 +1230,9 @@ void __stdcall NetUi::OnWmCommand(HWND hDlg, s32 id, HWND hCtl, s32 notify)
     switch (id)
     {
         case BUTTON_JOIN_GAME_1001: // "Join" button
-            if (gNetPlay_7071E8.mbModem)
+            if (gNetPlay.mbModem)
             {
-                gNetPlay_7071E8.EnumSessions();
+                gNetPlay.EnumSessions();
                 wchar_t playerNameW[260];
                 playerData.mData = NULL;
                 playerData.mLen = 0;
@@ -1242,9 +1242,9 @@ void __stdcall NetUi::OnWmCommand(HWND hDlg, s32 id, HWND hCtl, s32 notify)
                 NetUi::GetString(playerNameW, playerName, 260);
                 NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
                 pThis->SetPlayNameAndSaveToRegistry(playerNameW, playerName);
-                if (gNetPlay_7071E8.mSessions.mSessionCount > 0)
+                if (gNetPlay.mSessions.mSessionCount > 0)
                 {
-                    if (gNetPlay_7071E8.JoinSession(0, playerNameW, &playerData, &groupData))
+                    if (gNetPlay.JoinSession(0, playerNameW, &playerData, &groupData))
                     {
                         pThis->ApplyHostGameSettings(static_cast<const char_type*>(groupData.mData));
                         pThis->ShowSpecificWindow(2);
@@ -1266,7 +1266,7 @@ void __stdcall NetUi::OnWmCommand(HWND hDlg, s32 id, HWND hCtl, s32 notify)
                 if (sel != -1)
                 {
                     LRESULT idx = SendDlgItemMessageA(hDlg, LISTBOX_ALL_NET_GAMES_1000, LB_GETITEMDATA, sel, 0);
-                    if (gNetPlay_7071E8.JoinSession(idx, playerNameW, &playerData, &groupData))
+                    if (gNetPlay.JoinSession(idx, playerNameW, &playerData, &groupData))
                     {
                         pThis->ApplyHostGameSettings(static_cast<const char_type*>(groupData.mData));
                         pThis->ShowSpecificWindow(2);
@@ -1291,7 +1291,7 @@ void __stdcall NetUi::OnWmCommand(HWND hDlg, s32 id, HWND hCtl, s32 notify)
                 if (sel != -1)
                 {
                     LRESULT idx = SendDlgItemMessageA(hDlg, LISTBOX_ALL_NET_GAMES_1000, LB_GETITEMDATA, sel, 0);
-                    if (gNetPlay_7071E8.JoinSession(idx, playerNameW, &playerData, &groupData))
+                    if (gNetPlay.JoinSession(idx, playerNameW, &playerData, &groupData))
                     {
                         pThis->ShowSpecificWindow(2);
                     }
@@ -1309,7 +1309,7 @@ void __stdcall NetUi::OnWmCommand(HWND hDlg, s32 id, HWND hCtl, s32 notify)
                     EndDialog(hDlg, 0);
                     break;
                 case 1:
-                    gNetPlay_7071E8.Disconnect();
+                    gNetPlay.Disconnect();
                     SendMessageA(GetDlgItem(hDlg, LISTVIEW_HOST_PLAYERS_1024), LVM_DELETEALLITEMS, 0, 0);
                     SetDlgItemTextA(hDlg, TEXTFIELD_CHAT_HOST_1025, "");
                     SetDlgItemTextA(hDlg, CHATBOX_HOST_1022, "");
@@ -1317,7 +1317,7 @@ void __stdcall NetUi::OnWmCommand(HWND hDlg, s32 id, HWND hCtl, s32 notify)
                     pThis->ShowSpecificWindow(0);
                     break;
                 case 2:
-                    gNetPlay_7071E8.Disconnect();
+                    gNetPlay.Disconnect();
                     SendMessageA(GetDlgItem(hDlg, LISTVIEW_JOINED_PLAYERS_1050), LVM_DELETEALLITEMS, 0, 0);
                     SetDlgItemTextA(hDlg, TEXTFIELD_CHAT_GUEST_1053, "");
                     SetDlgItemTextA(hDlg, CHATBOX_GUEST_1051, "");
@@ -1340,7 +1340,7 @@ void __stdcall NetUi::OnWmCommand(HWND hDlg, s32 id, HWND hCtl, s32 notify)
             sprintf(sessionName, "%s's Game", playerName);
             NetUi::GetString(hostPlayerNameW, playerName, 260);
             NetUi::GetString(textW, sessionName, 260);
-            if (gNetPlay_7071E8.HostSession(textW, hostPlayerNameW, &groupData, &playerData))
+            if (gNetPlay.HostSession(textW, hostPlayerNameW, &groupData, &playerData))
             {
                 pThis->SetPlayNameAndSaveToRegistry(hostPlayerNameW, playerName);
                 pThis->ShowSpecificWindow(1);
@@ -1356,7 +1356,7 @@ void __stdcall NetUi::OnWmCommand(HWND hDlg, s32 id, HWND hCtl, s32 notify)
             GetWindowLongA(hDlg, 8);
             GetDlgItemTextA(hDlg, TEXTFIELD_CHAT_HOST_1025, chatText, 127);
             NetUi::GetString(textW, chatText, 260);
-            gNetPlay_7071E8.SendChatMessage(textW, -1);
+            gNetPlay.SendChatMessage(textW, -1);
             SetDlgItemTextA(hDlg, TEXTFIELD_CHAT_HOST_1025, "");
             NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
             pThis->AppendChatMessage(CHATBOX_HOST_1022, chatText);
@@ -1365,13 +1365,13 @@ void __stdcall NetUi::OnWmCommand(HWND hDlg, s32 id, HWND hCtl, s32 notify)
 
         case BUTTON_START_GAME_1021: // "Start" button
         {
-            gNetPlay_7071E8.NetworkTick();
+            gNetPlay.NetworkTick();
             Sleep(100);
             GetDlgItemTextA(hDlg, TEXTBOX_PLAYER_NAME_1004, playerName, 260);
             NetUi::GetString(textW, playerName, 260);
             NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
             pThis->SetPlayNameAndSaveToRegistry(textW, playerName);
-            gNetPlay_7071E8.DisableJoining();
+            gNetPlay.DisableJoining();
             EndDialog(hDlg, 1); // close lobby returning 1
             break;
         }
@@ -1387,7 +1387,7 @@ void __stdcall NetUi::OnWmCommand(HWND hDlg, s32 id, HWND hCtl, s32 notify)
             lvItem.pszText = sessionName;
             SendMessageA(hList, LVM_GETITEMTEXTA, item, reinterpret_cast<LPARAM>(&lvItem));
             NetUi::GetString(textW, sessionName, 260);
-            if (gNetPlay_7071E8.RemovePlayerByName(textW))
+            if (gNetPlay.RemovePlayerByName(textW))
             {
                 SendMessageA(hList, LVM_DELETEITEM, item, 0);
             }
@@ -1413,7 +1413,7 @@ void __stdcall NetUi::OnWmCommand(HWND hDlg, s32 id, HWND hCtl, s32 notify)
             NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
             GetDlgItemTextA(hDlg, TEXTFIELD_CHAT_GUEST_1053, chatText, 127);
             NetUi::GetString(textW, chatText, 260);
-            gNetPlay_7071E8.SendChatMessage(textW, -1);
+            gNetPlay.SendChatMessage(textW, -1);
             SetDlgItemTextA(hDlg, TEXTFIELD_CHAT_GUEST_1053, "");
             pThis->AppendChatMessage(CHATBOX_GUEST_1051, chatText);
             break;
@@ -1501,7 +1501,7 @@ void __stdcall NetUi::OnTimer(HWND hWnd, s32 timer_id)
             hadSelection = 1;
         }
 
-        gNetPlay_7071E8.NetworkTick();
+        gNetPlay.NetworkTick();
 
         if (hadSelection)
         {
@@ -1564,7 +1564,7 @@ void NetUi::CreateMainUi(HWND hWndParent)
     SetDlgItemTextA(hWndParent, LABEL_COPS_1028, GetString_519A00("netui14")); // "Cops"
     SetDlgItemTextA(hWndParent, LABEL_TIME_LIMIT_MINUTES_1037, GetString_519A00("netui21")); // "Time Limit (Minutes)"
     NetUi::SetPlayerCountText(0, hWndParent);
-    if (gNetPlay_7071E8.mbModem)
+    if (gNetPlay.mbModem)
     {
         EnableWindow(GetDlgItem(hWndParent, BUTTON_JOIN_GAME_1001), 1);
     }
@@ -1656,7 +1656,7 @@ void NetUi::cb_RemovePlayerFromList(NetUi* pNetUi, wchar_t* Source)
 MATCH_FUNC(0x51ade0)
 void NetUi::cb_Disconnect(NetUi* pNetUi)
 {
-    gNetPlay_7071E8.Disconnect();
+    gNetPlay.Disconnect();
     pNetUi->ClearListView(LISTVIEW_JOINED_PLAYERS_1050);
     pNetUi->ClearListView(LISTVIEW_HOST_PLAYERS_1024);
     pNetUi->ShowSpecificWindow(0);
@@ -1843,7 +1843,7 @@ s32 NetUi::AppendChatMessage(s32 hmenu, const char_type* pMsg)
     char_type allText[10000];
 
     // The original gets our name as a wide string but then formats with the (unset) narrow buffer
-    gNetPlay_7071E8.GetPlayerName(playerName, 7);
+    gNetPlay.GetPlayerName(playerName, 7);
     sprintf(line, "%s : %s", name, pMsg);
     sChatLineCount++;
 
@@ -1967,7 +1967,7 @@ void NetUi::ApplyHostGameSettings(const char_type* pData)
             {
                 sprintf(msg, "### ERROR ### \r\r\nDo Not Have Map %s", pSettings->mDefaultMap);
                 GetString(wmsg, msg, 260);
-                gNetPlay_7071E8.SendChatMessage(wmsg, -1);
+                gNetPlay.SendChatMessage(wmsg, -1);
                 AppendChatMessage(CHATBOX_HOST_1022, msg);
                 break;
             }
@@ -2010,37 +2010,37 @@ void NetUi::SetSetting(s32 setting, s32 value)
             mGameSettings.mMapIdx = value;
             strcpy(mGameSettings.mDefaultMap, mMaps[value].mMmpName);
             SetPlayerCountText(mMaps[value].mPlayerCount, mDlgHwnd);
-            gRegistry_6FF968.Set_Network_Setting("map_index", value);
+            gRegistry.Set_Network_Setting("map_index", value);
             break;
 
         case 2:
             mGameSettings.mFragLimit = value;
             if (mGameSettings.mGameType == 1)
             {
-                gRegistry_6FF968.Set_Network_Setting("f_limit", value);
+                gRegistry.Set_Network_Setting("f_limit", value);
             }
             else if (mGameSettings.mGameType == 2)
             {
-                gRegistry_6FF968.Set_Network_Setting("s_limit", value);
+                gRegistry.Set_Network_Setting("s_limit", value);
             }
             break;
 
         case 3:
             mGameSettings.mGameType = value;
-            gRegistry_6FF968.Set_Network_Setting("game_type", value);
+            gRegistry.Set_Network_Setting("game_type", value);
             if (mGameSettings.mGameType == 1)
             {
-                mGameSettings.mFragLimit = gRegistry_6FF968.Get_Network_Setting("f_limit", 3);
+                mGameSettings.mFragLimit = gRegistry.Get_Network_Setting("f_limit", 3);
             }
             else if (mGameSettings.mGameType == 2)
             {
-                mGameSettings.mFragLimit = gRegistry_6FF968.Get_Network_Setting("s_limit", 10000);
+                mGameSettings.mFragLimit = gRegistry.Get_Network_Setting("s_limit", 10000);
             }
             break;
 
         case 6: // 10.5.exe's jump table: 6 is the police flag, 4 the tick count
             mGameSettings.mPoliceOn = value;
-            gRegistry_6FF968.Set_Network_Setting("police", value);
+            gRegistry.Set_Network_Setting("police", value);
             break;
 
         case 4:
@@ -2062,18 +2062,18 @@ void NetUi::SetSetting(s32 setting, s32 value)
                     break;
             }
             SetDlgItemTextA(mDlgHwnd, LABEL_GAME_SPEED_TEXT_1032, pSpeedText);
-            gRegistry_6FF968.Set_Network_Setting("game_speed", value);
+            gRegistry.Set_Network_Setting("game_speed", value);
             break;
 
         case 7:
             mGameSettings.mGameTimeLimit = value;
-            gRegistry_6FF968.Set_Network_Setting("game_time_limit", value);
+            gRegistry.Set_Network_Setting("game_time_limit", value);
             break;
     }
 
     data.mData = &mGameSettings;
     data.mLen = sizeof(mGameSettings);
-    gNetPlay_7071E8.SetGameSettings(&data);
+    gNetPlay.SetGameSettings(&data);
 }
 #pragma warning(pop)
 
@@ -2220,7 +2220,7 @@ void NetUi::OnEnterPressed(s32 nIDDlgItem, s32 hmenu)
     wchar_t Dest[260];
     GetDlgItemTextA(mDlgHwnd, nIDDlgItem, String, 127);
     NetUi::GetString(Dest, String, 260);
-    gNetPlay_7071E8.SendChatMessage(Dest, -1);
+    gNetPlay.SendChatMessage(Dest, -1);
     SetDlgItemTextA(mDlgHwnd, nIDDlgItem, "");
     NetUi::AppendChatMessage(hmenu, String);
 }
@@ -2264,8 +2264,8 @@ void NetUi::EnumerateMaps()
         GetPrivateProfileStringA("MapFiles", "STYFile", "", maps[i].mStyleName, 0x103u, FileName);
         GetPrivateProfileStringA("MapFiles", "SCRFile", "", maps[i].mScriptName, 0x103u, FileName);
         GetPrivateProfileStringA("MapFiles", "Description", "", maps[i].mDescription, 0x103u, FileName);
-        GetPrivateProfileStringA("MapFiles", "PlayerCount", "", gTmpBuffer_67C598, 2u, FileName);
-        maps[i].mPlayerCount = atoi(gTmpBuffer_67C598);
+        GetPrivateProfileStringA("MapFiles", "PlayerCount", "", gTmpBuffer, 2u, FileName);
+        maps[i].mPlayerCount = atoi(gTmpBuffer);
 
         // Only keep maps whose files all exist
         _chdir("data");
@@ -2357,23 +2357,23 @@ void NetUi::CopyGameSettings(NetworkGameSettings* pSettings)
 MATCH_FUNC(0x51c830)
 void NetUi::LoadGameSettingsFromRegistry()
 {
-    mGameSettings.mMapIdx = gRegistry_6FF968.Get_Network_Setting("map_index", 0);
+    mGameSettings.mMapIdx = gRegistry.Get_Network_Setting("map_index", 0);
     if (mGameSettings.mMapIdx >= static_cast<u32>(mTotalMapCount))
     {
         mGameSettings.mMapIdx = 0;
     }
-    mGameSettings.mGameTimeLimit = gRegistry_6FF968.Get_Network_Setting("game_time_limit", 1);
-    mGameSettings.mGameSpeed = gRegistry_6FF968.Get_Network_Setting("game_speed", 1);
-    mGameSettings.mGameType = gRegistry_6FF968.Get_Network_Setting("game_type", 1);
-    mGameSettings.mPoliceOn = gRegistry_6FF968.Get_Network_Setting("police", 0);
+    mGameSettings.mGameTimeLimit = gRegistry.Get_Network_Setting("game_time_limit", 1);
+    mGameSettings.mGameSpeed = gRegistry.Get_Network_Setting("game_speed", 1);
+    mGameSettings.mGameType = gRegistry.Get_Network_Setting("game_type", 1);
+    mGameSettings.mPoliceOn = gRegistry.Get_Network_Setting("police", 0);
 
     if (mGameSettings.mGameType == 1)
     {
-        mGameSettings.mFragLimit = gRegistry_6FF968.Get_Network_Setting("f_limit", 3);
+        mGameSettings.mFragLimit = gRegistry.Get_Network_Setting("f_limit", 3);
     }
     else
     {
-        mGameSettings.mFragLimit = gRegistry_6FF968.Get_Network_Setting("s_limit", 10000);
+        mGameSettings.mFragLimit = gRegistry.Get_Network_Setting("s_limit", 10000);
     }
 
     strcpy(mGameSettings.mDefaultMap,

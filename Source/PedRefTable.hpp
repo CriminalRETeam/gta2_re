@@ -36,4 +36,4 @@ class PedRefTable
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PedRefTable, 0x7F8);
 
-EXTERN_GLOBAL(PedRefTable*, gPedRefTable_7F8_703398);
+EXTERN_GLOBAL(PedRefTable*, gPedRefTable_7F8);

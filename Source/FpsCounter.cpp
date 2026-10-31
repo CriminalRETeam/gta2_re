@@ -6,16 +6,16 @@
 #include "Hud.hpp"
 #include <windows.h>
 
-DEFINE_GLOBAL(FpsCounter*, gFpsCounter_7055D4, 0x7055D4);
+DEFINE_GLOBAL(FpsCounter*, gFpsCounter, 0x7055D4);
 
-EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
+EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff, 640);
 
 
 MATCH_FUNC(0x5BEC30)
 void FpsCounter::ShowFps()
 {
-    swprintf(tmpBuff_67BD9C, L"%d/%d fps", mUpdateFps, mDrawFps);
-    gHud_2B00_706620->mTexts.DisplayText(tmpBuff_67BD9C, 0, 0, gDebugFont_706600, 1);
+    swprintf(tmpBuff, L"%d/%d fps", mUpdateFps, mDrawFps);
+    gHud_2B00->mTexts.DisplayText(tmpBuff, 0, 0, gDebugFont, 1);
 }
 
 MATCH_FUNC(0x5BEC70)

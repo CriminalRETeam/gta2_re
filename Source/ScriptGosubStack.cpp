@@ -2,7 +2,7 @@
 #include "ScriptStackFramePool.hpp"
 #include "Globals.hpp"
 
-DEFINE_GLOBAL(ScriptStackFramePool*, gScriptStackFramePool_6F8068, 0x6F8068);
+DEFINE_GLOBAL(ScriptStackFramePool*, gScriptStackFramePool, 0x6F8068);
 
 MATCH_FUNC(0x503120)
 ScriptGosubStack::ScriptGosubStack() throw() // 503120
@@ -17,7 +17,7 @@ ScriptGosubStack::~ScriptGosubStack() // 503130
     for (ScriptStackFrame* pOld = mCurrent; mCurrent; pOld = mCurrent)
     {
         mCurrent = pOld->mpNext;
-        gScriptStackFramePool_6F8068->DeAllocate_476780(pOld);
+        gScriptStackFramePool->DeAllocate_476780(pOld);
         mCount--;
     }
 }
@@ -47,13 +47,13 @@ ScriptStackFrame* ScriptGosubStack::remove_503180()
 MATCH_FUNC(0x5031A0)
 ScriptStackFrame* ScriptGosubStack::AllocFrame()
 {
-    return gScriptStackFramePool_6F8068->mPool.Allocate();
+    return gScriptStackFramePool->mPool.Allocate();
 }
 
 MATCH_FUNC(0x5031C0)
 void ScriptGosubStack::FreeFrame(ScriptStackFrame* pFrame)
 {
-    gScriptStackFramePool_6F8068->mPool.DeAllocate(pFrame);
+    gScriptStackFramePool->mPool.DeAllocate(pFrame);
 }
 
 MATCH_FUNC(0x5031E0)

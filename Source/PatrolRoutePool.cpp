@@ -1,6 +1,6 @@
 #include "PatrolRoutePool.hpp"
 
-DEFINE_GLOBAL(PatrolRoutePool*, gPatrolRoutePool_6FD784, 0x6FD784);
+DEFINE_GLOBAL(PatrolRoutePool*, gPatrolRoutePool, 0x6FD784);
 
 MATCH_FUNC(0x463F90)
 PatrolPoint::PatrolPoint()

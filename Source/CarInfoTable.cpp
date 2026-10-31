@@ -17,7 +17,7 @@ EXTERN_GLOBAL(Fix16, kFpOne_6FE210);
 EXTERN_GLOBAL(Fix16, kFpHalf_6FDFEC);
 EXTERN_GLOBAL(Fix16, kFpFive_6FDEFC);
 
-DEFINE_GLOBAL(CarInfoTable*, gCarInfo_808_678098, 0x678098);
+DEFINE_GLOBAL(CarInfoTable*, gCarInfo_808, 0x678098);
 DEFINE_STATIC_MEMBER_ARRAY(char, CarInfoTable, sFileName, 64, 0x677EC4);
 DEFINE_STATIC_MEMBER(u32, CarInfoTable, sProcessedGciData, 0x676260);
 DEFINE_STATIC_MEMBER(u32, CarInfoTable, sGciDataLen, 0x675F94);
@@ -28,8 +28,8 @@ DEFINE_STATIC_MEMBER(u32, CarInfoTable, sProcessedOutput, 0x676250);
 DEFINE_STATIC_MEMBER(s32, CarInfoTable, sModelPhyArrLen, 0x675F90);
 DEFINE_STATIC_MEMBER(u8*, CarInfoTable, sModelPhyArrPtr, 0x675F98);
 DEFINE_GLOBAL_INIT(Fix16, kOne_677F54, Fix16(1), 0x677F54);
-DEFINE_GLOBAL_INIT(Fix16, kQuarter_677D78, Fix16(0x1000, 0), 0x677D78);
-DEFINE_GLOBAL_INIT(Fix16, kOneTenth_677D74, Fix16(0x666, 0), 0x677D74);
+DEFINE_GLOBAL_INIT(Fix16, kQuarter, Fix16(0x1000, 0), 0x677D78);
+DEFINE_GLOBAL_INIT(Fix16, kOneTenth, Fix16(0x666, 0), 0x677D74);
 DEFINE_GLOBAL_INIT(Fix16, kZero_6761A4, Fix16(0), 0x6761a4);
 DEFINE_STATIC_GLOBAL_ARRAY_INIT(char*,
                          sErrorTable,
@@ -560,8 +560,8 @@ Fix16 PixelsToFix16Table::SignedPixelsToFix16_440860(s8 pixels) const
 MATCH_FUNC(0x4542A0)
 void CarInfo_2C::CalculateCarInfo(s32 idx)
 {
-    car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(idx);
-    ModelPhysics* pModelPhysics = gCarInfo_808_678098->GetModelPhysicsFromIdx(idx);
+    car_info* pCarInfo = gGtx_0x106C->get_car_info_5AA3B0(idx);
+    ModelPhysics* pModelPhysics = gCarInfo_808->GetModelPhysicsFromIdx(idx);
     Fix16 gear2_speed = pModelPhysics->mGear2Speed;
     Fix16 gear3_speed = pModelPhysics->mGear3Speed;
     Fix16 max_speed;
@@ -570,11 +570,11 @@ void CarInfo_2C::CalculateCarInfo(s32 idx)
         FatalError_4A38C0(Gta2Error::InvalidCarModelGearSpeeds, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 91, static_cast<u8>(idx));
     }
 
-    this->mFrontWheelOffset = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pCarInfo->front_wheel_offset);
-    this->mRearWheelOffset = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pCarInfo->rear_wheel_offset);
+    this->mFrontWheelOffset = gPixelsToFix16.SignedPixelsToFix16_41FE70(pCarInfo->front_wheel_offset);
+    this->mRearWheelOffset = gPixelsToFix16.SignedPixelsToFix16_41FE70(pCarInfo->rear_wheel_offset);
     Fix16 com_offset_y;
-    this->mMomentOfInertia = ComputeCarMassAndInertia(gPixelsToFix16_6F6850.list[pCarInfo->w],
-                                                                      gPixelsToFix16_6F6850.list[pCarInfo->h],
+    this->mMomentOfInertia = ComputeCarMassAndInertia(gPixelsToFix16.list[pCarInfo->w],
+                                                                      gPixelsToFix16.list[pCarInfo->h],
                                                                       pModelPhysics->mMass,
                                                                       pModelPhysics->mFrontMassBias,
                                                                       &com_offset_y);
@@ -585,8 +585,8 @@ void CarInfo_2C::CalculateCarInfo(s32 idx)
     this->mMaxThrustWithTurbo =
         ComputeThrustWithTurbo(mHalfThrust, mFithThrust, pModelPhysics->mTurbo);
     this->mRearDriveBias = kOne_677F54 - pModelPhysics->mFrontDriveBias;
-    this->mSkidThreshhold1 = (pModelPhysics->mSkedThreshold * (kOne_677F54 - kOneTenth_677D74));
-    this->mSkidThreshhold2 = (pModelPhysics->mSkedThreshold * (kOne_677F54 + kOneTenth_677D74));
+    this->mSkidThreshhold1 = (pModelPhysics->mSkedThreshold * (kOne_677F54 - kOneTenth));
+    this->mSkidThreshhold2 = (pModelPhysics->mSkedThreshold * (kOne_677F54 + kOneTenth));
 }
 
 MATCH_FUNC(0x454410)
@@ -594,14 +594,14 @@ EXPORT Fix16 __stdcall ComputeCarMassAndInertia(Fix16 width, Fix16 height, Fix16
 {
     // The const refs (bound to the product temporaries) give the original's stack slots and the
     // __allmul operand order of the two inertia products (value locals swap them)
-    const Fix16& inertiaBase = ((((height * height) * kQuarter_677D78) + (width * width)) / 12);
-    const Fix16& heightXConstant = (height * kQuarter_677D78);
+    const Fix16& inertiaBase = ((((height * height) * kQuarter) + (width * width)) / 12);
+    const Fix16& heightXConstant = (height * kQuarter);
     const Fix16& frontMass = (mass * frontMassBias);
     Fix16 frontI = (frontMass * inertiaBase);
     // Negated by hand: one inline expansion less, so both front (cg - h) subtractions stay inline (budget)
     Fix16 nh;
     nh.mValue = -height.mValue;
-    Fix16 negHeightXConstant = (nh * kQuarter_677D78);
+    Fix16 negHeightXConstant = (nh * kQuarter);
 
     const Fix16& rearMass = (mass * (kOne_677F54 - frontMassBias));
     Fix16 rearI = (rearMass * inertiaBase);
@@ -618,7 +618,7 @@ EXPORT Fix16 __stdcall ComputeCarMassAndInertia(Fix16 width, Fix16 height, Fix16
 MATCH_FUNC(0x454680)
 void ModelPhysics::ConvertMass()
 {
-    mMass = mMass * (kOneTenth_677D74 + kOne_677F54);
+    mMass = mMass * (kOneTenth + kOne_677F54);
 }
 
 MATCH_FUNC(0x4546b0)
@@ -630,7 +630,7 @@ ModelPhysics* CarInfoTable::GetModelPhysicsFromIdx(u8 model_idx) const
 MATCH_FUNC(0x4546d0)
 void CarInfoTable::LoadModelPhysics()
 {
-    u32 number_of_cars = gGtx_0x106C_703DD4->get_number_of_cars();
+    u32 number_of_cars = gGtx_0x106C->get_number_of_cars();
     u32 data_size;
     size_t file_size;
     void* file_content = File::ReadFileToBuffer(sFileName, &file_size);
@@ -647,10 +647,10 @@ void CarInfoTable::LoadModelPhysics()
 
     if (pErrorMsg != NULL)
     {
-        strcpy(gErrStr_67C29C, sFileName);
-        strcpy(gErrStr2_67C3A8, pErrorMsg);
+        strcpy(gErrStr, sFileName);
+        strcpy(gErrStr2, pErrorMsg);
 
-        FatalError_4A38C0(Gta2Error::BinmakeError, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbc, gErrStr_67C29C, gErrStr2_67C3A8);
+        FatalError_4A38C0(Gta2Error::BinmakeError, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbc, gErrStr, gErrStr2);
     }
 
     if (data_size % sizeof(ModelPhysics))
@@ -684,12 +684,12 @@ CarInfo_2C* CarInfoTable::GetInfoAtIdx(u8 idx) const
 MATCH_FUNC(0x454850)
 void CarInfoTable::CalculateAllCarInfo()
 {
-    const u32 count = gGtx_0x106C_703DD4->get_number_of_cars();
+    const u32 count = gGtx_0x106C->get_number_of_cars();
     mRawData400 = new CarInfo_2C[count];
 
     for (u32 i = 0, j = 0; i < 256; i++)
     {
-        if (gGtx_0x106C_703DD4->does_car_exist(i))
+        if (gGtx_0x106C->does_car_exist(i))
         {
             mPtrArray[i] = &mRawData400[j];
             mRawData400[j].CalculateCarInfo(i);
@@ -711,7 +711,7 @@ CarInfo_2C::~CarInfo_2C()
 MATCH_FUNC(0x4549c0)
 void CarInfoTable::ConvertAllMass()
 {
-    u32 number_of_cars = gGtx_0x106C_703DD4->get_number_of_cars();
+    u32 number_of_cars = gGtx_0x106C->get_number_of_cars();
     for (u32 i = 0; i < number_of_cars; i++)
     {
         mRawData804[i].ConvertMass();

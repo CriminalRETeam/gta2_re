@@ -104,4 +104,4 @@ struct TextureCache
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TextureCache, 0x15D8);
 
-EXTERN_GLOBAL(TextureCache*, gTextureCache_15D8_705064);
+EXTERN_GLOBAL(TextureCache*, gTextureCache_15D8);

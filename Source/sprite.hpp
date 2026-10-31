@@ -9,10 +9,10 @@
 #include "fix16.hpp"
 #include "gbh_graphics.hpp"
 
-EXTERN_GLOBAL(Ang16, gAng16_703804);
+EXTERN_GLOBAL(Ang16, gAng16);
 EXTERN_GLOBAL(Fix16, gFix16_7035C0);
 
-EXTERN_GLOBAL(u32, gLightingDrawFlag_7068F4);
+EXTERN_GLOBAL(u32, gLightingDrawFlag);
 EXTERN_GLOBAL_ARRAY(Vert, gTileVerts_7036D0, 8);
 
 EXPORT bool __stdcall ComputeScanlineIntersectionX(Fix16& minX, Fix16& minY, Fix16& scanLineX, Fix16_Point& p0, Fix16_Point& p1);
@@ -51,7 +51,7 @@ class SpriteShape
     // https://decomp.me/scratch/YTMyx
     bool IsZeroWidth_41E390() const
     {
-        return (mWidth == mHeight && mWidth <= kSmallWidthEpslion_703450) ? true : false;
+        return (mWidth == mHeight && mWidth <= kSmallWidthEpslion) ? true : false;
     }
 
     // 9.6f 0x482980
@@ -402,7 +402,7 @@ class Sprite
     {
         if ((mFlags & 4) == 0)
         {
-            return gLightingDrawFlag_7068F4;
+            return gLightingDrawFlag;
         }
         return 0;
     }
@@ -798,14 +798,14 @@ class SpritePool
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpritePool, 0x49B28)
 
-EXTERN_GLOBAL(SpriteManager_8*, gSpriteManager_703820);
+EXTERN_GLOBAL(SpriteManager_8*, gSpriteManager);
 
-EXTERN_GLOBAL(SpritePool*, gSpritePool_703818);
+EXTERN_GLOBAL(SpritePool*, gSpritePool);
 
-EXTERN_GLOBAL(SpriteShapePool*, gSpriteShapePool_70381C);
+EXTERN_GLOBAL(SpriteShapePool*, gSpriteShapePool);
 
-EXTERN_GLOBAL(SpriteMaskCache*, gSpriteMaskCache_67AF1C);
+EXTERN_GLOBAL(SpriteMaskCache*, gSpriteMaskCache);
 
-EXTERN_GLOBAL(AttachedSpritePool*, gAttachedSpritePool_703B80);
+EXTERN_GLOBAL(AttachedSpritePool*, gAttachedSpritePool);
 
-EXTERN_GLOBAL(Sprite*, gSprite_6F61E8);
+EXTERN_GLOBAL(Sprite*, gSprite);

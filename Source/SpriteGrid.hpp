@@ -90,13 +90,13 @@ class SpriteGrid
     EXPORT SpriteGrid();
     EXPORT ~SpriteGrid();
 
-    // height = how many rows to scan downward from gSpriteGrid_start_y_679098
+    // height = how many rows to scan downward from gSpriteGrid_start_y
     EXPORT void SearchTileColumnForClosestSprite(u8 height);
 
     // pSpriteLinks = linked list of GridSpriteLink at a single (x,y) tile
     EXPORT void CheckTileSpritesForClosestMatch(GridSpriteLink* pSpriteLinks);
 
-    // width = how many columns to scan horizontally from gSpriteGrid_start_x_679090
+    // width = how many columns to scan horizontally from gSpriteGrid_start_x
     EXPORT void SearchTileStripForClosestSprite(u8 width);
     EXPORT void AddToDrawList(s32 left, s32 right, s32 top, s32 bottom);
     EXPORT void DoRemove(s32 x_pos, s32 y_pos, Sprite* pSprite);
@@ -117,15 +117,15 @@ class SpriteGrid
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpriteGrid, 0x400);
 
-EXTERN_GLOBAL(SpriteGrid*, gSpriteGrid_1_679208);
+EXTERN_GLOBAL(SpriteGrid*, gSpriteGrid_1);
 
-EXTERN_GLOBAL(SpriteGrid*, gSpriteGrid_2_67920C);
+EXTERN_GLOBAL(SpriteGrid*, gSpriteGrid_2);
 
-EXTERN_GLOBAL(SpriteGrid*, gSpriteGrid_3_679210);
+EXTERN_GLOBAL(SpriteGrid*, gSpriteGrid_3);
 
-EXTERN_GLOBAL(s32, gSpriteGrid_top_6F6108);
+EXTERN_GLOBAL(s32, gSpriteGrid_top);
 
-EXTERN_GLOBAL(s32, gSpriteGrid_bottom_6F5F38);
+EXTERN_GLOBAL(s32, gSpriteGrid_bottom);
 
-EXTERN_GLOBAL(Sprite*, gSpriteGrid_exclusion_sprite_678F84);
-EXTERN_GLOBAL(Ped*, gSpriteGrid_ped_678F64);
+EXTERN_GLOBAL(Sprite*, gSpriteGrid_exclusion_sprite);
+EXTERN_GLOBAL(Ped*, gSpriteGrid_ped);

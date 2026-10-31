@@ -8,37 +8,37 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-DEFINE_GLOBAL(rng*, gpRng_67AB34, 0x67AB34);
-DEFINE_GLOBAL(rng, gRng_6F6784, 0x6F6784);
-DEFINE_GLOBAL(PixelsToFix16Table, gPixelsToFix16_6F6850, 0x6F6850);
+DEFINE_GLOBAL(rng*, gpRng, 0x67AB34);
+DEFINE_GLOBAL(rng, gRng, 0x6F6784);
+DEFINE_GLOBAL(PixelsToFix16Table, gPixelsToFix16, 0x6F6850);
 
-EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
+EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff, 640);
 
 MATCH_FUNC(0x48B900)
 void rng::AdvanceCycle()
 {
     ++mRng;
-    mRnd = gRng_6F6784.rand_4F7C00();
+    mRnd = gRng.rand_4F7C00();
 }
 
 MATCH_FUNC(0x48B920)
 void rng::ShowCycle()
 {
-    if (gInputRecorder_67F8B0.inlined_check())
+    if (gInputRecorder.inlined_check())
     {
-        swprintf(tmpBuff_67BD9C,
+        swprintf(tmpBuff,
                  L"%d / %d",
                  this->mRng,
-                 gInputRecorder_67F8B0.GetLastRecRngIdx_44AA80());
+                 gInputRecorder.GetLastRecRngIdx_44AA80());
 
     }
     else
     {
-        swprintf(tmpBuff_67BD9C, L"%d", this->mRng);
+        swprintf(tmpBuff, L"%d", this->mRng);
 
 
     }
-    gHud_2B00_706620->mTexts.DisplayText(tmpBuff_67BD9C, 0, 460, gDebugFont_706600, 1);
+    gHud_2B00->mTexts.DisplayText(tmpBuff, 0, 460, gDebugFont, 1);
 }
 
 MATCH_FUNC(0x4F79F0)
@@ -59,7 +59,7 @@ void rng::srand_4F7A40()
 MATCH_FUNC(0x4F7AE0)
 s16 rng::get_int(const s16& max_rnd)
 {
-    if (bLog_random_67D5FC)
+    if (bLog_random)
     {
         if (!max_rnd)
         {
@@ -69,8 +69,8 @@ s16 rng::get_int(const s16& max_rnd)
         {
             this->mRng = rand() % max_rnd;
         }
-        sprintf(gTmpBuffer_67C598, "%d: random (get_int) %d", gpRng_67AB34->get_cur_rng_41CFE0(), static_cast<s16>(this->get_cur_rng_41CFE0()));
-        gErrorLog_67C530.Write(gTmpBuffer_67C598);
+        sprintf(gTmpBuffer, "%d: random (get_int) %d", gpRng->get_cur_rng_41CFE0(), static_cast<s16>(this->get_cur_rng_41CFE0()));
+        gErrorLog_67C530.Write(gTmpBuffer);
         return static_cast<s16>(this->get_cur_rng_41CFE0());
     }
     else
@@ -89,7 +89,7 @@ s16 rng::get_int(const s16& max_rnd)
 MATCH_FUNC(0x4F7B70)
 u8 rng::get_uint8(const u8& max_rnd)
 {
-    if (bLog_random_67D5FC)
+    if (bLog_random)
     {
         if (!max_rnd)
         {
@@ -99,8 +99,8 @@ u8 rng::get_uint8(const u8& max_rnd)
         {
             this->mRng = rand() % max_rnd;
         }
-        sprintf(gTmpBuffer_67C598, "%d: random (get_uint8) %d", gpRng_67AB34->get_cur_rng_41CFE0(), static_cast<u8>(mRng));
-        gErrorLog_67C530.Write(gTmpBuffer_67C598);
+        sprintf(gTmpBuffer, "%d: random (get_uint8) %d", gpRng->get_cur_rng_41CFE0(), static_cast<u8>(mRng));
+        gErrorLog_67C530.Write(gTmpBuffer);
         return static_cast<u8>(this->mRng);
     }
     else

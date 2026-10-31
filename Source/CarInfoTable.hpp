@@ -34,7 +34,7 @@ struct PixelsToFix16Table
     Fix16 list[256];
 };
 
-EXTERN_GLOBAL(PixelsToFix16Table, gPixelsToFix16_6F6850);
+EXTERN_GLOBAL(PixelsToFix16Table, gPixelsToFix16);
 
 class ModelPhysics
 {
@@ -134,6 +134,6 @@ class CarInfoTable
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarInfoTable, 0x808);
 
-EXTERN_GLOBAL(CarInfoTable*, gCarInfo_808_678098);
+EXTERN_GLOBAL(CarInfoTable*, gCarInfo_808);
 
 EXPORT s32 __stdcall ParseTokenAndPush(char_type* pStr);

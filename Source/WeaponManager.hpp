@@ -98,8 +98,8 @@ class WeaponPool
     Pool<Weapon, 255> mPool; // 0x0
 };
 
-EXTERN_GLOBAL(WeaponPool*, gWeapon_30_Pool_707014);
+EXTERN_GLOBAL(WeaponPool*, gWeapon_30_Pool);
 
-EXTERN_GLOBAL(WeaponManager*, gWeapon_8_707018);
+EXTERN_GLOBAL(WeaponManager*, gWeapon_8);
 
-EXTERN_GLOBAL_ARRAY(u8, max_ammo_capacity_5FF75C, 28);
+EXTERN_GLOBAL_ARRAY(u8, max_ammo_capacity, 28);

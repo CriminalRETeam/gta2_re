@@ -47,11 +47,11 @@ void RollingDigitCounter::SetupDigitsParams(s16 digit_transition_speed, s32 max_
 MATCH_FUNC(0x492150)
 void RollingDigitCounter::InitDigitSprites()
 {
-    u16 true_sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex(sprite_types_enum::user_6, mSpriteIdx);
-    sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index(true_sprite_idx);
+    u16 true_sprite_idx = gGtx_0x106C->GetSpriteTrueIndex(sprite_types_enum::user_6, mSpriteIdx);
+    sprite_index* pSpriteIndex = gGtx_0x106C->get_sprite_index(true_sprite_idx);
     mSpriteW = pSpriteIndex->mWidth;
     mSpriteHCalc = pSpriteIndex->mHeight / 11;
-    mFirstDigitTextureIdx = gTextureCache_15D8_705064->RegisterDigits(mMaxNumOfDigits, mSpriteIdx);
+    mFirstDigitTextureIdx = gTextureCache_15D8->RegisterDigits(mMaxNumOfDigits, mSpriteIdx);
 }
 
 MATCH_FUNC(0x4921b0)
@@ -95,19 +95,19 @@ void RollingDigitCounter::ColorDigits(s32 palette_type, s16 palette)
     u16 true_palette;
     if (palette_type == palette_types_enum::sprites_2)
     {
-        u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex(sprite_types_enum::user_6, mSpriteIdx);
-        true_palette = gGtx_0x106C_703DD4->GetTruePalette(palette_types_enum::sprites_2, sprite_idx);
+        u16 sprite_idx = gGtx_0x106C->GetSpriteTrueIndex(sprite_types_enum::user_6, mSpriteIdx);
+        true_palette = gGtx_0x106C->GetTruePalette(palette_types_enum::sprites_2, sprite_idx);
     }
     else
     {
-        true_palette = gGtx_0x106C_703DD4->GetTruePalette(palette_type, palette);
+        true_palette = gGtx_0x106C->GetTruePalette(palette_type, palette);
     }
 
     s32 digit_idx = mNonUsedDigits;
 
     while (digit_idx < kNumDigits)
     {
-        gTextureCache_15D8_705064->SetPal(mFirstDigitTextureIdx - mNonUsedDigits + digit_idx, true_palette);
+        gTextureCache_15D8->SetPal(mFirstDigitTextureIdx - mNonUsedDigits + digit_idx, true_palette);
         digit_idx++;
     }
 }
@@ -145,7 +145,7 @@ s32 RollingDigitCounter::DrawDigitsRightAligned(s32 base_xpos, s32 base_ypos) co
             u16 v = mSpriteHCalc * (kDigitAfterNine - curr_char) - offset;
             curr_xpos = (mSpriteW >> 1) - mSpriteW * (kNumDigits - idx) + base_xpos;
             s32 ypos = base_ypos + static_cast<s8>(height) / 2;
-            DrawTextureScaled(gTextureCache_15D8_705064->GetDigitTexture(idx + mFirstDigitTextureIdx - mNonUsedDigits, v, height),
+            DrawTextureScaled(gTextureCache_15D8->GetDigitTexture(idx + mFirstDigitTextureIdx - mNonUsedDigits, v, height),
                        curr_xpos,
                        ypos,
                        mSpriteW,
@@ -159,7 +159,7 @@ s32 RollingDigitCounter::DrawDigitsRightAligned(s32 base_xpos, s32 base_ypos) co
         {
             u16 v = mSpriteHCalc * (kDigitAfterNine - mShownDigits[idx]) - offset;
             s32 xpos = (mSpriteW >> 1) - mSpriteW * (kNumDigits - idx) + base_xpos;
-            DrawTextureScaled(gTextureCache_15D8_705064->GetDigitTexture(idx + mFirstDigitTextureIdx - mNonUsedDigits,
+            DrawTextureScaled(gTextureCache_15D8->GetDigitTexture(idx + mFirstDigitTextureIdx - mNonUsedDigits,
                                                              v,
                                                              mSpriteHCalc),
                        xpos,
@@ -206,7 +206,7 @@ s32 RollingDigitCounter::DrawDigitsLeftAligned(s32 base_xpos, s32 base_ypos) con
 
             u16 v = mSpriteHCalc * (kDigitAfterNine - mShownDigits[idx]) - offset;
             u32 ypos = base_ypos + static_cast<s8>(height) / 2;
-            DrawTextureScaled(gTextureCache_15D8_705064->GetDigitTexture(idx + mFirstDigitTextureIdx - mNonUsedDigits, v, height),
+            DrawTextureScaled(gTextureCache_15D8->GetDigitTexture(idx + mFirstDigitTextureIdx - mNonUsedDigits, v, height),
                        curr_xpos,
                        ypos,
                        mSpriteW,
@@ -220,7 +220,7 @@ s32 RollingDigitCounter::DrawDigitsLeftAligned(s32 base_xpos, s32 base_ypos) con
         else
         {
             u16 v = mSpriteHCalc * (kDigitAfterNine - mShownDigits[idx]) - offset;
-            DrawTextureScaled(gTextureCache_15D8_705064->GetDigitTexture(idx + mFirstDigitTextureIdx - mNonUsedDigits,
+            DrawTextureScaled(gTextureCache_15D8->GetDigitTexture(idx + mFirstDigitTextureIdx - mNonUsedDigits,
                                                              v,
                                                              mSpriteHCalc),
                        curr_xpos,

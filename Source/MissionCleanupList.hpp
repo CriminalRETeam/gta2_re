@@ -56,4 +56,4 @@ class MissionCleanupList
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(MissionCleanupList, 0x25C);
 
-EXTERN_GLOBAL(MissionCleanupList*, gMiss2_25C_6F805C);
+EXTERN_GLOBAL(MissionCleanupList*, gMiss2_25C);

@@ -10,7 +10,7 @@
 #include <windows.h>
 #include <mmsystem.h>
 
-DEFINE_GLOBAL(FrameProfiler*, gMike_A80_6F7328, 0x6F7328);
+DEFINE_GLOBAL(FrameProfiler*, gMike_A80, 0x6F7328);
 
 MATCH_FUNC(0x4ff1b0)
 void FrameProfiler::Init()
@@ -38,9 +38,9 @@ s32 FrameProfiler::sDrawFlatRect(f32 left, f32 top, f32 right, f32 bottom, s32 c
     return pgbh_DrawFlatRect(verts, colour);
 }
 
-EXTERN_GLOBAL(u32, gBufferMode_706B34);
-EXTERN_GLOBAL(s32, gDisplayDraw_67B57C);
-EXTERN_GLOBAL(s32, gDisplayAdd_67B578);
+EXTERN_GLOBAL(u32, gBufferMode);
+EXTERN_GLOBAL(s32, gDisplayDraw);
+EXTERN_GLOBAL(s32, gDisplayAdd);
 EXPORT s32 __stdcall ConvertCycleCount(s32 cycles);
 
 MATCH_FUNC(0x4ff250)
@@ -54,7 +54,7 @@ void FrameProfiler::DebugDrawProfiling()
     s32 tex_counts[12];
     s32 cache_used[12];
 
-    if (gBufferMode_706B34 == 0)
+    if (gBufferMode == 0)
     {
         return;
     }
@@ -78,16 +78,16 @@ void FrameProfiler::DebugDrawProfiling()
     {
         s32 size = 8 << (ypos < 140 ? row : row - 6);
 
-        swprintf(tmpBuff_67BD9C, L"%d", size);
-        DrawText_4B87A0(tmpBuff_67BD9C, 0, ypos, gStyleTextFont_703BAA, 1);
-        swprintf(tmpBuff_67BD9C, L"%d", pGlobals[4 + row]);
-        DrawText_4B87A0(tmpBuff_67BD9C, 50, ypos, gStyleTextFont_703BAA, 1);
-        swprintf(tmpBuff_67BD9C, L"%d", pGlobals[16 + row]);
-        DrawText_4B87A0(tmpBuff_67BD9C, 100, ypos, gStyleTextFont_703BAA, 1);
-        swprintf(tmpBuff_67BD9C, L"%d", tex_counts[row]);
-        DrawText_4B87A0(tmpBuff_67BD9C, 150, ypos, gStyleTextFont_703BAA, 1);
-        swprintf(tmpBuff_67BD9C, L"%d", cache_used[row]);
-        DrawText_4B87A0(tmpBuff_67BD9C, 200, ypos, gStyleTextFont_703BAA, 1);
+        swprintf(tmpBuff, L"%d", size);
+        DrawText_4B87A0(tmpBuff, 0, ypos, gStyleTextFont, 1);
+        swprintf(tmpBuff, L"%d", pGlobals[4 + row]);
+        DrawText_4B87A0(tmpBuff, 50, ypos, gStyleTextFont, 1);
+        swprintf(tmpBuff, L"%d", pGlobals[16 + row]);
+        DrawText_4B87A0(tmpBuff, 100, ypos, gStyleTextFont, 1);
+        swprintf(tmpBuff, L"%d", tex_counts[row]);
+        DrawText_4B87A0(tmpBuff, 150, ypos, gStyleTextFont, 1);
+        swprintf(tmpBuff, L"%d", cache_used[row]);
+        DrawText_4B87A0(tmpBuff, 200, ypos, gStyleTextFont, 1);
 
         total_textures_used += pGlobals[16 + row];
         total_texture_bytes += pGlobals[16 + row] * size * size * 2;
@@ -96,25 +96,25 @@ void FrameProfiler::DebugDrawProfiling()
 
     sDrawString(0, 280, L"Total Num Textures %d - %d bytes", total_textures_used, total_texture_bytes);
 
-    swprintf(tmpBuff_67BD9C, L"Polys Drawn:");
-    DrawText_4B87A0(tmpBuff_67BD9C, 0, 300, gStyleTextFont_703BAA, 1);
-    swprintf(tmpBuff_67BD9C, L"%d", polys_drawn);
-    DrawText_4B87A0(tmpBuff_67BD9C, 180, 300, gStyleTextFont_703BAA, 1);
+    swprintf(tmpBuff, L"Polys Drawn:");
+    DrawText_4B87A0(tmpBuff, 0, 300, gStyleTextFont, 1);
+    swprintf(tmpBuff, L"%d", polys_drawn);
+    DrawText_4B87A0(tmpBuff, 180, 300, gStyleTextFont, 1);
 
-    swprintf(tmpBuff_67BD9C, L"TextureUsed: ");
-    DrawText_4B87A0(tmpBuff_67BD9C, 0, 320, gStyleTextFont_703BAA, 1);
-    swprintf(tmpBuff_67BD9C, L"%d", total_cache_used);
-    DrawText_4B87A0(tmpBuff_67BD9C, 180, 320, gStyleTextFont_703BAA, 1);
+    swprintf(tmpBuff, L"TextureUsed: ");
+    DrawText_4B87A0(tmpBuff, 0, 320, gStyleTextFont, 1);
+    swprintf(tmpBuff, L"%d", total_cache_used);
+    DrawText_4B87A0(tmpBuff, 180, 320, gStyleTextFont, 1);
 
-    swprintf(tmpBuff_67BD9C, L"Cache Misses:");
-    DrawText_4B87A0(tmpBuff_67BD9C, 0, 340, gStyleTextFont_703BAA, 1);
-    swprintf(tmpBuff_67BD9C, L"%d", total_tex_count);
-    DrawText_4B87A0(tmpBuff_67BD9C, 180, 340, gStyleTextFont_703BAA, 1);
+    swprintf(tmpBuff, L"Cache Misses:");
+    DrawText_4B87A0(tmpBuff, 0, 340, gStyleTextFont, 1);
+    swprintf(tmpBuff, L"%d", total_tex_count);
+    DrawText_4B87A0(tmpBuff, 180, 340, gStyleTextFont, 1);
 
-    swprintf(tmpBuff_67BD9C, L"TextureSwaps:");
-    DrawText_4B87A0(tmpBuff_67BD9C, 0, 360, gStyleTextFont_703BAA, 1);
-    swprintf(tmpBuff_67BD9C, L"%d", texture_swaps);
-    DrawText_4B87A0(tmpBuff_67BD9C, 180, 360, gStyleTextFont_703BAA, 1);
+    swprintf(tmpBuff, L"TextureSwaps:");
+    DrawText_4B87A0(tmpBuff, 0, 360, gStyleTextFont, 1);
+    swprintf(tmpBuff, L"%d", texture_swaps);
+    DrawText_4B87A0(tmpBuff, 180, 360, gStyleTextFont, 1);
 
     if (++sMemTotalCounter > 100)
     {
@@ -139,12 +139,12 @@ void FrameProfiler::DebugDrawProfiling()
         sDrawString(280, 140, L"LARGE");
     }
 
-    s32 display_add = ConvertCycleCount(gDisplayAdd_67B578);
-    s32 display_draw = ConvertCycleCount(gDisplayDraw_67B57C);
+    s32 display_add = ConvertCycleCount(gDisplayAdd);
+    s32 display_draw = ConvertCycleCount(gDisplayDraw);
     sDrawString(280, 160, L"DisplayAdd   %3d", display_add);
     sDrawString(280, 180, L"DisplayDraw  %3d", display_draw);
-    gDisplayAdd_67B578 = 0;
-    gDisplayDraw_67B57C = 0;
+    gDisplayAdd = 0;
+    gDisplayDraw = 0;
 
     DrawProfileHistory();
 }
@@ -156,7 +156,7 @@ void FrameProfiler::sDrawString(s32 xpos, s32 ypos, const wchar_t* pFormat, ...)
     va_list args;
     va_start(args, pFormat);
     vswprintf(buffer, pFormat, args);
-    DrawText_4B87A0(buffer, xpos, ypos, gStyleTextFont_703BAA, 1);
+    DrawText_4B87A0(buffer, xpos, ypos, gStyleTextFont, 1);
 }
 
 MATCH_FUNC(0x4ff970)

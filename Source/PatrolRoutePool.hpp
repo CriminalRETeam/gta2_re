@@ -52,4 +52,4 @@ class PatrolRoutePool
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PatrolRoutePool, 0x1D7E);
 
-EXTERN_GLOBAL(PatrolRoutePool*, gPatrolRoutePool_6FD784);
+EXTERN_GLOBAL(PatrolRoutePool*, gPatrolRoutePool);

@@ -29,4 +29,4 @@ class FpsCounter
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(FpsCounter, 0x54);
 
-EXTERN_GLOBAL(FpsCounter*, gFpsCounter_7055D4);
+EXTERN_GLOBAL(FpsCounter*, gFpsCounter);

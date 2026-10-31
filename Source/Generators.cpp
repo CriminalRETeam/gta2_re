@@ -3,23 +3,23 @@
 #include "rng.hpp"
 #include "Object_5C.hpp"
 
-DEFINE_GLOBAL(GeneratorPool*, gGeneratorPool_14AC_67E5D0, 0x67E5D0);
-EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
+DEFINE_GLOBAL(GeneratorPool*, gGeneratorPool_14AC, 0x67E5D0);
+EXTERN_GLOBAL(s32, bStartNetworkGame);
 
 MATCH_FUNC(0x4C1A70)
 void Generator::Activate()
 {
     mSpawnsLeft = -1;
 
-    if (!bStartNetworkGame_7081F0)
+    if (!bStartNetworkGame)
     {
         mCycle = next_cycle();
-        gGeneratorPool_14AC_67E5D0->mKillCount++;
+        gGeneratorPool_14AC->mKillCount++;
     }
     else
     {
-        mCycle = gpRng_67AB34->get_cur_rng_41CFE0() + 1;
-        gGeneratorPool_14AC_67E5D0->mKillCount++;
+        mCycle = gpRng->get_cur_rng_41CFE0() + 1;
+        gGeneratorPool_14AC->mKillCount++;
     }
 }
 
@@ -33,9 +33,9 @@ s32 Generator::next_cycle() const
     }
     else
     {
-        result = gRng_6F6784.get_int(4 * (mMaxDelay - mMinDelay)) + 4 * mMinDelay;
+        result = gRng.get_int(4 * (mMaxDelay - mMinDelay)) + 4 * mMinDelay;
     }
-    return result + gpRng_67AB34->get_cur_rng_41CFE0();
+    return result + gpRng->get_cur_rng_41CFE0();
 }
 
 MATCH_FUNC(0x4C1B10)
@@ -58,7 +58,7 @@ void Generator::SpawnObject()
         }
         else
         {
-            Object* pObj = gObject_5C_6F8F84->NewPhysicsObjUnlessBlocked(mGenType, mX, mY, mZ, mRot);
+            Object* pObj = gObject_5C->NewPhysicsObjUnlessBlocked(mGenType, mX, mY, mZ, mRot);
             if (pObj)
             {
                 mObj = pObj;
@@ -83,7 +83,7 @@ void Generator::SpawnObject()
     }
     else
     {
-        Object* pObj = gObject_5C_6F8F84->NewPhysicsObjUnlessBlocked(mGenType, mX, mY, mZ, mRot);
+        Object* pObj = gObject_5C->NewPhysicsObjUnlessBlocked(mGenType, mX, mY, mZ, mRot);
         if (pObj)
         {
             if (mSpawnsLeft < 0xFFFF)
@@ -106,14 +106,14 @@ void Generator::SpawnObject()
 
     if (mSpawnsLeft == 0)
     {
-        gGeneratorPool_14AC_67E5D0->mKillCount--;
+        gGeneratorPool_14AC->mKillCount--;
     }
 }
 
 MATCH_FUNC(0x4c1c50)
 void Generator::Service()
 {
-    if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0()) >= mCycle)
+    if (static_cast<u32>(gpRng->get_cur_rng_41CFE0()) >= mCycle)
     {
         if (mSpawnsLeft > 0)
         {
@@ -132,7 +132,7 @@ void Generator::Init(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generator_type, s
     mGenType = generator_type;
     mMinDelay = min_delay;
     mMaxDelay = max_delay;
-    mCycle = gpRng_67AB34->get_cur_rng_41CFE0() + 1;
+    mCycle = gpRng->get_cur_rng_41CFE0() + 1;
     mUnused20 = 1;
     mSpawnsLeft = 0;
     mAmmo = 0;
@@ -162,7 +162,7 @@ void GeneratorPool::FinalizeAfterScriptLoad()
             pIter++;
         }
     }
-    if (bStartNetworkGame_7081F0)
+    if (bStartNetworkGame)
     {
         Generator* pIter = &mPool[0];
         for (u8 i = 0; i < mCount; i++)
@@ -176,7 +176,7 @@ void GeneratorPool::FinalizeAfterScriptLoad()
 MATCH_FUNC(0x4c1d70)
 void GeneratorPool::GeneratorsService()
 {
-    s32 start_idx = mCountD3 * (gpRng_67AB34->get_cur_rng_41CFE0() & 3);
+    s32 start_idx = mCountD3 * (gpRng->get_cur_rng_41CFE0() & 3);
     s32 end_idx = start_idx + mCountD3;
     if (end_idx > mCount)
     {

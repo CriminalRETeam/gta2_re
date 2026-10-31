@@ -15,7 +15,7 @@
 #include "Player.hpp"
 #include <stdio.h>
 
-DEFINE_GLOBAL(CrusherPool*, gCrusherPool_94_67A830, 0x67A830);
+DEFINE_GLOBAL(CrusherPool*, gCrusherPool_94, 0x67A830);
 
 DEFINE_STATIC_MEMBER_INIT(Fix16, Crusher, kCrusherOpenDist, Fix16(0x3C00, 0), 0x67A7D0);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kCrusherClosedDist, Fix16(0x2400, 0), 0x67A4E4);
@@ -39,7 +39,7 @@ Crusher::~Crusher()
 {
     if (mSound)
     {
-        gRoot_sound_66B038.DestroySoundObj_40FE60(mSound);
+        gRoot_sound.DestroySoundObj_40FE60(mSound);
         mSound = NULL;
     }
 }
@@ -72,9 +72,9 @@ void Crusher::Service()
                 if (mW == kCrusherClosedDist)
                 {
                     mState = CrusherStates::UnCrushW_2;
-                    if (!bStartNetworkGame_7081F0)
+                    if (!bStartNetworkGame)
                     {
-                        mpCarBeingCrushed->mExploderPedId = gGame_0x40_67E008->mLocalPlayer->mPlayerPed->mId;
+                        mpCarBeingCrushed->mExploderPedId = gGame_0x40->mLocalPlayer->mPlayerPed->mId;
                         mpCarBeingCrushed->mDeathCause = ped_death_cause::explosion_4;
                         mpCarBeingCrushed->mExploderTimer = 50;
                     }
@@ -149,51 +149,51 @@ void Crusher::Service()
 MATCH_FUNC(0x4885a0)
 void Crusher::InitCrusher(Fix16 xpos, Fix16 ypos, char_type crusher_idx)
 {
-    Fix16 zpos = gMap_0x370_6F6268->FindGroundZForCoord(xpos, ypos);
+    Fix16 zpos = gMap_0x370->FindGroundZForCoord(xpos, ypos);
 
     mXpos = xpos;
     mYpos = ypos;
 
-    mCentralSpot = gObject_5C_6F8F84->NewPhysicsObj(objects::crusher_central_spot_143, xpos, ypos, zpos, kAngZero_67A820);
+    mCentralSpot = gObject_5C->NewPhysicsObj(objects::crusher_central_spot_143, xpos, ypos, zpos, kAngZero_67A820);
     mCentralSpot->mPedRefIdx = crusher_idx;
 
-    mPistonTop = gObject_5C_6F8F84->NewPhysicsObj(objects::crusher_piston_142,
+    mPistonTop = gObject_5C->NewPhysicsObj(objects::crusher_piston_142,
                                                                  mXpos,
                                                                  mYpos - kCrusherOpenDist,
                                                                  zpos,
                                                                  kAngZero_67A820);
-    mPistonRight = gObject_5C_6F8F84->NewPhysicsObj(objects::crusher_piston_142,
+    mPistonRight = gObject_5C->NewPhysicsObj(objects::crusher_piston_142,
                                                                    mXpos + kCrusherOpenDist,
                                                                    mYpos,
                                                                    zpos,
                                                                    kAng270_67A660);
-    mPistonBottom = gObject_5C_6F8F84->NewPhysicsObj(objects::crusher_piston_142,
+    mPistonBottom = gObject_5C->NewPhysicsObj(objects::crusher_piston_142,
                                                                     mXpos,
                                                                     kCrusherOpenDist + mYpos,
                                                                     zpos,
                                                                     kAng180_67A63A);
-    mPistonLeft = gObject_5C_6F8F84->NewPhysicsObj(objects::crusher_piston_142,
+    mPistonLeft = gObject_5C->NewPhysicsObj(objects::crusher_piston_142,
                                                                   mXpos - kCrusherOpenDist,
                                                                   mYpos,
                                                                   zpos,
                                                                   kAng90_67A568);
 
-    gObject_5C_6F8F84->NewPhysicsObj(objects::crusher_piston_base_150,
+    gObject_5C->NewPhysicsObj(objects::crusher_piston_base_150,
                                             mXpos,
                                             mYpos - kCrusherPistonBaseDist,
                                             zpos,
                                             kAngZero_67A820);
-    gObject_5C_6F8F84->NewPhysicsObj(objects::crusher_piston_base_150,
+    gObject_5C->NewPhysicsObj(objects::crusher_piston_base_150,
                                             mXpos + kCrusherPistonBaseDist,
                                             mYpos,
                                             zpos,
                                             kAng270_67A660);
-    gObject_5C_6F8F84->NewPhysicsObj(objects::crusher_piston_base_150,
+    gObject_5C->NewPhysicsObj(objects::crusher_piston_base_150,
                                             mXpos,
                                             kCrusherPistonBaseDist + mYpos,
                                             zpos,
                                             kAng180_67A63A);
-    gObject_5C_6F8F84->NewPhysicsObj(objects::crusher_piston_base_150,
+    gObject_5C->NewPhysicsObj(objects::crusher_piston_base_150,
                                             mXpos - kCrusherPistonBaseDist,
                                             mYpos,
                                             zpos,
@@ -205,9 +205,9 @@ void Crusher::InitCrusher(Fix16 xpos, Fix16 ypos, char_type crusher_idx)
     mState = CrusherStates::Idle_0;
     mpCarBeingCrushed = NULL;
 
-    if (!mSound && !bSkip_audio_67D6BE)
+    if (!mSound && !bSkip_audio)
     {
-        mSound = gRoot_sound_66B038.CreateSoundObject(this, SoundObjectTypeEnum::Crusher_30_9);
+        mSound = gRoot_sound.CreateSoundObject(this, SoundObjectTypeEnum::Crusher_30_9);
     }
 }
 

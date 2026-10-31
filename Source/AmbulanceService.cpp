@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include "ped_graphic_type.hpp"
 
-DEFINE_GLOBAL(AmbulanceService*, gAmbulance_110_6F70A8, 0x6F70A8);
+DEFINE_GLOBAL(AmbulanceService*, gAmbulance_110, 0x6F70A8);
 
 DEFINE_STATIC_MEMBER(class Ped*, AmbulanceTask, sParamedicCrewPed, 0x6F6D60);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, sParamedicRunSpeed, Fix16(0x1999, 0), 0x6F6DD4);
@@ -158,7 +158,7 @@ void AmbulanceService::ProcessPatientQueue()
     if (pPed->IsNearestSpriteACar())
     {
         mCorpseCount--;
-        gAmbulance_110_6F70A8->TryAddPatient(pPed);
+        gAmbulance_110->TryAddPatient(pPed);
         return;
     }
 
@@ -166,7 +166,7 @@ void AmbulanceService::ProcessPatientQueue()
         x = pPed->get_cam_x().ToInt();
         y = pPed->get_cam_y().ToInt();
         z = pPed->get_cam_z().ToInt();
-        if (!gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType(ROAD, &x, &y, &z, false))
+        if (!gPathFinder->FindNearbyTileMatchingSlopeType(ROAD, &x, &y, &z, false))
         {
             mCorpseCount--;
             pPed->SetObjective(objectives_enum::dead_no_ambulance_50);
@@ -209,7 +209,7 @@ void AmbulanceService::ProcessPatientQueue()
             pNew->mTargetX = x;
             pNew->mTargetY = y;
             pNew->mTargetZ = z;
-            pNew->mParamedicsCrew = gEmergencyCrewPool_706280->AllocateSlot();
+            pNew->mParamedicsCrew = gEmergencyCrewPool->AllocateSlot();
             if (!pNew->mParamedicsCrew)
             {
                 mCorpseCount--;
@@ -284,12 +284,12 @@ bool AmbulanceTask::SpawnParamedicCrew()
         return false;
     }
 
-    if (gPedManager_6787BC->mFbiArmyCount >= 30u)
+    if (gPedManager->mFbiArmyCount >= 30u)
     {
         return false;
     }
 
-    Ped* pPed1 = gPedManager_6787BC->AllocatePed();
+    Ped* pPed1 = gPedManager->AllocatePed();
     if (!pPed1)
     {
         return false;
@@ -308,7 +308,7 @@ bool AmbulanceTask::SpawnParamedicCrew()
     pPed1->mGraphicType = ped_graphic_type::civilian_0;
     pPed1->mRunSpeed = sParamedicRunSpeed;
 
-    Ped* pPed2 = gPedManager_6787BC->AllocatePed();
+    Ped* pPed2 = gPedManager->AllocatePed();
     if (!pPed2)
     {
         return false;
@@ -437,7 +437,7 @@ void AmbulanceTask::HandleObjectiveState()
             }
             else if (sParamedicCrewPed->mGameObject && pTarget->IsNearestSpriteACar())
             {
-                gAmbulance_110_6F70A8->TryAddPatient(pTarget);
+                gAmbulance_110->TryAddPatient(pTarget);
                 if (sParamedicCrewPed->GetPedState_403990() != ped_state_1::dead_9)
                 {
                     sParamedicCrewPed->SetObjective(objectives_enum::no_obj_0);
@@ -518,12 +518,12 @@ void AmbulanceTask::HandleObjectiveState()
                                 CarAI* pAI = mParamedicsCrew->mCar->mAI;
                                 if (pAI && pAI->mRouteIdx > 0)
                                 {
-                                    gRouteFinder_6FFDC8->CancelRoute(pAI->mRouteIdx);
+                                    gRouteFinder->CancelRoute(pAI->mRouteIdx);
                                     mParamedicsCrew->mCar->mAI->mRouteIdx = -1;
                                 }
                                 if (mParamedicsCrew->mCar->mpChaseTask)
                                 {
-                                    gCarChaseTaskTable_678E30->FreeEntry(mParamedicsCrew->mCar->mpChaseTask);
+                                    gCarChaseTaskTable->FreeEntry(mParamedicsCrew->mCar->mpChaseTask);
                                     mParamedicsCrew->mCar->mpChaseTask = NULL;
                                 }
                                 if (mParamedicsCrew->mGroup->IsAllMembersInSomeCar())
@@ -714,7 +714,7 @@ void AmbulanceTask::HandleObjectiveState()
                     }
                     else if (pPatient->IsNearestSpriteACar())
                     {
-                        gAmbulance_110_6F70A8->TryAddPatient(pTarget);
+                        gAmbulance_110->TryAddPatient(pTarget);
                         if (mParamedicsCrew->mPhase == crew_phase::in_car_1)
                         {
                             if (mParamedicsCrew->mGroup)
@@ -814,7 +814,7 @@ void AmbulanceTask::UpdateState()
             while (!mPatients.IsEmpty_420EA0())
             {
                 Ped* pPed = mPatients.RemoveFirstPed();
-                gAmbulance_110_6F70A8->TryAddPatient(pPed);
+                gAmbulance_110->TryAddPatient(pPed);
             }
 
             if (mParamedicsCrew->mReady)

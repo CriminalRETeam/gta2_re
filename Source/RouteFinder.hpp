@@ -168,4 +168,4 @@ class RouteFinder
     u16 m545Count; // 0xCC66
 };
 
-EXTERN_GLOBAL(RouteFinder*, gRouteFinder_6FFDC8);
+EXTERN_GLOBAL(RouteFinder*, gRouteFinder);

@@ -80,5 +80,5 @@ class ExplosionPool_3D4
     bool mbUsed[20]; // 0x3C0
 };
 
-EXTERN_GLOBAL(ExplosionPool*, gExplosionPool_7A8_6FD5F0);
-EXTERN_GLOBAL(ExplosionPool_3D4*, gExplosionPool_3D4_6FD5EC);
+EXTERN_GLOBAL(ExplosionPool*, gExplosionPool_7A8);
+EXTERN_GLOBAL(ExplosionPool_3D4*, gExplosionPool_3D4);

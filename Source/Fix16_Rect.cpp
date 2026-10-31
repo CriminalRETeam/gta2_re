@@ -3,8 +3,8 @@
 #include "SpriteGrid.hpp"
 #include "sprite.hpp"
 
-DEFINE_GLOBAL_INIT(Fix16, kSmallWidthEpslion_703450, Fix16(0xCCC, 0), 0x703450);
-DEFINE_GLOBAL_INIT(Fix16, kCollisionPrismHalfHeight_6771E4, Fix16(0x800, 0), 0x6771E4);
+DEFINE_GLOBAL_INIT(Fix16, kSmallWidthEpslion, Fix16(0xCCC, 0), 0x703450);
+DEFINE_GLOBAL_INIT(Fix16, kCollisionPrismHalfHeight, Fix16(0x800, 0), 0x6771E4);
 
 MATCH_FUNC(0x4E6280)
 void Fix16_Rect::MakeRect(Fix16 x, Fix16 y, Fix16 w, Fix16 h)
@@ -18,10 +18,10 @@ void Fix16_Rect::MakeRect(Fix16 x, Fix16 y, Fix16 w, Fix16 h)
 MATCH_FUNC(0x59dd60)
 void Fix16_Rect::DoSetCurrentRect()
 {
-    gSpriteGrid_left_6F5FD4 = mLeft.ToInt();
-    gSpriteGrid_right_6F5B80 = mRight.ToInt();
-    gSpriteGrid_top_6F6108 = mTop.ToInt();
-    gSpriteGrid_bottom_6F5F38 = mBottom.ToInt();
+    gSpriteGrid_left = mLeft.ToInt();
+    gSpriteGrid_right = mRight.ToInt();
+    gSpriteGrid_top = mTop.ToInt();
+    gSpriteGrid_bottom = mBottom.ToInt();
 }
 
 // 0x4BA6C0 9.6f
@@ -41,7 +41,7 @@ char_type Fix16_Rect::IsRectBlockedByMap()
     s32 x = ((this->mLeft + this->mRight) / 2).ToInt();
     s32 y = ((this->mTop + this->mBottom) / 2).ToInt();
     s32 z = ((this->mLowZ + this->mHighZ) / 2).ToInt();
-    return gMap_0x370_6F6268->IsMovementRegionBlocked(x, y, z, NULL, 1024);
+    return gMap_0x370->IsMovementRegionBlocked(x, y, z, NULL, 1024);
 }
 
 MATCH_FUNC(0x59dee0)
@@ -83,7 +83,7 @@ bool Fix16_Rect::RectOverlapsZone(u8 zone_type)
         zone_x = mLeft.ToUInt8();
         while (zone_x <= mRight.ToUInt8())
         {
-            if (gMap_0x370_6F6268->GetZoneAtPosOfType(zone_x, zone_y, zone_type))
+            if (gMap_0x370->GetZoneAtPosOfType(zone_x, zone_y, zone_type))
             {
                 return true;
             }
@@ -112,7 +112,7 @@ bool Fix16_Rect::EveryTileMatchesArrowType(s32 arrow_type)
                 return false;
             }
 
-            gmp_block_info* pBlockAtPos = gMap_0x370_6F6268->GetBlock(x_pos, y_pos, mLowZ.ToInt());
+            gmp_block_info* pBlockAtPos = gMap_0x370->GetBlock(x_pos, y_pos, mLowZ.ToInt());
             if (pBlockAtPos)
             {
                 

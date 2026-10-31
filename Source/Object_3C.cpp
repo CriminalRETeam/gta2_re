@@ -12,7 +12,7 @@
 
 DEFINE_GLOBAL_INIT(Fix16, kFp255_6F8BF0, Fix16(255), 0x6F8BF0);
 DEFINE_GLOBAL(Ang16, kZeroAng_6F8F68, 0x6F8F68);
-DEFINE_GLOBAL(SpriteList, gTrailerHitchCandidates_67727C, 0x67727C);
+DEFINE_GLOBAL(SpriteList, gTrailerHitchCandidates, 0x67727C);
 
 EXTERN_GLOBAL(Fix16, kFpOne64th_6F8ECC);
 
@@ -156,12 +156,12 @@ void SpriteList::RemoveSprite(Sprite* toFind)
             if (pLast)
             {
                 pLast->mpNext = pIter->mpNext;
-                gAttachedSpritePool_703B80->DeAllocate(pIter);
+                gAttachedSpritePool->DeAllocate(pIter);
             }
             else
             {
                 this->mP18 = pIter->mpNext;
-                gAttachedSpritePool_703B80->DeAllocate(pIter);
+                gAttachedSpritePool->DeAllocate(pIter);
             }
             return;
         }
@@ -182,12 +182,12 @@ void SpriteList::RemoveSpriteSafe(Sprite* toFind)
             if (pLast)
             {
                 pLast->mpNext = pIter->mpNext;
-                gAttachedSpritePool_703B80->DeAllocate(pIter);
+                gAttachedSpritePool->DeAllocate(pIter);
             }
             else
             {
                 this->mP18 = pIter->mpNext;
-                gAttachedSpritePool_703B80->DeAllocate(pIter);
+                gAttachedSpritePool->DeAllocate(pIter);
             }
             return;
         }
@@ -232,7 +232,7 @@ bool SpriteList::TagSpriteWithRng(Sprite* toFind)
         {
             if (pNext->mpSprite == toFind)
             {
-                pNext->mRng = gpRng_67AB34->get_cur_rng_41CFE0();
+                pNext->mRng = gpRng->get_cur_rng_41CFE0();
                 return true;
             }
         }
@@ -259,12 +259,12 @@ void SpriteList::RemoveAllExceptRngValue(s32 toFind)
             if (pLast)
             {
                 pLast->mpNext = pSavedNext;
-                gAttachedSpritePool_703B80->DeAllocate(pIter);
+                gAttachedSpritePool->DeAllocate(pIter);
                 pIter = pLast->mpNext;
             }
             else
             {
-                gAttachedSpritePool_703B80->DeAllocate(pIter);
+                gAttachedSpritePool->DeAllocate(pIter);
                 pIter = pSavedNext;
                 this->mP18 = pSavedNext;
             }
@@ -291,7 +291,7 @@ Sprite* SpriteList::FirstSpriteOfType(s32 sprite_type) const
 MATCH_FUNC(0x5a6cd0)
 void SpriteList::AddSprite(Sprite* pSprite)
 {
-    AttachedSprite* pAttached = gAttachedSpritePool_703B80->Allocate();
+    AttachedSprite* pAttached = gAttachedSpritePool->Allocate();
     pAttached->mpSprite = pSprite;
     pAttached->mpNext = this->mP18;
     pAttached->mOffsetX = 0;
@@ -302,7 +302,7 @@ void SpriteList::AddSprite(Sprite* pSprite)
 MATCH_FUNC(0x5a6d00)
 void SpriteList::PushAttachedSprite(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 angle)
 {
-    AttachedSprite* pAttached = gAttachedSpritePool_703B80->Allocate();
+    AttachedSprite* pAttached = gAttachedSpritePool->Allocate();
     pAttached->mpSprite = pSprite;
     pAttached->mpNext = mP18;
     pAttached->mOffsetX = x;
@@ -324,7 +324,7 @@ void SpriteList::PushSprite(Sprite* pSprite)
         pIter = pIter->mpNext;
     }
 
-    AttachedSprite* pNew = gAttachedSpritePool_703B80->Allocate();
+    AttachedSprite* pNew = gAttachedSpritePool->Allocate();
     pNew->mpSprite = pSprite;
 
     pNew->mpNext = this->mP18;
@@ -356,7 +356,7 @@ Sprite* SpriteList::PopFrontSprite()
     }
     Sprite* pOld = pAttached->mpSprite;
     this->mP18 = pAttached->mpNext;
-    gAttachedSpritePool_703B80->DeAllocate(pAttached);
+    gAttachedSpritePool->DeAllocate(pAttached);
     return pOld;
 }
 
@@ -380,7 +380,7 @@ Sprite* SpriteList::PopBackSprite()
     {
         this->mP18 = NULL;
     }
-    gAttachedSpritePool_703B80->DeAllocate(pIter);
+    gAttachedSpritePool->DeAllocate(pIter);
 
     return result;
 }
@@ -393,7 +393,7 @@ AttachedSprite* SpriteList::ClearList()
     {
         AttachedSprite* pLast = pIter;
         pIter = pIter->mpNext;
-        gAttachedSpritePool_703B80->DeAllocate(pLast);
+        gAttachedSpritePool->DeAllocate(pLast);
     }
     this->mP18 = NULL;
     return pIter;
@@ -452,7 +452,7 @@ Sprite* SpriteList::TakeClosestSprite(Fix16 xpos, Fix16 ypos)
     {
         mP18 = pClosest->mpNext;
     }
-    gAttachedSpritePool_703B80->DeAllocate(pClosest);
+    gAttachedSpritePool->DeAllocate(pClosest);
     return pSprite;
 }
 
@@ -492,7 +492,7 @@ void SpriteList::PoolUpdate(Sprite* pSprite)
                     pPreviousItem->mpNext = pCurrItem->mpNext;
                 }
             }
-            gAttachedSpritePool_703B80->DeAllocate(pCurrItem);
+            gAttachedSpritePool->DeAllocate(pCurrItem);
         }
         else
         {
@@ -513,12 +513,12 @@ void SpriteList::DestroyAllSprites()
         switch (pIter->mpSprite->GetType_416B40())
         {
             case sprite_types_enum::car_2:
-                gCarManager_6C_677930->RemoveFromPoolAndCollision(pSprite->mCarBcPtr);
+                gCarManager_6C->RemoveFromPoolAndCollision(pSprite->mCarBcPtr);
                 break;
             case sprite_types_enum::object_1:
             case sprite_types_enum::code_obj1_4:
             case sprite_types_enum::map_obj_5:
-                gObject_5C_6F8F84->RemoveAndFree(pSprite->mObject2CPtr);
+                gObject_5C->RemoveAndFree(pSprite->mObject2CPtr);
                 break;
             default:
                 break;
@@ -540,11 +540,11 @@ void SpriteList::CleanupSpriteList()
         s32 type = pIter->mpSprite->GetType_416B40();
         if ((type == sprite_types_enum::object_1 || type > sprite_types_enum::ped_3 && type <= sprite_types_enum::map_obj_5) && pIter->mpSprite->mObject2CPtr->IsFlameObject_4BE830())
         {
-            gObject_5C_6F8F84->RemoveAndFree(pIter->mpSprite->mObject2CPtr);
+            gObject_5C->RemoveAndFree(pIter->mpSprite->mObject2CPtr);
             if (pLast)
             {
                 pLast->mpNext = pIter->mpNext;
-                gAttachedSpritePool_703B80->DeAllocate(pIter);
+                gAttachedSpritePool->DeAllocate(pIter);
                 pIter = pLast->mpNext;
             }
             else
@@ -561,7 +561,7 @@ void SpriteList::CleanupSpriteList()
         if (bUnlinkHead)
         {
             AttachedSprite* pNext = pIter->mpNext;
-            gAttachedSpritePool_703B80->DeAllocate(pIter);
+            gAttachedSpritePool->DeAllocate(pIter);
             pIter = pNext;
             this->mP18 = pNext;
         }
@@ -595,7 +595,7 @@ void SpriteList::ClearGangIconSprite()
             }
         }
 
-        gObject_5C_6F8F84->RemoveAndFree(pObject);
+        gObject_5C->RemoveAndFree(pObject);
 
         if (pLast)
         {
@@ -605,7 +605,7 @@ void SpriteList::ClearGangIconSprite()
         {
             this->mP18 = pIter->mpNext;
         }
-        gAttachedSpritePool_703B80->DeAllocate(pIter);
+        gAttachedSpritePool->DeAllocate(pIter);
     }
 }
 
@@ -672,13 +672,13 @@ void SpriteList::PruneNonCollidingSprites(Sprite* pSprite)
         else if (pLast)
         {
             pLast->mpNext = pNext->mpNext;
-            gAttachedSpritePool_703B80->DeAllocate(pNext);
+            gAttachedSpritePool->DeAllocate(pNext);
             pNext = pLast->mpNext;
         }
         else
         {
             AttachedSprite* pSaveNext = pNext->mpNext;
-            gAttachedSpritePool_703B80->DeAllocate(pNext);
+            gAttachedSpritePool->DeAllocate(pNext);
             pNext = pSaveNext;
             this->mP18 = pSaveNext;
         }

@@ -59,11 +59,11 @@ EXPORT void __stdcall Shutdown_4DA740();
 
 EXPORT void __stdcall GBH_Graphis_DMA_Video_Free();
 
-EXTERN_GLOBAL(char_type, gTmpBuffer_67C598[256]);
-EXTERN_GLOBAL(HWND, gHwnd_707F04);
-EXTERN_GLOBAL(char_type, bDestroyed_6F5B70);
-EXTERN_GLOBAL(char_type, gErrStr_67C29C[256]);
-EXTERN_GLOBAL(char_type, gErrStr2_67C3A8[256]);
+EXTERN_GLOBAL(char_type, gTmpBuffer[256]);
+EXTERN_GLOBAL(HWND, gHwnd);
+EXTERN_GLOBAL(char_type, bDestroyed);
+EXTERN_GLOBAL(char_type, gErrStr[256]);
+EXTERN_GLOBAL(char_type, gErrStr2[256]);
 
 EXTERN_GLOBAL(ErrorLog, gErrorLog_67C530);
-EXTERN_GLOBAL(ErrorLog, gMiss2Log_6F7698);
+EXTERN_GLOBAL(ErrorLog, gMiss2Log);

@@ -7,12 +7,12 @@
 #include "error.hpp"
 #include "root_sound.hpp"
 
-DEFINE_GLOBAL(WeaponPool*, gWeapon_30_Pool_707014, 0x707014);
-DEFINE_GLOBAL(WeaponManager*, gWeapon_8_707018, 0x707018);
+DEFINE_GLOBAL(WeaponPool*, gWeapon_30_Pool, 0x707014);
+DEFINE_GLOBAL(WeaponManager*, gWeapon_8, 0x707018);
 // Read only in Weapon.cpp, defined here: see the comment there.
 DEFINE_GLOBAL_INIT(Ang16, kAng12_706D5E, Ang16(48), 0x706D5E);
 
-DEFINE_GLOBAL_ARRAY_INIT(u8, max_ammo_capacity_5FF75C, 28, 0x5FF75C, 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA
+DEFINE_GLOBAL_ARRAY_INIT(u8, max_ammo_capacity, 28, 0x5FF75C, 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA
                                                                       99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 1u COMMA  99u COMMA 99u COMMA 99u COMMA 99u COMMA
                                                                       99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u COMMA 99u);
 
@@ -24,7 +24,7 @@ u8 default_ammo_5FF778[40] = {10u, 10u, 5u,  20u, 5u, 5u, 10u, 20u, 20u, 10u, 10
 MATCH_FUNC(0x5e3c10)
 Weapon* WeaponManager::allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo)
 {
-    Weapon* pNewWeap = gWeapon_30_Pool_707014->AllocateUnlinked_4CC9E0();
+    Weapon* pNewWeap = gWeapon_30_Pool->AllocateUnlinked_4CC9E0();
     pNewWeap->init();
     mRefCount++;
     pNewWeap->set_idx_4CCA00(weapon_kind);
@@ -36,7 +36,7 @@ Weapon* WeaponManager::allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo)
 MATCH_FUNC(0x5e3cb0)
 void WeaponManager::deallocate(Weapon* pWeapon)
 {
-    WeaponPool* pRoot = gWeapon_30_Pool_707014;
+    WeaponPool* pRoot = gWeapon_30_Pool;
     pWeapon->PoolDeallocate();
     pWeapon->mpNext = pRoot->mPool.mpStart;
     pRoot->mPool.mpStart = pWeapon;
@@ -46,7 +46,7 @@ void WeaponManager::deallocate(Weapon* pWeapon)
 MATCH_FUNC(0x5e3ce0)
 Weapon* WeaponManager::allocate_5E3CE0(s32 weapon_kind, Car* pCar, u8 ammo)
 {
-    Weapon* pWeapon = gWeapon_30_Pool_707014->Allocate();
+    Weapon* pWeapon = gWeapon_30_Pool->Allocate();
     pWeapon->init();
     pWeapon->set_idx_4CCA00(weapon_kind);
     pWeapon->set_car_4CCA20(pCar);
@@ -57,7 +57,7 @@ Weapon* WeaponManager::allocate_5E3CE0(s32 weapon_kind, Car* pCar, u8 ammo)
 MATCH_FUNC(0x5e3d20)
 Weapon* WeaponManager::find(Car* pCar, s32 weapon_kind)
 {
-    Weapon* result = gWeapon_30_Pool_707014->get_next_4CC9B0();
+    Weapon* result = gWeapon_30_Pool->get_next_4CC9B0();
     if (!result)
     {
         return NULL;
@@ -103,7 +103,7 @@ bool WeaponManager::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car* pCar)
     {
         if (pCar->mDriver)
         {
-            pCar->mDriver->mCarWeapon = gWeapon_8_707018->allocate_5E3C10(weapon_kind, pCar->mDriver, 99u);
+            pCar->mDriver->mCarWeapon = gWeapon_8->allocate_5E3C10(weapon_kind, pCar->mDriver, 99u);
             pCar->mDriver->mCarWeapon->mCar = pCar;
         }
     }
@@ -114,14 +114,14 @@ bool WeaponManager::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car* pCar)
 MATCH_FUNC(0x5e3df0)
 void WeaponManager::dealloc_car_weapon(Car* pCar)
 {
-    Weapon* pIter = gWeapon_30_Pool_707014->get_next_4CC9B0();
+    Weapon* pIter = gWeapon_30_Pool->get_next_4CC9B0();
     while (pIter)
     {
         if ( pIter->mCar == pCar )
         {
           Weapon* pOldIter = pIter;
           pIter = pIter->mpNext;
-          gWeapon_30_Pool_707014->DeAllocate_4A4F20(pOldIter);
+          gWeapon_30_Pool->DeAllocate_4A4F20(pOldIter);
         }
         else
         {
@@ -133,7 +133,7 @@ void WeaponManager::dealloc_car_weapon(Car* pCar)
 MATCH_FUNC(0x5e3e70)
 u8 WeaponManager::get_max_ammo_capacity(s32 weapon_kind) const
 {
-    return max_ammo_capacity_5FF75C[weapon_kind];
+    return max_ammo_capacity[weapon_kind];
 }
 
 MATCH_FUNC(0x5e3e80)
@@ -145,10 +145,10 @@ u8 WeaponManager::get_defalt_ammo(s32 weapon_kind) const
 MATCH_FUNC(0x5e3e90)
 WeaponManager::WeaponManager()
 {
-    if (!gWeapon_30_Pool_707014)
+    if (!gWeapon_30_Pool)
     {
-        gWeapon_30_Pool_707014 = new WeaponPool();
-        if (!gWeapon_30_Pool_707014)
+        gWeapon_30_Pool = new WeaponPool();
+        if (!gWeapon_30_Pool)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\weapon.cpp", 2428);
         }
@@ -160,9 +160,9 @@ WeaponManager::WeaponManager()
 MATCH_FUNC(0x5e3f60)
 WeaponManager::~WeaponManager()
 {
-    if (gWeapon_30_Pool_707014)
+    if (gWeapon_30_Pool)
     {
-        GTA2_DELETE_AND_NULL(gWeapon_30_Pool_707014);
+        GTA2_DELETE_AND_NULL(gWeapon_30_Pool);
     }
 }
 

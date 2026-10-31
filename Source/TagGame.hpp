@@ -18,7 +18,7 @@ class TagGame
     // 9.6f 0x434B20
     inline bool IsTagGame_434B20()
     {
-        return gGameSession_67E8E0.GetMultiplayerGamemode() == TAG_GAME_3;
+        return gGameSession.GetMultiplayerGamemode() == TAG_GAME_3;
     }
 
     // 9.6f 0x434B60, defined in Player.hpp
@@ -55,4 +55,4 @@ class TagGame
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TagGame, 0x28);
 
-EXTERN_GLOBAL(TagGame, gTagGame_6F8450);
+EXTERN_GLOBAL(TagGame, gTagGame);

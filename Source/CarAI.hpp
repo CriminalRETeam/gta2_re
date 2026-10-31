@@ -164,4 +164,4 @@ class CarAIPool
     PoolBasic<CarAI, 306> mPool; // 0x0
 };
 
-EXTERN_GLOBAL(CarAIPool*, gCarAI_78_Pool_677CF8);
+EXTERN_GLOBAL(CarAIPool*, gCarAI_78_Pool);

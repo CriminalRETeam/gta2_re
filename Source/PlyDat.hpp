@@ -111,4 +111,4 @@ struct PlyDat
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PlyDat, 0x2BC0);
 
-EXTERN_GLOBAL(PlyDat*, gPlyDat_6FEAC0);
+EXTERN_GLOBAL(PlyDat*, gPlyDat);

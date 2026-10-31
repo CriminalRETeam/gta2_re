@@ -6,7 +6,7 @@
 struct object_info;
 class Sprite;
 
-// Static table entry (gMapObjectOverrides_6FC5F8): overrides the properties of an existing (map) object definition,
+// Static table entry (gMapObjectOverrides): overrides the properties of an existing (map) object definition,
 // see ObjectDefinitions::ApplyMapObjectOverrides
 class MapObjectOverride
 {
@@ -57,7 +57,7 @@ class MapObjectOverride
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(MapObjectOverride, 0x54);
 
-// Static table entry (gCodeObjectTemplates_6F9038): template of a code object, converted into an ObjectDefinition by
+// Static table entry (gCodeObjectTemplates): template of a code object, converted into an ObjectDefinition by
 // ObjectDefinitions::CreateCodeObjectDefinitions
 class CodeObjectTemplate
 {
@@ -140,13 +140,13 @@ namespace collision_bucket_category
 {
 enum
 {
-    sprite_grid_3_single_cell_0 = 0, // gSpriteGrid_3_679210
-    sprite_grid_3_single_cell_1 = 1, // gSpriteGrid_3_679210
+    sprite_grid_3_single_cell_0 = 0, // gSpriteGrid_3
+    sprite_grid_3_single_cell_1 = 1, // gSpriteGrid_3
 
     none_2 = 2, // no bucket assignment
 
-    sprite_grid_2_region_3 = 3, // gSpriteGrid_2_67920C
-    sprite_grid_1_region_4 = 4 // gSpriteGrid_1_679208
+    sprite_grid_2_region_3 = 3, // gSpriteGrid_2
+    sprite_grid_1_region_4 = 4 // gSpriteGrid_1
 };
 } // namespace collision_bucket_category
 
@@ -261,15 +261,15 @@ class ObjectDefinitions
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ObjectDefinitions, 0x8CA8);
 
-EXTERN_GLOBAL(ObjectDefinitions*, gObjectDefinitions_6FCF00);
+EXTERN_GLOBAL(ObjectDefinitions*, gObjectDefinitions);
 
 EXTERN_GLOBAL(Fix16, kFpQuarter_6F8FAC);
 EXTERN_GLOBAL(Fix16, kFpPoint1_6F8FD8);
 EXTERN_GLOBAL(Fix16, kFpPoint2_6FC578);
 EXTERN_GLOBAL(Fix16, kFpHalf_6FC584);
 
-EXTERN_GLOBAL(s32, gMapObjectOverrides_length_623EEC);
-EXTERN_GLOBAL(s32, gCodeObjectTemplates_length_623EF0);
+EXTERN_GLOBAL(s32, gMapObjectOverrides_length);
+EXTERN_GLOBAL(s32, gCodeObjectTemplates_length);
 
-EXTERN_GLOBAL_ARRAY(MapObjectOverride, gMapObjectOverrides_6FC5F8, 24);
-EXTERN_GLOBAL_ARRAY(CodeObjectTemplate, gCodeObjectTemplates_6F9038, 126);
+EXTERN_GLOBAL_ARRAY(MapObjectOverride, gMapObjectOverrides, 24);
+EXTERN_GLOBAL_ARRAY(CodeObjectTemplate, gCodeObjectTemplates, 126);

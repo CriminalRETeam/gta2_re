@@ -2,7 +2,7 @@
 #include "Globals.hpp"
 #include "Ped.hpp"
 
-DEFINE_GLOBAL(CarChaseTaskTable*, gCarChaseTaskTable_678E30, 0x678E30);
+DEFINE_GLOBAL(CarChaseTaskTable*, gCarChaseTaskTable, 0x678E30);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_678D0C, Fix16(0), 0x678D0C);
 

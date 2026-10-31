@@ -6,7 +6,7 @@
 #include <windows.h>
 #include "enums.hpp"
 
-DEFINE_GLOBAL(KeyboardLayout*, gKeybrd_0x204_6F52F4, 0x6F52F4);
+DEFINE_GLOBAL(KeyboardLayout*, gKeybrd_0x204, 0x6F52F4);
 
 char kTwoSpacesStr_620D2C[] = {' ', ' ', 0};
 
@@ -138,24 +138,24 @@ wchar_t KeyboardLayout::GetKey(u16 key_idx)
 MATCH_FUNC(0x4D5F50)
 void __stdcall KeyboardLayout::create()
 {
-    if (!gKeybrd_0x204_6F52F4)
+    if (!gKeybrd_0x204)
     {
-        gKeybrd_0x204_6F52F4 = new KeyboardLayout();
-        if (!gKeybrd_0x204_6F52F4)
+        gKeybrd_0x204 = new KeyboardLayout();
+        if (!gKeybrd_0x204)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\keybrd.cpp", 244);
         }
     }
-    gKeybrd_0x204_6F52F4->LoadKbCfg();
+    gKeybrd_0x204->LoadKbCfg();
 }
 
 MATCH_FUNC(0x4D5FA0)
 void KeyboardLayout::destroy()
 {
-    if (gKeybrd_0x204_6F52F4)
+    if (gKeybrd_0x204)
     {
-        delete gKeybrd_0x204_6F52F4;
-        gKeybrd_0x204_6F52F4 = NULL;
+        delete gKeybrd_0x204;
+        gKeybrd_0x204 = NULL;
     }
 }
 
@@ -163,9 +163,9 @@ void KeyboardLayout::destroy()
 MATCH_FUNC(0x4D5FD0)
 void KeyboardLayout::RecreateIfLayoutChanged()
 {
-    if (gKeybrd_0x204_6F52F4)
+    if (gKeybrd_0x204)
     {
-        s32 curLayout = gKeybrd_0x204_6F52F4->mKeyBoardLayout;
+        s32 curLayout = gKeybrd_0x204->mKeyBoardLayout;
         if (curLayout == KeyboardLayout::GetLayout())
         {
             return;

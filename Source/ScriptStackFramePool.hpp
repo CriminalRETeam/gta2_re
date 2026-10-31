@@ -47,4 +47,4 @@ class ScriptStackFramePool
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ScriptStackFramePool, 0x25C)
 
-EXTERN_GLOBAL(ScriptStackFramePool*, gScriptStackFramePool_6F8068);
+EXTERN_GLOBAL(ScriptStackFramePool*, gScriptStackFramePool);

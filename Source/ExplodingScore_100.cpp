@@ -7,11 +7,11 @@
 
 DEFINE_GLOBAL(ExplodingScorePool*, gExplodingScorePool, 0x702F34);
 
-DEFINE_GLOBAL_INIT(Fix16, kFp160_702C6C, Fix16(160), 0x702C6C); // Fix16(640) / Fix16(4) (the global 0x702DF0)
+DEFINE_GLOBAL_INIT(Fix16, kFp160, Fix16(160), 0x702C6C); // Fix16(640) / Fix16(4) (the global 0x702DF0)
 DEFINE_GLOBAL_INIT(Fix16, kFp255_702BC4, Fix16(255), 0x702BC4);
-DEFINE_STATIC_GLOBAL_INIT(Fix16, kFp480, Fix16(480), 0x702F10); // 0xA00000 - kFp160_702C6C
-DEFINE_GLOBAL_INIT(Fix16, kFp120_702C74, Fix16(120), 0x702C74); // Fix16(480) / Fix16(4) (the global 0x702DF0)
-DEFINE_STATIC_GLOBAL_INIT(Fix16, kFp360, Fix16(360), 0x702C08); // 0x780000 - kFp120_702C74
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFp480, Fix16(480), 0x702F10); // 0xA00000 - kFp160
+DEFINE_GLOBAL_INIT(Fix16, kFp120, Fix16(120), 0x702C74); // Fix16(480) / Fix16(4) (the global 0x702DF0)
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFp360, Fix16(360), 0x702C08); // 0x780000 - kFp120
 
 DEFINE_GLOBAL(Fix16, kFpZero_702DE0, 0x702DE0);
 DEFINE_GLOBAL(Ang16, kAng0_702F24, 0x702F24);
@@ -252,11 +252,11 @@ void ExplodingScore::DrawNumbers()
     Fix16 screen_y;
     Fix16 x_delta;
     Fix16 y_delta;
-    Camera* pCamera = &gGame_0x40_67E008->mLocalPlayer->mViewCamera;
+    Camera* pCamera = &gGame_0x40->mLocalPlayer->mViewCamera;
     pCamera->ProjectWorldToScreen_OutOfLine_4B90E0(mX, mY, mZ, &screen_x, &screen_y);
-    if (screen_x < kFp160_702C6C)
+    if (screen_x < kFp160)
     {
-        screen_x = kFp160_702C6C - screen_x;
+        screen_x = kFp160 - screen_x;
         x_delta = screen_x / kFp255_702BC4;
         mX += x_delta;
     }
@@ -267,9 +267,9 @@ void ExplodingScore::DrawNumbers()
         mX += x_delta;
     }
 
-    if (screen_y < kFp120_702C74)
+    if (screen_y < kFp120)
     {
-        screen_y = kFp120_702C74 - screen_y;
+        screen_y = kFp120 - screen_y;
         y_delta = screen_y / kFp255_702BC4;
         mY += y_delta;
     }
@@ -392,7 +392,7 @@ MATCH_FUNC(0x597100)
 void ExplodingScore::DrawSingleNumber(s32 number_to_draw, s32 xpos_sub)
 {
 
-    Camera* pCam = &gGame_0x40_67E008->mLocalPlayer->mViewCamera;
+    Camera* pCam = &gGame_0x40->mLocalPlayer->mViewCamera;
 
     Fix16 proj_x;
     Fix16 proj_y;

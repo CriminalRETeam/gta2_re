@@ -116,8 +116,8 @@ class CarThreadTriggers
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarThreadTriggers, 0x214);
 
-EXTERN_GLOBAL(CarThreadTriggers*, gCarThreadTriggers_214_705F20);
-EXTERN_GLOBAL_ARRAY(u16, gRngRemapTable_679320, 1000);
+EXTERN_GLOBAL(CarThreadTriggers*, gCarThreadTriggers_214);
+EXTERN_GLOBAL_ARRAY(u16, gRngRemapTable, 1000);
 
 class CarRemapRng
 {
@@ -128,7 +128,7 @@ class CarRemapRng
 
     u16 GetRngValue_4212D0() const
     {
-        return gRngRemapTable_679320[this->mTableIdx];
+        return gRngRemapTable[this->mTableIdx];
     }
 
     u16 mTableIdx; // 0x0
@@ -251,11 +251,11 @@ class CarManager
         if (car_model == car_model_enum::TRAIN || car_model == car_model_enum::TRAINCAB || car_model == car_model_enum::TRAINFB ||
             car_model == car_model_enum::boxcar)
         {
-            return SpawnCarAt(xpos, ypos, gMap_0x370_6F6268->GetRailwayZCoordAtXY(xpos, ypos), rotation, car_model, scale);
+            return SpawnCarAt(xpos, ypos, gMap_0x370->GetRailwayZCoordAtXY(xpos, ypos), rotation, car_model, scale);
         }
         else
         {
-            return SpawnCarAt(xpos, ypos, gMap_0x370_6F6268->FindGroundZForCoord(xpos, ypos), rotation, car_model, scale);
+            return SpawnCarAt(xpos, ypos, gMap_0x370->FindGroundZForCoord(xpos, ypos), rotation, car_model, scale);
         }
     }
 
@@ -265,11 +265,11 @@ class CarManager
         if (car_model == car_model_enum::TRAIN || car_model == car_model_enum::TRAINCAB || car_model == car_model_enum::TRAINFB ||
             car_model == car_model_enum::boxcar)
         {
-            return SpawnCarAt(xpos, ypos, gMap_0x370_6F6268->GetRailwayZCoordAtXY(xpos, ypos), rotation, car_model, scale);
+            return SpawnCarAt(xpos, ypos, gMap_0x370->GetRailwayZCoordAtXY(xpos, ypos), rotation, car_model, scale);
         }
         else
         {
-            return SpawnCarAt(xpos, ypos, gMap_0x370_6F6268->FindGroundZForCoord(xpos, ypos), rotation, car_model, scale);
+            return SpawnCarAt(xpos, ypos, gMap_0x370->FindGroundZForCoord(xpos, ypos), rotation, car_model, scale);
         }
     }
 
@@ -278,11 +278,11 @@ class CarManager
         if (car_model == car_model_enum::TRAIN || car_model == car_model_enum::TRAINCAB || car_model == car_model_enum::TRAINFB ||
             car_model == car_model_enum::boxcar)
         {
-            return SpawnCarAt(xpos, ypos, gMap_0x370_6F6268->GetRailwayZCoordAtXY(xpos, ypos), rotation, car_model, kFP16One_6777D0);
+            return SpawnCarAt(xpos, ypos, gMap_0x370->GetRailwayZCoordAtXY(xpos, ypos), rotation, car_model, kFP16One_6777D0);
         }
         else
         {
-            return SpawnCarAt(xpos, ypos, gMap_0x370_6F6268->FindGroundZForCoord(xpos, ypos), rotation, car_model, kFP16One_6777D0);
+            return SpawnCarAt(xpos, ypos, gMap_0x370->FindGroundZForCoord(xpos, ypos), rotation, car_model, kFP16One_6777D0);
         }
     }
 
@@ -332,7 +332,7 @@ class CarManager
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarManager, 0x6C);
 
-EXTERN_GLOBAL(CarManager*, gCarManager_6C_677930);
+EXTERN_GLOBAL(CarManager*, gCarManager_6C);
 
 class Trailer
 {
@@ -411,7 +411,7 @@ class Car
     {
         if (!mAI)
         {
-            mAI = gCarAI_78_Pool_677CF8->Allocate();
+            mAI = gCarAI_78_Pool->Allocate();
         }
     }
 
@@ -818,7 +818,7 @@ class Car
     // elsewhere (shared header names, docs/matching_quirks.md)
     inline bool HasEmergencyInfoFlag() const
     {
-        return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(mCarInfoIdx)->info_flags & car_info_flag::emergency) == car_info_flag::emergency;
+        return (gGtx_0x106C->get_car_info_5AA3B0(mCarInfoIdx)->info_flags & car_info_flag::emergency) == car_info_flag::emergency;
     }
 
     bool IsMaxDamage_40F890() const
@@ -861,36 +861,36 @@ class Car
     // 9.6f inline 0x421700
     inline bool HasPopupHeadlights_421700() const
     {
-        return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(mCarInfoIdx)->info_flags_2 & car_info_flag2::popup_headlights) == car_info_flag2::popup_headlights;
+        return (gGtx_0x106C->get_car_info_5AA3B0(mCarInfoIdx)->info_flags_2 & car_info_flag2::popup_headlights) == car_info_flag2::popup_headlights;
     }
 
     // 9.6f inline 0x421660
     inline bool HasRoofLight_421660() const
     {
-        return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(mCarInfoIdx)->info_flags & car_info_flag::roof_light) == car_info_flag::roof_light;
+        return (gGtx_0x106C->get_car_info_5AA3B0(mCarInfoIdx)->info_flags & car_info_flag::roof_light) == car_info_flag::roof_light;
     }
 
     inline bool IsTrailerInfo_421640() const
     {
-        return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(mCarInfoIdx)->info_flags & car_info_flag::trailer) == car_info_flag::trailer;
+        return (gGtx_0x106C->get_car_info_5AA3B0(mCarInfoIdx)->info_flags & car_info_flag::trailer) == car_info_flag::trailer;
     }
 
     // 9.6f inline 0x4216C0
     inline bool HasTaxiLight_4216C0() const
     {
-        return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(mCarInfoIdx)->info_flags & car_info_flag::taxi_light) == car_info_flag::taxi_light;
+        return (gGtx_0x106C->get_car_info_5AA3B0(mCarInfoIdx)->info_flags & car_info_flag::taxi_light) == car_info_flag::taxi_light;
     }
 
     // 9.6f inline 0x421680
     inline bool HasBottomLeftRoofLight_421680() const
     {
-        return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(mCarInfoIdx)->info_flags & car_info_flag::bottom_roof_light) == car_info_flag::bottom_roof_light;
+        return (gGtx_0x106C->get_car_info_5AA3B0(mCarInfoIdx)->info_flags & car_info_flag::bottom_roof_light) == car_info_flag::bottom_roof_light;
     }
 
     // 9.6f inline 0x4216A0
     inline bool HasTopRoofLights_4216A0() const
     {
-        return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(mCarInfoIdx)->info_flags & car_info_flag::top_roof_lights) == car_info_flag::top_roof_lights;
+        return (gGtx_0x106C->get_car_info_5AA3B0(mCarInfoIdx)->info_flags & car_info_flag::top_roof_lights) == car_info_flag::top_roof_lights;
     }
 
     void SetBottomLeftRoofLightDelta_421810()
@@ -1284,7 +1284,7 @@ class Car
 
     bool IsTruckCab_421620() const
     {
-        car_info* pCarInfo =  gGtx_0x106C_703DD4->get_car_info_5AA3B0(mCarInfoIdx);
+        car_info* pCarInfo =  gGtx_0x106C->get_car_info_5AA3B0(mCarInfoIdx);
         return pCarInfo->IsTruckCab_41FEA0();
     }
 
@@ -1295,7 +1295,7 @@ class Car
 
     bool CanBeLiftedByCrane_447F00() const
     {
-        return !IsTruckCab_421620() && !gGtx_0x106C_703DD4->get_car_info_5AA3B0(mCarInfoIdx)->IsTrailer() && !IsTrainModel_403BA0() && !IsLongerThanOneBlock_447ED0();
+        return !IsTruckCab_421620() && !gGtx_0x106C->get_car_info_5AA3B0(mCarInfoIdx)->IsTrailer() && !IsTrainModel_403BA0() && !IsLongerThanOneBlock_447ED0();
     }
 
     void StartEngine_426E00()
@@ -1320,7 +1320,7 @@ class Car
 
     inline bool CanCollideOver_4216E0() const
     {
-        car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_4BF1F0(mCarInfoIdx);
+        car_info* pCarInfo = gGtx_0x106C->get_car_info_4BF1F0(mCarInfoIdx);
         return pCarInfo->IsHeavy_41FF00();
     }
 
@@ -1495,15 +1495,15 @@ struct TrafficSpawner
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TrafficSpawner, 0x14);
 
-EXTERN_GLOBAL(CarPool*, gCar_BC_Pool_67792C);
+EXTERN_GLOBAL(CarPool*, gCar_BC_Pool);
 
-EXTERN_GLOBAL(Sprite*, gSprite_6F61E8);
+EXTERN_GLOBAL(Sprite*, gSprite);
 
-EXTERN_GLOBAL(TrailerPool*, gTrailerPool_66AC80);
+EXTERN_GLOBAL(TrailerPool*, gTrailerPool);
 
-EXTERN_GLOBAL(TrafficSpawner*, gTrafficSpawner_14_677934);
+EXTERN_GLOBAL(TrafficSpawner*, gTrafficSpawner_14);
 
-EXTERN_GLOBAL(bool, gbRngRemapTableDone_679C0A);
+EXTERN_GLOBAL(bool, gbRngRemapTableDone);
 
 EXPORT s32 __stdcall GetDamageMultiplier(Ped* pPed);
 EXPORT s32 __stdcall GetDeathCauseForObjectModel(s32 model);

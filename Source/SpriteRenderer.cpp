@@ -6,13 +6,13 @@
 
 // Forward declarations: the functions below are in address order
 EXPORT s32 get_rdtsc();
-EXTERN_GLOBAL(u32, gCyclesPerMs_705334);
+EXTERN_GLOBAL(u32, gCyclesPerMs);
 
-DEFINE_GLOBAL(SpriteRenderer*, gSpriteRenderer_67B580, 0x67B580);
-DEFINE_GLOBAL(SpriteTreeNodePool*, gSpriteTreeNodePool_705BBC, 0x705BBC);
-DEFINE_GLOBAL(SpriteTreeStack*, gSpriteTreeStack_705BC0, 0x705BC0);
-DEFINE_GLOBAL(s32, gDisplayDraw_67B57C, 0x67B57C);
-DEFINE_GLOBAL(s32, gDisplayAdd_67B578, 0x67B578);
+DEFINE_GLOBAL(SpriteRenderer*, gSpriteRenderer, 0x67B580);
+DEFINE_GLOBAL(SpriteTreeNodePool*, gSpriteTreeNodePool, 0x705BBC);
+DEFINE_GLOBAL(SpriteTreeStack*, gSpriteTreeStack, 0x705BC0);
+DEFINE_GLOBAL(s32, gDisplayDraw, 0x67B57C);
+DEFINE_GLOBAL(s32, gDisplayAdd, 0x67B578);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_67B434, Fix16(1), 0x67B434);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFp96, Fix16(96), 0x705B80);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpZero, Fix16(0), 0x705AC4);
@@ -34,7 +34,7 @@ void SpriteRenderer::DisplayAdd(Sprite* pSprite)
     {
         mLayers[pSprite->ComputeZLayer()]->AddSprite(pSprite);
     }
-    gDisplayAdd_67B578 += get_rdtsc() - rdtsc;
+    gDisplayAdd += get_rdtsc() - rdtsc;
 }
 
 MATCH_FUNC(0x495560)
@@ -42,7 +42,7 @@ void SpriteRenderer::Draw(s32 layer)
 {
     const s32 rdtsc = get_rdtsc();
     mLayers[layer - 1]->Draw();
-    gDisplayDraw_67B57C += get_rdtsc() - rdtsc;
+    gDisplayDraw += get_rdtsc() - rdtsc;
 }
 
 MATCH_FUNC(0x4955a0)
@@ -92,7 +92,7 @@ EXPORT s32 get_rdtsc()
 MATCH_FUNC(0x5BEED0)
 EXPORT s32 __stdcall ConvertCycleCount(s32 cycles)
 {
-    return static_cast<u32>(cycles) / gCyclesPerMs_705334;
+    return static_cast<u32>(cycles) / gCyclesPerMs;
 }
 
 // https://decomp.me/scratch/qyVgM
@@ -162,7 +162,7 @@ void SpriteTree::AddSprite(Sprite* pSprite)
         }
     }
 
-    SpriteTreeNode* pAllocated = gSpriteTreeNodePool_705BBC->Alloc_4C4B40();
+    SpriteTreeNode* pAllocated = gSpriteTreeNodePool->Alloc_4C4B40();
     pAllocated->mpSprite = pSprite;
     pAllocated->mpLeft = NULL;
     pAllocated->mpRight = NULL;
@@ -192,40 +192,40 @@ void SpriteTree::Draw()
     {
         while (pIter)
         {
-            gSpriteTreeStack_705BC0->Push_4C4B80(pIter);
+            gSpriteTreeStack->Push_4C4B80(pIter);
             pIter = pIter->mpLeft;
         }
-        if (gSpriteTreeStack_705BC0->IsEnd_4C4BC0())
+        if (gSpriteTreeStack->IsEnd_4C4BC0())
         {
             break;
         }
 
-        pIter = gSpriteTreeStack_705BC0->Pop_4C4BA0();
+        pIter = gSpriteTreeStack->Pop_4C4BA0();
         pIter->mpSprite->Draw();
         pIter = pIter->mpRight;
     }
 }
 
-DEFINE_GLOBAL_INIT(u32, gCyclesPerMs_705334, 1701493, 0x705334);
+DEFINE_GLOBAL_INIT(u32, gCyclesPerMs, 1701493, 0x705334);
 
 MATCH_FUNC(0x5c5e50)
 void SpriteTree::Reset()
 {
-    gSpriteTreeNodePool_705BBC->Reset_4C4B70();
+    gSpriteTreeNodePool->Reset_4C4B70();
     mpRoot = NULL;
 }
 
 MATCH_FUNC(0x5c5e70)
 SpriteTree::SpriteTree()
 {
-    if (!gSpriteTreeNodePool_705BBC)
+    if (!gSpriteTreeNodePool)
     {
-        gSpriteTreeNodePool_705BBC = new SpriteTreeNodePool();
+        gSpriteTreeNodePool = new SpriteTreeNodePool();
     }
 
-    if (!gSpriteTreeStack_705BC0)
+    if (!gSpriteTreeStack)
     {
-        gSpriteTreeStack_705BC0 = new SpriteTreeStack();
+        gSpriteTreeStack = new SpriteTreeStack();
     }
     Reset();
 }
@@ -235,17 +235,17 @@ SpriteTree::~SpriteTree()
 {
     // An explicit dtor call through the global plus operator delete on a saved copy gives the original's
     // test in ecx with esi pushed and loaded inside the if; `delete` keeps the pointer in esi throughout
-    if (gSpriteTreeNodePool_705BBC != NULL)
+    if (gSpriteTreeNodePool != NULL)
     {
-        SpriteTreeNodePool* p = gSpriteTreeNodePool_705BBC;
-        gSpriteTreeNodePool_705BBC->~SpriteTreeNodePool();
+        SpriteTreeNodePool* p = gSpriteTreeNodePool;
+        gSpriteTreeNodePool->~SpriteTreeNodePool();
         operator delete(p);
-        gSpriteTreeNodePool_705BBC = NULL;
+        gSpriteTreeNodePool = NULL;
     }
 
-    if (gSpriteTreeStack_705BC0)
+    if (gSpriteTreeStack)
     {
-        GTA2_DELETE_AND_NULL(gSpriteTreeStack_705BC0);
+        GTA2_DELETE_AND_NULL(gSpriteTreeStack);
     }
 }
 

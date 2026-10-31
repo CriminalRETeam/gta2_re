@@ -35,7 +35,7 @@ VARIANT = re.compile(r'(_ool|OOL|[Ii]nlined?|Inl|OutOfLine|_local)$|^inline_|_oo
 CODE_CHANGING = {'gCurrCarAI_HasChaseUpdate_677CA8', 'gCharB4_HitByMine_6FDB59', 'gElectroChainDepth_706C94',
                  'kShotgunInnerSpread_707002', 'GetCollisionVolume_413A10', 'GenerateRadioVehicleDescription_426F20',
                  'PoliceRadioMessageGeneration_426790', 'ProcessType2_Frontend_412490',
-                 'ProcessType6_CollisionSoundQueue_413760'}
+                 'ProcessType6_CollisionSoundQueue_413760', 'gMessageFont_7062F0'}
 KEYW = {'if', 'while', 'for', 'switch', 'return', 'sizeof', 'operator', 'defined', 'catch'}
 
 

@@ -7,7 +7,7 @@
 #include "network_data.hpp"
 #include "winmain.hpp"
 
-DEFINE_GLOBAL(NetPlay, gNetPlay_7071E8, 0x7071E8);
+DEFINE_GLOBAL(NetPlay, gNetPlay, 0x7071E8);
 DEFINE_STATIC_MEMBER_INIT(GUID, NetPlay, kGta2_DP_Guid, {0x561E8920 COMMA 0x5C70 COMMA 0x11D2 COMMA {0xAD COMMA 0x00 COMMA 0x00 COMMA 0xA0 COMMA 0xC9 COMMA 0xB6 COMMA 0x13 COMMA 0x98}}, 0x5FE928);
 DEFINE_STATIC_MEMBER_ARRAY(s32, NetPlay, sLastPlayerInputs, 6, 0x6F8A4C);
 DEFINE_STATIC_MEMBER_ARRAY(char_type, NetPlay, sLastPlayerInputSeq, 24, 0x6F8A64);
@@ -995,7 +995,7 @@ s32 NetPlay::DecodeReceivedPacket(s32 pPacket, u32 packetLen)
     {
         case pkt_data_type::PlayerTickOnly_9:
             pMsg[0] = packet_subtype::PlayerInputs_3;
-            if (bDo_sync_check_67D6C1)
+            if (bDo_sync_check)
             {
                 pMsg[1] = 8; // pPacket[4]
             }
@@ -1007,7 +1007,7 @@ s32 NetPlay::DecodeReceivedPacket(s32 pPacket, u32 packetLen)
             pBytes[1] = copy[1];
             pBytes[2] = pMsg[1] + 2;
             *reinterpret_cast<s32*>(pPayload) = -1;
-            if (bDo_sync_check_67D6C1)
+            if (bDo_sync_check)
             {
                 memcpy(pPayload + 4, &copy[2], packetLen - 2);
             }
@@ -1157,7 +1157,7 @@ void NetPlay::MakeSendData(Packet_SubType_3* pPacket, s32* pData, u32* pDataLen)
                             pBuffer[0] = pkt_data_type::PlayerTickOnly_9;
                             pBuffer[1] = pPacket->mSeq;
                             *pDataLen = 2;
-                            if (bDo_sync_check_67D6C1)
+                            if (bDo_sync_check)
                             {
                                 *reinterpret_cast<s32*>(pBuffer + 2) = reinterpret_cast<s32*>(pPacket->mData)[1];
                                 *pDataLen += 4;
@@ -1939,8 +1939,8 @@ bool NetPlay::WaitForPlayersSync()
 
     startTime = timeGetTime();
     bool bTimedOut = false;
-    MakeInitialSyncData(gSyncCheckData_6F58E0);
-    SendSyncCheckData(reinterpret_cast<s32>(gSyncCheckData_6F58E0));
+    MakeInitialSyncData(gSyncCheckData);
+    SendSyncCheckData(reinterpret_cast<s32>(gSyncCheckData));
     SendAcknowledgment();
 
     // One bit per other player: waiting for their ack and for their sync data
@@ -1974,7 +1974,7 @@ bool NetPlay::WaitForPlayersSync()
                 && pPacket[3] == packet_subtype::StandardPacket_2 
                 && pPacket[5] == std_packet_subtype::SyncCheckData_5)
             {
-                CompareRemotePlayers(gSyncCheckData_6F58E0, pPacket + 5);
+                CompareRemotePlayers(gSyncCheckData, pPacket + 5);
                 u32 idx = IndexOf(senderId, &mN2);
                 if (idx == 0xEEEEEEEE)
                 {
@@ -2337,9 +2337,9 @@ s32 NetPlay::SendSyncCheckData(s32 pSendData)
     return mpDPlay3->Send(mPlayerId, 0, 0, reinterpret_cast<void*>(pData), dataLen);
 }
 
-// The atexit destructor VC6 generates for gNetPlay_7071E8, written out
+// The atexit destructor VC6 generates for gNetPlay, written out
 MATCH_FUNC(0x5e4dd0)
 void NetPlay::static_dtor()
 {
-    gNetPlay_7071E8.NetPlay::~NetPlay();
+    gNetPlay.NetPlay::~NetPlay();
 }

@@ -42,10 +42,10 @@ DEFINE_GLOBAL_INIT(T_gbh_FreeImageTable,  pgbh_FreeImageTable,  reinterpret_cast
 DEFINE_GLOBAL_INIT(T_gbh_LoadImage,       pgbh_LoadImage,       reinterpret_cast<T_gbh_LoadImage>(GBH_Graphics_Stub),       0x626CE4);
 DEFINE_GLOBAL_INIT(T_gbh_BlitImage,       pgbh_BlitImage,       reinterpret_cast<T_gbh_BlitImage>(GBH_Graphics_Stub),       0x626CE8);
 DEFINE_GLOBAL_INIT(T_gbh_BlitBuffer,      pgbh_BlitBuffer,      reinterpret_cast<T_gbh_BlitBuffer>(GBH_Graphics_Stub),      0x626CEC);
-DEFINE_GLOBAL(HMODULE, gGbhDllHandle_7085D8, 0x7085D8);
+DEFINE_GLOBAL(HMODULE, gGbhDllHandle, 0x7085D8);
 DEFINE_GLOBAL(FARPROC, pDrawLine, 0x7085DC);
-DEFINE_GLOBAL(s32, gGBH_GraphicsLoaded_7085E0, 0x7085E0);
-DEFINE_GLOBAL(u32*, gpGBH_Globals_7085E4, 0x7085E4);
+DEFINE_GLOBAL(s32, gGBH_GraphicsLoaded, 0x7085E0);
+DEFINE_GLOBAL(u32*, gpGBH_Globals, 0x7085E4);
 
 MATCH_FUNC(0x5EA4D0)
 EXPORT void __stdcall GBH_Graphics_Stub()
@@ -59,7 +59,7 @@ EXPORT void __stdcall GBH_Graphics_Stub()
 MATCH_FUNC(0x5EA500)
 EXPORT void __stdcall GBH_Graphics_Unload()
 {
-    FreeLibrary(gGbhDllHandle_7085D8);
+    FreeLibrary(gGbhDllHandle);
     pgbh_InitDLL = reinterpret_cast<T_gbh_InitDLL>(GBH_Graphics_Stub);
     pgbh_CloseDLL = static_cast<T_gbh_CloseDLL>(GBH_Graphics_Stub);
     pgbh_Init = reinterpret_cast<T_gbh_Init>(GBH_Graphics_Stub);
@@ -94,25 +94,25 @@ EXPORT void __stdcall GBH_Graphics_Unload()
 MATCH_FUNC(0x5EA640)
 EXPORT s32 GBH_Graphics_Free()
 {
-    if (!gGBH_GraphicsLoaded_7085E0)
+    if (!gGBH_GraphicsLoaded)
     {
         return 0;
     }
 
-    gGBH_GraphicsLoaded_7085E0 = 0;
+    gGBH_GraphicsLoaded = 0;
     pgbh_CloseDLL();
     GBH_Graphics_Unload();
     return 0;
 }
 
 #define load_gbh_func(varName, varType, funcName)                      \
-    varName = reinterpret_cast<varType>(GetProcAddress(gGbhDllHandle_7085D8, funcName)); \
+    varName = reinterpret_cast<varType>(GetProcAddress(gGbhDllHandle, funcName)); \
     if (!varName)                                                      \
     {                                                                  \
         char_type msg[120];                                            \
         sprintf(msg, "Can't Find Function Called %s", funcName);       \
         MessageBoxA(NULL, msg, "Error Patching DLL Function", MB_OK);    \
-        FreeLibrary(gGbhDllHandle_7085D8);                             \
+        FreeLibrary(gGbhDllHandle);                             \
         return -1;                                                     \
     }
 
@@ -125,8 +125,8 @@ EXPORT s32 __stdcall GBH_GraphicsLoadDll(const char_type* lpLibFileName)
         return 0;
     }
 
-    gGbhDllHandle_7085D8 = LoadLibraryA(lpLibFileName);
-    if (gGbhDllHandle_7085D8)
+    gGbhDllHandle = LoadLibraryA(lpLibFileName);
+    if (gGbhDllHandle)
     {
         load_gbh_func(pgbh_InitDLL, T_gbh_InitDLL, "gbh_InitDLL");
         load_gbh_func(pgbh_CloseDLL, T_gbh_CloseDLL, "gbh_CloseDLL");
@@ -188,9 +188,9 @@ EXPORT s32 __stdcall GBH_GraphicsLoad(const char_type* lpLibFileName, SVideo* pV
     }
 
     pgbh_InitDLL(pVidSys);
-    gpGBH_Globals_7085E4 = pgbh_GetGlobals();
+    gpGBH_Globals = pgbh_GetGlobals();
 
-    gGBH_GraphicsLoaded_7085E0 = 1;
+    gGBH_GraphicsLoaded = 1;
 
     return 0;
 }

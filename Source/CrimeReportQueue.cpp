@@ -8,7 +8,7 @@
 #include "Police.hpp"
 #include "char.hpp"
 
-DEFINE_GLOBAL(CrimeReportQueue*, gCrimeReportQueue_67A4B8, 0x67A4B8);
+DEFINE_GLOBAL(CrimeReportQueue*, gCrimeReportQueue, 0x67A4B8);
 
 DEFINE_GLOBAL_INIT(Fix16, kFP16Zero_67A370, Fix16(0), 0x67A370);
 
@@ -43,7 +43,7 @@ void CrimeReport::SetReport(s32 crime_type, s32 ped_id)
     }
     else
     {
-        Ped* pPed = gPedManager_6787BC->PedById(ped_id);
+        Ped* pPed = gPedManager->PedById(ped_id);
         mPos.x = pPed->get_cam_x();
         mPos.y = pPed->get_cam_y();
         mPos.z = pPed->get_cam_z();
@@ -175,7 +175,7 @@ void CrimeReportQueue::ReportCrimeForPed(u32 crime_type, Ped* pPed)
                     QueueReport(crime_type, pPed->mId);
                     if (pPed->is_player_41B0A0())
                     {
-                        gPolice_7B8_6FEE40->UpdateCriminalLatestPosition(pPed);
+                        gPolice_7B8->UpdateCriminalLatestPosition(pPed);
                     }
                     break;
             }
@@ -204,9 +204,9 @@ MATCH_FUNC(0x485090)
 bool CrimeReportQueue::ShouldReportCarCrime(Car* pCar, Player* pPlayer)
 {
     bool bInRange = true;
-    if (gCarManager_6C_677930->mObjectHitActive)
+    if (gCarManager_6C->mObjectHitActive)
     {
-        if (!gGame_0x40_67E008->IsSpriteInPlayerBounds(pCar->mCarSprite, pPlayer->GetIdx(), 0))
+        if (!gGame_0x40->IsSpriteInPlayerBounds(pCar->mCarSprite, pPlayer->GetIdx(), 0))
         {
             bInRange = false;
         }
@@ -227,7 +227,7 @@ bool CrimeReportQueue::ShouldReportCharCrime(Char* pChar, Player* pPlayer)
     bool bInRange = true;
     if (gCharB4_HitByMine_6FDB59)
     {
-        if (!gGame_0x40_67E008->IsSpriteInPlayerBounds(pChar->mSpritePtr, pPlayer->GetIdx(), 0))
+        if (!gGame_0x40->IsSpriteInPlayerBounds(pChar->mSpritePtr, pPlayer->GetIdx(), 0))
         {
             bInRange = false;
         }

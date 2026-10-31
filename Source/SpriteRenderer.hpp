@@ -14,7 +14,7 @@ class SpriteTreeNode
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpriteTreeNode, 0xC);
 
-EXTERN_GLOBAL(class SpriteTreeStack*, gSpriteTreeStack_705BC0);
+EXTERN_GLOBAL(class SpriteTreeStack*, gSpriteTreeStack);
 
 
 // Explicit stack used by SpriteTree::Draw for the in-order walk of a sprite tree
@@ -51,7 +51,7 @@ class SpriteTreeStack
     // 9.6f inline
     SpriteTreeNode* Pop_4C4BA0()
     {
-        SpriteTreeNode*** ppTop = &gSpriteTreeStack_705BC0->mpTop;
+        SpriteTreeNode*** ppTop = &gSpriteTreeStack->mpTop;
         (*ppTop)--;
         return *this->mpTop;
     }
@@ -125,6 +125,6 @@ class SpriteRenderer
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpriteRenderer, 0x1C);
 
-EXTERN_GLOBAL(SpriteRenderer*, gSpriteRenderer_67B580);
+EXTERN_GLOBAL(SpriteRenderer*, gSpriteRenderer);
 
-EXTERN_GLOBAL(SpriteTreeNodePool*, gSpriteTreeNodePool_705BBC);
+EXTERN_GLOBAL(SpriteTreeNodePool*, gSpriteTreeNodePool);

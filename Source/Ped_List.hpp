@@ -54,4 +54,4 @@ class Ped_List
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Ped_List, 0x4)
 
-EXTERN_GLOBAL(Ped_List, gThreateningPedsList_678468);
+EXTERN_GLOBAL(Ped_List, gThreateningPedsList);

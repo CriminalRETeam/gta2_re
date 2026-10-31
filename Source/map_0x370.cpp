@@ -25,21 +25,21 @@
 #include "block_face.hpp"
 #include "car_surface_type_more.hpp"
 
-DEFINE_GLOBAL(Map_0x370*, gMap_0x370_6F6268, 0x6F6268);
+DEFINE_GLOBAL(Map_0x370*, gMap_0x370, 0x6F6268);
 DEFINE_STATIC_MEMBER(gmp_block_info*, Map_0x370, sBlockInfo0, 0x6F5EB0);
 DEFINE_STATIC_MEMBER(gmp_block_info, Map_0x370, sBlockInfo1, 0x6F5F40);
 DEFINE_STATIC_MEMBER(gmp_block_info, Map_0x370, sBlockInfo2, 0x6F6028);
 // Used by MapRenderer.cpp. Defined here, not there: with the definition in MapRenderer.cpp VC6 loads
 // them 32-bit where the original has a 16-bit mov (MapRenderer::DrawPartialBlockTop etc.).
-DEFINE_GLOBAL(u16, gBlockLeft_6F62F6, 0x6F62F6);
-DEFINE_GLOBAL(u16, gBlockRight_6F63C6, 0x6F63C6);
-DEFINE_GLOBAL(gmp_map_slope*, gCurrentBlockSlope_6F5EC8, 0x6F5EC8);
+DEFINE_GLOBAL(u16, gBlockLeft, 0x6F62F6);
+DEFINE_GLOBAL(u16, gBlockRight, 0x6F63C6);
+DEFINE_GLOBAL(gmp_map_slope*, gCurrentBlockSlope, 0x6F5EC8);
 // Defined in sprite.cpp: with the definition in this TU VC6 reads the s16 mask with a 32-bit mov
 // (it knows the padding is safe to read), while the original's `mov 0x6F6002,%cx; test %cx,face`
 // needs an extern declaration (Map_0x370::SpriteHitsBlockFacesInArea, IsTileBlockedForSprite).
-EXTERN_GLOBAL(s16, gFaceCollisionMask_6F6002);
-DEFINE_GLOBAL(s32, gSpriteGrid_right_6F5B80, 0x6F5B80);
-DEFINE_GLOBAL(s32, gSpriteGrid_left_6F5FD4, 0x6F5FD4);
+EXTERN_GLOBAL(s16, gFaceCollisionMask);
+DEFINE_GLOBAL(s32, gSpriteGrid_right, 0x6F5B80);
+DEFINE_GLOBAL(s32, gSpriteGrid_left, 0x6F5FD4);
 DEFINE_STATIC_MEMBER(s32, Map_0x370, sEastTileZ, 0x6F620C);
 DEFINE_STATIC_MEMBER(s32, Map_0x370, sWestTileZ, 0x6F5BA0);
 DEFINE_STATIC_MEMBER(s32, Map_0x370, sSouthTileZ, 0x6F6248);
@@ -48,9 +48,9 @@ DEFINE_GLOBAL_INIT(Fix16, kFpZero_6F610C, Fix16(0), 0x6F610C);
 DEFINE_GLOBAL_INIT(Fix16, kFpEight_6F6130, Fix16(8), 0x6F6130);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneThirtySecond_6F601C, Fix16(0x200, 0), 0x6F601C);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneSixtyFourth_6F60C0, Fix16(0x100, 0), 0x6F60C0);
-DEFINE_GLOBAL_INIT(Fix16, kGradientScaleSize1_6F5ED8, Fix16(1), 0x6F5ED8);
-DEFINE_GLOBAL_INIT(Fix16, kGradientScaleSize2_6F5FA8, Fix16(0x1FE8, 0), 0x6F5FA8);
-DEFINE_GLOBAL_INIT(Fix16, kGradientScaleSize8_6F6214, Fix16(0x824, 0), 0x6F6214);
+DEFINE_GLOBAL_INIT(Fix16, kGradientScaleSize1, Fix16(1), 0x6F5ED8);
+DEFINE_GLOBAL_INIT(Fix16, kGradientScaleSize2, Fix16(0x1FE8, 0), 0x6F5FA8);
+DEFINE_GLOBAL_INIT(Fix16, kGradientScaleSize8, Fix16(0x824, 0), 0x6F6214);
 DEFINE_STATIC_MEMBER(s32, Map_0x370, sSearchX, 0x6F6164);
 DEFINE_STATIC_MEMBER(s32, Map_0x370, sSearchY, 0x6F6148);
 DEFINE_STATIC_MEMBER(s32, Map_0x370, sSearchZ, 0x6F613C);
@@ -60,7 +60,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpThreeEighths_6F60A0, Fix16(0x1800, 0), 0x6F60A0);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6F5F18, Fix16(0x2000, 0), 0x6F5F18);
 DEFINE_GLOBAL_INIT(Fix16, kFpFiveEighths_6F60B8, Fix16(0x2800, 0), 0x6F60B8);
 DEFINE_GLOBAL_INIT(Fix16, kFpThreeQuarters_6F61D8, Fix16(0x3000, 0), 0x6F61D8);
-DEFINE_GLOBAL_INIT(Fix16, kFpSevenEighths_6F6218, Fix16(0x3800, 0), 0x6F6218);
+DEFINE_GLOBAL_INIT(Fix16, kFpSevenEighths, Fix16(0x3800, 0), 0x6F6218);
 DEFINE_GLOBAL_INIT(Fix16, kFp255_6F5B8C, Fix16(255), 0x6F5B8C);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpTen, Fix16(10), 0x6F6184);
 DEFINE_GLOBAL_INIT(Fix16, kFpSeven_6F6128, Fix16(7), 0x6F6128);
@@ -72,7 +72,7 @@ DEFINE_GLOBAL_INIT(Ang16, kAng180_6F603E, Ang16(720), 0x6F603E);
 Fix16 kFpOne_6F6110 = Fix16(1);
 
 DEFINE_GLOBAL_ARRAY_INIT(gmp_map_slope,
-                         gGmpSlopes_6F5BA8,
+                         gGmpSlopes,
                          64,
                          0x6F5BA8,
                          gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C) COMMA
@@ -90,32 +90,32 @@ DEFINE_GLOBAL_ARRAY_INIT(gmp_map_slope,
                          gmp_map_slope(1, 8, 4, kFpThreeEighths_6F60A0, kFpHalf_6F5F18) COMMA
                          gmp_map_slope(1, 8, 3, kFpHalf_6F5F18, kFpFiveEighths_6F60B8) COMMA
                          gmp_map_slope(1, 8, 2, kFpFiveEighths_6F60B8, kFpThreeQuarters_6F61D8) COMMA
-                         gmp_map_slope(1, 8, 1, kFpThreeQuarters_6F61D8, kFpSevenEighths_6F6218) COMMA
-                         gmp_map_slope(1, 8, 0, kFpSevenEighths_6F6218, kFpOne_6F6110) COMMA
+                         gmp_map_slope(1, 8, 1, kFpThreeQuarters_6F61D8, kFpSevenEighths) COMMA
+                         gmp_map_slope(1, 8, 0, kFpSevenEighths, kFpOne_6F6110) COMMA
                          gmp_map_slope(2, 8, 7, kFpZero_6F610C, kFpOneEighth_6F6050) COMMA
                          gmp_map_slope(2, 8, 6, kFpOneEighth_6F6050, kFpQuarter_6F6180) COMMA
                          gmp_map_slope(2, 8, 5, kFpQuarter_6F6180, kFpThreeEighths_6F60A0) COMMA
                          gmp_map_slope(2, 8, 4, kFpThreeEighths_6F60A0, kFpHalf_6F5F18) COMMA
                          gmp_map_slope(2, 8, 3, kFpHalf_6F5F18, kFpFiveEighths_6F60B8) COMMA
                          gmp_map_slope(2, 8, 2, kFpFiveEighths_6F60B8, kFpThreeQuarters_6F61D8) COMMA
-                         gmp_map_slope(2, 8, 1, kFpThreeQuarters_6F61D8, kFpSevenEighths_6F6218) COMMA
-                         gmp_map_slope(2, 8, 0, kFpSevenEighths_6F6218, kFpOne_6F6110) COMMA
+                         gmp_map_slope(2, 8, 1, kFpThreeQuarters_6F61D8, kFpSevenEighths) COMMA
+                         gmp_map_slope(2, 8, 0, kFpSevenEighths, kFpOne_6F6110) COMMA
                          gmp_map_slope(3, 8, 7, kFpZero_6F610C, kFpOneEighth_6F6050) COMMA
                          gmp_map_slope(3, 8, 6, kFpOneEighth_6F6050, kFpQuarter_6F6180) COMMA
                          gmp_map_slope(3, 8, 5, kFpQuarter_6F6180, kFpThreeEighths_6F60A0) COMMA
                          gmp_map_slope(3, 8, 4, kFpThreeEighths_6F60A0, kFpHalf_6F5F18) COMMA
                          gmp_map_slope(3, 8, 3, kFpHalf_6F5F18, kFpFiveEighths_6F60B8) COMMA
                          gmp_map_slope(3, 8, 2, kFpFiveEighths_6F60B8, kFpThreeQuarters_6F61D8) COMMA
-                         gmp_map_slope(3, 8, 1, kFpThreeQuarters_6F61D8, kFpSevenEighths_6F6218) COMMA
-                         gmp_map_slope(3, 8, 0, kFpSevenEighths_6F6218, kFpOne_6F6110) COMMA
+                         gmp_map_slope(3, 8, 1, kFpThreeQuarters_6F61D8, kFpSevenEighths) COMMA
+                         gmp_map_slope(3, 8, 0, kFpSevenEighths, kFpOne_6F6110) COMMA
                          gmp_map_slope(4, 8, 7, kFpZero_6F610C, kFpOneEighth_6F6050) COMMA
                          gmp_map_slope(4, 8, 6, kFpOneEighth_6F6050, kFpQuarter_6F6180) COMMA
                          gmp_map_slope(4, 8, 5, kFpQuarter_6F6180, kFpThreeEighths_6F60A0) COMMA
                          gmp_map_slope(4, 8, 4, kFpThreeEighths_6F60A0, kFpHalf_6F5F18) COMMA
                          gmp_map_slope(4, 8, 3, kFpHalf_6F5F18, kFpFiveEighths_6F60B8) COMMA
                          gmp_map_slope(4, 8, 2, kFpFiveEighths_6F60B8, kFpThreeQuarters_6F61D8) COMMA
-                         gmp_map_slope(4, 8, 1, kFpThreeQuarters_6F61D8, kFpSevenEighths_6F6218) COMMA
-                         gmp_map_slope(4, 8, 0, kFpSevenEighths_6F6218, kFpOne_6F6110) COMMA
+                         gmp_map_slope(4, 8, 1, kFpThreeQuarters_6F61D8, kFpSevenEighths) COMMA
+                         gmp_map_slope(4, 8, 0, kFpSevenEighths, kFpOne_6F6110) COMMA
                          gmp_map_slope(1, 1, 0, kFpZero_6F610C, kFpOne_6F6110) COMMA
                          gmp_map_slope(2, 1, 0, kFpZero_6F610C, kFpOne_6F6110) COMMA
                          gmp_map_slope(3, 1, 0, kFpZero_6F610C, kFpOne_6F6110) COMMA
@@ -212,7 +212,7 @@ bool gmp_map_zone::IsZoneVisibleToAnyPlayer() const
 {
     Fix16_Rect zoneBounds;
     zoneBounds.SetFromPosSize_463710(mX, mY, mW, mH);
-    return gGame_0x40_67E008->IsRectVisibleToAnyPlayer(&zoneBounds);
+    return gGame_0x40->IsRectVisibleToAnyPlayer(&zoneBounds);
 }
 
 MATCH_FUNC(0x4DEFD0)
@@ -696,7 +696,7 @@ Gang* Map_0x370::GetGangAtCoords(Fix16 x, Fix16 y)
     gmp_map_zone* pZone = GetZoneAtPosOfType(x.ToInt(), y.ToInt(), Gang_14);
     if (pZone)
     {
-        return gGangPool_CA8_67E274->FindGangByName(pZone->mName);
+        return gGangPool_CA8->FindGangByName(pZone->mName);
     }
     else
     {
@@ -716,7 +716,7 @@ void Map_0x370::SpawnMapObjects()
         Ang16 rotation = pMapObjects->mRotation.convert_to_ang16();
         rotation.Normalize();
 
-        gObject_5C_6F8F84->NewPhysicsObj(pMapObjects->mObjectType,
+        gObject_5C->NewPhysicsObj(pMapObjects->mObjectType,
                                                 x_pos,
                                                 y_pos,
                                                 Map_0x370::FindGroundZForCoord(x_pos, y_pos),
@@ -730,7 +730,7 @@ void Map_0x370::AllocZones()
     gmp_map_zone* pZoneIter = GetFirstZoneOfType(Gang_14);
     while (pZoneIter)
     {
-        gGangPool_CA8_67E274->AddGangForMapZone(pZoneIter);
+        gGangPool_CA8->AddGangForMapZone(pZoneIter);
         pZoneIter = GetNextZone();
     }
 }
@@ -758,11 +758,11 @@ void Map_0x370::UpdateLights()
         }
 
         Light* pLight =
-            gLight_1D4CC_6F5520->Init_469010(xpos, ypos, zpos, pMapLight->mArgb, radius, pMapLight->mIntensity);
+            gLight_1D4CC->Init_469010(xpos, ypos, zpos, pMapLight->mArgb, radius, pMapLight->mIntensity);
 
         if (pMapLight->mOnTime)
         {
-            gLight_1D4CC_6F5520->SetFlashing_469070(pLight, pMapLight->mOnTime, pMapLight->mOffTime, pMapLight->mShape);
+            gLight_1D4CC->SetFlashing_469070(pLight, pMapLight->mOnTime, pMapLight->mOffTime, pMapLight->mShape);
         }
     }
 }
@@ -857,13 +857,13 @@ DWORD Map_0x370::GetLeftEdgeSpec(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
     gmp_block_info* pBlock1 = GetBlock((x_coord - kFpOne_6F6110).ToInt(), y_coord.ToInt(), z_coord.ToInt());
     if (pBlock1 && pBlock1->mRight != 0)
     {
-        return gGtx_0x106C_703DD4->GetSpecIgnoringRoadJunction_462FD0(get_tile_idx(pBlock1->mRight));
+        return gGtx_0x106C->GetSpecIgnoringRoadJunction_462FD0(get_tile_idx(pBlock1->mRight));
     }
 
     gmp_block_info* pBlock2 = GetBlock(x_coord.ToInt(), y_coord.ToInt(), z_coord.ToInt());
     if (pBlock2 && pBlock2->mLeft != 0)
     {
-        return gGtx_0x106C_703DD4->GetSpecIgnoringRoadJunction_462FD0(get_tile_idx(pBlock2->mLeft));
+        return gGtx_0x106C->GetSpecIgnoringRoadJunction_462FD0(get_tile_idx(pBlock2->mLeft));
     }
 
     return 0;
@@ -875,14 +875,14 @@ s32 Map_0x370::GetTopEdgeSpec(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
     gmp_block_info* pBlockAtPos = Map_0x370::GetBlock(x_pos.ToInt(), (y_pos - kFpOne_6F6110).ToInt(), z_pos.ToInt());
     if (pBlockAtPos && has_bottom(pBlockAtPos))
     {
-        return gGtx_0x106C_703DD4->GetSpecIgnoringRoadJunction_462FD0(get_tile_idx(pBlockAtPos->mBottom));
+        return gGtx_0x106C->GetSpecIgnoringRoadJunction_462FD0(get_tile_idx(pBlockAtPos->mBottom));
     }
     else
     {
         gmp_block_info* pBlock = Map_0x370::GetBlock(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt());
         if (pBlock && has_top(pBlock))
         {
-            return gGtx_0x106C_703DD4->GetSpecIgnoringRoadJunction_462FD0(get_tile_idx(pBlock->mTop));
+            return gGtx_0x106C->GetSpecIgnoringRoadJunction_462FD0(get_tile_idx(pBlock->mTop));
         }
         else
         {
@@ -898,13 +898,13 @@ s32 Map_0x370::GetBlockSpec(Fix16 x, Fix16 y, Fix16 z)
     {
         if (z < kFpEight_6F6130)
         {
-            gmp_block_info* pBlock = gMap_0x370_6F6268->GetBlock(x.ToInt(), y.ToInt(), z.ToInt());
+            gmp_block_info* pBlock = gMap_0x370->GetBlock(x.ToInt(), y.ToInt(), z.ToInt());
             if (pBlock)
             {
                 u16 lid = pBlock->mLid;
                 if (lid)
                 {
-                    return gGtx_0x106C_703DD4->GetSpecIgnoringRoadJunction_462FD0(get_tile_idx(lid));
+                    return gGtx_0x106C->GetSpecIgnoringRoadJunction_462FD0(get_tile_idx(lid));
                 }
             }
         }
@@ -1624,9 +1624,9 @@ bool Map_0x370::RectHitsDiagonalWall(Fix16_Rect* pRect)
 
     s32 z_calc = pRect->GetMidZ_463760();
 
-    for (s32 y_count = gSpriteGrid_top_6F6108; y_count <= gSpriteGrid_bottom_6F5F38; y_count++)
+    for (s32 y_count = gSpriteGrid_top; y_count <= gSpriteGrid_bottom; y_count++)
     {
-        for (s32 x_count = gSpriteGrid_left_6F5FD4; x_count <= gSpriteGrid_right_6F5B80; x_count++)
+        for (s32 x_count = gSpriteGrid_left; x_count <= gSpriteGrid_right; x_count++)
         {
             gmp_block_info* pBlock = GetBlock(x_count, y_count, z_calc);
             if (pBlock)
@@ -1668,9 +1668,9 @@ bool Map_0x370::SpriteHitsDiagonalWall(s32 z_pos)
 {
     Fix16_Point wall_start;
     Fix16_Point wall_end;
-    for (s32 y_pos = gSpriteGrid_top_6F6108; y_pos <= gSpriteGrid_bottom_6F5F38; y_pos++)
+    for (s32 y_pos = gSpriteGrid_top; y_pos <= gSpriteGrid_bottom; y_pos++)
     {
-        for (s32 x_pos = gSpriteGrid_left_6F5FD4; x_pos <= gSpriteGrid_right_6F5B80; x_pos++)
+        for (s32 x_pos = gSpriteGrid_left; x_pos <= gSpriteGrid_right; x_pos++)
         {
             gmp_block_info* pBlock = Map_0x370::GetBlock(x_pos, y_pos, z_pos);
 
@@ -1696,16 +1696,16 @@ bool Map_0x370::SpriteHitsDiagonalWall(s32 z_pos)
                         wall_end.y = Fix16(y_pos + 1);
                     }
 
-                    if (gSprite_6F61E8->PointInsideRotatedBounds(wall_start, wall_end))
+                    if (gSprite->PointInsideRotatedBounds(wall_start, wall_end))
                     {
-                        Sprite* pSprt = gObject_5C_6F8F84->GetDirectionalObject(slope_type)->mSprite;
+                        Sprite* pSprt = gObject_5C->GetDirectionalObject(slope_type)->mSprite;
                         // (u32): the block centre goes through the Fix16(u32) constructor (out-of-line copy 0x4926F0);
                         // z is converted inline in its argument slot
                         pSprt->set_xyz_lazy_451950(Fix16(static_cast<u32>(x_pos)) + kFpHalf_6F5FE0,
                                                    Fix16(static_cast<u32>(y_pos)) + kFpHalf_6F5FE0,
                                                    z_pos);
                         pSprt->UpdateCollisionBoundsIfNeeded();
-                        gCollisionTarget_679188.SetSprite_40FEE0(pSprt);
+                        gCollisionTarget.SetSprite_40FEE0(pSprt);
                         return true;
                     }
                 }
@@ -1783,11 +1783,11 @@ bool Map_0x370::SpriteHitsBlockFacesInArea(s32 x_min, s32 x_max, s32 y_min, s32 
                 gmp_block_info* pBlock1 = Map_0x370::GetEffectiveBlock(x, y, z);
                 if (pBlock1)
                 {
-                    if ((static_cast<u16>(gFaceCollisionMask_6F6002) & pBlock1->mRight) != 0)
+                    if ((static_cast<u16>(gFaceCollisionMask) & pBlock1->mRight) != 0)
                     {
                         if (!IsNorthOrSouthGradSlope_4634B0(pBlock1))
                         {
-                            if (gSprite_6F61E8->HitTestVerticalLine(static_cast<u32>(y), y + 1, x + 1))
+                            if (gSprite->HitTestVerticalLine(static_cast<u32>(y), y + 1, x + 1))
                             {
                                 return true;
                             }
@@ -1797,11 +1797,11 @@ bool Map_0x370::SpriteHitsBlockFacesInArea(s32 x_min, s32 x_max, s32 y_min, s32 
                 gmp_block_info* pBlock2 = Map_0x370::GetEffectiveBlock(x + 1, y, z);
                 if (pBlock2)
                 {
-                    if ((static_cast<u16>(gFaceCollisionMask_6F6002) & pBlock2->mLeft) != 0)
+                    if ((static_cast<u16>(gFaceCollisionMask) & pBlock2->mLeft) != 0)
                     {
                         if (!IsNorthOrSouthGradSlope_4634B0(pBlock2))
                         {
-                            if (gSprite_6F61E8->HitTestVerticalLine(static_cast<u32>(y), y + 1, x + 1))
+                            if (gSprite->HitTestVerticalLine(static_cast<u32>(y), y + 1, x + 1))
                             {
                                 return true;
                             }
@@ -1815,11 +1815,11 @@ bool Map_0x370::SpriteHitsBlockFacesInArea(s32 x_min, s32 x_max, s32 y_min, s32 
                 gmp_block_info* pBlock3 = Map_0x370::GetEffectiveBlock(x, y, z);
                 if (pBlock3)
                 {
-                    if ((static_cast<u16>(gFaceCollisionMask_6F6002) & pBlock3->mBottom) != 0)
+                    if ((static_cast<u16>(gFaceCollisionMask) & pBlock3->mBottom) != 0)
                     {
                         if (!IsWestOrEastGradSlope_4634B0(pBlock3))
                         {
-                            if (gSprite_6F61E8->CheckBBoxScanlineIntersection(static_cast<u32>(x), x + 1, y + 1))
+                            if (gSprite->CheckBBoxScanlineIntersection(static_cast<u32>(x), x + 1, y + 1))
                             {
                                 return true;
                             }
@@ -1830,11 +1830,11 @@ bool Map_0x370::SpriteHitsBlockFacesInArea(s32 x_min, s32 x_max, s32 y_min, s32 
                 gmp_block_info* pBlock4 = Map_0x370::GetEffectiveBlock(x, y + 1, z);
                 if (pBlock4)
                 {
-                    if ((static_cast<u16>(gFaceCollisionMask_6F6002) & pBlock4->mTop) != 0)
+                    if ((static_cast<u16>(gFaceCollisionMask) & pBlock4->mTop) != 0)
                     {
                         if (!IsWestOrEastGradSlope_4634B0(pBlock4))
                         {
-                            if (gSprite_6F61E8->CheckBBoxScanlineIntersection(static_cast<u32>(x), x + 1, y + 1))
+                            if (gSprite->CheckBBoxScanlineIntersection(static_cast<u32>(x), x + 1, y + 1))
                             {
                                 return true;
                             }
@@ -1876,13 +1876,13 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
     sEastTileZ = zLevel;
     sWestTileZ = zLevel;
 
-    if (gSprite_6F61E8)
+    if (gSprite)
     {
-        if (!IsZOnGround(gSprite_6F61E8->mXy.x, gSprite_6F61E8->mXy.y, gSprite_6F61E8->mZpos))
+        if (!IsZOnGround(gSprite->mXy.x, gSprite->mXy.y, gSprite->mZpos))
         {
-            if (!IsGradientSlopeAt_466CF0(gSprite_6F61E8->mXy.x.ToInt(),
-                                          gSprite_6F61E8->mXy.y.ToInt(),
-                                          gSprite_6F61E8->mZpos.ToInt()))
+            if (!IsGradientSlopeAt_466CF0(gSprite->mXy.x.ToInt(),
+                                          gSprite->mXy.y.ToInt(),
+                                          gSprite->mZpos.ToInt()))
             {
                 return SpriteHitsBlockFacesInArea(regionLeft, regionRight, regionTop, regionBottom, zLevel);
             }
@@ -1898,14 +1898,14 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
     }
 
     u8 gradient_direction;
-    gCurrentBlockSlope_6F5EC8 = &gGmpSlopes_6F5BA8[pBlock->mSlopeType >> 2];
-    if (!gCurrentBlockSlope_6F5EC8->mGradientDirection || gCurrentBlockSlope_6F5EC8->mGradientLevel)
+    gCurrentBlockSlope = &gGmpSlopes[pBlock->mSlopeType >> 2];
+    if (!gCurrentBlockSlope->mGradientDirection || gCurrentBlockSlope->mGradientLevel)
     {
         gradient_direction = NO_GRADIENT_SLOPE_0;
     }
     else
     {
-        gradient_direction = gCurrentBlockSlope_6F5EC8->mGradientDirection;
+        gradient_direction = gCurrentBlockSlope->mGradientDirection;
         switch (gradient_direction)
         {
             case 1u:
@@ -1931,19 +1931,19 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
     {
         if (gradient_direction == NORTH_1)
         {
-            if (sBlockAbove && (static_cast<u16>(gFaceCollisionMask_6F6002) & sBlockAbove->mTop) != 0)
+            if (sBlockAbove && (static_cast<u16>(gFaceCollisionMask) & sBlockAbove->mTop) != 0)
             {
-                if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY))
+                if (!gSprite || gSprite->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY))
                 {
                     return true;
                 }
             }
         }
-        else if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sBlockInfo0->mTop) != 0 &&
-                 gCurrentBlockSlope_6F5EC8->mGradientDirection != WEST_3 &&
-                 gCurrentBlockSlope_6F5EC8->mGradientDirection != EAST_4)
+        else if ((static_cast<u16>(gFaceCollisionMask) & sBlockInfo0->mTop) != 0 &&
+                 gCurrentBlockSlope->mGradientDirection != WEST_3 &&
+                 gCurrentBlockSlope->mGradientDirection != EAST_4)
         {
-            if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY))
+            if (!gSprite || gSprite->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY))
             {
                 return true;
             }
@@ -1952,14 +1952,14 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
         sNorthBlock = GetEffectiveBlock(tileX, tileY - 1, sNorthTileZ);
         if (sNorthBlock)
         {
-            if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sNorthBlock->mBottom) != 0)
+            if ((static_cast<u16>(gFaceCollisionMask) & sNorthBlock->mBottom) != 0)
             {
-                if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY))
+                if (!gSprite || gSprite->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY))
                 {
                     return true;
                 }
             }
-            sNorthSlope = &gGmpSlopes_6F5BA8[sNorthBlock->mSlopeType >> 2];
+            sNorthSlope = &gGmpSlopes[sNorthBlock->mSlopeType >> 2];
         }
     }
 
@@ -1968,19 +1968,19 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
     {
         if (gradient_direction == SOUTH_2)
         {
-            if (sBlockAbove && (static_cast<u16>(gFaceCollisionMask_6F6002) & sBlockAbove->mBottom) != 0)
+            if (sBlockAbove && (static_cast<u16>(gFaceCollisionMask) & sBlockAbove->mBottom) != 0)
             {
-                if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY + 1))
+                if (!gSprite || gSprite->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY + 1))
                 {
                     return true;
                 }
             }
         }
-        else if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sBlockInfo0->mBottom) != 0 &&
-                 gCurrentBlockSlope_6F5EC8->mGradientDirection != WEST_3 &&
-                 gCurrentBlockSlope_6F5EC8->mGradientDirection != EAST_4)
+        else if ((static_cast<u16>(gFaceCollisionMask) & sBlockInfo0->mBottom) != 0 &&
+                 gCurrentBlockSlope->mGradientDirection != WEST_3 &&
+                 gCurrentBlockSlope->mGradientDirection != EAST_4)
         {
-            if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY + 1))
+            if (!gSprite || gSprite->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY + 1))
             {
                 return true;
             }
@@ -1989,14 +1989,14 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
         sSouthBlock = GetEffectiveBlock(tileX, tileY + 1, sSouthTileZ);
         if (sSouthBlock)
         {
-            if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sSouthBlock->mTop) != 0)
+            if ((static_cast<u16>(gFaceCollisionMask) & sSouthBlock->mTop) != 0)
             {
-                if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY + 1))
+                if (!gSprite || gSprite->CheckBBoxScanlineIntersection(static_cast<u32>(tileX), tileX + 1, tileY + 1))
                 {
                     return true;
                 }
             }
-            sSouthSlope = &gGmpSlopes_6F5BA8[sSouthBlock->mSlopeType >> 2];
+            sSouthSlope = &gGmpSlopes[sSouthBlock->mSlopeType >> 2];
         }
     }
 
@@ -2005,19 +2005,19 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
     {
         if (gradient_direction == WEST_3)
         {
-            if (sBlockAbove && (static_cast<u16>(gFaceCollisionMask_6F6002) & sBlockAbove->mLeft) != 0)
+            if (sBlockAbove && (static_cast<u16>(gFaceCollisionMask) & sBlockAbove->mLeft) != 0)
             {
-                if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX))
+                if (!gSprite || gSprite->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX))
                 {
                     return true;
                 }
             }
         }
-        else if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sBlockInfo0->mLeft) != 0 &&
-                 gCurrentBlockSlope_6F5EC8->mGradientDirection != NORTH_1 &&
-                 gCurrentBlockSlope_6F5EC8->mGradientDirection != SOUTH_2)
+        else if ((static_cast<u16>(gFaceCollisionMask) & sBlockInfo0->mLeft) != 0 &&
+                 gCurrentBlockSlope->mGradientDirection != NORTH_1 &&
+                 gCurrentBlockSlope->mGradientDirection != SOUTH_2)
         {
-            if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX))
+            if (!gSprite || gSprite->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX))
             {
                 return true;
             }
@@ -2026,33 +2026,33 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
         sWestBlock = GetEffectiveBlock(tileX - 1, tileY, sWestTileZ);
         if (sWestBlock)
         {
-            if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sWestBlock->mRight) != 0)
+            if ((static_cast<u16>(gFaceCollisionMask) & sWestBlock->mRight) != 0)
             {
-                if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX))
+                if (!gSprite || gSprite->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX))
                 {
                     return true;
                 }
             }
-            sWestSlope = &gGmpSlopes_6F5BA8[sWestBlock->mSlopeType >> 2];
+            sWestSlope = &gGmpSlopes[sWestBlock->mSlopeType >> 2];
         }
 
         if (regionTop < tileY)
         {
             if (sNorthBlock && sWestTileZ <= sNorthTileZ &&
-                (static_cast<u16>(gFaceCollisionMask_6F6002) & sNorthBlock->mLeft) != 0 &&
+                (static_cast<u16>(gFaceCollisionMask) & sNorthBlock->mLeft) != 0 &&
                 sNorthSlope->mGradientDirection != NORTH_1 && sNorthSlope->mGradientDirection != SOUTH_2)
             {
-                if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine(tileY - 1, static_cast<u32>(tileY), tileX))
+                if (!gSprite || gSprite->HitTestVerticalLine(tileY - 1, static_cast<u32>(tileY), tileX))
                 {
                     return true;
                 }
             }
 
             if (sWestBlock && sNorthTileZ <= sWestTileZ &&
-                (static_cast<u16>(gFaceCollisionMask_6F6002) & sWestBlock->mTop) != 0 &&
+                (static_cast<u16>(gFaceCollisionMask) & sWestBlock->mTop) != 0 &&
                 sWestSlope->mGradientDirection != WEST_3 && sWestSlope->mGradientDirection != EAST_4)
             {
-                if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection(tileX - 1, static_cast<u32>(tileX), tileY))
+                if (!gSprite || gSprite->CheckBBoxScanlineIntersection(tileX - 1, static_cast<u32>(tileX), tileY))
                 {
                     return true;
                 }
@@ -2061,16 +2061,16 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
             sNorthWestBlock = GetEffectiveBlock(tileX - 1, tileY - 1, sNorthTileZ > sWestTileZ ? sNorthTileZ : sWestTileZ);
             if (sNorthWestBlock)
             {
-                if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sNorthWestBlock->mRight) != 0)
+                if ((static_cast<u16>(gFaceCollisionMask) & sNorthWestBlock->mRight) != 0)
                 {
-                    if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine(tileY - 1, static_cast<u32>(tileY), tileX))
+                    if (!gSprite || gSprite->HitTestVerticalLine(tileY - 1, static_cast<u32>(tileY), tileX))
                     {
                         return true;
                     }
                 }
-                if (sNorthWestBlock && (static_cast<u16>(gFaceCollisionMask_6F6002) & sNorthWestBlock->mBottom) != 0)
+                if (sNorthWestBlock && (static_cast<u16>(gFaceCollisionMask) & sNorthWestBlock->mBottom) != 0)
                 {
-                    if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection(tileX - 1, static_cast<u32>(tileX), tileY))
+                    if (!gSprite || gSprite->CheckBBoxScanlineIntersection(tileX - 1, static_cast<u32>(tileX), tileY))
                     {
                         return true;
                     }
@@ -2081,20 +2081,20 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
         if (regionBottom > tileY)
         {
             if (sSouthBlock && sWestTileZ <= sSouthTileZ &&
-                (static_cast<u16>(gFaceCollisionMask_6F6002) & sSouthBlock->mLeft) != 0 &&
+                (static_cast<u16>(gFaceCollisionMask) & sSouthBlock->mLeft) != 0 &&
                 sSouthSlope->mGradientDirection != NORTH_1 && sSouthSlope->mGradientDirection != SOUTH_2)
             {
-                if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine(tileY + 1, tileY + 2, tileX))
+                if (!gSprite || gSprite->HitTestVerticalLine(tileY + 1, tileY + 2, tileX))
                 {
                     return true;
                 }
             }
 
             if (sWestBlock && sSouthTileZ <= sWestTileZ &&
-                (static_cast<u16>(gFaceCollisionMask_6F6002) & sWestBlock->mBottom) != 0 &&
+                (static_cast<u16>(gFaceCollisionMask) & sWestBlock->mBottom) != 0 &&
                 sWestSlope->mGradientDirection != WEST_3 && sWestSlope->mGradientDirection != EAST_4)
             {
-                if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection(tileX - 1, static_cast<u32>(tileX), tileY + 1))
+                if (!gSprite || gSprite->CheckBBoxScanlineIntersection(tileX - 1, static_cast<u32>(tileX), tileY + 1))
                 {
                     return true;
                 }
@@ -2103,16 +2103,16 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
             sSouthWestBlock = GetEffectiveBlock(tileX - 1, tileY + 1, sSouthTileZ > sWestTileZ ? sSouthTileZ : sWestTileZ);
             if (sSouthWestBlock)
             {
-                if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sSouthWestBlock->mRight) != 0)
+                if ((static_cast<u16>(gFaceCollisionMask) & sSouthWestBlock->mRight) != 0)
                 {
-                    if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine(tileY + 1, tileY + 2, tileX))
+                    if (!gSprite || gSprite->HitTestVerticalLine(tileY + 1, tileY + 2, tileX))
                     {
                         return true;
                     }
                 }
-                if (sSouthWestBlock && (static_cast<u16>(gFaceCollisionMask_6F6002) & sSouthWestBlock->mTop) != 0)
+                if (sSouthWestBlock && (static_cast<u16>(gFaceCollisionMask) & sSouthWestBlock->mTop) != 0)
                 {
-                    if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection(tileX - 1, static_cast<u32>(tileX), tileY + 1))
+                    if (!gSprite || gSprite->CheckBBoxScanlineIntersection(tileX - 1, static_cast<u32>(tileX), tileY + 1))
                     {
                         return true;
                     }
@@ -2126,19 +2126,19 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
     {
         if (gradient_direction == EAST_4)
         {
-            if (sBlockAbove && (static_cast<u16>(gFaceCollisionMask_6F6002) & sBlockAbove->mRight) != 0)
+            if (sBlockAbove && (static_cast<u16>(gFaceCollisionMask) & sBlockAbove->mRight) != 0)
             {
-                if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX + 1))
+                if (!gSprite || gSprite->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX + 1))
                 {
                     return true;
                 }
             }
         }
-        else if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sBlockInfo0->mRight) != 0 &&
-                 gCurrentBlockSlope_6F5EC8->mGradientDirection != NORTH_1 &&
-                 gCurrentBlockSlope_6F5EC8->mGradientDirection != SOUTH_2)
+        else if ((static_cast<u16>(gFaceCollisionMask) & sBlockInfo0->mRight) != 0 &&
+                 gCurrentBlockSlope->mGradientDirection != NORTH_1 &&
+                 gCurrentBlockSlope->mGradientDirection != SOUTH_2)
         {
-            if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX + 1))
+            if (!gSprite || gSprite->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX + 1))
             {
                 return true;
             }
@@ -2147,33 +2147,33 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
         sEastBlock = GetEffectiveBlock(tileX + 1, tileY, sEastTileZ);
         if (sEastBlock)
         {
-            if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sEastBlock->mLeft) != 0)
+            if ((static_cast<u16>(gFaceCollisionMask) & sEastBlock->mLeft) != 0)
             {
-                if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX + 1))
+                if (!gSprite || gSprite->HitTestVerticalLine(static_cast<u32>(tileY), tileY + 1, tileX + 1))
                 {
                     return true;
                 }
             }
-            sEastSlope = &gGmpSlopes_6F5BA8[sEastBlock->mSlopeType >> 2];
+            sEastSlope = &gGmpSlopes[sEastBlock->mSlopeType >> 2];
         }
 
         if (regionTop < tileY)
         {
             if (sNorthBlock && sEastTileZ <= sNorthTileZ &&
-                (static_cast<u16>(gFaceCollisionMask_6F6002) & sNorthBlock->mRight) != 0 &&
+                (static_cast<u16>(gFaceCollisionMask) & sNorthBlock->mRight) != 0 &&
                 sNorthSlope->mGradientDirection != NORTH_1 && sNorthSlope->mGradientDirection != SOUTH_2)
             {
-                if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine(tileY - 1, static_cast<u32>(tileY), tileX + 1))
+                if (!gSprite || gSprite->HitTestVerticalLine(tileY - 1, static_cast<u32>(tileY), tileX + 1))
                 {
                     return true;
                 }
             }
 
             if (sEastBlock && sNorthTileZ <= sEastTileZ &&
-                (static_cast<u16>(gFaceCollisionMask_6F6002) & sEastBlock->mTop) != 0 &&
+                (static_cast<u16>(gFaceCollisionMask) & sEastBlock->mTop) != 0 &&
                 sEastSlope->mGradientDirection != WEST_3 && sEastSlope->mGradientDirection != EAST_4)
             {
-                if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection(tileX + 1, tileX + 2, tileY))
+                if (!gSprite || gSprite->CheckBBoxScanlineIntersection(tileX + 1, tileX + 2, tileY))
                 {
                     return true;
                 }
@@ -2182,16 +2182,16 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
             sNorthEastBlock = GetEffectiveBlock(tileX + 1, tileY - 1, sNorthTileZ > sEastTileZ ? sNorthTileZ : sEastTileZ);
             if (sNorthEastBlock)
             {
-                if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sNorthEastBlock->mLeft) != 0)
+                if ((static_cast<u16>(gFaceCollisionMask) & sNorthEastBlock->mLeft) != 0)
                 {
-                    if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine(tileY - 1, static_cast<u32>(tileY), tileX + 1))
+                    if (!gSprite || gSprite->HitTestVerticalLine(tileY - 1, static_cast<u32>(tileY), tileX + 1))
                     {
                         return true;
                     }
                 }
-                if (sNorthEastBlock && (static_cast<u16>(gFaceCollisionMask_6F6002) & sNorthEastBlock->mBottom) != 0)
+                if (sNorthEastBlock && (static_cast<u16>(gFaceCollisionMask) & sNorthEastBlock->mBottom) != 0)
                 {
-                    if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection(tileX + 1, tileX + 2, tileY))
+                    if (!gSprite || gSprite->CheckBBoxScanlineIntersection(tileX + 1, tileX + 2, tileY))
                     {
                         return true;
                     }
@@ -2202,20 +2202,20 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
         if (regionBottom > tileY)
         {
             if (sSouthBlock && sEastTileZ <= sSouthTileZ &&
-                (static_cast<u16>(gFaceCollisionMask_6F6002) & sSouthBlock->mRight) != 0 &&
+                (static_cast<u16>(gFaceCollisionMask) & sSouthBlock->mRight) != 0 &&
                 sSouthSlope->mGradientDirection != NORTH_1 && sSouthSlope->mGradientDirection != SOUTH_2)
             {
-                if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine(tileY + 1, tileY + 2, tileX + 1))
+                if (!gSprite || gSprite->HitTestVerticalLine(tileY + 1, tileY + 2, tileX + 1))
                 {
                     return true;
                 }
             }
 
             if (sEastBlock && sSouthTileZ <= sEastTileZ &&
-                (static_cast<u16>(gFaceCollisionMask_6F6002) & sEastBlock->mBottom) != 0 &&
+                (static_cast<u16>(gFaceCollisionMask) & sEastBlock->mBottom) != 0 &&
                 sEastSlope->mGradientDirection != WEST_3 && sEastSlope->mGradientDirection != EAST_4)
             {
-                if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection(tileX + 1, tileX + 2, tileY + 1))
+                if (!gSprite || gSprite->CheckBBoxScanlineIntersection(tileX + 1, tileX + 2, tileY + 1))
                 {
                     return true;
                 }
@@ -2224,16 +2224,16 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
             sSouthEastBlock = GetEffectiveBlock(tileX + 1, tileY + 1, sSouthTileZ > sEastTileZ ? sSouthTileZ : sEastTileZ);
             if (sSouthEastBlock)
             {
-                if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sSouthEastBlock->mLeft) != 0)
+                if ((static_cast<u16>(gFaceCollisionMask) & sSouthEastBlock->mLeft) != 0)
                 {
-                    if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine(tileY + 1, tileY + 2, tileX + 1))
+                    if (!gSprite || gSprite->HitTestVerticalLine(tileY + 1, tileY + 2, tileX + 1))
                     {
                         return true;
                     }
                 }
-                if (sSouthEastBlock && (static_cast<u16>(gFaceCollisionMask_6F6002) & sSouthEastBlock->mTop) != 0)
+                if (sSouthEastBlock && (static_cast<u16>(gFaceCollisionMask) & sSouthEastBlock->mTop) != 0)
                 {
-                    if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection(tileX + 1, tileX + 2, tileY + 1))
+                    if (!gSprite || gSprite->CheckBBoxScanlineIntersection(tileX + 1, tileX + 2, tileY + 1))
                     {
                         return true;
                     }
@@ -2247,65 +2247,65 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
 MATCH_FUNC(0x4E4460)
 bool Map_0x370::IsMovementRegionBlocked(s32 tile_x, s32 tile_y, s32 tile_z, Sprite* pSprite, s16 collision_mask)
 {
-    gSprite_6F61E8 = pSprite;
-    gFaceCollisionMask_6F6002 = collision_mask;
-    if (gSpriteGrid_right_6F5B80 - gSpriteGrid_left_6F5FD4 >= 3 || tile_x > gSpriteGrid_left_6F5FD4 + 1 || tile_x < gSpriteGrid_right_6F5B80 - 1)
+    gSprite = pSprite;
+    gFaceCollisionMask = collision_mask;
+    if (gSpriteGrid_right - gSpriteGrid_left >= 3 || tile_x > gSpriteGrid_left + 1 || tile_x < gSpriteGrid_right - 1)
     {
-        if (IsTileBlockedForSprite(tile_x - 1, tile_x + 1, gSpriteGrid_top_6F6108, gSpriteGrid_bottom_6F5F38, tile_x, tile_y, tile_z))
+        if (IsTileBlockedForSprite(tile_x - 1, tile_x + 1, gSpriteGrid_top, gSpriteGrid_bottom, tile_x, tile_y, tile_z))
         {
             return true;
         }
-        else if (gSpriteGrid_right_6F5B80 == tile_x + 2)
+        else if (gSpriteGrid_right == tile_x + 2)
         {
-            return IsTileBlockedForSprite(gSpriteGrid_right_6F5B80 - 1,
-                                             gSpriteGrid_right_6F5B80,
-                                             gSpriteGrid_top_6F6108,
-                                             gSpriteGrid_bottom_6F5F38,
-                                             gSpriteGrid_right_6F5B80 - 1,
+            return IsTileBlockedForSprite(gSpriteGrid_right - 1,
+                                             gSpriteGrid_right,
+                                             gSpriteGrid_top,
+                                             gSpriteGrid_bottom,
+                                             gSpriteGrid_right - 1,
                                              tile_y,
                                              sEastTileZ);
         }
         else
         {
-            return IsTileBlockedForSprite(gSpriteGrid_left_6F5FD4,
-                                             gSpriteGrid_left_6F5FD4 + 1,
-                                             gSpriteGrid_top_6F6108,
-                                             gSpriteGrid_bottom_6F5F38,
-                                             gSpriteGrid_left_6F5FD4 + 1,
+            return IsTileBlockedForSprite(gSpriteGrid_left,
+                                             gSpriteGrid_left + 1,
+                                             gSpriteGrid_top,
+                                             gSpriteGrid_bottom,
+                                             gSpriteGrid_left + 1,
                                              tile_y,
                                              sWestTileZ);
         }
     }
-    else if (gSpriteGrid_bottom_6F5F38 - gSpriteGrid_top_6F6108 >= 3 || tile_y > gSpriteGrid_top_6F6108 + 1 || tile_y < gSpriteGrid_bottom_6F5F38 - 1)
+    else if (gSpriteGrid_bottom - gSpriteGrid_top >= 3 || tile_y > gSpriteGrid_top + 1 || tile_y < gSpriteGrid_bottom - 1)
     {
-        if (IsTileBlockedForSprite(gSpriteGrid_left_6F5FD4, gSpriteGrid_right_6F5B80, tile_y - 1, tile_y + 1, tile_x, tile_y, tile_z))
+        if (IsTileBlockedForSprite(gSpriteGrid_left, gSpriteGrid_right, tile_y - 1, tile_y + 1, tile_x, tile_y, tile_z))
         {
             return true;
         }
-        else if (gSpriteGrid_bottom_6F5F38 == tile_y + 2)
+        else if (gSpriteGrid_bottom == tile_y + 2)
         {
-            return IsTileBlockedForSprite(gSpriteGrid_left_6F5FD4,
-                                             gSpriteGrid_right_6F5B80,
-                                             gSpriteGrid_bottom_6F5F38 - 1,
-                                             gSpriteGrid_bottom_6F5F38,
+            return IsTileBlockedForSprite(gSpriteGrid_left,
+                                             gSpriteGrid_right,
+                                             gSpriteGrid_bottom - 1,
+                                             gSpriteGrid_bottom,
                                              tile_x,
-                                             gSpriteGrid_bottom_6F5F38 - 1,
+                                             gSpriteGrid_bottom - 1,
                                              sSouthTileZ);
         }
         else
         {
-            return IsTileBlockedForSprite(gSpriteGrid_left_6F5FD4,
-                                             gSpriteGrid_right_6F5B80,
-                                             gSpriteGrid_top_6F6108,
-                                             gSpriteGrid_top_6F6108 + 1,
+            return IsTileBlockedForSprite(gSpriteGrid_left,
+                                             gSpriteGrid_right,
+                                             gSpriteGrid_top,
+                                             gSpriteGrid_top + 1,
                                              tile_x,
-                                             gSpriteGrid_top_6F6108 + 1,
+                                             gSpriteGrid_top + 1,
                                              sNorthTileZ);
         }
     }
     else
     {
-        return IsTileBlockedForSprite(gSpriteGrid_left_6F5FD4, gSpriteGrid_right_6F5B80, gSpriteGrid_top_6F6108, gSpriteGrid_bottom_6F5F38, tile_x, tile_y, tile_z);
+        return IsTileBlockedForSprite(gSpriteGrid_left, gSpriteGrid_right, gSpriteGrid_top, gSpriteGrid_bottom, tile_x, tile_y, tile_z);
     }
 }
 
@@ -2316,9 +2316,9 @@ char_type Map_0x370::CheckSlopeTopInSpriteGrid(Fix16 z_pos)
     bool bFractionalZ = !!(z_pos.GetFracValue() != kFpZero_6F610C);
     bool bFound = false;
 
-    for (s32 ypos = gSpriteGrid_top_6F6108; ypos <= gSpriteGrid_bottom_6F5F38; ypos++)
+    for (s32 ypos = gSpriteGrid_top; ypos <= gSpriteGrid_bottom; ypos++)
     {
-        for (s32 xpos = gSpriteGrid_left_6F5FD4; xpos <= gSpriteGrid_right_6F5B80; xpos++)
+        for (s32 xpos = gSpriteGrid_left; xpos <= gSpriteGrid_right; xpos++)
         {
             gmp_block_info* pBlock = Map_0x370::GetBlock(xpos, ypos, z_int);
             sBlockInfo0 = pBlock;
@@ -2333,8 +2333,8 @@ char_type Map_0x370::CheckSlopeTopInSpriteGrid(Fix16 z_pos)
                     }
                     else
                     {
-                        gCurrentBlockSlope_6F5EC8 = &gGmpSlopes_6F5BA8[GET_SLOPE_IDX(sBlockInfo0->mSlopeType)];
-                        if (gCurrentBlockSlope_6F5EC8->mGradientLevel == gCurrentBlockSlope_6F5EC8->mGradientSize - 1)
+                        gCurrentBlockSlope = &gGmpSlopes[GET_SLOPE_IDX(sBlockInfo0->mSlopeType)];
+                        if (gCurrentBlockSlope->mGradientLevel == gCurrentBlockSlope->mGradientSize - 1)
                         {
                             bFound = true;
                         }
@@ -2360,9 +2360,9 @@ bool Map_0x370::SlopeBordersFlatInSpriteGrid(Fix16 z_pos)
     bool bSeenSlope = false;
     bool bSeenFlat = false;
 
-    for (s32 y_pos = gSpriteGrid_top_6F6108; y_pos <= gSpriteGrid_bottom_6F5F38; y_pos++)
+    for (s32 y_pos = gSpriteGrid_top; y_pos <= gSpriteGrid_bottom; y_pos++)
     {
-        for (s32 x_pos = gSpriteGrid_left_6F5FD4; x_pos <= gSpriteGrid_right_6F5B80; x_pos++)
+        for (s32 x_pos = gSpriteGrid_left; x_pos <= gSpriteGrid_right; x_pos++)
         {
             sBlockInfo0 = Map_0x370::GetBlock(x_pos, y_pos, z);
 
@@ -2519,12 +2519,12 @@ bool __stdcall Map_0x370::IsSearchBlockOfType(char_type block_type)
     {
         if (block_type == PAVEMENT)
         {
-            if (gMap_0x370_6F6268->FindPavementBlockForCoord(sSearchX, sSearchY, sSearchZ))
+            if (gMap_0x370->FindPavementBlockForCoord(sSearchX, sSearchY, sSearchZ))
             {
                 return true;
             }
         }
-        else if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(sSearchX, sSearchY, sSearchZ) == ROAD)
+        else if (gMap_0x370->GetBlockTypeAtCoord_420420(sSearchX, sSearchY, sSearchZ) == ROAD)
         {
             return true;
         }
@@ -2801,7 +2801,7 @@ char_type Map_0x370::GetSurfaceTypeBelowCoord(Fix16 x, Fix16 y, Fix16 z)
 
     if (sBlockInfo0)
     {
-        if (gGtx_0x106C_703DD4->IsWaterTile_462FB0(get_tile_idx(sBlockInfo0->mLid)))
+        if (gGtx_0x106C->IsWaterTile_462FB0(get_tile_idx(sBlockInfo0->mLid)))
         {
             return 7;
         }
@@ -2952,12 +2952,12 @@ static inline void __stdcall PolarToCartesianByVal(Ang16& angle, Fix16 radius, F
 MATCH_FUNC(0x4E5640)
 bool Map_0x370::IsProbePathClear(Fix16 width, Fix16 height, Fix16 depth, Fix16 from_x, Fix16 from_y, Fix16 from_z, Fix16 to_x, Fix16 to_y, Fix16 to_z)
 {
-    Sprite* pProbe = gObject_5C_6F8F84->mCollisionProbeSprite;
+    Sprite* pProbe = gObject_5C->mCollisionProbeSprite;
     Fix16 total_dz = to_z - from_z;
     Ang16 angle;
     Fix16_Point pos_diff(to_x - from_x, to_y - from_y);
 
-    gCollisionTarget_679188.Reset_4637B0();
+    gCollisionTarget.Reset_4637B0();
 
     angle = Fix16::atan2_fixed(to_y - from_y, to_x - from_x);
 
@@ -2998,7 +2998,7 @@ bool Map_0x370::IsProbePathClear(Fix16 width, Fix16 height, Fix16 depth, Fix16 f
     for (u8 i = 1; i <= num_steps.ToInt(); i++)
     {
         Fix16 ground_z;
-        ground_z = gMap_0x370_6F6268->FindGroundZBelowCoord(pProbe->mXy.x, pProbe->mXy.y, pProbe->mZpos);
+        ground_z = gMap_0x370->FindGroundZBelowCoord(pProbe->mXy.x, pProbe->mXy.y, pProbe->mZpos);
         if (step_dz == kFpZero_6F610C)
         {
             pProbe->set_xyz_lazy_420600(pProbe->mXy.x + step_x,
@@ -3025,11 +3025,11 @@ bool Map_0x370::IsProbePathClear(Fix16 width, Fix16 height, Fix16 depth, Fix16 f
                 }
 
                 if (!(pProbe->mZpos < kFpSeven_6F6128) ||
-                    gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(pProbe->mXy.x.ToInt(),
+                    gMap_0x370->GetBlockTypeAtCoord_420420(pProbe->mXy.x.ToInt(),
                                                                   pProbe->mXy.y.ToInt(),
                                                                   (pProbe->mZpos + kFpHalf_6F5FE0).ToInt()))
                 {
-                    if (!gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pProbe->mXy.x.ToInt(),
+                    if (!gMap_0x370->IsGradientSlopeAt_466CF0(pProbe->mXy.x.ToInt(),
                                                                      pProbe->mXy.y.ToInt(),
                                                                      pProbe->mZpos.ToInt()))
                     {
@@ -3051,15 +3051,15 @@ bool Map_0x370::IsProbePathClear(Fix16 width, Fix16 height, Fix16 depth, Fix16 f
                                               pProbe->mXy.y + step_y,
                                               pProbe->mZpos + step_dz);
 
-                if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pProbe->mXy.x.ToInt(),
+                if (gMap_0x370->IsGradientSlopeAt_466CF0(pProbe->mXy.x.ToInt(),
                                                                 pProbe->mXy.y.ToInt(),
                                                                 pProbe->mZpos.ToInt()))
                 {
-                    if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(pProbe->mXy.x.ToInt(),
+                    if (gMap_0x370->GetBlockTypeAtCoord_420420(pProbe->mXy.x.ToInt(),
                                                                       pProbe->mXy.y.ToInt(),
                                                                       pProbe->mZpos.ToInt()))
                     {
-                        ground_z = gMap_0x370_6F6268->FindGroundZBelowCoord(pProbe->mXy.x,
+                        ground_z = gMap_0x370->FindGroundZBelowCoord(pProbe->mXy.x,
                                                                             pProbe->mXy.y,
                                                                             pProbe->mZpos);
                         if (ground_z > pProbe->mZpos)
@@ -3134,9 +3134,9 @@ u8 Map_0x370::UpdateZFromSlopeAtCoord(Fix16 x_pos, Fix16 y_pos, Fix16& z_pos)
 
         if (!IS_AIR_TYPE(sBlockInfo0->mSlopeType))
         {
-            gCurrentBlockSlope_6F5EC8 = &gGmpSlopes_6F5BA8[GET_SLOPE_IDX(sBlockInfo0->mSlopeType)];
+            gCurrentBlockSlope = &gGmpSlopes[GET_SLOPE_IDX(sBlockInfo0->mSlopeType)];
 
-            switch (gCurrentBlockSlope_6F5EC8->mGradientDirection)
+            switch (gCurrentBlockSlope->mGradientDirection)
             {
                 case NO_GRADIENT_SLOPE_0:
                     return 0;
@@ -3156,16 +3156,16 @@ u8 Map_0x370::UpdateZFromSlopeAtCoord(Fix16 x_pos, Fix16 y_pos, Fix16& z_pos)
                     break;
             }
 
-            get_grad_scale_from_size_4634E0(grad_scale, gCurrentBlockSlope_6F5EC8->mGradientSize);
+            get_grad_scale_from_size_4634E0(grad_scale, gCurrentBlockSlope->mGradientSize);
 
-            Fix16 relative_z_pos = gCurrentBlockSlope_6F5EC8->mZposLower + (grad_pos * grad_scale);
+            Fix16 relative_z_pos = gCurrentBlockSlope->mZposLower + (grad_pos * grad_scale);
 
             if (relative_z_pos == kFpZero_6F610C)
             {
                 relative_z_pos = kFpOneSixtyFourth_6F60C0;
             }
             z_pos = relative_z_pos + z_pos.GetFloorValue();
-            return gCurrentBlockSlope_6F5EC8->mGradientDirection;
+            return gCurrentBlockSlope->mGradientDirection;
         }
     }
     return 0;
@@ -3246,25 +3246,25 @@ bool Map_0x370::HasGreenArrowForPathDirection(gmp_block_info* pBlock, s32 direct
         case 1:
             if (bDefault)
             {
-                return gRouteFinder_6FFDC8->HasBlockDesiredArrow(pBlock, green_1, UP_1);
+                return gRouteFinder->HasBlockDesiredArrow(pBlock, green_1, UP_1);
             }
             else
             {
-                return gRouteFinder_6FFDC8->HasBlockDesiredArrow(pBlock, green_1, DOWN_2);
+                return gRouteFinder->HasBlockDesiredArrow(pBlock, green_1, DOWN_2);
             }
         case 2:
-            return bDefault ? gRouteFinder_6FFDC8->HasBlockDesiredArrow(pBlock, green_1, DOWN_2) : gRouteFinder_6FFDC8->HasBlockDesiredArrow(pBlock, green_1, UP_1);
+            return bDefault ? gRouteFinder->HasBlockDesiredArrow(pBlock, green_1, DOWN_2) : gRouteFinder->HasBlockDesiredArrow(pBlock, green_1, UP_1);
         case 3:
             if (bDefault)
             {
-                return gRouteFinder_6FFDC8->HasBlockDesiredArrow(pBlock, green_1, RIGHT_4);
+                return gRouteFinder->HasBlockDesiredArrow(pBlock, green_1, RIGHT_4);
             }
             else
             {
-                return gRouteFinder_6FFDC8->HasBlockDesiredArrow(pBlock, green_1, LEFT_3);
+                return gRouteFinder->HasBlockDesiredArrow(pBlock, green_1, LEFT_3);
             }
         case 4:
-            return bDefault ? gRouteFinder_6FFDC8->HasBlockDesiredArrow(pBlock, green_1, LEFT_3) : gRouteFinder_6FFDC8->HasBlockDesiredArrow(pBlock, green_1, RIGHT_4);
+            return bDefault ? gRouteFinder->HasBlockDesiredArrow(pBlock, green_1, LEFT_3) : gRouteFinder->HasBlockDesiredArrow(pBlock, green_1, RIGHT_4);
     }
     return bDefault;
 }
@@ -3273,7 +3273,7 @@ MATCH_FUNC(0x4E5FC0)
 s32 Map_0x370::GetArrowDirectionFromBlock(gmp_block_info* pBlock, bool bDontFlip)
 {
     s32 result = 0;
-    if (gRouteFinder_6FFDC8->HasBlockDesiredArrow(pBlock, green_or_red_3, RIGHT_4))
+    if (gRouteFinder->HasBlockDesiredArrow(pBlock, green_or_red_3, RIGHT_4))
     {
         if (bDontFlip)
         {
@@ -3284,7 +3284,7 @@ s32 Map_0x370::GetArrowDirectionFromBlock(gmp_block_info* pBlock, bool bDontFlip
             result = road_direction::left_4;
         }
     }
-    else if (gRouteFinder_6FFDC8->HasBlockDesiredArrow(pBlock, green_or_red_3, DOWN_2))
+    else if (gRouteFinder->HasBlockDesiredArrow(pBlock, green_or_red_3, DOWN_2))
     {
         if (bDontFlip)
         {
@@ -3295,7 +3295,7 @@ s32 Map_0x370::GetArrowDirectionFromBlock(gmp_block_info* pBlock, bool bDontFlip
             result = road_direction::up_1;
         }
     }
-    else if (gRouteFinder_6FFDC8->HasBlockDesiredArrow(pBlock, green_or_red_3, LEFT_3))
+    else if (gRouteFinder->HasBlockDesiredArrow(pBlock, green_or_red_3, LEFT_3))
     {
         if (bDontFlip)
         {
@@ -3306,7 +3306,7 @@ s32 Map_0x370::GetArrowDirectionFromBlock(gmp_block_info* pBlock, bool bDontFlip
             result = road_direction::right_3;
         }
     }
-    else if (gRouteFinder_6FFDC8->HasBlockDesiredArrow(pBlock, green_or_red_3, UP_1))
+    else if (gRouteFinder->HasBlockDesiredArrow(pBlock, green_or_red_3, UP_1))
     {
         if (bDontFlip)
         {
@@ -3331,10 +3331,10 @@ s16 Map_0x370::ClassifyArrowOnSlope(Fix16 x, Fix16 y, Fix16 z, s32 arrow_dir, bo
 
     sBlockInfo0 = Map_0x370::GetBlock(x.ToInt(), y.ToInt(), z.ToInt());
 
-    gCurrentBlockSlope_6F5EC8 = &gGmpSlopes_6F5BA8[sBlockInfo0->mSlopeType >> 2];
+    gCurrentBlockSlope = &gGmpSlopes[sBlockInfo0->mSlopeType >> 2];
     s16 result;
     bool bMatched = false;
-    switch (gCurrentBlockSlope_6F5EC8->mGradientDirection)
+    switch (gCurrentBlockSlope->mGradientDirection)
     {
         case NORTH_1:
             switch (arrow_dir)
@@ -3912,7 +3912,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
             {
                 case road_direction::up_1:
                 case road_direction::down_2:
-                    pBlock = gMap_0x370_6F6268->GetBlock((last_x + kFpOne_6F6110).ToInt(),
+                    pBlock = gMap_0x370->GetBlock((last_x + kFpOne_6F6110).ToInt(),
                                                                  last_y.ToInt(),
                                                                  (last_z - kFpOne_6F6110).ToInt());
                     if (pBlock)
@@ -3925,7 +3925,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
                     }
                     if (!pBlock || !new_direction)
                     {
-                        pBlock = gMap_0x370_6F6268->GetBlock((last_x - kFpOne_6F6110).ToInt(),
+                        pBlock = gMap_0x370->GetBlock((last_x - kFpOne_6F6110).ToInt(),
                                                                      last_y.ToInt(),
                                                                      (last_z - kFpOne_6F6110).ToInt());
                         new_direction = GetArrowDirectionFromBlock(pBlock, false);
@@ -3933,7 +3933,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
                     break;
                 case road_direction::right_3:
                 case road_direction::left_4:
-                    pBlock = gMap_0x370_6F6268->GetBlock(last_x.ToInt(),
+                    pBlock = gMap_0x370->GetBlock(last_x.ToInt(),
                                                                  (last_y + kFpOne_6F6110).ToInt(),
                                                                  (last_z - kFpOne_6F6110).ToInt());
                     if (pBlock)
@@ -3946,7 +3946,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
                     }
                     if (!pBlock || !new_direction)
                     {
-                        pBlock = gMap_0x370_6F6268->GetBlock(last_x.ToInt(),
+                        pBlock = gMap_0x370->GetBlock(last_x.ToInt(),
                                                                      (last_y - kFpOne_6F6110).ToInt(),
                                                                      (last_z - kFpOne_6F6110).ToInt());
                         new_direction = GetArrowDirectionFromBlock(pBlock, false);
@@ -4565,7 +4565,7 @@ void Map_0x370::AddTileAnimations(s32 size)
     while (pTileAnimDataIter != reinterpret_cast<u8*>(this->mpTileAnimData) + size)
     {
         const gmp_tile_animation* pAnim = reinterpret_cast<const gmp_tile_animation*>(pTileAnimDataIter);
-        gTileAnim_2_7052C4->AddGmpAnim(pAnim);
+        gTileAnim_2->AddGmpAnim(pAnim);
         pTileAnimDataIter += (sizeof(u16) * pAnim->mAnimLength) +
             (sizeof(gmp_tile_animation) -
              sizeof(u16)); // field_4 is animation_length, 6 is the length of a record, each array entry is a u16
@@ -4678,7 +4678,7 @@ void Map_0x370::load_dmap(u32 len)
 MATCH_FUNC(0x4E94A0)
 void Map_0x370::load_rgen()
 {
-    gRouteFinder_6FFDC8->Load_RGEN();
+    gRouteFinder->Load_RGEN();
 }
 
 MATCH_FUNC(0x4E94B0)

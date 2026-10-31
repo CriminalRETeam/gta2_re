@@ -20,19 +20,19 @@ class DrawListBlock
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(DrawListBlock, 0x8);
 
-EXTERN_GLOBAL(Fix16, gXCoord_6F63AC);
+EXTERN_GLOBAL(Fix16, gXCoord);
 
-EXTERN_GLOBAL(Fix16, gYCoord_6F63B8);
+EXTERN_GLOBAL(Fix16, gYCoord);
 
-EXTERN_GLOBAL(u32, gZCoord_6F63E0);
-
-
-EXTERN_GLOBAL(gmp_map_slope, gCurrentSlope_6F646C);
+EXTERN_GLOBAL(u32, gZCoord);
 
 
-EXTERN_GLOBAL(u32, gGradientSize_6F6480);
+EXTERN_GLOBAL(gmp_map_slope, gCurrentSlope);
 
-EXTERN_GLOBAL(u32, gGradientLevel_6F647C);
+
+EXTERN_GLOBAL(u32, gGradientSize);
+
+EXTERN_GLOBAL(u32, gGradientLevel);
 
 class MapRenderer
 {
@@ -54,8 +54,8 @@ class MapRenderer
     STATIC_MEMBER(u16, sBlockBottom);
     MapRenderer()
     {
-        mAmbient = kInitialAmbient_67DCCC;
-        mTargetAmbient = kInitialAmbient_67DCCC;
+        mAmbient = kInitialAmbient;
+        mTargetAmbient = kInitialAmbient;
         mAmbientStep.mValue = 0;
         mDrawnTileCount = 0;
         mCurrDrawLayerSize = 0;
@@ -124,10 +124,10 @@ class MapRenderer
 
     inline u32 update_and_get_gradient_direction(u32 idx)
     {
-        gGradientSize_6F6480 = gGmpSlopes_6F5BA8[idx].mGradientSize;
-        gGradientLevel_6F647C = gGmpSlopes_6F5BA8[idx].mGradientLevel;
-        gCurrentSlope_6F646C.mGradientDirection = gGmpSlopes_6F5BA8[idx].mGradientDirection;
-        return gCurrentSlope_6F646C.mGradientDirection;
+        gGradientSize = gGmpSlopes[idx].mGradientSize;
+        gGradientLevel = gGmpSlopes[idx].mGradientLevel;
+        gCurrentSlope.mGradientDirection = gGmpSlopes[idx].mGradientDirection;
+        return gCurrentSlope.mGradientDirection;
     }
 
     inline u8 GetColour_46B5E0(s32 light_level)
@@ -204,7 +204,7 @@ EXPORT void __stdcall draw_4F3FB0(s32 uv_flags);
 
 EXPORT void __stdcall Set_UV(Fix16& edge01_frac, Fix16& edge03_frac, const u32& vert_idx);
 
-EXTERN_GLOBAL(MapRenderer*, gpMapRenderer_6F66E4);
+EXTERN_GLOBAL(MapRenderer*, gpMapRenderer);
 
 struct BlockSideWord
 {

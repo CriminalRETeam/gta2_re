@@ -111,6 +111,6 @@ class TextTable
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TextTable, 0x14);
 
-EXTERN_GLOBAL(TextTable*, gText_0x14_704DFC);
+EXTERN_GLOBAL(TextTable*, gText_0x14);
 
-EXTERN_GLOBAL(TextTable*, gtext_0x14_6F87F0);
+EXTERN_GLOBAL(TextTable*, gtext_0x14);

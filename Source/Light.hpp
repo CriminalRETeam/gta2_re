@@ -46,7 +46,7 @@ class Light
                 mTimer = mOffTime;
                 if (mFlickerRange)
                 {
-                    mTimer += gRng_6F6784.get_uint8(mFlickerRange);
+                    mTimer += gRng.get_uint8(mFlickerRange);
                 }
             }
             else
@@ -57,7 +57,7 @@ class Light
                 mTimer = mOnTime;
                 if (mFlickerRange)
                 {
-                    mTimer += gRng_6F6784.get_uint8(mFlickerRange);
+                    mTimer += gRng.get_uint8(mFlickerRange);
                 }
             }
         }

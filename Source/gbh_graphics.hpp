@@ -156,7 +156,7 @@ EXTERN_GLOBAL(T_gbh_BlitImage, pgbh_BlitImage);
 EXTERN_GLOBAL(T_gbh_BlitBuffer, pgbh_BlitBuffer);
 
 
-EXTERN_GLOBAL(s32, gGBH_GraphicsLoaded_7085E0);
+EXTERN_GLOBAL(s32, gGBH_GraphicsLoaded);
 
 
 EXPORT void __stdcall GBH_Graphics_Stub();

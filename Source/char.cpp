@@ -56,9 +56,9 @@ DEFINE_STATIC_GLOBAL(u8, sCharCollisionNoJump, 0x6FDB58);
 DEFINE_GLOBAL(u8, gCharB4_HitByMine_6FDB59, 0x6FDB59);
 
 DEFINE_GLOBAL_INIT(Fix16, kFP16Zero_6FD9E4, Fix16(0), 0x6FD9E4);
-DEFINE_GLOBAL_INIT(Fix16, gCharB4_Saved_Zpos_6FD7FC, kFP16Zero_6FD9E4, 0x6FD7FC);
-DEFINE_GLOBAL_INIT(Fix16, gCharB4_Saved_Ypos_6FD800, kFP16Zero_6FD9E4, 0x6FD800);
-DEFINE_GLOBAL_INIT(Fix16, gCharB4_Saved_Xpos_6FD7F8, kFP16Zero_6FD9E4, 0x6FD7F8);
+DEFINE_GLOBAL_INIT(Fix16, gCharB4_Saved_Zpos, kFP16Zero_6FD9E4, 0x6FD7FC);
+DEFINE_GLOBAL_INIT(Fix16, gCharB4_Saved_Ypos, kFP16Zero_6FD9E4, 0x6FD800);
+DEFINE_GLOBAL_INIT(Fix16, gCharB4_Saved_Xpos, kFP16Zero_6FD9E4, 0x6FD7F8);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Four_6FD9F4, Fix16(4), 0x6FD9F4);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFP16Quarter, Fix16(0x1000, 0), 0x6FD7A4);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, sCharB4SavedSlopeGradDir, kFP16Zero_6FD9E4, 0x6FD7B0);
@@ -68,21 +68,21 @@ DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD868, Fix16(256, 0), 0x6FD868);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFP16Half, Fix16(0x2000, 0), 0x6FD9B4);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, sRunOrJumpSpeed, kFP16Four_6FD9F4* kFpOne64th_6FD868, 0x6FD7D0);
 DEFINE_GLOBAL_INIT(Fix16, gCharB4_Unused_6FD8B4, kFP16Zero_6FD9E4, 0x6FD8B4);
-DEFINE_GLOBAL_INIT(Fix16, gCharB4_StepXpos_6FD8B8, kFP16Zero_6FD9E4, 0x6FD8B8);
+DEFINE_GLOBAL_INIT(Fix16, gCharB4_StepXpos, kFP16Zero_6FD9E4, 0x6FD8B8);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, sCharB4StepYpos, kFP16Zero_6FD9E4, 0x6FD8BC);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint2_6FD82C, Fix16(0xCCC, 0), 0x6FD82C);
-DEFINE_GLOBAL_INIT(Fix16, gCharB4_WorldCollisionOffset_6FD8D8, kFpPoint2_6FD82C, 0x6FD8D8);
+DEFINE_GLOBAL_INIT(Fix16, gCharB4_WorldCollisionOffset, kFpPoint2_6FD82C, 0x6FD8D8);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneThirtySecond_6FD870, kFpOne64th_6FD868 * 2, 0x6FD870);
-DEFINE_GLOBAL_INIT(Fix16, k_CollisionRepulsionSpeed_6FD7BC, kFpOneThirtySecond_6FD870, 0x6FD7BC);
+DEFINE_GLOBAL_INIT(Fix16, k_CollisionRepulsionSpeed, kFpOneThirtySecond_6FD870, 0x6FD7BC);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint05_6FD9B0, Fix16(0x333, 0), 0x6FD9B0);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint05, kFpPoint05_6FD9B0, 0x6FDAE4);
-DEFINE_GLOBAL_INIT(Fix16, gFix16_Two_6FD9EC, Fix16(2), 0x6FD9EC);
+DEFINE_GLOBAL_INIT(Fix16, gFix16_Two, Fix16(2), 0x6FD9EC);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_6FD9E8, Fix16(1), 0x6FD9E8);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint03, Fix16(0x1EB, 0), 0x6FD9A8);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Three_6FD9F0, Fix16(3), 0x6FD9F0);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Five_6FD9F8, Fix16(5), 0x6FD9F8);
-DEFINE_GLOBAL_INIT(Fix16, kFP16Six_6FD9FC, Fix16(6), 0x6FD9FC);
-DEFINE_GLOBAL_INIT(Fix16, kFP16Seven_6FDA00, Fix16(7), 0x6FDA00);
+DEFINE_GLOBAL_INIT(Fix16, kFP16Six, Fix16(6), 0x6FD9FC);
+DEFINE_GLOBAL_INIT(Fix16, kFP16Seven, Fix16(7), 0x6FDA00);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpThreeThirtySeconds, kFpOne64th_6FD868 * 6, 0x6FDAC8);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne256th_6FD99C, kFpOne64th_6FD868 / kFP16Four_6FD9F4, 0x6FD99C);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpOne64th, kFpOne64th_6FD868, 0x6FD7B8);
@@ -105,10 +105,10 @@ DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpOneThirtySecond, Fix16(0x200, 0), 0x6FDB24);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FDA9C, Fix16(0x100, 0), 0x6FDA9C);
 
-DEFINE_GLOBAL(u16, gNumPedsOnScreen_6787EC, 0x6787EC);
+DEFINE_GLOBAL(u16, gNumPedsOnScreen, 0x6787EC);
 
 DEFINE_STATIC_GLOBAL(u8, sCharB4TurnToFreeFace, 0x6FDB51);
-DEFINE_GLOBAL(u8, gCharB4_VeerFromWalls_6FDB52, 0x6FDB52);
+DEFINE_GLOBAL(u8, gCharB4_VeerFromWalls, 0x6FDB52);
 DEFINE_GLOBAL(u8, gCharB4_Unused_6FDB53, 0x6FDB53);
 DEFINE_STATIC_GLOBAL(u8, sCharB4GradientSlopeBelow, 0x6FDB54);
 
@@ -121,7 +121,7 @@ DEFINE_STATIC_GLOBAL(u8, sCharB4StepPosValid, 0x6FDB57);
 DEFINE_STATIC_GLOBAL_INIT(Ang16, sAng16AngleOfCollision, Ang16(0), 0x6FD808);
 DEFINE_GLOBAL_INIT(Ang16, kAng90_6FD8A2, Ang16(360), 0x6FD8A2);
 DEFINE_GLOBAL_INIT(Ang16, kAng16_6FD940, Ang16(64), 0x6FD940);
-DEFINE_GLOBAL_INIT(Ang16, kAng344_6FD8F8, Ang16(1376), 0x6FD8F8);
+DEFINE_GLOBAL_INIT(Ang16, kAng344, Ang16(1376), 0x6FD8F8);
 DEFINE_GLOBAL_INIT(Ang16, kAng270_6FD94C, Ang16(1080), 0x6FD94C);
 DEFINE_GLOBAL_INIT(Ang16, kAng270_6FD95C, Ang16(1080), 0x6FD95C);
 DEFINE_GLOBAL_INIT(Ang16, kAng90_6FD854, Ang16(360), 0x6FD854);
@@ -133,7 +133,7 @@ DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng270, Ang16(0x438), 0x6FD904);
 
 DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng6, Ang16(0x18), 0x6FDA54); // TODO: Init via func 0x54A300
 DEFINE_GLOBAL_INIT(Ang16, kAng180_6FD920, kAng180_6FD936, 0x6FD920);
-DEFINE_GLOBAL_INIT(Ang16, kAng354_6FD9D8, Ang16(0x588), 0x6FD9D8); // TODO: Init via func 0x54A270
+DEFINE_GLOBAL_INIT(Ang16, kAng354, Ang16(0x588), 0x6FD9D8); // TODO: Init via func 0x54A270
 DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng24, Ang16(96), 0x6FD890);
 DEFINE_GLOBAL_INIT(Ang16, kAng45_6FD89C, Ang16(180), 0x6FD89C);
 
@@ -211,16 +211,16 @@ EXPORT void __stdcall UnpackSignedNibbles(u8 packed, s8* pX, s8* pY)
 MATCH_FUNC(0x544F70)
 void __stdcall ResetCharUpdateGlobals()
 {
-    gCharB4_Saved_Xpos_6FD7F8 = kFP16Zero_6FD9E4;
-    gCharB4_Saved_Ypos_6FD800 = kFP16Zero_6FD9E4;
-    gCharB4_Saved_Zpos_6FD7FC = kFP16Zero_6FD9E4;
+    gCharB4_Saved_Xpos = kFP16Zero_6FD9E4;
+    gCharB4_Saved_Ypos = kFP16Zero_6FD9E4;
+    gCharB4_Saved_Zpos = kFP16Zero_6FD9E4;
     gCharB4_Unused_6FD7DC = kFP16Zero_6FD9E4;
     sCharB4SavedSlopeGradDir = kFP16Zero_6FD9E4;
-    gCharB4_StepXpos_6FD8B8 = kFP16Zero_6FD9E4;
+    gCharB4_StepXpos = kFP16Zero_6FD9E4;
     sCharB4StepYpos = kFP16Zero_6FD9E4;
     gCharB4_Unused_6FD8B4 = kFP16Zero_6FD9E4;
     sCharB4TurnToFreeFace = 0;
-    gCharB4_VeerFromWalls_6FDB52 = 0;
+    gCharB4_VeerFromWalls = 0;
     gCharB4_Unused_6FDB53 = 0;
     sCharB4GradientSlopeBelow = 0;
     gCharB4_Unused_6FDB55 = 0;
@@ -395,8 +395,8 @@ void Char::PoolDeallocate()
 {
     if (mSpritePtr)
     {
-        gSpriteGrid_1_679208->RemoveFromRegionBuckets(mSpritePtr);
-        gSpritePool_703818->remove(mSpritePtr);
+        gSpriteGrid_1->RemoveFromRegionBuckets(mSpritePtr);
+        gSpritePool->remove(mSpritePtr);
         mSpritePtr = NULL;
     }
     mObj2c.DestroyAllSprites();
@@ -407,7 +407,7 @@ MATCH_FUNC(0x545430)
 void Char::DrawFlamesAndStartScreamTimer()
 {
     // Spawn fire
-    Object* pObject = gObject_5C_6F8F84->NewPhysicsObj(objects::fire_197, 0, 0, 0, kAng0_6FDB34);
+    Object* pObject = gObject_5C->NewPhysicsObj(objects::fire_197, 0, 0, 0, kAng0_6FDB34);
     mSpritePtr->AttachSprite(pObject->mSprite, 0, 0, kAng0_6FDB34);
     mScreamTimer = 10; // Start screaming timer
 }
@@ -503,10 +503,10 @@ void Char::GetTileFracY64(Fix16 coord, s16* output) const
 MATCH_FUNC(0x5456a0)
 void Char::InitSprite()
 {
-    Sprite* pFirst = gSpritePool_703818->get_new_sprite();
+    Sprite* pFirst = gSpritePool->get_new_sprite();
     mSpritePtr = pFirst;
     pFirst->SetType_4206F0(sprite_types_enum::ped_3);
-    mSpritePtr->AllocCollisionShape(gCharB4_WorldCollisionOffset_6FD8D8, gCharB4_WorldCollisionOffset_6FD8D8, kFP16Quarter);
+    mSpritePtr->AllocCollisionShape(gCharB4_WorldCollisionOffset, gCharB4_WorldCollisionOffset, kFP16Quarter);
     mSpritePtr->SetChar_492180(this);
     mSpritePtr->CreateSoundObj();
 }
@@ -514,7 +514,7 @@ void Char::InitSprite()
 MATCH_FUNC(0x545700)
 bool Char::IsOnScreen() const
 {
-    return gGame_0x40_67E008->IsSpriteInAnyPlayerBounds(this->mSpritePtr, kFP16Zero_6FD9E4) == 1;
+    return gGame_0x40->IsSpriteInAnyPlayerBounds(this->mSpritePtr, kFP16Zero_6FD9E4) == 1;
 }
 
 MATCH_FUNC(0x545720)
@@ -535,14 +535,14 @@ void Char::Update(Fix16 distance_to_target)
         mJumpOverTimer--;
     }
     ResetCharUpdateGlobals();
-    gCharB4_Saved_Xpos_6FD7F8 = mSpritePtr->mXy.x;
-    gCharB4_Saved_Ypos_6FD800 = mSpritePtr->mXy.y;
-    gCharB4_Saved_Zpos_6FD7FC = mSpritePtr->mZpos;
+    gCharB4_Saved_Xpos = mSpritePtr->mXy.x;
+    gCharB4_Saved_Ypos = mSpritePtr->mXy.y;
+    gCharB4_Saved_Zpos = mSpritePtr->mZpos;
     sCharB4SavedSlopeGradDir = Fix16(mSlopeGradientDirection);
     gCharB4_Unused_6FDB55 = 0;
     sCharCollisionNoJump = 0;
 
-    gSpriteGrid_1_679208->RemoveFromRegionBuckets(mSpritePtr);
+    gSpriteGrid_1->RemoveFromRegionBuckets(mSpritePtr);
 
     if (mFlagsBf.bTeleported)
     {
@@ -617,7 +617,7 @@ void Char::Update(Fix16 distance_to_target)
             mVelocityVector.SetFromPolar_41E210(mVelocity, mRotation);
         }
     }
-    gSpriteGrid_1_679208->AddToRegionBuckets(mSpritePtr);
+    gSpriteGrid_1->AddToRegionBuckets(mSpritePtr);
     if (mObj2c.mP18)
     {
         mObj2c.PoolUpdate(mSpritePtr);
@@ -632,7 +632,7 @@ MATCH_FUNC(0x5459c0)
 void Char::CheckAndHandleCollisions()
 {
     gCharB4_HitByMine_6FDB59 = 0;
-    gSpriteGrid_2_67920C->CheckAndHandleCollisionInStrips(mSpritePtr);
+    gSpriteGrid_2->CheckAndHandleCollisionInStrips(mSpritePtr);
 }
 
 MATCH_FUNC(0x5459e0)
@@ -642,7 +642,7 @@ void Char::DrownPed()
     mpPed->ChangeNextPedState2(ped_state_2::sinking_20);
     mStateInitPending = true;
 
-    gParticle_8_6FD5E8->EmitWaterSplash(mSpritePtr->mXy.x,
+    gParticle_8->EmitWaterSplash(mSpritePtr->mXy.x,
                                                mSpritePtr->mXy.y,
                                                mSpritePtr->mZpos,
                                                kAng180_6FD936 + mSpritePtr->mRotation,
@@ -651,7 +651,7 @@ void Char::DrownPed()
     s32 ped_killer_id = mpPed->mKillerId;
     if (ped_killer_id)
     {
-        if (gPedManager_6787BC->PedById(ped_killer_id))
+        if (gPedManager->PedById(ped_killer_id))
         {
             mpPed->mDeathCause = ped_death_cause::drowned_5;
             mpPed->mKillerIdTimer = 50;
@@ -851,7 +851,7 @@ void Char::UpdateAnimState()
                         limit = 40;
                         if (mFrameTimer == 1)
                         {
-                            gParticle_8_6FD5E8->SpawnCigaretteSmokePuff(mSpritePtr, 1);
+                            gParticle_8->SpawnCigaretteSmokePuff(mSpritePtr, 1);
                         }
                     }
                     else
@@ -1026,7 +1026,7 @@ void Char::UpdateAnimState()
                         switch (pDriver->get_occupation_403980())
                         {
                             case ped_ocupation_enum::dummy_driver_4:
-                                pDriver = gPedManager_6787BC->SpawnRunAwayGuy();
+                                pDriver = gPedManager->SpawnRunAwayGuy();
                                 if (pCar->mCarInfoIdx == car_model_enum::apc ||
                                     pCar->mCarInfoIdx == car_model_enum::JEEP ||
                                     pCar->mCarInfoIdx == car_model_enum::TANK)
@@ -1047,13 +1047,13 @@ void Char::UpdateAnimState()
                             case ped_ocupation_enum::police:
                                 if (mpPed->mWantedPoints < cop_level_ped_enum::cop_1_stars)
                                 {
-                                    gPolice_7B8_6FEE40->RegisterCriminal(mpPed);
+                                    gPolice_7B8->RegisterCriminal(mpPed);
                                     mpPed->mWantedPoints = cop_level_ped_enum::cop_1_stars;
                                 }
-                                gPolice_7B8_6FEE40->UpdateLastSeenCoordsForCriminal(mpPed);
+                                gPolice_7B8->UpdateLastSeenCoordsForCriminal(mpPed);
                                 if (pDriver->get_objective_403A80() == objectives_enum::patrol_in_car_43)
                                 {
-                                    gPolice_7B8_6FEE40->TryAssignCarCrewToCriminal(pDriver->mCar, mpPed);
+                                    gPolice_7B8->TryAssignCarCrewToCriminal(pDriver->mCar, mpPed);
                                 }
                                 pDriver->SetObjective(objectives_enum::no_obj_0);
                                 break;
@@ -1080,7 +1080,7 @@ void Char::UpdateAnimState()
                         pDriver->AllocCharB4(
                             newx,
                             newy,
-                            gMap_0x370_6F6268->FindGroundZAboveCoord(newx, newy, pCar->mCarSprite->mZpos));
+                            gMap_0x370->FindGroundZAboveCoord(newx, newy, pCar->mCarSprite->mZpos));
                         pDriver->mGameObject->set_rotation_433A30(pCar->mCarSprite->mRotation);
                         pDriver->mGameObject->Set_F8_ped_state_1_433910(ped_state_1::immobilized_8);
                         pDriver->set_target_car_door_403A70(mpPed->get_target_car_door_403A60());
@@ -1121,7 +1121,7 @@ void Char::UpdateAnimState()
             mSpritePtr->set_xyz_lazy_420600(
                 newx,
                 newy,
-                gMap_0x370_6F6268->FindGroundZAboveCoord(newx, newy, pCar->mCarSprite->mZpos));
+                gMap_0x370->FindGroundZAboveCoord(newx, newy, pCar->mCarSprite->mZpos));
 
             if (mFlagsBf.bDoorOffsetLarge)
             {
@@ -1168,7 +1168,7 @@ void Char::UpdateAnimState()
 
             mSpritePtr->set_xyz_lazy_420600(newx, newy, pCar->mCarSprite->mZpos);
             mSpritePtr->SetDrawLayer_40F7B0(6);
-            sCharB4GradientSlopeBelow = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(mSpritePtr->mXy.x.ToInt(),
+            sCharB4GradientSlopeBelow = gMap_0x370->IsGradientSlopeAt_466CF0(mSpritePtr->mXy.x.ToInt(),
                                                                       mSpritePtr->mXy.y.ToInt(),
                                                                       mSpritePtr->mZpos.ToInt() - 1);
             ManageZCoordAndSlopes();
@@ -1337,7 +1337,7 @@ void Char::UpdateAnimState()
                     }
                     else
                     {
-                        sCharB4GradientSlopeBelow = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(mSpritePtr->mXy.x.ToInt(),
+                        sCharB4GradientSlopeBelow = gMap_0x370->IsGradientSlopeAt_466CF0(mSpritePtr->mXy.x.ToInt(),
                                                                                   mSpritePtr->mXy.y.ToInt(),
                                                                                   mSpritePtr->mZpos.ToInt() - 1);
                         ManageZCoordAndSlopes();
@@ -1349,7 +1349,7 @@ void Char::UpdateAnimState()
             mSpritePtr->set_xyz_lazy_420600(
                 newx,
                 newy,
-                gMap_0x370_6F6268->FindGroundZAboveCoord(newx, newy, pCar->mCarSprite->mZpos));
+                gMap_0x370->FindGroundZAboveCoord(newx, newy, pCar->mCarSprite->mZpos));
 
             if (static_cast<u8>(mFrameTimer) > frame_limit)
             {
@@ -1391,21 +1391,21 @@ void Char::UpdateAnimState()
                     mAnimationState = Char_Anim_state::Standing_2;
                     mAnimationFrame = 0;
                     s16 landId = baseId + 23;
-                    groundZ = gMap_0x370_6F6268->FindGroundZForCoord(mSpritePtr->mXy.x,
+                    groundZ = gMap_0x370->FindGroundZForCoord(mSpritePtr->mXy.x,
                                                                             mSpritePtr->mXy.y);
-                    gMap_0x370_6F6268->UpdateZFromSlopeAtCoord(mSpritePtr->mXy.x,
+                    gMap_0x370->UpdateZFromSlopeAtCoord(mSpritePtr->mXy.x,
                                                                       mSpritePtr->mXy.y,
                                                                       groundZ);
                     Fix16 fall = mSpritePtr->mZpos - groundZ;
                     if (fall > kFP16Zero_6FD9E4)
                     {
-                        gCharB4_Saved_Zpos_6FD7FC -= fall;
-                        gCharB4_Saved_Zpos_6FD7FC = SnapZTo16(gCharB4_Saved_Zpos_6FD7FC);
+                        gCharB4_Saved_Zpos -= fall;
+                        gCharB4_Saved_Zpos = SnapZTo16(gCharB4_Saved_Zpos);
                         ManageZCoordAndSlopes();
                     }
                     else
                     {
-                        gCharB4_Saved_Zpos_6FD7FC = groundZ;
+                        gCharB4_Saved_Zpos = groundZ;
                     }
 
                     if (mSpritePtr->mZpos < mJumpBaseZ)
@@ -1421,21 +1421,21 @@ void Char::UpdateAnimState()
                 case 6:
                 case 7:
                 {
-                    groundZ = gMap_0x370_6F6268->FindGroundZForCoord(mSpritePtr->mXy.x,
+                    groundZ = gMap_0x370->FindGroundZForCoord(mSpritePtr->mXy.x,
                                                                             mSpritePtr->mXy.y);
-                    gMap_0x370_6F6268->UpdateZFromSlopeAtCoord(mSpritePtr->mXy.x,
+                    gMap_0x370->UpdateZFromSlopeAtCoord(mSpritePtr->mXy.x,
                                                                       mSpritePtr->mXy.y,
                                                                       groundZ);
-                    Fix16 fall = (mSpritePtr->mZpos - groundZ) / gFix16_Two_6FD9EC;
+                    Fix16 fall = (mSpritePtr->mZpos - groundZ) / gFix16_Two;
                     if (fall > kFP16Zero_6FD9E4)
                     {
-                        gCharB4_Saved_Zpos_6FD7FC -= fall;
-                        gCharB4_Saved_Zpos_6FD7FC = SnapZTo16(gCharB4_Saved_Zpos_6FD7FC);
+                        gCharB4_Saved_Zpos -= fall;
+                        gCharB4_Saved_Zpos = SnapZTo16(gCharB4_Saved_Zpos);
                         ManageZCoordAndSlopes();
                     }
                     else
                     {
-                        gCharB4_Saved_Zpos_6FD7FC = groundZ;
+                        gCharB4_Saved_Zpos = groundZ;
                     }
                     break;
                 }
@@ -1449,8 +1449,8 @@ void Char::UpdateAnimState()
                 case 2:
                 case 3:
                 case 4:
-                    gCharB4_Saved_Zpos_6FD7FC += kFpPoint05;
-                    gCharB4_Saved_Zpos_6FD7FC = SnapZTo16(gCharB4_Saved_Zpos_6FD7FC);
+                    gCharB4_Saved_Zpos += kFpPoint05;
+                    gCharB4_Saved_Zpos = SnapZTo16(gCharB4_Saved_Zpos);
                     if (mFlagsBf.bOnSlope)
                     {
                         sCharB4GradientSlopeBelow = 0;
@@ -1460,8 +1460,8 @@ void Char::UpdateAnimState()
 
                 case 0:
                     mJumpScaleCounter = 0;
-                    gCharB4_Saved_Zpos_6FD7FC += kFpPoint05;
-                    gCharB4_Saved_Zpos_6FD7FC = SnapZTo16(gCharB4_Saved_Zpos_6FD7FC);
+                    gCharB4_Saved_Zpos += kFpPoint05;
+                    gCharB4_Saved_Zpos = SnapZTo16(gCharB4_Saved_Zpos);
                     if (mFlagsBf.bOnSlope)
                     {
                         sCharB4GradientSlopeBelow = 0;
@@ -1565,7 +1565,7 @@ void Char::UpdateAnimState()
                 mAnimationFrame++;
                 if (mAnimationFrame > 7)
                 {
-                    switch (gRng_6F6784.get_int(2))
+                    switch (gRng.get_int(2))
                     {
                         case 0:
                             mAnimationState = Char_Anim_state::Lying_Pose_19;
@@ -1586,7 +1586,7 @@ void Char::UpdateAnimState()
                 mAnimationFrame++;
                 if (mAnimationFrame > 7)
                 {
-                    switch (gRng_6F6784.get_int(3))
+                    switch (gRng.get_int(3))
                     {
                         case 0:
                             mAnimationState = Char_Anim_state::Lying_Pose_14;
@@ -1638,7 +1638,7 @@ void Char::ManageZCoordAndSlopes()
         zpos--;
     }
     u8 gradient_direction =
-        gMap_0x370_6F6268->UpdateZFromSlopeAtCoord(mSpritePtr->mXy.x, mSpritePtr->mXy.y, zpos);
+        gMap_0x370->UpdateZFromSlopeAtCoord(mSpritePtr->mXy.x, mSpritePtr->mXy.y, zpos);
 
     if (gradient_direction == NO_GRADIENT_SLOPE_0)
     {
@@ -1850,7 +1850,7 @@ void Char::HandleObjectCollision(Object* pObj)
         if (pObj->GetMass_482C80() < kFpHalf_6FDAB0)
         {
 
-            mSpritePtr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
+            mSpritePtr->set_xyz_lazy_420600(gCharB4_Saved_Xpos, gCharB4_Saved_Ypos, gCharB4_Saved_Zpos);
 
             point = mSpritePtr
                         ->FindCollisionIntersectionPoint(pObj->mSprite, new_pos, mSpritePtr->mRotation, side_self, out2, out3);
@@ -1937,11 +1937,11 @@ void Char::HandlePedCollision(Char* pOther)
                     }
                     else
                     {
-                        mSpritePtr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
+                        mSpritePtr->set_xyz_lazy_420600(gCharB4_Saved_Xpos, gCharB4_Saved_Ypos, gCharB4_Saved_Zpos);
                     }
                     break;
                 case ped_type::player_2:
-                    mSpritePtr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
+                    mSpritePtr->set_xyz_lazy_420600(gCharB4_Saved_Xpos, gCharB4_Saved_Ypos, gCharB4_Saved_Zpos);
                     break;
                 case ped_type::dummy_3:
                 case ped_type::special_ped_4:
@@ -2130,7 +2130,7 @@ void Char::HandleGenericCollision(Car* pCar, Object* pObj, Char* pChar)
 
     if (mCharState != Char_B4_state::Jumping_15)
     {
-        mSpritePtr->set_xyz_lazy_420600(Fix16(gCharB4_Saved_Xpos_6FD7F8), Fix16(gCharB4_Saved_Ypos_6FD800), Fix16(gCharB4_Saved_Zpos_6FD7FC));
+        mSpritePtr->set_xyz_lazy_420600(Fix16(gCharB4_Saved_Xpos), Fix16(gCharB4_Saved_Ypos), Fix16(gCharB4_Saved_Zpos));
         mSlopeGradientDirection = sCharB4SavedSlopeGradDir.ToInt();
         mCharState = Char_B4_state::Colliding_With_Car_27;
     }
@@ -2141,7 +2141,7 @@ void Char::HandleGenericCollision(Car* pCar, Object* pObj, Char* pChar)
         {
             corner_ang = pCar->GetCornerAngle();
             pSprt = pCar->mCarSprite;
-            if (gGarage_48_6FD26C->IsParkingCar_493540(pCar) != 0)
+            if (gGarage_48->IsParkingCar_493540(pCar) != 0)
             {
                 bNoJump = true;
                 sCharCollisionNoJump = 1;
@@ -2193,20 +2193,20 @@ void Char::HandleGenericCollision(Car* pCar, Object* pObj, Char* pChar)
             {
                 if (mCharState != Char_B4_state::Jumping_15 && mPedState1 != ped_state_1::entering_car_3)
                 {
-                    mSpritePtr->set_xyz_lazy_420600(Fix16(gCharB4_Saved_Xpos_6FD7F8), Fix16(gCharB4_Saved_Ypos_6FD800), Fix16(gCharB4_Saved_Zpos_6FD7FC));
+                    mSpritePtr->set_xyz_lazy_420600(Fix16(gCharB4_Saved_Xpos), Fix16(gCharB4_Saved_Ypos), Fix16(gCharB4_Saved_Zpos));
                     mSlopeGradientDirection = sCharB4SavedSlopeGradDir.ToInt();
                     mCharState = Char_B4_state::Colliding_With_Car_27;
                     return;
                 }
                 else if (mCollidedEntityType == 1)
                 {
-                    mSpritePtr->set_xyz_lazy_420600(Fix16(gCharB4_Saved_Xpos_6FD7F8), Fix16(gCharB4_Saved_Ypos_6FD800), Fix16(gCharB4_Saved_Zpos_6FD7FC));
+                    mSpritePtr->set_xyz_lazy_420600(Fix16(gCharB4_Saved_Xpos), Fix16(gCharB4_Saved_Ypos), Fix16(gCharB4_Saved_Zpos));
                     mRotation = mSpritePtr->mRotation + kAng180_6FD936;
                     return;
                 }
                 else
                 {
-                    mSpritePtr->set_xyz_lazy_420600(Fix16(gCharB4_Saved_Xpos_6FD7F8), Fix16(gCharB4_Saved_Ypos_6FD800), Fix16(gCharB4_Saved_Zpos_6FD7FC));
+                    mSpritePtr->set_xyz_lazy_420600(Fix16(gCharB4_Saved_Xpos), Fix16(gCharB4_Saved_Ypos), Fix16(gCharB4_Saved_Zpos));
                     mRotation = pSprt->mRotation;
                     Ang16::PolarToCartesian_41FC20(mRotation, mVelocity, step_x, step_y);
                     mSpritePtr->set_xyz_lazy_420600(mSpritePtr->mXy.x + step_x,
@@ -2358,12 +2358,12 @@ void Char::HandleGenericCollision(Car* pCar, Object* pObj, Char* pChar)
         }
 
         mIsCollidingWithSprite = true;
-        mSpritePtr->set_xyz_lazy_420600(Fix16(gCharB4_Saved_Xpos_6FD7F8), Fix16(gCharB4_Saved_Ypos_6FD800), Fix16(gCharB4_Saved_Zpos_6FD7FC));
+        mSpritePtr->set_xyz_lazy_420600(Fix16(gCharB4_Saved_Xpos), Fix16(gCharB4_Saved_Ypos), Fix16(gCharB4_Saved_Zpos));
 
         if (mpPed->PedTypeIs(ped_type::player_2) != 0)
         {
             if (mpPed->GetInternalObjective_403A90() != objectives_enum::enter_car_as_driver_35 ||
-                gGarage_48_6FD26C->IsParkingCar_493540(mpPed->get_target_to_enter_403B10()) != 0)
+                gGarage_48->IsParkingCar_493540(mpPed->get_target_to_enter_403B10()) != 0)
             {
                 return;
             }
@@ -2394,7 +2394,7 @@ void Char::HandleGenericCollision(Car* pCar, Object* pObj, Char* pChar)
 
             if (mCharState != Char_B4_state::Jumping_15)
             {
-                mSpritePtr->set_xy_lazy_447E20(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
+                mSpritePtr->set_xy_lazy_447E20(gCharB4_Saved_Xpos, gCharB4_Saved_Ypos);
             }
             else if (mAnimationFrame >= 5)
             {
@@ -2494,7 +2494,7 @@ bool Char::ContinueMovementAfterCollision()
         Char::DispatchCollision(sCharB4IgnorePeds);
         if (mCollidedEntity)
         {
-            mSpritePtr->set_xy_lazy_447E20(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
+            mSpritePtr->set_xy_lazy_447E20(gCharB4_Saved_Xpos, gCharB4_Saved_Ypos);
             mSlideRotation.rValue += mSlideTurn.rValue;
             mSlideRotation.Normalize_406C20();
             PolarToCartesian_OutOfLineMul(mRotation, mVelocity, x_vec, y_vec);
@@ -2504,7 +2504,7 @@ bool Char::ContinueMovementAfterCollision()
             Char::DispatchCollision(sCharB4IgnorePeds);
             if (mCollidedEntity)
             {
-                mSpritePtr->set_xy_lazy_447E20(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
+                mSpritePtr->set_xy_lazy_447E20(gCharB4_Saved_Xpos, gCharB4_Saved_Ypos);
                 goto done;
             }
         }
@@ -2512,14 +2512,14 @@ bool Char::ContinueMovementAfterCollision()
     }
     else
     {
-        PolarToCartesian_OutOfLineMul(mRotation, mVelocity * gFix16_Two_6FD9EC, x_vec, y_vec);
+        PolarToCartesian_OutOfLineMul(mRotation, mVelocity * gFix16_Two, x_vec, y_vec);
         mSpritePtr->set_xyz_lazy_420600(mSpritePtr->mXy.x + x_vec,
                                                  mSpritePtr->mXy.y + y_vec,
                                                  mSpritePtr->mZpos);
         Char::DispatchCollision(sCharB4IgnorePeds);
         if (mCollidedEntity)
         {
-            mSpritePtr->set_xy_lazy_447E20(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
+            mSpritePtr->set_xy_lazy_447E20(gCharB4_Saved_Xpos, gCharB4_Saved_Ypos);
 
             // Try stepping back away from the obstacle
             mRotation = mSlideRotation;
@@ -2532,19 +2532,19 @@ bool Char::ContinueMovementAfterCollision()
             if (!mCollidedEntity && mSlideState != 2)
             {
                 // Free behind: turn around
-                mSpritePtr->set_xy_lazy_447E20(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
+                mSpritePtr->set_xy_lazy_447E20(gCharB4_Saved_Xpos, gCharB4_Saved_Ypos);
                 mSlideRotation.rValue += AddAngles_ool_54B8F0(kAng180_6FD936, mSlideTurn).rValue;
                 mSlideRotation.Normalize_406C20();
                 mSlideState = 2;
                 mRotation = mSlideRotation;
-                PolarToCartesian_OutOfLineMul(mRotation, mVelocity * gFix16_Two_6FD9EC, x_vec, y_vec);
+                PolarToCartesian_OutOfLineMul(mRotation, mVelocity * gFix16_Two, x_vec, y_vec);
                 mSpritePtr->set_xyz_lazy_420600(mSpritePtr->mXy.x + x_vec,
                                                          mSpritePtr->mXy.y + y_vec,
                                                          mSpritePtr->mZpos);
                 Char::DispatchCollision(sCharB4IgnorePeds);
                 if (mCollidedEntity)
                 {
-                    mSpritePtr->set_xy_lazy_447E20(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
+                    mSpritePtr->set_xy_lazy_447E20(gCharB4_Saved_Xpos, gCharB4_Saved_Ypos);
                     mSlideRotation.rValue += mSlideTurn.rValue;
                     mSlideRotation.Normalize_406C20();
                     mSlideState = 0;
@@ -2557,14 +2557,14 @@ bool Char::ContinueMovementAfterCollision()
                     Char::DispatchCollision(sCharB4IgnorePeds);
                     if (mCollidedEntity)
                     {
-                        mSpritePtr->set_xy_lazy_447E20(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
+                        mSpritePtr->set_xy_lazy_447E20(gCharB4_Saved_Xpos, gCharB4_Saved_Ypos);
                     }
                     goto done;
                 }
             }
             else
             {
-                mSpritePtr->set_xy_lazy_447E20(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
+                mSpritePtr->set_xy_lazy_447E20(gCharB4_Saved_Xpos, gCharB4_Saved_Ypos);
                 PolarToCartesian_OutOfLineMul(mRotation, mVelocity, x_vec, y_vec);
                 mSpritePtr->set_xyz_lazy_451950(mSpritePtr->mXy.x + x_vec,
                                                          mSpritePtr->mXy.y + y_vec,
@@ -2572,7 +2572,7 @@ bool Char::ContinueMovementAfterCollision()
                 Char::DispatchCollision(sCharB4IgnorePeds);
                 if (mCollidedEntity)
                 {
-                    mSpritePtr->setxy_lazy(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
+                    mSpritePtr->setxy_lazy(gCharB4_Saved_Xpos, gCharB4_Saved_Ypos);
                     goto done;
                 }
             }
@@ -2580,7 +2580,7 @@ bool Char::ContinueMovementAfterCollision()
         else
         {
             mIsCollidingWithSprite = false;
-            mSpritePtr->setxy_lazy(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
+            mSpritePtr->setxy_lazy(gCharB4_Saved_Xpos, gCharB4_Saved_Ypos);
             Ang16::PolarToCartesian_451730(mRotation, mVelocity, x_vec, y_vec);
             mSpritePtr->set_xyz_lazy_451950(mSpritePtr->mXy.x + x_vec,
                                                      mSpritePtr->mXy.y + y_vec,
@@ -2588,7 +2588,7 @@ bool Char::ContinueMovementAfterCollision()
             Char::DispatchCollision(sCharB4IgnorePeds);
             if (mCollidedEntity)
             {
-                mSpritePtr->setxy_lazy(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
+                mSpritePtr->setxy_lazy(gCharB4_Saved_Xpos, gCharB4_Saved_Ypos);
                 goto done;
             }
             bMoved = true;
@@ -2704,7 +2704,7 @@ bool Char::CanMoveOntoSlope(s32 path_direction)
     s32 y = y_fp.ToInt();
     s32 z = zpos.ToInt();
     u8 slope_z_delta;
-    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked(x, y, z, path_direction, &slope_z_delta, false))
+    if (gMap_0x370->IsMoveOntoSlopeTileBlocked(x, y, z, path_direction, &slope_z_delta, false))
     {
         return false;
     }
@@ -2713,16 +2713,16 @@ bool Char::CanMoveOntoSlope(s32 path_direction)
     switch (path_direction)
     {
         case path_direction::up_1:
-            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt(), y_fp.ToInt() - 1, check_z);
+            slope_type = gMap_0x370->GetBlockTypeAtCoord_420420(x_fp.ToInt(), y_fp.ToInt() - 1, check_z);
             break;
         case path_direction::right_3:
-            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt() + 1, y_fp.ToInt(), check_z);
+            slope_type = gMap_0x370->GetBlockTypeAtCoord_420420(x_fp.ToInt() + 1, y_fp.ToInt(), check_z);
             break;
         case path_direction::down_2:
-            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt(), y_fp.ToInt() + 1, check_z);
+            slope_type = gMap_0x370->GetBlockTypeAtCoord_420420(x_fp.ToInt(), y_fp.ToInt() + 1, check_z);
             break;
         case path_direction::left_4:
-            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt() - 1, y_fp.ToInt(), check_z);
+            slope_type = gMap_0x370->GetBlockTypeAtCoord_420420(x_fp.ToInt() - 1, y_fp.ToInt(), check_z);
             break;
         default:
             break;
@@ -2866,7 +2866,7 @@ void Char::SelectRandomIdleBehavior()
             {
                 this->mCharState = Char_B4_state::Walking_1;
                 this->mAnimationState = Char_Anim_state::Walking_0;
-                this->mTimer = gRng_6F6784.get_int(400);
+                this->mTimer = gRng.get_int(400);
                 break;
             }
             case 9:
@@ -2878,21 +2878,21 @@ void Char::SelectRandomIdleBehavior()
             {
                 this->mCharState = Char_B4_state::Walking_Fast_3;
                 this->mAnimationState = Char_Anim_state::Walking_0;
-                this->mTimer = gRng_6F6784.get_int(200);
+                this->mTimer = gRng.get_int(200);
                 break;
             }
             case 15:
             {
                 this->mCharState = Char_B4_state::Running_4;
                 this->mAnimationState = Char_Anim_state::Running_1;
-                this->mTimer = gRng_6F6784.get_int(200);
+                this->mTimer = gRng.get_int(200);
                 break;
             }
             case 20:
             {
                 this->mCharState = Char_B4_state::Standing_7;
                 this->mAnimationState = Char_Anim_state::Standing_2;
-                this->mTimer = gRng_6F6784.get_int(200);
+                this->mTimer = gRng.get_int(200);
                 break;
             }
             default:
@@ -2909,10 +2909,10 @@ void Char::SelectRandomIdleBehavior()
 MATCH_FUNC(0x54c6c0)
 void Char::ApplyRandomRotationJitter()
 {
-    if (gRng_6F6784.get_int(32) > 22)
+    if (gRng.get_int(32) > 22)
     {
         Ang16 old_angle = mRotationJitter;
-        mRotationJitter = Ang16::Fix16_To_Ang16_inlined_40F540(kFpOne64th_6FD868 * (Fix16(gRng_6F6784.get_int(16)) - kFP16Eight_6FDA08));
+        mRotationJitter = Ang16::Fix16_To_Ang16_inlined_40F540(kFpOne64th_6FD868 * (Fix16(gRng.get_int(16)) - kFP16Eight_6FDA08));
         if (old_angle > kAng180_6FD936 && mRotationJitter > kAng180_6FD936)
         {
             mRotationJitter = -mRotationJitter;
@@ -2934,14 +2934,14 @@ void Char::TickMovementStateMachine()
             ApplyRandomRotationJitter();
             this->mVelocity = kFpOne64th;
             sCharB4TurnToFreeFace = 1;
-            gCharB4_VeerFromWalls_6FDB52 = 1;
+            gCharB4_VeerFromWalls = 1;
             gCharB4_Unused_6FDB53 = 0;
             break;
 
         case Char_B4_state::Walking_Fast_3:
             if (this->mTimer)
             {
-                this->mVelocity = k_CollisionRepulsionSpeed_6FD7BC;
+                this->mVelocity = k_CollisionRepulsionSpeed;
                 ApplyRandomRotationJitter();
             }
             else
@@ -2952,7 +2952,7 @@ void Char::TickMovementStateMachine()
             }
             gCharB4_Unused_6FDB53 = 0;
             sCharB4TurnToFreeFace = 1;
-            gCharB4_VeerFromWalls_6FDB52 = 1;
+            gCharB4_VeerFromWalls = 1;
             break;
 
         case Char_B4_state::Running_4:
@@ -2969,7 +2969,7 @@ void Char::TickMovementStateMachine()
             }
             gCharB4_Unused_6FDB53 = 0;
             sCharB4TurnToFreeFace = 1;
-            gCharB4_VeerFromWalls_6FDB52 = 1;
+            gCharB4_VeerFromWalls = 1;
             break;
 
         case Char_B4_state::Standing_7:
@@ -2988,7 +2988,7 @@ void Char::TickMovementStateMachine()
             }
             gCharB4_Unused_6FDB53 = 0;
             sCharB4TurnToFreeFace = 1;
-            gCharB4_VeerFromWalls_6FDB52 = 1;
+            gCharB4_VeerFromWalls = 1;
             break;
 
         case Char_B4_state::Veer_Right_From_Wall_8:
@@ -3000,7 +3000,7 @@ void Char::TickMovementStateMachine()
                 this->mCharState = Char_B4_state::Walking_1;
                 this->mAnimationState = Char_Anim_state::Walking_0;
             }
-            gCharB4_VeerFromWalls_6FDB52 = 0;
+            gCharB4_VeerFromWalls = 0;
             gCharB4_Unused_6FDB53 = 0;
             sCharB4TurnToFreeFace = 1;
             break;
@@ -3015,7 +3015,7 @@ void Char::TickMovementStateMachine()
                 this->mTimer = 0;
             }
             sCharB4TurnToFreeFace = 0;
-            gCharB4_VeerFromWalls_6FDB52 = 0;
+            gCharB4_VeerFromWalls = 0;
             gCharB4_Unused_6FDB53 = 0;
             break;
 
@@ -3040,7 +3040,7 @@ void Char::TurnTowardsAngle()
             goto add_6FDA54;
         }
     add_6FD9D8:
-        this->mRotation += kAng354_6FD9D8;
+        this->mRotation += kAng354;
     }
     else
     {
@@ -3073,12 +3073,12 @@ void Char::ApplyMovement()
                 case 6:
                 case 7:
                     PolarToCartesian_OutOfLineMul(kAng270, mVelocity, xpos, ypos);
-                    xpos += gCharB4_Saved_Xpos_6FD7F8;
-                    ypos += gCharB4_Saved_Ypos_6FD800;
+                    xpos += gCharB4_Saved_Xpos;
+                    ypos += gCharB4_Saved_Ypos;
                     sAng16AngleOfCollision = kAng270;
                     if (Char::CanStepToTile(xpos.ToInt(), ypos.ToInt()))
                     {
-                        PolarToCartesian_OutOfLineMul(kAng270, mVelocity / gFix16_Two_6FD9EC, xpos, ypos);
+                        PolarToCartesian_OutOfLineMul(kAng270, mVelocity / gFix16_Two, xpos, ypos);
                         mSpritePtr->set_xyz_lazy_420600(mSpritePtr->mXy.x + xpos,
                                                                  mSpritePtr->mXy.y + ypos,
                                                                  mSpritePtr->mZpos);
@@ -3086,12 +3086,12 @@ void Char::ApplyMovement()
                     else
                     {
                         PolarToCartesian_OutOfLineMul(kAng0, mVelocity, xpos, ypos);
-                        xpos += gCharB4_Saved_Xpos_6FD7F8;
-                        ypos += gCharB4_Saved_Ypos_6FD800;
+                        xpos += gCharB4_Saved_Xpos;
+                        ypos += gCharB4_Saved_Ypos;
                         sAng16AngleOfCollision = kAng0;
                         if (Char::CanStepToTile(xpos.ToInt(), ypos.ToInt()))
                         {
-                            PolarToCartesian_OutOfLineMul(kAng0, mVelocity / gFix16_Two_6FD9EC, xpos, ypos);
+                            PolarToCartesian_OutOfLineMul(kAng0, mVelocity / gFix16_Two, xpos, ypos);
                             mSpritePtr->set_xyz_lazy_420600(mSpritePtr->mXy.x + xpos,
                                                                      mSpritePtr->mXy.y + ypos,
                                                                      mSpritePtr->mZpos);
@@ -3103,12 +3103,12 @@ void Char::ApplyMovement()
                 case 2:
                 case 3:
                     PolarToCartesian_OutOfLineMul(kAng90_6FDA64, mVelocity, xpos, ypos);
-                    xpos += gCharB4_Saved_Xpos_6FD7F8;
-                    ypos += gCharB4_Saved_Ypos_6FD800;
+                    xpos += gCharB4_Saved_Xpos;
+                    ypos += gCharB4_Saved_Ypos;
                     sAng16AngleOfCollision = kAng90_6FDA64;
                     if (Char::CanStepToTile(xpos.ToInt(), ypos.ToInt()))
                     {
-                        PolarToCartesian_OutOfLineMul(kAng90_6FDA64, mVelocity / gFix16_Two_6FD9EC, xpos, ypos);
+                        PolarToCartesian_OutOfLineMul(kAng90_6FDA64, mVelocity / gFix16_Two, xpos, ypos);
                         mSpritePtr->set_xyz_lazy_420600(mSpritePtr->mXy.x + xpos,
                                                                  mSpritePtr->mXy.y + ypos,
                                                                  mSpritePtr->mZpos);
@@ -3116,12 +3116,12 @@ void Char::ApplyMovement()
                     else
                     {
                         PolarToCartesian_OutOfLineMul(kAng0, mVelocity, xpos, ypos);
-                        xpos += gCharB4_Saved_Xpos_6FD7F8;
-                        ypos += gCharB4_Saved_Ypos_6FD800;
+                        xpos += gCharB4_Saved_Xpos;
+                        ypos += gCharB4_Saved_Ypos;
                         sAng16AngleOfCollision = kAng0;
                         if (Char::CanStepToTile(xpos.ToInt(), ypos.ToInt()))
                         {
-                            PolarToCartesian_OutOfLineMul(kAng0, mVelocity / gFix16_Two_6FD9EC, xpos, ypos);
+                            PolarToCartesian_OutOfLineMul(kAng0, mVelocity / gFix16_Two, xpos, ypos);
                             mSpritePtr->set_xyz_lazy_420600(mSpritePtr->mXy.x + xpos,
                                                                      mSpritePtr->mXy.y + ypos,
                                                                      mSpritePtr->mZpos);
@@ -3141,12 +3141,12 @@ void Char::ApplyMovement()
                 case 4:
                 case 5:
                     PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, mVelocity, xpos, ypos);
-                    xpos += gCharB4_Saved_Xpos_6FD7F8;
-                    ypos += gCharB4_Saved_Ypos_6FD800;
+                    xpos += gCharB4_Saved_Xpos;
+                    ypos += gCharB4_Saved_Ypos;
                     sAng16AngleOfCollision = kAng180_6FD8E8;
                     if (Char::CanStepToTile(xpos.ToInt(), ypos.ToInt()))
                     {
-                        PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, mVelocity / gFix16_Two_6FD9EC, xpos, ypos);
+                        PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, mVelocity / gFix16_Two, xpos, ypos);
                         mSpritePtr->set_xyz_lazy_420600(mSpritePtr->mXy.x + xpos,
                                                                  mSpritePtr->mXy.y + ypos,
                                                                  mSpritePtr->mZpos);
@@ -3157,12 +3157,12 @@ void Char::ApplyMovement()
                 case 6:
                 case 7:
                     PolarToCartesian_OutOfLineMul(kAng0, mVelocity, xpos, ypos);
-                    xpos += gCharB4_Saved_Xpos_6FD7F8;
-                    ypos += gCharB4_Saved_Ypos_6FD800;
+                    xpos += gCharB4_Saved_Xpos;
+                    ypos += gCharB4_Saved_Ypos;
                     sAng16AngleOfCollision = kAng0;
                     if (Char::CanStepToTile(xpos.ToInt(), ypos.ToInt()))
                     {
-                        PolarToCartesian_OutOfLineMul(kAng0, mVelocity / gFix16_Two_6FD9EC, xpos, ypos);
+                        PolarToCartesian_OutOfLineMul(kAng0, mVelocity / gFix16_Two, xpos, ypos);
                         mSpritePtr->set_xyz_lazy_420600(mSpritePtr->mXy.x + xpos,
                                                                  mSpritePtr->mXy.y + ypos,
                                                                  mSpritePtr->mZpos);
@@ -3181,12 +3181,12 @@ void Char::ApplyMovement()
                 case 2:
                 case 3:
                     PolarToCartesian_OutOfLineMul(kAng90_6FDA64, mVelocity, xpos, ypos);
-                    xpos += gCharB4_Saved_Xpos_6FD7F8;
-                    ypos += gCharB4_Saved_Ypos_6FD800;
+                    xpos += gCharB4_Saved_Xpos;
+                    ypos += gCharB4_Saved_Ypos;
                     sAng16AngleOfCollision = kAng90_6FDA64;
                     if (Char::CanStepToTile(xpos.ToInt(), ypos.ToInt()))
                     {
-                        PolarToCartesian_OutOfLineMul(kAng90_6FDA64, mVelocity / gFix16_Two_6FD9EC, xpos, ypos);
+                        PolarToCartesian_OutOfLineMul(kAng90_6FDA64, mVelocity / gFix16_Two, xpos, ypos);
                         mSpritePtr->set_xyz_lazy_420600(mSpritePtr->mXy.x + xpos,
                                                                  mSpritePtr->mXy.y + ypos,
                                                                  mSpritePtr->mZpos);
@@ -3194,12 +3194,12 @@ void Char::ApplyMovement()
                     else
                     {
                         PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, mVelocity, xpos, ypos);
-                        xpos += gCharB4_Saved_Xpos_6FD7F8;
-                        ypos += gCharB4_Saved_Ypos_6FD800;
+                        xpos += gCharB4_Saved_Xpos;
+                        ypos += gCharB4_Saved_Ypos;
                         sAng16AngleOfCollision = kAng180_6FD8E8;
                         if (Char::CanStepToTile(xpos.ToInt(), ypos.ToInt()))
                         {
-                            PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, mVelocity / gFix16_Two_6FD9EC, xpos, ypos);
+                            PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, mVelocity / gFix16_Two, xpos, ypos);
                             mSpritePtr->set_xyz_lazy_420600(mSpritePtr->mXy.x + xpos,
                                                                      mSpritePtr->mXy.y + ypos,
                                                                      mSpritePtr->mZpos);
@@ -3211,12 +3211,12 @@ void Char::ApplyMovement()
                 case 6:
                 case 7:
                     PolarToCartesian_OutOfLineMul(kAng270, mVelocity, xpos, ypos);
-                    xpos += gCharB4_Saved_Xpos_6FD7F8;
-                    ypos += gCharB4_Saved_Ypos_6FD800;
+                    xpos += gCharB4_Saved_Xpos;
+                    ypos += gCharB4_Saved_Ypos;
                     sAng16AngleOfCollision = kAng270;
                     if (Char::CanStepToTile(xpos.ToInt(), ypos.ToInt()))
                     {
-                        PolarToCartesian_OutOfLineMul(kAng270, mVelocity / gFix16_Two_6FD9EC, xpos, ypos);
+                        PolarToCartesian_OutOfLineMul(kAng270, mVelocity / gFix16_Two, xpos, ypos);
                         mSpritePtr->set_xyz_lazy_420600(mSpritePtr->mXy.x + xpos,
                                                                  mSpritePtr->mXy.y + ypos,
                                                                  mSpritePtr->mZpos);
@@ -3224,12 +3224,12 @@ void Char::ApplyMovement()
                     else
                     {
                         PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, mVelocity, xpos, ypos);
-                        xpos += gCharB4_Saved_Xpos_6FD7F8;
-                        ypos += gCharB4_Saved_Ypos_6FD800;
+                        xpos += gCharB4_Saved_Xpos;
+                        ypos += gCharB4_Saved_Ypos;
                         sAng16AngleOfCollision = kAng180_6FD8E8;
                         if (Char::CanStepToTile(xpos.ToInt(), ypos.ToInt()))
                         {
-                            PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, mVelocity / gFix16_Two_6FD9EC, xpos, ypos);
+                            PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, mVelocity / gFix16_Two, xpos, ypos);
                             mSpritePtr->set_xyz_lazy_420600(mSpritePtr->mXy.x + xpos,
                                                                      mSpritePtr->mXy.y + ypos,
                                                                      mSpritePtr->mZpos);
@@ -3250,12 +3250,12 @@ void Char::ApplyMovement()
                 case 4:
                 case 5:
                     PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, mVelocity, xpos, ypos);
-                    xpos += gCharB4_Saved_Xpos_6FD7F8;
-                    ypos += gCharB4_Saved_Ypos_6FD800;
+                    xpos += gCharB4_Saved_Xpos;
+                    ypos += gCharB4_Saved_Ypos;
                     sAng16AngleOfCollision = kAng180_6FD8E8;
                     if (Char::CanStepToTile(xpos.ToInt(), ypos.ToInt()))
                     {
-                        PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, mVelocity / gFix16_Two_6FD9EC, xpos, ypos);
+                        PolarToCartesian_OutOfLineMul(kAng180_6FD8E8, mVelocity / gFix16_Two, xpos, ypos);
                         mSpritePtr->set_xyz_lazy_451950(mSpritePtr->mXy.x + xpos,
                                                                  mSpritePtr->mXy.y + ypos,
                                                                  mSpritePtr->mZpos);
@@ -3266,13 +3266,13 @@ void Char::ApplyMovement()
                 case 6:
                 case 7:
                     Ang16::PolarToCartesian_451730(kAng0, mVelocity, xpos, ypos);
-                    xpos += gCharB4_Saved_Xpos_6FD7F8;
-                    ypos += gCharB4_Saved_Ypos_6FD800;
+                    xpos += gCharB4_Saved_Xpos;
+                    ypos += gCharB4_Saved_Ypos;
                     sAng16AngleOfCollision = kAng0;
                     if (Char::CanStepToTile(xpos.ToInt(), ypos.ToInt()))
                     {
                         // Out-of-line operators (inline budget)
-                        Ang16::PolarToCartesian_451730(kAng0, mVelocity.Divide(gFix16_Two_6FD9EC), xpos, ypos);
+                        Ang16::PolarToCartesian_451730(kAng0, mVelocity.Divide(gFix16_Two), xpos, ypos);
                         mSpritePtr->set_xyz_lazy_451950(mSpritePtr->mXy.x.Add(xpos),
                                                                  mSpritePtr->mXy.y.Add(ypos),
                                                                  mSpritePtr->mZpos);
@@ -3311,7 +3311,7 @@ void Char::CheckCollisionsAndUpdateAnim()
         {
             if (mVelocity != kZeroVelocity)
             {
-                this->mAnimationState = mVelocity > k_CollisionRepulsionSpeed_6FD7BC;
+                this->mAnimationState = mVelocity > k_CollisionRepulsionSpeed;
             }
             else
             {
@@ -3342,7 +3342,7 @@ void Char::UpdateWalking()
     u8 bTileOk;
 
     sCharB4TurnToFreeFace = 1;
-    gCharB4_VeerFromWalls_6FDB52 = 1;
+    gCharB4_VeerFromWalls = 1;
     gCharB4_Unused_6FDB53 = 0;
     sCharB4GradientSlopeBelow = 0;
     this->mTimeout = 500;
@@ -3356,28 +3356,28 @@ void Char::UpdateWalking()
     u8 block_type;
     gmp_block_info* pBlock;
 
-    if ((mFlags & 1) == 0 && gCharB4_Saved_Zpos_6FD7FC.GetFracValue() == kFP16Zero_6FD9E4)
+    if ((mFlags & 1) == 0 && gCharB4_Saved_Zpos.GetFracValue() == kFP16Zero_6FD9E4)
     {
-        block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
-        pBlock = gMap_0x370_6F6268->GetBlock(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
+        block_type = gMap_0x370->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos.ToInt(), gCharB4_Saved_Ypos.ToInt(), gCharB4_Saved_Zpos.ToInt() - 1);
+        pBlock = gMap_0x370->GetBlock(gCharB4_Saved_Xpos.ToInt(), gCharB4_Saved_Ypos.ToInt(), gCharB4_Saved_Zpos.ToInt() - 1);
     }
     else
     {
-        block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt());
-        pBlock = gMap_0x370_6F6268->GetBlock(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt());
+        block_type = gMap_0x370->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos.ToInt(), gCharB4_Saved_Ypos.ToInt(), gCharB4_Saved_Zpos.ToInt());
+        pBlock = gMap_0x370->GetBlock(gCharB4_Saved_Xpos.ToInt(), gCharB4_Saved_Ypos.ToInt(), gCharB4_Saved_Zpos.ToInt());
 
         if (pBlock == NULL || block_type == 0)
         {
             block_type =
-                gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
-            pBlock = gMap_0x370_6F6268->GetBlock(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
+                gMap_0x370->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos.ToInt(), gCharB4_Saved_Ypos.ToInt(), gCharB4_Saved_Zpos.ToInt() - 1);
+            pBlock = gMap_0x370->GetBlock(gCharB4_Saved_Xpos.ToInt(), gCharB4_Saved_Ypos.ToInt(), gCharB4_Saved_Zpos.ToInt() - 1);
         }
     }
 
     if (pBlock)
     {
         mFlagsBf.bOnSlope = GET_SLOPE_BITS(pBlock->mSlopeType) != 0 && GET_SLOPE_BITS(pBlock->mSlopeType) != 0xFC;
-        if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlock->mLid & block_face::tile_idx_mask) &&
+        if (gGtx_0x106C->IsElectrifiedFloorType_491F80(pBlock->mLid & block_face::tile_idx_mask) &&
             mCharState != Char_B4_state::Jumping_15)
         {
             if (!mpPed->mBf21C.bLeftVehicle)
@@ -3386,7 +3386,7 @@ void Char::UpdateWalking()
                 s32 killer_id = mpPed->mKillerId;
                 if (killer_id != 0)
                 {
-                    if (gPedManager_6787BC->PedById(killer_id))
+                    if (gPedManager->PedById(killer_id))
                     {
                         mpPed->mDeathCause = ped_death_cause::electrocuted_2;
                         mpPed->mKillerIdTimer = 50;
@@ -3424,18 +3424,18 @@ void Char::UpdateWalking()
             Ang16::PolarToCartesian_41FC20(mRotation, kFpThreeThirtySeconds, ret1, ret2);
         }
 
-        ret1 += gCharB4_Saved_Xpos_6FD7F8;
-        ret2 += gCharB4_Saved_Ypos_6FD800;
+        ret1 += gCharB4_Saved_Xpos;
+        ret2 += gCharB4_Saved_Ypos;
 
         // One GetBlockTypeAtCoord_420420 call per z case: VC6 tail-merges the two copies (gMap in edx, the
         // null arm first and the unfolded test after the merge)
-        if (gCharB4_Saved_Zpos_6FD7FC.GetFracValue() == kFP16Zero_6FD9E4)
+        if (gCharB4_Saved_Zpos.GetFracValue() == kFP16Zero_6FD9E4)
         {
-            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(ret1.ToInt(), ret2.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
+            block_type = gMap_0x370->GetBlockTypeAtCoord_420420(ret1.ToInt(), ret2.ToInt(), gCharB4_Saved_Zpos.ToInt() - 1);
         }
         else
         {
-            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(ret1.ToInt(), ret2.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt());
+            block_type = gMap_0x370->GetBlockTypeAtCoord_420420(ret1.ToInt(), ret2.ToInt(), gCharB4_Saved_Zpos.ToInt());
         }
         if (block_type == AIR)
         {
@@ -3581,12 +3581,12 @@ void Char::UpdateWalking()
                     if (this->mRepulsionTimer)
                     {
                         sCharB4TurnToFreeFace = 0;
-                        gCharB4_VeerFromWalls_6FDB52 = 0;
+                        gCharB4_VeerFromWalls = 0;
                         new_rotation = mRotation;
                         this->mRotation = this->mRepulsionRotation;
 
                         bNoNewRotation = 0;
-                        this->mVelocity = k_CollisionRepulsionSpeed_6FD7BC;
+                        this->mVelocity = k_CollisionRepulsionSpeed;
                     }
                     else
                     {
@@ -3602,7 +3602,7 @@ void Char::UpdateWalking()
 
         if (this->mpPed->mBf21C.bHitByAttacker)
         {
-            this->mVelocity = k_CollisionRepulsionSpeed_6FD7BC;
+            this->mVelocity = k_CollisionRepulsionSpeed;
         }
     }
     else
@@ -3613,7 +3613,7 @@ void Char::UpdateWalking()
             bAllowStateChange = 0;
             mpPed->mBf21C.bAttacking = false;
             sCharB4TurnToFreeFace = 0;
-            gCharB4_VeerFromWalls_6FDB52 = 0;
+            gCharB4_VeerFromWalls = 0;
         }
         else
         {
@@ -3621,10 +3621,10 @@ void Char::UpdateWalking()
             {
                 bAllowStateChange = 0;
                 sCharB4TurnToFreeFace = 0;
-                gCharB4_VeerFromWalls_6FDB52 = 0;
+                gCharB4_VeerFromWalls = 0;
                 new_rotation = mRotation;
                 this->mRotation = this->mRepulsionRotation;
-                this->mVelocity = k_CollisionRepulsionSpeed_6FD7BC;
+                this->mVelocity = k_CollisionRepulsionSpeed;
                 bNoNewRotation = 0;
             }
             if (this->mVelocity < kZeroVelocity)
@@ -3675,8 +3675,8 @@ void Char::UpdateWalking()
 
     Ang16::PolarToCartesian_41FC20(mRotation, radius, ret1, ret2);
 
-    ret1 += gCharB4_Saved_Xpos_6FD7F8;
-    ret2 += gCharB4_Saved_Ypos_6FD800;
+    ret1 += gCharB4_Saved_Xpos;
+    ret2 += gCharB4_Saved_Ypos;
     ret1 += mConveyorDx;
     ret2 += mConveyorDy;
 
@@ -3687,7 +3687,7 @@ void Char::UpdateWalking()
             bCanMove = 1;
             sAng16AngleOfCollision = mRotation;
             u8 bDiagonalOk = Char::CanStepToTile(ret1.ToInt(), ret2.ToInt());
-            if (gMap_0x370_6F6268->TakeBlockedByTerrain() != 1 && !bDiagonalOk)
+            if (gMap_0x370->TakeBlockedByTerrain() != 1 && !bDiagonalOk)
             {
                 Char::ApplyMovement();
                 bCanMove = 0;
@@ -3706,7 +3706,7 @@ void Char::UpdateWalking()
             if (bTileOk == 1)
             {
                 bCanMove = 1;
-                if (gCharB4_VeerFromWalls_6FDB52)
+                if (gCharB4_VeerFromWalls)
                 {
                     side_angle = mRotation;
                     side_angle.SnapToAng4();
@@ -3715,8 +3715,8 @@ void Char::UpdateWalking()
                     Fix16 ypos_3;
                     Ang16::PolarToCartesian_41FC20(side_angle, kFP16Half, xpos_3, ypos_3);
 
-                    xpos_3 += gCharB4_Saved_Xpos_6FD7F8;
-                    ypos_3 += gCharB4_Saved_Ypos_6FD800;
+                    xpos_3 += gCharB4_Saved_Xpos;
+                    ypos_3 += gCharB4_Saved_Ypos;
 
                     if (Char::CanMoveToTile(xpos_3.ToInt(), ypos_3.ToInt()) == 1)
                     {
@@ -3729,8 +3729,8 @@ void Char::UpdateWalking()
 
                         Ang16::PolarToCartesian_41FC20(side_angle, kFP16Half, xpos_4, ypos_4);
 
-                        xpos_4 += gCharB4_Saved_Xpos_6FD7F8;
-                        ypos_4 += gCharB4_Saved_Ypos_6FD800;
+                        xpos_4 += gCharB4_Saved_Xpos;
+                        ypos_4 += gCharB4_Saved_Ypos;
 
                         if (!Char::CanMoveToTile(xpos_4.ToInt(), ypos_4.ToInt()))
                         {
@@ -3764,7 +3764,7 @@ after_move:
     mConveyorDy = kFP16Zero_6FD9E4;
     if (bCanMove == 1 || (mFlags & 1) == 1)
     {
-        sCharB4GradientSlopeBelow = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(mSpritePtr->mXy.x.ToInt(),
+        sCharB4GradientSlopeBelow = gMap_0x370->IsGradientSlopeAt_466CF0(mSpritePtr->mXy.x.ToInt(),
                                                                   mSpritePtr->mXy.y.ToInt(),
                                                                   mSpritePtr->mZpos.ToInt() - 1);
         Char::ManageZCoordAndSlopes();
@@ -3783,9 +3783,9 @@ after_move:
                 Fix16 old_ypos = mSpritePtr->mXy.y;
                 char_type tile_x = old_xpos.ToInt();
                 char_type tile_y = old_ypos.ToInt();
-                if (static_cast<char_type>(gCharB4_Saved_Xpos_6FD7F8.ToInt()) != tile_x || static_cast<char_type>(gCharB4_Saved_Ypos_6FD800.ToInt()) != tile_y)
+                if (static_cast<char_type>(gCharB4_Saved_Xpos.ToInt()) != tile_x || static_cast<char_type>(gCharB4_Saved_Ypos.ToInt()) != tile_y)
                 {
-                    mSpritePtr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
+                    mSpritePtr->set_xyz_lazy_420600(gCharB4_Saved_Xpos, gCharB4_Saved_Ypos, gCharB4_Saved_Zpos);
 
                     mSlopeGradientDirection = sCharB4SavedSlopeGradDir.ToInt();
                     if (!Char::CanReachTile(tile_x, tile_y))
@@ -3795,8 +3795,8 @@ after_move:
                     }
                     else
                     {
-                        mSpritePtr->set_xyz_lazy_420600(old_xpos, old_ypos, gCharB4_Saved_Zpos_6FD7FC);
-                        sCharB4GradientSlopeBelow = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(mSpritePtr->mXy.x.ToInt(),
+                        mSpritePtr->set_xyz_lazy_420600(old_xpos, old_ypos, gCharB4_Saved_Zpos);
+                        sCharB4GradientSlopeBelow = gMap_0x370->IsGradientSlopeAt_466CF0(mSpritePtr->mXy.x.ToInt(),
                                                                     mSpritePtr->mXy.y.ToInt(),
                                                                     (mSpritePtr->mZpos - kFP16One_6FD9E8).ToInt());
                         Char::ManageZCoordAndSlopes();
@@ -3827,25 +3827,25 @@ bool Char::CanStepForwardWithRegionCheck(s32 direction)
     s32 new_zpos = (zpos).ToInt() - 1;
     s32 below_z = (zpos - kFP16One_6FD9E8).ToInt();
 
-    if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(xpos.ToInt(), ypos.ToInt(), below_z))
+    if (gMap_0x370->IsGradientSlopeAt_466CF0(xpos.ToInt(), ypos.ToInt(), below_z))
     {
         new_zpos = zpos.ToInt();
     }
-    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked(xpos.ToInt(), ypos.ToInt(), zpos.ToInt(), direction, &slope_z_delta, false))
+    if (gMap_0x370->IsMoveOntoSlopeTileBlocked(xpos.ToInt(), ypos.ToInt(), zpos.ToInt(), direction, &slope_z_delta, false))
     {
         sCharB4PathDirection = direction;
         return false;
     }
     if (sCharB4StepPosValid)
     {
-        mSpritePtr->set_xyz_lazy_420600(gCharB4_StepXpos_6FD8B8, sCharB4StepYpos, zpos);
+        mSpritePtr->set_xyz_lazy_420600(gCharB4_StepXpos, sCharB4StepYpos, zpos);
         Char::ManageZCoordAndSlopes();
         if (mSpritePtr->CheckSpriteMovementRegion())
         {
             sCharB4PathDirection = direction;
 
             mSpritePtr->set_xyz_lazy_420600(xpos, ypos, zpos);
-            gMap_0x370_6F6268->ClearBlockedByTerrain_492130();
+            gMap_0x370->ClearBlockedByTerrain_492130();
             return false;
         }
         mSpritePtr->set_xyz_lazy_420600(xpos, ypos, zpos);
@@ -3857,16 +3857,16 @@ bool Char::CanStepForwardWithRegionCheck(s32 direction)
     switch (direction)
     {
         case path_direction::up_1:
-            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() - 1, new_zpos);
+            block_type = gMap_0x370->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() - 1, new_zpos);
             break;
         case path_direction::right_3:
-            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() + 1, ypos.ToInt(), new_zpos);
+            block_type = gMap_0x370->GetBlockTypeAtCoord_420420(xpos.ToInt() + 1, ypos.ToInt(), new_zpos);
             break;
         case path_direction::down_2:
-            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() + 1, new_zpos);
+            block_type = gMap_0x370->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() + 1, new_zpos);
             break;
         case path_direction::left_4:
-            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() - 1, ypos.ToInt(), new_zpos);
+            block_type = gMap_0x370->GetBlockTypeAtCoord_420420(xpos.ToInt() - 1, ypos.ToInt(), new_zpos);
             break;
         default:
             block_type = AIR;
@@ -3912,18 +3912,18 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
     sCharB4StepPosValid = 1;
     Fix16 xpos, ypos;
     Ang16::PolarToCartesian_41FC20(sAng16AngleOfCollision, sFP16CollisionCheckRadius, xpos, ypos);
-    gCharB4_StepXpos_6FD8B8 = gCharB4_Saved_Xpos_6FD7F8 + xpos;
-    sCharB4StepYpos = gCharB4_Saved_Ypos_6FD800 + ypos;
+    gCharB4_StepXpos = gCharB4_Saved_Xpos + xpos;
+    sCharB4StepYpos = gCharB4_Saved_Ypos + ypos;
 
 
     // Get the x diff of the neareast block on left/right side, if it's very close to them
     // Test if it is near right block
-    s8 x_diff = (gCharB4_StepXpos_6FD8B8 + gCharB4_WorldCollisionOffset_6FD8D8 / gFix16_Two_6FD9EC).ToInt() - (sprite_xpos).ToInt();
+    s8 x_diff = (gCharB4_StepXpos + gCharB4_WorldCollisionOffset / gFix16_Two).ToInt() - (sprite_xpos).ToInt();
 
     if (x_diff == 0)
     {
         // Test if it is near left block
-        x_diff = (gCharB4_StepXpos_6FD8B8 - gCharB4_WorldCollisionOffset_6FD8D8 / gFix16_Two_6FD9EC).ToInt() - (sprite_xpos).ToInt();
+        x_diff = (gCharB4_StepXpos - gCharB4_WorldCollisionOffset / gFix16_Two).ToInt() - (sprite_xpos).ToInt();
         if (x_diff == 0)
         {
             bIsNearXposBlockBoundary = false;
@@ -3932,12 +3932,12 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
 
     // Get the y diff of the neareast block on north/south side, if it's very close to them
     // Test if it is near south block
-    s8 y_diff = (sCharB4StepYpos + gCharB4_WorldCollisionOffset_6FD8D8 / gFix16_Two_6FD9EC).ToInt() - (sprite_ypos).ToInt();
+    s8 y_diff = (sCharB4StepYpos + gCharB4_WorldCollisionOffset / gFix16_Two).ToInt() - (sprite_ypos).ToInt();
 
     if (y_diff == 0)
     {
         // Test if it is near north block
-        y_diff = (sCharB4StepYpos - gCharB4_WorldCollisionOffset_6FD8D8 / gFix16_Two_6FD9EC).ToInt() - (sprite_ypos).ToInt();
+        y_diff = (sCharB4StepYpos - gCharB4_WorldCollisionOffset / gFix16_Two).ToInt() - (sprite_ypos).ToInt();
         if (y_diff == 0)
         {
             bIsNearYposBlockBoundary = false;
@@ -3967,13 +3967,13 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
                 if (mFlagsBf.bOnSlope)
                 {
                     mSpritePtr->mZpos =
-                        gMap_0x370_6F6268->FindGroundZForCoord(mSpritePtr->mXy.x, mSpritePtr->mXy.y);
+                        gMap_0x370->FindGroundZForCoord(mSpritePtr->mXy.x, mSpritePtr->mXy.y);
                 }
                 if (mSpritePtr->mZpos == kFP16Zero_6FD9E4)
                 {
                     mSpritePtr->mZpos = sprite_zpos;
                 }
-                if (!CanStepForwardWithRegionCheck(path_direction::up_1) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                if (!CanStepForwardWithRegionCheck(path_direction::up_1) && !gMap_0x370->TakeBlockedByTerrain())
                 {
                     sCharB4PathDirection = path_direction::up_1;
                     bCanStep = false;
@@ -3983,13 +3983,13 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
                 if (mFlagsBf.bOnSlope)
                 {
                     mSpritePtr->mZpos =
-                        gMap_0x370_6F6268->FindGroundZForCoord(mSpritePtr->mXy.x, mSpritePtr->mXy.y);
+                        gMap_0x370->FindGroundZForCoord(mSpritePtr->mXy.x, mSpritePtr->mXy.y);
                 }
                 if (mSpritePtr->mZpos == kFP16Zero_6FD9E4)
                 {
                     mSpritePtr->mZpos = sprite_zpos;
                 }
-                if (!CanStepForwardWithRegionCheck(path_direction::left_4) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                if (!CanStepForwardWithRegionCheck(path_direction::left_4) && !gMap_0x370->TakeBlockedByTerrain())
                 {
                     sCharB4PathDirection = path_direction::left_4;
                     bCanStep = false;
@@ -4000,9 +4000,9 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
 
                 if (!bCanStep)
                 {
-                    gCharB4_StepXpos_6FD8B8 = gCharB4_Saved_Xpos_6FD7F8;
-                    sCharB4StepYpos = gCharB4_Saved_Ypos_6FD800;
-                    if (!CanStepForwardWithRegionCheck(path_direction::left_4) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                    gCharB4_StepXpos = gCharB4_Saved_Xpos;
+                    sCharB4StepYpos = gCharB4_Saved_Ypos;
+                    if (!CanStepForwardWithRegionCheck(path_direction::left_4) && !gMap_0x370->TakeBlockedByTerrain())
                     {
                         sCharB4PathDirection = path_direction::left_4;
                     }
@@ -4010,7 +4010,7 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
                     {
                         sCharB4PathDirection = path_direction::up_1;
                         bCanStep = true;
-                        if (!CanStepForwardWithRegionCheck(path_direction::up_1) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                        if (!CanStepForwardWithRegionCheck(path_direction::up_1) && !gMap_0x370->TakeBlockedByTerrain())
                         {
                             bCanStep = false;
                         }
@@ -4022,12 +4022,12 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
                 }
                 else
                 {
-                    if (!CanStepForwardWithRegionCheck(path_direction::left_4) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                    if (!CanStepForwardWithRegionCheck(path_direction::left_4) && !gMap_0x370->TakeBlockedByTerrain())
                     {
                         bCanStep = false;
                         sCharB4PathDirection = path_direction::left_4;
                     }
-                    if (!CanStepForwardWithRegionCheck(path_direction::up_1) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                    if (!CanStepForwardWithRegionCheck(path_direction::up_1) && !gMap_0x370->TakeBlockedByTerrain())
                     {
                         bCanStep = false;
                         sCharB4PathDirection = path_direction::down_2;
@@ -4042,13 +4042,13 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
                 if (mFlagsBf.bOnSlope)
                 {
                     mSpritePtr->mZpos =
-                        gMap_0x370_6F6268->FindGroundZForCoord(mSpritePtr->mXy.x, mSpritePtr->mXy.y);
+                        gMap_0x370->FindGroundZForCoord(mSpritePtr->mXy.x, mSpritePtr->mXy.y);
                 }
                 if (mSpritePtr->mZpos == kFP16Zero_6FD9E4)
                 {
                     mSpritePtr->mZpos = sprite_zpos;
                 }
-                if (!CanStepForwardWithRegionCheck(path_direction::down_2) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                if (!CanStepForwardWithRegionCheck(path_direction::down_2) && !gMap_0x370->TakeBlockedByTerrain())
                 {
                     sCharB4PathDirection = path_direction::down_2;
                     bCanStep = false;
@@ -4058,13 +4058,13 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
                 if (mFlagsBf.bOnSlope)
                 {
                     mSpritePtr->mZpos =
-                        gMap_0x370_6F6268->FindGroundZForCoord(mSpritePtr->mXy.x, mSpritePtr->mXy.y);
+                        gMap_0x370->FindGroundZForCoord(mSpritePtr->mXy.x, mSpritePtr->mXy.y);
                 }
                 if (mSpritePtr->mZpos == kFP16Zero_6FD9E4)
                 {
                     mSpritePtr->mZpos = sprite_zpos;
                 }
-                if (!CanStepForwardWithRegionCheck(path_direction::left_4) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                if (!CanStepForwardWithRegionCheck(path_direction::left_4) && !gMap_0x370->TakeBlockedByTerrain())
                 {
                     sCharB4PathDirection = path_direction::left_4;
                     bCanStep = false;
@@ -4075,9 +4075,9 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
 
                 if (!bCanStep)
                 {
-                    gCharB4_StepXpos_6FD8B8 = gCharB4_Saved_Xpos_6FD7F8;
-                    sCharB4StepYpos = gCharB4_Saved_Ypos_6FD800;
-                    if (!CanStepForwardWithRegionCheck(path_direction::left_4) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                    gCharB4_StepXpos = gCharB4_Saved_Xpos;
+                    sCharB4StepYpos = gCharB4_Saved_Ypos;
+                    if (!CanStepForwardWithRegionCheck(path_direction::left_4) && !gMap_0x370->TakeBlockedByTerrain())
                     {
                         sCharB4PathDirection = path_direction::left_4;
                     }
@@ -4085,7 +4085,7 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
                     {
                         sCharB4PathDirection = path_direction::down_2;
                         bCanStep = true;
-                        if (!CanStepForwardWithRegionCheck(path_direction::down_2) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                        if (!CanStepForwardWithRegionCheck(path_direction::down_2) && !gMap_0x370->TakeBlockedByTerrain())
                         {
                             bCanStep = false;
                         }
@@ -4097,12 +4097,12 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
                 }
                 else
                 {
-                    if (!CanStepForwardWithRegionCheck(path_direction::left_4) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                    if (!CanStepForwardWithRegionCheck(path_direction::left_4) && !gMap_0x370->TakeBlockedByTerrain())
                     {
                         bCanStep = false;
                         sCharB4PathDirection = path_direction::left_4;
                     }
-                    if (!CanStepForwardWithRegionCheck(path_direction::down_2) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                    if (!CanStepForwardWithRegionCheck(path_direction::down_2) && !gMap_0x370->TakeBlockedByTerrain())
                     {
                         bCanStep = false;
                         sCharB4PathDirection = path_direction::down_2;
@@ -4121,13 +4121,13 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
                 if (mFlagsBf.bOnSlope)
                 {
                     mSpritePtr->mZpos =
-                        gMap_0x370_6F6268->FindGroundZForCoord(mSpritePtr->mXy.x, mSpritePtr->mXy.y);
+                        gMap_0x370->FindGroundZForCoord(mSpritePtr->mXy.x, mSpritePtr->mXy.y);
                 }
                 if (mSpritePtr->mZpos == kFP16Zero_6FD9E4)
                 {
                     mSpritePtr->mZpos = sprite_zpos;
                 }
-                if (!CanStepForwardWithRegionCheck(path_direction::up_1) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                if (!CanStepForwardWithRegionCheck(path_direction::up_1) && !gMap_0x370->TakeBlockedByTerrain())
                 {
                     sCharB4PathDirection = path_direction::up_1;
                     bCanStep = false;
@@ -4137,13 +4137,13 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
                 if (mFlagsBf.bOnSlope)
                 {
                     mSpritePtr->mZpos =
-                        gMap_0x370_6F6268->FindGroundZForCoord(mSpritePtr->mXy.x, mSpritePtr->mXy.y);
+                        gMap_0x370->FindGroundZForCoord(mSpritePtr->mXy.x, mSpritePtr->mXy.y);
                 }
                 if (mSpritePtr->mZpos == kFP16Zero_6FD9E4)
                 {
                     mSpritePtr->mZpos = sprite_zpos;
                 }
-                if (!CanStepForwardWithRegionCheck(path_direction::right_3) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                if (!CanStepForwardWithRegionCheck(path_direction::right_3) && !gMap_0x370->TakeBlockedByTerrain())
                 {
                     sCharB4PathDirection = path_direction::right_3;
                     bCanStep = false;
@@ -4154,9 +4154,9 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
 
                 if (!bCanStep)
                 {
-                    gCharB4_StepXpos_6FD8B8 = gCharB4_Saved_Xpos_6FD7F8;
-                    sCharB4StepYpos = gCharB4_Saved_Ypos_6FD800;
-                    if (!CanStepForwardWithRegionCheck(path_direction::right_3) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                    gCharB4_StepXpos = gCharB4_Saved_Xpos;
+                    sCharB4StepYpos = gCharB4_Saved_Ypos;
+                    if (!CanStepForwardWithRegionCheck(path_direction::right_3) && !gMap_0x370->TakeBlockedByTerrain())
                     {
                         sCharB4PathDirection = path_direction::right_3;
                     }
@@ -4164,7 +4164,7 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
                     {
                         sCharB4PathDirection = path_direction::up_1;
                         bCanStep = true;
-                        if (!CanStepForwardWithRegionCheck(path_direction::up_1) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                        if (!CanStepForwardWithRegionCheck(path_direction::up_1) && !gMap_0x370->TakeBlockedByTerrain())
                         {
                             bCanStep = false;
                         }
@@ -4176,12 +4176,12 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
                 }
                 else
                 {
-                    if (!CanStepForwardWithRegionCheck(path_direction::right_3) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                    if (!CanStepForwardWithRegionCheck(path_direction::right_3) && !gMap_0x370->TakeBlockedByTerrain())
                     {
                         bCanStep = false;
                         sCharB4PathDirection = path_direction::right_3;
                     }
-                    if (!CanStepForwardWithRegionCheck(path_direction::up_1) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                    if (!CanStepForwardWithRegionCheck(path_direction::up_1) && !gMap_0x370->TakeBlockedByTerrain())
                     {
                         bCanStep = false;
                         sCharB4PathDirection = path_direction::up_1;
@@ -4197,13 +4197,13 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
                 if (mFlagsBf.bOnSlope)
                 {
                     mSpritePtr->mZpos =
-                        gMap_0x370_6F6268->FindGroundZForCoord(mSpritePtr->mXy.x, mSpritePtr->mXy.y);
+                        gMap_0x370->FindGroundZForCoord(mSpritePtr->mXy.x, mSpritePtr->mXy.y);
                 }
                 if (mSpritePtr->mZpos == kFP16Zero_6FD9E4)
                 {
                     mSpritePtr->mZpos = sprite_zpos;
                 }
-                if (!CanStepForwardWithRegionCheck(path_direction::down_2) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                if (!CanStepForwardWithRegionCheck(path_direction::down_2) && !gMap_0x370->TakeBlockedByTerrain())
                 {
                     sCharB4PathDirection = path_direction::down_2;
                     bCanStep = false;
@@ -4212,12 +4212,12 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
                 mSpritePtr->mZpos = sprite_zpos;
                 mSpritePtr->mXy.y.add_one_491EF0();
                 mSpritePtr->mZpos =
-                    gMap_0x370_6F6268->FindGroundZForCoord(mSpritePtr->mXy.x, mSpritePtr->mXy.y);
+                    gMap_0x370->FindGroundZForCoord(mSpritePtr->mXy.x, mSpritePtr->mXy.y);
                 if (mSpritePtr->mZpos == kFP16Zero_6FD9E4)
                 {
                     mSpritePtr->mZpos = sprite_zpos;
                 }
-                if (!CanStepForwardWithRegionCheck(path_direction::right_3) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                if (!CanStepForwardWithRegionCheck(path_direction::right_3) && !gMap_0x370->TakeBlockedByTerrain())
                 {
                     sCharB4PathDirection = path_direction::right_3;
                     bCanStep = false;
@@ -4228,9 +4228,9 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
 
                 if (!bCanStep)
                 {
-                    gCharB4_StepXpos_6FD8B8 = gCharB4_Saved_Xpos_6FD7F8;
-                    sCharB4StepYpos = gCharB4_Saved_Ypos_6FD800;
-                    if (!CanStepForwardWithRegionCheck(path_direction::right_3) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                    gCharB4_StepXpos = gCharB4_Saved_Xpos;
+                    sCharB4StepYpos = gCharB4_Saved_Ypos;
+                    if (!CanStepForwardWithRegionCheck(path_direction::right_3) && !gMap_0x370->TakeBlockedByTerrain())
                     {
                         sCharB4PathDirection = path_direction::right_3;
                     }
@@ -4238,7 +4238,7 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
                     {
                         sCharB4PathDirection = path_direction::down_2;
                         bCanStep = true;
-                        if (!CanStepForwardWithRegionCheck(path_direction::down_2) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                        if (!CanStepForwardWithRegionCheck(path_direction::down_2) && !gMap_0x370->TakeBlockedByTerrain())
                         {
                             bCanStep = false;
                         }
@@ -4250,12 +4250,12 @@ bool Char::CanStepToTile(char_type target_x, char_type target_y)
                 }
                 else
                 {
-                    if (!CanStepForwardWithRegionCheck(path_direction::right_3) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                    if (!CanStepForwardWithRegionCheck(path_direction::right_3) && !gMap_0x370->TakeBlockedByTerrain())
                     {
                         bCanStep = false;
                         sCharB4PathDirection = path_direction::right_3;
                     }
-                    if (!CanStepForwardWithRegionCheck(path_direction::down_2) && !gMap_0x370_6F6268->TakeBlockedByTerrain())
+                    if (!CanStepForwardWithRegionCheck(path_direction::down_2) && !gMap_0x370->TakeBlockedByTerrain())
                     {
                         bCanStep = false;
                         sCharB4PathDirection = path_direction::down_2;
@@ -4306,7 +4306,7 @@ bool Char::CanStepForward(s32 direction)
         check_z = zpos_int;
     }
 
-    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked(xpos.ToInt(), ypos.ToInt(), zpos_int, direction, reinterpret_cast<u8*>(&slope_z_adjust), false))
+    if (gMap_0x370->IsMoveOntoSlopeTileBlocked(xpos.ToInt(), ypos.ToInt(), zpos_int, direction, reinterpret_cast<u8*>(&slope_z_adjust), false))
     {
         sCharB4PathDirection = direction;
         return false;
@@ -4322,16 +4322,16 @@ bool Char::CanStepForward(s32 direction)
     switch (direction)
     {
         case path_direction::up_1:
-            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() - 1, check_z);
+            block_type = gMap_0x370->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() - 1, check_z);
             break;
         case path_direction::right_3:
-            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() + 1, ypos.ToInt(), check_z);
+            block_type = gMap_0x370->GetBlockTypeAtCoord_420420(xpos.ToInt() + 1, ypos.ToInt(), check_z);
             break;
         case path_direction::down_2:
-            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() + 1, check_z);
+            block_type = gMap_0x370->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() + 1, check_z);
             break;
         case path_direction::left_4:
-            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() - 1, ypos.ToInt(), check_z);
+            block_type = gMap_0x370->GetBlockTypeAtCoord_420420(xpos.ToInt() - 1, ypos.ToInt(), check_z);
             break;
         default:
             block_type = AIR;
@@ -4414,11 +4414,11 @@ bool Char::CanReachTile(u8 xpos, u8 ypos)
                     }
                     mSpritePtr->mXy.x = original_x;
                     mSpritePtr->mXy.y = original_y;
-                    if (!Char::CanReachTile((gCharB4_Saved_Xpos_6FD7F8 - kFP16One_6FD9E8).ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt()))
+                    if (!Char::CanReachTile((gCharB4_Saved_Xpos - kFP16One_6FD9E8).ToInt(), gCharB4_Saved_Ypos.ToInt()))
                     {
                         bRes_1 = false;
                     }
-                    if (!Char::CanReachTile(gCharB4_Saved_Xpos_6FD7F8.ToInt(), (gCharB4_Saved_Ypos_6FD800 - kFP16One_6FD9E8).ToInt()))
+                    if (!Char::CanReachTile(gCharB4_Saved_Xpos.ToInt(), (gCharB4_Saved_Ypos - kFP16One_6FD9E8).ToInt()))
                     {
                         bRes_1 = false;
                     }
@@ -4621,43 +4621,43 @@ void Char::UpdateFleeOrRunning()
     saved_rotation = 0;
     bSnapRotation = 0;
     sCharB4GradientSlopeBelow = 0;
-    sCharB4SavedTileX = gCharB4_Saved_Xpos_6FD7F8.ToUInt8();
-    sCharB4SavedTileY = gCharB4_Saved_Ypos_6FD800.ToUInt8();
-    u8 start_tile_x = gCharB4_Saved_Xpos_6FD7F8.ToUInt8();
-    u8 start_tile_y = gCharB4_Saved_Ypos_6FD800.ToUInt8();
+    sCharB4SavedTileX = gCharB4_Saved_Xpos.ToUInt8();
+    sCharB4SavedTileY = gCharB4_Saved_Ypos.ToUInt8();
+    u8 start_tile_x = gCharB4_Saved_Xpos.ToUInt8();
+    u8 start_tile_y = gCharB4_Saved_Ypos.ToUInt8();
     u8 block_type;
     gmp_block_info* pBlock;
-    if (!mFlagsBf.bOnSlope && gCharB4_Saved_Zpos_6FD7FC.GetFracValue() == kFP16Zero_6FD9E4 &&
-        gCharB4_Saved_Zpos_6FD7FC > kFP16Zero_6FD9E4)
+    if (!mFlagsBf.bOnSlope && gCharB4_Saved_Zpos.GetFracValue() == kFP16Zero_6FD9E4 &&
+        gCharB4_Saved_Zpos > kFP16Zero_6FD9E4)
     {
-        block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(),
-                                                                   gCharB4_Saved_Ypos_6FD800.ToInt(),
-                                                                   gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
-        pBlock = gMap_0x370_6F6268->GetBlock(gCharB4_Saved_Xpos_6FD7F8.ToInt(),
-                                                     gCharB4_Saved_Ypos_6FD800.ToInt(),
-                                                     gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
+        block_type = gMap_0x370->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos.ToInt(),
+                                                                   gCharB4_Saved_Ypos.ToInt(),
+                                                                   gCharB4_Saved_Zpos.ToInt() - 1);
+        pBlock = gMap_0x370->GetBlock(gCharB4_Saved_Xpos.ToInt(),
+                                                     gCharB4_Saved_Ypos.ToInt(),
+                                                     gCharB4_Saved_Zpos.ToInt() - 1);
     }
     else
     {
-        block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(),
-                                                                   gCharB4_Saved_Ypos_6FD800.ToInt(),
-                                                                   gCharB4_Saved_Zpos_6FD7FC.ToInt());
-        pBlock = gMap_0x370_6F6268->GetBlock(gCharB4_Saved_Xpos_6FD7F8.ToInt(),
-                                                     gCharB4_Saved_Ypos_6FD800.ToInt(),
-                                                     gCharB4_Saved_Zpos_6FD7FC.ToInt());
+        block_type = gMap_0x370->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos.ToInt(),
+                                                                   gCharB4_Saved_Ypos.ToInt(),
+                                                                   gCharB4_Saved_Zpos.ToInt());
+        pBlock = gMap_0x370->GetBlock(gCharB4_Saved_Xpos.ToInt(),
+                                                     gCharB4_Saved_Ypos.ToInt(),
+                                                     gCharB4_Saved_Zpos.ToInt());
     }
 
     if (pBlock)
     {
         mFlagsBf.bOnSlope = IsOnSlopeBlock(pBlock);
-        if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlock->mLid & block_face::tile_idx_mask) && mCharState != Char_B4_state::Jumping_15)
+        if (gGtx_0x106C->IsElectrifiedFloorType_491F80(pBlock->mLid & block_face::tile_idx_mask) && mCharState != Char_B4_state::Jumping_15)
         {
             if (!mpPed->mBf21C.bLeftVehicle)
             {
                 mpPed->mShockCounter += 3;
                 if (mpPed->mKillerId)
                 {
-                    if (gPedManager_6787BC->PedById(mpPed->mKillerId))
+                    if (gPedManager->PedById(mpPed->mKillerId))
                     {
                         mpPed->mDeathCause = ped_death_cause::electrocuted_2;
                         mpPed->mKillerIdTimer = 50;
@@ -4679,9 +4679,9 @@ void Char::UpdateFleeOrRunning()
         if (mCharState != Char_B4_state::Jumping_15)
         {
             // The z argument is the raw subtraction: Fix16::operator- here gives other registers
-            if (gMap_0x370_6F6268->HasBlockAnyArrows_492140(gCharB4_Saved_Xpos_6FD7F8.ToInt(),
-                                                            gCharB4_Saved_Ypos_6FD800.ToInt(),
-                                                            (gCharB4_Saved_Zpos_6FD7FC.mValue - kFP16One_6FD9E8.mValue) >> 14))
+            if (gMap_0x370->HasBlockAnyArrows_492140(gCharB4_Saved_Xpos.ToInt(),
+                                                            gCharB4_Saved_Ypos.ToInt(),
+                                                            (gCharB4_Saved_Zpos.mValue - kFP16One_6FD9E8.mValue) >> 14))
             {
                 Char::DoJump();
                 mVelocity = kZeroVelocity;
@@ -4698,9 +4698,9 @@ void Char::UpdateFleeOrRunning()
         }
         else
         {
-            if (gMap_0x370_6F6268->HasBlockAnyArrows_492140(gCharB4_Saved_Xpos_6FD7F8.ToInt(),
-                                                            gCharB4_Saved_Ypos_6FD800.ToInt(),
-                                                            (gCharB4_Saved_Zpos_6FD7FC.mValue - kFP16One_6FD9E8.mValue) >> 14))
+            if (gMap_0x370->HasBlockAnyArrows_492140(gCharB4_Saved_Xpos.ToInt(),
+                                                            gCharB4_Saved_Ypos.ToInt(),
+                                                            (gCharB4_Saved_Zpos.mValue - kFP16One_6FD9E8.mValue) >> 14))
             {
                 Char::DoJump();
                 mFlagsBf.bJumpedOffEdge = true;
@@ -4762,7 +4762,7 @@ void Char::UpdateFleeOrRunning()
                     {
                         if (sCharB4DistanceToTarget < kFpOneEighth)
                         {
-                            mVelocity = k_CollisionRepulsionSpeed_6FD7BC;
+                            mVelocity = k_CollisionRepulsionSpeed;
                         }
                         else
                         {
@@ -4779,7 +4779,7 @@ void Char::UpdateFleeOrRunning()
     }
     else
     {
-        if (mVelocity > k_CollisionRepulsionSpeed_6FD7BC)
+        if (mVelocity > k_CollisionRepulsionSpeed)
         {
             mVelocity = kFpThreeSixtyFourths;
         }
@@ -4805,8 +4805,8 @@ void Char::UpdateFleeOrRunning()
         angle = desired_angle;
         if (mFlagsBf.bDetouring)
         {
-            if (MaxAbsDistance_5504F0(gCharB4_Saved_Xpos_6FD7F8,
-                                      gCharB4_Saved_Ypos_6FD800,
+            if (MaxAbsDistance_5504F0(gCharB4_Saved_Xpos,
+                                      gCharB4_Saved_Ypos,
                                       kFP16Half_6FD8E4 + Fix16(mNextTileX),
                                       kFP16Half_6FD8E4 + Fix16(mNextTileY)) < kFP16Quarter_6FD828)
             {
@@ -4814,8 +4814,8 @@ void Char::UpdateFleeOrRunning()
             }
             else
             {
-                target_rotation = Fix16::atan2_fixed(kFP16Half_6FD8E4 + Fix16(mNextTileY) - gCharB4_Saved_Ypos_6FD800,
-                                                kFP16Half_6FD8E4 + Fix16(mNextTileX) - gCharB4_Saved_Xpos_6FD7F8);
+                target_rotation = Fix16::atan2_fixed(kFP16Half_6FD8E4 + Fix16(mNextTileY) - gCharB4_Saved_Ypos,
+                                                kFP16Half_6FD8E4 + Fix16(mNextTileX) - gCharB4_Saved_Xpos);
                 angle = target_rotation;
             }
         }
@@ -4825,7 +4825,7 @@ void Char::UpdateFleeOrRunning()
             {
                 prev_angle = mRepulsionRotation;
                 cur_rotation = mRotation;
-                mVelocity = k_CollisionRepulsionSpeed_6FD7BC;
+                mVelocity = k_CollisionRepulsionSpeed;
                 target_rotation = prev_angle;
                 saved_rotation = cur_rotation;
                 bSnapRotation = 1;
@@ -4847,8 +4847,8 @@ void Char::UpdateFleeOrRunning()
         {
             Ang16::PolarToCartesian_41FC20(target_rotation, kFP16Quarter_6FD828, probe_x, probe_y);
         }
-        probe_x += gCharB4_Saved_Xpos_6FD7F8;
-        probe_y += gCharB4_Saved_Ypos_6FD800;
+        probe_x += gCharB4_Saved_Xpos;
+        probe_y += gCharB4_Saved_Ypos;
         x_u8 = probe_x.ToUInt8();
         y_u8 = probe_y.ToUInt8();
         if (start_tile_x != x_u8 || start_tile_y != y_u8)
@@ -4915,7 +4915,7 @@ void Char::UpdateFleeOrRunning()
     }
     if (bMoved == 1 || mFlagsBf.bOnSlope == true)
     {
-        sCharB4GradientSlopeBelow = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(mSpritePtr->mXy.x.ToInt(),
+        sCharB4GradientSlopeBelow = gMap_0x370->IsGradientSlopeAt_466CF0(mSpritePtr->mXy.x.ToInt(),
                                                                   mSpritePtr->mXy.y.ToInt(),
                                                                   mSpritePtr->mZpos.ToInt() - 1);
 
@@ -4932,9 +4932,9 @@ void Char::UpdateFleeOrRunning()
 
             x_u8 = x.ToUInt8();
             y_u8 = y.ToUInt8();
-            if (gCharB4_Saved_Xpos_6FD7F8.ToUInt8() != x_u8 || gCharB4_Saved_Ypos_6FD800.ToUInt8() != y_u8)
+            if (gCharB4_Saved_Xpos.ToUInt8() != x_u8 || gCharB4_Saved_Ypos.ToUInt8() != y_u8)
             {
-                mSpritePtr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
+                mSpritePtr->set_xyz_lazy_420600(gCharB4_Saved_Xpos, gCharB4_Saved_Ypos, gCharB4_Saved_Zpos);
 
                 mSlopeGradientDirection = sCharB4SavedSlopeGradDir.ToUInt8();
                 if (!Char::CanReachTile(x_u8, y_u8))
@@ -4943,7 +4943,7 @@ void Char::UpdateFleeOrRunning()
                     mJumpOverTimer = 10;
                     if (sCharCollisionNoJump)
                     {
-                        s16 rnd = gRng_6F6784.get_int(4);
+                        s16 rnd = gRng.get_int(4);
                         switch (rnd)
                         {
                             case 0:
@@ -4963,13 +4963,13 @@ void Char::UpdateFleeOrRunning()
                 }
                 else
                 {
-                    mSpritePtr->set_xyz_lazy_420600(x, y, gCharB4_Saved_Zpos_6FD7FC);
+                    mSpritePtr->set_xyz_lazy_420600(x, y, gCharB4_Saved_Zpos);
 
                     if (bMoved == 1 || mFlagsBf.bOnSlope == true)
                     {
 
                         sCharB4GradientSlopeBelow =
-                            gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(mSpritePtr->mXy.x.ToInt(),
+                            gMap_0x370->IsGradientSlopeAt_466CF0(mSpritePtr->mXy.x.ToInt(),
                                                                         mSpritePtr->mXy.y.ToInt(),
                                                                         (mSpritePtr->mZpos - kFP16One_6FD9E8).ToInt());
                         Char::ManageZCoordAndSlopes();
@@ -5016,7 +5016,7 @@ Ang16 Char::GetNextRotationToward(Ang16 inputAng)
 
     if (mVelocity > kZeroVelocity)
     {
-        if (mVelocity > k_CollisionRepulsionSpeed_6FD7BC)
+        if (mVelocity > k_CollisionRepulsionSpeed)
         {
             max_turn = kAng12_6FD892;
         }
@@ -5158,7 +5158,7 @@ void Char::ChooseNextMovementTile()
     {
         case path_direction::up_1:
         case path_direction::down_2:
-            if (mpPed->GetMoveTargetX_492CE0() <= gCharB4_Saved_Xpos_6FD7F8)
+            if (mpPed->GetMoveTargetX_492CE0() <= gCharB4_Saved_Xpos)
             {
                 sAng16AngleOfCollision = kAng90_6FDA64;
                 if (Char::CanReachTile(sCharB4SavedTileX + 1, sCharB4SavedTileY))
@@ -5222,7 +5222,7 @@ void Char::ChooseNextMovementTile()
         case path_direction::right_3:
         case path_direction::left_4:
 
-            if (mpPed->GetMoveTargetY_492CF0() <= gCharB4_Saved_Ypos_6FD800)
+            if (mpPed->GetMoveTargetY_492CF0() <= gCharB4_Saved_Ypos)
             {
                 sAng16AngleOfCollision = kAng0;
                 if (Char::CanReachTile(sCharB4SavedTileX, sCharB4SavedTileY + 1))
@@ -5292,7 +5292,7 @@ void Char::SelectNextTileFast()
     {
         case path_direction::up_1:
         case path_direction::down_2:
-            if (mpPed->GetMoveTargetX_492CE0() >= gCharB4_Saved_Xpos_6FD7F8)
+            if (mpPed->GetMoveTargetX_492CE0() >= gCharB4_Saved_Xpos)
             {
                 sAng16AngleOfCollision = kAng90_6FDA64;
                 if (Char::CanReachTile(sCharB4SavedTileX + 1, sCharB4SavedTileY))
@@ -5348,7 +5348,7 @@ void Char::SelectNextTileFast()
         case path_direction::right_3:
         case path_direction::left_4:
 
-            if (mpPed->GetMoveTargetY_492CF0() >= gCharB4_Saved_Ypos_6FD800)
+            if (mpPed->GetMoveTargetY_492CF0() >= gCharB4_Saved_Ypos)
             {
                 sAng16AngleOfCollision = kAng0;
                 if (Char::CanReachTile(sCharB4SavedTileX, sCharB4SavedTileY + 1))
@@ -5420,7 +5420,7 @@ void Char::UpdateEnteringCar()
         Char::UpdateFleeOrRunning();
         if (!mpPed->GetAttacking_433CA0() && mCharState != Char_B4_state::Jumping_15)
         {
-            if (mVelocity > k_CollisionRepulsionSpeed_6FD7BC)
+            if (mVelocity > k_CollisionRepulsionSpeed)
             {
                 mAnimationState = Char_Anim_state::Running_1;
             }
@@ -5444,7 +5444,7 @@ void Char::UpdateEnteringCar()
     else if (mPedState2 == ped_state_2::ped2_entering_a_car_6)
     {
         mCharState = Char_B4_state::Interacting_Car_Door_36;
-        Sprite* pNearestSprite = gSpriteGrid_1_679208->FindCollidingSpritePreferType(mSpritePtr, sprite_types_enum::none_0);
+        Sprite* pNearestSprite = gSpriteGrid_1->FindCollidingSpritePreferType(mSpritePtr, sprite_types_enum::none_0);
         if (!pNearestSprite || pNearestSprite->GetType_416B40() != sprite_types_enum::car_2 ||
             (pNearestSprite->mCarBcPtr == mpPed->get_target_to_enter_403B10()) ||
             pNearestSprite->mCarBcPtr->IsTrailerCar_421720() || mpPed->CloseDoorIfCarApproaching(pNearestSprite->mCarBcPtr))
@@ -5509,7 +5509,7 @@ void Char::UpdateEnteringTrain()
 
         if (!this->mpPed->GetAttacking_433CA0() && this->mCharState != Char_B4_state::Jumping_15)
         {
-            if (mVelocity > k_CollisionRepulsionSpeed_6FD7BC)
+            if (mVelocity > k_CollisionRepulsionSpeed)
             {
 
                 this->mAnimationState = Char_Anim_state::Running_1;
@@ -5566,26 +5566,26 @@ void Char::UpdateStandingStill()
             SetPedState2_433A50(0);
             return;
         }
-        if (mFlagsBf.bOnSlope || gCharB4_Saved_Zpos_6FD7FC.GetFracValue() != kFP16Zero_6FD9E4)
+        if (mFlagsBf.bOnSlope || gCharB4_Saved_Zpos.GetFracValue() != kFP16Zero_6FD9E4)
         {
-            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt());
-            pBlockAtPos = gMap_0x370_6F6268->GetBlock(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt());
+            block_type = gMap_0x370->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos.ToInt(), gCharB4_Saved_Ypos.ToInt(), gCharB4_Saved_Zpos.ToInt());
+            pBlockAtPos = gMap_0x370->GetBlock(gCharB4_Saved_Xpos.ToInt(), gCharB4_Saved_Ypos.ToInt(), gCharB4_Saved_Zpos.ToInt());
         }
         else
         {
-            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
-            pBlockAtPos = gMap_0x370_6F6268->GetBlock(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
+            block_type = gMap_0x370->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos.ToInt(), gCharB4_Saved_Ypos.ToInt(), gCharB4_Saved_Zpos.ToInt() - 1);
+            pBlockAtPos = gMap_0x370->GetBlock(gCharB4_Saved_Xpos.ToInt(), gCharB4_Saved_Ypos.ToInt(), gCharB4_Saved_Zpos.ToInt() - 1);
         }
         if (pBlockAtPos)
         {
-            if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlockAtPos->mLid & block_face::tile_idx_mask))
+            if (gGtx_0x106C->IsElectrifiedFloorType_491F80(pBlockAtPos->mLid & block_face::tile_idx_mask))
             {
                 if (!mpPed->mBf21C.bLeftVehicle)
                 {
                     mpPed->mShockCounter += 3;
                     if (mpPed->mKillerId != 0)
                     {
-                        if (gPedManager_6787BC->PedById(mpPed->mKillerId))
+                        if (gPedManager->PedById(mpPed->mKillerId))
                         {
                             mpPed->mDeathCause = ped_death_cause::electrocuted_2;
                             mpPed->mKillerIdTimer = 50;
@@ -5623,16 +5623,16 @@ void Char::UpdateStandingStill()
     {
         // Raw compares: the Fix16 operator== inlines push this function over VC6's inline budget
         if (!mFlagsBf.bOnSlope &&
-            (gCharB4_Saved_Zpos_6FD7FC.mValue == kFP16One_6FD9E8.mValue || gCharB4_Saved_Zpos_6FD7FC.mValue == gFix16_Two_6FD9EC.mValue ||
-             gCharB4_Saved_Zpos_6FD7FC.mValue == kFP16Three_6FD9F0.mValue || gCharB4_Saved_Zpos_6FD7FC.mValue == kFP16Four_6FD9F4.mValue ||
-             gCharB4_Saved_Zpos_6FD7FC.mValue == kFP16Five_6FD9F8.mValue || gCharB4_Saved_Zpos_6FD7FC.mValue == kFP16Six_6FD9FC.mValue ||
-             gCharB4_Saved_Zpos_6FD7FC.mValue == kFP16Seven_6FDA00.mValue))
+            (gCharB4_Saved_Zpos.mValue == kFP16One_6FD9E8.mValue || gCharB4_Saved_Zpos.mValue == gFix16_Two.mValue ||
+             gCharB4_Saved_Zpos.mValue == kFP16Three_6FD9F0.mValue || gCharB4_Saved_Zpos.mValue == kFP16Four_6FD9F4.mValue ||
+             gCharB4_Saved_Zpos.mValue == kFP16Five_6FD9F8.mValue || gCharB4_Saved_Zpos.mValue == kFP16Six.mValue ||
+             gCharB4_Saved_Zpos.mValue == kFP16Seven.mValue))
         {
-            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
+            block_type = gMap_0x370->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos.ToInt(), gCharB4_Saved_Ypos.ToInt(), gCharB4_Saved_Zpos.ToInt() - 1);
         }
         else
         {
-            block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt());
+            block_type = gMap_0x370->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos.ToInt(), gCharB4_Saved_Ypos.ToInt(), gCharB4_Saved_Zpos.ToInt());
         }
 
         if (static_cast<u8>(Char::IsOnWater()))
@@ -5691,7 +5691,7 @@ void Char::UpdateStandingStill()
                 {
                     if ((mpPed->PedTypeIs(ped_type::script_created_5) || mpPed->PedTypeIs(ped_type::player_2)) && !mTimeout)
                     {
-                        if (gRng_6F6784.get_int(600) < 4u && mCharState != Char_B4_state::Smoking_35)
+                        if (gRng.get_int(600) < 4u && mCharState != Char_B4_state::Smoking_35)
                         {
                             mCharState = Char_B4_state::Smoking_35;
                             mAnimationFrame = 0;
@@ -5778,8 +5778,8 @@ void Char::UpdateImmobilized()
                 mFallSpeed = mVelocity;
                 mFallZSpeed = kFP16Zero_6FD9E4;
                 mAnimationFrame = 0;
-                GetTileFracX64(gCharB4_Saved_Xpos_6FD7F8, &tile_frac_x);
-                GetTileFracY64(gCharB4_Saved_Ypos_6FD800, &tile_frac_y);
+                GetTileFracX64(gCharB4_Saved_Xpos, &tile_frac_x);
+                GetTileFracY64(gCharB4_Saved_Ypos, &tile_frac_y);
                 nudge_x = kFP16Zero_6FD9E4;
                 nudge_y = kFP16Zero_6FD9E4;
                 if (tile_frac_x < 10)
@@ -5874,7 +5874,7 @@ void Char::UpdateImmobilized()
             case ped_state_2::sinking_20:
                 --mTimer;
                 rotation = kAng180_6FD936 + mSpritePtr->mRotation;
-                gParticle_8_6FD5E8->EmitWaterSplash(mSpritePtr->mXy.x,
+                gParticle_8->EmitWaterSplash(mSpritePtr->mXy.x,
                                                            mSpritePtr->mXy.y,
                                                            mSpritePtr->mZpos,
                                                            rotation,
@@ -5925,7 +5925,7 @@ void Char::UpdateImmobilized()
 
                             mAnimationState = Char_Anim_state::Walking_0;
                         }
-                        gSpriteGrid_2_67920C->CheckAndHandleCollisionInStrips(mSpritePtr);
+                        gSpriteGrid_2->CheckAndHandleCollisionInStrips(mSpritePtr);
                         if (mConveyorDx != kFP16Zero_6FD9E4 || mConveyorDy != kFP16Zero_6FD9E4)
                         {
                             mSpritePtr->set_xyz_lazy_420600(mConveyorDx + mSpritePtr->mXy.x,
@@ -5948,7 +5948,7 @@ void Char::UpdateImmobilized()
                     if (mTargetCar->mPhysics)
                     {
                         mpPed->mpObj2C =
-                            gObject_5C_6F8F84->NewMovingObj(objects::ped_pushed_110,
+                            gObject_5C->NewMovingObj(objects::ped_pushed_110,
                                                                    mSpritePtr->mXy.x,
                                                                    mSpritePtr->mXy.y,
                                                                    mSpritePtr->mZpos,
@@ -5961,7 +5961,7 @@ void Char::UpdateImmobilized()
                     else
                     {
                         mpPed->mpObj2C =
-                            gObject_5C_6F8F84->NewMovingObj(objects::ped_pushed_110,
+                            gObject_5C->NewMovingObj(objects::ped_pushed_110,
                                                                    mSpritePtr->mXy.x,
                                                                    mSpritePtr->mXy.y,
                                                                    mSpritePtr->mZpos,
@@ -5975,7 +5975,7 @@ void Char::UpdateImmobilized()
                     mpPed->mStoredPedState1 = ped_state_1::walking_0;
                     mpPed->mStoredPedState2 = ped_state_2::ped2_walking_0;
                     mpPed->ChangeNextPedState1(ped_state_1::immobilized_8);
-                    gParticle_8_6FD5E8->EmitBloodBurst(mSpritePtr->mXy.x,
+                    gParticle_8->EmitBloodBurst(mSpritePtr->mXy.x,
                                                               mSpritePtr->mXy.y,
                                                               mSpritePtr->mZpos,
                                                               mSpritePtr->mRotation);
@@ -5985,12 +5985,12 @@ void Char::UpdateImmobilized()
                 }
                 break;
             case ped_state_2::falling_19:
-                ground_z = gMap_0x370_6F6268->FindGroundZBelowCoord(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
-                if (gCharB4_Saved_Zpos_6FD7FC < ground_z || gCharB4_Saved_Zpos_6FD7FC >= ground_z + kFP16Eighth)
+                ground_z = gMap_0x370->FindGroundZBelowCoord(gCharB4_Saved_Xpos, gCharB4_Saved_Ypos, gCharB4_Saved_Zpos);
+                if (gCharB4_Saved_Zpos < ground_z || gCharB4_Saved_Zpos >= ground_z + kFP16Eighth)
                 {
                     Ang16::PolarToCartesian_41FC20(mRotation, mFallSpeed, fall_x, fall_y);
-                    fall_x += gCharB4_Saved_Xpos_6FD7F8;
-                    fall_y += gCharB4_Saved_Ypos_6FD800;
+                    fall_x += gCharB4_Saved_Xpos;
+                    fall_y += gCharB4_Saved_Ypos;
                     if (Char::CanMoveToTile(fall_x.ToInt(), fall_y.ToInt()))
                     {
                         mSpritePtr->set_xyz_lazy_420600(fall_x, fall_y, mSpritePtr->mZpos);
@@ -6011,7 +6011,7 @@ void Char::UpdateImmobilized()
                     mpPed->RestorePreviousPedState();
                     Set_F8_ped_state_1_433910(mpPed->GetPedState_403990());
                     mPedState2 = mpPed->GetPedState2_433B60();
-                    pNearestSprite = gSpriteGrid_1_679208->FindCollidingSpritePreferType(mSpritePtr, sprite_types_enum::none_0);
+                    pNearestSprite = gSpriteGrid_1->FindCollidingSpritePreferType(mSpritePtr, sprite_types_enum::none_0);
                     if (mAnimationState == Char_Anim_state::Lethal_Fall_12)
                     {
                         if (!mpPed->mBf21C.bOnFire)
@@ -6020,7 +6020,7 @@ void Char::UpdateImmobilized()
                         }
                         if (pNearestSprite)
                         {
-                            mpPed->mpObj2C = gObject_5C_6F8F84->NewMovingObj(objects::ped_pushed_110,
+                            mpPed->mpObj2C = gObject_5C->NewMovingObj(objects::ped_pushed_110,
                                                                                                      mSpritePtr->mXy.x,
                                                                                                      mSpritePtr->mXy.y,
                                                                                                      mSpritePtr->mZpos,
@@ -6121,7 +6121,7 @@ void Char::UpdateImmobilized()
                         return;
                     }
 
-                    gSpriteGrid_2_67920C->CheckAndHandleCollisionInStrips(mSpritePtr);
+                    gSpriteGrid_2->CheckAndHandleCollisionInStrips(mSpritePtr);
 
                     if (mConveyorDx != kFP16Zero_6FD9E4 || mConveyorDy != kFP16Zero_6FD9E4)
                     {
@@ -6149,7 +6149,7 @@ void Char::UpdateImmobilized()
 
             case ped_state_2::electrocuted_27:
                 ++mTimer;
-                if (!bStartNetworkGame_7081F0)
+                if (!bStartNetworkGame)
                 {
                     if (mTimer == 5)
                     {
@@ -6165,7 +6165,7 @@ void Char::UpdateImmobilized()
                 }
                 if (mTimer > 100u)
                 {
-                    if (!bStartNetworkGame_7081F0)
+                    if (!bStartNetworkGame)
                     {
                         mpPed->mKillerIdTimer = 0;
                         mpPed->mKillerId = 0;
@@ -6177,7 +6177,7 @@ void Char::UpdateImmobilized()
                     mpPed->mBf224.bDropsWeaponOnDeath = false;
                     if (mpPed->mPlayer)
                     {
-                        gRoot_sound_66B038.PlayVoice(voice_line::shocking_25);
+                        gRoot_sound.PlayVoice(voice_line::shocking_25);
                         mpPed->mPlayer->SetDeathType_434950(4);
                     }
                     mpPed->Kill();
@@ -6233,7 +6233,7 @@ void Char::UpdateDead()
             default:
                 if (mAnimationState != Char_Anim_state::Charred_Corpse_21)
                 {
-                    rng = gRng_6F6784.get_int(3);
+                    rng = gRng.get_int(3);
 
                     switch (rng)
                     {
@@ -6262,7 +6262,7 @@ void Char::UpdateDead()
         }
 
         mUnused34 = 0;
-        gSpriteGrid_2_67920C->CheckAndHandleCollisionInStrips(mSpritePtr);
+        gSpriteGrid_2->CheckAndHandleCollisionInStrips(mSpritePtr);
         Char::ManageZCoordAndSlopes();
         mSpritePtr->set_xyz_lazy_420600(mConveyorDx + mSpritePtr->mXy.x,
                                                  mConveyorDy + mSpritePtr->mXy.y,
@@ -6277,7 +6277,7 @@ void Char::UpdateDead()
                     mSpritePtr->mXy.y.ToUInt8() > 1 && mSpritePtr->mXy.x.ToUInt8() < 254 &&
                     mSpritePtr->mXy.y.ToUInt8() < 254)
                 {
-                    mVelocity = -k_CollisionRepulsionSpeed_6FD7BC;
+                    mVelocity = -k_CollisionRepulsionSpeed;
                     Char::UpdateWalking();
                 }
                 else
@@ -6290,7 +6290,7 @@ void Char::UpdateDead()
                     mSpritePtr->mXy.y.ToUInt8() > 1 && mSpritePtr->mXy.x.ToUInt8() < 254 &&
                     mSpritePtr->mXy.y.ToUInt8() < 254)
                 {
-                    mVelocity = -k_CollisionRepulsionSpeed_6FD7BC;
+                    mVelocity = -k_CollisionRepulsionSpeed;
                     Char::UpdateWalking();
                 }
                 else
@@ -6306,7 +6306,7 @@ void Char::UpdateDead()
                 {
                     mConveyorDx = kFP16Zero_6FD9E4;
                     mConveyorDy = kFP16Zero_6FD9E4;
-                    gSpriteGrid_2_67920C->CheckAndHandleCollisionInStrips(mSpritePtr);
+                    gSpriteGrid_2->CheckAndHandleCollisionInStrips(mSpritePtr);
 
                     mSpritePtr->set_xyz_lazy_420600(mConveyorDx + mSpritePtr->mXy.x,
                                                              mConveyorDy + mSpritePtr->mXy.y,
@@ -6318,7 +6318,7 @@ void Char::UpdateDead()
             default:
                 if (mAnimationState != Char_Anim_state::Charred_Corpse_21)
                 {
-                    rng = gRng_6F6784.get_int(3);
+                    rng = gRng.get_int(3);
                     switch (rng)
                     {
                         case 0:
@@ -6344,8 +6344,8 @@ bool Char::IsNearTileCentre() const
 {
     s16 frac_x = 0;
     s16 frac_y = 0;
-    Char::GetTileFracX64(gCharB4_Saved_Xpos_6FD7F8, &frac_x);
-    Char::GetTileFracY64(gCharB4_Saved_Ypos_6FD800, &frac_y);
+    Char::GetTileFracX64(gCharB4_Saved_Xpos, &frac_x);
+    Char::GetTileFracY64(gCharB4_Saved_Ypos, &frac_y);
     if (frac_x > 20 && frac_x < 44 && frac_y > 20 && frac_y < 44)
     {
         return true;
@@ -6451,7 +6451,7 @@ bool Char::PhoneTouched(Object* pObject)
     Ped* pPed = mpPed;
     if (pPed->mPlayer)
     {
-        return gScriptManager_6F8060->AnswerPhone(pPed->get_id(), pObject->mId);
+        return gScriptManager->AnswerPhone(pPed->get_id(), pObject->mId);
     }
     else
     {
@@ -6484,7 +6484,7 @@ bool Char::OnObjectTouched(Object* pObject)
             break;
 
         case objects::savepoint_161:
-            gCarThreadTriggers_214_705F20->CheckThreadTrigger(pObject->mThreadTriggerIdx, this->mSpritePtr);
+            gCarThreadTriggers_214->CheckThreadTrigger(pObject->mThreadTriggerIdx, this->mSpritePtr);
             break;
 
         case objects::blue_phone_164:
@@ -6494,7 +6494,7 @@ bool Char::OnObjectTouched(Object* pObject)
             return PhoneTouched(pObject);
 
         case objects::door_trigger_167:
-            gDoor_4D4_67BD2C->TryOpenDoorForPed(get_ped_433A20(), pObject->GetParam_421050());
+            gDoor_4D4->TryOpenDoorForPed(get_ped_433A20(), pObject->GetParam_421050());
             break;
 
         case objects::destructor_141:
@@ -6517,10 +6517,10 @@ MATCH_FUNC(0x5537F0)
 bool Char::HandlePedObjectHit(Object* pObject)
 {
     const u8 idx = pObject->GetPedRefIdx_420FF0();
-    const s32 pedId = gPedRefTable_7F8_703398->GetPedId_420F10(idx);
+    const s32 pedId = gPedRefTable_7F8->GetPedId_420F10(idx);
     if (pObject->mModel == objects::rocket_bullet_128 || pObject->mModel == objects::moving_molotov_138 || pObject->mModel == objects::mine_10 && !gCharB4_HitByMine_6FDB59)
     {
-        gObject_5C_6F8F84->CreateExplosion(mSpritePtr->mXy.x,
+        gObject_5C->CreateExplosion(mSpritePtr->mXy.x,
                                                   mSpritePtr->mXy.y,
                                                   mSpritePtr->mZpos,
                                                   kAng0_6FDB34,
@@ -6561,7 +6561,7 @@ static inline Fix16 GetLength_inline_5538A0(Fix16_Point& p)
 
 MATCH_FUNC(0x5538A0)
 #define SPAWN_KNOCKDOWN_OBJ(speed)                                                      \
-    gObject_5C_6F8F84->NewMovingObj(objects::ped_pushed_110,                     \
+    gObject_5C->NewMovingObj(objects::ped_pushed_110,                     \
                                            this->mSpritePtr->mXy.x,    \
                                            this->mSpritePtr->mXy.y,    \
                                            this->mSpritePtr->mZpos,    \
@@ -6590,7 +6590,7 @@ void Char::HandleCarImpact(Car* pCar, u8 not_used, Fix16 x, Fix16 y)
 
         if (!this->mpPed->mPedRefIdx)
         {
-            this->mpPed->mPedRefIdx = gPedRefTable_7F8_703398->AllocForPed(this->mpPed->mId);
+            this->mpPed->mPedRefIdx = gPedRefTable_7F8->AllocForPed(this->mpPed->mId);
         }
 
         this->mAnimationState = Char_Anim_state::Lethal_Fall_12;
@@ -6626,7 +6626,7 @@ void Char::HandleCarImpact(Car* pCar, u8 not_used, Fix16 x, Fix16 y)
         else if (this->mpPed->PedTypeIs(ped_type::dummy_3))
         {
             this->mpPed->Kill();
-            gParticle_8_6FD5E8->EmitBloodBurst(this->mSpritePtr->mXy.x,
+            gParticle_8->EmitBloodBurst(this->mSpritePtr->mXy.x,
                                                       this->mSpritePtr->mXy.y,
                                                       this->mSpritePtr->mZpos,
                                                       impact_angle);
@@ -6641,7 +6641,7 @@ void Char::HandleCarImpact(Car* pCar, u8 not_used, Fix16 x, Fix16 y)
                 }
                 else
                 {
-                    this->mpPed->mpObj2C = SPAWN_KNOCKDOWN_OBJ(vecLen / gFix16_Two_6FD9EC);
+                    this->mpPed->mpObj2C = SPAWN_KNOCKDOWN_OBJ(vecLen / gFix16_Two);
                     this->mpPed->mpObj2C->mObj3c->mZSpeed = kFpPoint05_6FD9B0;
                     this->mpPed->mpObj2C->mObj3c->mbAirborne = 1;
                     this->mpPed->mpObj2C->SetDamageOwner(this->mpPed->mPedRefIdx);
@@ -6662,7 +6662,7 @@ void Char::HandleCarImpact(Car* pCar, u8 not_used, Fix16 x, Fix16 y)
 
                     this->mPedState2 = ped_state_2::knocked_recover_24;
 
-                    gParticle_8_6FD5E8->EmitBloodBurst(this->mSpritePtr->mXy.x,
+                    gParticle_8->EmitBloodBurst(this->mSpritePtr->mXy.x,
                                                               this->mSpritePtr->mXy.y,
                                                               this->mSpritePtr->mZpos,
                                                               impact_angle);
@@ -6678,7 +6678,7 @@ void Char::HandleCarImpact(Car* pCar, u8 not_used, Fix16 x, Fix16 y)
                         return;
                     }
                     this->mpPed->ChangeNextPedState1(ped_state_1::immobilized_8);
-                    this->mpPed->mpObj2C = SPAWN_KNOCKDOWN_OBJ(vecLen / gFix16_Two_6FD9EC);
+                    this->mpPed->mpObj2C = SPAWN_KNOCKDOWN_OBJ(vecLen / gFix16_Two);
                     this->mpPed->mpObj2C->mObj3c->mZSpeed = kFpPoint1_6FD824;
                     this->mpPed->mpObj2C->mObj3c->mbAirborne = 1;
                     this->mpPed->mpObj2C->SetDamageOwner(this->mpPed->mPedRefIdx);
@@ -6697,7 +6697,7 @@ void Char::HandleCarImpact(Car* pCar, u8 not_used, Fix16 x, Fix16 y)
                 {
                     this->mpPed->Kill();
                 }
-                gParticle_8_6FD5E8->EmitBloodBurst(this->mSpritePtr->mXy.x,
+                gParticle_8->EmitBloodBurst(this->mSpritePtr->mXy.x,
                                                           this->mSpritePtr->mXy.y,
                                                           this->mSpritePtr->mZpos,
                                                           impact_angle);
@@ -6707,7 +6707,7 @@ void Char::HandleCarImpact(Car* pCar, u8 not_used, Fix16 x, Fix16 y)
         {
             if (this->mpPed->mInvulnerability > 0)
             {
-                this->mpPed->mpObj2C = SPAWN_KNOCKDOWN_OBJ(vecLen / gFix16_Two_6FD9EC);
+                this->mpPed->mpObj2C = SPAWN_KNOCKDOWN_OBJ(vecLen / gFix16_Two);
                 this->mpPed->mpObj2C->mObj3c->mZSpeed = kFP16Zero_6FD9E4;
                 this->mpPed->mpObj2C->SetDamageOwner(this->mpPed->mPedRefIdx);
                 this->mpPed->ChangeNextPedState1(ped_state_1::immobilized_8);
@@ -6718,7 +6718,7 @@ void Char::HandleCarImpact(Car* pCar, u8 not_used, Fix16 x, Fix16 y)
             {
                 this->mpPed->Kill();
             }
-            gParticle_8_6FD5E8->EmitBloodBurst(this->mSpritePtr->mXy.x,
+            gParticle_8->EmitBloodBurst(this->mSpritePtr->mXy.x,
                                                       this->mSpritePtr->mXy.y,
                                                       this->mSpritePtr->mZpos,
                                                       impact_angle);
@@ -6739,7 +6739,7 @@ void Char::HandleGenericImpact(Ang16 ang, Fix16 impact_x, Fix16 impact_z, char_t
     if (mpPed->GetPedState_403990() != ped_state_1::dead_9)
     {
         this->mStateInitPending = true;
-        this->mpPed->mpObj2C = gObject_5C_6F8F84->NewMovingObj(objects::ped_pushed_110,
+        this->mpPed->mpObj2C = gObject_5C->NewMovingObj(objects::ped_pushed_110,
                                                                                        mSpritePtr->mXy.x,
                                                                                        mSpritePtr->mXy.y,
                                                                                        mSpritePtr->mZpos,
@@ -6750,7 +6750,7 @@ void Char::HandleGenericImpact(Ang16 ang, Fix16 impact_x, Fix16 impact_z, char_t
                                                                                        impact_z);
         if (!mpPed->mPedRefIdx)
         {
-            mpPed->mPedRefIdx = gPedRefTable_7F8_703398->AllocForPed(mpPed->mId);
+            mpPed->mPedRefIdx = gPedRefTable_7F8->AllocForPed(mpPed->mId);
         }
         mpPed->mpObj2C->SetDamageOwner(mpPed->mPedRefIdx);
         mpPed->ChangeNextPedState1(ped_state_1::immobilized_8);
@@ -6783,7 +6783,7 @@ void Char::HandleGenericImpact(Ang16 ang, Fix16 impact_x, Fix16 impact_z, char_t
                 }
 
                 this->mPedState2 = ped_state_2::knocked_recover_24;
-                gParticle_8_6FD5E8->EmitBloodBurst(this->mSpritePtr->mXy.x,
+                gParticle_8->EmitBloodBurst(this->mSpritePtr->mXy.x,
                                                           this->mSpritePtr->mXy.y,
                                                           this->mSpritePtr->mZpos,
                                                           ang);
@@ -6801,7 +6801,7 @@ void Char::HandleGenericImpact(Ang16 ang, Fix16 impact_x, Fix16 impact_z, char_t
                 }
 
                 this->mPedState2 = ped_state_2::knocked_recover_24;
-                gParticle_8_6FD5E8->EmitBloodBurst(this->mSpritePtr->mXy.x,
+                gParticle_8->EmitBloodBurst(this->mSpritePtr->mXy.x,
                                                           this->mSpritePtr->mXy.y,
                                                           this->mSpritePtr->mZpos,
                                                           ang);

@@ -147,4 +147,4 @@ class DoorPool
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(DoorPool, 0x4D4);
 
-EXTERN_GLOBAL(DoorPool*, gDoor_4D4_67BD2C);
+EXTERN_GLOBAL(DoorPool*, gDoor_4D4);

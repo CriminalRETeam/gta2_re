@@ -18,7 +18,7 @@ EXTERN_GLOBAL(Ang16, kAng90_6FCFB0);
 EXTERN_GLOBAL(Ang16, kAng180_6FD07E);
 EXTERN_GLOBAL(Ang16, kAng270_6FD0A4);
 
-DEFINE_GLOBAL(Garage*, gGarage_48_6FD26C, 0x6FD26C);
+DEFINE_GLOBAL(Garage*, gGarage_48, 0x6FD26C);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpTwo_6FD128, Fix16(2), 0x6FD128);
 DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_6FCF88, Fix16(0x1000, 0), 0x6FCF88);
@@ -74,7 +74,7 @@ void Garage::ValidateParkCommand()
         door_z.Add(kFpEighth);
     }
 
-    if (gMap_0x370_6F6268->HasWallInArea(mParkXMin.ToInt(),
+    if (gMap_0x370->HasWallInArea(mParkXMin.ToInt(),
                                       (mParkXMax - kFpOne64th_6FD1D8).ToInt(),
                                       mParkYMin.ToInt(),
                                       (mParkYMax - kFpOne64th_6FD1D8).ToInt(),

@@ -8,7 +8,7 @@
 #include "sprite.hpp"
 #include <memory.h>
 
-DEFINE_GLOBAL(ObjectDefinitions*, gObjectDefinitions_6FCF00, 0x6FCF00);
+DEFINE_GLOBAL(ObjectDefinitions*, gObjectDefinitions, 0x6FCF00);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_6F8FAC, Fix16(4096, 0), 0x6f8fac);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_6F8FD8, Fix16(1638, 0), 0x6F8FD8);
@@ -30,16 +30,16 @@ DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_6F8FDC, Fix16(0x1000, 0), 0x6F8FDC);
 DEFINE_GLOBAL_INIT(Fix16, kFpEight_6FCE28, Fix16(8), 0x6FCE28);
 DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_6FCE60, Fix16(4096, 0), 0x6FCE60);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6F8FEC, Fix16(0x2000, 0), 0x6F8FEC);
-DEFINE_GLOBAL_INIT(Fix16, kFpSqrt2_6FC5A4, Fix16(23170, 0), 0x6FC5A4);
+DEFINE_GLOBAL_INIT(Fix16, kFpSqrt2, Fix16(23170, 0), 0x6FC5A4);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint4_6F8FE8, Fix16(6553, 0), 0x6F8FE8);
 
 Fix16 kFpZeroForStaticInit_6FCE08 = 0;
 
-DEFINE_GLOBAL_INIT(s32, gCodeObjectTemplates_length_623EF0, 126, 0x623EF0);
+DEFINE_GLOBAL_INIT(s32, gCodeObjectTemplates_length, 126, 0x623EF0);
 
 // Must remain a fixed array, a pointer would break ObjectDefinitions::CreateCodeObjectDefinitions
 DEFINE_GLOBAL_ARRAY_INIT(CodeObjectTemplate,
-                         gCodeObjectTemplates_6F9038,
+                         gCodeObjectTemplates,
                          126,
                          0x6F9038,
                          CodeObjectTemplate(149, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpOne_6FCE0C, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 28, 0, 1, 1, 0, 0, 0, 1) COMMA
@@ -128,7 +128,7 @@ DEFINE_GLOBAL_ARRAY_INIT(CodeObjectTemplate,
                          CodeObjectTemplate(199, 0, 3, 0, 0, 1, 7, 0, 2, kFpThree_6FCE14, kFpZero_6FCE08, 1, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpQuarter_6FCE60, kFpQuarter_6FCE60, kFpQuarter_6FCE60, 0, 0, 1, 1, 1, 0, 0, 0) COMMA
                          CodeObjectTemplate(285, 0, 0, 0, 0, 0, 0, 0, 5, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 0, 1, 0, 0, 0, 1) COMMA
                          CodeObjectTemplate(283, 0, 0, 285, 0, 0, 11, 13, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpHalf_6F8FEC, kFpHalf_6F8FEC, kFpHalf_6F8FEC, 0, 0, 0, 1, 0, 0, 0, 1) COMMA
-                         CodeObjectTemplate(166, 0, 1, 0, 0, 0, 0, 12, 2, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpOne64th_6FCEB0, kFpSqrt2_6FC5A4, kFpTwo_6FCE10, 0, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate(166, 0, 1, 0, 0, 0, 0, 12, 2, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpOne64th_6FCEB0, kFpSqrt2, kFpTwo_6FCE10, 0, 0, 0, 1, 0, 0, 0, 1) COMMA
                          CodeObjectTemplate(280, 0, 0, 0, 0, 0, 0, 0, 5, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 0, 1, 0, 0, 0, 1) COMMA
                          CodeObjectTemplate(248, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpOne_6FCE0C, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 28, 0, 1, 1, 0, 0, 0, 1) COMMA
                          CodeObjectTemplate(286, 8, 2, 0, 0, 1, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 3, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 5, 0, 1, 1, 0, 0, 1, 1) COMMA
@@ -169,11 +169,11 @@ DEFINE_GLOBAL_ARRAY_INIT(CodeObjectTemplate,
                          CodeObjectTemplate(198, 0, 3, 198, 198, 0, 8, 0, 2, kFpOne_6FCE0C, kFpZero_6FCE08, 1, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpQuarter_6FCE60, kFpQuarter_6FCE60, kFpQuarter_6FCE60, 0, 0, 1, 1, 1, 0, 0, 1) COMMA
                          CodeObjectTemplate(251, 0, 3, 0, 0, 1, 0, 0, 5, kFpZero_6FCE08, kFpZero_6FCE08, 1, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpQuarter_6FCE60, kFpQuarter_6FCE60, kFpQuarter_6FCE60, 0, 0, 1, 1, 1, 0, 0, 1));
 
-DEFINE_GLOBAL_INIT(s32, gMapObjectOverrides_length_623EEC, 24, 0x623EEC);
+DEFINE_GLOBAL_INIT(s32, gMapObjectOverrides_length, 24, 0x623EEC);
 
 // Must remain a fixed array, a pointer would break ObjectDefinitions::ApplyMapObjectOverrides
 DEFINE_GLOBAL_ARRAY_INIT(MapObjectOverride,
-                         gMapObjectOverrides_6FC5F8,
+                         gMapObjectOverrides,
                          24,
                          0x6FC5F8,
                          MapObjectOverride(22, 0, 45, 0, 2, 0, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 1, 0, 1, kFpOne_6FCE0C, 10, 0, 0, 0, 1, 1) COMMA
@@ -340,8 +340,8 @@ void ObjectDefinition::SetDimensionsFromSprite()
 {
     if (mSpriteType != sprite_types_enum::object_1)
     {
-        u16 sprite_id = gGtx_0x106C_703DD4->GetSpriteTrueIndex(mSpriteType, mBaseSpriteIdx);
-        sprite_index * sprite = gGtx_0x106C_703DD4->get_sprite_index(sprite_id);
+        u16 sprite_id = gGtx_0x106C->GetSpriteTrueIndex(mSpriteType, mBaseSpriteIdx);
+        sprite_index * sprite = gGtx_0x106C->get_sprite_index(sprite_id);
         mWidth = Fix16(sprite->mWidth) / 0x40;
         mHeight = Fix16(sprite->mHeight) / 0x40;
         mDepth = kFpQuarter_6FCED0;
@@ -388,7 +388,7 @@ void ObjectDefinition::OffsetBaseSpriteIdxAndSetNumFrames(s16 sprite_idx_offset,
 MATCH_FUNC(0x533170)
 Sprite* ObjectDefinition::CreateSpriteFromDefinition() const
 {
-    Sprite* pFreeSprite = gSpritePool_703818->get_new_sprite();
+    Sprite* pFreeSprite = gSpritePool->get_new_sprite();
     ApplyDefinitionToSprite(pFreeSprite);
     return pFreeSprite;
 }
@@ -477,24 +477,24 @@ void ObjectDefinitions::CreateMapObjectDefinitions()
 {
     s16 sprites = 0;
     u16 i = 0;
-    object_info* pIter = gGtx_0x106C_703DD4->get_map_object_info(i++);
+    object_info* pIter = gGtx_0x106C->get_map_object_info(i++);
     while (pIter)
     {
         ObjectDefinition* pDefinition = AllocDefinitionWithSprite(pIter->mModel, sprite_types_enum::map_obj_5, sprites, pIter->mSprites);
         sprites += pIter->mSprites;
         pDefinition->SetDimensionsFromSprite();
-        pIter = gGtx_0x106C_703DD4->get_map_object_info(i++);
+        pIter = gGtx_0x106C->get_map_object_info(i++);
     }
 }
 
 MATCH_FUNC(0x533360)
 void ObjectDefinitions::ApplyMapObjectOverrides()
 {
-    s32 override_count = gMapObjectOverrides_length_623EEC;
+    s32 override_count = gMapObjectOverrides_length;
 
     if (0 < override_count)
     {
-        MapObjectOverride* pOverride = gMapObjectOverrides_6FC5F8;
+        MapObjectOverride* pOverride = gMapObjectOverrides;
         do
         {
             ObjectDefinition* pDef = GetObjectDefinition(pOverride->mDefinitionIdx);
@@ -827,10 +827,10 @@ MATCH_FUNC(0x533b30)
 void ObjectDefinitions::CreateCodeObjectDefinitions()
 {
     u16 sprite_base = 0;
-    if (0 < gCodeObjectTemplates_length_623EF0)
+    if (0 < gCodeObjectTemplates_length)
     {
-        CodeObjectTemplate* pTemplate = &gCodeObjectTemplates_6F9038[0];
-        for(s32 remaining = gCodeObjectTemplates_length_623EF0; remaining != 0; remaining--)
+        CodeObjectTemplate* pTemplate = &gCodeObjectTemplates[0];
+        for(s32 remaining = gCodeObjectTemplates_length; remaining != 0; remaining--)
         {
             ObjectDefinition* pDef = AllocDefinitionWithSprite(pTemplate->mDefinitionIdx, sprite_types_enum::code_obj1_4, sprite_base, pTemplate->mNumSprites);
             sprite_base += pTemplate->mNumSprites;
@@ -908,13 +908,13 @@ void ObjectDefinitions::CloneRemappedDefinitions()
     pDef->mNextFrameMax = 3;
 
     pDef = CloneDefinition(0x9a, 0xfe);
-    if (!bDo_show_imaginary_67D588)
+    if (!bDo_show_imaginary)
     {
         pDef->mCollisionBucketCategory = collision_bucket_category::none_2;
     }
     CloneDefinition(0x109, 0xfe);
     pDef = CloneDefinition(0x9f, 0x80);
-    if (!bDo_show_imaginary_67D588)
+    if (!bDo_show_imaginary)
     {
         pDef->mCollisionBucketCategory = collision_bucket_category::none_2;
     }
@@ -926,7 +926,7 @@ void ObjectDefinitions::CloneRemappedDefinitions()
     pDef->mReactToCollisionsWith = CollisionReaction::OnlyPeds_2;
     pDef->SetDimensions(kFpPoint2_6FC578, kFpPoint2_6FC578, kFpQuarter_6F8FAC);
     pDef->mMass = kFpHalf_6FC584;
-    if (!bDo_show_imaginary_67D588)
+    if (!bDo_show_imaginary)
     {
         pDef->mCollisionBucketCategory = collision_bucket_category::none_2;
     }
@@ -944,7 +944,7 @@ void ObjectDefinitions::CloneRemappedDefinitions()
     pDef->mReactToCollisionsWith = CollisionReaction::OnlyPeds_2;
     pDef->SetDimensions((kFpOne64th_6FCEB0 * 8), (kFpOne64th_6FCEB0 * 8), kFpQuarter_6F8FAC);
     pDef->mMass = kFpHalf_6FC584;
-    if (!bDo_show_imaginary_67D588)
+    if (!bDo_show_imaginary)
     {
         pDef->mCollisionBucketCategory = collision_bucket_category::none_2;
     }
@@ -959,7 +959,7 @@ void ObjectDefinitions::CloneRemappedDefinitions()
     pDef = CloneDefinition(0xc1, 0xc0);
     pDef->mImpactDefinitionIdx = 0;
     pDef->mNextDefinitionIdx = 0;
-    if (!bDo_show_imaginary_67D588)
+    if (!bDo_show_imaginary)
     {
         pDef->mCollisionBucketCategory = collision_bucket_category::none_2;
     }
@@ -986,7 +986,7 @@ void ObjectDefinitions::CloneRemappedDefinitions()
     pDef->SetRemap(1);
     pDef->mImpactDefinitionIdx = objects::red_phone_177;
     pDef->mNextDefinitionIdx = objects::red_phone_177;
-    if (bDo_kill_phones_on_answer_67D6E8)
+    if (bDo_kill_phones_on_answer)
     {
         pDef = GetObjectDefinition(objects::blue_phone_164);
         pDef->mImpactDefinitionIdx = objects::dead_phone_174;
@@ -994,7 +994,7 @@ void ObjectDefinitions::CloneRemappedDefinitions()
     }
     pDef = CloneDefinition(objects::red_phone_177, objects::blue_phone_164);
     pDef->SetRemap(1);
-    if (!bDo_kill_phones_on_answer_67D6E8)
+    if (!bDo_kill_phones_on_answer)
     {
         pDef->mImpactDefinitionIdx = objects::red_phone_answered_187;
         pDef->mNextDefinitionIdx = objects::red_phone_answered_187;
@@ -1017,7 +1017,7 @@ void ObjectDefinitions::CloneRemappedDefinitions()
 
     pDef = CloneDefinition(objects::yellow_phone_179, objects::blue_phone_164);
     pDef->SetRemap(2);
-    if (!bDo_kill_phones_on_answer_67D6E8)
+    if (!bDo_kill_phones_on_answer)
     {
         pDef->mImpactDefinitionIdx = objects::yellow_phone_answered_189;
         pDef->mNextDefinitionIdx = objects::yellow_phone_answered_189;
@@ -1039,7 +1039,7 @@ void ObjectDefinitions::CloneRemappedDefinitions()
 
     pDef = CloneDefinition(objects::green_phone_181, objects::blue_phone_164);
     pDef->SetRemap(0);
-    if (!bDo_kill_phones_on_answer_67D6E8)
+    if (!bDo_kill_phones_on_answer)
     {
         pDef->mImpactDefinitionIdx = objects::green_phone_answered_191;
         pDef->mNextDefinitionIdx = objects::green_phone_answered_191;
@@ -1110,8 +1110,8 @@ MATCH_FUNC(0x5342f0)
 void ObjectDefinitions::ClearColour1PixelsOfDefinitionSprite(s32 idx)
 {
     ObjectDefinition* pDef = GetObjectDefinition(idx);
-    u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex(sprite_types_enum::code_obj1_4, pDef->mBaseSpriteIdx);
-    sprite_index* psprite_index = gGtx_0x106C_703DD4->get_sprite_index(sprite_idx);
+    u16 sprite_idx = gGtx_0x106C->GetSpriteTrueIndex(sprite_types_enum::code_obj1_4, pDef->mBaseSpriteIdx);
+    sprite_index* psprite_index = gGtx_0x106C->get_sprite_index(sprite_idx);
     psprite_index->ClearPixelsOfColour(1);
 }
 

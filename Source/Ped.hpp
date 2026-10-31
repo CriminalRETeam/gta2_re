@@ -686,10 +686,10 @@ class Ped
 
     inline void TriggerVoiceEventRateLimited_433E50()
     {
-        if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0() - mLastVoiceRng) > 5)
+        if (static_cast<u32>(gpRng->get_cur_rng_41CFE0() - mLastVoiceRng) > 5)
         {
             SetVoiceEventIfNotOnFire_433DD0(25);
-            mLastVoiceRng = gpRng_67AB34->get_cur_rng_41CFE0();
+            mLastVoiceRng = gpRng->get_cur_rng_41CFE0();
         }
     }
 
@@ -965,17 +965,17 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Ped, 0x294)
 
 EXPORT void __stdcall CarDoorAlignmentSolver(u8 animPhase, Car* pCar, u8 doorId, Fix16& outX, Fix16& outY, Ang16& outAng);
 
-EXTERN_GLOBAL(s32, gPedId_61A89C);
+EXTERN_GLOBAL(s32, gPedId);
 
-EXTERN_GLOBAL(u8, gNumberMuggersSpawned_6787CA);
+EXTERN_GLOBAL(u8, gNumberMuggersSpawned);
 
-EXTERN_GLOBAL(u8, gNumberCarThiefsSpawned_6787CB);
+EXTERN_GLOBAL(u8, gNumberCarThiefsSpawned);
 
-EXTERN_GLOBAL(u8, gNumberElvisLeadersSpawned_6787CC);
+EXTERN_GLOBAL(u8, gNumberElvisLeadersSpawned);
 
-EXTERN_GLOBAL(u8, gNumberWalkingCopsSpawned_6787CD);
+EXTERN_GLOBAL(u8, gNumberWalkingCopsSpawned);
 
-EXTERN_GLOBAL(u8, bThreateningPedAdded_6787EF);
+EXTERN_GLOBAL(u8, bThreateningPedAdded);
 
 EXTERN_GLOBAL(Fix16, kFpOne256th_678620);
 EXTERN_GLOBAL(Fix16, kFpFour_678670);

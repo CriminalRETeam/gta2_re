@@ -142,4 +142,4 @@ class LightPool : public LightBase
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(LightPool, 0x1D4CC);
 
-EXTERN_GLOBAL(LightPool*, gLight_1D4CC_6F5520);
+EXTERN_GLOBAL(LightPool*, gLight_1D4CC);

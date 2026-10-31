@@ -142,4 +142,4 @@ class PathFinder
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PathFinder, 0x2FD4);
 
-EXTERN_GLOBAL(PathFinder*, gPathFinder_6FDEF0);
+EXTERN_GLOBAL(PathFinder*, gPathFinder);

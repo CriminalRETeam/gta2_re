@@ -321,13 +321,13 @@ enum gmp_arrow_type
     green_or_red_3 = 3,
 };
 
-EXTERN_GLOBAL_ARRAY(gmp_map_slope, gGmpSlopes_6F5BA8, 64);
+EXTERN_GLOBAL_ARRAY(gmp_map_slope, gGmpSlopes, 64);
 
-EXTERN_GLOBAL(Fix16, kGradientScaleSize1_6F5ED8);
+EXTERN_GLOBAL(Fix16, kGradientScaleSize1);
 
-EXTERN_GLOBAL(Fix16, kGradientScaleSize2_6F5FA8);
+EXTERN_GLOBAL(Fix16, kGradientScaleSize2);
 
-EXTERN_GLOBAL(Fix16, kGradientScaleSize8_6F6214);
+EXTERN_GLOBAL(Fix16, kGradientScaleSize8);
 
 EXTERN_GLOBAL(Fix16, kFpZero_6F610C);
 extern Fix16 kFpOne_6F6110;
@@ -592,7 +592,7 @@ class Map_0x370
     inline bool IsWaterBlockAt_4B9F40(s32 x, s32 y, s32 z)
     {
         gmp_block_info* pBlock = GetBlock(x, y, z);
-        return pBlock && gGtx_0x106C_703DD4->IsRemappedWaterTile_49E540(pBlock->mLid & 0x3FF);
+        return pBlock && gGtx_0x106C->IsRemappedWaterTile_49E540(pBlock->mLid & 0x3FF);
     }
 
     // 9.6f inline 0x4634E0
@@ -601,13 +601,13 @@ class Map_0x370
         switch (gradient_size)
         {
             case SIZE_1:
-                scale = kGradientScaleSize1_6F5ED8; //  16384
+                scale = kGradientScaleSize1; //  16384
                 break;
             case SIZE_2:
-                scale = kGradientScaleSize2_6F5FA8; //  8168
+                scale = kGradientScaleSize2; //  8168
                 break;
             case SIZE_8:
-                scale = kGradientScaleSize8_6F6214; //  2084
+                scale = kGradientScaleSize8; //  2084
                 break;
             default:
                 scale = kFpZero_6F610C; //  0
@@ -730,7 +730,7 @@ class Map_0x370
 
     bool IsNorthOrSouthGradSlope_4634B0(gmp_block_info* pBlock) 
     {
-        gmp_map_slope* gradient_slope = &gGmpSlopes_6F5BA8[pBlock->mSlopeType >> 2];
+        gmp_map_slope* gradient_slope = &gGmpSlopes[pBlock->mSlopeType >> 2];
         if (gradient_slope->mGradientDirection == NORTH_1 
             || gradient_slope->mGradientDirection == SOUTH_2)
         {
@@ -742,7 +742,7 @@ class Map_0x370
     // 9.6f 0x463480 (the name's 0x4634B0 is the north/south one)
     bool IsWestOrEastGradSlope_4634B0(gmp_block_info* pBlock) 
     {
-        gmp_map_slope* gradient_slope = &gGmpSlopes_6F5BA8[pBlock->mSlopeType >> 2];
+        gmp_map_slope* gradient_slope = &gGmpSlopes[pBlock->mSlopeType >> 2];
         if (gradient_slope->mGradientDirection == WEST_3 
             || gradient_slope->mGradientDirection == EAST_4)
         {
@@ -831,14 +831,14 @@ class Map_0x370
     bool mbLowerBlockHasArrows; // 0x36F
 };
 
-EXTERN_GLOBAL(Map_0x370*, gMap_0x370_6F6268);
+EXTERN_GLOBAL(Map_0x370*, gMap_0x370);
 
-EXTERN_GLOBAL(s32, gSpriteGrid_left_6F5FD4);
+EXTERN_GLOBAL(s32, gSpriteGrid_left);
 
-EXTERN_GLOBAL(s32, gSpriteGrid_right_6F5B80);
+EXTERN_GLOBAL(s32, gSpriteGrid_right);
 
 
 static inline gmp_map_slope* get_slope_struct(u8& slope_byte)
 {
-    return &gGmpSlopes_6F5BA8[GET_SLOPE_IDX(slope_byte)];
+    return &gGmpSlopes[GET_SLOPE_IDX(slope_byte)];
 }

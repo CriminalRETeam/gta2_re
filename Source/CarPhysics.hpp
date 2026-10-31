@@ -16,16 +16,16 @@ class CarAI;
 
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
 EXTERN_GLOBAL(Fix16, kFpZero_6FD120);
-EXTERN_GLOBAL(ModelPhysics*, gCarInfo_48_6FE258);
+EXTERN_GLOBAL(ModelPhysics*, gCarInfo_48);
 EXTERN_GLOBAL(Ang16, kAng90_6FE00C);
 EXTERN_GLOBAL(Ang16, kAng270_6FE154);
-EXTERN_GLOBAL(CarInfo_2C*, gCarInfo_2C_6FE0E4);
-EXTERN_GLOBAL(Fix16, gDamageSpeedFactor_6FE348);
-EXTERN_GLOBAL(Fix16, kDrowningMaxSpeed_677794);
-EXTERN_GLOBAL(Fix16_Point, gConveyorVelocity_6FDF50);
-EXTERN_GLOBAL(Fix16, gArrowSteerAngVel_6FE0B0);
-EXTERN_GLOBAL(Fix16, kF16Zero_677B90);
-EXTERN_GLOBAL(Fix16_Point, CollisionIntersectionPoint_6FE1A0);
+EXTERN_GLOBAL(CarInfo_2C*, gCarInfo_2C);
+EXTERN_GLOBAL(Fix16, gDamageSpeedFactor);
+EXTERN_GLOBAL(Fix16, kDrowningMaxSpeed);
+EXTERN_GLOBAL(Fix16_Point, gConveyorVelocity);
+EXTERN_GLOBAL(Fix16, gArrowSteerAngVel);
+EXTERN_GLOBAL(Fix16, kF16Zero);
+EXTERN_GLOBAL(Fix16_Point, CollisionIntersectionPoint);
 
 EXPORT Fix16_Point __stdcall ComputeCollisionImpulse(Fix16 OwnerMass,
                                                                 Fix16 TargetMass,
@@ -130,7 +130,7 @@ class CarPhysics
     // 9.6f 0x421130
     inline bool IsDamageWindowOpen_421130()
     {
-        return static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0()) < mDamagedUntilCycle;
+        return static_cast<u32>(gpRng->get_cur_rng_41CFE0()) < mDamagedUntilCycle;
     }
 
     // 9.6f 0x421260
@@ -254,13 +254,13 @@ class CarPhysics
     {
         if (IsTurboActive())
         {
-            return gCarInfo_2C_6FE0E4->mHalfThrust +
-                ((mGasPedal * ((gDamageSpeedFactor_6FE348 * gCarInfo_2C_6FE0E4->mFithThrust)))) * 2;
+            return gCarInfo_2C->mHalfThrust +
+                ((mGasPedal * ((gDamageSpeedFactor * gCarInfo_2C->mFithThrust)))) * 2;
         }
         else
         {
-            return gCarInfo_2C_6FE0E4->mHalfThrust +
-                ((mGasPedal * ((gDamageSpeedFactor_6FE348 * gCarInfo_2C_6FE0E4->mFithThrust))));
+            return gCarInfo_2C->mHalfThrust +
+                ((mGasPedal * ((gDamageSpeedFactor * gCarInfo_2C->mFithThrust))));
         }
     }
 
@@ -269,15 +269,15 @@ class CarPhysics
     {
         if (IsTurboActive())
         {
-            return gCarInfo_2C_6FE0E4->mHalfThrust.Add(
-                gCarInfo_2C_6FE0E4->mFithThrust.Multiply(gDamageSpeedFactor_6FE348)
+            return gCarInfo_2C->mHalfThrust.Add(
+                gCarInfo_2C->mFithThrust.Multiply(gDamageSpeedFactor)
                     .Multiply(mGasPedal)
                     .MultiplyInt(2));
         }
         else
         {
-            return gCarInfo_2C_6FE0E4->mHalfThrust.Add(
-                gCarInfo_2C_6FE0E4->mFithThrust.Multiply(gDamageSpeedFactor_6FE348).Multiply(mGasPedal));
+            return gCarInfo_2C->mHalfThrust.Add(
+                gCarInfo_2C->mFithThrust.Multiply(gDamageSpeedFactor).Multiply(mGasPedal));
         }
     }
 
@@ -286,13 +286,13 @@ class CarPhysics
     {
         if (IsTurboActive())
         {
-            return gCarInfo_2C_6FE0E4->mHalfThrust.Add(
-                gCarInfo_2C_6FE0E4->mFithThrust.Multiply(mGasPedal).MultiplyInt(2));
+            return gCarInfo_2C->mHalfThrust.Add(
+                gCarInfo_2C->mFithThrust.Multiply(mGasPedal).MultiplyInt(2));
         }
         else
         {
-            return gCarInfo_2C_6FE0E4->mHalfThrust.Add(
-                gCarInfo_2C_6FE0E4->mFithThrust.Multiply(mGasPedal));
+            return gCarInfo_2C->mHalfThrust.Add(
+                gCarInfo_2C->mFithThrust.Multiply(mGasPedal));
         }
     }
 
@@ -300,11 +300,11 @@ class CarPhysics
     {
         if (IsTurboActive())
         {
-            return gCarInfo_2C_6FE0E4->mHalfThrust + (gCarInfo_2C_6FE0E4->mFithThrust * this->mGasPedal) * 2;
+            return gCarInfo_2C->mHalfThrust + (gCarInfo_2C->mFithThrust * this->mGasPedal) * 2;
         }
         else
         {
-            return gCarInfo_2C_6FE0E4->mHalfThrust + gCarInfo_2C_6FE0E4->mFithThrust * this->mGasPedal;
+            return gCarInfo_2C->mHalfThrust + gCarInfo_2C->mFithThrust * this->mGasPedal;
         }
     }
 
@@ -312,7 +312,7 @@ class CarPhysics
     {
         if (mSurfaceType == car_surface_type::water_surface_8)
         {
-            if (mLinvel1.GetLength_41E260() <= kDrowningMaxSpeed_677794)
+            if (mLinvel1.GetLength_41E260() <= kDrowningMaxSpeed)
             {
                 return true;
             }
@@ -338,7 +338,7 @@ class CarPhysics
     inline void HandleObjectCollisionAt_482CC0(Object* pObj, Fix16_Point& point, char_type damage_area)
     {
         SetCurrentCarInfoAndModelPhysics();
-        CollisionIntersectionPoint_6FE1A0 = point;
+        CollisionIntersectionPoint = point;
         HandleObjectCollision(pObj, damage_area);
     }
     EXPORT void ApplyInputsAndIntegratePhysics();
@@ -409,25 +409,25 @@ class CarPhysics
     // FUNCTION: 96f 0x49ea60
     inline void Field74Subtract()
     {
-        mAngVelRad -= gArrowSteerAngVel_6FE0B0;
+        mAngVelRad -= gArrowSteerAngVel;
     }
 
     // FUNCTION: 96f 0x49f4e0
     inline void Field40Add()
     {
-        mLinvel1 += gConveyorVelocity_6FDF50;
+        mLinvel1 += gConveyorVelocity;
     }
 
     // FUNCTION: 96f 0x49f4f0
     inline void Field40Subtract()
     {
-        mLinvel1 -= gConveyorVelocity_6FDF50;
+        mLinvel1 -= gConveyorVelocity;
     }
 
     // FUNCTION: 96f 0x49f500
     inline void ResetPoint6FDF50()
     {
-        gConveyorVelocity_6FDF50.reset();
+        gConveyorVelocity.reset();
     }
 
     // FUNCTION: 96f 0x421210
@@ -478,7 +478,7 @@ class CarPhysics
     void SetGoStraight_42ABB0()
     {
         mTurnDirection = car_turn_direction::none_0;
-        mPointingAngRad = kF16Zero_677B90;
+        mPointingAngRad = kF16Zero;
     }
 
     EXPORT Fix16 vec_len(); // Char_B4.cpp func
@@ -489,7 +489,7 @@ class CarPhysics
 
 
     Fix16_Point mVelReadOnly; // 0x0
-    u32 mDamagedUntilCycle; // 0x8: the tick (gpRng_67AB34's cycle) plus the damage of the last impact: IsDamageWindowOpen_421130
+    u32 mDamagedUntilCycle; // 0x8: the tick (gpRng's cycle) plus the damage of the last impact: IsDamageWindowOpen_421130
     CarPhysics* mpNext;
     Fix16_Point mLastSkidPos[4]; // 0x10
     Fix16_Point mCm1; // 0x30
@@ -563,4 +563,4 @@ class CarPhyisicsPool : public PoolBasic<CarPhysics, 306>
     }
 };
 
-EXTERN_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0);
+EXTERN_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool);

@@ -53,4 +53,4 @@ class CrimeReportQueue_CC_Sub : public CrimeReportQueue {
     EXPORT ~CrimeReportQueue_CC_Sub();
 };
 
-EXTERN_GLOBAL(CrimeReportQueue*, gCrimeReportQueue_67A4B8);
+EXTERN_GLOBAL(CrimeReportQueue*, gCrimeReportQueue);

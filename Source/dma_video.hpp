@@ -4,7 +4,7 @@
 #include "3rdParty/GTA2Hax/DmaVideo/DmaVideo.hpp"
 #include <Windows.h>
 
-EXTERN_GLOBAL(SVideo*, gVidSys_7071D0);
+EXTERN_GLOBAL(SVideo*, gVidSys);
 
 EXTERN_GLOBAL(T_Vid_GetVersion, pVid_GetVersion);
 EXTERN_GLOBAL(T_Vid_Init_SYS, pVid_Init_SYS);

@@ -184,4 +184,4 @@ class CranePool
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CranePool, 0xD9C);
 
-EXTERN_GLOBAL(CranePool*, gCranePool_D9C_679FD4);
+EXTERN_GLOBAL(CranePool*, gCranePool_D9C);

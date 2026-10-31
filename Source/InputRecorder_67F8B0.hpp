@@ -145,6 +145,6 @@ class InputRecorder_67F8B0
     u8 mAttractIdx; // 0x75345
 };
 
-EXTERN_GLOBAL(InputRecorder_67F8B0, gInputRecorder_67F8B0);
+EXTERN_GLOBAL(InputRecorder_67F8B0, gInputRecorder);
 
-EXTERN_GLOBAL(InputDevices*, gInputDevices_67B990);
+EXTERN_GLOBAL(InputDevices*, gInputDevices);

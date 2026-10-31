@@ -63,4 +63,4 @@ class TrafficLights
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TrafficLights, 0x194);
 
-EXTERN_GLOBAL(TrafficLights*, gTrafficLights_194_705958);
+EXTERN_GLOBAL(TrafficLights*, gTrafficLights_194);

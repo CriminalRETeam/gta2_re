@@ -446,18 +446,18 @@ class gtx_0x106C
     s32 mSpec[1024]; // 0x6C
 };
 
-EXTERN_GLOBAL(gtx_0x106C*, gGtx_0x106C_703DD4);
+EXTERN_GLOBAL(gtx_0x106C*, gGtx_0x106C);
 
 // 9.6f 0x4C23D0
 inline s32 __stdcall GetSpaceWidth_4C23D0(u16 font_type)
 {
-    return static_cast<u16>(gGtx_0x106C_703DD4->GetSpaceCharWidth(&font_type));
+    return static_cast<u16>(gGtx_0x106C->GetSpaceCharWidth(&font_type));
 }
 
-EXTERN_GLOBAL(s16, gStyleCarNameFont_703D98);
-EXTERN_GLOBAL(s16, gStyleTextFont_703BAA);
-EXTERN_GLOBAL(s16, gStyleZoneNameFont_703C9C);
-EXTERN_GLOBAL(s16, gStyleMessageFont_703D9C);
-EXTERN_GLOBAL(s16, gStylePauseFont_703DA4);
-EXTERN_GLOBAL(s16, gKanjiSmallFont_703C3E);
-EXTERN_GLOBAL(s16, gKanjiLargeFont_703D9A);
+EXTERN_GLOBAL(s16, gStyleCarNameFont);
+EXTERN_GLOBAL(s16, gStyleTextFont);
+EXTERN_GLOBAL(s16, gStyleZoneNameFont);
+EXTERN_GLOBAL(s16, gStyleMessageFont);
+EXTERN_GLOBAL(s16, gStylePauseFont);
+EXTERN_GLOBAL(s16, gKanjiSmallFont);
+EXTERN_GLOBAL(s16, gKanjiLargeFont);

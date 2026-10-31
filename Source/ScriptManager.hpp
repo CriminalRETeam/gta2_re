@@ -484,7 +484,7 @@ enum SCRCMD
     SCRCMD_RESTORE_RESPECT = 446, // BE01
 };
 
-EXTERN_GLOBAL(s32, gStoredCarId_6F78B4);
+EXTERN_GLOBAL(s32, gStoredCarId);
 
 // A script thread waiting to be started by an event (a car / phone object interaction): the ids to match and the
 // script command to start the thread from. cmd_line 0 marks a free entry.
@@ -596,7 +596,7 @@ class SaveData
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SaveData, 0x748);
 
-EXTERN_GLOBAL(SaveData, gGameSave_6F78C8);
+EXTERN_GLOBAL(SaveData, gGameSave);
 
 // WeaponCheckTable::mFlags
 namespace weapon_check_flag
@@ -758,4 +758,4 @@ class ScriptManager
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ScriptManager, 0xC1EA8);
 
-EXTERN_GLOBAL(ScriptManager*, gScriptManager_6F8060);
+EXTERN_GLOBAL(ScriptManager*, gScriptManager);

@@ -14,11 +14,11 @@
 // Forward declarations: the functions below are in address order
 static inline void WorldToScreen_RouteFinder_40CFC0(Camera* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY);
 
-DEFINE_GLOBAL(RouteFinder*, gRouteFinder_6FFDC8, 0x6FFDC8);
+DEFINE_GLOBAL(RouteFinder*, gRouteFinder, 0x6FFDC8);
 DEFINE_STATIC_MEMBER(u16, RouteFinder, sLastRouteLength, 0x6ffdcc);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_6FFC7C, Fix16(1), 0x6FFC7C);
 DEFINE_GLOBAL_INIT(Fix16, kFpEight_6FFC9C, Fix16(8), 0x6FFC9C);
-EXTERN_GLOBAL(s16, gStyleTextFont_703BAA);
+EXTERN_GLOBAL(s16, gStyleTextFont);
 
 MATCH_FUNC(0x588580)
 bool Junction::IsUsableWithArrowType(s32 arrow_type) const
@@ -68,7 +68,7 @@ u16 Junction::GetDirectionToJunction(u16 junction_idx) const
     }
     else
     {
-        return gRouteFinder_6FFDC8->mNoJunctionDirection;
+        return gRouteFinder->mNoJunctionDirection;
     }
 }
 
@@ -83,21 +83,21 @@ void RouteFinder::ShowJunctionIds()
             break;
         }
 
-        if (gGame_0x40_67E008->mLocalPlayer->mViewCamera.IsPointInBoundaries(pJunction->mMinX,
+        if (gGame_0x40->mLocalPlayer->mViewCamera.IsPointInBoundaries(pJunction->mMinX,
                                                                                               static_cast<s32>(pJunction->mMinY)))
         {
             Fix16 screen_x;
             Fix16 screen_y;
-            WorldToScreen_RouteFinder_40CFC0(&gGame_0x40_67E008->mLocalPlayer->mViewCamera,
+            WorldToScreen_RouteFinder_40CFC0(&gGame_0x40->mLocalPlayer->mViewCamera,
                                              Fix16(pJunction->mMinX),
                                              Fix16(pJunction->mMinY),
-                                             gMap_0x370_6F6268->FindGroundZForCoord(Fix16(pJunction->mMinX),
+                                             gMap_0x370->FindGroundZForCoord(Fix16(pJunction->mMinX),
                                                                                            Fix16(pJunction->mMinY)),
                                              &screen_x,
                                              &screen_y);
 
-            swprintf(tmpBuff_67BD9C, L"%d", i);
-            gHud_2B00_706620->mTexts.DisplayText(tmpBuff_67BD9C, screen_x.ToInt(), screen_y.ToInt(), gStyleTextFont_703BAA, 1);
+            swprintf(tmpBuff, L"%d", i);
+            gHud_2B00->mTexts.DisplayText(tmpBuff, screen_x.ToInt(), screen_y.ToInt(), gStyleTextFont, 1);
         }
     }
 }
@@ -270,12 +270,12 @@ void RouteFinder::Load_RGEN()
     File::Global_Read_4A71C0(&this->mVertSegmentCount, 2);
     this->mRouteCount = 0;
 
-    if (bLog_routefinder_67D6D1)
+    if (bLog_routefinder)
     {
         s32 junction_idx = 0;
         do
         {
-            sprintf(gTmpBuffer_67C598,
+            sprintf(gTmpBuffer,
                     "Junc: %d (%d, %d) n %d s %d w %d e %d",
                     junction_idx,
                     mJunctions[junction_idx].mMinX,
@@ -284,7 +284,7 @@ void RouteFinder::Load_RGEN()
                     mJunctions[junction_idx].mS.GetIndex_0040CE90(),
                     mJunctions[junction_idx].mW.GetIndex_0040CE90(),
                     mJunctions[junction_idx].mE.GetIndex_0040CE90());
-            gErrorLog_67C530.Write(gTmpBuffer_67C598);
+            gErrorLog_67C530.Write(gTmpBuffer);
 
             if (junction_idx > 0 && mJunctions[junction_idx].mMinX == 0 && mJunctions[junction_idx].mMinY == 0)
             {
@@ -437,7 +437,7 @@ MATCH_FUNC(0x588e60)
 u16 RouteFinder::FindHorzSegmentJunction(u8 x, u8 y, u8 z, bool bIsDest, s32 arrow_type)
 {
     JunctionSegment* pSegment = mHorzSegments;
-    gmp_block_info* pBlockAtPos = gMap_0x370_6F6268->GetBlock(x, y, z);
+    gmp_block_info* pBlockAtPos = gMap_0x370->GetBlock(x, y, z);
 
     if (pBlockAtPos != NULL)
     {
@@ -478,7 +478,7 @@ MATCH_FUNC(0x588f30)
 u16 RouteFinder::FindVertSegmentJunction(u8 x, u8 y, u8 z, bool bIsDest, s32 arrow_type)
 {
     JunctionSegment* pSegment = mVertSegments;
-    gmp_block_info* pBlockAtPos = gMap_0x370_6F6268->GetBlock(x, y, z);
+    gmp_block_info* pBlockAtPos = gMap_0x370->GetBlock(x, y, z);
 
     if (pBlockAtPos != NULL)
     {
@@ -518,7 +518,7 @@ u16 RouteFinder::FindVertSegmentJunction(u8 x, u8 y, u8 z, bool bIsDest, s32 arr
 MATCH_FUNC(0x589000)
 u16 RouteFinder::FindSegmentJunction(u8 x_coord, u8 y_coord, u8 z_coord, bool bIsDest, s32 arrow_type)
 {
-    gmp_block_info* pBlock = gMap_0x370_6F6268->GetBlock(x_coord, y_coord, z_coord);
+    gmp_block_info* pBlock = gMap_0x370->GetBlock(x_coord, y_coord, z_coord);
 
     if (pBlock)
     {
@@ -542,8 +542,8 @@ void RouteFinder::FindArrowBlockInJunction(u16 junction_idx, s32 direction, u8* 
         for (u8 x = mJunctions[junction_idx].mMinX; x <= mJunctions[junction_idx].mMaxX; x++)
         {
             s32 z;
-            gmp_block_info* block = gMap_0x370_6F6268->FindHighestBlockForCoord(x, y, &z);
-            if (gMap_0x370_6F6268->CheckGreenArrowDirection(direction, block))
+            gmp_block_info* block = gMap_0x370->FindHighestBlockForCoord(x, y, &z);
+            if (gMap_0x370->CheckGreenArrowDirection(direction, block))
             {
                 *xpos = x;
                 *ypos = y;
@@ -557,8 +557,8 @@ void RouteFinder::FindArrowBlockInJunction(u16 junction_idx, s32 direction, u8* 
         for (u8 x_pos = mJunctions[junction_idx].mMinX; x_pos <= mJunctions[junction_idx].mMaxX; x_pos++)
         {
             s32 z;
-            gmp_block_info* block = gMap_0x370_6F6268->FindHighestBlockForCoord(x_pos, y_pos, &z);
-            if (gMap_0x370_6F6268->GetArrowDirectionFromBlock(block, false))
+            gmp_block_info* block = gMap_0x370->FindHighestBlockForCoord(x_pos, y_pos, &z);
+            if (gMap_0x370->GetArrowDirectionFromBlock(block, false))
             {
                 *xpos = x_pos;
                 *ypos = y_pos;
@@ -911,10 +911,10 @@ MATCH_FUNC(0x589bb0)
 bool RouteFinder::ExpandNodeUnlessOffScreen(RouteSearchNode* pNode, s32 arrow_type)
 {
     Junction* pJunction = &mJunctions[pNode->mJunctionIdx];
-    if (!gGame_0x40_67E008->IsPointOnScreen(pJunction->mMinX, pJunction->mMinY) &&
-        !gGame_0x40_67E008->IsPointOnScreen(pJunction->mMaxX, pJunction->mMinY) &&
-        !gGame_0x40_67E008->IsPointOnScreen(pJunction->mMinX, pJunction->mMaxY) &&
-        !gGame_0x40_67E008->IsPointOnScreen(pJunction->mMaxX, pJunction->mMaxY))
+    if (!gGame_0x40->IsPointOnScreen(pJunction->mMinX, pJunction->mMinY) &&
+        !gGame_0x40->IsPointOnScreen(pJunction->mMaxX, pJunction->mMinY) &&
+        !gGame_0x40->IsPointOnScreen(pJunction->mMinX, pJunction->mMaxY) &&
+        !gGame_0x40->IsPointOnScreen(pJunction->mMaxX, pJunction->mMaxY))
     {
         return true;
     }
@@ -1095,14 +1095,14 @@ void RouteFinder::DebugPrintRoute(char_type route_idx)
     while (i)
     {
         Junction* pJunc = &this->mJunctions[i];
-        sprintf(gTmpBuffer_67C598,
+        sprintf(gTmpBuffer,
                 "Junc: %d : (%d, %d)(%d, %d)",
                 i,
                 pJunc->mMinX,
                 pJunc->mMinY,
                 pJunc->mMaxX,
                 pJunc->mMaxY);
-        gErrorLog_67C530.Write(gTmpBuffer_67C598);
+        gErrorLog_67C530.Write(gTmpBuffer);
         ++route_pos;
         i = this->mRoutes[route_idx].mJunctions[static_cast<u16>(route_pos)];
     }

@@ -72,4 +72,4 @@ class TaxiList
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TaxiList, 0x4);
 
-EXTERN_GLOBAL(TaxiList*, gTaxi_4_704130);
+EXTERN_GLOBAL(TaxiList*, gTaxi_4);

@@ -116,4 +116,4 @@ class FrameProfiler
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(FrameProfiler, 0xA80);
 
-EXTERN_GLOBAL(FrameProfiler*, gMike_A80_6F7328);
+EXTERN_GLOBAL(FrameProfiler*, gMike_A80);

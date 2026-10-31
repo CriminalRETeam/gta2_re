@@ -7,6 +7,6 @@ void SoundObject::Release()
 {
     if (mSoundEntry)
     {
-        gRoot_sound_66B038.FreeSoundEntry(mSoundEntry);
+        gRoot_sound.FreeSoundEntry(mSoundEntry);
     }
 }

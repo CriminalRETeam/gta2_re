@@ -7,13 +7,13 @@
 #include <stdio.h>
 #include "enums.hpp"
 
-DEFINE_GLOBAL(TileAnimManager*, gTileAnim_2_7052C4, 0x7052C4);
-DEFINE_GLOBAL(TileAnimPool*, gTileAnimPool_7052C8, 0x7052C8);
+DEFINE_GLOBAL(TileAnimManager*, gTileAnim_2, 0x7052C4);
+DEFINE_GLOBAL(TileAnimPool*, gTileAnimPool, 0x7052C8);
 
 MATCH_FUNC(0x5bc130)
 void TileAnim::PoolAllocate()
 {
-    mAnimIdx = gTileAnim_2_7052C4->mCount++;
+    mAnimIdx = gTileAnim_2->mCount++;
 }
 
 MATCH_FUNC(0x5bc150)
@@ -21,10 +21,10 @@ void TileAnim::ApplyCurrentFrame()
 {
     if (mPtr != NULL)
     {
-        gGtx_0x106C_703DD4->SetTileRemap(mBase, mPtr->mTiles[mCurrentFrame]);
+        gGtx_0x106C->SetTileRemap(mBase, mPtr->mTiles[mCurrentFrame]);
         return;
     }
-    gGtx_0x106C_703DD4->SetTileRemap(mBase, mCurrentFrame);
+    gGtx_0x106C->SetTileRemap(mBase, mCurrentFrame);
 }
 
 MATCH_FUNC(0x5bc190)
@@ -81,7 +81,7 @@ bool TileAnim::PoolUpdate()
 MATCH_FUNC(0x5bc260)
 void TileAnimManager::AddAnim(s16 base, s16 start_frame, s16 length, s16 frame_rate, s16 repeat)
 {
-    TileAnim* pAnim = gTileAnimPool_7052C8->Allocate();
+    TileAnim* pAnim = gTileAnimPool->Allocate();
     pAnim->Init_4C33F0(base, start_frame, length, frame_rate, repeat);
     pAnim->Start();
 }
@@ -89,7 +89,7 @@ void TileAnimManager::AddAnim(s16 base, s16 start_frame, s16 length, s16 frame_r
 MATCH_FUNC(0x5bc2c0)
 void TileAnimManager::AddGmpAnim(const gmp_tile_animation* pTileAnimation)
 {
-    TileAnim* pAnim = gTileAnimPool_7052C8->Allocate();
+    TileAnim* pAnim = gTileAnimPool->Allocate();
     pAnim->InitFromGmpAnim(pTileAnimation);
     pAnim->Start();
 }
@@ -102,16 +102,16 @@ void TileAnimManager::Empty()
 MATCH_FUNC(0x5bc310)
 void TileAnimManager::UpdateTileAnimations()
 {
-    gTileAnimPool_7052C8->mPool.UpdatePool();
+    gTileAnimPool->mPool.UpdatePool();
 }
 
 MATCH_FUNC(0x5bc3a0)
 TileAnimManager::TileAnimManager()
 {
-    if (gTileAnimPool_7052C8 == NULL)
+    if (gTileAnimPool == NULL)
     {
-        gTileAnimPool_7052C8 = new TileAnimPool();
-        if (gTileAnimPool_7052C8 == NULL)
+        gTileAnimPool = new TileAnimPool();
+        if (gTileAnimPool == NULL)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\tileanim.cpp", 220);
         }
@@ -122,9 +122,9 @@ TileAnimManager::TileAnimManager()
 MATCH_FUNC(0x5bc470)
 TileAnimManager::~TileAnimManager()
 {
-    if (gTileAnimPool_7052C8)
+    if (gTileAnimPool)
     {
-        GTA2_DELETE_AND_NULL(gTileAnimPool_7052C8);
+        GTA2_DELETE_AND_NULL(gTileAnimPool);
     }
 }
 

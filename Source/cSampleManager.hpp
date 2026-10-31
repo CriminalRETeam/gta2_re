@@ -183,4 +183,4 @@ class cSampleManager
     bool mIsStereo; // 0x2714
 };
 
-EXTERN_GLOBAL(cSampleManager, gSampManager_6FFF00);
+EXTERN_GLOBAL(cSampleManager, gSampManager);

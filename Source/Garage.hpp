@@ -84,4 +84,4 @@ class Garage
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Garage, 0x48);
 
-EXTERN_GLOBAL(Garage*, gGarage_48_6FD26C);
+EXTERN_GLOBAL(Garage*, gGarage_48);

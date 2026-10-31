@@ -6,14 +6,14 @@
 
 class Sprite;
 
-EXTERN_GLOBAL(Fix16, kSmallWidthEpslion_703450);
-EXTERN_GLOBAL(Fix16, kCollisionPrismHalfHeight_6771E4);
+EXTERN_GLOBAL(Fix16, kSmallWidthEpslion);
+EXTERN_GLOBAL(Fix16, kCollisionPrismHalfHeight);
 
 // ComputeCollisionPrism_4204D0's half height is a header static each TU of the original has its own copy of
-// (9.6f has one, 0x5E4D50). A TU whose copy isn't kCollisionPrismHalfHeight_6771E4 defines
+// (9.6f has one, 0x5E4D50). A TU whose copy isn't kCollisionPrismHalfHeight defines
 // FIX16_RECT_HALF_HEIGHT to it (and declares it) before its first include.
 #ifndef FIX16_RECT_HALF_HEIGHT
-    #define FIX16_RECT_HALF_HEIGHT kCollisionPrismHalfHeight_6771E4
+    #define FIX16_RECT_HALF_HEIGHT kCollisionPrismHalfHeight
 #endif
 
 // 9.6f 0x41E160
@@ -119,8 +119,8 @@ class Fix16_Rect
     Fix16_Rect(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom, Fix16 z)
     {
         SetRect_41E350(left, right, top, bottom);
-        mLowZ = z - kCollisionPrismHalfHeight_6771E4;
-        mHighZ = z + kCollisionPrismHalfHeight_6771E4;
+        mLowZ = z - kCollisionPrismHalfHeight;
+        mHighZ = z + kCollisionPrismHalfHeight;
     }
 
     // Unused (SetFromPosSize_463710 does this), but removing it changes code elsewhere: see the shared

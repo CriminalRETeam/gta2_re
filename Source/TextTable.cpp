@@ -8,9 +8,9 @@
 #include "gtx_0x106C.hpp"
 #include "enums.hpp"
 
-DEFINE_GLOBAL(TextTable*, gText_0x14_704DFC, 0x704DFC);
-DEFINE_GLOBAL(TextTable*, gtext_0x14_6F87F0, 0x6F87F0);
-DEFINE_GLOBAL_ARRAY(wchar_t, tmpAscii2WideStr_70488C, 640, 0x70488C);
+DEFINE_GLOBAL(TextTable*, gText_0x14, 0x704DFC);
+DEFINE_GLOBAL(TextTable*, gtext_0x14, 0x6F87F0);
+DEFINE_GLOBAL_ARRAY(wchar_t, tmpAscii2WideStr, 640, 0x70488C);
 
 const wchar_t kToUpperTable_626590[256] = {
     128u, 129u, 130u, 131u, 132u, 133u, 134u, 135u, 136u, 137u, 138u, 139u, 140u, 141u, 142u, 143u, 144u, 145u, 146u, 147u, 148u, 149u,
@@ -215,7 +215,7 @@ wchar_t* TextTable::StrToUpper(wchar_t* pWideStr)
 // 9.6f 0x4539D0, file-local copy of GetCharWidth_4539D0 (Draw.hpp): including Draw.hpp changes this file's static init code
 static inline s32 __stdcall GetCharWidth_local_4539D0(u16 font_type, wchar_t chr)
 {
-    return static_cast<u16>(gGtx_0x106C_703DD4->GetFontWidth(&font_type, &chr));
+    return static_cast<u16>(gGtx_0x106C->GetFontWidth(&font_type, &chr));
 }
 
 // https://decomp.me/scratch/JzIDq
@@ -318,7 +318,7 @@ MATCH_FUNC(0x5B5DF0)
 wchar_t* __stdcall TextTable::Ascii2Wide(const char_type* pStr)
 {
     // char_type is signed, so the widening sign-extends (movsx) as in the original
-    wchar_t* pDst = tmpAscii2WideStr_70488C;
+    wchar_t* pDst = tmpAscii2WideStr;
     while (*pStr)
     {
         *pDst = *pStr;
@@ -328,7 +328,7 @@ wchar_t* __stdcall TextTable::Ascii2Wide(const char_type* pStr)
 
     // null terminate
     *pDst = 0;
-    return tmpAscii2WideStr_70488C;
+    return tmpAscii2WideStr;
 }
 
 MATCH_FUNC(0x5B5E20)
@@ -394,12 +394,12 @@ bool TextTable::KeyExists(const char_type* pIdStr) const
 MATCH_FUNC(0x5B5FB0)
 TextTable::TextTable()
 {
-    gRegistry_6FF968.Get_Option("language", reinterpret_cast<BYTE*>(gTmpBuffer_67C598), sizeof(gTmpBuffer_67C598));
+    gRegistry.Get_Option("language", reinterpret_cast<BYTE*>(gTmpBuffer), sizeof(gTmpBuffer));
 
-    if (gTmpBuffer_67C598[0] == 'e' || gTmpBuffer_67C598[0] == 'f' || gTmpBuffer_67C598[0] == 'g' || gTmpBuffer_67C598[0] == 'i' ||
-        gTmpBuffer_67C598[0] == 's' || gTmpBuffer_67C598[0] == 'j' || gTmpBuffer_67C598[0] == 'r')
+    if (gTmpBuffer[0] == 'e' || gTmpBuffer[0] == 'f' || gTmpBuffer[0] == 'g' || gTmpBuffer[0] == 'i' ||
+        gTmpBuffer[0] == 's' || gTmpBuffer[0] == 'j' || gTmpBuffer[0] == 'r')
     {
-        mLangCode = gTmpBuffer_67C598[0];
+        mLangCode = gTmpBuffer[0];
     }
     else
     {

@@ -62,4 +62,4 @@ class GeneratorPool
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(GeneratorPool, 0x14AC);
 
-EXTERN_GLOBAL(GeneratorPool*, gGeneratorPool_14AC_67E5D0);
+EXTERN_GLOBAL(GeneratorPool*, gGeneratorPool_14AC);

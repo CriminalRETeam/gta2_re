@@ -77,4 +77,4 @@ class EmergencyCrewPool
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(EmergencyCrewPool, 0x1E0);
 
-EXTERN_GLOBAL(EmergencyCrewPool*, gEmergencyCrewPool_706280);
+EXTERN_GLOBAL(EmergencyCrewPool*, gEmergencyCrewPool);

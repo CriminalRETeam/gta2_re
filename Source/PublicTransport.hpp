@@ -87,8 +87,8 @@ struct TrainStopCount
     u8 mCount; // 0x0
 };
 
-EXTERN_GLOBAL(TrainStationList, gTrainStationList_6FEE68);
-EXTERN_GLOBAL(TrainStopCount, gTrainStopCount_6FEFFC);
+EXTERN_GLOBAL(TrainStationList, gTrainStationList);
+EXTERN_GLOBAL(TrainStopCount, gTrainStopCount);
 
 class PublicTransport
 {
@@ -145,7 +145,7 @@ class PublicTransport
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PublicTransport, 0x181C);
 
-EXTERN_GLOBAL(PublicTransport*, gPublicTransport_181C_6FF1D4);
+EXTERN_GLOBAL(PublicTransport*, gPublicTransport_181C);
 
 EXPORT bool __stdcall CompareNameChars(const char_type* pChar1, const char_type* pChar2);
 

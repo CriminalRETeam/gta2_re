@@ -6,8 +6,8 @@
 #include "sprite.hpp"
 #include "collision_event_type.hpp"
 
-DEFINE_GLOBAL(CollisionSoundQueue*, gCollisionSoundQueue_66AFE0, 0x66AFE0);
-DEFINE_GLOBAL(CollisionTarget, gCollisionTarget_679188, 0x679188);
+DEFINE_GLOBAL(CollisionSoundQueue*, gCollisionSoundQueue, 0x66AFE0);
+DEFINE_GLOBAL(CollisionTarget, gCollisionTarget, 0x679188);
 DEFINE_GLOBAL(Fix16, kFpZero_66AE98, 0x66AE98);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_66AE9C, Fix16(1), 0x66AE9C);
 
@@ -24,35 +24,35 @@ void CollisionEvent::SetupForCar(Car* pCar)
 {
     mCar = pCar;
 
-    switch (gCollisionTarget_679188.mType)
+    switch (gCollisionTarget.mType)
     {
         case collision_target_type::horizontal_edge_1:
             mType = collision_event_type::car_wall_5;
             mMapBlockSpec =
-                gMap_0x370_6F6268->GetTopEdgeSpec(gCollisionTarget_679188.mHsegXMin, gCollisionTarget_679188.mHsegY, gCollisionTarget_679188.mZ);
+                gMap_0x370->GetTopEdgeSpec(gCollisionTarget.mHsegXMin, gCollisionTarget.mHsegY, gCollisionTarget.mZ);
             break;
 
         case collision_target_type::vertical_edge_2:
             mType = collision_event_type::car_wall_5;
             mMapBlockSpec =
-                gMap_0x370_6F6268->GetLeftEdgeSpec(gCollisionTarget_679188.mVsegX, gCollisionTarget_679188.mVsegYMin, gCollisionTarget_679188.mZ);
+                gMap_0x370->GetLeftEdgeSpec(gCollisionTarget.mVsegX, gCollisionTarget.mVsegYMin, gCollisionTarget.mZ);
             break;
 
         case collision_target_type::sprite_3:
         {
-            Car* pCar = gCollisionTarget_679188.mpHitSprite->AsCar_40FEB0();
+            Car* pCar = gCollisionTarget.mpHitSprite->AsCar_40FEB0();
             if (pCar)
             {
                 mOtherCar = pCar;
                 mType = collision_event_type::car_car_2;
             }
-            else if (gCollisionTarget_679188.mpHitSprite->AsCharB4_40FEA0())
+            else if (gCollisionTarget.mpHitSprite->AsCharB4_40FEA0())
             {
                 mType = collision_event_type::car_ped_4;
             }
             else
             {
-                Object* pObject = gCollisionTarget_679188.mpHitSprite->AsObject2C_40FEC0();
+                Object* pObject = gCollisionTarget.mpHitSprite->AsObject2C_40FEC0();
 
                 mObjectModel = pObject->GetModel_40FEF0();
                 if (mObjectModel == objects::diagonal_wall_collision_obj_166)
@@ -73,35 +73,35 @@ void CollisionEvent::SetupForCar(Car* pCar)
 MATCH_FUNC(0x40B980)
 void CollisionEvent::SetupForPed()
 {
-    switch (gCollisionTarget_679188.mType)
+    switch (gCollisionTarget.mType)
     {
         case collision_target_type::horizontal_edge_1:
             mType = collision_event_type::ped_wall_8;
             mMapBlockSpec =
-                gMap_0x370_6F6268->GetTopEdgeSpec(gCollisionTarget_679188.mHsegXMin, gCollisionTarget_679188.mHsegY, gCollisionTarget_679188.mZ);
+                gMap_0x370->GetTopEdgeSpec(gCollisionTarget.mHsegXMin, gCollisionTarget.mHsegY, gCollisionTarget.mZ);
             break;
 
         case collision_target_type::vertical_edge_2:
             mType = collision_event_type::ped_wall_8;
             mMapBlockSpec =
-                gMap_0x370_6F6268->GetLeftEdgeSpec(gCollisionTarget_679188.mVsegX, gCollisionTarget_679188.mVsegYMin, gCollisionTarget_679188.mZ);
+                gMap_0x370->GetLeftEdgeSpec(gCollisionTarget.mVsegX, gCollisionTarget.mVsegYMin, gCollisionTarget.mZ);
             break;
 
         case collision_target_type::sprite_3:
         {
-            Car* pCar = gCollisionTarget_679188.mpHitSprite->AsCar_40FEB0();
+            Car* pCar = gCollisionTarget.mpHitSprite->AsCar_40FEB0();
             if (pCar)
             {
                 mCar = pCar;
                 mType = collision_event_type::car_ped_4;
             }
-            else if (gCollisionTarget_679188.mpHitSprite->AsCharB4_40FEA0())
+            else if (gCollisionTarget.mpHitSprite->AsCharB4_40FEA0())
             {
                 mType = collision_event_type::ped_ped_6;
             }
             else
             {
-                Object* pObject = gCollisionTarget_679188.mpHitSprite->AsObject2C_40FEC0();
+                Object* pObject = gCollisionTarget.mpHitSprite->AsObject2C_40FEC0();
                 mObjectModel = pObject->GetModel_40FEF0();
                 if (mObjectModel == objects::diagonal_wall_collision_obj_166)
                 {
@@ -128,39 +128,39 @@ bool CollisionEvent::SetupForObject(Object* pObj)
 
     mObjectModel = pObj->mModel;
 
-    switch (gCollisionTarget_679188.mType)
+    switch (gCollisionTarget.mType)
     {
         case collision_target_type::horizontal_edge_1:
             mType = collision_event_type::object_wall_10;
             mMapBlockSpec =
-                gMap_0x370_6F6268->GetTopEdgeSpec(gCollisionTarget_679188.mHsegXMin, gCollisionTarget_679188.mHsegY, gCollisionTarget_679188.mZ);
+                gMap_0x370->GetTopEdgeSpec(gCollisionTarget.mHsegXMin, gCollisionTarget.mHsegY, gCollisionTarget.mZ);
 
             break;
 
         case collision_target_type::vertical_edge_2:
             mType = collision_event_type::object_wall_10;
             mMapBlockSpec =
-                gMap_0x370_6F6268->GetLeftEdgeSpec(gCollisionTarget_679188.mVsegX, gCollisionTarget_679188.mVsegYMin, gCollisionTarget_679188.mZ);
+                gMap_0x370->GetLeftEdgeSpec(gCollisionTarget.mVsegX, gCollisionTarget.mVsegYMin, gCollisionTarget.mZ);
 
             break;
 
         case collision_target_type::sprite_3:
         {
-            Car* pCar = gCollisionTarget_679188.mpHitSprite->AsCar_40FEB0();
+            Car* pCar = gCollisionTarget.mpHitSprite->AsCar_40FEB0();
             if (pCar)
             {
                 mCar = pCar;
                 mType = collision_event_type::car_object_3;
                 return true;
             }
-            else if (gCollisionTarget_679188.mpHitSprite->AsCharB4_40FEA0())
+            else if (gCollisionTarget.mpHitSprite->AsCharB4_40FEA0())
             {
                 mType = collision_event_type::ped_object_7;
                 return true;
             }
             else
             {
-                Object* pObject = gCollisionTarget_679188.mpHitSprite->AsObject2C_40FEC0();
+                Object* pObject = gCollisionTarget.mpHitSprite->AsObject2C_40FEC0();
                 if (!pObject->MakesCollisionSound_40FF00())
                 {
                     return false;
@@ -195,7 +195,7 @@ void CollisionSoundQueue::Reset()
 MATCH_FUNC(0x40bba0)
 void CollisionSoundQueue::AddCollision(Sprite* pSprite, Fix16 impact_strength)
 {
-    if (!bSkip_audio_67D6BE)
+    if (!bSkip_audio)
     {
         CollisionEvent* pEvent = &mEvents[mCount];
         Car* pCar = pSprite->AsCar_40FEB0();
@@ -225,7 +225,7 @@ void CollisionSoundQueue::AddCollision(Sprite* pSprite, Fix16 impact_strength)
 MATCH_FUNC(0x40bc40)
 void CollisionSoundQueue::AddFloorCollision(Sprite* pSprite)
 {
-    if (!bSkip_audio_67D6BE)
+    if (!bSkip_audio)
     {
         CollisionEvent* pEvent = &mEvents[mCount];
         pEvent->SetPosition(pSprite->mXy.x, pSprite->mXy.y, pSprite->mZpos);
@@ -247,7 +247,7 @@ void CollisionSoundQueue::AddFloorCollision(Sprite* pSprite)
             pEvent->mType = collision_event_type::object_floor_1;
             pEvent->mObjectModel = pObject->GetModel_40FEF0();
         }
-        pEvent->mMapBlockSpec = gMap_0x370_6F6268->GetBlockSpec(pSprite->mXy.x,
+        pEvent->mMapBlockSpec = gMap_0x370->GetBlockSpec(pSprite->mXy.x,
                                                                               pSprite->mXy.y,
                                                                               pSprite->mZpos - kFpOne_66AE9C);
         mCount++;
@@ -257,7 +257,7 @@ void CollisionSoundQueue::AddFloorCollision(Sprite* pSprite)
 MATCH_FUNC(0x40bd10)
 void CollisionSoundQueue::AddBlockCollision(Sprite* pSprite)
 {
-    if (!bSkip_audio_67D6BE)
+    if (!bSkip_audio)
     {
         CollisionEvent* pEvent = &this->mEvents[this->mCount];
         pEvent->SetPosition(pSprite->mXy.x, pSprite->mXy.y, pSprite->mZpos);
@@ -280,7 +280,7 @@ void CollisionSoundQueue::AddBlockCollision(Sprite* pSprite)
             pEvent->mObjectModel = pObject->GetModel_40FEF0();
         }
         pEvent->mMapBlockSpec =
-            gMap_0x370_6F6268->GetBlockSpec(pSprite->mXy.x, pSprite->mXy.y, pSprite->mZpos);
+            gMap_0x370->GetBlockSpec(pSprite->mXy.x, pSprite->mXy.y, pSprite->mZpos);
         mCount++;
     }
 }
@@ -288,21 +288,21 @@ void CollisionSoundQueue::AddBlockCollision(Sprite* pSprite)
 MATCH_FUNC(0x40bdd0)
 void CollisionSoundQueue::AddSpriteCollision(Sprite* pSprite, Sprite* pHitSprite)
 {
-    gCollisionTarget_679188.mpHitSprite = pHitSprite;
-    gCollisionTarget_679188.mType = collision_target_type::sprite_3;
+    gCollisionTarget.mpHitSprite = pHitSprite;
+    gCollisionTarget.mType = collision_target_type::sprite_3;
     AddCollision(pSprite, kFpZero_66AE98);
 }
 
 MATCH_FUNC(0x40be00)
 CollisionSoundQueue::CollisionSoundQueue()
 {
-    if (bSkip_audio_67D6BE)
+    if (bSkip_audio)
     {
         mpSoundObj = NULL;
     }
     else
     {
-        mpSoundObj = gRoot_sound_66B038.CreateSoundObject(this, SoundObjectTypeEnum::CollisionSoundQueue_6);
+        mpSoundObj = gRoot_sound.CreateSoundObject(this, SoundObjectTypeEnum::CollisionSoundQueue_6);
     }
     Reset();
 }
@@ -312,7 +312,7 @@ CollisionSoundQueue::~CollisionSoundQueue()
 {
     if (mpSoundObj)
     {
-        gRoot_sound_66B038.DestroySoundObj_40FE60(mpSoundObj);
+        gRoot_sound.DestroySoundObj_40FE60(mpSoundObj);
         mpSoundObj = NULL;
     }
 }

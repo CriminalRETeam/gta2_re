@@ -36,8 +36,8 @@ void DoorData::Init(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
     this->mState = door_state::closed_1;
 
     const u8& anim_id = id;
-    DoorAnimInfo* pInfo = &gDoorAnimInfo_67BB38[anim_id];
-    gGtx_0x106C_703DD4->SetTileRemap(pInfo->mInternalTileIdx, pInfo->mStartFrame);
+    DoorAnimInfo* pInfo = &gDoorAnimInfo[anim_id];
+    gGtx_0x106C->SetTileRemap(pInfo->mInternalTileIdx, pInfo->mStartFrame);
 
     u16 tile_word = pInfo->mInternalTileIdx | (block_face::wall | block_face::bullet_wall | block_face::flat);
     if (bDoFlip)
@@ -45,10 +45,10 @@ void DoorData::Init(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
         tile_word |= block_face::flip;
     }
 
-    if (gMap_0x370_6F6268->GetBlock(this->mX, this->mY, this->mZ))
+    if (gMap_0x370->GetBlock(this->mX, this->mY, this->mZ))
     {
-        gMap_0x370_6F6268->ChangeBlock(this->mX, this->mY, this->mZ, this->mFace, tile_word);
-        gMap_0x370_6F6268->ChangeBlock(this->mX, this->mY, this->mZ, GetOppositeFace(this->mFace), pInfo->mInternalTileIdx);
+        gMap_0x370->ChangeBlock(this->mX, this->mY, this->mZ, this->mFace, tile_word);
+        gMap_0x370->ChangeBlock(this->mX, this->mY, this->mZ, GetOppositeFace(this->mFace), pInfo->mInternalTileIdx);
     }
     else
     {
@@ -76,14 +76,14 @@ void DoorData::Init(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
             default:
                 break;
         }
-        gMap_0x370_6F6268->AddNewBlock(this->mX, this->mY, this->mZ, &blockData);
+        gMap_0x370->AddNewBlock(this->mX, this->mY, this->mZ, &blockData);
     }
 }
 
 MATCH_FUNC(0x49c4e0)
 void DoorData::Open(u8 bFlip)
 {
-    DoorAnimInfo* pAnimInfo = &gDoorAnimInfo_67BB38[mGrId];
+    DoorAnimInfo* pAnimInfo = &gDoorAnimInfo[mGrId];
     if (mState != door_state::open_2)
     {
         mState = door_state::open_2;
@@ -92,16 +92,16 @@ void DoorData::Open(u8 bFlip)
         {
             tile_idx |= block_face::flip;
         }
-        gMap_0x370_6F6268->ChangeBlock(mX, mY, mZ, mFace, tile_idx);
-        gMap_0x370_6F6268->ChangeBlock(mX, mY, mZ, GetOppositeFace(mFace), pAnimInfo->mOpenInternalTileIdx);
-        gTileAnim_2_7052C4->AddAnim(pAnimInfo->mOpenInternalTileIdx, pAnimInfo->mStartFrame, pAnimInfo->mEndFrame, pAnimInfo->mSpeed8, 1);
+        gMap_0x370->ChangeBlock(mX, mY, mZ, mFace, tile_idx);
+        gMap_0x370->ChangeBlock(mX, mY, mZ, GetOppositeFace(mFace), pAnimInfo->mOpenInternalTileIdx);
+        gTileAnim_2->AddAnim(pAnimInfo->mOpenInternalTileIdx, pAnimInfo->mStartFrame, pAnimInfo->mEndFrame, pAnimInfo->mSpeed8, 1);
     }
 }
 
 MATCH_FUNC(0x49c590)
 void DoorData::Close(u8 bDoFlip)
 {
-    DoorAnimInfo* pAnimInfo = &gDoorAnimInfo_67BB38[mGrId];
+    DoorAnimInfo* pAnimInfo = &gDoorAnimInfo[mGrId];
     if (mState != door_state::closed_1)
     {
         mState = door_state::closed_1;
@@ -110,9 +110,9 @@ void DoorData::Close(u8 bDoFlip)
         {
             block_side_word |= block_face::flip;
         }
-        gMap_0x370_6F6268->ChangeBlock(mX, mY, mZ, mFace, block_side_word);
-        gMap_0x370_6F6268->ChangeBlock(mX, mY, mZ, GetOppositeFace(mFace), pAnimInfo->mInternalTileIdx);
-        gTileAnim_2_7052C4->AddAnim(pAnimInfo->mInternalTileIdx, pAnimInfo->mEndFrame, pAnimInfo->mStartFrame, pAnimInfo->mSpeed8, 1);
+        gMap_0x370->ChangeBlock(mX, mY, mZ, mFace, block_side_word);
+        gMap_0x370->ChangeBlock(mX, mY, mZ, GetOppositeFace(mFace), pAnimInfo->mInternalTileIdx);
+        gTileAnim_2->AddAnim(pAnimInfo->mInternalTileIdx, pAnimInfo->mEndFrame, pAnimInfo->mStartFrame, pAnimInfo->mSpeed8, 1);
     }
 }
 
@@ -276,7 +276,7 @@ inline bool IsDoorOpenWithoutAutoClose(Door* pDoor)
 MATCH_FUNC(0x49d2d0)
 void DoorPool::RegisterDoorInfo(s16 start_frame, s16 end_frame, char_type speed)
 {
-    DoorAnimInfo* pAnimInfo = &gDoorAnimInfo_67BB38[0];
+    DoorAnimInfo* pAnimInfo = &gDoorAnimInfo[0];
     u8 idx = 0;
     do
     {
@@ -291,10 +291,10 @@ void DoorPool::RegisterDoorInfo(s16 start_frame, s16 end_frame, char_type speed)
     pAnimInfo->mStartFrame = start_frame;
     pAnimInfo->mEndFrame = end_frame;
     pAnimInfo->mSpeed8 = speed;
-    s16 reserved_tile_idx = gGtx_0x106C_703DD4->GetFirstFreeReservedTileIdx();
+    s16 reserved_tile_idx = gGtx_0x106C->GetFirstFreeReservedTileIdx();
     pAnimInfo->mInternalTileIdx = reserved_tile_idx;
-    gGtx_0x106C_703DD4->SetTileRemap(reserved_tile_idx, pAnimInfo->mStartFrame);
-    reserved_tile_idx = gGtx_0x106C_703DD4->GetFirstFreeReservedTileIdx();
+    gGtx_0x106C->SetTileRemap(reserved_tile_idx, pAnimInfo->mStartFrame);
+    reserved_tile_idx = gGtx_0x106C->GetFirstFreeReservedTileIdx();
     pAnimInfo->mOpenInternalTileIdx = reserved_tile_idx;
 }
 
@@ -373,7 +373,7 @@ DoorPool::DoorPool()
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\door.cpp", 1194);
         }
     }
-    memset(gDoorAnimInfo_67BB38, 0, sizeof(gDoorAnimInfo_67BB38));
+    memset(gDoorAnimInfo, 0, sizeof(gDoorAnimInfo));
     this->mCount = 0;
     this->mUnused4D2 = 205;
 }

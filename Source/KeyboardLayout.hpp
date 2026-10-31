@@ -29,4 +29,4 @@ class KeyboardLayout
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(KeyboardLayout, 0x204);
 
-EXTERN_GLOBAL(KeyboardLayout*, gKeybrd_0x204_6F52F4);
+EXTERN_GLOBAL(KeyboardLayout*, gKeybrd_0x204);

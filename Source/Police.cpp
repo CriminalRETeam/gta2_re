@@ -12,8 +12,8 @@
 #include "winmain.hpp"
 #include "ped_graphic_type.hpp"
 
-DEFINE_GLOBAL(Police*, gPolice_7B8_6FEE40, 0x6FEE40);
-DEFINE_GLOBAL(s32, gCrewKind_6FEDB8, 0x6FEDB8);
+DEFINE_GLOBAL(Police*, gPolice_7B8, 0x6FEE40);
+DEFINE_GLOBAL(s32, gCrewKind, 0x6FEDB8);
 DEFINE_STATIC_MEMBER(u8, Police, sbHaveCriminals, 0x6FEE44);
 DEFINE_STATIC_MEMBER(u16, Police, sIdCounter, 0x6FEE46);
 DEFINE_STATIC_MEMBER(s32, Police, sDispatchCrewState, 0x6FEDCC);
@@ -70,7 +70,7 @@ void Police::Init()
     mMaxPoliceCars = 1;
     mHighestCrewTypeInPursuit = crew_type::police_3;
     sbHaveCriminals = 0;
-    if (bStartNetworkGame_7081F0)
+    if (bStartNetworkGame)
     {
         mMaxWantedStars = 1;
     }
@@ -143,15 +143,15 @@ Ped* Police::SpawnRoadblockGuard(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotat
 {
     Ped* pCop = NULL;
 
-    if (gPedManager_6787BC->mFbiArmyCount >= 30)
+    if (gPedManager->mFbiArmyCount >= 30)
     {
         return NULL;
     }
 
-    switch (gCrewKind_6FEDB8)
+    switch (gCrewKind)
     {
         case crew_kind::fbi_3:
-            pCop = gPedManager_6787BC->SpawnPedAt(xpos, ypos, zpos, 0, rotation);
+            pCop = gPedManager->SpawnPedAt(xpos, ypos, zpos, 0, rotation);
             pCop->SetPedType_403920(ped_type::special_ped_4);
             pCop->set_occupation_403970(ped_ocupation_enum::roadblock_cop_37);
             pCop->SetObjective(objectives_enum::guard_spot_24, 0);
@@ -163,7 +163,7 @@ Ped* Police::SpawnRoadblockGuard(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotat
             pCop->mThreatReaction = threat_reaction_enum::react_as_emergency_1;
             break;
         case crew_kind::police_1:
-            pCop = gPedManager_6787BC->SpawnPedAt(xpos, ypos, zpos, 0, rotation);
+            pCop = gPedManager->SpawnPedAt(xpos, ypos, zpos, 0, rotation);
             pCop->SetPedType_403920(ped_type::special_ped_4);
             pCop->set_occupation_403970(ped_ocupation_enum::roadblock_cop_37);
             pCop->SetObjective(objectives_enum::guard_spot_24, 0);
@@ -386,14 +386,14 @@ bool Police::DispatchNewCrewToPursuit(PolicePursuitTarget* pPursuitTarget)
     u8 tileY = pPursuitTarget->mY.ToInt();
     u8 tileZ = pPursuitTarget->mZ.ToInt();
 
-    if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType(ROAD, &tileX, &tileY, &tileZ, false))
+    if (gPathFinder->FindNearbyTileMatchingSlopeType(ROAD, &tileX, &tileY, &tileZ, false))
     {
         PoliceCrew* pNewPoliceCrew = Police::NewCrew();
         pNewPoliceCrew->mUsed = 1;
         pNewPoliceCrew->mTargX = tileX;
         pNewPoliceCrew->mTargY = tileY;
         pNewPoliceCrew->mTargZ = tileZ;
-        EmergencyCrew* pNewEmergencyCrew = gEmergencyCrewPool_706280->AllocateSlot();
+        EmergencyCrew* pNewEmergencyCrew = gEmergencyCrewPool->AllocateSlot();
         pNewPoliceCrew->mSubObj = pNewEmergencyCrew;
         if (!pNewPoliceCrew->mSubObj)
         {
@@ -404,7 +404,7 @@ bool Police::DispatchNewCrewToPursuit(PolicePursuitTarget* pPursuitTarget)
         EmergencyCrew* pEmergencyCrew = pNewPoliceCrew->mSubObj;
         pNewPoliceCrew->mpPursuitTarget = pPursuitTarget;
         pNewPoliceCrew->mState = sDispatchCrewState;
-        pNewPoliceCrew->mCrewKind = gCrewKind_6FEDB8;
+        pNewPoliceCrew->mCrewKind = gCrewKind;
         pEmergencyCrew->mIsUsed = true;
         pEmergencyCrew->mCrewType = sDispatchCrewType;
         pEmergencyCrew->mPhase = crew_phase::in_car_1;
@@ -504,7 +504,7 @@ void Police::UpdatePursuitTargets()
                 break;
             case cop_level_enum::fbi_5:
                 pPursuitTarget->mWantedLevel = cop_level_enum::fbi_5;
-                gPolice_7B8_6FEE40->mHighestCrewTypeInPursuit = crew_type::fbi_4;
+                gPolice_7B8->mHighestCrewTypeInPursuit = crew_type::fbi_4;
                 if (!pPursuitTarget->mNumPoliceCrews && !pPursuitTarget->mNumSwatCrews && pPursuitTarget->mNumFbiCrews <= 1)
                 {
                     mMaxPoliceCars = 2;
@@ -517,7 +517,7 @@ void Police::UpdatePursuitTargets()
             case cop_level_enum::army_6:
                 pPursuitTarget->mTargetPoliceCrews = 0;
                 pPursuitTarget->mWantedLevel = cop_level_enum::army_6;
-                gPolice_7B8_6FEE40->mHighestCrewTypeInPursuit = crew_type::army_6;
+                gPolice_7B8->mHighestCrewTypeInPursuit = crew_type::army_6;
                 break;
         }
 
@@ -563,8 +563,8 @@ void Police::UpdatePursuitTargets()
                             sDispatchCrewSpawnDelay = 200;
                             sDispatchCrewType = crew_type::police_3;
                             sDispatchCrewState = police_crew_state::alerted_search_3;
-                            gCrewKind_6FEDB8 = crew_kind::police_1;
-                            if (gPolice_7B8_6FEE40->DispatchNewCrewToPursuit(pPursuitTarget))
+                            gCrewKind = crew_kind::police_1;
+                            if (gPolice_7B8->DispatchNewCrewToPursuit(pPursuitTarget))
                             {
                                 pPursuitTarget->mState = pursuit_state::responding_1;
                                 mMaxPoliceCars = 0;
@@ -601,8 +601,8 @@ void Police::UpdatePursuitTargets()
                             sDispatchCrewType = crew_type::police_3;
                             sDispatchCrewSpawnDelay = 50;
                             sDispatchCrewState = police_crew_state::pursue_or_chase_5;
-                            gCrewKind_6FEDB8 = crew_kind::police_1;
-                            gPolice_7B8_6FEE40->DispatchNewCrewToPursuit(pPursuitTarget);
+                            gCrewKind = crew_kind::police_1;
+                            gPolice_7B8->DispatchNewCrewToPursuit(pPursuitTarget);
                         }
                         break;
                     case cop_level_enum::swat_4:
@@ -611,16 +611,16 @@ void Police::UpdatePursuitTargets()
                             sDispatchCrewType = crew_type::police_3;
                             sDispatchCrewSpawnDelay = 50;
                             sDispatchCrewState = police_crew_state::pursue_or_chase_5;
-                            gCrewKind_6FEDB8 = crew_kind::police_1;
-                            gPolice_7B8_6FEE40->DispatchNewCrewToPursuit(pPursuitTarget);
+                            gCrewKind = crew_kind::police_1;
+                            gPolice_7B8->DispatchNewCrewToPursuit(pPursuitTarget);
                         }
                         if (!pPursuitTarget->mNumSwatCrews)
                         {
                             sDispatchCrewSpawnDelay = 50;
                             sDispatchCrewType = crew_type::swat_5;
                             sDispatchCrewState = police_crew_state::pursue_or_chase_5;
-                            gCrewKind_6FEDB8 = crew_kind::swat_2;
-                            if (gPolice_7B8_6FEE40->DispatchNewCrewToPursuit(pPursuitTarget))
+                            gCrewKind = crew_kind::swat_2;
+                            if (gPolice_7B8->DispatchNewCrewToPursuit(pPursuitTarget))
                             {
                                 pPursuitTarget->mNumSwatCrews = 1;
                             }
@@ -638,7 +638,7 @@ void Police::UpdatePursuitTargets()
                             pPursuitTarget->mNumPoliceCrews = 0;
                             pPursuitTarget->mTargetPoliceCrews = 0;
                             pPursuitTarget->mNumSwatCrews = 0;
-                            gPolice_7B8_6FEE40->mHighestCrewTypeInPursuit = crew_type::fbi_4;
+                            gPolice_7B8->mHighestCrewTypeInPursuit = crew_type::fbi_4;
                         }
                         break;
                     case cop_level_enum::army_6:
@@ -652,7 +652,7 @@ void Police::UpdatePursuitTargets()
                             pPursuitTarget->mNumPoliceCrews = 0;
                             pPursuitTarget->mTargetPoliceCrews = 0;
                             sbHaveCriminals--;
-                            gPolice_7B8_6FEE40->mHighestCrewTypeInPursuit = crew_type::army_6;
+                            gPolice_7B8->mHighestCrewTypeInPursuit = crew_type::army_6;
                         }
                         break;
                 }
@@ -711,8 +711,8 @@ void Police::UpdatePursuitTargets()
                         sDispatchCrewSpawnDelay = 200;
                         sDispatchCrewType = crew_type::police_3;
                         sDispatchCrewState = police_crew_state::alerted_search_3;
-                        gCrewKind_6FEDB8 = crew_kind::police_1;
-                        gPolice_7B8_6FEE40->DispatchNewCrewToPursuit(pPursuitTarget);
+                        gCrewKind = crew_kind::police_1;
+                        gPolice_7B8->DispatchNewCrewToPursuit(pPursuitTarget);
                     }
                 }
                 break;
@@ -748,7 +748,7 @@ void Police::UpdatePursuitTargets()
                 pPursuitTarget->mUnused76 = 0;
                 pPursuitTarget->mBlockCounter = 0;
                 sbHaveCriminals--;
-                gPolice_7B8_6FEE40->mHighestCrewTypeInPursuit = crew_type::police_3;
+                gPolice_7B8->mHighestCrewTypeInPursuit = crew_type::police_3;
                 break;
             }
         }
@@ -837,7 +837,7 @@ void Police::SpawnWalkingGuard(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix16 zpos, An
 MATCH_FUNC(0x5703e0)
 bool Police::SpawnCrewInCar(Car* pCar)
 {
-    if (gPedManager_6787BC->mFbiArmyCount >= 30)
+    if (gPedManager->mFbiArmyCount >= 30)
     {
         return false;
     }
@@ -847,7 +847,7 @@ bool Police::SpawnCrewInCar(Car* pCar)
     }
     PoliceCrew* pNewCrew = Police::NewCrew();
     pNewCrew->mUsed = 1;
-    EmergencyCrew* pNewEmergencyCrew = gEmergencyCrewPool_706280->AllocateSlot();
+    EmergencyCrew* pNewEmergencyCrew = gEmergencyCrewPool->AllocateSlot();
     pNewCrew->mSubObj = pNewEmergencyCrew;
     if (!pNewEmergencyCrew)
     {
@@ -859,18 +859,18 @@ bool Police::SpawnCrewInCar(Car* pCar)
     pNewCrew->mState = police_crew_state::patrol_1;
     pNewCrew->mbCountedInPoliceCount = true;
     pEmergencyCrew->mIsUsed = true;
-    pEmergencyCrew->mCrewType = gPolice_7B8_6FEE40->mHighestCrewTypeInPursuit;
+    pEmergencyCrew->mCrewType = gPolice_7B8->mHighestCrewTypeInPursuit;
     pEmergencyCrew->mPhase = crew_phase::in_car_1;
     pEmergencyCrew->mCar = pCar;
     PedGroup* pNewPedGroup = PedGroup::New();
-    Ped* pNewPed1 = gPedManager_6787BC->AllocatePed();
+    Ped* pNewPed1 = gPedManager->AllocatePed();
     pNewPed1->SetPedType_403920(ped_type::special_ped_4);
     pNewPed1->set_occupation_403970(ped_ocupation_enum::police);
     pNewPed1->SpawnPedInCar(pEmergencyCrew->mCar);
     pNewPed1->SetObjective(objectives_enum::patrol_in_car_43);
     pNewPed1->mThreatSearch = threat_search_enum::line_of_sight_1;
     pNewPed1->mThreatReaction = threat_reaction_enum::react_as_emergency_1;
-    Ped* pNewPed2 = gPedManager_6787BC->AllocatePed();
+    Ped* pNewPed2 = gPedManager->AllocatePed();
     pNewPed2->SetObjective(objectives_enum::no_obj_0);
     pNewPed2->EnterCarAsPassenger(pEmergencyCrew->mCar);
     pNewPed2->SetPedType_403920(ped_type::special_ped_4);
@@ -878,7 +878,7 @@ bool Police::SpawnCrewInCar(Car* pCar)
     pNewPed2->mThreatSearch = threat_search_enum::line_of_sight_1;
     pNewPed2->mThreatReaction = threat_reaction_enum::react_as_emergency_1;
 
-    switch (gPolice_7B8_6FEE40->mHighestCrewTypeInPursuit)
+    switch (gPolice_7B8->mHighestCrewTypeInPursuit)
     {
         case crew_type::fbi_4:
             pNewPed1->set_health_4039A0(250);
@@ -1093,16 +1093,16 @@ void Police::TryCreateRoadblockAt(u8 tileX, u8 tileY, s32 roadblock_type)
     switch (mMaxWantedLevel)
     {
         case cop_level_enum::police_3:
-            gCrewKind_6FEDB8 = crew_kind::police_1;
+            gCrewKind = crew_kind::police_1;
             break;
         case cop_level_enum::swat_4:
-            gCrewKind_6FEDB8 = crew_kind::police_1;
+            gCrewKind = crew_kind::police_1;
             break;
         case cop_level_enum::fbi_5:
-            gCrewKind_6FEDB8 = crew_kind::fbi_3;
+            gCrewKind = crew_kind::fbi_3;
             break;
         case cop_level_enum::army_6:
-            gCrewKind_6FEDB8 = crew_kind::army_4;
+            gCrewKind = crew_kind::army_4;
             break;
     }
 
@@ -1111,7 +1111,7 @@ void Police::TryCreateRoadblockAt(u8 tileX, u8 tileY, s32 roadblock_type)
         bBothSides = true;
     }
 
-    u8 tileZ = gMap_0x370_6F6268->FindGroundZForCoord(tileX, static_cast<s32>(tileY)).ToUInt8();
+    u8 tileZ = gMap_0x370->FindGroundZForCoord(tileX, static_cast<s32>(tileY)).ToUInt8();
 
     if (bBothSides)
     {

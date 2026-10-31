@@ -63,4 +63,4 @@ class CollisionCounters
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CollisionCounters, 0xC);
 
-EXTERN_GLOBAL(CollisionCounters*, gCollisionCounters_6791FC);
+EXTERN_GLOBAL(CollisionCounters*, gCollisionCounters);

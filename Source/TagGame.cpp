@@ -11,9 +11,9 @@
 #include "TextTable.hpp"
 #include <string>
 
-DEFINE_GLOBAL(TagGame, gTagGame_6F8450, 0x6F8450);
+DEFINE_GLOBAL(TagGame, gTagGame, 0x6F8450);
 DEFINE_STATIC_GLOBAL(Fix16_Point, kZeroPoint, 0x6F8720);
-DEFINE_GLOBAL(s32, gNetTimeLimitEnabled_6F58A4, 0x6F58A4);
+DEFINE_GLOBAL(s32, gNetTimeLimitEnabled, 0x6F58A4);
 
 MATCH_FUNC(0x516560)
 void TagGame::Init() // For some reason, it's a function instead of a proper ctor
@@ -29,10 +29,10 @@ void TagGame::SetNewFugitive(Player* pNewFugitive)
 {
     if (pNewFugitive == NULL)
     {
-        pNewFugitive = gGame_0x40_67E008->IterateFirstPlayer();
+        pNewFugitive = gGame_0x40->IterateFirstPlayer();
     }
     mFugitive = pNewFugitive;
-    gHud_2B00_706620->mArrows.ReleaseAllArrows();
+    gHud_2B00->mArrows.ReleaseAllArrows();
     mFugitive->UnloadCarWeapons();
     mFugitive->RemovePlayerWeapons();
     mFugitive->ClearPowerUps();
@@ -46,7 +46,7 @@ void TagGame::SetNewFugitive(Player* pNewFugitive)
 
     if (!mFugitive->IsUser_41DC70())
     {
-        Hud_Arrow* pArrow = gHud_2B00_706620->mArrows.AllocArrow();
+        Hud_Arrow* pArrow = gHud_2B00->mArrows.AllocArrow();
         pArrow->mTargets.mPrimaryTarget.SetTargetPlayer_4820A0(mFugitive);
 
         if (mFugitive->mPlayerPed != NULL)
@@ -56,14 +56,14 @@ void TagGame::SetNewFugitive(Player* pNewFugitive)
     }
     else
     {
-        gHud_2B00_706620->mMessage.ShowMessage(gText_0x14_704DFC->Find("yourit"), hud_message_priority::important_3);
+        gHud_2B00->mMessage.ShowMessage(gText_0x14->Find("yourit"), hud_message_priority::important_3);
     }
 }
 
 MATCH_FUNC(0x516660)
 void TagGame::ExecuteGamemodeTick()
 {
-    switch (gGameSession_67E8E0.GetMultiplayerGamemode())
+    switch (gGameSession.GetMultiplayerGamemode())
     {
         case NO_GAME_0:
             FatalError_4A38C0(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\multip.cpp", 108, 0);
@@ -75,7 +75,7 @@ void TagGame::ExecuteGamemodeTick()
             if (mTickTimer >= 30)
             {
                 mTickTimer = 0;
-                if (mFugitive && gNetTimeLimitEnabled_6F58A4 != 0)
+                if (mFugitive && gNetTimeLimitEnabled != 0)
                 {
                     mItTimeSecs[mFugitive->get_idx_4219D0()]++;
                 }
@@ -101,7 +101,7 @@ MATCH_FUNC(0x516740)
 void TagGame::UpdateFugitive(Player* pFormerPlayerFugitive, Player* pPlayer_killer)
 {
     Fix16 threshold_distance(65535); // 65535.0 (raw 0x3FFFC000): start value of the nearest player search
-    if (gGameSession_67E8E0.GetMultiplayerGamemode() == TAG_GAME_3
+    if (gGameSession.GetMultiplayerGamemode() == TAG_GAME_3
         && mFugitive == pFormerPlayerFugitive)
     {
         if (pPlayer_killer != NULL)
@@ -110,12 +110,12 @@ void TagGame::UpdateFugitive(Player* pFormerPlayerFugitive, Player* pPlayer_kill
         }
         else
         {
-            Player* pIter = gGame_0x40_67E008->IterateFirstPlayer();
+            Player* pIter = gGame_0x40->IterateFirstPlayer();
             Player* pChosenPlayer = NULL;
             Fix16 fugitive_x = mFugitive->mPlayerPed->mCam.x;
             Fix16 fugitive_y = mFugitive->mPlayerPed->mCam.y;
 
-            for (; pIter != NULL; pIter = gGame_0x40_67E008->IterateNextPlayer())
+            for (; pIter != NULL; pIter = gGame_0x40->IterateNextPlayer())
             {
                 if (pIter != mFugitive)
                 {

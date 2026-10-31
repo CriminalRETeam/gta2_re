@@ -3,14 +3,14 @@
 #include "Char_Pool.hpp"
 #include "Ped.hpp"
 
-DEFINE_GLOBAL(Ped_List, gThreateningPedsList_678468, 0x678468);
+DEFINE_GLOBAL(Ped_List, gThreateningPedsList, 0x678468);
 
 DEFINE_GLOBAL_INIT(Ang16, kAng0_678B40, Ang16(0), 0x678B40);
 
 MATCH_FUNC(0x471140)
 PedListNode* Ped_List::AddPedToFront(Ped* pPed)
 {
-    PedListNode* pNew = gChar_8_Pool_678b50->Allocate_445EF0();
+    PedListNode* pNew = gChar_8_Pool->Allocate_445EF0();
 
     pNew->mCharPed = pPed;
 
@@ -40,7 +40,7 @@ void Ped_List::AddPedToBackIfMissing(Ped* pPed)
         }
     }
 
-    PedListNode* pNew = gChar_8_Pool_678b50->Allocate_445EF0();
+    PedListNode* pNew = gChar_8_Pool->Allocate_445EF0();
     pNew->mCharPed = pPed;
 
     if (pTail)
@@ -76,7 +76,7 @@ void Ped_List::AddPedToFrontIfMissing(Ped* pPed)
         }
     }
 
-    PedListNode* pNew = gChar_8_Pool_678b50->Allocate_445EF0();
+    PedListNode* pNew = gChar_8_Pool->Allocate_445EF0();
     pNew->mCharPed = pPed;
 
     pNew->mpNext = mpFirstPed;
@@ -100,7 +100,7 @@ void Ped_List::RemovePed_4711F0(Ped* pPed)
             {
                 mpFirstPed = pIter->mpNext;
             }
-            gChar_8_Pool_678b50->DeAllocate_445F00(pIter);
+            gChar_8_Pool->DeAllocate_445F00(pIter);
             break;
         }
         pPrev = pIter;
@@ -125,7 +125,7 @@ void Ped_List::RemovePed_471240(Ped* pPed)
             {
                 mpFirstPed = pIter->mpNext;
             }
-            gChar_8_Pool_678b50->DeAllocate_445F00(pIter);
+            gChar_8_Pool->DeAllocate_445F00(pIter);
             break;
         }
         pPrev = pIter;
@@ -159,7 +159,7 @@ u8 Ped_List::RemoveNonCorpses()
 
             PedListNode* pNext = pIter->mpNext;
 
-            gChar_8_Pool_678b50->DeAllocate_445F00(pIter);
+            gChar_8_Pool->DeAllocate_445F00(pIter);
             pIter = pNext;
 
             ++removedCount;
@@ -176,7 +176,7 @@ void Ped_List::ClearPeds()
     {
         PedListNode* pFreed = pIter;
         pIter = pIter->mpNext;
-        gChar_8_Pool_678b50->mPool.DeAllocate(pFreed);
+        gChar_8_Pool->mPool.DeAllocate(pFreed);
     }
 
     mpFirstPed = NULL;
@@ -193,7 +193,7 @@ Ped* Ped_List::RemoveFirstPed()
 
     Ped* pPed = pIter->mCharPed;
     mpFirstPed = pIter->mpNext;
-    gChar_8_Pool_678b50->DeAllocate_445F00(pIter);
+    gChar_8_Pool->DeAllocate_445F00(pIter);
     return pPed;
 }
 
@@ -265,7 +265,7 @@ void Ped_List::KillAndClearAllPeds()
         PedListNode* pFreed = pIter;
         pIter->mCharPed->Kill();
         pIter = pIter->mpNext;
-        gChar_8_Pool_678b50->DeAllocate_445F00(pFreed);
+        gChar_8_Pool->DeAllocate_445F00(pFreed);
     }
 
     mpFirstPed = NULL;
@@ -281,7 +281,7 @@ void Ped_List::KillAndClearAllPedsResetCarRef()
         pIter->mCharPed->Kill();
         pIter->mCharPed->mCar = NULL;
         pIter = pIter->mpNext;
-        gChar_8_Pool_678b50->DeAllocate_445F00(pFreed);
+        gChar_8_Pool->DeAllocate_445F00(pFreed);
     }
 
     mpFirstPed = NULL;

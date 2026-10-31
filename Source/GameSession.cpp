@@ -5,8 +5,8 @@
 #include "Player.hpp"
 #include "registry.hpp"
 
-DEFINE_GLOBAL(GameSession, gGameSession_67E8E0, 0x67E8E0);
-EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 2);
+DEFINE_GLOBAL(GameSession, gGameSession, 0x67E8E0);
+EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr, 2);
 
 MATCH_FUNC(0x4C52D0)
 GameSession::GameSession()
@@ -42,49 +42,49 @@ void GameSession::LoadDebugSettings()
 
     strcpy(reg_value, "");
     strcpy(path, "data\\");
-    gRegistry_6FF968.Get_Debug_Setting("mapname", reinterpret_cast<LPBYTE>(reg_value), GTA2_COUNTOF(reg_value));
+    gRegistry.Get_Debug_Setting("mapname", reinterpret_cast<LPBYTE>(reg_value), GTA2_COUNTOF(reg_value));
     strcat(path, reg_value);
     if (strcmp(path, "data\\") == 0)
     {
         strcpy(path, "data\\jointmap.gmp");
     }
-    gGameSession_67E8E0.SetMapName(path);
+    gGameSession.SetMapName(path);
 
     strcpy(reg_value, "");
     strcpy(path, "data\\");
-    gRegistry_6FF968.Get_Debug_Setting("stylename", reinterpret_cast<LPBYTE>(reg_value), GTA2_COUNTOF(reg_value));
+    gRegistry.Get_Debug_Setting("stylename", reinterpret_cast<LPBYTE>(reg_value), GTA2_COUNTOF(reg_value));
     strcat(path, reg_value);
     if (strcmp(path, "data\\") == 0)
     {
         strcpy(path, "data\\style.sty");
     }
-    gGameSession_67E8E0.SetStyleName(path);
+    gGameSession.SetStyleName(path);
 
     strcpy(reg_value, "");
     strcpy(path, "data\\");
-    gRegistry_6FF968.Get_Debug_Setting("scriptname", reinterpret_cast<LPBYTE>(reg_value), GTA2_COUNTOF(reg_value));
+    gRegistry.Get_Debug_Setting("scriptname", reinterpret_cast<LPBYTE>(reg_value), GTA2_COUNTOF(reg_value));
     strcat(path, reg_value);
     if (strcmp(path, "data\\") == 0)
     {
         strcpy(path, "data\\q.scr");
     }
-    gGameSession_67E8E0.SetScriptName(path);
+    gGameSession.SetScriptName(path);
 
     strcpy(reg_value, "");
     strcpy(path, "player\\");
-    gRegistry_6FF968.Get_Debug_Setting("savename", reinterpret_cast<LPBYTE>(reg_value), GTA2_COUNTOF(reg_value));
+    gRegistry.Get_Debug_Setting("savename", reinterpret_cast<LPBYTE>(reg_value), GTA2_COUNTOF(reg_value));
     strcat(path, reg_value);
     if (strcmp(path, "player\\") == 0)
     {
         strcpy(path, "");
     }
 
-    gGameSession_67E8E0.SetSaveFileName(path);
-    gGameSession_67E8E0.SetMainStageIdx(0);
-    gGameSession_67E8E0.SetStage(0);
-    gGameSession_67E8E0.SetBonusStage(0);
-    gGameSession_67E8E0.SetPlySlotIdx(0);
-    gGameSession_67E8E0.SetLevelFinishBonusType(0);
+    gGameSession.SetSaveFileName(path);
+    gGameSession.SetMainStageIdx(0);
+    gGameSession.SetStage(0);
+    gGameSession.SetBonusStage(0);
+    gGameSession.SetPlySlotIdx(0);
+    gGameSession.SetLevelFinishBonusType(0);
 
     for (s32 i = 0; i < GTA2_COUNTOF(mStatistics); i++)
     {
@@ -296,7 +296,7 @@ void GameSession::init()
         }
         mFragsList[i] = 0;
         mPointsList[i] = 0;
-        wcscpy(mPlayerNames[i].mName, gEmptyWStr_67DC8C);
+        wcscpy(mPlayerNames[i].mName, gEmptyWStr);
     }
 }
 
@@ -377,7 +377,7 @@ MATCH_FUNC(0x4C5CD0)
 void GameSession::UpdateFrags(u8 player_killer_idx, u8 player_victim_idx)
 {
     mFragsByVictim[player_killer_idx].mFragsOnVictim[player_victim_idx]++;
-    Player* pPlayer = gGame_0x40_67E008->GetPlayer_4219E0(player_killer_idx);
+    Player* pPlayer = gGame_0x40->GetPlayer_4219E0(player_killer_idx);
     if (player_killer_idx == player_victim_idx)
     {
         // player killed himself

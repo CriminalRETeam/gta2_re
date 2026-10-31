@@ -15,14 +15,14 @@
 // Forward declarations: the functions below are in address order
 void __stdcall ClearPixelsOfColourInRow(u8* pData, s32 width, u8 clear_target);
 
-DEFINE_GLOBAL(gtx_0x106C*, gGtx_0x106C_703DD4, 0x703DD4);
-DEFINE_GLOBAL(s16, gStyleMessageFont_703D9C, 0x703D9C);
-DEFINE_GLOBAL(s16, gKanjiLargeFont_703D9A, 0x703D9A);
-DEFINE_GLOBAL(s16, gKanjiSmallFont_703C3E, 0x703C3E);
-DEFINE_GLOBAL(s16, gStylePauseFont_703DA4, 0x703DA4);
-DEFINE_GLOBAL(s16, gStyleTextFont_703BAA, 0x703BAA);
-DEFINE_GLOBAL(s16, gStyleCarNameFont_703D98, 0x703D98);
-DEFINE_GLOBAL(s16, gStyleZoneNameFont_703C9C, 0x703C9C);
+DEFINE_GLOBAL(gtx_0x106C*, gGtx_0x106C, 0x703DD4);
+DEFINE_GLOBAL(s16, gStyleMessageFont, 0x703D9C);
+DEFINE_GLOBAL(s16, gKanjiLargeFont, 0x703D9A);
+DEFINE_GLOBAL(s16, gKanjiSmallFont, 0x703C3E);
+DEFINE_GLOBAL(s16, gStylePauseFont, 0x703DA4);
+DEFINE_GLOBAL(s16, gStyleTextFont, 0x703BAA);
+DEFINE_GLOBAL(s16, gStyleCarNameFont, 0x703D98);
+DEFINE_GLOBAL(s16, gStyleZoneNameFont, 0x703C9C);
 
 MATCH_FUNC(0x5AA3B0)
 car_info* gtx_0x106C::get_car_info_5AA3B0(u8 idx) const
@@ -633,33 +633,33 @@ void gtx_0x106C::InitFontTypes(u16 fontCount)
 {
     if (fontCount == 14)
     {
-        gStyleMessageFont_703D9C = 0;
-        gKanjiSmallFont_703C3E = 1;
-        gKanjiLargeFont_703D9A = 2;
-        gStylePauseFont_703DA4 = 3;
-        gFrontendNormalFont_703D0C = 4;
-        gFrontendSelectedFont_703C16 = 5;
-        gFrontendFont6_703C8C = 6;
+        gStyleMessageFont = 0;
+        gKanjiSmallFont = 1;
+        gKanjiLargeFont = 2;
+        gStylePauseFont = 3;
+        gFrontendNormalFont = 4;
+        gFrontendSelectedFont = 5;
+        gFrontendFont6 = 6;
         font_type_703C14 = 7;
-        gFrontendHeadingFont_703C3C = 8;
-        gFrontendPlayMenuScoreFont_703C8A = 9;
-        gFrontendScoreFont_703BE2 = 10;
-        gFrontendAreaCompleteFont_703B88 = 11;
-        gFrontendFont12_703DAC = 12;
-        gFrontendTitleFont_703B9C = 13;
-        gStyleTextFont_703BAA = 99;
-        gStyleCarNameFont_703D98 = 99;
-        gStyleZoneNameFont_703C9C = 99;
+        gFrontendHeadingFont = 8;
+        gFrontendPlayMenuScoreFont = 9;
+        gFrontendScoreFont = 10;
+        gFrontendAreaCompleteFont = 11;
+        gFrontendFont12 = 12;
+        gFrontendTitleFont = 13;
+        gStyleTextFont = 99;
+        gStyleCarNameFont = 99;
+        gStyleZoneNameFont = 99;
     }
     else if (fontCount == 7)
     {
-        gStyleMessageFont_703D9C = 0;
-        gStyleTextFont_703BAA = 1;
-        gStyleCarNameFont_703D98 = 2;
-        gKanjiSmallFont_703C3E = 3;
-        gKanjiLargeFont_703D9A = 4;
-        gStyleZoneNameFont_703C9C = 5;
-        gStylePauseFont_703DA4 = 6;
+        gStyleMessageFont = 0;
+        gStyleTextFont = 1;
+        gStyleCarNameFont = 2;
+        gKanjiSmallFont = 3;
+        gKanjiLargeFont = 4;
+        gStyleZoneNameFont = 5;
+        gStylePauseFont = 6;
     }
     else
     {

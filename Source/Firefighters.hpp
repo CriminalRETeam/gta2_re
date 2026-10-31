@@ -85,4 +85,4 @@ class FirefighterPool
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(FirefighterPool, 0x54);
 
-EXTERN_GLOBAL(FirefighterPool*, gFirefighterPool_54_67D4C0);
+EXTERN_GLOBAL(FirefighterPool*, gFirefighterPool_54);

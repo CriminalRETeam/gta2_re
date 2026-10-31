@@ -4,7 +4,7 @@
 #include "gbh_graphics.hpp"
 #include <stdlib.h>
 
-DEFINE_GLOBAL(Light**, gLightGrid_6F5400, 0x6F5400) ;
+DEFINE_GLOBAL(Light**, gLightGrid, 0x6F5400) ;
 
 MATCH_FUNC(0x4D6D20)
 Light::Light()
@@ -36,17 +36,17 @@ MATCH_FUNC(0x4D6D70)
 void Light::AddToGrid()
 {
     u32 cell_idx = (mX.ToInt() >> 2) + ((mY.ToInt() >> 2) * 64);
-    Light* pFirst = gLightGrid_6F5400[cell_idx];
+    Light* pFirst = gLightGrid[cell_idx];
     
     if (!pFirst)
     {
-        gLightGrid_6F5400[cell_idx] = this;
+        gLightGrid[cell_idx] = this;
         mpGridNext = NULL;
         mpGridPrev = NULL;
     }
     else
     {
-        gLightGrid_6F5400[cell_idx] = this;
+        gLightGrid[cell_idx] = this;
         mpGridPrev = NULL;
         mpGridNext = pFirst;
         pFirst->mpGridPrev = this;
@@ -63,7 +63,7 @@ Light* Light::RemoveFromGrid()
     }
     else
     {
-        *(&gLightGrid_6F5400[64 * (mY.ToInt() >> 2)] + (mX.ToInt() >> 2)) = mpGridNext;
+        *(&gLightGrid[64 * (mY.ToInt() >> 2)] + (mX.ToInt() >> 2)) = mpGridNext;
     }
 
     Light* pNext = mpGridNext;
@@ -77,20 +77,20 @@ Light* Light::RemoveFromGrid()
 MATCH_FUNC(0x4D6E00)
 void __stdcall LightGrid::AllocGrid()
 {
-    gLightGrid_6F5400 = static_cast<Light**>(crt::malloc(0x4000u));
+    gLightGrid = static_cast<Light**>(crt::malloc(0x4000u));
     for (s32 i = 0; i < 4096; i++)
     {
-        gLightGrid_6F5400[i] = NULL;
+        gLightGrid[i] = NULL;
     }
 }
 
 MATCH_FUNC(0x4D6E30)
 void LightGrid::FreeGrid()
 {
-    if (gLightGrid_6F5400)
+    if (gLightGrid)
     {
-        crt::free(gLightGrid_6F5400);
-        gLightGrid_6F5400 = NULL;
+        crt::free(gLightGrid);
+        gLightGrid = NULL;
     }
 }
 
@@ -125,7 +125,7 @@ void __stdcall LightGrid::SubmitLightsInArea(s32 min_x, s32 min_y, s32 max_x, s3
     {
         for (s32 xpos = min_x; xpos <= max_x; xpos++)
         {
-            Light* pLight = gLightGrid_6F5400[(ypos * 64) + xpos];
+            Light* pLight = gLightGrid[(ypos * 64) + xpos];
             while (pLight)
             {
                 SLight sLight;

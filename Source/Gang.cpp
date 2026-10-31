@@ -6,10 +6,10 @@
 #include "TextTable.hpp"
 #include <string.h>
 
-DEFINE_GLOBAL(GangPool*, gGangPool_CA8_67E274, 0x67E274);
+DEFINE_GLOBAL(GangPool*, gGangPool_CA8, 0x67E274);
 DEFINE_STATIC_MEMBER_INIT(s32, GangPool, sGangIdx, -1, 0x6206B8);
 
-EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
+EXTERN_GLOBAL(s32, bStartNetworkGame);
 
 MATCH_FUNC(0x4BE4E0);
 Gang::Gang()
@@ -180,7 +180,7 @@ void Gang::ApplyKillRespectChange(u8 player_idx, u8 respect)
 
     for (u8 i = 0; i < 10; ++i)
     {
-        Gang* pGang = gGangPool_CA8_67E274->GangByIdx(i);
+        Gang* pGang = gGangPool_CA8->GangByIdx(i);
         if (mGangIdx != pGang->mGangIdx)
         {
             // The sum is written out twice in the checks and stored with +=, not kept in a local
@@ -212,7 +212,7 @@ void Gang::ChangeRespectAndUpdate(u8 player_idx, char_type respect)
 
     for (u8 i = 0; i < 10; ++i)
     {
-        Gang* pGang = gGangPool_CA8_67E274->GangByIdx(i);
+        Gang* pGang = gGangPool_CA8->GangByIdx(i);
         if (mGangIdx != pGang->mGangIdx)
         {
             if (pGang->mGangKillReaction[mGangIdx])
@@ -240,7 +240,7 @@ void Gang::SetName(const char_type* pName, u8 nameLen)
 MATCH_FUNC(0x4BF0C0);
 s32 Gang::GetCurrentWeapon() const
 {
-    if (bStartNetworkGame_7081F0 || mAlwaysBasicWeapon)
+    if (bStartNetworkGame || mAlwaysBasicWeapon)
     {
         return mBasicWeapon;
     }
@@ -334,14 +334,14 @@ void GangPool::SwapGangSlots(Gang* pGang, u8 gang_idx)
             if (pOtherGang->mArrowColour != pGang->mArrowColour)
             {
                 memcpy(&tmp_gang, pOtherGang, sizeof(tmp_gang));
-                memcpy(&gGangPool_CA8_67E274->mGangList[pOtherGang->mGangIdx],
+                memcpy(&gGangPool_CA8->mGangList[pOtherGang->mGangIdx],
                        pGang,
-                       sizeof(gGangPool_CA8_67E274->mGangList[pOtherGang->mGangIdx]));
-                memcpy(&gGangPool_CA8_67E274->mGangList[pGang->mGangIdx],
+                       sizeof(gGangPool_CA8->mGangList[pOtherGang->mGangIdx]));
+                memcpy(&gGangPool_CA8->mGangList[pGang->mGangIdx],
                        &tmp_gang,
-                       sizeof(gGangPool_CA8_67E274->mGangList[pGang->mGangIdx]));
+                       sizeof(gGangPool_CA8->mGangList[pGang->mGangIdx]));
                 pGang->mGangIdx = pOtherGang->mGangIdx;
-                gGangPool_CA8_67E274->mGangList[gang_idx].mGangIdx = gang_idx;
+                gGangPool_CA8->mGangList[gang_idx].mGangIdx = gang_idx;
             }
         }
     }
@@ -363,6 +363,6 @@ s8 GangPool::FindGangByCarModel(s32 car_model)
 MATCH_FUNC(0x4BF340)
 wchar_t* Gang::GetArrowColourText() const
 {
-    sprintf(gTmpBuffer_67C598, "ganga%d", mArrowColour);
-    return gText_0x14_704DFC->Find(gTmpBuffer_67C598);
+    sprintf(gTmpBuffer, "ganga%d", mArrowColour);
+    return gText_0x14->Find(gTmpBuffer);
 }

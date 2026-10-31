@@ -9,7 +9,7 @@
 
 HKEY kRegistryRootKey_625018 = HKEY_LOCAL_MACHINE; // Note: should be const, but can't be
 
-DEFINE_GLOBAL(Registry, gRegistry_6FF968, 0x6FF968);
+DEFINE_GLOBAL(Registry, gRegistry, 0x6FF968);
 
 MATCH_FUNC(0x586A00)
 bool Registry::Open_Sound_Root(PHKEY phkResult)
@@ -474,10 +474,10 @@ MATCH_FUNC(0x5875A0)
 s32 __stdcall Registry::Get_Binary_Value(HKEY hKey, const char_type* keyPath, LPBYTE lpData)
 {
     s32 ret = 0;
-    s32 size = gRegistry_6FF968.Get_Binary_Size(hKey, keyPath);
+    s32 size = gRegistry.Get_Binary_Size(hKey, keyPath);
     if (size)
     {
-        if (gRegistry_6FF968.Get_Binary(hKey, keyPath, size, lpData))
+        if (gRegistry.Get_Binary(hKey, keyPath, size, lpData))
         {
             ret = 1;
         }
@@ -490,7 +490,7 @@ s32 __stdcall Registry::Set_WString_Value(HKEY hKey, const char_type* keyPath, c
 {
     s32 ret = 0;
     u32 size = 2 * wcslen(pStr) + 2;
-    if (gRegistry_6FF968.Set_Binary(hKey, keyPath, reinterpret_cast<const BYTE*>(pStr), size))
+    if (gRegistry.Set_Binary(hKey, keyPath, reinterpret_cast<const BYTE*>(pStr), size))
     {
         ret = 1;
     }

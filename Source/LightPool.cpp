@@ -1,6 +1,6 @@
 #include "LightPool.hpp"
 
-DEFINE_GLOBAL(LightPool*, gLight_1D4CC_6F5520, 0x6F5520);
+DEFINE_GLOBAL(LightPool*, gLight_1D4CC, 0x6F5520);
 
 MATCH_FUNC(0x4bebc0)
 LightPool::~LightPool()

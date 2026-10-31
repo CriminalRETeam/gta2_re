@@ -4,7 +4,7 @@
 #include "Car.hpp"
 
 DEFINE_STATIC_MEMBER(TaxiListPool*, TaxiList, sTaxi4Pool, 0x6783F8);
-DEFINE_GLOBAL(TaxiList*, gTaxi_4_704130, 0x704130);
+DEFINE_GLOBAL(TaxiList*, gTaxi_4, 0x704130);
 
 MATCH_FUNC(0x457ba0)
 void TaxiList::PushTaxi(Car* pCar)

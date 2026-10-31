@@ -76,4 +76,4 @@ class TileAnimPool
     Pool<TileAnim, 50> mPool; // 0x0
 };
 
-EXTERN_GLOBAL(TileAnimManager*, gTileAnim_2_7052C4);
+EXTERN_GLOBAL(TileAnimManager*, gTileAnim_2);

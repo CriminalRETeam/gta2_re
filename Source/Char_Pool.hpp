@@ -196,14 +196,14 @@ class PedPool
     Pool<Ped, 200> mPool; // 0x0
 };
 
-EXTERN_GLOBAL(PedManager*, gPedManager_6787BC);
+EXTERN_GLOBAL(PedManager*, gPedManager);
 
-EXTERN_GLOBAL(PedPool*, gPedPool_6787B8);
+EXTERN_GLOBAL(PedPool*, gPedPool);
 
-EXTERN_GLOBAL(CharPool*, gChar_B4_Pool_6FDB44);
+EXTERN_GLOBAL(CharPool*, gChar_B4_Pool);
 
-EXTERN_GLOBAL(PedListNodePool*, gChar_8_Pool_678b50);
+EXTERN_GLOBAL(PedListNodePool*, gChar_8_Pool);
 
-EXTERN_GLOBAL(u8, gNumPolicePedsInRangeScreen_6787EE);
+EXTERN_GLOBAL(u8, gNumPolicePedsInRangeScreen);
 
-EXTERN_GLOBAL(u8, gLosCheckSlotFree_61A8A2);
+EXTERN_GLOBAL(u8, gLosCheckSlotFree);

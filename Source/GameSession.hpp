@@ -193,10 +193,10 @@ struct GameSession
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(GameSession, 0x578);
 
-EXTERN_GLOBAL(GameSession, gGameSession_67E8E0);
+EXTERN_GLOBAL(GameSession, gGameSession);
 
 // 9.6f 0x434B20
 inline bool IsTagGame_434B20()
 {
-    return gGameSession_67E8E0.GetMultiplayerGamemode() == TAG_GAME_3;
+    return gGameSession.GetMultiplayerGamemode() == TAG_GAME_3;
 }

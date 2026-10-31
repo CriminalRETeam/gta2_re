@@ -505,9 +505,9 @@ class FreeLoader
 EXPORT s32 IsFullScreen_5D98D0();
 EXPORT s32 __stdcall SetGamma(s32 gamma);
 
-EXTERN_GLOBAL(Frontend*, gFrontend_67DC84);
+EXTERN_GLOBAL(Frontend*, gFrontend);
 
-EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
+EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff, 640);
 
 
 EXPORT void __stdcall MakeScreenTableAndSetWindow();
@@ -517,41 +517,41 @@ EXPORT void __stdcall ConvertColourBanks_5D7CB0();
 
 EXTERN_GLOBAL(s16, font_type_703C14);
 
-EXTERN_GLOBAL(s16, gFrontendHeadingFont_703C3C);
+EXTERN_GLOBAL(s16, gFrontendHeadingFont);
 
-EXTERN_GLOBAL(s16, gFrontendNormalFont_703D0C);
+EXTERN_GLOBAL(s16, gFrontendNormalFont);
 
-EXTERN_GLOBAL(s16, gFrontendSelectedFont_703C16);
+EXTERN_GLOBAL(s16, gFrontendSelectedFont);
 
-EXTERN_GLOBAL(s16, gFrontendFont6_703C8C);
+EXTERN_GLOBAL(s16, gFrontendFont6);
 
-EXTERN_GLOBAL(s16, gFrontendPlayMenuScoreFont_703C8A);
+EXTERN_GLOBAL(s16, gFrontendPlayMenuScoreFont);
 
-EXTERN_GLOBAL(s16, gFrontendScoreFont_703BE2);
+EXTERN_GLOBAL(s16, gFrontendScoreFont);
 
-EXTERN_GLOBAL(s16, gFrontendAreaCompleteFont_703B88);
+EXTERN_GLOBAL(s16, gFrontendAreaCompleteFont);
 
-EXTERN_GLOBAL(s16, gFrontendFont12_703DAC);
+EXTERN_GLOBAL(s16, gFrontendFont12);
 
-EXTERN_GLOBAL(s16, gFrontendTitleFont_703B9C);
+EXTERN_GLOBAL(s16, gFrontendTitleFont);
 
 EXTERN_GLOBAL(u32, counter_706C4C);
 
-EXTERN_GLOBAL(bool, gCheatOnlyMuggerPeds_67D5A4);
-EXTERN_GLOBAL(bool, gCheatUnlimitedElectroGun_67D4F7);
-EXTERN_GLOBAL(bool, gCheatAllGangMaxRespect_67D587);
-EXTERN_GLOBAL(bool, gCheatOnlyElvisPeds_67D4ED);
-EXTERN_GLOBAL(bool, gCheatNakedPeds_67D5E8);
-EXTERN_GLOBAL(bool, gCheatGetBasicWeaponsMaxAmmo_67D545);
-EXTERN_GLOBAL(bool, gCheatGet99Lives_67D4F1);
-EXTERN_GLOBAL(bool, gCheatGetPlayerPoints_67D4C8);
-EXTERN_GLOBAL(bool, gCheatUnlimitedFlameThrower_67D6CC);
-EXTERN_GLOBAL(bool, gCheatUnlimitedJailCard_67D4F6);
-EXTERN_GLOBAL(bool, gCheatGet10MillionMoney_67D6CE);
-EXTERN_GLOBAL(bool, gCheat10xMultiplier_67D589);
-EXTERN_GLOBAL(bool, gCheatUnlockThreeLevels_67D6CB);
-EXTERN_GLOBAL(bool, gCheatUnlockLevelsOneAndTwo_67D584);
-EXTERN_GLOBAL(bool, gCheatUnlockAllLevels_67D538);
-EXTERN_GLOBAL(bool, gCheatUnlimitedDoubleDamage_67D57C);
-EXTERN_GLOBAL(bool, gCheatInvisibility_67D539);
-EXTERN_GLOBAL(bool, gCheatMiniCars_67D6C8);
+EXTERN_GLOBAL(bool, gCheatOnlyMuggerPeds);
+EXTERN_GLOBAL(bool, gCheatUnlimitedElectroGun);
+EXTERN_GLOBAL(bool, gCheatAllGangMaxRespect);
+EXTERN_GLOBAL(bool, gCheatOnlyElvisPeds);
+EXTERN_GLOBAL(bool, gCheatNakedPeds);
+EXTERN_GLOBAL(bool, gCheatGetBasicWeaponsMaxAmmo);
+EXTERN_GLOBAL(bool, gCheatGet99Lives);
+EXTERN_GLOBAL(bool, gCheatGetPlayerPoints);
+EXTERN_GLOBAL(bool, gCheatUnlimitedFlameThrower);
+EXTERN_GLOBAL(bool, gCheatUnlimitedJailCard);
+EXTERN_GLOBAL(bool, gCheatGet10MillionMoney);
+EXTERN_GLOBAL(bool, gCheat10xMultiplier);
+EXTERN_GLOBAL(bool, gCheatUnlockThreeLevels);
+EXTERN_GLOBAL(bool, gCheatUnlockLevelsOneAndTwo);
+EXTERN_GLOBAL(bool, gCheatUnlockAllLevels);
+EXTERN_GLOBAL(bool, gCheatUnlimitedDoubleDamage);
+EXTERN_GLOBAL(bool, gCheatInvisibility);
+EXTERN_GLOBAL(bool, gCheatMiniCars);

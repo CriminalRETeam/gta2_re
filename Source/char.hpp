@@ -15,13 +15,13 @@ class Car;
 class Sprite;
 
 EXTERN_GLOBAL(Fix16, kFpOne256th_678620);
-EXTERN_GLOBAL(Fix16, gCharB4_Saved_Xpos_6FD7F8);
-EXTERN_GLOBAL(Fix16, gCharB4_Saved_Ypos_6FD800);
-EXTERN_GLOBAL(Fix16, gCharB4_Saved_Zpos_6FD7FC);
+EXTERN_GLOBAL(Fix16, gCharB4_Saved_Xpos);
+EXTERN_GLOBAL(Fix16, gCharB4_Saved_Ypos);
+EXTERN_GLOBAL(Fix16, gCharB4_Saved_Zpos);
 EXTERN_GLOBAL(Fix16, kFpOne128th_6784BC);
 
 EXTERN_GLOBAL(Ang16, kAng16_6FD940);
-EXTERN_GLOBAL(Ang16, kAng344_6FD8F8);
+EXTERN_GLOBAL(Ang16, kAng344);
 
 EXPORT void __stdcall UnpackSignedNibbles(u8 packed, s8* pX, s8* pY);
 EXPORT Ang16 __stdcall ComputeShortestAngleDelta(Ang16& angle1, Ang16& angle2);
@@ -258,7 +258,7 @@ class Char
     inline void VeerRightFromWall_4923A0()
     {
         mRotation.SnapToAng4();
-        mRotation += kAng344_6FD8F8;
+        mRotation += kAng344;
         mCharState = Char_B4_state::Veer_Right_From_Wall_8;
         mTimer = 10;
     }
@@ -422,6 +422,6 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Char, 0xB4);
 EXPORT void __stdcall ResetCharUpdateGlobals();
 EXPORT void __stdcall ResetCharStatics();
 
-EXTERN_GLOBAL(u8, bThreateningPedAdded_6787EF);
+EXTERN_GLOBAL(u8, bThreateningPedAdded);
 
-EXTERN_GLOBAL(u16, gNumPedsOnScreen_6787EC);
+EXTERN_GLOBAL(u16, gNumPedsOnScreen);

@@ -10,36 +10,36 @@
 #include "sprite.hpp"
 
 // Multi/regional bucket stuff, Cars/Peds/Cranes/Objects
-DEFINE_GLOBAL(SpriteGrid*, gSpriteGrid_1_679208, 0x679208);
+DEFINE_GLOBAL(SpriteGrid*, gSpriteGrid_1, 0x679208);
 
 // Used by buses, car-trailer combo, Char in certain states and objects with certain collision category
-DEFINE_GLOBAL(SpriteGrid*, gSpriteGrid_2_67920C, 0x67920C);
+DEFINE_GLOBAL(SpriteGrid*, gSpriteGrid_2, 0x67920C);
 
 // Single bucket stuff, mostly particles
-DEFINE_GLOBAL(SpriteGrid*, gSpriteGrid_3_679210, 0x679210);
+DEFINE_GLOBAL(SpriteGrid*, gSpriteGrid_3, 0x679210);
 
-DEFINE_GLOBAL(s32, gSpriteGrid_bottom_6F5F38, 0x6F5F38);
-DEFINE_GLOBAL(s32, gSpriteGrid_top_6F6108, 0x6F6108);
+DEFINE_GLOBAL(s32, gSpriteGrid_bottom, 0x6F5F38);
+DEFINE_GLOBAL(s32, gSpriteGrid_top, 0x6F6108);
 DEFINE_STATIC_MEMBER(s32, SpriteGrid, sSpriteGridSpriteTypeFilter, 0x678FA8);
 DEFINE_STATIC_MEMBER(s32, SpriteGrid, sSpriteGridPreferredType, 0x678F60);
 DEFINE_STATIC_MEMBER(Sprite*, SpriteGrid, sSpriteGridSmallestDistSprite, 0x678E40);
 DEFINE_STATIC_MEMBER(u8, SpriteGrid, sbDoCollisionCheck, 0x679006);
 DEFINE_STATIC_MEMBER(s32, SpriteGrid, sSpriteGridExcludeTypes, 0x678F88);
-DEFINE_GLOBAL(s32, gSpriteGrid_start_x_679090, 0x679090);
-DEFINE_GLOBAL(s32, gSpriteGrid_start_y_679098, 0x679098);
+DEFINE_GLOBAL(s32, gSpriteGrid_start_x, 0x679090);
+DEFINE_GLOBAL(s32, gSpriteGrid_start_y, 0x679098);
 DEFINE_STATIC_MEMBER(SpriteList*, SpriteGrid, sSpriteGridList, 0x679214);
-EXTERN_GLOBAL(CollisionCounters*, gCollisionCounters_6791FC);
-EXTERN_GLOBAL(GridCell_Pool*, gGridCell_Pool_679204);
-EXTERN_GLOBAL(GridSpriteLink_Pool*, gGridSpriteLink_Pool_679200);
-DEFINE_GLOBAL(Sprite*, gSpriteGrid_exclusion_sprite_678F84, 0x678F84);
+EXTERN_GLOBAL(CollisionCounters*, gCollisionCounters);
+EXTERN_GLOBAL(GridCell_Pool*, gGridCell_Pool);
+EXTERN_GLOBAL(GridSpriteLink_Pool*, gGridSpriteLink_Pool);
+DEFINE_GLOBAL(Sprite*, gSpriteGrid_exclusion_sprite, 0x678F84);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_678F74, Fix16(0x2000, 0), 0x678F74);
 DEFINE_STATIC_MEMBER(s32, SpriteGrid, sSpriteGridSpriteType1, 0x678FE8);
 DEFINE_STATIC_MEMBER(s32, SpriteGrid, sSpriteGridSpriteType2, 0x678FEC);
 DEFINE_STATIC_MEMBER(Sprite*, SpriteGrid, sSpriteGridExcludeSprite, 0x678F40);
-DEFINE_GLOBAL(Ped*, gSpriteGrid_ped_678F64, 0x678F64);
-DEFINE_GLOBAL(Fix16, gSpriteGrid_smallestDistance_678E5C, 0x678E5C);
-DEFINE_GLOBAL(Fix16, gSpriteGrid_zpos_low_678F38, 0x678F38);
-DEFINE_GLOBAL(Fix16, gSpriteGrid_zpos_high_678F3C, 0x678F3C);
+DEFINE_GLOBAL(Ped*, gSpriteGrid_ped, 0x678F64);
+DEFINE_GLOBAL(Fix16, gSpriteGrid_smallestDistance, 0x678E5C);
+DEFINE_GLOBAL(Fix16, gSpriteGrid_zpos_low, 0x678F38);
+DEFINE_GLOBAL(Fix16, gSpriteGrid_zpos_high, 0x678F3C);
 DEFINE_STATIC_MEMBER(s32, SpriteGrid, sSpriteGridSearchMode, 0x678FD0);
 
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpOneAndHalf, Fix16(0x6000, 0), 0x678F80);
@@ -61,10 +61,10 @@ static inline s32 Clamp(s32 value, s32 min, s32 max)
 MATCH_FUNC(0x477a40)
 void SpriteGrid::DrawSpritesClipped()
 {
-    const s32 left = Clamp((gViewCamera_676978->mViewBounds.mLeft - kFpOne_679084).ToInt(), 0, 255);
-    const s32 right = Clamp((kFpOneAndHalf + gViewCamera_676978->mViewBounds.mRight).ToInt(), 0, 255);
-    const s32 top = Clamp((gViewCamera_676978->mViewBounds.mTop - kFpOne_679084).ToInt(), 0, 255);
-    const s32 bottom = Clamp((kFpOneAndHalf + gViewCamera_676978->mViewBounds.mBottom).ToInt(), 0, 255);
+    const s32 left = Clamp((gViewCamera->mViewBounds.mLeft - kFpOne_679084).ToInt(), 0, 255);
+    const s32 right = Clamp((kFpOneAndHalf + gViewCamera->mViewBounds.mRight).ToInt(), 0, 255);
+    const s32 top = Clamp((gViewCamera->mViewBounds.mTop - kFpOne_679084).ToInt(), 0, 255);
+    const s32 bottom = Clamp((kFpOneAndHalf + gViewCamera->mViewBounds.mBottom).ToInt(), 0, 255);
 
     AddToDrawList(left, right, top, bottom);
 }
@@ -86,7 +86,7 @@ void SpriteGrid::AddToRegionBuckets(Sprite* pSprite)
 {
     pSprite->UpdateCollisionBoundsIfNeeded();
     pSprite->mpCollisionShape->SetCurrentRect();
-    for (s32 y_pos = gSpriteGrid_top_6F6108; y_pos <= gSpriteGrid_bottom_6F5F38; ++y_pos)
+    for (s32 y_pos = gSpriteGrid_top; y_pos <= gSpriteGrid_bottom; ++y_pos)
     {
         AddToRowBuckets(y_pos, pSprite);
     }
@@ -96,7 +96,7 @@ MATCH_FUNC(0x477b60)
 void SpriteGrid::RemoveFromRegionBuckets(Sprite* pSprite)
 {
     pSprite->mpCollisionShape->SetCurrentRect();
-    for (s32 y_pos = gSpriteGrid_top_6F6108; y_pos <= gSpriteGrid_bottom_6F5F38; ++y_pos)
+    for (s32 y_pos = gSpriteGrid_top; y_pos <= gSpriteGrid_bottom; ++y_pos)
     {
         RemoveFromRowBuckets(y_pos, pSprite);
     }
@@ -119,12 +119,12 @@ bool SpriteGrid::CheckAndHandleCollisionInStrips(Sprite* pSprite)
 {
     bool bHit = false;
 
-    gCollisionCounters_6791FC->mQueryId++;
+    gCollisionCounters->mQueryId++;
 
     pSprite->UpdateCollisionBoundsIfNeeded();
     pSprite->mpCollisionShape->SetCurrentRect();
 
-    for (s32 i = gSpriteGrid_top_6F6108; i <= gSpriteGrid_bottom_6F5F38; ++i)
+    for (s32 i = gSpriteGrid_top; i <= gSpriteGrid_bottom; ++i)
     {
         bHit |= CheckAndHandleCollisionsInStrip(i, pSprite);
     }
@@ -136,10 +136,10 @@ bool SpriteGrid::CheckAndHandleAllCollisionsForSprite(Sprite* pSprite, s32 sprit
 {
     sSpriteGridSpriteTypeFilter = sprite_type_filter;
     bool bHit = false;
-    ++gCollisionCounters_6791FC->mQueryId;
+    ++gCollisionCounters->mQueryId;
     pSprite->UpdateCollisionBoundsIfNeeded();
     pSprite->mpCollisionShape->SetCurrentRect();
-    for (s32 i = gSpriteGrid_top_6F6108; i <= gSpriteGrid_bottom_6F5F38; ++i)
+    for (s32 i = gSpriteGrid_top; i <= gSpriteGrid_bottom; ++i)
     {
         bHit |= SpriteGrid::CheckAndHandleRowCollisionsForSprite(i, pSprite);
     }
@@ -154,25 +154,25 @@ Sprite* SpriteGrid::FindNearestSprite_SpiralSearch(s32 primary_sprite_type,
                                                           s32 search_mode,
                                                           char_type bUseSpriteZ)
 {
-    gSpriteGrid_start_x_679090 = pExclude->mXy.x.ToInt();
-    gSpriteGrid_start_y_679098 = pExclude->mXy.y.ToInt();
+    gSpriteGrid_start_x = pExclude->mXy.x.ToInt();
+    gSpriteGrid_start_y = pExclude->mXy.y.ToInt();
     sSpriteGridSpriteType1 = primary_sprite_type;
     sSpriteGridSpriteType2 = secondary_sprite_type;
     sSpriteGridExcludeSprite = pExclude;
-    gSpriteGrid_ped_678F64 = pExclude->GetPed();
-    gSpriteGrid_smallestDistance_678E5C = Fix16(256);
+    gSpriteGrid_ped = pExclude->GetPed();
+    gSpriteGrid_smallestDistance = Fix16(256);
     sSpriteGridSmallestDistSprite = NULL;
     sSpriteGridSearchMode = search_mode;
 
     if (bUseSpriteZ == 1)
     {
-        gSpriteGrid_zpos_low_678F38 = pExclude->mZpos - kFpHalf_678F74;
-        gSpriteGrid_zpos_high_678F3C = pExclude->mZpos + kFpHalf_678F74;
+        gSpriteGrid_zpos_low = pExclude->mZpos - kFpHalf_678F74;
+        gSpriteGrid_zpos_high = pExclude->mZpos + kFpHalf_678F74;
     }
     else
     {
-        gSpriteGrid_zpos_low_678F38 = 0;
-        gSpriteGrid_zpos_high_678F3C = Fix16(7);
+        gSpriteGrid_zpos_low = 0;
+        gSpriteGrid_zpos_high = Fix16(7);
     }
 
     SearchTileStripForClosestSprite(1u);
@@ -183,8 +183,8 @@ Sprite* SpriteGrid::FindNearestSprite_SpiralSearch(s32 primary_sprite_type,
         for (u32 ring_size = 2; ring_size <= static_cast<u32>(2 * max_rings); ring_size += 2)
         {
             // LEFT COLUMN
-            --gSpriteGrid_start_x_679090;
-            gSpriteGrid_start_y_679098 += 2 - ring_size;
+            --gSpriteGrid_start_x;
+            gSpriteGrid_start_y += 2 - ring_size;
             SearchTileColumnForClosestSprite(ring_size - 1);
 
             if (!search_mode)
@@ -197,7 +197,7 @@ Sprite* SpriteGrid::FindNearestSprite_SpiralSearch(s32 primary_sprite_type,
             }
 
             // TOP ROW
-            --gSpriteGrid_start_y_679098;
+            --gSpriteGrid_start_y;
             SearchTileStripForClosestSprite(ring_size + 1);
 
             if (!search_mode)
@@ -210,8 +210,8 @@ Sprite* SpriteGrid::FindNearestSprite_SpiralSearch(s32 primary_sprite_type,
             }
 
             // RIGHT COLUMN
-            gSpriteGrid_start_x_679090 += ring_size;
-            ++gSpriteGrid_start_y_679098;
+            gSpriteGrid_start_x += ring_size;
+            ++gSpriteGrid_start_y;
             SearchTileColumnForClosestSprite(ring_size - 1);
 
             if (!search_mode)
@@ -224,8 +224,8 @@ Sprite* SpriteGrid::FindNearestSprite_SpiralSearch(s32 primary_sprite_type,
             }
 
             // BOTTOM ROW
-            gSpriteGrid_start_x_679090 -= ring_size;
-            gSpriteGrid_start_y_679098 = gSpriteGrid_start_y_679098 + ring_size - 1;
+            gSpriteGrid_start_x -= ring_size;
+            gSpriteGrid_start_y = gSpriteGrid_start_y + ring_size - 1;
             SearchTileStripForClosestSprite(ring_size + 1);
 
             pCollisionSprite = sSpriteGridSmallestDistSprite;
@@ -246,7 +246,7 @@ Sprite* SpriteGrid::FindNearestSprite_SpiralSearch(s32 primary_sprite_type,
 MATCH_FUNC(0x477E50)
 void SpriteGrid::SetSpriteToExclude(Sprite* pSprite)
 {
-    gSpriteGrid_exclusion_sprite_678F84 = pSprite;
+    gSpriteGrid_exclusion_sprite = pSprite;
 }
 
 MATCH_FUNC(0x477e60)
@@ -255,12 +255,12 @@ Sprite* SpriteGrid::FindCollidingSpritePreferType(Sprite* pSprite, s32 desired_s
     sSpriteGridPreferredType = desired_sprite_type;
     sSpriteGridSmallestDistSprite = NULL;
 
-    gCollisionCounters_6791FC->mQueryId++;
+    gCollisionCounters->mQueryId++;
 
     pSprite->UpdateCollisionBoundsIfNeeded();
     pSprite->mpCollisionShape->SetCurrentRect();
 
-    for (s32 top = gSpriteGrid_top_6F6108; top <= gSpriteGrid_bottom_6F5F38; top++)
+    for (s32 top = gSpriteGrid_top; top <= gSpriteGrid_bottom; top++)
     {
         Sprite* pObj = FindCollidingSpriteInRow(top, pSprite);
         if (pObj)
@@ -285,13 +285,13 @@ MATCH_FUNC(0x477f60)
 bool SpriteGrid::CheckRectForCollisions(Fix16_Rect* pRect, bool bDeepCheck, s32 exclude_sprite_type, Sprite* pExclude)
 {
     bool bRet = false;
-    ++gCollisionCounters_6791FC->mQueryId;
+    ++gCollisionCounters->mQueryId;
     pRect->DoSetCurrentRect();
     sbDoCollisionCheck = bDeepCheck;
     sSpriteGridExcludeTypes = exclude_sprite_type;
     SetSpriteToExclude(pExclude);
 
-    for (s32 y_pos = gSpriteGrid_top_6F6108; y_pos <= gSpriteGrid_bottom_6F5F38; y_pos++)
+    for (s32 y_pos = gSpriteGrid_top; y_pos <= gSpriteGrid_bottom; y_pos++)
     {
         if (SpriteGrid::CheckRowForRectCollisions(y_pos, pRect))
         {
@@ -334,24 +334,24 @@ void SpriteGrid::CheckTileSpritesForClosestMatch(GridSpriteLink* pSpriteLinks)
             pLinkSprite != sSpriteGridExcludeSprite)
         {
 
-            if (pLinkSprite->mZpos <= gSpriteGrid_zpos_high_678F3C && pLinkSprite->mZpos >= gSpriteGrid_zpos_low_678F38)
+            if (pLinkSprite->mZpos <= gSpriteGrid_zpos_high && pLinkSprite->mZpos >= gSpriteGrid_zpos_low)
             {
                 if (sSpriteGridSearchMode == 3)
                 {
                     dist = sSpriteGridExcludeSprite->MinDistanceToAnySpriteBBoxCorner(pLinkSprite);
-                    if (dist < gSpriteGrid_smallestDistance_678E5C)
+                    if (dist < gSpriteGrid_smallestDistance)
                     {
                         if (pColIter->mpSprite->GetType_416B40() == sprite_types_enum::car_2)
                         {
                             if (pColIter->mpSprite->mCarBcPtr->IsEnterable())
                             {
-                                gSpriteGrid_smallestDistance_678E5C = dist;
+                                gSpriteGrid_smallestDistance = dist;
                                 sSpriteGridSmallestDistSprite = pColIter->mpSprite;
                             }
                         }
                         else
                         {
-                            gSpriteGrid_smallestDistance_678E5C = dist;
+                            gSpriteGrid_smallestDistance = dist;
                             sSpriteGridSmallestDistSprite = pColIter->mpSprite;
                         }
                     }
@@ -361,11 +361,11 @@ void SpriteGrid::CheckTileSpritesForClosestMatch(GridSpriteLink* pSpriteLinks)
 
                     dist = sSpriteGridExcludeSprite->ManhattanDistance_446960(pLinkSprite);
 
-                    if (dist < gSpriteGrid_smallestDistance_678E5C)
+                    if (dist < gSpriteGrid_smallestDistance)
                     {
                         if (pLinkSprite->IsThreatToSearchingPed())
                         {
-                            gSpriteGrid_smallestDistance_678E5C = dist;
+                            gSpriteGrid_smallestDistance = dist;
                             sSpriteGridSmallestDistSprite = pColIter->mpSprite;
                         }
                     }
@@ -378,14 +378,14 @@ void SpriteGrid::CheckTileSpritesForClosestMatch(GridSpriteLink* pSpriteLinks)
 MATCH_FUNC(0x478160)
 void SpriteGrid::SearchTileColumnForClosestSprite(u8 height)
 {
-    u32 y_pos = gSpriteGrid_start_y_679098;
-    if (static_cast<u32>(gSpriteGrid_start_y_679098) < gSpriteGrid_start_y_679098 + static_cast<u32>(height))
+    u32 y_pos = gSpriteGrid_start_y;
+    if (static_cast<u32>(gSpriteGrid_start_y) < gSpriteGrid_start_y + static_cast<u32>(height))
     {
         // Won't match without this redundant iter
-        GridCell** pXItemIter = &this->mRows[gSpriteGrid_start_y_679098];
-        while (y_pos < gSpriteGrid_start_y_679098 + static_cast<u32>(height))
+        GridCell** pXItemIter = &this->mRows[gSpriteGrid_start_y];
+        while (y_pos < gSpriteGrid_start_y + static_cast<u32>(height))
         {
-            CheckTileSpritesForClosestMatch(GetCollideListAt_446820(gSpriteGrid_start_x_679090, y_pos));
+            CheckTileSpritesForClosestMatch(GetCollideListAt_446820(gSpriteGrid_start_x, y_pos));
             ++y_pos;
             ++pXItemIter;
         }
@@ -395,12 +395,12 @@ void SpriteGrid::SearchTileColumnForClosestSprite(u8 height)
 MATCH_FUNC(0x4781E0)
 void SpriteGrid::SearchTileStripForClosestSprite(u8 width)
 {
-    gSpriteGrid_left_6F5FD4 = gSpriteGrid_start_x_679090;
-    gSpriteGrid_right_6F5B80 = gSpriteGrid_start_x_679090 + width - 1;
+    gSpriteGrid_left = gSpriteGrid_start_x;
+    gSpriteGrid_right = gSpriteGrid_start_x + width - 1;
 
-    for (GridCell* pXItemIter = GetFirstXCellInRow(gSpriteGrid_start_y_679098); pXItemIter; pXItemIter = pXItemIter->mpNext)
+    for (GridCell* pXItemIter = GetFirstXCellInRow(gSpriteGrid_start_y); pXItemIter; pXItemIter = pXItemIter->mpNext)
     {
-        if (pXItemIter->mX > gSpriteGrid_right_6F5B80)
+        if (pXItemIter->mX > gSpriteGrid_right)
         {
             break;
         }
@@ -430,7 +430,7 @@ void SpriteGrid::AddToDrawList(s32 left, s32 right, s32 top, s32 bottom)
                     {
                         if (pLinkIter->mpSprite->IsTypeAbove1_446950())
                         {
-                            gSpriteRenderer_67B580->DisplayAdd(pLinkIter->mpSprite);
+                            gSpriteRenderer->DisplayAdd(pLinkIter->mpSprite);
                         }
                     }
                 }
@@ -465,7 +465,7 @@ void SpriteGrid::DoRemove(s32 x_pos, s32 y_pos, Sprite* pSprite)
                         pPrevLink->mpNext = pLink->mpNext;
                     }
 
-                    gGridSpriteLink_Pool_679200->DeAllocate(pLink);
+                    gGridSpriteLink_Pool->DeAllocate(pLink);
 
                     if (!pCell->mpSpriteLinks)
                     {
@@ -477,7 +477,7 @@ void SpriteGrid::DoRemove(s32 x_pos, s32 y_pos, Sprite* pSprite)
                         {
                             pPrevCell->mpNext = pCell->mpNext;
                         }
-                        gGridCell_Pool_679204->DeAllocate(pCell);
+                        gGridCell_Pool->DeAllocate(pCell);
                     }
                     return;
                 }
@@ -493,7 +493,7 @@ void SpriteGrid::DoRemove(s32 x_pos, s32 y_pos, Sprite* pSprite)
 MATCH_FUNC(0x478370)
 void SpriteGrid::RemoveFromRowBuckets(s32 y_pos, Sprite* pSprite)
 {
-    s32 x_pos = gSpriteGrid_left_6F5FD4;
+    s32 x_pos = gSpriteGrid_left;
     GridCell* pPrevCell = NULL;
     for (GridCell* pCell = this->mRows[y_pos]; pCell; pCell = pCell->mpNext)
     {
@@ -514,7 +514,7 @@ void SpriteGrid::RemoveFromRowBuckets(s32 y_pos, Sprite* pSprite)
                         pPrevLink->mpNext = pLink->mpNext;
                     }
 
-                    gGridSpriteLink_Pool_679200->DeAllocate(pLink);
+                    gGridSpriteLink_Pool->DeAllocate(pLink);
 
                     if (!pCell->mpSpriteLinks)
                     {
@@ -527,7 +527,7 @@ void SpriteGrid::RemoveFromRowBuckets(s32 y_pos, Sprite* pSprite)
                         {
                             pPrevCell->mpNext = pNext;
                         }
-                        pCell = gGridCell_Pool_679204->UnlinkAndReturnNext(pCell);
+                        pCell = gGridCell_Pool->UnlinkAndReturnNext(pCell);
                     }
                     else
                     {
@@ -536,7 +536,7 @@ void SpriteGrid::RemoveFromRowBuckets(s32 y_pos, Sprite* pSprite)
                     }
                     ++x_pos;
 
-                    if (x_pos > gSpriteGrid_right_6F5B80)
+                    if (x_pos > gSpriteGrid_right)
                     {
                         return;
                     }
@@ -557,7 +557,7 @@ void SpriteGrid::RemoveFromRowBuckets(s32 y_pos, Sprite* pSprite)
 MATCH_FUNC(0x478440)
 void SpriteGrid::AddToSingleBucket_478440(s32 x_pos, s32 y_pos, Sprite* pSprite)
 {
-    GridSpriteLink* pNewCollide = gGridSpriteLink_Pool_679200->Allocate();
+    GridSpriteLink* pNewCollide = gGridSpriteLink_Pool->Allocate();
 
     pNewCollide->mpSprite = pSprite;
 
@@ -579,7 +579,7 @@ void SpriteGrid::AddToSingleBucket_478440(s32 x_pos, s32 y_pos, Sprite* pSprite)
         pPrevCell = pCell;
     }
 
-    GridCell* pNewItem = gGridCell_Pool_679204->Allocate();
+    GridCell* pNewItem = gGridCell_Pool->Allocate();
 
     if (!pPrevCell)
     {
@@ -599,10 +599,10 @@ void SpriteGrid::AddToSingleBucket_478440(s32 x_pos, s32 y_pos, Sprite* pSprite)
 MATCH_FUNC(0x4784d0)
 void SpriteGrid::AddToRowBuckets(s32 y_pos, Sprite* pSprite)
 {
-    s32 x_pos = gSpriteGrid_left_6F5FD4;
+    s32 x_pos = gSpriteGrid_left;
     GridCell* pNextCell = this->mRows[y_pos];
     GridCell* pPrevCell = NULL;
-    while (x_pos <= gSpriteGrid_right_6F5B80)
+    while (x_pos <= gSpriteGrid_right)
     {
         while (pNextCell)
         {
@@ -613,11 +613,11 @@ void SpriteGrid::AddToRowBuckets(s32 y_pos, Sprite* pSprite)
             if (pNextCell->mX == x_pos)
             {
                 ++x_pos;
-                GridSpriteLink* pLink = gGridSpriteLink_Pool_679200->Allocate();
+                GridSpriteLink* pLink = gGridSpriteLink_Pool->Allocate();
                 pLink->mpSprite = pSprite;
                 pLink->mpNext = pNextCell->mpSpriteLinks;
                 pNextCell->mpSpriteLinks = pLink;
-                if (x_pos > gSpriteGrid_right_6F5B80)
+                if (x_pos > gSpriteGrid_right)
                 {
                     return;
                 }
@@ -626,9 +626,9 @@ void SpriteGrid::AddToRowBuckets(s32 y_pos, Sprite* pSprite)
             pNextCell = pNextCell->mpNext;
         }
 
-        GridSpriteLink* pLink = gGridSpriteLink_Pool_679200->Allocate();
+        GridSpriteLink* pLink = gGridSpriteLink_Pool->Allocate();
         pLink->mpSprite = pSprite;
-        GridCell* pCell = gGridCell_Pool_679204->Allocate();
+        GridCell* pCell = gGridCell_Pool->Allocate();
 
         if (!pPrevCell)
         {
@@ -661,11 +661,11 @@ GridCell* SpriteGrid::GetFirstXCellInRow(s32 y_pos) const
     for (pIter = this->mRows[y_pos]; pIter; pIter = pIter->mpNext)
     {
         cell_x = static_cast<u8>(pIter->mX);
-        if (cell_x >= gSpriteGrid_left_6F5FD4)
+        if (cell_x >= gSpriteGrid_left)
         {
             break;
         }
-        if (cell_x > gSpriteGrid_right_6F5B80)
+        if (cell_x > gSpriteGrid_right)
         {
             return NULL;
         }
@@ -681,7 +681,7 @@ bool SpriteGrid::CheckRowForRectCollisions(u32 y_pos, Fix16_Rect* pRect)
     bool bRet = false;
     while (pXItemIter)
     {
-        if (pXItemIter->mX > gSpriteGrid_right_6F5B80)
+        if (pXItemIter->mX > gSpriteGrid_right)
         {
             return bRet;
         }
@@ -690,11 +690,11 @@ bool SpriteGrid::CheckRowForRectCollisions(u32 y_pos, Fix16_Rect* pRect)
         {
             Sprite* pLinkSprite = pObj->mpSprite;
             if (!pObj->mpSprite->TypeIs_446940(sSpriteGridExcludeTypes) &&
-                pLinkSprite != gSpriteGrid_exclusion_sprite_678F84 &&
-                !pObj->mpSprite->mpCollisionShape->CollisionIdIs_446930(gCollisionCounters_6791FC->mQueryId) &&
+                pLinkSprite != gSpriteGrid_exclusion_sprite &&
+                !pObj->mpSprite->mpCollisionShape->CollisionIdIs_446930(gCollisionCounters->mQueryId) &&
                 pLinkSprite->ShouldCollideWithSprite(NULL))
             {
-                gCollisionCounters_6791FC->mTestCount++;
+                gCollisionCounters->mTestCount++;
 
                 Fix16_Rect* pBBox = &pObj->mpSprite->mpCollisionShape->mBoundingBox;
                 if (pRect->AABB_Intersects_41E2F0(pBBox) &&
@@ -715,7 +715,7 @@ bool SpriteGrid::CheckRowForRectCollisions(u32 y_pos, Fix16_Rect* pRect)
                     }
                 }
 
-                pObj->mpSprite->mpCollisionShape->SetCollisionId_446920(gCollisionCounters_6791FC->mQueryId);
+                pObj->mpSprite->mpCollisionShape->SetCollisionId_446920(gCollisionCounters->mQueryId);
             }
 
         }
@@ -731,22 +731,22 @@ bool SpriteGrid::CheckAndHandleCollisionsInStrip(u32 y_pos, Sprite* pSprite)
     GridCell* pIter = GetFirstXCellInRow(y_pos);
     while (pIter)
     {
-        if (pIter->mX > gSpriteGrid_right_6F5B80)
+        if (pIter->mX > gSpriteGrid_right)
         {
             break;
         }
 
         for (GridSpriteLink* pLinkIter = pIter->mpSpriteLinks; pLinkIter; pLinkIter = pLinkIter->mpNext)
         {
-            if (!pLinkIter->mpSprite->mpCollisionShape->CollisionIdIs_446930(gCollisionCounters_6791FC->mQueryId))
+            if (!pLinkIter->mpSprite->mpCollisionShape->CollisionIdIs_446930(gCollisionCounters->mQueryId))
             {
-                gCollisionCounters_6791FC->mTestCount++;
+                gCollisionCounters->mTestCount++;
                 if (pSprite->CollisionCheck_59E590(pLinkIter->mpSprite))
                 {
                     bRet = true;
                     pLinkIter->mpSprite->HandleObjectCollision(pSprite);
                 }
-                pLinkIter->mpSprite->mpCollisionShape->SetCollisionId_446920(gCollisionCounters_6791FC->mQueryId);
+                pLinkIter->mpSprite->mpCollisionShape->SetCollisionId_446920(gCollisionCounters->mQueryId);
             }
         }
         pIter = pIter->mpNext;
@@ -761,7 +761,7 @@ bool SpriteGrid::CheckAndHandleRowCollisionsForSprite(u32 y_pos, Sprite* pSprite
     GridCell* pXItemIter = GetFirstXCellInRow(y_pos);
     while (pXItemIter)
     {
-        if (pXItemIter->mX > gSpriteGrid_right_6F5B80)
+        if (pXItemIter->mX > gSpriteGrid_right)
         {
             break;
         }
@@ -769,9 +769,9 @@ bool SpriteGrid::CheckAndHandleRowCollisionsForSprite(u32 y_pos, Sprite* pSprite
         for (GridSpriteLink* pLinkIter = pXItemIter->mpSpriteLinks; pLinkIter; pLinkIter = pLinkIter->mpNext)
         {
             if (pLinkIter->mpSprite->TypeIs_446940(sSpriteGridSpriteTypeFilter) &&
-                !pLinkIter->mpSprite->mpCollisionShape->CollisionIdIs_446930(gCollisionCounters_6791FC->mQueryId))
+                !pLinkIter->mpSprite->mpCollisionShape->CollisionIdIs_446930(gCollisionCounters->mQueryId))
             {
-                gCollisionCounters_6791FC->mTestCount++;
+                gCollisionCounters->mTestCount++;
 
                 if (pSprite->CollisionCheck_59E590(pLinkIter->mpSprite))
                 {
@@ -779,7 +779,7 @@ bool SpriteGrid::CheckAndHandleRowCollisionsForSprite(u32 y_pos, Sprite* pSprite
                     pLinkIter->mpSprite->ProcessCarToCarImpactIfCar(pSprite);
                 }
 
-                pLinkIter->mpSprite->mpCollisionShape->SetCollisionId_446920(gCollisionCounters_6791FC->mQueryId);
+                pLinkIter->mpSprite->mpCollisionShape->SetCollisionId_446920(gCollisionCounters->mQueryId);
             }
         }
         pXItemIter = pXItemIter->mpNext;
@@ -794,7 +794,7 @@ Sprite* SpriteGrid::FindCollidingSpriteInRow(u32 y_pos, Sprite* pSprite)
     GridCell* pXItem = GetFirstXCellInRow(y_pos);
     while (pXItem)
     {
-        if (pXItem->mX > gSpriteGrid_right_6F5B80)
+        if (pXItem->mX > gSpriteGrid_right)
         {
             return NULL;
         }
@@ -802,14 +802,14 @@ Sprite* SpriteGrid::FindCollidingSpriteInRow(u32 y_pos, Sprite* pSprite)
         for (GridSpriteLink* pObj = pXItem->mpSpriteLinks; pObj; pObj = pObj->mpNext)
         {
             Sprite* pLinkSprite = pObj->mpSprite;
-            if (pObj->mpSprite == gSpriteGrid_exclusion_sprite_678F84 ||
+            if (pObj->mpSprite == gSpriteGrid_exclusion_sprite ||
                 sSpriteGridSmallestDistSprite && !pLinkSprite->TypeIs_446940(sSpriteGridPreferredType) ||
-                pLinkSprite->mpCollisionShape->CollisionIdIs_446930(gCollisionCounters_6791FC->mQueryId) || !pLinkSprite->ShouldCollideWithSprite(pSprite))
+                pLinkSprite->mpCollisionShape->CollisionIdIs_446930(gCollisionCounters->mQueryId) || !pLinkSprite->ShouldCollideWithSprite(pSprite))
             {
                 continue;
             }
 
-            gCollisionCounters_6791FC->mTestCount++;
+            gCollisionCounters->mTestCount++;
 
             if (pSprite->CollisionCheck_59E590(pObj->mpSprite))
             {
@@ -822,7 +822,7 @@ Sprite* SpriteGrid::FindCollidingSpriteInRow(u32 y_pos, Sprite* pSprite)
                     return pObj->mpSprite;
                 }
             }
-            pObj->mpSprite->mpCollisionShape->SetCollisionId_446920(gCollisionCounters_6791FC->mQueryId);
+            pObj->mpSprite->mpCollisionShape->SetCollisionId_446920(gCollisionCounters->mQueryId);
         }
         pXItem = pXItem->mpNext;
     }
@@ -842,14 +842,14 @@ void SpriteGrid::DebugLog(s32 x_pos, s32 y_pos) const
 
         if (cell_x == x_pos)
         {
-            sprintf(gTmpBuffer_67C598, "(%d,%d):", x_pos, y_pos);
-            gErrorLog_67C530.Write_Log(gTmpBuffer_67C598);
+            sprintf(gTmpBuffer, "(%d,%d):", x_pos, y_pos);
+            gErrorLog_67C530.Write_Log(gTmpBuffer);
             for (GridSpriteLink* j = i->mpSpriteLinks; j; j = j->mpNext)
             {
                 if (j->mpSprite)
                 {
-                    sprintf(gTmpBuffer_67C598, " %d", static_cast<u16>(j->mpSprite->mInstanceId));
-                    gErrorLog_67C530.Write_Log(gTmpBuffer_67C598);
+                    sprintf(gTmpBuffer, " %d", static_cast<u16>(j->mpSprite->mInstanceId));
+                    gErrorLog_67C530.Write_Log(gTmpBuffer);
                 }
             }
             gErrorLog_67C530.Write_Log("\n");

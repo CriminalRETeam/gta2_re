@@ -10,7 +10,7 @@
 #include "enums.hpp"
 #include "TextureCache.hpp"
 
-DEFINE_GLOBAL(KanjiFont*, gKanjiFont_6F5168, 0x6F5168);
+DEFINE_GLOBAL(KanjiFont*, gKanjiFont, 0x6F5168);
 
 MATCH_FUNC(0x4D1FC0)
 void KanjiFont::LoadChunks(const char_type* pChunkId, u32 chunk_len)
@@ -396,7 +396,7 @@ void KanjiFont::SetGlyphParamsFromFont(u16 font_type)
 MATCH_FUNC(0x4D29D0)
 void KanjiFont::SetGlyphParamsFromRemap(u16 remap)
 {
-    if (gGame_0x40_67E008)
+    if (gGame_0x40)
     {
         switch (remap)
         {
@@ -487,9 +487,9 @@ void KanjiFont::SetGlyphParamsFromRemap(u16 remap)
 MATCH_FUNC(0x4D2B40)
 void KanjiFont::InitGlyphCaches()
 {
-    u16 base_font_idx = gGtx_0x106C_703DD4->GetSpriteIdxFromFont(gKanjiSmallFont_703C3E, 0);
-    u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex(sprite_types_enum::font_7, base_font_idx);
-    mSpriteIndex8D4 = gGtx_0x106C_703DD4->get_sprite_index(sprite_idx);
+    u16 base_font_idx = gGtx_0x106C->GetSpriteIdxFromFont(gKanjiSmallFont, 0);
+    u16 sprite_idx = gGtx_0x106C->GetSpriteTrueIndex(sprite_types_enum::font_7, base_font_idx);
+    mSpriteIndex8D4 = gGtx_0x106C->get_sprite_index(sprite_idx);
 
     for (s32 i = 0; i < GTA2_COUNTOF_S(mSmallGlyphs); i++)
     {
@@ -499,16 +499,16 @@ void KanjiFont::InitGlyphCaches()
         pGlyph->mOutlineColour = 0;
         pGlyph->mLastUsed = 0;
 
-        u16 font_idx = gGtx_0x106C_703DD4->GetSpriteIdxFromFont(gKanjiSmallFont_703C3E, i);
-        u16 true_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex(sprite_types_enum::font_7, font_idx);
-        pGlyph->mSprtIndex = gGtx_0x106C_703DD4->get_sprite_index(true_idx);
-        pGlyph->mpTexture = gTextureCache_15D8_705064->GetSpriteTexture(sprite_types_enum::font_7, font_idx, palette_types_enum::sprites_2, 0);
+        u16 font_idx = gGtx_0x106C->GetSpriteIdxFromFont(gKanjiSmallFont, i);
+        u16 true_idx = gGtx_0x106C->GetSpriteTrueIndex(sprite_types_enum::font_7, font_idx);
+        pGlyph->mSprtIndex = gGtx_0x106C->get_sprite_index(true_idx);
+        pGlyph->mpTexture = gTextureCache_15D8->GetSpriteTexture(sprite_types_enum::font_7, font_idx, palette_types_enum::sprites_2, 0);
     }
 
-    u16 large_base_font_idx = gGtx_0x106C_703DD4->GetSpriteIdxFromFont(gKanjiLargeFont_703D9A, 0);
-    u16 large_sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex(sprite_types_enum::font_7, large_base_font_idx);
+    u16 large_base_font_idx = gGtx_0x106C->GetSpriteIdxFromFont(gKanjiLargeFont, 0);
+    u16 large_sprite_idx = gGtx_0x106C->GetSpriteTrueIndex(sprite_types_enum::font_7, large_base_font_idx);
 
-    mSpriteIndex8E0 = gGtx_0x106C_703DD4->get_sprite_index(large_sprite_idx);
+    mSpriteIndex8E0 = gGtx_0x106C->get_sprite_index(large_sprite_idx);
 
     for (s32 j = 0; j < GTA2_COUNTOF_S(mLargeGlyphs); j++)
     {
@@ -518,10 +518,10 @@ void KanjiFont::InitGlyphCaches()
         pGlyph->mOutlineColour = 0;
         pGlyph->mLastUsed = 0;
 
-        u16 font_idx = gGtx_0x106C_703DD4->GetSpriteIdxFromFont(gKanjiLargeFont_703D9A, j);
-        u16 true_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex(sprite_types_enum::font_7, font_idx);
-        pGlyph->mSprtIndex = gGtx_0x106C_703DD4->get_sprite_index(true_idx);
-        pGlyph->mpTexture = gTextureCache_15D8_705064->GetSpriteTexture(sprite_types_enum::font_7, font_idx, palette_types_enum::sprites_2, 0);
+        u16 font_idx = gGtx_0x106C->GetSpriteIdxFromFont(gKanjiLargeFont, j);
+        u16 true_idx = gGtx_0x106C->GetSpriteTrueIndex(sprite_types_enum::font_7, font_idx);
+        pGlyph->mSprtIndex = gGtx_0x106C->get_sprite_index(true_idx);
+        pGlyph->mpTexture = gTextureCache_15D8->GetSpriteTexture(sprite_types_enum::font_7, font_idx, palette_types_enum::sprites_2, 0);
     }
 }
 

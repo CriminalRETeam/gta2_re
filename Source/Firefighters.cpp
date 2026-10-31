@@ -12,7 +12,7 @@
 // Forward declarations: the functions below are in address order
 EXTERN_GLOBAL(Fix16, kFpThree_67D384);
 
-DEFINE_GLOBAL(FirefighterPool*, gFirefighterPool_54_67D4C0, 0x67D4C0);
+DEFINE_GLOBAL(FirefighterPool*, gFirefighterPool_54, 0x67D4C0);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_67D1F0, Fix16(0.5f), 0x67D1F0);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_67D378, Fix16(0), 0x67D378);
 
@@ -121,7 +121,7 @@ void Firefighter::deinit()
         CarChaseTask* pRoute = pCar->mpChaseTask;
         if (pRoute)
         {
-            gCarChaseTaskTable_678E30->FreeEntry(pRoute);
+            gCarChaseTaskTable->FreeEntry(pRoute);
             this->mCar->mpChaseTask = NULL;
         }
     }
@@ -151,9 +151,9 @@ void Firefighter::Update()
     {
         case firefighter_state::spawn_truck_1:
             if (mTargetCar && mTargetCar->mDespawnStatus != car_despawn_status::despawned_6 &&
-                !mTargetCar->IsDespawning_4215B0() && gCarManager_6C_677930->CanAllocateCarOfKind(car_kind::firefighter_5))
+                !mTargetCar->IsDespawning_4215B0() && gCarManager_6C->CanAllocateCarOfKind(car_kind::firefighter_5))
             {
-                mCar = gCarManager_6C_677930->SpawnCarAtRoadDirection(car_model_enum::FIRETRUK, mXpos, mYpos, mZpos);
+                mCar = gCarManager_6C->SpawnCarAtRoadDirection(car_model_enum::FIRETRUK, mXpos, mYpos, mZpos);
                 if (mCar)
                 {
                     mCar->IncrementCarStats(car_kind::firefighter_5);
@@ -162,7 +162,7 @@ void Firefighter::Update()
                     pCar->AllocateAI_421510();
                     mCar->mAI->SetCar(mCar);
 
-                    mPed = gPedManager_6787BC->AllocatePed();
+                    mPed = gPedManager->AllocatePed();
                     mPed->SetPedType_403920(ped_type::special_ped_4);
                     mPed->set_occupation_403970(ped_ocupation_enum::fireman);
                     mPed->SpawnPedInCar(mCar);
@@ -297,7 +297,7 @@ MATCH_FUNC(0x4a85f0)
 void FirefighterPool::FireEnginesService()
 {
     Firefighter* pFirefighter = mFirefighters;
-    if (!bSkip_fire_engines_67D53A)
+    if (!bSkip_fire_engines)
     {
         for (u32 i = 0; i < 2; i++)
         {
@@ -313,14 +313,14 @@ void FirefighterPool::FireEnginesService()
 MATCH_FUNC(0x4a8620)
 Firefighter* FirefighterPool::DispatchFirefighters(Car* pCar, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    if (bSkip_fire_engines_67D53A)
+    if (bSkip_fire_engines)
     {
         return NULL;
     }
     u8 xpos_int = xpos.ToUInt8();
     u8 ypos_int = ypos.ToUInt8();
     u8 zpos_int = (zpos + kFpHalf_67D1F0).ToUInt8();
-    if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType(ROAD, &xpos_int, &ypos_int, &zpos_int, false) != 1)
+    if (gPathFinder->FindNearbyTileMatchingSlopeType(ROAD, &xpos_int, &ypos_int, &zpos_int, false) != 1)
     {
         return NULL;
     }

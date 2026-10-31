@@ -68,4 +68,4 @@ class AmbulanceService
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(AmbulanceService, 0x110);
 
-EXTERN_GLOBAL(AmbulanceService*, gAmbulance_110_6F70A8);
+EXTERN_GLOBAL(AmbulanceService*, gAmbulance_110);

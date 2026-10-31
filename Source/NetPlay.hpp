@@ -304,4 +304,4 @@ struct NetPlay
     s32 mCount; // 0xCB8
 };
 
-EXTERN_GLOBAL(NetPlay, gNetPlay_7071E8);
+EXTERN_GLOBAL(NetPlay, gNetPlay);

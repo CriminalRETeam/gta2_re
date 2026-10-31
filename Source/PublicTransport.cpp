@@ -13,14 +13,14 @@
 #include "Player.hpp"
 #include "SpriteGrid.hpp"
 
-DEFINE_GLOBAL(PublicTransport*, gPublicTransport_181C_6FF1D4, 0x6FF1D4);
-DEFINE_GLOBAL(TrainStationList, gTrainStationList_6FEE68, 0x6FEE68);
-DEFINE_GLOBAL(TrainStopCount, gTrainStopCount_6FEFFC, 0x6FEFFC); // name sets a 4-aligned .bss offset: InitStationsLinkedList reads it as a dword
+DEFINE_GLOBAL(PublicTransport*, gPublicTransport_181C, 0x6FF1D4);
+DEFINE_GLOBAL(TrainStationList, gTrainStationList, 0x6FEE68);
+DEFINE_GLOBAL(TrainStopCount, gTrainStopCount, 0x6FEFFC); // name sets a 4-aligned .bss offset: InitStationsLinkedList reads it as a dword
 DEFINE_STATIC_MEMBER(u8, PublicTransport, sStationCount, 0x6FF1CC);
-DEFINE_GLOBAL(u8, gTargetCarDoor_6FF1D8, 0x6FF1D8);
+DEFINE_GLOBAL(u8, gTargetCarDoor, 0x6FF1D8);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_6FF078, 0, 0x6FF078);
 DEFINE_STATIC_GLOBAL_INIT(Fix16_Point, kZeroPoint, Fix16_Point(Fix16(0), Fix16(0)), 0x6FF150);
-DEFINE_GLOBAL(u8, gNameCompareLen_6FF158, 0x6FF158);
+DEFINE_GLOBAL(u8, gNameCompareLen, 0x6FF158);
 DEFINE_STATIC_MEMBER(bool, PublicTransport, sBusSpawned, 0x6FF1CD);
 DEFINE_STATIC_MEMBER(s32, PublicTransport, sBusSpawnDelay, 0x6FF1D0);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_6FF07C, Fix16(1), 0x6FF07C);
@@ -30,16 +30,16 @@ DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6FEEE8, Fix16(0.5), 0x6FEEE8);
 DEFINE_GLOBAL_INIT(Ang16, kAng0_6FF1BC, Ang16(0), 0x6FF1BC);
 
 // Train spawning values
-DEFINE_GLOBAL_INIT(Fix16, kTrainStopBlockOffset_6FEF88, Fix16(0.5), 0x6FEF88);
-DEFINE_GLOBAL_INIT(Fix16, kWagonSpacingX_6FF088, Fix16(4), 0x6FF088);
-DEFINE_GLOBAL_INIT(Fix16, kWagonSpacingY_6FF080, Fix16(2), 0x6FF080);
+DEFINE_GLOBAL_INIT(Fix16, kTrainStopBlockOffset, Fix16(0.5), 0x6FEF88);
+DEFINE_GLOBAL_INIT(Fix16, kWagonSpacingX, Fix16(4), 0x6FF088);
+DEFINE_GLOBAL_INIT(Fix16, kWagonSpacingY, Fix16(2), 0x6FF080);
 DEFINE_GLOBAL_INIT(Ang16, kAng270_6FEFFE, Ang16(1080), 0x6FEFFE);
 DEFINE_GLOBAL_INIT(Ang16, kAng90_6FEF04, Ang16(360), 0x6FEF04);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_6FEFD6, Ang16(720), 0x6FEFD6);
 
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kTrainSpeedState0, Fix16(0x1333, 0), 0x6FEEE0);
-DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState1And3_6FEED4, Fix16(0x666, 0), 0x6FEED4);
-DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState4_6FEEDC, Fix16(0xCCC, 0), 0x6FEEDC);
+DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState1And3, Fix16(0x666, 0), 0x6FEED4);
+DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState4, Fix16(0xCCC, 0), 0x6FEEDC);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kTrainSpeedState5, Fix16(0x1999, 0), 0x6FEEE4);
 
 MATCH_FUNC(0x577E20)
@@ -63,7 +63,7 @@ bool __stdcall HasBlockGreenArrowAtDirection(s32 direction, const gmp_block_info
 MATCH_FUNC(0x577E90)
 bool __stdcall CompareNameChars(const char_type* pChar1, const char_type* pChar2)
 {
-    for (u8 i = 0; i < gNameCompareLen_6FF158; i++)
+    for (u8 i = 0; i < gNameCompareLen; i++)
     {
         if (pChar1[i] != pChar2[i])
         {
@@ -94,16 +94,16 @@ gmp_map_zone* __stdcall FindStationZoneByName(const char_type* pChar, u8 case_va
             break;
     }
 
-    gmp_map_zone* pZone = gMap_0x370_6F6268->GetFirstZoneOfType(zone_type);
-    gNameCompareLen_6FF158 = 6;
+    gmp_map_zone* pZone = gMap_0x370->GetFirstZoneOfType(zone_type);
+    gNameCompareLen = 6;
     while (!CompareNameChars(reinterpret_cast<char_type*>(&pZone->mName), pChar))
     {
-        pZone = gMap_0x370_6F6268->GetNextZone();
+        pZone = gMap_0x370->GetNextZone();
         if (!pZone)
         {
             return NULL;
         }
-        gNameCompareLen_6FF158 = 6;
+        gNameCompareLen = 6;
     }
     return pZone;
 }
@@ -167,15 +167,15 @@ TrainStation::~TrainStation()
 MATCH_FUNC(0x578030)
 void Train::ReassignTrainHead()
 {
-    if (!bSkip_trains_67D550)
+    if (!bSkip_trains)
     {
         Car* pFirst = this->mCarriages[0];
         this->mCarriages[0] = this->mCarriages[this->mWagonCount];
         this->mCarriages[this->mWagonCount] = pFirst;
 
-        gCar_BC_Pool_67792C->UpdateNextPrev(this->mCarriages[0]);
+        gCar_BC_Pool->UpdateNextPrev(this->mCarriages[0]);
 
-        gCar_BC_Pool_67792C->mPool.UnlinkFromActiveList_420F30(this->mCarriages[this->mWagonCount]);
+        gCar_BC_Pool->mPool.UnlinkFromActiveList_420F30(this->mCarriages[this->mWagonCount]);
 
         // AllocCarPhysics only allocates when there is no physics, so these guarded calls do nothing
         Car* pTrainCar = this->mCarriages[this->mWagonCount];
@@ -222,7 +222,7 @@ void Train::ReassignTrainHead()
 MATCH_FUNC(0x578180)
 void Train::IncrementState()
 {
-    if (!bSkip_trains_67D550)
+    if (!bSkip_trains)
     {
         switch (this->mState)
         {
@@ -251,7 +251,7 @@ void Train::IncrementState()
 MATCH_FUNC(0x5781f0)
 void Train::DecrementState()
 {
-    if (!bSkip_trains_67D550)
+    if (!bSkip_trains)
     {
         switch (this->mState)
         {
@@ -319,7 +319,7 @@ Train::~Train()
 MATCH_FUNC(0x5782d0)
 void Train::StartIfHasDriver()
 {
-    if (!bSkip_trains_67D550)
+    if (!bSkip_trains)
     {
         if (this->mCarriages[0]->mDriver)
         {
@@ -335,7 +335,7 @@ void Train::StartIfHasDriver()
 MATCH_FUNC(0x578300)
 void Train::Stop()
 {
-    if (!bSkip_trains_67D550)
+    if (!bSkip_trains)
     {
         if (this->mState < 2)
         {
@@ -349,7 +349,7 @@ void Train::Stop()
 MATCH_FUNC(0x578330)
 void Train::CloseCarriageDoors()
 {
-    if (!bSkip_trains_67D550)
+    if (!bSkip_trains)
     {
         for (s32 i = 0; i < 2; i++)
         {
@@ -367,7 +367,7 @@ void Train::CloseCarriageDoors()
 MATCH_FUNC(0x578360)
 void Train::OpenCarriageDoors()
 {
-    if (!bSkip_trains_67D550)
+    if (!bSkip_trains)
     {
         for (s32 i = 0; i < 2; i++)
         {
@@ -385,7 +385,7 @@ void Train::OpenCarriageDoors()
 MATCH_FUNC(0x578390)
 void Train::UpdatePassengerAI()
 {
-    if (!bSkip_trains_67D550 && !bSkip_dummies_67D4EF && gPedManager_6787BC->mNumDummyChars < 50u)
+    if (!bSkip_trains && !bSkip_dummies && gPedManager->mNumDummyChars < 50u)
     {
         if (this->mAllocState == 2)
         {
@@ -395,22 +395,22 @@ void Train::UpdatePassengerAI()
                 if ((*ppWagon)->GetCarInfoIdx_411940() == car_model_enum::TRAIN)
                 {
                     this->mPassengerCount = 1;
-                    if (gGame_0x40_67E008->IsSpriteInAnyPlayerBounds((*ppWagon)->mCarSprite, kFpZero_6FF078))
+                    if (gGame_0x40->IsSpriteInAnyPlayerBounds((*ppWagon)->mCarSprite, kFpZero_6FF078))
                     {
                         if (this->mPassengerTimer <= 0)
                         {
-                            for (gTargetCarDoor_6FF1D8 = static_cast<u8>(gRng_6F6784.get_int(4)); gTargetCarDoor_6FF1D8 < static_cast<u8>((*ppWagon)->GetDoorCount());
-                                 gTargetCarDoor_6FF1D8++)
+                            for (gTargetCarDoor = static_cast<u8>(gRng.get_int(4)); gTargetCarDoor < static_cast<u8>((*ppWagon)->GetDoorCount());
+                                 gTargetCarDoor++)
                             {
-                                if ((*ppWagon)->IsStoppedWithPavementAtDoor(gTargetCarDoor_6FF1D8) && this->mPassengerCount > 0)
+                                if ((*ppWagon)->IsStoppedWithPavementAtDoor(gTargetCarDoor) && this->mPassengerCount > 0)
                                 {
-                                    Ped* pPassenger = gPedManager_6787BC->SpawnTrainLeaver();
+                                    Ped* pPassenger = gPedManager->SpawnTrainLeaver();
                                     pPassenger->mCar = *ppWagon;
                                     pPassenger->SetObjective(objectives_enum::leave_train_38);
                                     Ped_List* pLink = &pPassenger->mCar->mPassengersList;
                                     pPassenger->SetTargetObjectiveCar(*ppWagon);
                                     pLink->AddPedToFront(pPassenger);
-                                    pPassenger->set_target_car_door_403A70(gTargetCarDoor_6FF1D8);
+                                    pPassenger->set_target_car_door_403A70(gTargetCarDoor);
                                     --this->mPassengerCount;
                                 }
                             }
@@ -423,8 +423,8 @@ void Train::UpdatePassengerAI()
         }
         else
         {
-            if (gGame_0x40_67E008->IsSpriteInAnyPlayerBounds(this->mCarriages[0]->mCarSprite, kFpZero_6FF078) &&
-                this->mPassengerTimer <= 0 && !gPublicTransport_181C_6FF1D4->mStopGettingOffBus)
+            if (gGame_0x40->IsSpriteInAnyPlayerBounds(this->mCarriages[0]->mCarSprite, kFpZero_6FF078) &&
+                this->mPassengerTimer <= 0 && !gPublicTransport_181C->mStopGettingOffBus)
             {
                 if (this->mCarriages[0]->IsStoppedWithPavementAtDoor(2))
                 {
@@ -432,7 +432,7 @@ void Train::UpdatePassengerAI()
                     {
                         if (this->mPassengerCount > 6 || !this->mIsHijacked)
                         {
-                            Ped* pPassenger = gPedManager_6787BC->SpawnTrainLeaver();
+                            Ped* pPassenger = gPedManager->SpawnTrainLeaver();
                             pPassenger->mCar = this->mCarriages[0];
                             this->mCarriages[0]->mPassengersList.AddPedToFront(pPassenger);
                             pPassenger->SetObjective(objectives_enum::leave_train_38);
@@ -467,11 +467,11 @@ void Train::UpdatePassengerAI()
 
                 if (!this->mIsHijacked)
                 {
-                    this->mPassengerTimer = gRng_6F6784.get_int(20) + 20;
+                    this->mPassengerTimer = gRng.get_int(20) + 20;
                 }
                 else
                 {
-                    this->mPassengerTimer = gRng_6F6784.get_int(20) + 40;
+                    this->mPassengerTimer = gRng.get_int(20) + 40;
                 }
             }
             --this->mPassengerTimer;
@@ -483,7 +483,7 @@ MATCH_FUNC(0x578670)
 void Train::ProcessTrainExplosionChain()
 {
     Car* pWagon = mCarriages[1];
-    if (!bSkip_trains_67D550)
+    if (!bSkip_trains)
     {
         Car* pFirst = mCarriages[0];
         if (pFirst->mDamage >= 32000 && mExplosionTimers[10] == -1)
@@ -555,7 +555,7 @@ void Train::ProcessTrainExplosionChain()
 MATCH_FUNC(0x578790)
 Train* PublicTransport::AllocateTrain()
 {
-    if (bSkip_trains_67D550)
+    if (bSkip_trains)
     {
         return NULL;
     }
@@ -586,7 +586,7 @@ TrainStation* PublicTransport::AllocateTrainStation()
 MATCH_FUNC(0x578820)
 void TrainStation::CalculateWagonCount(const u8* pWagons)
 {
-    if (!bSkip_trains_67D550)
+    if (!bSkip_trains)
     {
         memcpy(mTrainWagons, pWagons, sizeof(mTrainWagons));
 
@@ -601,12 +601,12 @@ void TrainStation::CalculateWagonCount(const u8* pWagons)
 }
 
 // The wagon spawns pass the "+ half block" coordinate as Fix16::Add_ref of two temporaries (9.6f copies
-// kTrainStopBlockOffset_6FEF88 into a temp first): VC6 then builds that argument only after the GetWagonType call,
+// kTrainStopBlockOffset into a temp first): VC6 then builds that argument only after the GetWagonType call,
 // keeping the u8 coordinate and the copy across it, as the original does. The member operator+ builds it first.
 MATCH_FUNC(0x578860)
 void PublicTransport::SpawnTrainsFromStations()
 {
-    if (bSkip_trains_67D550)
+    if (bSkip_trains)
     {
         return;
     }
@@ -658,7 +658,7 @@ void PublicTransport::SpawnTrainsFromStations()
                     pTrain->mAllocState = 2;
 
                     s32 rail_z;
-                    gmp_block_info* pBlock = gMap_0x370_6F6268->FindRailwayAtCoord(pStation->mStopPoint->mX,
+                    gmp_block_info* pBlock = gMap_0x370->FindRailwayAtCoord(pStation->mStopPoint->mX,
                                                                                           pStation->mStopPoint->mY,
                                                                                           rail_z);
                     u8 j;
@@ -666,9 +666,9 @@ void PublicTransport::SpawnTrainsFromStations()
                     {
                         for (j = 0; j < wagons; j++)
                         {
-                            pTrain->mCarriages[j + 1] = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(
-                                Fix16(pStation->mStopPoint->mX) + Fix16(j + 1) * kWagonSpacingX_6FF088,
-                                Fix16::Add_ref(Fix16(pStation->mStopPoint->mY), Fix16(kTrainStopBlockOffset_6FEF88)),
+                            pTrain->mCarriages[j + 1] = gCarManager_6C->SpawnCarAtCorrectZ_Scaled(
+                                Fix16(pStation->mStopPoint->mX) + Fix16(j + 1) * kWagonSpacingX,
+                                Fix16::Add_ref(Fix16(pStation->mStopPoint->mY), Fix16(kTrainStopBlockOffset)),
                                 kAng270_6FEFFE,
                                 pStation->GetWagonType(j),
                                 kFpOne_6FF07C);
@@ -677,14 +677,14 @@ void PublicTransport::SpawnTrainsFromStations()
                                 FatalError_4A38C0(Gta2Error::FailedToCreateCarriage,
                                                   "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
                                                   761,
-                                                  (Fix16(pStation->mStopPoint->mX) + Fix16(j + 1) * kWagonSpacingX_6FF088).ToInt(),
-                                                  (Fix16(pStation->mStopPoint->mY) + kTrainStopBlockOffset_6FEF88).ToInt(),
+                                                  (Fix16(pStation->mStopPoint->mX) + Fix16(j + 1) * kWagonSpacingX).ToInt(),
+                                                  (Fix16(pStation->mStopPoint->mY) + kTrainStopBlockOffset).ToInt(),
                                                   rail_z);
                             }
                         }
                         pTrain->mCarriages[0] =
-                            gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->mStopPoint->mX),
-                                                                      Fix16(pStation->mStopPoint->mY) + kTrainStopBlockOffset_6FEF88,
+                            gCarManager_6C->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->mStopPoint->mX),
+                                                                      Fix16(pStation->mStopPoint->mY) + kTrainStopBlockOffset,
                                                                       kAng270_6FEFFE,
                                                                       car_model_enum::TRAINCAB,
                                                                       kFpOne_6FF07C);
@@ -693,9 +693,9 @@ void PublicTransport::SpawnTrainsFromStations()
                     {
                         for (j = 0; j < wagons; j++)
                         {
-                            pTrain->mCarriages[j + 1] = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(
-                                Fix16::Add_ref(Fix16(pStation->mStopPoint->mX), Fix16(kTrainStopBlockOffset_6FEF88)),
-                                Fix16(pStation->mStopPoint->mY) - Fix16(j + 1) * kWagonSpacingY_6FF080,
+                            pTrain->mCarriages[j + 1] = gCarManager_6C->SpawnCarAtCorrectZ_Scaled(
+                                Fix16::Add_ref(Fix16(pStation->mStopPoint->mX), Fix16(kTrainStopBlockOffset)),
+                                Fix16(pStation->mStopPoint->mY) - Fix16(j + 1) * kWagonSpacingY,
                                 kAng0_6FF1BC,
                                 pStation->GetWagonType(j),
                                 kFpOne_6FF07C);
@@ -704,13 +704,13 @@ void PublicTransport::SpawnTrainsFromStations()
                                 FatalError_4A38C0(Gta2Error::FailedToCreateCarriage,
                                                   "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
                                                   773,
-                                                  (Fix16(pStation->mStopPoint->mX) + kTrainStopBlockOffset_6FEF88).ToInt(),
-                                                  (Fix16(pStation->mStopPoint->mY) - Fix16(j + 1) * kWagonSpacingY_6FF080).ToInt(),
+                                                  (Fix16(pStation->mStopPoint->mX) + kTrainStopBlockOffset).ToInt(),
+                                                  (Fix16(pStation->mStopPoint->mY) - Fix16(j + 1) * kWagonSpacingY).ToInt(),
                                                   rail_z);
                             }
                         }
                         pTrain->mCarriages[0] =
-                            gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->mStopPoint->mX) + kTrainStopBlockOffset_6FEF88,
+                            gCarManager_6C->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->mStopPoint->mX) + kTrainStopBlockOffset,
                                                                       Fix16(pStation->mStopPoint->mY),
                                                                       kAng0_6FF1BC,
                                                                       car_model_enum::TRAINCAB,
@@ -720,9 +720,9 @@ void PublicTransport::SpawnTrainsFromStations()
                     {
                         for (j = 0; j < wagons; j++)
                         {
-                            pTrain->mCarriages[j + 1] = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(
-                                Fix16(pStation->mStopPoint->mX) - Fix16(j + 1) * kWagonSpacingX_6FF088,
-                                Fix16::Add_ref(Fix16(pStation->mStopPoint->mY), Fix16(kTrainStopBlockOffset_6FEF88)),
+                            pTrain->mCarriages[j + 1] = gCarManager_6C->SpawnCarAtCorrectZ_Scaled(
+                                Fix16(pStation->mStopPoint->mX) - Fix16(j + 1) * kWagonSpacingX,
+                                Fix16::Add_ref(Fix16(pStation->mStopPoint->mY), Fix16(kTrainStopBlockOffset)),
                                 kAng270_6FEFFE,
                                 pStation->GetWagonType(j),
                                 kFpOne_6FF07C);
@@ -731,14 +731,14 @@ void PublicTransport::SpawnTrainsFromStations()
                                 FatalError_4A38C0(Gta2Error::FailedToCreateCarriage,
                                                   "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
                                                   785,
-                                                  (Fix16(pStation->mStopPoint->mX) - Fix16(j + 1) * kWagonSpacingX_6FF088).ToInt(),
-                                                  (Fix16(pStation->mStopPoint->mY) + kTrainStopBlockOffset_6FEF88).ToInt(),
+                                                  (Fix16(pStation->mStopPoint->mX) - Fix16(j + 1) * kWagonSpacingX).ToInt(),
+                                                  (Fix16(pStation->mStopPoint->mY) + kTrainStopBlockOffset).ToInt(),
                                                   rail_z);
                             }
                         }
                         pTrain->mCarriages[0] =
-                            gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->mStopPoint->mX),
-                                                                      Fix16(pStation->mStopPoint->mY) + kTrainStopBlockOffset_6FEF88,
+                            gCarManager_6C->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->mStopPoint->mX),
+                                                                      Fix16(pStation->mStopPoint->mY) + kTrainStopBlockOffset,
                                                                       kAng90_6FEF04,
                                                                       car_model_enum::TRAINCAB,
                                                                       kFpOne_6FF07C);
@@ -747,9 +747,9 @@ void PublicTransport::SpawnTrainsFromStations()
                     {
                         for (j = 0; j < wagons; j++)
                         {
-                            pTrain->mCarriages[j + 1] = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(
-                                Fix16::Add_ref(Fix16(pStation->mStopPoint->mX), Fix16(kTrainStopBlockOffset_6FEF88)),
-                                Fix16(pStation->mStopPoint->mY) + Fix16(j + 1) * kWagonSpacingY_6FF080,
+                            pTrain->mCarriages[j + 1] = gCarManager_6C->SpawnCarAtCorrectZ_Scaled(
+                                Fix16::Add_ref(Fix16(pStation->mStopPoint->mX), Fix16(kTrainStopBlockOffset)),
+                                Fix16(pStation->mStopPoint->mY) + Fix16(j + 1) * kWagonSpacingY,
                                 kAng180_6FEFD6,
                                 pStation->GetWagonType(j),
                                 kFpOne_6FF07C);
@@ -758,13 +758,13 @@ void PublicTransport::SpawnTrainsFromStations()
                                 FatalError_4A38C0(Gta2Error::FailedToCreateCarriage,
                                                   "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
                                                   796,
-                                                  (Fix16(pStation->mStopPoint->mX) + kTrainStopBlockOffset_6FEF88).ToInt(),
-                                                  (Fix16(pStation->mStopPoint->mY) + Fix16(j + 1) * kWagonSpacingY_6FF080).ToInt(),
+                                                  (Fix16(pStation->mStopPoint->mX) + kTrainStopBlockOffset).ToInt(),
+                                                  (Fix16(pStation->mStopPoint->mY) + Fix16(j + 1) * kWagonSpacingY).ToInt(),
                                                   rail_z);
                             }
                         }
                         pTrain->mCarriages[0] =
-                            gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->mStopPoint->mX) + kTrainStopBlockOffset_6FEF88,
+                            gCarManager_6C->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->mStopPoint->mX) + kTrainStopBlockOffset,
                                                                       Fix16(pStation->mStopPoint->mY),
                                                                       kAng180_6FEFD6,
                                                                       car_model_enum::TRAINCAB,
@@ -783,14 +783,14 @@ void PublicTransport::SpawnTrainsFromStations()
                     pTrain->mWagonCount = wagons;
                     for (j = 0; j < wagons; j++)
                     {
-                        gCar_BC_Pool_67792C->mPool.UnlinkFromActiveList_420F30(pTrain->mCarriages[j + 1]);
+                        gCar_BC_Pool->mPool.UnlinkFromActiveList_420F30(pTrain->mCarriages[j + 1]);
                     }
 
                     EnsureAI_421510(pTrain->mCarriages[0]);
                     pTrain->mCarriages[0]->mAI->SetCar(pTrain->mCarriages[0]);
                     pTrain->mCarriages[0]->SpawnDriverPed();
                     pTrain->mCarriages[0]->SetDriverPedType_421560(ped_type::script_created_5);
-                    Object* pLight = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
+                    Object* pLight = gObject_5C->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
                     pTrain->mCarriages[0]->mAttachments.PushAttachedSprite(pLight->mSprite, 0, 2, kAng0_6FF1BC);
                     pTrain->mCarriages[0]->LockPermanently_475C30();
 
@@ -826,14 +826,14 @@ void PublicTransport::SpawnTrainsFromStations()
 MATCH_FUNC(0x5793e0)
 void PublicTransport::InitStationsLinkedList()
 {
-    if (!bSkip_trains_67D550)
+    if (!bSkip_trains)
     {
         u16 idx = 0;
-        for (; idx < gTrainStopCount_6FEFFC.mCount - 1; idx++)
+        for (; idx < gTrainStopCount.mCount - 1; idx++)
         {
-            gTrainStationList_6FEE68.mList[idx]->mNextStation = gTrainStationList_6FEE68.mList[idx + 1];
+            gTrainStationList.mList[idx]->mNextStation = gTrainStationList.mList[idx + 1];
         }
-        gTrainStationList_6FEE68.mList[idx]->mNextStation = gTrainStationList_6FEE68.mList[0];
+        gTrainStationList.mList[idx]->mNextStation = gTrainStationList.mList[0];
     }
 }
 
@@ -868,7 +868,7 @@ void PublicTransport::SetupTrainAndBusStops()
     char_type track_name[8];
     sBusSpawned = false;
     sBusSpawnDelay = 0;
-    if (!bSkip_trains_67D550)
+    if (!bSkip_trains)
     {
         for (u8 track_idx = 0; track_idx < 5; track_idx++)
         {
@@ -894,18 +894,18 @@ void PublicTransport::SetupTrainAndBusStops()
             }
             for (s32 k = 0; k < 5; k++)
             {
-                gTrainStationList_6FEE68.mList[k] = NULL;
+                gTrainStationList.mList[k] = NULL;
             }
-            gTrainStopCount_6FEFFC.mCount = 0;
+            gTrainStopCount.mCount = 0;
 
             gmp_map_zone* pPlatform;
-            for (pPlatform = gMap_0x370_6F6268->GetFirstZoneOfType(gmp_zone_type_enum::railway_station_platform); pPlatform != NULL;
-                 pPlatform = gMap_0x370_6F6268->GetNextZone())
+            for (pPlatform = gMap_0x370->GetFirstZoneOfType(gmp_zone_type_enum::railway_station_platform); pPlatform != NULL;
+                 pPlatform = gMap_0x370->GetNextZone())
             {
-                gNameCompareLen_6FF158 = 5;
+                gNameCompareLen = 5;
                 if (CompareNameChars(track_name, pPlatform->mName))
                 {
-                    TrainStation* pStation = gPublicTransport_181C_6FF1D4->AllocateTrainStation();
+                    TrainStation* pStation = gPublicTransport_181C->AllocateTrainStation();
                     pStation->mStationType = 2;
                     pStation->mUsed = 1;
                     pStation->mPlatformState = 1;
@@ -913,66 +913,66 @@ void PublicTransport::SetupTrainAndBusStops()
                     pStation->mpStoppedTrain = NULL;
                     pStation->mTrackIdx = track_idx;
                     ++sStationCount;
-                    switch (pPlatform->mName[static_cast<u8>(gNameCompareLen_6FF158)])
+                    switch (pPlatform->mName[static_cast<u8>(gNameCompareLen)])
                     {
                         case '0':
-                            gTrainStationList_6FEE68.mList[0] = pStation;
+                            gTrainStationList.mList[0] = pStation;
                             break;
                         case '1':
-                            gTrainStationList_6FEE68.mList[1] = pStation;
+                            gTrainStationList.mList[1] = pStation;
                             break;
                         case '2':
-                            gTrainStationList_6FEE68.mList[2] = pStation;
+                            gTrainStationList.mList[2] = pStation;
                             break;
                         case '3':
-                            gTrainStationList_6FEE68.mList[3] = pStation;
+                            gTrainStationList.mList[3] = pStation;
                             break;
                         case '4':
-                            gTrainStationList_6FEE68.mList[4] = pStation;
+                            gTrainStationList.mList[4] = pStation;
                             break;
                         default:
                             break;
                     }
-                    ++gTrainStopCount_6FEFFC.mCount;
+                    ++gTrainStopCount.mCount;
                 }
             }
-            if (gTrainStopCount_6FEFFC.mCount > 0)
+            if (gTrainStopCount.mCount > 0)
             {
                 PublicTransport::InitStationsLinkedList();
             }
         }
     }
 
-    if (!bSkip_buses_67D558)
+    if (!bSkip_buses)
     {
-        for (gmp_map_zone* pZone = gMap_0x370_6F6268->GetFirstZoneOfType(gmp_zone_type_enum::bus_stop_pavement); pZone != NULL;)
+        for (gmp_map_zone* pZone = gMap_0x370->GetFirstZoneOfType(gmp_zone_type_enum::bus_stop_pavement); pZone != NULL;)
         {
-            TrainStation* pBusStop = gPublicTransport_181C_6FF1D4->AllocateTrainStation();
+            TrainStation* pBusStop = gPublicTransport_181C->AllocateTrainStation();
             pBusStop->mStationType = 1;
             pBusStop->mUsed = 1;
             pBusStop->mPlatformState = 1;
             pBusStop->mpZone = pZone;
             pBusStop->mpStoppedTrain = NULL;
             ++sStationCount;
-            pZone = gMap_0x370_6F6268->GetNextZone();
+            pZone = gMap_0x370->GetNextZone();
 
             s32 highest_zpos;
 
             // The original looks the block up twice
-            gMap_0x370_6F6268->FindHighestBlockForCoord(Fix16(pBusStop->mpZone->mX).ToInt(),
+            gMap_0x370->FindHighestBlockForCoord(Fix16(pBusStop->mpZone->mX).ToInt(),
                                                                Fix16(pBusStop->mpZone->mY).ToInt(),
                                                                &highest_zpos);
 
             Fix16 xpos = Fix16(pBusStop->mpZone->mX);
             Fix16 ypos = Fix16(pBusStop->mpZone->mY);
-            gMap_0x370_6F6268->FindHighestBlockForCoord(xpos.ToInt(), ypos.ToInt(), &highest_zpos);
+            gMap_0x370->FindHighestBlockForCoord(xpos.ToInt(), ypos.ToInt(), &highest_zpos);
 
             for (u8 j = 0; j < 4; j++)
             {
                 switch (j)
                 {
                     case 0:
-                        if (gMap_0x370_6F6268->IsNorthBlockRoadType_433470(xpos.ToInt(), ypos.ToInt(), highest_zpos))
+                        if (gMap_0x370->IsNorthBlockRoadType_433470(xpos.ToInt(), ypos.ToInt(), highest_zpos))
                         {
                             ypos -= kFpOne_6FF07C;
                             j = 4;
@@ -980,7 +980,7 @@ void PublicTransport::SetupTrainAndBusStops()
                         break;
 
                     case 1:
-                        if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(xpos.ToInt() + 1, ypos.ToInt(), highest_zpos))
+                        if (gMap_0x370->IsBlockRoadTypeInlined_433470(xpos.ToInt() + 1, ypos.ToInt(), highest_zpos))
                         {
                             xpos += kFpOne_6FF07C;
                             j = 4;
@@ -988,7 +988,7 @@ void PublicTransport::SetupTrainAndBusStops()
 
                         break;
                     case 2:
-                        if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(xpos.ToInt(), ypos.ToInt() + 1, highest_zpos))
+                        if (gMap_0x370->IsBlockRoadTypeInlined_433470(xpos.ToInt(), ypos.ToInt() + 1, highest_zpos))
                         {
                             ypos += kFpOne_6FF07C;
                             j = 4;
@@ -996,7 +996,7 @@ void PublicTransport::SetupTrainAndBusStops()
 
                         break;
                     case 3:
-                        if (gMap_0x370_6F6268->IsBlockRoadTypeInlined_433470(xpos.ToInt() - 1, ypos.ToInt(), highest_zpos))
+                        if (gMap_0x370->IsBlockRoadTypeInlined_433470(xpos.ToInt() - 1, ypos.ToInt(), highest_zpos))
                         {
                             xpos -= kFpHalf_6FEEE8; // the original moves only half a block west
                             j = 4;
@@ -1008,8 +1008,8 @@ void PublicTransport::SetupTrainAndBusStops()
                 }
             }
 
-            gMap_0x370_6F6268->FindHighestBlockForCoord(xpos.ToInt(), ypos.ToInt(), &highest_zpos);
-            gObject_5C_6F8F84->NewPhysicsObj(objects::bus_stop_marker_129,
+            gMap_0x370->FindHighestBlockForCoord(xpos.ToInt(), ypos.ToInt(), &highest_zpos);
+            gObject_5C->NewPhysicsObj(objects::bus_stop_marker_129,
                                                     kFpHalf_6FEEE8 + xpos,
                                                     kFpHalf_6FEEE8 + ypos,
                                                     kFpOne_6FF07C + Fix16(highest_zpos),
@@ -1022,14 +1022,14 @@ void PublicTransport::SetupTrainAndBusStops()
 MATCH_FUNC(0x5799b0)
 TrainStation* PublicTransport::GetBusStopOnScreen()
 {
-    if (!bSkip_buses_67D558)
+    if (!bSkip_buses)
     {
         for (u16 station_idx = 0; station_idx < sStationCount; station_idx++)
         {
             TrainStation* pStation = &mStations[station_idx];
             if (pStation->mStationType == 1)
             {
-                if (gGame_0x40_67E008->IsPointOnScreen(pStation->mpZone->mX, pStation->mpZone->mY))
+                if (gGame_0x40->IsPointOnScreen(pStation->mpZone->mX, pStation->mpZone->mY))
                 {
                     return pStation;
                 }
@@ -1042,7 +1042,7 @@ TrainStation* PublicTransport::GetBusStopOnScreen()
 MATCH_FUNC(0x579a30)
 void PublicTransport::OnBusStopMarkerHit(Car* pToFind)
 {
-    if (!bSkip_buses_67D558)
+    if (!bSkip_buses)
     {
         Car* pLeadCar = mBus.mCarriages[0];
         if (pLeadCar)
@@ -1070,7 +1070,7 @@ void PublicTransport::OnBusStopMarkerHit(Car* pToFind)
 MATCH_FUNC(0x579aa0)
 bool PublicTransport::is_bus(Car* pCar) const
 {
-    if (!bSkip_buses_67D558)
+    if (!bSkip_buses)
     {
         Car* pBus = this->mBus.mCarriages[0];
         if (pBus)
@@ -1088,7 +1088,7 @@ bool PublicTransport::is_bus(Car* pCar) const
 MATCH_FUNC(0x579ad0)
 Car* PublicTransport::GetBusIfBoarding() const
 {
-    if (bSkip_buses_67D558)
+    if (bSkip_buses)
     {
         return NULL;
     }
@@ -1104,7 +1104,7 @@ Car* PublicTransport::GetBusIfBoarding() const
 MATCH_FUNC(0x579af0)
 bool PublicTransport::is_bus_full() const
 {
-    if (bSkip_buses_67D558)
+    if (bSkip_buses)
     {
         return false;
     }
@@ -1120,7 +1120,7 @@ bool PublicTransport::is_bus_full() const
 MATCH_FUNC(0x579b10)
 void PublicTransport::IncrementBusPassengerCount()
 {
-    if (!bSkip_buses_67D558)
+    if (!bSkip_buses)
     {
         mBus.mPassengerCount++;
     }
@@ -1129,7 +1129,7 @@ void PublicTransport::IncrementBusPassengerCount()
 MATCH_FUNC(0x579b20)
 void PublicTransport::KillAllPassengers()
 {
-    if (!bSkip_buses_67D558)
+    if (!bSkip_buses)
     {
         this->mBus.mPassengerCount = 0;
         mBus.mCarriages[0]->mPassengersList.KillAndClearAllPeds();
@@ -1153,7 +1153,7 @@ Car** PublicTransport::GetCarArrayFromLeadCar(Car* toFind)
 MATCH_FUNC(0x579b90)
 bool PublicTransport::GetTrainSpeed(Car* pToFind, Fix16* pOutSpeed)
 {
-    if (!bSkip_trains_67D550)
+    if (!bSkip_trains)
     {
         for (u8 i = 0; i < 10; i++)
         {
@@ -1177,16 +1177,16 @@ bool PublicTransport::GetTrainSpeed(Car* pToFind, Fix16* pOutSpeed)
                         *pOutSpeed = kTrainSpeedState0;
                         return false;
                     case 1:
-                        *pOutSpeed = kTrainSpeedState1And3_6FEED4;
+                        *pOutSpeed = kTrainSpeedState1And3;
                         return false;
                     case 2:
                         *pOutSpeed = kFpZero_6FF078;
                         return true;
                     case 3:
-                        *pOutSpeed = kTrainSpeedState1And3_6FEED4;
+                        *pOutSpeed = kTrainSpeedState1And3;
                         return true;
                     case 4:
-                        *pOutSpeed = kTrainSpeedState4_6FEEDC;
+                        *pOutSpeed = kTrainSpeedState4;
                         return true;
                     case 5:
                         *pOutSpeed = kTrainSpeedState5;
@@ -1206,9 +1206,9 @@ void PublicTransport::BusesService()
 {
     Car* pBusCar;
 
-    if (!bSkip_buses_67D558)
+    if (!bSkip_buses)
     {
-        if (sBusSpawnDelay || sBusSpawned || !gCarManager_6C_677930->CanAllocateCarOfKind(car_kind::recycled_1))
+        if (sBusSpawnDelay || sBusSpawned || !gCarManager_6C->CanAllocateCarOfKind(car_kind::recycled_1))
         {
             if (--sBusSpawnDelay < 0)
             {
@@ -1223,34 +1223,34 @@ void PublicTransport::BusesService()
                 Fix16 xpos = Fix16(pBusStop->mpZone->mX);
                 Fix16 ypos = Fix16(pBusStop->mpZone->mY);
                 s32 found_z;
-                gMap_0x370_6F6268->FindHighestBlockForCoord(xpos.ToInt(), ypos.ToInt(), &found_z);
+                gMap_0x370->FindHighestBlockForCoord(xpos.ToInt(), ypos.ToInt(), &found_z);
                 for (u16 i = 0; i < 4; i++)
                 {
                     switch (i)
                     {
                         case 0:
-                            if (gMap_0x370_6F6268->IsNorthBlockRoadType_433470(xpos.ToInt(), ypos.ToInt(), found_z))
+                            if (gMap_0x370->IsNorthBlockRoadType_433470(xpos.ToInt(), ypos.ToInt(), found_z))
                             {
                                 ypos -= kFpHalf_6FEEE8;
                                 i = 4;
                             }
                             break;
                         case 1:
-                            if (gMap_0x370_6F6268->IsEastBlockRoadType_4334A0(xpos.ToInt(), ypos.ToInt(), found_z))
+                            if (gMap_0x370->IsEastBlockRoadType_4334A0(xpos.ToInt(), ypos.ToInt(), found_z))
                             {
                                 xpos += kFpOne_6FF07C;
                                 i = 4;
                             }
                             break;
                         case 2:
-                            if (gMap_0x370_6F6268->IsSouthBlockRoadType_4334D0(xpos.ToInt(), ypos.ToInt(), found_z))
+                            if (gMap_0x370->IsSouthBlockRoadType_4334D0(xpos.ToInt(), ypos.ToInt(), found_z))
                             {
                                 ypos += kFpOne_6FF07C;
                                 i = 4;
                             }
                             break;
                         case 3:
-                            if (gMap_0x370_6F6268->IsWestBlockRoadType_433500(xpos.ToInt(), ypos.ToInt(), found_z))
+                            if (gMap_0x370->IsWestBlockRoadType_433500(xpos.ToInt(), ypos.ToInt(), found_z))
                             {
                                 xpos -= kFpHalf_6FEEE8;
                                 i = 4;
@@ -1262,26 +1262,26 @@ void PublicTransport::BusesService()
                 }
 
                 gmp_block_info* pBlock =
-                    gMap_0x370_6F6268->FindHighestBlockForCoord(xpos.ToInt(), ypos.ToInt(), &found_z);
+                    gMap_0x370->FindHighestBlockForCoord(xpos.ToInt(), ypos.ToInt(), &found_z);
                 if (HasBlockGreenArrowAtDirection(4, pBlock))
                 {
                     mBus.mCarriages[0] =
-                        gCarManager_6C_677930->SpawnBusAtValidRoadPosition(xpos, ypos + kFpHalf_6FEEE8, 4, car_model_enum::BUS);
+                        gCarManager_6C->SpawnBusAtValidRoadPosition(xpos, ypos + kFpHalf_6FEEE8, 4, car_model_enum::BUS);
                 }
                 if (HasBlockGreenArrowAtDirection(2, pBlock))
                 {
                     mBus.mCarriages[0] =
-                        gCarManager_6C_677930->SpawnBusAtValidRoadPosition(xpos + kFpHalf_6FEEE8, ypos, 2, car_model_enum::BUS);
+                        gCarManager_6C->SpawnBusAtValidRoadPosition(xpos + kFpHalf_6FEEE8, ypos, 2, car_model_enum::BUS);
                 }
                 if (HasBlockGreenArrowAtDirection(3, pBlock))
                 {
                     mBus.mCarriages[0] =
-                        gCarManager_6C_677930->SpawnBusAtValidRoadPosition(xpos, ypos, 3, car_model_enum::BUS);
+                        gCarManager_6C->SpawnBusAtValidRoadPosition(xpos, ypos, 3, car_model_enum::BUS);
                 }
                 if (HasBlockGreenArrowAtDirection(1, pBlock))
                 {
                     mBus.mCarriages[0] =
-                        gCarManager_6C_677930->SpawnBusAtValidRoadPosition(xpos, ypos, 1, car_model_enum::BUS);
+                        gCarManager_6C->SpawnBusAtValidRoadPosition(xpos, ypos, 1, car_model_enum::BUS);
                 }
                 pBusCar = mBus.mCarriages[0];
                 if (pBusCar)
@@ -1341,7 +1341,7 @@ void PublicTransport::BusesService()
                 }
                 if (!mBus.mPassengersFleeing && !mStopGettingOffBus)
                 {
-                    if (mBus.mCarriages[0]->GetCarLinearSpeed() > kTrainSpeedState1And3_6FEED4 + kFpPoint05_6FF04C)
+                    if (mBus.mCarriages[0]->GetCarLinearSpeed() > kTrainSpeedState1And3 + kFpPoint05_6FF04C)
                     {
                         mBus.mPassengersFleeing = true;
                         mBus.mCarriages[0]->mPassengersList.ApplyPassengerBusStopBehavior();
@@ -1428,7 +1428,7 @@ void PublicTransport::BusesService()
                         default:
                             break;
                     }
-                    gSpriteGrid_2_67920C->CheckAndHandleCollisionInStrips(mBus.mCarriages[0]->mCarSprite);
+                    gSpriteGrid_2->CheckAndHandleCollisionInStrips(mBus.mCarriages[0]->mCarSprite);
                 }
             }
         }
@@ -1454,7 +1454,7 @@ void PublicTransport::PublicTransportService()
 {
     bool bStopped = false;
     BusesService();
-    if (!bSkip_trains_67D550)
+    if (!bSkip_trains)
     {
         for (u16 i = 0; i < 10; i++)
         {
@@ -1779,7 +1779,7 @@ TrainStation* PublicTransport::TrainStationForZone(gmp_map_zone* pZone)
 MATCH_FUNC(0x57b540)
 Car* PublicTransport::GetLeadTrainCar(Car* pCar)
 {
-    if (!bSkip_trains_67D550 && pCar->IsTrainModel_403BA0())
+    if (!bSkip_trains && pCar->IsTrainModel_403BA0())
     {
         return GetTrainFromCar(pCar)->mCarriages[0];
     }
@@ -1792,7 +1792,7 @@ Car* PublicTransport::GetLeadTrainCar(Car* pCar)
 MATCH_FUNC(0x57b5c0)
 Train* PublicTransport::GetTrainFromCar(Car* pToFind)
 {
-    if (!bSkip_trains_67D550)
+    if (!bSkip_trains)
     {
         for (u8 i = 0; i < 10; i++)
         {
@@ -1818,7 +1818,7 @@ Train* PublicTransport::GetTrainFromCar(Car* pToFind)
 MATCH_FUNC(0x57b6a0)
 Train* PublicTransport::GetTrainFromCarExcludingLeadCar(Car* pToFind)
 {
-    if (!bSkip_trains_67D550)
+    if (!bSkip_trains)
     {
         for (u8 i = 0; i < 10; i++)
         {

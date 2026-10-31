@@ -5,8 +5,8 @@
 #include "ang16.hpp"
 #include "fix16.hpp"
 
-EXTERN_GLOBAL(u32, gObj3C_live_count_6F8E54);
-EXTERN_GLOBAL(u32, gObj3C_dealloc_count_6F8F0C);
+EXTERN_GLOBAL(u32, gObj3C_live_count);
+EXTERN_GLOBAL(u32, gObj3C_dealloc_count);
 EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
 
 class Sprite;
@@ -71,7 +71,7 @@ class Object_3C
     // 9.6f 0x482B20
     void PoolAllocate()
     {
-        ++gObj3C_live_count_6F8E54;
+        ++gObj3C_live_count;
         mSpeed = 0;
         mAngle = kZeroAng_6F8F68;
         mFriction = Fix16(0);
@@ -86,8 +86,8 @@ class Object_3C
     // 9.6f 0x482B80
     void PoolDeallocate()
     {
-        --gObj3C_live_count_6F8E54;
-        ++gObj3C_dealloc_count_6F8F0C;
+        --gObj3C_live_count;
+        ++gObj3C_dealloc_count;
     }
 
     void ClearConveyorSpeed_482BD0()
@@ -135,4 +135,4 @@ class Object_3C
     char_type mUnused3B; // 0x3B
 };
 
-EXTERN_GLOBAL(SpriteList, gTrailerHitchCandidates_67727C);
+EXTERN_GLOBAL(SpriteList, gTrailerHitchCandidates);

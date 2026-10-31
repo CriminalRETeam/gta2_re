@@ -88,4 +88,4 @@ class CrusherPool
     s32 mCount; // 0x90
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CrusherPool, 0x94);
-EXTERN_GLOBAL(CrusherPool*, gCrusherPool_94_67A830);
+EXTERN_GLOBAL(CrusherPool*, gCrusherPool_94);

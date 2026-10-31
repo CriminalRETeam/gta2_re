@@ -4,7 +4,7 @@
 #include "Ped.hpp"
 #include "PedGroup.hpp"
 
-DEFINE_GLOBAL(EmergencyCrewPool*, gEmergencyCrewPool_706280, 0x706280);
+DEFINE_GLOBAL(EmergencyCrewPool*, gEmergencyCrewPool, 0x706280);
 DEFINE_GLOBAL_INIT(Fix16, kFpFour_706148, Fix16(4), 0x706148);
 
 MATCH_FUNC(0x4beb00)
@@ -257,7 +257,7 @@ void EmergencyCrew::UpdateStateMachine()
                 }
                 if (mCar->mpChaseTask)
                 {
-                    gCarChaseTaskTable_678E30->FreeEntry(mCar->mpChaseTask);
+                    gCarChaseTaskTable->FreeEntry(mCar->mpChaseTask);
                     mCar->mpChaseTask = NULL;
                 }
                 mCar = NULL;
@@ -418,7 +418,7 @@ void EmergencyCrew::UpdateStateMachine()
         {
             if (mCar->mpChaseTask)
             {
-                gCarChaseTaskTable_678E30->FreeEntry(mCar->mpChaseTask);
+                gCarChaseTaskTable->FreeEntry(mCar->mpChaseTask);
                 mCar->mpChaseTask = NULL;
             }
         }
@@ -508,7 +508,7 @@ void EmergencyCrew::CleanupExpiredEntities()
             {
                 if (mCar->mpChaseTask)
                 {
-                    gCarChaseTaskTable_678E30->FreeEntry(mCar->mpChaseTask);
+                    gCarChaseTaskTable->FreeEntry(mCar->mpChaseTask);
                     mCar->mpChaseTask = NULL;
                 }
             }
@@ -631,9 +631,9 @@ bool EmergencyCrew::Service()
     switch (mCrewType)
     {
         case crew_type::paramedic_1:
-            if (gCarManager_6C_677930->CanAllocateCarOfKind(car_kind::paramedic_car_4))
+            if (gCarManager_6C->CanAllocateCarOfKind(car_kind::paramedic_car_4))
             {
-                this->mCar = gCarManager_6C_677930->SpawnCarAtRoadDirection(car_model_enum::MEDICAR,
+                this->mCar = gCarManager_6C->SpawnCarAtRoadDirection(car_model_enum::MEDICAR,
                                                                                    this->mSpawnX,
                                                                                    this->mSpawnY,
                                                                                    this->mSpawnZ);
@@ -651,9 +651,9 @@ bool EmergencyCrew::Service()
             break;
 
         case crew_type::police_3:
-            if (gCarManager_6C_677930->CanAllocateCarOfKind(car_kind::police_6))
+            if (gCarManager_6C->CanAllocateCarOfKind(car_kind::police_6))
             {
-                this->mCar = gCarManager_6C_677930->SpawnCarAtRoadDirection(car_model_enum::COPCAR,
+                this->mCar = gCarManager_6C->SpawnCarAtRoadDirection(car_model_enum::COPCAR,
                                                                                    this->mSpawnX,
                                                                                    this->mSpawnY,
                                                                                    this->mSpawnZ);
@@ -670,9 +670,9 @@ bool EmergencyCrew::Service()
             break;
 
         case crew_type::swat_5:
-            if (gCarManager_6C_677930->CanAllocateCarOfKind(car_kind::police_6))
+            if (gCarManager_6C->CanAllocateCarOfKind(car_kind::police_6))
             {
-                this->mCar = gCarManager_6C_677930->SpawnCarAtRoadDirection(car_model_enum::SWATVAN,
+                this->mCar = gCarManager_6C->SpawnCarAtRoadDirection(car_model_enum::SWATVAN,
                                                                                    this->mSpawnX,
                                                                                    this->mSpawnY,
                                                                                    this->mSpawnZ);

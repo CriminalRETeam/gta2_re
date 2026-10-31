@@ -76,11 +76,11 @@ DEFINE_STATIC_GLOBAL(Network_Buffer, sInputSendData, 0x6F5B18);
 DEFINE_STATIC_GLOBAL(Network_PlayerInputs, sPrevNetInputs, 0x6F5B28);
 DEFINE_STATIC_GLOBAL(ReceivedPacket*, spInputBuffer, 0x6F58C0);
 DEFINE_STATIC_GLOBAL(u32, sCurrentInputsBufferSize, 0x6F58C4);
-DEFINE_GLOBAL_ARRAY(u8, gSyncCheckData_6F58E0, 0x20, 0x6F58E0);
+DEFINE_GLOBAL_ARRAY(u8, gSyncCheckData, 0x20, 0x6F58E0);
 DEFINE_STATIC_GLOBAL(u32, sTotalNetworkTime, 0x6F5980);
-DEFINE_GLOBAL(s32, gNetTimeLimit_6F573C, 0x6F573C);
+DEFINE_GLOBAL(s32, gNetTimeLimit, 0x6F573C);
 DEFINE_STATIC_GLOBAL(s32, sHudTimerIdx, 0x6F5860);
-EXTERN_GLOBAL(s32, gNetTimeLimitEnabled_6F58A4);
+EXTERN_GLOBAL(s32, gNetTimeLimitEnabled);
 DEFINE_STATIC_GLOBAL(s32, sNetTimeSecondsOfCurrMin, 0x6F58A0);
 DEFINE_GLOBAL_ARRAY(u8, gNet_Unused_6F5AC8, 14, 0x6F5AC8);
 DEFINE_GLOBAL(u32, gNet_Unused_6F5B00, 0x6F5B00);
@@ -88,7 +88,7 @@ DEFINE_GLOBAL(u32, gNet_Unused_6F580C, 0x6F580C);
 DEFINE_GLOBAL(u32, gNet_Unused_6F5AC0, 0x6F5AC0);
 DEFINE_STATIC_GLOBAL(s32, sFramesOfCurrSecond, 0x6F5858);
 DEFINE_STATIC_GLOBAL(u8, sNetTimerFlashing, 0x6F59C0);
-DEFINE_GLOBAL(NetworkGameSettings, gNetworkGameSettings_707098, 0x707098);
+DEFINE_GLOBAL(NetworkGameSettings, gNetworkGameSettings, 0x707098);
 
 static T_gbh_SetBeginSceneCB pBeginSceneCB = NULL;
 
@@ -323,20 +323,20 @@ void force_link()
     particle.PoolAllocate();
 }
 
-DEFINE_GLOBAL(HINSTANCE, gHInstance_708220, 0x708220);
+DEFINE_GLOBAL(HINSTANCE, gHInstance, 0x708220);
 DEFINE_STATIC_GLOBAL(HANDLE, sMutex, 0x707078);
-DEFINE_GLOBAL(s32, gGTA2VersionMajor_708280, 0x708280);
-DEFINE_GLOBAL(s32, gGTA2VersionMinor_708284, 0x708284);
-DEFINE_GLOBAL_ARRAY(char_type, gWorkingDir_707F64, 256, 0x707F64);
-DEFINE_GLOBAL_INIT(bool, bDoFrontEnd_626B68, true, 0x626B68);
+DEFINE_GLOBAL(s32, gGTA2VersionMajor, 0x708280);
+DEFINE_GLOBAL(s32, gGTA2VersionMinor, 0x708284);
+DEFINE_GLOBAL_ARRAY(char_type, gWorkingDir, 256, 0x707F64);
+DEFINE_GLOBAL_INIT(bool, bDoFrontEnd, true, 0x626B68);
 
-DEFINE_GLOBAL(s32, window_width_706630, 0x706630);
-DEFINE_GLOBAL(s32, window_height_706B50, 0x706B50);
+DEFINE_GLOBAL(s32, window_width, 0x706630);
+DEFINE_GLOBAL(s32, window_height, 0x706B50);
 DEFINE_STATIC_GLOBAL(s32, sFullWidth, 0x706B5C);
 DEFINE_STATIC_GLOBAL(s32, sFullHeight, 0x706798);
 DEFINE_STATIC_GLOBAL(s32, sWindowX, 0x706B60);
 DEFINE_STATIC_GLOBAL(s32, sWindowY, 0x706B64);
-DEFINE_GLOBAL(s32, bStartNetworkGame_7081F0, 0x7081F0);
+DEFINE_GLOBAL(s32, bStartNetworkGame, 0x7081F0);
 DEFINE_STATIC_GLOBAL(BYTE, sMinimizedState, 0x70827C);
 DEFINE_STATIC_GLOBAL(BYTE, sbVideoModeResetPending, 0x706C5D);
 DEFINE_STATIC_GLOBAL(BYTE, sbReplayMode, 0x6F5B71);
@@ -344,15 +344,15 @@ DEFINE_STATIC_GLOBAL_INIT(s32, sStartMode, 2, 0x626A0C);
 
 DEFINE_STATIC_GLOBAL(s32, sbTrippleBuffer, 0x706C54);
 DEFINE_STATIC_GLOBAL(char_type, sbWindowedModeAvailable, 0x706C5C);
-DEFINE_GLOBAL(u32, gBufferMode_706B34, 0x706B34);
+DEFINE_GLOBAL(u32, gBufferMode, 0x706B34);
 DEFINE_STATIC_GLOBAL_ARRAY(char_type, sRenderDllName, 256, 0x7067F0);
 DEFINE_STATIC_GLOBAL_ARRAY(char_type, sVideoDllName, 256, 0x706654);
 DEFINE_STATIC_GLOBAL(s32, sVideodevice, 0x70694C);
 DEFINE_STATIC_GLOBAL(u16, sDMusicVer, 0x67BD32);
 
-DEFINE_GLOBAL_INIT(char_type, gLighting_626A09, 1, 0x626A09);
+DEFINE_GLOBAL_INIT(char_type, gLighting, 1, 0x626A09);
 
-DEFINE_GLOBAL(u32, gLightingDrawFlag_7068F4, 0x7068F4);
+DEFINE_GLOBAL(u32, gLightingDrawFlag, 0x7068F4);
 DEFINE_STATIC_GLOBAL(LPDIRECTINPUTDEVICEA, sMouseDevice, 0x706C60);
 // The original mouse format uses the seven object records already recovered in Frontend.cpp.
 extern DIOBJECTDATAFORMAT gMouseObjectDataFormats_5EA3D0[7];
@@ -381,23 +381,23 @@ EXPORT void __stdcall ResetFrameTimer()
 MATCH_FUNC(0x5D8E00)
 void UpdateGameScreenSize()
 {
-    if (gGame_0x40_67E008)
+    if (gGame_0x40)
     {
-        if (gVidSys_7071D0->field_40_full_screen == -2)
+        if (gVidSys->field_40_full_screen == -2)
         {
-            if (gCachedScreenDimension_706C58 != window_width_706630)
+            if (gCachedScreenDimension != window_width)
             {
-                gGame_0x40_67E008->SetScreenSize(window_width_706630, window_height_706B50);
+                gGame_0x40->SetScreenSize(window_width, window_height);
             }
-            gCachedScreenDimension_706C58 = window_width_706630;
+            gCachedScreenDimension = window_width;
         }
         else
         {
-            if (static_cast<u32>(gCachedScreenDimension_706C58) != gVidSys_7071D0->field_4C_rect_bottom)
+            if (static_cast<u32>(gCachedScreenDimension) != gVidSys->field_4C_rect_bottom)
             {
-                gGame_0x40_67E008->SetScreenSize(gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
+                gGame_0x40->SetScreenSize(gVidSys->field_48_rect_right, gVidSys->field_4C_rect_bottom);
             }
-            gCachedScreenDimension_706C58 = gVidSys_7071D0->field_4C_rect_bottom;
+            gCachedScreenDimension = gVidSys->field_4C_rect_bottom;
         }
         ForceGameUpdate();
         ResetFrameTimer();
@@ -407,34 +407,34 @@ void UpdateGameScreenSize()
 MATCH_FUNC(0x5D8EB0)
 EXPORT void __stdcall Init_FrameRateLightingAndExplodingScores()
 {
-    if (bStartNetworkGame_7081F0)
+    if (bStartNetworkGame)
     {
         sMaxFrameRate = 1;
         sMinFrameRate = 1;
     }
     else
     {
-        sMaxFrameRate = gRegistry_6FF968.Get_Screen_Setting("max_frame_rate", 1) != 0;
-        sMinFrameRate = gRegistry_6FF968.Get_Screen_Setting("min_frame_rate", 0) != 0;
+        sMaxFrameRate = gRegistry.Get_Screen_Setting("max_frame_rate", 1) != 0;
+        sMinFrameRate = gRegistry.Get_Screen_Setting("min_frame_rate", 0) != 0;
     }
 
-    if (gRegistry_6FF968.Get_Screen_Setting("lighting", 1))
+    if (gRegistry.Get_Screen_Setting("lighting", 1))
     {
-        gLighting_626A09 = 1;
-        gLightingDrawFlag_7068F4 = 0x8000;
+        gLighting = 1;
+        gLightingDrawFlag = 0x8000;
     }
     else
     {
-        gLighting_626A09 = 0;
-        gLightingDrawFlag_7068F4 = 0;
+        gLighting = 0;
+        gLightingDrawFlag = 0;
     }
 
-    if (gSpriteMaskCache_67AF1C)
+    if (gSpriteMaskCache)
     {
-        gSpriteMaskCache_67AF1C->InvalidateAllMasks();
+        gSpriteMaskCache->InvalidateAllMasks();
     }
 
-    bExplodingScoresOff_67D4FB = gRegistry_6FF968.Get_Screen_Setting("exploding_on", 1) != 1;
+    bExplodingScoresOff = gRegistry.Get_Screen_Setting("exploding_on", 1) != 1;
 }
 
 MATCH_FUNC(0x5D7C60)
@@ -469,8 +469,8 @@ EXPORT void __stdcall HideCursor()
 MATCH_FUNC(0x5D7BF0)
 EXPORT bool Input_InitMouse()
 {
-    if (!gpDInput_67B804 || sMouseDevice || gpDInput_67B804->CreateDevice(GUID_SysMouse, &sMouseDevice, NULL) ||
-        sMouseDevice->SetDataFormat(&sMouseDataFormat) || sMouseDevice->SetCooperativeLevel(gHwnd_707F04, DISCL_EXCLUSIVE | DISCL_FOREGROUND))
+    if (!gpDInput || sMouseDevice || gpDInput->CreateDevice(GUID_SysMouse, &sMouseDevice, NULL) ||
+        sMouseDevice->SetDataFormat(&sMouseDataFormat) || sMouseDevice->SetCooperativeLevel(gHwnd, DISCL_EXCLUSIVE | DISCL_FOREGROUND))
     {
         return false;
     }
@@ -482,14 +482,14 @@ MATCH_FUNC(0x5D93A0)
 EXPORT void __stdcall SetFullScreenMode()
 {
     bool bModeChanged = false;
-    s32 bcheckModeRet = pVid_CheckMode(gVidSys_7071D0, sFullWidth, sFullHeight, 16);
+    s32 bcheckModeRet = pVid_CheckMode(gVidSys, sFullWidth, sFullHeight, 16);
     if (!bcheckModeRet)
     {
         if (sFullWidth == 640 ||
             (sFullWidth = 640,
              bModeChanged = true,
              sFullHeight = 480,
-             (bcheckModeRet = pVid_CheckMode(gVidSys_7071D0, 640, 480, 16)) == 0))
+             (bcheckModeRet = pVid_CheckMode(gVidSys, 640, 480, 16)) == 0))
         {
             FatalError_4A38C0(Gta2Error::VideomodeNotAvailable,
                               "C:\\Splitting\\Gta2\\Source\\video.cpp",
@@ -500,29 +500,29 @@ EXPORT void __stdcall SetFullScreenMode()
         }
     }
 
-    if (gVidSys_7071D0)
+    if (gVidSys)
     {
-        gVidSys_7071D0->field_4_flags |= 0x100;
+        gVidSys->field_4_flags |= 0x100;
     }
 
-    if (pVid_SetMode(gVidSys_7071D0, gHwnd_707F04, bcheckModeRet))
+    if (pVid_SetMode(gVidSys, gHwnd, bcheckModeRet))
     {
         FatalError_4A38C0(Gta2Error::FailedToSetFullscreenVideomode, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1365, bcheckModeRet);
     }
 
     HideCursor();
 
-    SetWindowLongA(gHwnd_707F04, GWL_STYLE, WS_VISIBLE);
-    SetWindowPos(gHwnd_707F04, NULL, 0, 0, 0, 0, 0x63Bu);
-    UpdateWindow(gHwnd_707F04);
-    ShowWindow(gHwnd_707F04, SW_SHOWNORMAL);
+    SetWindowLongA(gHwnd, GWL_STYLE, WS_VISIBLE);
+    SetWindowPos(gHwnd, NULL, 0, 0, 0, 0, 0x63Bu);
+    UpdateWindow(gHwnd);
+    ShowWindow(gHwnd, SW_SHOWNORMAL);
 
     Input_InitMouse();
 
     if (bModeChanged)
     {
-        gRegistry_6FF968.Set_Screen_Setting("full_width", sFullWidth);
-        gRegistry_6FF968.Set_Screen_Setting("full_height", sFullHeight);
+        gRegistry.Set_Screen_Setting("full_width", sFullWidth);
+        gRegistry.Set_Screen_Setting("full_height", sFullHeight);
     }
 }
 
@@ -553,36 +553,36 @@ EXPORT bool __stdcall SetWindowedMode()
     }
 
     Input_ReleaseMouse();
-    SetWindowLongA(gHwnd_707F04, GWL_STYLE, WS_VISIBLE | WS_OVERLAPPEDWINDOW);
-    SetWindowPos(gHwnd_707F04, NULL, 0, 0, 0, 0, 0x63Bu);
-    UpdateWindow(gHwnd_707F04);
-    ShowWindow(gHwnd_707F04, SW_SHOW);
+    SetWindowLongA(gHwnd, GWL_STYLE, WS_VISIBLE | WS_OVERLAPPEDWINDOW);
+    SetWindowPos(gHwnd, NULL, 0, 0, 0, 0, 0x63Bu);
+    UpdateWindow(gHwnd);
+    ShowWindow(gHwnd, SW_SHOW);
 
     RECT windowRect;
-    GetWindowRect(gHwnd_707F04, &windowRect);
+    GetWindowRect(gHwnd, &windowRect);
 
     RECT clientRect;
-    GetClientRect(gHwnd_707F04, &clientRect);
+    GetClientRect(gHwnd, &clientRect);
 
-    if (!SetWindowPos(gHwnd_707F04,
+    if (!SetWindowPos(gHwnd,
                       NULL,
                       sWindowX,
                       sWindowY,
-                      windowRect.right + clientRect.left + window_width_706630 - windowRect.left - clientRect.right,
-                      windowRect.bottom + clientRect.top + window_height_706B50 - windowRect.top - clientRect.bottom,
+                      windowRect.right + clientRect.left + window_width - windowRect.left - clientRect.right,
+                      windowRect.bottom + clientRect.top + window_height - windowRect.top - clientRect.bottom,
                       0x316))
     {
         return false;
     }
 
-    UpdateWindow(gHwnd_707F04);
-    ShowWindow(gHwnd_707F04, SW_SHOW);
-    if (gVidSys_7071D0)
+    UpdateWindow(gHwnd);
+    ShowWindow(gHwnd, SW_SHOW);
+    if (gVidSys)
     {
-        gVidSys_7071D0->field_4_flags |= 0x100;
+        gVidSys->field_4_flags |= 0x100;
     }
 
-    if (pVid_SetMode(gVidSys_7071D0, gHwnd_707F04, -2) == 1)
+    if (pVid_SetMode(gVidSys, gHwnd, -2) == 1)
     {
         return false;
     }
@@ -597,36 +597,36 @@ MATCH_FUNC(0x5D8F70)
 EXPORT s32 ReadScreenSettings()
 {
     const s32 full_width_old = sFullWidth;
-    const s32 window_width_old = window_width_706630;
+    const s32 window_width_old = window_width;
     const s32 full_height_old = sFullHeight;
     const s32 startMode_old = sStartMode;
     const s32 trippleBuffer_old = sbTrippleBuffer;
-    const s32 window_height_old = window_height_706B50;
+    const s32 window_height_old = window_height;
 
-    if (bDoFrontEnd_626B68)
+    if (bDoFrontEnd)
     {
-        window_width_706630 = 640;
-        window_height_706B50 = 480;
+        window_width = 640;
+        window_height = 480;
         sFullWidth = 640;
         sFullHeight = 480;
     }
     else
     {
-        window_width_706630 = gRegistry_6FF968.Get_Screen_Setting("window_width", 640);
-        window_height_706B50 = gRegistry_6FF968.Get_Screen_Setting("window_height", 480);
-        sFullWidth = gRegistry_6FF968.Get_Screen_Setting("full_width", 640);
-        sFullHeight = gRegistry_6FF968.Get_Screen_Setting("full_height", 480);
+        window_width = gRegistry.Get_Screen_Setting("window_width", 640);
+        window_height = gRegistry.Get_Screen_Setting("window_height", 480);
+        sFullWidth = gRegistry.Get_Screen_Setting("full_width", 640);
+        sFullHeight = gRegistry.Get_Screen_Setting("full_height", 480);
     }
 
-    sStartMode = gRegistry_6FF968.Get_Screen_Setting("start_mode", 1);
+    sStartMode = gRegistry.Get_Screen_Setting("start_mode", 1);
 
-    if (gBufferMode_706B34 == 0)
+    if (gBufferMode == 0)
     {
         sbTrippleBuffer = 1;
     }
     else
     {
-        sbTrippleBuffer = gRegistry_6FF968.Get_Screen_Setting("tripple_buffer", 0);
+        sbTrippleBuffer = gRegistry.Get_Screen_Setting("tripple_buffer", 0);
     }
 
     if (sStartMode == startMode_old && sbTrippleBuffer == trippleBuffer_old)
@@ -638,7 +638,7 @@ EXPORT s32 ReadScreenSettings()
                 return 0;
             }
         }
-        else if (sStartMode || window_width_706630 == window_width_old && window_height_706B50 == window_height_old)
+        else if (sStartMode || window_width == window_width_old && window_height == window_height_old)
         {
             return 0;
         }
@@ -650,7 +650,7 @@ EXPORT s32 ReadScreenSettings()
 MATCH_FUNC(0x5D98E0)
 EXPORT void __stdcall SetSavedGamma()
 {
-    DWORD gamma = gRegistry_6FF968.Get_Screen_Setting("gamma", 10);
+    DWORD gamma = gRegistry.Get_Screen_Setting("gamma", 10);
     if (SetGamma(gamma))
     {
         counter_706C4C = 30;
@@ -664,31 +664,31 @@ EXPORT void __stdcall SetVideoModeFromSettings()
     ReadScreenSettings();
     Input_MouseAcquire();
 
-    pVid_CloseScreen(gVidSys_7071D0);
+    pVid_CloseScreen(gVidSys);
 
     if (sbTrippleBuffer)
     {
-        gVidSys_7071D0->field_4_flags |= 0x10;
+        gVidSys->field_4_flags |= 0x10;
     }
     else
     {
-        gVidSys_7071D0->field_4_flags &= ~0x10u;
+        gVidSys->field_4_flags &= ~0x10u;
     }
 
     if (!sStartMode)
     {
         if (!SetWindowedMode())
         {
-            if (window_width_706630 == 640 || (window_width_706630 = 640, window_height_706B50 = 480, !SetWindowedMode()))
+            if (window_width == 640 || (window_width = 640, window_height = 480, !SetWindowedMode()))
             {
                 SetFullScreenMode();
                 sStartMode = 1;
-                gRegistry_6FF968.Set_Screen_Setting("start_mode", 1u);
+                gRegistry.Set_Screen_Setting("start_mode", 1u);
             }
             else
             {
-                gRegistry_6FF968.Set_Screen_Setting("window_width", window_width_706630);
-                gRegistry_6FF968.Set_Screen_Setting("window_height", window_height_706B50);
+                gRegistry.Set_Screen_Setting("window_width", window_width);
+                gRegistry.Set_Screen_Setting("window_height", window_height);
             }
         }
     }
@@ -709,10 +709,10 @@ MATCH_FUNC(0x5D9830)
 EXPORT void __stdcall GBH_Graphis_DMA_Video_Free()
 {
     jGBH_Graphics_Free();
-    if (gVidSys_7071D0)
+    if (gVidSys)
     {
-        DMA_Video_Unload(gVidSys_7071D0);
-        gVidSys_7071D0 = NULL;
+        DMA_Video_Unload(gVidSys);
+        gVidSys = NULL;
     }
     ShowCursor_5D9660();
 }
@@ -720,25 +720,25 @@ EXPORT void __stdcall GBH_Graphis_DMA_Video_Free()
 MATCH_FUNC(0x5D9290)
 EXPORT bool Vid_FindDevice_5D9290()
 {
-    SDevice* pDevice = pVid_FindDevice(gVidSys_7071D0, sVideodevice);
+    SDevice* pDevice = pVid_FindDevice(gVidSys, sVideodevice);
     return pDevice && (pDevice->field_4_flags & 1) == 1;
 }
 
 MATCH_FUNC(0x5D9800)
 EXPORT s32 GetHwndDCDeviceCaps()
 {
-    HDC hdc = GetDC(gHwnd_707F04);
+    HDC hdc = GetDC(gHwnd);
     s32 deviceCaps = GetDeviceCaps(hdc, BITSPIXEL);
-    ReleaseDC(gHwnd_707F04, hdc);
+    ReleaseDC(gHwnd, hdc);
     return deviceCaps;
 }
 
 MATCH_FUNC(0x5D97C0)
 EXPORT void __stdcall GBH_GraphicsInit()
 {
-    if (GBH_GraphicsLoad(sRenderDllName, gVidSys_7071D0))
+    if (GBH_GraphicsLoad(sRenderDllName, gVidSys))
     {
-        FatalError_4A38C0(Gta2Error::DllLoadError, "C:\\Splitting\\Gta2\\Source\\video.cpp", 206, gTmpBuffer_67C598);
+        FatalError_4A38C0(Gta2Error::DllLoadError, "C:\\Splitting\\Gta2\\Source\\video.cpp", 206, gTmpBuffer);
     }
 }
 
@@ -751,21 +751,21 @@ EXPORT void InitVideo()
         FatalError_4A38C0(Gta2Error::DllLoadError, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1647, sVideoDllName);
     }
 
-    gVidSys_7071D0 = pVid_Init_SYS(gHInstance_708220, 0);
+    gVidSys = pVid_Init_SYS(gHInstance, 0);
 
-    pVid_SetDevice(gVidSys_7071D0, sVideodevice);
+    pVid_SetDevice(gVidSys, sVideodevice);
 
-    if (!gVidSys_7071D0)
+    if (!gVidSys)
     {
         FatalError_4A38C0(Gta2Error::DMAVideoInitFail, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1656);
     }
 
-    if (gBufferMode_706B34 == 1)
+    if (gBufferMode == 1)
     {
         ddraw_flags = 64;
     }
 
-    gVidSys_7071D0->field_4_flags |= ddraw_flags;
+    gVidSys->field_4_flags |= ddraw_flags;
 
     if (GetHwndDCDeviceCaps() == 16)
     {
@@ -787,11 +787,11 @@ EXPORT void InitVideo()
 
     SetSavedGamma();
 
-    pVid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
+    pVid_ClearScreen(gVidSys, 0, 0, 0, 0, 0, gVidSys->field_48_rect_right, gVidSys->field_4C_rect_bottom);
 
-    pVid_FlipBuffers(gVidSys_7071D0);
+    pVid_FlipBuffers(gVidSys);
 
-    pVid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
+    pVid_ClearScreen(gVidSys, 0, 0, 0, 0, 0, gVidSys->field_48_rect_right, gVidSys->field_4C_rect_bottom);
 }
 
 MATCH_FUNC(0x4DA440)
@@ -800,99 +800,99 @@ EXPORT void __stdcall Init_keybrd_jolly_and_sound()
     KeyboardLayout::create();
     PlyDat::Create();
 
-    if (!bSkip_audio_67D6BE)
+    if (!bSkip_audio)
     {
-        gRoot_sound_66B038.Init();
-        gRoot_sound_66B038.SetCDVol(gRegistry_6FF968.Get_Sound_Setting("CDVol", 127));
-        gRoot_sound_66B038.SetSfxVol(gRegistry_6FF968.Get_Sound_Setting("SFXVol", 127));
-        gRoot_sound_66B038.Set3DSound(gRegistry_6FF968.Sound_Setting_Exists("do_3d_sound"));
-        gRegistry_6FF968.Clear_Or_Delete_Sound_Setting("do_3d_sound", gRoot_sound_66B038.Get3DSound());
+        gRoot_sound.Init();
+        gRoot_sound.SetCDVol(gRegistry.Get_Sound_Setting("CDVol", 127));
+        gRoot_sound.SetSfxVol(gRegistry.Get_Sound_Setting("SFXVol", 127));
+        gRoot_sound.Set3DSound(gRegistry.Sound_Setting_Exists("do_3d_sound"));
+        gRegistry.Clear_Or_Delete_Sound_Setting("do_3d_sound", gRoot_sound.Get3DSound());
     }
 }
 
 MATCH_FUNC(0x4DB170)
 void __stdcall ClearDebugFlags()
 {
-    bShow_all_arrows_67D6E7 = false;
-    bDo_kill_phones_on_answer_67D6E8 = false;
-    bSkip_dummies_67D4EF = false;
-    bSkip_tiles_67D655 = false;
-    bDo_test_67D4F8 = false;
-    bSkip_mission_67D4E5 = false;
-    bDo_brian_test_67D544 = false;
-    bDo_iain_test_67D4E9 = false;
-    bSkip_user_67D506 = false;
-    bSkip_traffic_lights_67D4EC = false;
-    bSkip_recycling_67D575 = false;
-    bLog_collisions_67D4E6 = false;
-    bDo_show_traffic_lights_info_67D4FA = false;
-    bLimit_recycling_67D4CA = false;
-    bNo_annoying_chars_67D586 = false;
-    bSkip_slopes_67D505 = false;
-    bSkip_left_67D6BF = false;
-    bSkip_right_67D4E4 = false;
-    bSkip_top_67D574 = false;
-    bSkip_bottom_67D4E7 = false;
-    bSkip_lid_67D546 = false;
-    bLog_routefinder_67D6D1 = false;
-    bDo_mike_67D5CC = false;
-    bSkip_particles_67D64D = false;
-    bShow_hidden_faces_67D5CD = false;
-    bGet_all_weapons_67D684 = false;
-    bDo_exit_after_replay_67D6E4 = false;
-    bDont_get_car_back_67D4F5 = false;
-    bSkip_ambulance_67D6C9 = false;
-    bSkip_frontend_67D53B = false;
-    bDo_invulnerable_67D4CB = false;
-    bKeep_weapons_after_death_67D54D = false;
-    bSkip_skidmarks_67D585 = false;
-    gDo_infinite_lives_67D4C9 = false;
-    bDo_load_savegame_67D4F0 = false;
-    bSkip_audio_67D6BE = false;
-    bDo_debug_keys_67D6CF = false;
-    bLog_input_67D4CC = false;
-    bLog_directinput_67D6C0 = false;
-    bIgnore_replay_header_67D4F3 = false;
-    bSkip_trains_67D550 = false;
-    bSkip_buses_67D558 = false;
-    bSkip_quit_confirm_67D4E8 = false;
-    bSkip_fire_engines_67D53A = false;
-    bSkip_window_check_67D54E = false;
-    gDo_miss_logging_67D6BC = false;
-    gDebugFlag_Unused_67D654 = false;
-    bDo_police_1_67D568 = false;
-    bDo_police_2_67D569 = false;
-    bDo_police_3_67D56A = false;
-    bSkip_draw_67D4EA = false;
-    bDo_free_shopping_67D6CD = false;
-    gCheatMiniCars_67D6C8 = false;
-    gCheatGetPlayerPoints_67D4C8 = false;
-    gCheatGet10MillionMoney_67D6CE = false;
-    gCheatUnlimitedElectroGun_67D4F7 = false;
-    gCheatAllGangMaxRespect_67D587 = false;
-    gCheatGet99Lives_67D4F1 = false;
-    gCheat10xMultiplier_67D589 = false;
-    gCheatUnlockThreeLevels_67D6CB = false;
-    gCheatUnlockLevelsOneAndTwo_67D584 = false;
-    gCheatUnlockAllLevels_67D538 = false;
-    gCheatGetBasicWeaponsMaxAmmo_67D545 = false;
-    gCheatOnlyElvisPeds_67D4ED = false;
-    gCheatOnlyMuggerPeds_67D5A4 = false;
-    gCheatNakedPeds_67D5E8 = false;
-    gCheatUnlimitedJailCard_67D4F6 = false;
-    gCheatInvisibility_67D539 = false;
-    gCheatUnlimitedDoubleDamage_67D57C = false;
-    gCheatJailCardSmgRespect_67D56B = false;
-    gCheatUnlimitedFlameThrower_67D6CC = false;
+    bShow_all_arrows = false;
+    bDo_kill_phones_on_answer = false;
+    bSkip_dummies = false;
+    bSkip_tiles = false;
+    bDo_test = false;
+    bSkip_mission = false;
+    bDo_brian_test = false;
+    bDo_iain_test = false;
+    bSkip_user = false;
+    bSkip_traffic_lights = false;
+    bSkip_recycling = false;
+    bLog_collisions = false;
+    bDo_show_traffic_lights_info = false;
+    bLimit_recycling = false;
+    bNo_annoying_chars = false;
+    bSkip_slopes = false;
+    bSkip_left = false;
+    bSkip_right = false;
+    bSkip_top = false;
+    bSkip_bottom = false;
+    bSkip_lid = false;
+    bLog_routefinder = false;
+    bDo_mike = false;
+    bSkip_particles = false;
+    bShow_hidden_faces = false;
+    bGet_all_weapons = false;
+    bDo_exit_after_replay = false;
+    bDont_get_car_back = false;
+    bSkip_ambulance = false;
+    bSkip_frontend = false;
+    bDo_invulnerable = false;
+    bKeep_weapons_after_death = false;
+    bSkip_skidmarks = false;
+    gDo_infinite_lives = false;
+    bDo_load_savegame = false;
+    bSkip_audio = false;
+    bDo_debug_keys = false;
+    bLog_input = false;
+    bLog_directinput = false;
+    bIgnore_replay_header = false;
+    bSkip_trains = false;
+    bSkip_buses = false;
+    bSkip_quit_confirm = false;
+    bSkip_fire_engines = false;
+    bSkip_window_check = false;
+    gDo_miss_logging = false;
+    gDebugFlag_Unused = false;
+    bDo_police_1 = false;
+    bDo_police_2 = false;
+    bDo_police_3 = false;
+    bSkip_draw = false;
+    bDo_free_shopping = false;
+    gCheatMiniCars = false;
+    gCheatGetPlayerPoints = false;
+    gCheatGet10MillionMoney = false;
+    gCheatUnlimitedElectroGun = false;
+    gCheatAllGangMaxRespect = false;
+    gCheatGet99Lives = false;
+    gCheat10xMultiplier = false;
+    gCheatUnlockThreeLevels = false;
+    gCheatUnlockLevelsOneAndTwo = false;
+    gCheatUnlockAllLevels = false;
+    gCheatGetBasicWeaponsMaxAmmo = false;
+    gCheatOnlyElvisPeds = false;
+    gCheatOnlyMuggerPeds = false;
+    gCheatNakedPeds = false;
+    gCheatUnlimitedJailCard = false;
+    gCheatInvisibility = false;
+    gCheatUnlimitedDoubleDamage = false;
+    gCheatJailCardSmgRespect = false;
+    gCheatUnlimitedFlameThrower = false;
 }
 
 MATCH_FUNC(0x4DB070)
 EXPORT void __stdcall ShowPlayerLeftMessage(u8 idx)
 {
-    Player* pPlayer = gGame_0x40_67E008->GetPlayer_4219E0(idx);
+    Player* pPlayer = gGame_0x40->GetPlayer_4219E0(idx);
     pPlayer->Disconnect();
-    swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find("comms1"), pPlayer->mPlayerName);
-    gHud_2B00_706620->mMpMessage.ShowText(tmpBuff_67BD9C);
+    swprintf(tmpBuff, gText_0x14->Find("comms1"), pPlayer->mPlayerName);
+    gHud_2B00->mMpMessage.ShowText(tmpBuff);
 }
 
 MATCH_FUNC(0x4DB0D0)
@@ -910,31 +910,31 @@ EXPORT void __stdcall InitializeGame()
 {
     if (sbReplayMode)
     {
-        gInputRecorder_67F8B0.input_init_replay(gHInstance_708220);
+        gInputRecorder.input_init_replay(gHInstance);
         sbReplayMode = false;
     }
     else
     {
-        gInputRecorder_67F8B0.input_init_live(gHInstance_708220);
+        gInputRecorder.input_init_live(gHInstance);
     }
 
-    gRoot_sound_66B038.Set3DSound(gRegistry_6FF968.Sound_Setting_Exists("do_3d_sound"));
-    gRegistry_6FF968.Clear_Or_Delete_Sound_Setting("do_3d_sound", gRoot_sound_66B038.Get3DSound());
+    gRoot_sound.Set3DSound(gRegistry.Sound_Setting_Exists("do_3d_sound"));
+    gRegistry.Clear_Or_Delete_Sound_Setting("do_3d_sound", gRoot_sound.Get3DSound());
 
-    if (bStartNetworkGame_7081F0)
+    if (bStartNetworkGame)
     {
-        gTagGame_6F8450.Init();
+        gTagGame.Init();
 
         ClearDebugFlags();
 
-        gGame_0x40_67E008 = new Game(gNetPlay_7071E8.CountActivePlayers(), gNetPlay_7071E8.GetPlayerIdx_409C40());
-        gNetPlay_7071E8.SetExitGameCallBack(reinterpret_cast<int>(ExitGameCallback), gGame_0x40_67E008);
+        gGame_0x40 = new Game(gNetPlay.CountActivePlayers(), gNetPlay.GetPlayerIdx_409C40());
+        gNetPlay.SetExitGameCallBack(reinterpret_cast<int>(ExitGameCallback), gGame_0x40);
 
         memset(&sCurrentNetInputs, 0, sizeof(sCurrentNetInputs));
         memset(&sPrevNetInputs, 0, sizeof(sPrevNetInputs));
 
         memset(gNet_Unused_6F5AC8, 0, sizeof(gNet_Unused_6F5AC8));
-        sNetworkPlayerIdx = gNetPlay_7071E8.GetPlayerIdx_409C40();
+        sNetworkPlayerIdx = gNetPlay.GetPlayerIdx_409C40();
         spInputBuffer = reinterpret_cast<ReceivedPacket*>(&sCurrentNetInputs.mInputs[0]);
         sCurrentInputsBufferSize = 48;
         gNet_Unused_6F5B00 = 0;
@@ -945,24 +945,24 @@ EXPORT void __stdcall InitializeGame()
         gNet_Unused_6F580C = 0;
         sTotalNetworkTime = 0;
         gNet_Unused_6F5AC0 = 0;
-        gNetTimeLimit_6F573C = gGameSession_67E8E0.GetTimeLimit_461DC0();
-        if (gNetTimeLimit_6F573C > 60)
+        gNetTimeLimit = gGameSession.GetTimeLimit_461DC0();
+        if (gNetTimeLimit > 60)
         {
-            gNetTimeLimit_6F573C = 60;
+            gNetTimeLimit = 60;
         }
         sHudTimerIdx = -1;
-        gNetTimeLimitEnabled_6F58A4 = (gNetTimeLimit_6F573C != 0);
+        gNetTimeLimitEnabled = (gNetTimeLimit != 0);
         sNetTimeSecondsOfCurrMin = 0;
         sFramesOfCurrSecond = 0;
         sNetTimerFlashing = 0;
     }
     else
     {
-        gGame_0x40_67E008 = new Game(1, 0);
+        gGame_0x40 = new Game(1, 0);
     }
 
-    gGame_0x40_67E008->LoadGameFiles();
-    gGame_0x40_67E008->BootGame();
+    gGame_0x40->LoadGameFiles();
+    gGame_0x40->BootGame();
 
     sMatchStartTime = timeGetTime();
     sFramesSinceDraw = 0;
@@ -993,10 +993,10 @@ EXPORT void __stdcall ApplyChangedScreenSettings()
 MATCH_FUNC(0x4DA780)
 EXPORT bool ExecuteGame_4DA780()
 {
-    bool exit_requested = gGame_0x40_67E008->ExecuteGame();
-    if (gFpsCounter_7055D4)
+    bool exit_requested = gGame_0x40->ExecuteGame();
+    if (gFpsCounter)
     {
-        gFpsCounter_7055D4->mExecuteGameTimer.AccumulateElapsed();
+        gFpsCounter->mExecuteGameTimer.AccumulateElapsed();
     }
     return exit_requested;
 }
@@ -1004,11 +1004,11 @@ EXPORT bool ExecuteGame_4DA780()
 MATCH_FUNC(0x4DA7B0)
 void __stdcall Draw_4DA7B0()
 {
-    gGame_0x40_67E008->Draw();
-    pVid_FlipBuffers(gVidSys_7071D0);
-    if (bSkip_lid_67D546 || bSkip_top_67D574 || bSkip_bottom_67D4E7 || bSkip_left_67D6BF || bSkip_right_67D4E4)
+    gGame_0x40->Draw();
+    pVid_FlipBuffers(gVidSys);
+    if (bSkip_lid || bSkip_top || bSkip_bottom || bSkip_left || bSkip_right)
     {
-        pVid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
+        pVid_ClearScreen(gVidSys, 0, 0, 0, 0, 0, gVidSys->field_48_rect_right, gVidSys->field_4C_rect_bottom);
     }
 }
 
@@ -1017,8 +1017,8 @@ MATCH_FUNC(0x4DA9B0)
 EXPORT void __stdcall NetSendOldInputs(Network_InputData* pInputs, s32 delayed_ticks, u8 player_idx)
 {
     sInputSendData.mData = pInputs;
-    sInputSendData.mLen = bDo_sync_check_67D6C1 ? sizeof(Network_InputData) : sizeof(u32);
-    gNetPlay_7071E8.SendToPlayer(&sInputSendData, player_idx, delayed_ticks);
+    sInputSendData.mLen = bDo_sync_check ? sizeof(Network_InputData) : sizeof(u32);
+    gNetPlay.SendToPlayer(&sInputSendData, player_idx, delayed_ticks);
 }
 
 MATCH_FUNC(0x4DA9F0)
@@ -1035,9 +1035,9 @@ EXPORT void Net_Receive_Players_Inputs()
 
     // Check which players we are waiting for
     u32 waiting_bits = 0;
-    for (u32 i = 0; i < GTA2_COUNTOF(gNetPlay_7071E8.mN2.mPlayers); i++)
+    for (u32 i = 0; i < GTA2_COUNTOF(gNetPlay.mN2.mPlayers); i++)
     {
-        if (gNetPlay_7071E8.mN2.mPlayers[i].mInUse && i != sNetworkPlayerIdx)
+        if (gNetPlay.mN2.mPlayers[i].mInUse && i != sNetworkPlayerIdx)
         {
             waiting_bits |= 1 << i;
         }
@@ -1050,7 +1050,7 @@ EXPORT void Net_Receive_Players_Inputs()
     while (waiting_bits)
     {
         // Leave a window to escape the loop if player is trying to exit the game
-        if (gGame_0x40_67E008->UpdateExitTimer())
+        if (gGame_0x40->UpdateExitTimer())
         {
             return;
         }
@@ -1058,7 +1058,7 @@ EXPORT void Net_Receive_Players_Inputs()
         // Wait a packet. If one was received, analyse its data and do something
         s32 player_idx;
         u32 packet_subtype;
-        if (gNetPlay_7071E8.ReceiveGameMessage(reinterpret_cast<Network_Buffer*>(&spInputBuffer), &player_idx, &packet_subtype))
+        if (gNetPlay.ReceiveGameMessage(reinterpret_cast<Network_Buffer*>(&spInputBuffer), &player_idx, &packet_subtype))
         {
             switch (packet_subtype)
             {
@@ -1089,7 +1089,7 @@ EXPORT void Net_Receive_Players_Inputs()
                     waiting_bits &= ~(1 << player_idx);
 
                     // Now check RNG if sync_check is activated. If it doesnt match, then do FatalError
-                    if (bDo_sync_check_67D6C1 &&
+                    if (bDo_sync_check &&
                         sCurrentNetInputs.mInputs[player_idx].mRng !=
                             sCurrentNetInputs.mInputs[sNetworkPlayerIdx].mRng)
                     {
@@ -1106,7 +1106,7 @@ EXPORT void Net_Receive_Players_Inputs()
             }
         }
 
-        sTotalNetworkTime += gNetPlay_7071E8.mTimeDiff;
+        sTotalNetworkTime += gNetPlay.mTimeDiff;
 
         // Now manage those players we didn't received packets
 
@@ -1119,8 +1119,8 @@ EXPORT void Net_Receive_Players_Inputs()
                 {
                     waiting_bits &= ~(1 << j);
                     sNetDisconnectPlayersBits |= 1 << j;
-                    gNetPlay_7071E8.SendGiveUp(j);
-                    gTagGame_6F8450.SetQuit_461DD0(j);
+                    gNetPlay.SendGiveUp(j);
+                    gTagGame.SetQuit_461DD0(j);
                 }
             }
         }
@@ -1163,24 +1163,24 @@ EXPORT void __stdcall MakeInitialSyncData(u8* pSyncData)
 
     memset(pData, 0, sizeof(SyncCheckData));
     pData->mType = std_packet_subtype::SyncCheckData_5;
-    if (gCarManager_6C_677930)
+    if (gCarManager_6C)
     {
-        gCarManager_6C_677930->mDoFreeShopping = bDo_free_shopping_67D6CD;
+        gCarManager_6C->mDoFreeShopping = bDo_free_shopping;
     }
 
     pData->mFlags = 0;
-    pData->mFlags = bLog_random_extra_67D5BC != 0;
-    pData->mFlags |= bDo_sync_check_67D6C1 ? 2 : 0;
-    pData->mFlags |= bLog_random_67D5FC ? 4 : 0;
+    pData->mFlags = bLog_random_extra != 0;
+    pData->mFlags |= bDo_sync_check ? 2 : 0;
+    pData->mFlags |= bLog_random ? 4 : 0;
     pData->mExeA = -1;
     pData->mExeB = 0;
 
-    if (_stat(gGameSession_67E8E0.GetMapName(), &st) == 0)
+    if (_stat(gGameSession.GetMapName(), &st) == 0)
     {
         pData->mMapSize = st.st_size;
     }
 
-    FILE* hFile = crt::fopen(gGameSession_67E8E0.GetScriptName(), "rb");
+    FILE* hFile = crt::fopen(gGameSession.GetScriptName(), "rb");
     if (hFile)
     {
         pData->mScriptSum = FileByteSum(hFile);
@@ -1194,7 +1194,7 @@ EXPORT void __stdcall MakeInitialSyncData(u8* pSyncData)
         crt::fclose(hFile);
     }
 
-    if (bIsFrench_67D53C)
+    if (bIsFrench)
     {
         pData->mbFrench = 1;
     }
@@ -1211,7 +1211,7 @@ EXPORT void __stdcall FatalErrorMsg(const char_type* pMsg)
     Shutdown_4DA740();
     GBH_Graphis_DMA_Video_Free();
     ErrorMsgBox(pMsg);
-    DestroyWindow(gHwnd_707F04);
+    DestroyWindow(gHwnd);
     exit(1);
 }
 
@@ -1225,7 +1225,7 @@ EXPORT void __stdcall CompareRemotePlayers(u8* pLocalSyncData, u8* pRemoteSyncDa
     char_type name[260];
     wchar_t wname[260];
 
-    gNetPlay_7071E8.GetPlayerName(wname, pRemote->mPlayerIdx);
+    gNetPlay.GetPlayerName(wname, pRemote->mPlayerIdx);
     WideCharToMultiByte(CP_ACP, 0, wname, -1, name, sizeof(name), NULL, NULL);
 
     if (pLocal->mbFrench != pRemote->mbFrench)
@@ -1240,12 +1240,12 @@ EXPORT void __stdcall CompareRemotePlayers(u8* pLocalSyncData, u8* pRemoteSyncDa
     }
     if (pLocal->mMapSize != pRemote->mMapSize)
     {
-        sprintf(msg, "Player %s: Level file '%s' is different", name, gGameSession_67E8E0.GetMapName());
+        sprintf(msg, "Player %s: Level file '%s' is different", name, gGameSession.GetMapName());
         FatalErrorMsg(msg);
     }
     if (pLocal->mScriptSum != pRemote->mScriptSum)
     {
-        sprintf(msg, "Player %s: Script file '%s' is different", name, gGameSession_67E8E0.GetScriptName());
+        sprintf(msg, "Player %s: Script file '%s' is different", name, gGameSession.GetScriptName());
         FatalErrorMsg(msg);
     }
     if (pLocal->mExeA != pRemote->mExeA || pLocal->mExeB != pRemote->mExeB)
@@ -1256,7 +1256,7 @@ EXPORT void __stdcall CompareRemotePlayers(u8* pLocalSyncData, u8* pRemoteSyncDa
     if (pLocal->mGciSum != pRemote->mGciSum)
     {
         // The original passes the script name too, which the format doesn't use
-        sprintf(msg, "Player %s: Car handling file 'nyc.gci' is different", name, gGameSession_67E8E0.GetScriptName());
+        sprintf(msg, "Player %s: Car handling file 'nyc.gci' is different", name, gGameSession.GetScriptName());
         FatalErrorMsg(msg);
     }
 }
@@ -1264,13 +1264,13 @@ EXPORT void __stdcall CompareRemotePlayers(u8* pLocalSyncData, u8* pRemoteSyncDa
 MATCH_FUNC(0x4DACB0)
 EXPORT void Net_Send_Our_Inputs()
 {
-    if (gNetPlay_7071E8.GetPlayerCount_461DA0() > 1)
+    if (gNetPlay.GetPlayerCount_461DA0() > 1)
     {
-        if (bDo_sync_check_67D6C1)
+        if (bDo_sync_check)
         {
             // Send the inputs plus an rng value the other players check against
             s16 max = 100;
-            sCurrentNetInputs.mInputs[sNetworkPlayerIdx].mRng = gRng_6F6784.get_int(max);
+            sCurrentNetInputs.mInputs[sNetworkPlayerIdx].mRng = gRng.get_int(max);
             sInputSendData.mData = &sCurrentNetInputs.mInputs[sNetworkPlayerIdx];
             sInputSendData.mLen = sizeof(Network_InputData);
         }
@@ -1279,7 +1279,7 @@ EXPORT void Net_Send_Our_Inputs()
             sInputSendData.mData = &sCurrentNetInputs.mInputs[sNetworkPlayerIdx];
             sInputSendData.mLen = sizeof(u32);
         }
-        gNetPlay_7071E8.SendToAll(&sInputSendData);
+        gNetPlay.SendToAll(&sInputSendData);
     }
 }
 
@@ -1288,7 +1288,7 @@ EXPORT void Net_Set_Local_Player_Inputs()
 {
     for (u32 player_idx = 0; player_idx < MAX_PLAYERS; player_idx++)
     {
-        Player* pPlayer = gGame_0x40_67E008->GetPlayer_4219E0(player_idx);
+        Player* pPlayer = gGame_0x40->GetPlayer_4219E0(player_idx);
         if (pPlayer && pPlayer->GetInUse_461DB0())
         {
             pPlayer->SetInputs(sPrevNetInputs.mInputs[player_idx].mInputs);
@@ -1302,7 +1302,7 @@ EXPORT void ManageNetworkTimeAndHudPager()
 {
     LOCAL_STATIC(s32, sNetTimerBlinkCounter, 0x6F5B74);
     LOCAL_STATIC(s32, sNetTimerSeconds, 0x6F5944);
-    if (gNetTimeLimitEnabled_6F58A4)
+    if (gNetTimeLimitEnabled)
     {
         if (++sFramesOfCurrSecond >= 30) // If a second has passed
         {
@@ -1310,11 +1310,11 @@ EXPORT void ManageNetworkTimeAndHudPager()
             if (--sNetTimeSecondsOfCurrMin < 0) // If a minute has passed
             {
                 sNetTimeSecondsOfCurrMin = 59;
-                if (--gNetTimeLimit_6F573C < 0) // If time is out
+                if (--gNetTimeLimit < 0) // If time is out
                 {
-                    gNetTimeLimitEnabled_6F58A4 = 0;
-                    gHud_2B00_706620->mMessage.ShowMessage(gText_0x14_704DFC->Find("g_over"), hud_message_priority::important_3);
-                    gGame_0x40_67E008->ExitGameNoBonus(2, GameExitType::MultiplayerExit_5);
+                    gNetTimeLimitEnabled = 0;
+                    gHud_2B00->mMessage.ShowMessage(gText_0x14->Find("g_over"), hud_message_priority::important_3);
+                    gGame_0x40->ExitGameNoBonus(2, GameExitType::MultiplayerExit_5);
                 }
             }
         }
@@ -1322,12 +1322,12 @@ EXPORT void ManageNetworkTimeAndHudPager()
         // Now do HUD Pager stuff showing the remaining time
 
         s32 seconds = sNetTimeSecondsOfCurrMin;
-        s32 minutes = gNetTimeLimit_6F573C;
+        s32 minutes = gNetTimeLimit;
         s32 rem = minutes % 5;
         bool bShow = false;
         if (minutes == 0 || (rem == 4 && seconds >= 50) || (rem == 0 && seconds == 0) ||
-            (minutes == gGameSession_67E8E0.GetTimeLimit_461DC0() && seconds == 0) ||
-            (minutes == gGameSession_67E8E0.GetTimeLimit_461DC0() - 1 && seconds >= 50))
+            (minutes == gGameSession.GetTimeLimit_461DC0() && seconds == 0) ||
+            (minutes == gGameSession.GetTimeLimit_461DC0() - 1 && seconds >= 50))
         {
             // bShow is set in both arms (not once before the if): with a single store, VC6 sees bl == 1 at the
             // blink test and uses "test dl, bl" there instead of "test dl, 1"
@@ -1363,7 +1363,7 @@ EXPORT void ManageNetworkTimeAndHudPager()
                 sNetTimerSeconds = minutes * 60 + seconds;
                 if (sHudTimerIdx == -1)
                 {
-                    sHudTimerIdx = gHud_2B00_706620->mPagers.CreateTimer(sNetTimerSeconds);
+                    sHudTimerIdx = gHud_2B00->mPagers.CreateTimer(sNetTimerSeconds);
                 }
                 return;
             }
@@ -1371,7 +1371,7 @@ EXPORT void ManageNetworkTimeAndHudPager()
 
         if (sHudTimerIdx != -1)
         {
-            gHud_2B00_706620->mPagers.ClearPager(sHudTimerIdx);
+            gHud_2B00->mPagers.ClearPager(sHudTimerIdx);
             sHudTimerIdx = -1;
         }
     }
@@ -1380,12 +1380,12 @@ EXPORT void ManageNetworkTimeAndHudPager()
 MATCH_FUNC(0x4DAF30)
 EXPORT void __stdcall do_network_and_local_inputs()
 {
-    if (bStartNetworkGame_7081F0)
+    if (bStartNetworkGame)
     {
         ManageNetworkTimeAndHudPager();
-        gTagGame_6F8450.ExecuteGamemodeTick();
+        gTagGame.ExecuteGamemodeTick();
 
-        if (!gGame_0x40_67E008->UpdateExitTimer())
+        if (!gGame_0x40->UpdateExitTimer())
         {
             if (sNetDisconnectPlayersBits)
             {
@@ -1394,10 +1394,10 @@ EXPORT void __stdcall do_network_and_local_inputs()
                 {
                     if ((sNetDisconnectPlayersBits & 1) != 0)
                     {
-                        Player* pPlayer = gGame_0x40_67E008->GetPlayer_4219E0(player_idx);
+                        Player* pPlayer = gGame_0x40->GetPlayer_4219E0(player_idx);
                         if (pPlayer && pPlayer->GetInUse_461DB0())
                         {
-                            gNetPlay_7071E8.DeletePlayerFromGroup(player_idx);
+                            gNetPlay.DeletePlayerFromGroup(player_idx);
                             ShowPlayerLeftMessage(player_idx);
                             if (!player_idx || player_idx == sNetworkPlayerIdx)
                             {
@@ -1410,7 +1410,7 @@ EXPORT void __stdcall do_network_and_local_inputs()
                 } while (sNetDisconnectPlayersBits);
             }
 
-            sCurrentNetInputs.mInputs[sNetworkPlayerIdx].mInputs = gInputRecorder_67F8B0.get_input_bits();
+            sCurrentNetInputs.mInputs[sNetworkPlayerIdx].mInputs = gInputRecorder.get_input_bits();
             Net_Send_Our_Inputs();
             Draw_4DA7B0();
             Net_Receive_Players_Inputs();
@@ -1418,7 +1418,7 @@ EXPORT void __stdcall do_network_and_local_inputs()
         }
         else
         {
-            gNetPlay_7071E8.SendPlayerIsQuitting();
+            gNetPlay.SendPlayerIsQuitting();
         }
 
         if (sbRecordStartTime)
@@ -1428,7 +1428,7 @@ EXPORT void __stdcall do_network_and_local_inputs()
         }
         if (sPlayerQuit)
         {
-            gGame_0x40_67E008->ExitGameNoBonus(0, GameExitType::PlayerQuit_2);
+            gGame_0x40->ExitGameNoBonus(0, GameExitType::PlayerQuit_2);
         }
         else
         {
@@ -1438,8 +1438,8 @@ EXPORT void __stdcall do_network_and_local_inputs()
     }
     else
     {
-        const u32 inputs = gInputRecorder_67F8B0.get_input_bits();
-        gGame_0x40_67E008->mLocalPlayer->SetInputs(inputs);
+        const u32 inputs = gInputRecorder.get_input_bits();
+        gGame_0x40->mLocalPlayer->SetInputs(inputs);
     }
 }
 
@@ -1451,13 +1451,13 @@ EXPORT bool RunGameFrame()
     bool updated_logic = false;
     DWORD Time = timeGetTime();
 
-    if (bStartNetworkGame_7081F0)
+    if (bStartNetworkGame)
     {
         if (Time >= sMatchStartTime)
         {
             exit_requested = ExecuteGame_4DA780();
             do_network_and_local_inputs();
-            sMatchStartTime = Time + gGame_0x40_67E008->GetFrameDurationMs();
+            sMatchStartTime = Time + gGame_0x40->GetFrameDurationMs();
         }
     }
     else
@@ -1471,7 +1471,7 @@ EXPORT bool RunGameFrame()
             updated_logic = false;
         }
 
-        if (sbForceGameUpdate || bSkip_draw_67D4EA)
+        if (sbForceGameUpdate || bSkip_draw)
         {
             updated_logic = true;
         }
@@ -1488,7 +1488,7 @@ EXPORT bool RunGameFrame()
                 sbInputsPending = false;
             }
             exit_requested = ExecuteGame_4DA780();
-            s32 frame_ms = gGame_0x40_67E008->GetFrameDurationMs();
+            s32 frame_ms = gGame_0x40->GetFrameDurationMs();
             sbForceGameUpdate = false;
             sMatchStartTime += frame_ms;
             ++sFramesSinceDraw;
@@ -1507,9 +1507,9 @@ EXPORT bool RunGameFrame()
         }
     }
 
-    if (gFpsCounter_7055D4)
+    if (gFpsCounter)
     {
-        gFpsCounter_7055D4->UpdateFpsCounters(drew_frame, updated_logic);
+        gFpsCounter->UpdateFpsCounters(drew_frame, updated_logic);
     }
     return exit_requested;
 }
@@ -1717,24 +1717,24 @@ MATCH_FUNC(0x5D90E0)
 EXPORT void __stdcall Video_Render_Inits()
 {
     LOCAL_STATIC(s32, sRenderdevice, 0x706998);
-    sRenderdevice = gRegistry_6FF968.Get_Screen_Setting("renderdevice", 1);
-    sVideodevice = gRegistry_6FF968.Get_Screen_Setting("videodevice", 1);
+    sRenderdevice = gRegistry.Get_Screen_Setting("renderdevice", 1);
+    sVideodevice = gRegistry.Get_Screen_Setting("videodevice", 1);
     strcpy(sRenderDllName, kDefaultDllNames_626A00[0]);
     strcpy(sVideoDllName, kDefaultDllNames_626A00[1]);
-    gRegistry_6FF968.Get_Screen_String("rendername", reinterpret_cast<BYTE*>(sRenderDllName), 0xFFu);
-    gRegistry_6FF968.Get_Screen_String("videoname", reinterpret_cast<BYTE*>(sVideoDllName), 0xFFu);
+    gRegistry.Get_Screen_String("rendername", reinterpret_cast<BYTE*>(sRenderDllName), 0xFFu);
+    gRegistry.Get_Screen_String("videoname", reinterpret_cast<BYTE*>(sVideoDllName), 0xFFu);
 
     if (strcmp(sRenderDllName, "softdll.dll") == 0)
     {
-        gBufferMode_706B34 = 0;
+        gBufferMode = 0;
     }
     else if (strcmp(sRenderDllName, "3dfx.dll") == 0)
     {
-        gBufferMode_706B34 = 2;
+        gBufferMode = 2;
     }
     else
     {
-        gBufferMode_706B34 = 1;
+        gBufferMode = 1;
     }
 
     Init_FrameRateLightingAndExplodingScores();
@@ -1753,7 +1753,7 @@ EXPORT void __stdcall UpdateWinXY()
     if (!IsFullScreen_5D9280())
     {
         RECT winRec;
-        GetWindowRect(gHwnd_707F04, &winRec);
+        GetWindowRect(gHwnd, &winRec);
         sWindowX = winRec.left;
         sWindowY = winRec.top;
     }
@@ -1768,12 +1768,12 @@ EXPORT void __stdcall j_gbh_init()
 MATCH_FUNC(0x4DA700)
 EXPORT void __stdcall CleanUpInputAndOthers()
 {
-    gInputRecorder_67F8B0.Shutdown();
-    if (gGame_0x40_67E008)
+    gInputRecorder.Shutdown();
+    if (gGame_0x40)
     {
-        GTA2_DELETE_AND_NULL(gGame_0x40_67E008);
+        GTA2_DELETE_AND_NULL(gGame_0x40);
     }
-    gRoot_sound_66B038.Set3DSound(0);
+    gRoot_sound.Set3DSound(0);
 }
 
 MATCH_FUNC(0x4DA390)
@@ -1870,15 +1870,15 @@ EXPORT void __stdcall ParseCommandLine(char_type* pCommandLine)
             switch (cmd_char)
             {
                 case 'R':
-                    bPlay_replay_67D4F4 = true;
+                    bPlay_replay = true;
                     break;
 
                 case 'Q':
-                    bConstant_replay_save_67D5C4 = true;
+                    bConstant_replay_save = true;
                     break;
 
                 case 'N':
-                    bStartNetworkGame_7081F0 = 1;
+                    bStartNetworkGame = 1;
                     break;
 
                 default:
@@ -1897,7 +1897,7 @@ EXPORT void __stdcall ParseCommandLine(char_type* pCommandLine)
 MATCH_FUNC(0x5E4DE0)
 EXPORT void Start_GTA2Manager()
 {
-    ShowWindow(gHwnd_707F04, SW_SHOWMINNOACTIVE);
+    ShowWindow(gHwnd, SW_SHOWMINNOACTIVE);
     HANDLE hMutex = OpenMutexA(MUTEX_ALL_ACCESS, FALSE, "GBH_BOB_MUTEX");
     if (hMutex)
     {
@@ -1909,7 +1909,7 @@ EXPORT void Start_GTA2Manager()
         HWND hwndGta2Manager = FindWindowExA(NULL, NULL, NULL, "GTA2 Manager");
         if (hwndGta2Manager)
         {
-            PostMessageA(gHwnd_707F04, WM_ACTIVATE, 0, reinterpret_cast<LPARAM>(hwndGta2Manager));
+            PostMessageA(gHwnd, WM_ACTIVATE, 0, reinterpret_cast<LPARAM>(hwndGta2Manager));
             if (!SetForegroundWindow(hwndGta2Manager))
             {
                 FatalError_4A38C0(Gta2Error::Gta2ManagerLaunchError, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 125);
@@ -1919,8 +1919,8 @@ EXPORT void Start_GTA2Manager()
     else
     {
         LPARAM lParam;
-        PostMessageA(gHwnd_707F04, WM_ACTIVATE, 0, lParam);
-        if (reinterpret_cast<u32>(ShellExecuteA(NULL, NULL, "GTA2 Manager.EXE", NULL, gWorkingDir_707F64, SW_SHOWNORMAL)) <= 0x20)
+        PostMessageA(gHwnd, WM_ACTIVATE, 0, lParam);
+        if (reinterpret_cast<u32>(ShellExecuteA(NULL, NULL, "GTA2 Manager.EXE", NULL, gWorkingDir, SW_SHOWNORMAL)) <= 0x20)
         {
             FatalError_4A38C0(Gta2Error::Gta2ManagerLaunchError, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 136);
         }
@@ -1931,22 +1931,22 @@ EXPORT void Start_GTA2Manager()
 MATCH_FUNC(0x5E4EC0)
 EXPORT void __stdcall ErrorMsgBox(LPCSTR lpText)
 {
-    MessageBoxA(gHwnd_707F04, lpText, "Error!", MB_OK);
+    MessageBoxA(gHwnd, lpText, "Error!", MB_OK);
 }
 
 MATCH_FUNC(0x5D9230)
 EXPORT void __stdcall SetStartMode(s32 startMode)
 {
     sStartMode = startMode;
-    gRegistry_6FF968.Set_Screen_Setting("start_mode", startMode);
+    gRegistry.Set_Screen_Setting("start_mode", startMode);
 }
 
 MATCH_FUNC(0x498D10)
 EXPORT void Input_Read()
 {
-    if (gInputDevices_67B990)
+    if (gInputDevices)
     {
-        gInputDevices_67B990->flush_keyboard_and_gamepad();
+        gInputDevices->flush_keyboard_and_gamepad();
     }
 }
 
@@ -1954,7 +1954,7 @@ MATCH_FUNC(0x5D9250)
 EXPORT void __stdcall ToggleStartMode()
 {
     sStartMode = (sStartMode != 1);
-    gRegistry_6FF968.Set_Screen_Setting("start_mode", sStartMode);
+    gRegistry.Set_Screen_Setting("start_mode", sStartMode);
 }
 
 MATCH_FUNC(0x5E4EE0)
@@ -1973,7 +1973,7 @@ EXPORT LRESULT __stdcall WindowProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 
         case WM_WINDOWPOSCHANGED:
         {
-            if (gFrontend_67DC84)
+            if (gFrontend)
             {
                 Bink::ResetBufferOffset();
             }
@@ -1981,39 +1981,39 @@ EXPORT LRESULT __stdcall WindowProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
         }
 
         case WM_SETFOCUS:
-            gRoot_sound_66B038.Reacquire();
-            gRoot_sound_66B038.SetCDVol(gRegistry_6FF968.Get_Sound_Setting("CDVol", 127));
-            gRoot_sound_66B038.SetSfxVol(gRegistry_6FF968.Get_Sound_Setting("SFXVol", 127));
+            gRoot_sound.Reacquire();
+            gRoot_sound.SetCDVol(gRegistry.Get_Sound_Setting("CDVol", 127));
+            gRoot_sound.SetSfxVol(gRegistry.Get_Sound_Setting("SFXVol", 127));
 
-            if (bDoFrontEnd_626B68)
+            if (bDoFrontEnd)
             {
-                gRoot_sound_66B038.Set3DSound(0);
+                gRoot_sound.Set3DSound(0);
             }
             else
             {
-                gRoot_sound_66B038.Set3DSound(gRegistry_6FF968.Sound_Setting_Exists("do_3d_sound"));
-                gRegistry_6FF968.Clear_Or_Delete_Sound_Setting("do_3d_sound", gRoot_sound_66B038.Get3DSound());
+                gRoot_sound.Set3DSound(gRegistry.Sound_Setting_Exists("do_3d_sound"));
+                gRegistry.Clear_Or_Delete_Sound_Setting("do_3d_sound", gRoot_sound.Get3DSound());
             }
 
-            if (!bDestroyed_6F5B70)
+            if (!bDestroyed)
             {
                 bSetFocusInput = 1;
                 Frontend::SetInputEnabled(&bSetFocusInput);
-                if (!bDoFrontEnd_626B68)
+                if (!bDoFrontEnd)
                 {
                     Input_Read();
                 }
 
-                if (gVidSys_7071D0 && !Bink::IsUsingDDBuffer())
+                if (gVidSys && !Bink::IsUsingDDBuffer())
                 {
                     SetVideoModeFromSettings();
                     OnVideoModeChanged();
                     sbVideoModeResetPending = false;
                 }
 
-                if (gGame_0x40_67E008)
+                if (gGame_0x40)
                 {
-                    gGame_0x40_67E008->ReinitAfterVideoModeChange();
+                    gGame_0x40->ReinitAfterVideoModeChange();
                 }
 
                 SetSavedGamma();
@@ -2025,23 +2025,23 @@ EXPORT LRESULT __stdcall WindowProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
                 bKillFocusInput = 0;
                 Frontend::SetInputEnabled(&bKillFocusInput);
                 Input_ReleaseMouse();
-                gRoot_sound_66B038.Set3DSound(0);
-                gRoot_sound_66B038.Release();
+                gRoot_sound.Set3DSound(0);
+                gRoot_sound.Release();
 
-                if (gFrontend_67DC84 && Bink::IsDDBufferOpen())
+                if (gFrontend && Bink::IsDDBufferOpen())
                 {
                     Bink::CloseSlot1();
                     Bink::CloseSlot2();
-                    gFrontend_67DC84->ChangeMenuPage(MENUPAGE_START_MENU);
+                    gFrontend->ChangeMenuPage(MENUPAGE_START_MENU);
                 }
 
-                if (gVidSys_7071D0)
+                if (gVidSys)
                 {
                     if (!Vid_FindDevice_5D9290())
                     {
-                        pVid_CloseScreen(gVidSys_7071D0);
+                        pVid_CloseScreen(gVidSys);
                         sbVideoModeResetPending = true;
-                        ShowWindow(gHwnd_707F04, SW_SHOWMINNOACTIVE);
+                        ShowWindow(gHwnd, SW_SHOWMINNOACTIVE);
                     }
                 }
                 break;
@@ -2074,25 +2074,25 @@ EXPORT LRESULT __stdcall WindowProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
             {
                 case SIZE_RESTORED:
                     sMinimizedState = 0;
-                    gRoot_sound_66B038.Reacquire();
+                    gRoot_sound.Reacquire();
                     break;
 
                 case SIZE_MINIMIZED:
                     sMinimizedState = 2;
-                    gRoot_sound_66B038.Release();
+                    gRoot_sound.Release();
                     break;
 
                 case SIZE_MAXIMIZED:
                     sMinimizedState = 0;
-                    gRoot_sound_66B038.Reacquire();
+                    gRoot_sound.Reacquire();
                     break;
             }
             break;
 
         case WM_DESTROY:
-            if (bStartNetworkGame_7081F0)
+            if (bStartNetworkGame)
             {
-                gNetPlay_7071E8.Disconnect();
+                gNetPlay.Disconnect();
             }
 
             ReleaseMutex(sMutex);
@@ -2107,7 +2107,7 @@ EXPORT LRESULT __stdcall WindowProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
         case WM_WINDOWPOSCHANGING:
         {
             WINDOWPOS* pPos = reinterpret_cast<WINDOWPOS*>(lParam);
-            if (gFrontend_67DC84 && (pPos->flags & SWP_NOMOVE) == 0)
+            if (gFrontend && (pPos->flags & SWP_NOMOVE) == 0)
             {
                 newX = pPos->x;
                 newY = pPos->y;
@@ -2174,7 +2174,7 @@ EXPORT LRESULT __stdcall WindowProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
         case WM_SIZING:
         {
             RECT* pDragRect = reinterpret_cast<RECT*>(lParam);
-            GetWindowRect(gHwnd_707F04, &winRec);
+            GetWindowRect(gHwnd, &winRec);
             pDragRect->left = winRec.left;
             pDragRect->top = winRec.top;
             pDragRect->bottom = winRec.bottom;
@@ -2186,9 +2186,9 @@ EXPORT LRESULT __stdcall WindowProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
             break;
     }
 
-    if (gVidSys_7071D0)
+    if (gVidSys)
     {
-        pVid_WindowProc(gVidSys_7071D0, hWnd, Msg, wParam, lParam);
+        pVid_WindowProc(gVidSys, hWnd, Msg, wParam, lParam);
     }
 
     return DefWindowProcA(hWnd, Msg, wParam, lParam);
@@ -2197,7 +2197,7 @@ EXPORT LRESULT __stdcall WindowProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 MATCH_FUNC(0x5E53F0)
 s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
-    gHInstance_708220 = hInstance;
+    gHInstance = hInstance;
     if (CoInitialize(NULL) < 0)
     {
         return 0;
@@ -2209,7 +2209,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     }
 
     sMutex = CreateMutexA(NULL, FALSE, "GBH_COOP_MUTEX");
-    GetGTA2Version(&gGTA2VersionMajor_708280, &gGTA2VersionMinor_708284);
+    GetGTA2Version(&gGTA2VersionMajor, &gGTA2VersionMinor);
 
     u32 dxVer;
     u32 osKind;
@@ -2223,9 +2223,9 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
         return -1;
     }
 
-    gDebug_67D52C.Init();
-    gGameSession_67E8E0.LoadDebugSettings();
-    bDoFrontEnd_626B68 = !bSkip_frontend_67D53B;
+    gDebug.Init();
+    gGameSession.LoadDebugSettings();
+    bDoFrontEnd = !bSkip_frontend;
 
     WNDCLASSA WndClass;
     WndClass.style = CS_VREDRAW | CS_HREDRAW;
@@ -2242,7 +2242,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
     Video_Render_Inits();
 
-    _getcwd(gWorkingDir_707F64, 256);
+    _getcwd(gWorkingDir, 256);
 
     ParseCommandLine(lpCmdLine);
     if (!Start_NetworkGame(hInstance)) // start NetUI if multiplayer. Stays here while players don't click "start", "cancel" etc
@@ -2254,24 +2254,24 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
     // Starting game...
 
-    sprintf(gTmpBuffer_67C598, "GTA2");
-    gHwnd_707F04 = CreateWindowExA(0, "WinMain", gTmpBuffer_67C598, WS_OVERLAPPEDWINDOW, 0, 0, 100, 100, NULL, NULL, hInstance, NULL);
-    if (!gHwnd_707F04)
+    sprintf(gTmpBuffer, "GTA2");
+    gHwnd = CreateWindowExA(0, "WinMain", gTmpBuffer, WS_OVERLAPPEDWINDOW, 0, 0, 100, 100, NULL, NULL, hInstance, NULL);
+    if (!gHwnd)
     {
         return 0;
     }
 
-    ShowWindow(gHwnd_707F04, nShowCmd);
-    UpdateWindow(gHwnd_707F04);
+    ShowWindow(gHwnd, nShowCmd);
+    UpdateWindow(gHwnd);
     RECT clientRec;
-    GetClientRect(gHwnd_707F04, &clientRec);
+    GetClientRect(gHwnd, &clientRec);
     RECT windowRec;
-    GetWindowRect(gHwnd_707F04, &windowRec);
+    GetWindowRect(gHwnd, &windowRec);
 
-    s32 window_w = window_width_706630 + (windowRec.right - windowRec.left) - (clientRec.right - clientRec.left);
-    s32 window_h = window_height_706B50 + (windowRec.bottom - windowRec.top) - (clientRec.bottom - clientRec.top);
+    s32 window_w = window_width + (windowRec.right - windowRec.left) - (clientRec.right - clientRec.left);
+    s32 window_h = window_height + (windowRec.bottom - windowRec.top) - (clientRec.bottom - clientRec.top);
 
-    if (bDo_corner_window_67D4EE)
+    if (bDo_corner_window)
     {
         sWindowX = 0;
         sWindowY = 0;
@@ -2282,39 +2282,39 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
         sWindowY = static_cast<s32>(GetSystemMetrics(SM_CYSCREEN) - window_h) / 2;
     }
 
-    if (!SetWindowPos(gHwnd_707F04, NULL, sWindowX, sWindowY, window_w, window_h, 0x314u))
+    if (!SetWindowPos(gHwnd, NULL, sWindowX, sWindowY, window_w, window_h, 0x314u))
     {
         FatalError_4A38C0(Gta2Error::SetWindowPosFail, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 661);
     }
 
-    Input::DirectInputCreate_4986D0(gHInstance_708220);
+    Input::DirectInputCreate_4986D0(gHInstance);
     InitVideo();
 
-    ShowWindow(gHwnd_707F04, nShowCmd);
-    UpdateWindow(gHwnd_707F04);
+    ShowWindow(gHwnd, nShowCmd);
+    UpdateWindow(gHwnd);
     j_gbh_init();
     Init_keybrd_jolly_and_sound();
 
     s32 state;
     if (Frontend::intro_bik_exists())
     {
-        state = gRegistry_6FF968.Get_Screen_Setting("do_play_movie", 1) != 1 ? MENUPAGE_START_MENU : MENUPAGE_PLAY_INTRO;
+        state = gRegistry.Get_Screen_Setting("do_play_movie", 1) != 1 ? MENUPAGE_START_MENU : MENUPAGE_PLAY_INTRO;
     }
     else
     {
         state = MENUPAGE_START_MENU;
     }
 
-    if (bIsFrench_67D53C)
+    if (bIsFrench)
     {
         state = MENUPAGE_PARENTAL_CONTROL;
     }
 
-    if (bStartNetworkGame_7081F0)
+    if (bStartNetworkGame)
     {
-        bDoFrontEnd_626B68 = false;
-        gRoot_sound_66B038.Set3DSound(gRegistry_6FF968.Sound_Setting_Exists("do_3d_sound"));
-        gRegistry_6FF968.Clear_Or_Delete_Sound_Setting("do_3d_sound", gRoot_sound_66B038.Get3DSound());
+        bDoFrontEnd = false;
+        gRoot_sound.Set3DSound(gRegistry.Sound_Setting_Exists("do_3d_sound"));
+        gRegistry.Clear_Or_Delete_Sound_Setting("do_3d_sound", gRoot_sound.Get3DSound());
     }
 
     // Game loop
@@ -2325,15 +2325,15 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     {
         bQuit = false;
 
-        if (bDoFrontEnd_626B68)
+        if (bDoFrontEnd)
         {
             Frontend::create();
-            gFrontend_67DC84->ChangeMenuPage(state);
+            gFrontend->ChangeMenuPage(state);
         }
         else
         {
             InitializeGame();
-            if (bStartNetworkGame_7081F0 && !gNetPlay_7071E8.WaitForPlayersSync())
+            if (bStartNetworkGame && !gNetPlay.WaitForPlayersSync())
             {
                 CoUninitialize();
                 return 0;
@@ -2360,27 +2360,27 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
             {
                 if (!bQuit && sMinimizedState != 2 && !sbVideoModeResetPending)
                 {
-                    if (bDoFrontEnd_626B68)
+                    if (bDoFrontEnd)
                     {
-                        s32 t = gFrontend_67DC84->Run();
+                        s32 t = gFrontend->Run();
 
                         if (t == Quit_1)
                         {
                             bQuit = true;
                             Frontend::destroy();
-                            DestroyWindow(gHwnd_707F04);
+                            DestroyWindow(gHwnd);
                             continue; // go to PeekMessageA
                         }
                         else if (t == Start_Game_3)
                         {
                             Frontend::destroy();
-                            bDoFrontEnd_626B68 = false;
+                            bDoFrontEnd = false;
                             break; // go to the beginning
                         }
                         else if (t == Start_Replay_4)
                         {
                             Frontend::destroy();
-                            bDoFrontEnd_626B68 = false;
+                            bDoFrontEnd = false;
                             sbReplayMode = true;
                             break; // go to the beginning
                         }
@@ -2393,74 +2393,74 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
                     if (bQuit)
                     {
-                        if (bSkip_frontend_67D53B)
+                        if (bSkip_frontend)
                         {
-                            DestroyWindow(gHwnd_707F04);
+                            DestroyWindow(gHwnd);
                         }
                         else
                         {
-                            if (bStartNetworkGame_7081F0)
+                            if (bStartNetworkGame)
                             {
-                                switch (gGame_0x40_67E008->GetExitType_4D09C0())
+                                switch (gGame_0x40->GetExitType_4D09C0())
                                 {
                                     case GameExitType::CloseGameImmediately_1:
-                                        DestroyWindow(gHwnd_707F04);
+                                        DestroyWindow(gHwnd);
                                         break;
 
                                     default:
                                         state = MENUPAGE_MULTIPLAYER_RESULTS;
                                         CleanUpInputAndOthers();
-                                        bDoFrontEnd_626B68 = true;
+                                        bDoFrontEnd = true;
                                         break;
                                 }
                                 break; // go to the beginning
                             }
                             else
                             {
-                                switch (gGame_0x40_67E008->GetExitType_4D09C0())
+                                switch (gGame_0x40->GetExitType_4D09C0())
                                 {
                                     case GameExitType::CloseGameImmediately_1:
-                                        DestroyWindow(gHwnd_707F04);
+                                        DestroyWindow(gHwnd);
                                         break;
 
                                     case GameExitType::PlayerQuit_2:
-                                        gGameSession_67E8E0.StoreCrimeStats(gGame_0x40_67E008->mLocalPlayer);
-                                        gPlyDat_6FEAC0->UpdateStageScore(gGame_0x40_67E008->mLocalPlayer);
-                                        gPlyDat_6FEAC0->UpdateHiScores();
+                                        gGameSession.StoreCrimeStats(gGame_0x40->mLocalPlayer);
+                                        gPlyDat->UpdateStageScore(gGame_0x40->mLocalPlayer);
+                                        gPlyDat->UpdateHiScores();
 
-                                        state = gGameSession_67E8E0.IsBonusStage() != 0 ? MENUPAGE_BONUS_AREA : MENUPAGE_RESULTS_PLAYER_QUIT;
+                                        state = gGameSession.IsBonusStage() != 0 ? MENUPAGE_BONUS_AREA : MENUPAGE_RESULTS_PLAYER_QUIT;
                                         CleanUpInputAndOthers();
-                                        bDoFrontEnd_626B68 = true;
+                                        bDoFrontEnd = true;
                                         break;
 
                                     case GameExitType::GameOverRIP_3:
-                                        gGameSession_67E8E0.StoreCrimeStats(gGame_0x40_67E008->mLocalPlayer);
-                                        gPlyDat_6FEAC0->UpdateStageScore(gGame_0x40_67E008->mLocalPlayer);
-                                        gPlyDat_6FEAC0->UpdateHiScores();
-                                        state = gGameSession_67E8E0.IsBonusStage() != 0 ? MENUPAGE_BONUS_AREA : MENUPAGE_DEAD;
+                                        gGameSession.StoreCrimeStats(gGame_0x40->mLocalPlayer);
+                                        gPlyDat->UpdateStageScore(gGame_0x40->mLocalPlayer);
+                                        gPlyDat->UpdateHiScores();
+                                        state = gGameSession.IsBonusStage() != 0 ? MENUPAGE_BONUS_AREA : MENUPAGE_DEAD;
                                         CleanUpInputAndOthers();
-                                        bDoFrontEnd_626B68 = true;
+                                        bDoFrontEnd = true;
                                         break;
 
                                     case GameExitType::AreaCompleted_4:
-                                        gGameSession_67E8E0.StoreCrimeStats(gGame_0x40_67E008->mLocalPlayer);
-                                        gPlyDat_6FEAC0->UpdateStageScore(gGame_0x40_67E008->mLocalPlayer);
-                                        gPlyDat_6FEAC0->UpdateHiScores();
-                                        state = gGameSession_67E8E0.IsBonusStage() != 0 ? MENUPAGE_BONUS_AREA : MENUPAGE_AREA_COMPLETE;
+                                        gGameSession.StoreCrimeStats(gGame_0x40->mLocalPlayer);
+                                        gPlyDat->UpdateStageScore(gGame_0x40->mLocalPlayer);
+                                        gPlyDat->UpdateHiScores();
+                                        state = gGameSession.IsBonusStage() != 0 ? MENUPAGE_BONUS_AREA : MENUPAGE_AREA_COMPLETE;
                                         CleanUpInputAndOthers();
-                                        bDoFrontEnd_626B68 = true;
+                                        bDoFrontEnd = true;
                                         break;
 
                                     case GameExitType::MultiplayerExit_5:
                                         state = MENUPAGE_MULTIPLAYER_RESULTS;
                                         CleanUpInputAndOthers();
-                                        bDoFrontEnd_626B68 = true;
+                                        bDoFrontEnd = true;
                                         break;
 
                                     case GameExitType::ReplayExit_6:
                                         state = MENUPAGE_START_MENU;
                                         CleanUpInputAndOthers();
-                                        bDoFrontEnd_626B68 = true;
+                                        bDoFrontEnd = true;
                                         break;
 
                                     default:
@@ -2481,17 +2481,17 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 MATCH_FUNC(0x4DA740)
 EXPORT void __stdcall Shutdown_4DA740()
 {
-    if (!bDestroyed_6F5B70)
+    if (!bDestroyed)
     {
-        bDestroyed_6F5B70 = 1;
+        bDestroyed = 1;
         KeyboardLayout::destroy();
         PlyDat::Destroy();
         CleanUpInputAndOthers();
         Frontend::destroy();
 
-        if (!bSkip_audio_67D6BE)
+        if (!bSkip_audio)
         {
-            gRoot_sound_66B038.DeinitializeAudio();
+            gRoot_sound.DeinitializeAudio();
         }
     }
 }
@@ -2500,19 +2500,19 @@ MATCH_FUNC(0x5E5A30)
 EXPORT bool __stdcall Start_NetworkGame(HINSTANCE hInstance)
 {
     bool bRet = true;
-    gGameSession_67E8E0.init();
-    if (bStartNetworkGame_7081F0)
+    gGameSession.init();
+    if (bStartNetworkGame)
     {
         HKEY hKey;
-        if (!gRegistry_6FF968.CreateNetworkRoot(&hKey))
+        if (!gRegistry.CreateNetworkRoot(&hKey))
         {
             bRet = false;
         }
 
-        if (gRegistry_6FF968.Get_Binary_Size(hKey, "UseProtocol") != sizeof(GUID))
+        if (gRegistry.Get_Binary_Size(hKey, "UseProtocol") != sizeof(GUID))
         {
             RegCloseKey(hKey);
-            if (!gNetPlay_7071E8.SetProtoAndConnection(NULL, NULL))
+            if (!gNetPlay.SetProtoAndConnection(NULL, NULL))
             {
                 return false;
             }
@@ -2520,16 +2520,16 @@ EXPORT bool __stdcall Start_NetworkGame(HINSTANCE hInstance)
         else
         {
             GUID protocolGuid;
-            if (!gRegistry_6FF968.Get_Binary(hKey, "UseProtocol", sizeof(GUID), reinterpret_cast<LPBYTE>(&protocolGuid)))
+            if (!gRegistry.Get_Binary(hKey, "UseProtocol", sizeof(GUID), reinterpret_cast<LPBYTE>(&protocolGuid)))
             {
                 RegCloseKey(hKey);
                 return false;
             }
 
             Network_Buffer connection;
-            connection.mLen = gRegistry_6FF968.Get_Binary_Size(hKey, "UseConnection");
+            connection.mLen = gRegistry.Get_Binary_Size(hKey, "UseConnection");
             connection.mData = operator new(connection.mLen);
-            if (!gRegistry_6FF968.Get_Binary(hKey, "UseConnection", connection.mLen, static_cast<LPBYTE>(connection.mData)))
+            if (!gRegistry.Get_Binary(hKey, "UseConnection", connection.mLen, static_cast<LPBYTE>(connection.mData)))
             {
                 operator delete(connection.mData);
                 RegCloseKey(hKey);
@@ -2537,27 +2537,27 @@ EXPORT bool __stdcall Start_NetworkGame(HINSTANCE hInstance)
             }
             RegCloseKey(hKey);
 
-            if (!gNetPlay_7071E8.SetProtoAndConnection(&protocolGuid, &connection))
+            if (!gNetPlay.SetProtoAndConnection(&protocolGuid, &connection))
             {
                 operator delete(connection.mData);
                 return false;
             }
 
-            if (gNetPlay_7071E8.mbModem)
+            if (gNetPlay.mbModem)
             {
-                u16 len = gRegistry_6FF968.Get_Binary_Size(hKey, "ModemNumber");
+                u16 len = gRegistry.Get_Binary_Size(hKey, "ModemNumber");
                 if (len >= 128)
                 {
                     return false;
                 }
                 wchar_t modemNumber[128];
-                gRegistry_6FF968.Get_Binary(hKey, "ModemNumber", len, reinterpret_cast<LPBYTE>(modemNumber));
-                gNetPlay_7071E8.mModemNum = modemNumber[0] != 0;
+                gRegistry.Get_Binary(hKey, "ModemNumber", len, reinterpret_cast<LPBYTE>(modemNumber));
+                gNetPlay.mModemNum = modemNumber[0] != 0;
             }
         }
 
         NetUi networkUi;
-        if (!gNetPlay_7071E8.InitializeConnection())
+        if (!gNetPlay.InitializeConnection())
         {
             return false;
         }
@@ -2567,21 +2567,21 @@ EXPORT bool __stdcall Start_NetworkGame(HINSTANCE hInstance)
             return false;
         }
 
-        networkUi.CopyGameSettings(&gNetworkGameSettings_707098);
+        networkUi.CopyGameSettings(&gNetworkGameSettings);
 
         char_type path[MAX_PATH];
         wsprintfA(path, "data\\%s", networkUi.GetMapName());
-        gGameSession_67E8E0.SetMapName(path);
+        gGameSession.SetMapName(path);
         wsprintfA(path, "data\\%s", networkUi.GetMapStyName());
-        gGameSession_67E8E0.SetStyleName(path);
+        gGameSession.SetStyleName(path);
         wsprintfA(path, "data\\%s", networkUi.GetMapScrName());
-        gGameSession_67E8E0.SetScriptName(path);
+        gGameSession.SetScriptName(path);
 
-        gGameSession_67E8E0.SetMultiplayerParams(gNetworkGameSettings_707098.mGameType,
-                                                           gNetworkGameSettings_707098.mFragLimit,
-                                                           gNetPlay_7071E8.GetPlayerIdx_409C40(),
-                                                           gNetPlay_7071E8.CountActivePlayers(),
-                                                           gNetworkGameSettings_707098.mGameTimeLimit);
+        gGameSession.SetMultiplayerParams(gNetworkGameSettings.mGameType,
+                                                           gNetworkGameSettings.mFragLimit,
+                                                           gNetPlay.GetPlayerIdx_409C40(),
+                                                           gNetPlay.CountActivePlayers(),
+                                                           gNetworkGameSettings.mGameTimeLimit);
     }
     return bRet;
 }

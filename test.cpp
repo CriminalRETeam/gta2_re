@@ -96,9 +96,9 @@ void test_gtx_0x106C()
 
 void test_registry()
 {
-    gRegistry_6FF968.Open_Sound_Root(NULL);
-    gRegistry_6FF968.Sound_Setting_Exists("lol");
-    gRegistry_6FF968.Get_Sound_Setting("lol", 5);
+    gRegistry.Open_Sound_Root(NULL);
+    gRegistry.Sound_Setting_Exists("lol");
+    gRegistry.Get_Sound_Setting("lol", 5);
 }
 
 void test_GameSession_578()
@@ -137,8 +137,8 @@ void test_FpsCounter_54()
 
 void test_wizardly_margulis()
 {
-    gSampManager_6FFF00.SoundInit(0);
-    gSampManager_6FFF00.AllocSamples(0);
+    gSampManager.SoundInit(0);
+    gSampManager.AllocSamples(0);
 }
 
 void test_Map_0x370()

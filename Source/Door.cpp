@@ -10,8 +10,8 @@
 #include "map_0x370.hpp"
 
 DEFINE_GLOBAL(s32, kZero_67BBE0, 0x67BBE0);
-DEFINE_GLOBAL_ARRAY(DoorAnimInfo, gDoorAnimInfo_67BB38, 5, 0x67BB38);
-DEFINE_GLOBAL(DoorPool*, gDoor_4D4_67BD2C, 0x67BD2C);
+DEFINE_GLOBAL_ARRAY(DoorAnimInfo, gDoorAnimInfo, 5, 0x67BB38);
+DEFINE_GLOBAL(DoorPool*, gDoor_4D4, 0x67BD2C);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_67BA20, Fix16(0x2000, 0), 0x67BA20);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_67BBE4, Fix16(1), 0x67BBE4);
 DEFINE_GLOBAL_INIT(Fix16, kFpTwo_67BBE8, Fix16(2), 0x67BBE8);
@@ -109,13 +109,13 @@ bool Door::CanOpen(Car* pCar)
                 break;
             }
 
-            if (IsSpriteClearOfDoorCollision(pCar->mCarSprite) && (!pCar->IsDrivenByPlayer_4118D0() || gGarage_48_6FD26C->IsParkedCar_44C870(pCar)))
+            if (IsSpriteClearOfDoorCollision(pCar->mCarSprite) && (!pCar->IsDrivenByPlayer_4118D0() || gGarage_48->IsParkedCar_44C870(pCar)))
             {
                 if (pCar->IsDrivenByPlayer_4118D0())
                 {
                     break;
                 }
-                if (!gGarage_48_6FD26C->IsParkedCar_44C870(pCar))
+                if (!gGarage_48->IsParkedCar_44C870(pCar))
                 {
                     break;
                 }
@@ -257,12 +257,12 @@ void Door::InitSingleNoCheck(u8 door_group, u8 gr_id, u8 x, u8 y, u8 z, s32 faci
     mbClosing = true;
     mbCanAutoOpen = true;
 
-    mCloseTimer = mCloseDelay = (gDoorAnimInfo_67BB38[gr_id].mEndFrame - gDoorAnimInfo_67BB38[gr_id].mStartFrame) * gDoorAnimInfo_67BB38[gr_id].mSpeed8;
+    mCloseTimer = mCloseDelay = (gDoorAnimInfo[gr_id].mEndFrame - gDoorAnimInfo[gr_id].mStartFrame) * gDoorAnimInfo[gr_id].mSpeed8;
 
-    mTriggerObj = gObject_5C_6F8F84->NewPhysicsObj(objects::door_trigger_167, trigger_x, trigger_y, z, DAT_0067BD18);
+    mTriggerObj = gObject_5C->NewPhysicsObj(objects::door_trigger_167, trigger_x, trigger_y, z, DAT_0067BD18);
     mTriggerObj->SetParam_447E90(door_group);
 
-    mDoorObj = gObject_5C_6F8F84->NewPhysicsObj(objects::door_collision_obj_169, door_x, door_y, z, DAT_0067BD18);
+    mDoorObj = gObject_5C->NewPhysicsObj(objects::door_collision_obj_169, door_x, door_y, z, DAT_0067BD18);
     mDoorObj->SetParam_447E90(door_group);
     mX = door_x;
     mY = door_y;
@@ -273,13 +273,13 @@ void Door::AddDoorData(u8 gr_id, char_type x, char_type y, char_type z, s32 face
 {
     if (!mPrimaryDoorData)
     {
-        mPrimaryDoorData = gDoor_4D4_67BD2C->AllocDoorData(gr_id, x, y, z, face, 0);
+        mPrimaryDoorData = gDoor_4D4->AllocDoorData(gr_id, x, y, z, face, 0);
         return;
     }
 
     if (!mSecondaryDoorData)
     {
-        mSecondaryDoorData = gDoor_4D4_67BD2C->AllocDoorData(gr_id, x, y, z, face, mbDoFlip);
+        mSecondaryDoorData = gDoor_4D4->AllocDoorData(gr_id, x, y, z, face, mbDoFlip);
     }
 }
 
@@ -318,11 +318,11 @@ void Door::InitSingle(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fix16 tri
     }
     mbClosing = true;
     mbCanAutoOpen = true;
-    u16 anim_frames = (gDoorAnimInfo_67BB38[pDoorData->mGrId].mEndFrame - gDoorAnimInfo_67BB38[pDoorData->mGrId].mStartFrame);
-    mCloseTimer = mCloseDelay = anim_frames * gDoorAnimInfo_67BB38[pDoorData->mGrId].mSpeed8 + 0x28;
+    u16 anim_frames = (gDoorAnimInfo[pDoorData->mGrId].mEndFrame - gDoorAnimInfo[pDoorData->mGrId].mStartFrame);
+    mCloseTimer = mCloseDelay = anim_frames * gDoorAnimInfo[pDoorData->mGrId].mSpeed8 + 0x28;
     if (bFlip)
     {
-        mTriggerObj = gObject_5C_6F8F84->NewTouchPoint(objects::door_trigger_167,
+        mTriggerObj = gObject_5C->NewTouchPoint(objects::door_trigger_167,
                                                                       trigger_x,
                                                                       trigger_y,
                                                                       trigger_z,
@@ -332,7 +332,7 @@ void Door::InitSingle(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fix16 tri
                                                                       kFpOne_67BBE4);
         mTriggerObj->SetParam_447E90(obj_id);
     }
-    mDoorObj = gObject_5C_6F8F84->NewPhysicsObj(objects::door_collision_obj_169, x, y, z, DAT_0067BD18);
+    mDoorObj = gObject_5C->NewPhysicsObj(objects::door_collision_obj_169, x, y, z, DAT_0067BD18);
     mDoorObj->SetParam_447E90(obj_id);
     mX = x;
     mY = y;
@@ -383,11 +383,11 @@ void Door::InitDouble(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fix16 tri
     }
     mbClosing = true;
     mbCanAutoOpen = true;
-    u16 anim_frames = (gDoorAnimInfo_67BB38[pDoorData->mGrId].mEndFrame - gDoorAnimInfo_67BB38[pDoorData->mGrId].mStartFrame);
-    mCloseTimer = mCloseDelay = anim_frames * gDoorAnimInfo_67BB38[pDoorData->mGrId].mSpeed8 + 0x28;
+    u16 anim_frames = (gDoorAnimInfo[pDoorData->mGrId].mEndFrame - gDoorAnimInfo[pDoorData->mGrId].mStartFrame);
+    mCloseTimer = mCloseDelay = anim_frames * gDoorAnimInfo[pDoorData->mGrId].mSpeed8 + 0x28;
     if (bFlip)
     {
-        mTriggerObj = gObject_5C_6F8F84->NewTouchPoint(objects::door_trigger_167,
+        mTriggerObj = gObject_5C->NewTouchPoint(objects::door_trigger_167,
                                                                       trigger_x,
                                                                       trigger_y,
                                                                       trigger_z,
@@ -398,7 +398,7 @@ void Door::InitDouble(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fix16 tri
         mTriggerObj->SetParam_447E90(obj_id);
     }
     mDoorObj =
-        gObject_5C_6F8F84
+        gObject_5C
             ->NewTouchPoint(objects::door_collision_obj_169, x, y, z, door_angle, kFpOne_67BBE4, kFpTwo_67BBE8, kFpOne_67BBE4);
     mDoorObj->SetParam_447E90(obj_id);
     mX = x;
@@ -435,7 +435,7 @@ void Door::UpdateAutoClose()
                     mCloseTimer = mCloseDelay;
                     if (mPrimaryDoorData != NULL)
                     {
-                        gObject_5C_6F8F84->NewWithPedRefIdx(0x117, 0x33, mX, mY, mPrimaryDoorData->mZ);
+                        gObject_5C->NewWithPedRefIdx(0x117, 0x33, mX, mY, mPrimaryDoorData->mZ);
                         mPrimaryDoorData->Close(false);
                     }
                     if (mSecondaryDoorData != NULL)
@@ -453,7 +453,7 @@ bool Door::Service()
 {
     if (mPlayOpenSound)
     {
-        gObject_5C_6F8F84->NewWithPedRefIdx(0x117, 0x32, mX, mY, mPrimaryDoorData->mZ);
+        gObject_5C->NewWithPedRefIdx(0x117, 0x32, mX, mY, mPrimaryDoorData->mZ);
         mPlayOpenSound = false;
     }
 

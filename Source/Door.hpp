@@ -170,4 +170,4 @@ class Door
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Door, 0x38);
 
-EXTERN_GLOBAL_ARRAY(DoorAnimInfo, gDoorAnimInfo_67BB38, 5);
+EXTERN_GLOBAL_ARRAY(DoorAnimInfo, gDoorAnimInfo, 5);

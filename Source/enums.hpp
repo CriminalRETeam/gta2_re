@@ -238,7 +238,7 @@ enum
 };
 } // namespace crew_type
 
-// Which kind of crew (or roadblock guard) is built: PoliceCrew::mCrewKind and gCrewKind_6FEDB8
+// Which kind of crew (or roadblock guard) is built: PoliceCrew::mCrewKind and gCrewKind
 namespace crew_kind
 {
 enum
@@ -499,7 +499,7 @@ namespace Char_Anim_state
 enum
 {
     Walking_0 = 0,
-    Running_1 = 1, // velocity above k_CollisionRepulsionSpeed_6FD7BC
+    Running_1 = 1, // velocity above k_CollisionRepulsionSpeed
     Standing_2 = 2,
     Unknown_3 = 3,
     Punching_4 = 4,

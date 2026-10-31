@@ -115,7 +115,7 @@ class Game
 
     s32 mGameState; // 0x0
     Player* mPlayers[MAX_PLAYERS]; // 0x4
-    Player* mDrawPlayer; // 0x1C: set to mLocalPlayer in the ctor and never changed; only Draw reads it (gViewCamera_676978)
+    Player* mDrawPlayer; // 0x1C: set to mLocalPlayer in the ctor and never changed; only Draw reads it (gViewCamera)
     u8 mPlayerIterIdx; // 0x20
     u8 mCameraIterIdx; // 0x21
     bool mAuxCamIterated; // 0x22
@@ -139,10 +139,10 @@ class Game
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Game, 0x40);
 
-EXTERN_GLOBAL(Game*, gGame_0x40_67E008);
+EXTERN_GLOBAL(Game*, gGame_0x40);
 
-EXTERN_GLOBAL(Fix16, kInitialAmbient_67DCCC);
+EXTERN_GLOBAL(Fix16, kInitialAmbient);
 
-EXTERN_GLOBAL(s32, gCachedScreenDimension_706C58);
+EXTERN_GLOBAL(s32, gCachedScreenDimension);
 
-EXTERN_GLOBAL(class CarChaseTaskTable*, gCarChaseTaskTable_678E30);
+EXTERN_GLOBAL(class CarChaseTaskTable*, gCarChaseTaskTable);

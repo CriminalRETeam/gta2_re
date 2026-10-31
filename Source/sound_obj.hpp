@@ -400,4 +400,4 @@ class sound_obj
     EXPORT bool IsTrainOrBoxcar(Car* pCar) const;
 };
 
-EXTERN_GLOBAL(sound_obj, gSound_obj_66F680);
+EXTERN_GLOBAL(sound_obj, gSound_obj);

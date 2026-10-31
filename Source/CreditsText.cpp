@@ -29,7 +29,7 @@ void CreditsText::LoadCredits()
 {
     s16 y_gap = 0;
     u16 read_pos = 0;
-    wchar_t* pCreditsText = gText_0x14_704DFC->Find("credits");
+    wchar_t* pCreditsText = gText_0x14->Find("credits");
     wchar_t line_char = CreditsText::ReadNextNonBlankChar(pCreditsText, &read_pos, true);
     u16 line_idx = 0;
 

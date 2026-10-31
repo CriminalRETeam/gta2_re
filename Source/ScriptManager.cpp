@@ -21,37 +21,37 @@
 #include "ped_death_cause.hpp"
 #include "PublicTransport.hpp"
 
-DEFINE_GLOBAL(ScriptManager*, gScriptManager_6F8060, 0x6F8060);
-DEFINE_GLOBAL(SaveData, gGameSave_6F78C8, 0x6F78C8);
-DEFINE_GLOBAL(s32, gStoredCarId_6F78B4, 0x6F78B4);
+DEFINE_GLOBAL(ScriptManager*, gScriptManager, 0x6F8060);
+DEFINE_GLOBAL(SaveData, gGameSave, 0x6F78C8);
+DEFINE_GLOBAL(s32, gStoredCarId, 0x6F78B4);
 
-EXTERN_GLOBAL(SCR_POINTER*, gBasePtr_6F8070);
+EXTERN_GLOBAL(SCR_POINTER*, gBasePtr);
 
 // Internal linkage as in the original, where all users were in one file: VC6 allocates registers differently for it.
-DEFINE_STATIC_GLOBAL(Car*, gStoredCar_6F7560, 0x6F7560);
+DEFINE_STATIC_GLOBAL(Car*, gStoredCar, 0x6F7560);
 
 MATCH_FUNC(0x502dc0)
 void MissionCleanupList::MissionCleanUp()
 {
     MissionCleanupEntry* pIter = &mEntries[0];
-    PedGroup* pGroup = gGame_0x40_67E008->mLocalPlayer->mPlayerPed->mPedGroup;
+    PedGroup* pGroup = gGame_0x40->mLocalPlayer->mPlayerPed->mPedGroup;
     if (pGroup)
     {
         pGroup->DestroyGroup();
     }
 
-    if (gStoredCar_6F7560)
+    if (gStoredCar)
     {
-        if (gStoredCar_6F7560->mCarId == gStoredCarId_6F78B4)
+        if (gStoredCar->mCarId == gStoredCarId)
         {
-            gGame_0x40_67E008->mLocalPlayer->RemoveCarFromHistory(gStoredCar_6F7560);
-            gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
-            if (!gStoredCar_6F7560->IsDeactivated_4214D0())
+            gGame_0x40->mLocalPlayer->RemoveCarFromHistory(gStoredCar);
+            gStoredCar->SetDriverPedType_421560(ped_type::dummy_3);
+            if (!gStoredCar->IsDeactivated_4214D0())
             {
-                gStoredCar_6F7560->MarkForDespawn_421470();
+                gStoredCar->MarkForDespawn_421470();
             }
-            gStoredCar_6F7560 = NULL;
-            gStoredCarId_6F78B4 = 0;
+            gStoredCar = NULL;
+            gStoredCarId = 0;
         }
     }
 
@@ -83,7 +83,7 @@ void MissionCleanupList::MissionCleanUp()
                 case cleanup_entry_type::car_1:
                     if (pIter->mCar->mCarId == pIter->mEntityId)
                     {
-                        gGame_0x40_67E008->mLocalPlayer->RemoveCarFromHistory(pIter->mCar);
+                        gGame_0x40->mLocalPlayer->RemoveCarFromHistory(pIter->mCar);
                         pIter->mCar->SetDriverPedType_421560(ped_type::dummy_3);
                         if (!pIter->mCar->IsDeactivated_4214D0())
                         {
@@ -101,7 +101,7 @@ void MissionCleanupList::MissionCleanUp()
         }
         pIter++;
     }
-    gScriptManager_6F8060->mWantedCarModel = car_model_enum::none;
+    gScriptManager->mWantedCarModel = car_model_enum::none;
 }
 
 
@@ -139,16 +139,16 @@ str_table_entry* ScriptManager::StrEntryByString(const char_type* strToFind) con
     return NULL;
 }
 
-EXTERN_GLOBAL_ARRAY(u8, kDecidePowerupGenTypes_6212F0, 19);
+EXTERN_GLOBAL_ARRAY(u8, kDecidePowerupGenTypes, 19);
 
 // Sets the generator type for `car_model` from the script's car list, or type 0x41 when it isn't
 // in the list. Reads the global rather than `this`.
 MATCH_FUNC(0x509180)
 void ScriptThread::SCRCMD_STORE_CAR_INFO_509180()
 {
-    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
-    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer(gBasePtr_6F8070->mIndex));
-    SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer(pCmd->mUnsigned2));
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
+    SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(pCmd->mUnsigned2));
     Ped* pChar = pPointer->mChar;
 
     if (pChar != NULL)
@@ -157,48 +157,48 @@ void ScriptThread::SCRCMD_STORE_CAR_INFO_509180()
         {
             pParam2->mCar = pChar->get_car_416B60();
 
-            if (gStoredCar_6F7560 != NULL)
+            if (gStoredCar != NULL)
             {
-                if (gStoredCar_6F7560 != pParam2->mCar && gStoredCar_6F7560->mCarId != pParam2->mCar->mCarId)
+                if (gStoredCar != pParam2->mCar && gStoredCar->mCarId != pParam2->mCar->mCarId)
                 {
-                    if (gStoredCar_6F7560->mCarId == gStoredCarId_6F78B4)
+                    if (gStoredCar->mCarId == gStoredCarId)
                     {
-                        if (gCarManager_6C_677930->CanAllocateCarOfKind(car_kind::recycled_1))
+                        if (gCarManager_6C->CanAllocateCarOfKind(car_kind::recycled_1))
                         {
-                            gStoredCar_6F7560->ReassignAllocatedCarType(car_kind::recycled_1);
-                            gGame_0x40_67E008->mLocalPlayer->RemoveCarFromHistory(gStoredCar_6F7560);
-                            gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
+                            gStoredCar->ReassignAllocatedCarType(car_kind::recycled_1);
+                            gGame_0x40->mLocalPlayer->RemoveCarFromHistory(gStoredCar);
+                            gStoredCar->SetDriverPedType_421560(ped_type::dummy_3);
 
-                            if (!gStoredCar_6F7560->IsDeactivated_4214D0())
+                            if (!gStoredCar->IsDeactivated_4214D0())
                             {
-                                gStoredCar_6F7560->MarkForDespawn_421470();
+                                gStoredCar->MarkForDespawn_421470();
                             }
                         }
-                        else if (gCarManager_6C_677930->CanAllocateCarOfKindWithSpare(car_kind::mission_car_8))
+                        else if (gCarManager_6C->CanAllocateCarOfKindWithSpare(car_kind::mission_car_8))
                         {
-                            gGame_0x40_67E008->mLocalPlayer->RemoveCarFromHistory(gStoredCar_6F7560);
-                            gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
+                            gGame_0x40->mLocalPlayer->RemoveCarFromHistory(gStoredCar);
+                            gStoredCar->SetDriverPedType_421560(ped_type::dummy_3);
 
-                            if (!gStoredCar_6F7560->IsDeactivated_4214D0())
+                            if (!gStoredCar->IsDeactivated_4214D0())
                             {
-                                gStoredCar_6F7560->MarkForDespawn_421470();
+                                gStoredCar->MarkForDespawn_421470();
                             }
                         }
                         else
                         {
-                            gGame_0x40_67E008->mLocalPlayer->RemoveCarFromHistory(gStoredCar_6F7560);
-                            gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
+                            gGame_0x40->mLocalPlayer->RemoveCarFromHistory(gStoredCar);
+                            gStoredCar->SetDriverPedType_421560(ped_type::dummy_3);
 
-                            gStoredCar_6F7560->DespawnSoon_421490();
+                            gStoredCar->DespawnSoon_421490();
                         }
                     }
 
-                    gStoredCar_6F7560 = pParam2->mCar;
-                    gStoredCarId_6F78B4 = pParam2->mCar->mCarId;
+                    gStoredCar = pParam2->mCar;
+                    gStoredCarId = pParam2->mCar->mCarId;
 
-                    gStoredCar_6F7560->ReassignAllocatedCarType(car_kind::mission_car_8);
+                    gStoredCar->ReassignAllocatedCarType(car_kind::mission_car_8);
 
-                    if (!gPublicTransport_181C_6FF1D4->is_bus(pParam2->mCar))
+                    if (!gPublicTransport_181C->is_bus(pParam2->mCar))
                     {
                         pParam2->mCar->LockoutThiefUnlessPermanent_475C40();
                     }
@@ -206,27 +206,27 @@ void ScriptThread::SCRCMD_STORE_CAR_INFO_509180()
             }
             else
             {
-                gStoredCar_6F7560 = pParam2->mCar;
-                gStoredCarId_6F78B4 = pParam2->mCar->mCarId;
-                gStoredCar_6F7560->ReassignAllocatedCarType(car_kind::mission_car_8);
+                gStoredCar = pParam2->mCar;
+                gStoredCarId = pParam2->mCar->mCarId;
+                gStoredCar->ReassignAllocatedCarType(car_kind::mission_car_8);
             }
         }
     }
 
-    ScriptThread::Next(gBasePtr_6F8070);
+    ScriptThread::Next(gBasePtr);
 }
 
 MATCH_FUNC(0x511A70)
 void ScriptManager::SetGeneratorTypeForCar(s32 car_model, Generator* pGen)
 {
-    u8* pList = reinterpret_cast<u8*>(gScriptManager_6F8060->mCarList);
+    u8* pList = reinterpret_cast<u8*>(gScriptManager->mCarList);
     u8 i;
     for (i = 0; i < 19; pList++, i++)
     {
         if (car_model == *pList)
         {
-            pGen->mGenType = kDecidePowerupGenTypes_6212F0[i];
-            if (kDecidePowerupGenTypes_6212F0[i] < 0x5B)
+            pGen->mGenType = kDecidePowerupGenTypes[i];
+            if (kDecidePowerupGenTypes[i] < 0x5B)
             {
                 pGen->Activate();
                 pGen->mSpawnsLeft = 3;
@@ -253,7 +253,7 @@ char_type ScriptManager::AddCranePowerupTrigger(s16 idx)
 {
     SCR_DECLARE_CRANE_POWERUP* pCmd = static_cast<SCR_DECLARE_CRANE_POWERUP*>(GetBasePointer(idx));
     SCR_POINTER* pGenerator = static_cast<SCR_POINTER*>(GetBasePointer(pCmd->mGenerator));
-    return gCarThreadTriggers_214_705F20->AddThreadTrigger(car_thread_trigger_type::any_car_1,
+    return gCarThreadTriggers_214->AddThreadTrigger(car_thread_trigger_type::any_car_1,
                                        car_thread_trigger_action::set_generator_car_type_3,
                                        reinterpret_cast<SCR_THREAD*>(pGenerator->mGenerator),
                                        Fix16(pCmd->mPos.mX) + kFpHalf_6F75F0,
@@ -274,20 +274,20 @@ void ScriptManager::SaveScriptCounters()
             SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(GetBasePointer(ptr));
             if (pPointer->mType == SCRCMD_COUNTER_SAVE || pPointer->mType == SCRCMD_COUNTER_SET_SAVE)
             {
-                gGameSave_6F78C8.mCarAndScriptData.mScriptCounter[saved_counter_count].mPointer =
+                gGameSave.mCarAndScriptData.mScriptCounter[saved_counter_count].mPointer =
                     pPointer->mCmdThis;
-                gGameSave_6F78C8.mCarAndScriptData.mScriptCounter[saved_counter_count].mSavedValue =
+                gGameSave.mCarAndScriptData.mScriptCounter[saved_counter_count].mSavedValue =
                     pPointer->mCounter;
                 saved_counter_count++;
             }
         }
     }
 
-    gGameSave_6F78C8.mCarAndScriptData.mScriptPtrCount = saved_counter_count;
+    gGameSave.mCarAndScriptData.mScriptPtrCount = saved_counter_count;
 
     if (saved_counter_count < 300)
     {
-        memset(&gGameSave_6F78C8.mCarAndScriptData.mScriptCounter[saved_counter_count],
+        memset(&gGameSave.mCarAndScriptData.mScriptCounter[saved_counter_count],
                0,
                (300 - saved_counter_count) * sizeof(SavedScriptCounter));
     }
@@ -298,7 +298,7 @@ void ScriptManager::LoadScriptCounters()
 {
     for (u16 saved_counter_idx = 0; saved_counter_idx < 300; saved_counter_idx++)
     {
-        SavedScriptCounter* pSaved = &gGameSave_6F78C8.mCarAndScriptData.mScriptCounter[saved_counter_idx];
+        SavedScriptCounter* pSaved = &gGameSave.mCarAndScriptData.mScriptCounter[saved_counter_idx];
         if (pSaved->mPointer > 0)
         {
             SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(GetBasePointer(pSaved->mPointer));
@@ -312,11 +312,11 @@ void ScriptManager::RestoreAnsweredPhones()
 {
     for (char_type bit = 0; bit < 32; bit++)
     {
-        if (((1 << bit) & gGameSave_6F78C8.mCarAndScriptData.mFlags) != 0)
+        if (((1 << bit) & gGameSave.mCarAndScriptData.mFlags) != 0)
         {
             SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(GetBasePointer(mPhoneIds[bit]));
             pPointer->mObj->PoolGiveAndQueueObjectType(174);
-            gScriptManager_6F8060->RemovePhoneThreadByObjId(pPointer->mObj->mId);
+            gScriptManager->RemovePhoneThreadByObjId(pPointer->mObj->mId);
         }
     }
 }
@@ -324,15 +324,15 @@ void ScriptManager::RestoreAnsweredPhones()
 MATCH_FUNC(0x511d40)
 void ScriptManager::SaveMapInfo()
 {
-    strcpy(gGameSave_6F78C8.mMapName, gGameSession_67E8E0.GetMapName());
-    strcpy(gGameSave_6F78C8.mStyleName, gGameSession_67E8E0.GetStyleName());
-    strcpy(gGameSave_6F78C8.mScriptName, gGameSession_67E8E0.GetScriptName());
-    gGameSave_6F78C8.mMapName[24] = '\n';
-    gGameSave_6F78C8.mStyleName[24] = '\n';
-    gGameSave_6F78C8.mScriptName[24] = '\n';
-    gGameSave_6F78C8.mMainStage = gGameSession_67E8E0.GetMainStageIdx();
-    gGameSave_6F78C8.mLhv = gGameSession_67E8E0.GetStage();
-    gGameSave_6F78C8.mBonusStage = gGameSession_67E8E0.IsBonusStage();
+    strcpy(gGameSave.mMapName, gGameSession.GetMapName());
+    strcpy(gGameSave.mStyleName, gGameSession.GetStyleName());
+    strcpy(gGameSave.mScriptName, gGameSession.GetScriptName());
+    gGameSave.mMapName[24] = '\n';
+    gGameSave.mStyleName[24] = '\n';
+    gGameSave.mScriptName[24] = '\n';
+    gGameSave.mMainStage = gGameSession.GetMainStageIdx();
+    gGameSave.mLhv = gGameSession.GetStage();
+    gGameSave.mBonusStage = gGameSession.IsBonusStage();
 }
 
 MATCH_FUNC(0x511e10)
@@ -340,21 +340,21 @@ void ScriptManager::SaveGame(const char_type* pFileName)
 {
     if (!pFileName || !*pFileName)
     {
-        sprintf(gTmpBuffer_67C598, "player\\plyslot%d.svg", gGameSession_67E8E0.GetPlySlotIdx());
-        pFileName = gTmpBuffer_67C598;
+        sprintf(gTmpBuffer, "player\\plyslot%d.svg", gGameSession.GetPlySlotIdx());
+        pFileName = gTmpBuffer;
     }
 
     ScriptManager::SaveScriptCounters();
 
-    gGame_0x40_67E008->mLocalPlayer->CopyPlayerDataToSave(&gGameSave_6F78C8.mPlayerAndWorldStats);
+    gGame_0x40->mLocalPlayer->CopyPlayerDataToSave(&gGameSave.mPlayerAndWorldStats);
 
-    gObject_5C_6F8F84->SaveObjects(&gGameSave_6F78C8.mObjectData);
+    gObject_5C->SaveObjects(&gGameSave.mObjectData);
 
-    memcpy(gGameSave_6F78C8.mObjectData.mObj5CBUnCollectedTokens,
-           &gObject_5C_6F8F84->mUncollectedTokens,
+    memcpy(gGameSave.mObjectData.mObj5CBUnCollectedTokens,
+           &gObject_5C->mUncollectedTokens,
            50u);
 
-    gGameSave_6F78C8.mObjectData.mSecretTokensCollected = gGameSession_67E8E0.get_secret_tokens_collected_453A80();
+    gGameSave.mObjectData.mSecretTokensCollected = gGameSession.get_secret_tokens_collected_453A80();
 
     u16** pColData;
     u32 colBytes;
@@ -362,13 +362,13 @@ void ScriptManager::SaveGame(const char_type* pFileName)
     u32 blockInfoBytes;
     DmapInfoList* pMapSub;
     s32 mapSubBytes;
-    gMap_0x370_6F6268->GetModifiedMapData(&pColData, &colBytes, &pBlockInfo, &blockInfoBytes, &pMapSub, &mapSubBytes);
+    gMap_0x370->GetModifiedMapData(&pColData, &colBytes, &pBlockInfo, &blockInfoBytes, &pMapSub, &mapSubBytes);
 
     ScriptManager::SaveMapInfo();
 
     {
         size_t writeLen = sizeof(SaveData);
-        File::WriteBufferToFile(pFileName, &gGameSave_6F78C8, &writeLen);
+        File::WriteBufferToFile(pFileName, &gGameSave, &writeLen);
     }
 
     {
@@ -409,10 +409,10 @@ void ScriptManager::LoadSave(const char_type* pFileName)
     gmp_block_info* pBlockInfo;
     DmapInfoList* pMapSub;
 
-    gMap_0x370_6F6268->GetModifiedMapData(&pColData, &colDataLen, &pBlockInfo, &blockInfoLen, &pMapSub, reinterpret_cast<s32*>(&mapSubLen));
+    gMap_0x370->GetModifiedMapData(&pColData, &colDataLen, &pBlockInfo, &blockInfoLen, &pMapSub, reinterpret_cast<s32*>(&mapSubLen));
     File::Global_Open(pFileName);
 
-    File::Global_Read_4A71C0(&gGameSave_6F78C8, sizeof(gGameSave_6F78C8));
+    File::Global_Read_4A71C0(&gGameSave, sizeof(gGameSave));
 
     File::Global_Read_4A71C0(&colDataLen, 4);
     if (colDataLen > 0)
@@ -431,25 +431,25 @@ void ScriptManager::LoadSave(const char_type* pFileName)
     {
         File::Global_Read_4A71C0(pMapSub, mapSubLen);
     }
-    gMap_0x370_6F6268->OnModifiedMapDataLoaded(colDataLen, blockInfoLen, mapSubLen);
+    gMap_0x370->OnModifiedMapDataLoaded(colDataLen, blockInfoLen, mapSubLen);
     File::Global_Close();
 
     ScriptManager::LoadScriptCounters();
 
-    gObject_5C_6F8F84->RestoreObjects(&gGameSave_6F78C8.mObjectData);
+    gObject_5C->RestoreObjects(&gGameSave.mObjectData);
 
-    memcpy(&gObject_5C_6F8F84->mUncollectedTokens,
-           gGameSave_6F78C8.mObjectData.mObj5CBUnCollectedTokens,
-           sizeof(gObject_5C_6F8F84->mUncollectedTokens));
+    memcpy(&gObject_5C->mUncollectedTokens,
+           gGameSave.mObjectData.mObj5CBUnCollectedTokens,
+           sizeof(gObject_5C->mUncollectedTokens));
 
-    gGameSession_67E8E0.set_secret_tokens_collected_476B10(gGameSave_6F78C8.mObjectData.mSecretTokensCollected);
+    gGameSession.set_secret_tokens_collected_476B10(gGameSave.mObjectData.mSecretTokensCollected);
     mbLoadedFromSave = true;
 }
 
 MATCH_FUNC(0x5120C0)
 ScriptThread* ScriptManager::SpawnThread(s16 start_cmd, char_type flags)
 {
-    ScriptThread* pThread = miss2_0x11C_Pool_6F8064->Allocate_4767A0();
+    ScriptThread* pThread = miss2_0x11C_Pool->Allocate_4767A0();
     pThread->InitThread(flags, start_cmd);
     return pThread;
 }
@@ -457,7 +457,7 @@ ScriptThread* ScriptManager::SpawnThread(s16 start_cmd, char_type flags)
 MATCH_FUNC(0x512100)
 SCR_CMD_HEADER* ScriptManager::FindCommandByType(u16 toFind, u16 startOff)
 {
-    if (bSkip_mission_67D4E5)
+    if (bSkip_mission)
     {
         return NULL;
     }
@@ -478,9 +478,9 @@ SCR_CMD_HEADER* ScriptManager::FindCommandByType(u16 toFind, u16 startOff)
 MATCH_FUNC(0x512160)
 void ScriptManager::StartLevelThread()
 {
-    if (!bSkip_mission_67D4E5)
+    if (!bSkip_mission)
     {
-        ScriptThread* pThread = miss2_0x11C_Pool_6F8064->Allocate_4767A0();
+        ScriptThread* pThread = miss2_0x11C_Pool->Allocate_4767A0();
         SCR_CMD_HEADER* pLevelStart = FindCommandByType(59, 0);
         if (!pLevelStart)
         {
@@ -491,7 +491,7 @@ void ScriptManager::StartLevelThread()
         }
         pThread->ExecOpCode();
         pThread->InitThread(0, pLevelStart->mCmdThis);
-        gGame_0x40_67E008->IterateFirstPlayer();
+        gGame_0x40->IterateFirstPlayer();
     }
 }
 
@@ -527,7 +527,7 @@ void ScriptManager::LoadStringTbl(u16 tableSize)
     u32 total_str_length_ = 0;
     while (total_str_length_ < tableSize)
     {
-        pStringDataIter2->mZoneIdx = gMap_0x370_6F6268->FindZoneIdxByName(pStringDataIter2->get_name(),
+        pStringDataIter2->mZoneIdx = gMap_0x370->FindZoneIdxByName(pStringDataIter2->get_name(),
                                                                                         static_cast<u8>(strlen(pStringDataIter2->get_name())));
         mpStringTbl->mEntries[str_count] = pStringDataIter2;
         s32 str_length_ = pStringDataIter2->mLength + 9;
@@ -564,7 +564,7 @@ void ScriptManager::GetScrFileName()
 MATCH_FUNC(0x512330)
 void ScriptManager::Load(const char_type* pScrName)
 {
-    if (!bSkip_mission_67D4E5)
+    if (!bSkip_mission)
     {
         strcpy(mFullScrFileName, pScrName);
         Error_SetName(mFullScrFileName);
@@ -589,13 +589,13 @@ MATCH_FUNC(0x512400)
 u16 ScriptManager::LoadMissionScript(const char_type* pScriptName, u16* pStartCmd)
 {
     u16 base_ptr_idx = 0;
-    if (gScriptManager_6F8060->mbPreloadMissionScripts == 0)
+    if (gScriptManager->mbPreloadMissionScripts == 0)
     {
         u32 remainder;
-        strcpy(gTmpBuffer_67C598, "data\\");
-        strcat(gTmpBuffer_67C598, pScriptName);
-        Error_SetName(gTmpBuffer_67C598);
-        File::Global_Open(gTmpBuffer_67C598);
+        strcpy(gTmpBuffer, "data\\");
+        strcat(gTmpBuffer, pScriptName);
+        Error_SetName(gTmpBuffer);
+        File::Global_Open(gTmpBuffer);
         File::Global_Read_4A71C0(&base_ptr_idx, 2);
         File::Global_Read_4A71C0(pStartCmd, 2);
         File::Global_Read_4A71C0(&remainder, 4);
@@ -605,16 +605,16 @@ u16 ScriptManager::LoadMissionScript(const char_type* pScriptName, u16* pStartCm
     }
     else
     {
-        str_table_entry* pStrEntry = gScriptManager_6F8060->StrEntryByString(pScriptName);
+        str_table_entry* pStrEntry = gScriptManager->StrEntryByString(pScriptName);
         u16 mission_idx = pStrEntry->mZoneIdx;
-        base_ptr_idx = gScriptManager_6F8060->mMissionBasePtrIdx[mission_idx];
-        *pStartCmd = gScriptManager_6F8060->mMissionStartCmd[mission_idx];
-        memcpy(&gScriptManager_6F8060->mBasePointers[base_ptr_idx],
-               &gScriptManager_6F8060->mMissionBasePointers[3072 * mission_idx],
+        base_ptr_idx = gScriptManager->mMissionBasePtrIdx[mission_idx];
+        *pStartCmd = gScriptManager->mMissionStartCmd[mission_idx];
+        memcpy(&gScriptManager->mBasePointers[base_ptr_idx],
+               &gScriptManager->mMissionBasePointers[3072 * mission_idx],
                0xC00u);
-        memcpy(&gScriptManager_6F8060->mScriptData[gScriptManager_6F8060->mBasePointers[base_ptr_idx]],
-               &gScriptManager_6F8060->mMissionScriptData[20000 * pStrEntry->mZoneIdx],
-               gScriptManager_6F8060->mMissionScriptDataLen[pStrEntry->mZoneIdx]);
+        memcpy(&gScriptManager->mScriptData[gScriptManager->mBasePointers[base_ptr_idx]],
+               &gScriptManager->mMissionScriptData[20000 * pStrEntry->mZoneIdx],
+               gScriptManager->mMissionScriptDataLen[pStrEntry->mZoneIdx]);
     }
     return base_ptr_idx;
 }
@@ -638,9 +638,9 @@ void ScriptManager::LoadSubScripts()
 
             if (mbPreloadMissionScripts == 1)
             {
-                sprintf(gTmpBuffer_67C598, "data\\%s\\", mScrFileName);
-                strncat(gTmpBuffer_67C598, pEntry->get_name(), pEntry->mLength);
-                File::Global_Open(gTmpBuffer_67C598);
+                sprintf(gTmpBuffer, "data\\%s\\", mScrFileName);
+                strncat(gTmpBuffer, pEntry->get_name(), pEntry->mLength);
+                File::Global_Open(gTmpBuffer);
 
                 File::Global_Read_4A71C0(&value, 2);
                 mMissionBasePtrIdx[mission_idx] = value;
@@ -675,19 +675,19 @@ MATCH_FUNC(0x5127a0)
 void ScriptManager::ExecuteScriptThreads()
 {
     LOCAL_STATIC_INIT(u8, sbAllowMiss2Logging, 1, 0x6212EC);
-    if (!bSkip_mission_67D4E5)
+    if (!bSkip_mission)
     {
         if (sbAllowMiss2Logging)
         {
-            if (gDo_miss_logging_67D6BC)
+            if (gDo_miss_logging)
             {
-                miss2_0x11C_Pool_6F8064->LogAll_47F4D0();
-                gMiss2Log_6F7698.Write_Log("\n");
+                miss2_0x11C_Pool->LogAll_47F4D0();
+                gMiss2Log.Write_Log("\n");
             }
         }
-        miss2_0x11C_Pool_6F8064->mPool.UpdatePoolNoDeallocate();
+        miss2_0x11C_Pool->mPool.UpdatePoolNoDeallocate();
     }
-    gCarManager_6C_677930->mModelCheckDestroyed = false;
+    gCarManager_6C->mModelCheckDestroyed = false;
 }
 
 MATCH_FUNC(0x5128a0)
@@ -1002,12 +1002,12 @@ MATCH_FUNC(0x512ce0)
 ScriptManager::ScriptManager()
 {
     mpStringTbl = NULL;
-    if (!bSkip_mission_67D4E5)
+    if (!bSkip_mission)
     {
         memset(mScriptData, 0, sizeof(mScriptData));
-        if (!miss2_0x11C_Pool_6F8064)
+        if (!miss2_0x11C_Pool)
         {
-            miss2_0x11C_Pool_6F8064 = new ScriptThreadPool();
+            miss2_0x11C_Pool = new ScriptThreadPool();
         }
     }
     mStrings = static_cast<str_table_entry*>(Memory::malloc_4FE4D0(0x1400u));
@@ -1021,10 +1021,10 @@ ScriptManager::ScriptManager()
     memset(mPhoneTriggers, 0, sizeof(mPhoneTriggers));
     mWeaponCheckCount = 0;
     memset(mWeaponCheckTable, 0, sizeof(mWeaponCheckTable));
-    memset(&gGameSave_6F78C8, 0, sizeof(gGameSave_6F78C8));
+    memset(&gGameSave, 0, sizeof(gGameSave));
 
     MissionCleanupList* pCleanupList = new MissionCleanupList();
-    gMiss2_25C_6F805C = pCleanupList;
+    gMiss2_25C = pCleanupList;
     if (!pCleanupList)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 13630);
@@ -1064,9 +1064,9 @@ ScriptManager::ScriptManager()
     mbKillFrenzyActive = false;
     mUnused468 = 0;
 
-    if (gDo_miss_logging_67D6BC)
+    if (gDo_miss_logging)
     {
-        gMiss2Log_6F7698.Open("test\\MISS_LOG.TXT", 1);
+        gMiss2Log.Open("test\\MISS_LOG.TXT", 1);
     }
 
     memset(mScrFileName, 0, sizeof(mScrFileName));
@@ -1074,16 +1074,16 @@ ScriptManager::ScriptManager()
     memset(mSavedGangRespect, 0, sizeof(mSavedGangRespect));
     memset(mBasicKf, 0, sizeof(mBasicKf));
 
-    gStoredCar_6F7560 = NULL;
-    gStoredCarId_6F78B4 = 0;
+    gStoredCar = NULL;
+    gStoredCarId = 0;
 }
 
 MATCH_FUNC(0x5130e0)
 ScriptManager::~ScriptManager()
 {
-    if (miss2_0x11C_Pool_6F8064)
+    if (miss2_0x11C_Pool)
     {
-        GTA2_DELETE_AND_NULL(miss2_0x11C_Pool_6F8064);
+        GTA2_DELETE_AND_NULL(miss2_0x11C_Pool);
     }
 
     if (mpStringTbl)
@@ -1099,11 +1099,11 @@ ScriptManager::~ScriptManager()
         mStrings = NULL;
     }
 
-    memset(&gGameSave_6F78C8, 0, sizeof(gGameSave_6F78C8));
+    memset(&gGameSave, 0, sizeof(gGameSave));
 
-    if (gMiss2_25C_6F805C)
+    if (gMiss2_25C)
     {
-        GTA2_DELETE_AND_NULL(gMiss2_25C_6F805C);
+        GTA2_DELETE_AND_NULL(gMiss2_25C);
     }
 
     mPassedFlag = NULL;
@@ -1116,6 +1116,6 @@ ScriptManager::~ScriptManager()
     mGang1MissionFlag = NULL;
     mGang2MissionFlag = NULL;
     mGang3MissionFlag = NULL;
-    gStoredCarId_6F78B4 = 0;
-    gStoredCar_6F7560 = NULL;
+    gStoredCarId = 0;
+    gStoredCar = NULL;
 }

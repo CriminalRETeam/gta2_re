@@ -1194,4 +1194,4 @@ class ScriptThreadPool
     Pool<ScriptThread, 8> mPool;
 };
 
-EXTERN_GLOBAL(ScriptThreadPool*, miss2_0x11C_Pool_6F8064);
+EXTERN_GLOBAL(ScriptThreadPool*, miss2_0x11C_Pool);

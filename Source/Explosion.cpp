@@ -14,10 +14,10 @@
 #include "debug.hpp"
 #include "rng.hpp"
 
-DEFINE_GLOBAL(ExplosionPool*, gExplosionPool_7A8_6FD5F0, 0x6FD5F0);
-DEFINE_GLOBAL(ExplosionPool_3D4*, gExplosionPool_3D4_6FD5EC, 0x6FD5EC);
+DEFINE_GLOBAL(ExplosionPool*, gExplosionPool_7A8, 0x6FD5F0);
+DEFINE_GLOBAL(ExplosionPool_3D4*, gExplosionPool_3D4, 0x6FD5EC);
 
-EXTERN_GLOBAL(u16, gParticleInstCount_6FD5F4);
+EXTERN_GLOBAL(u16, gParticleInstCount);
 
 DEFINE_GLOBAL_INIT(Fix16, kFP16Zero_6FD49C, Fix16(0), 0x6FD49C);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_6FD5D4, Ang16(0), 0x6FD5D4);
@@ -41,12 +41,12 @@ EXTERN_GLOBAL(Fix16, kFP16Half_6FD39C);
 EXTERN_GLOBAL(Fix16, kFP16One_6FD4A0);
 EXTERN_GLOBAL(Fix16, kFP16Two_6FD4A4);
 
-EXTERN_GLOBAL(Fix16, gParticlePosX_6FD388);
-EXTERN_GLOBAL(Fix16, gParticlePosY_6FD38C);
+EXTERN_GLOBAL(Fix16, gParticlePosX);
+EXTERN_GLOBAL(Fix16, gParticlePosY);
 
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFP16ThreeQuarters, Fix16(0x3000, 0), 0x6FD370);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Quarter_6FD2EC, Fix16(0x1000, 0), 0x6FD2EC);
-DEFINE_GLOBAL_INIT(Fix16, kFpOne1024th_6FD540, Fix16(0x10, 0), 0x6FD540);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne1024th, Fix16(0x10, 0), 0x6FD540);
 DEFINE_STATIC_MEMBER_INIT(Fix16, Explosion, kFpPoint09, Fix16(0x5C2, 0), 0x6FD484);
 DEFINE_STATIC_MEMBER(u8, Explosion, sExplosionWantsFlash, 0x6FD5F6);
 
@@ -101,14 +101,14 @@ void Explosion::EmitRandomDiagonalParticle()
     if (this->mParticleCooldown == 0)
     {
         Particle_4C* pParticle;
-        sDebrisDirection = gRng_6F6784.get_int(4);
+        sDebrisDirection = gRng.get_int(4);
         switch (sDebrisDirection)
         {
             case 0:
-                pParticle = gParticle_8_6FD5E8->New(kFpOne3200th, kFpOne3200th, kFpOneThirtySecond_6FD330, kFpOne6400th, kFpOne6400th, 0);
+                pParticle = gParticle_8->New(kFpOne3200th, kFpOne3200th, kFpOneThirtySecond_6FD330, kFpOne6400th, kFpOne6400th, 0);
                 break;
             case 1:
-                pParticle = gParticle_8_6FD5E8->New(kFpOne3200th.Negate_4086A0(),
+                pParticle = gParticle_8->New(kFpOne3200th.Negate_4086A0(),
                                                            kFpOne3200th,
                                                            kFpOneThirtySecond_6FD330,
                                                            kFpOne6400th.Negate_4086A0(),
@@ -116,7 +116,7 @@ void Explosion::EmitRandomDiagonalParticle()
                                                            0);
                 break;
             case 2:
-                pParticle = gParticle_8_6FD5E8->New(kFpOne3200th,
+                pParticle = gParticle_8->New(kFpOne3200th,
                                                            kFpOne3200th.Negate_4086A0(),
                                                            kFpOneThirtySecond_6FD330,
                                                            kFpOne6400th,
@@ -124,7 +124,7 @@ void Explosion::EmitRandomDiagonalParticle()
                                                            0);
                 break;
             case 3:
-                pParticle = gParticle_8_6FD5E8->New(kFpOne3200th.Negate_4086A0(),
+                pParticle = gParticle_8->New(kFpOne3200th.Negate_4086A0(),
                                                            kFpOne3200th.Negate_4086A0(),
                                                            kFpOneThirtySecond_6FD330,
                                                            kFpOne6400th.Negate_4086A0(),
@@ -150,10 +150,10 @@ void Explosion::EmitRandomDiagonalParticle()
             pParticle->mCounter = 100;
             pParticle->mInitialCounter = 100;
             pParticle->mpOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
-            pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->mDef112BaseSpriteIdx);
+            pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx);
             pParticle->mpOwnSprite->set_xyz_lazy_420600(mpObj2C->mSprite->mXy.x, mpObj2C->mSprite->mXy.y, mpObj2C->mSprite->mZpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
-            this->mParticleCooldown = gRng_6F6784.get_int(5);
+            gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+            this->mParticleCooldown = gRng.get_int(5);
         }
     }
     else
@@ -177,7 +177,7 @@ void Explosion::EmitFireTrail_3_12(Ang16 ang, Fix16 speed)
 
     if (this->mParticleCooldown == 0)
     {
-        Particle_4C* pParticle = gParticle_8_6FD5E8->New(point.x, point.y, kFpOneThirtySecond_6FD330, point.x, point.y, 0);
+        Particle_4C* pParticle = gParticle_8->New(point.x, point.y, kFpOneThirtySecond_6FD330, point.x, point.y, 0);
         if (pParticle)
         {
             pParticle->mpExplosion = this;
@@ -190,11 +190,11 @@ void Explosion::EmitFireTrail_3_12(Ang16 ang, Fix16 speed)
             pParticle->mInitialCounter = 32;
             pParticle->mpOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->mState = 3;
-            pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->mDef112BaseSpriteIdx + 96);
+            pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 96);
             pParticle->mpOwnSprite->SetNoLighting_4337F0();
             pParticle->mpOwnSprite->set_xyz_lazy_420600(mpObj2C->mSprite->mXy.x, mpObj2C->mSprite->mXy.y, mpObj2C->mSprite->mZpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
-            this->mParticleCooldown = gRng_6F6784.get_int(2);
+            gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+            this->mParticleCooldown = gRng.get_int(2);
         }
     }
     else
@@ -219,7 +219,7 @@ void Explosion::EmitFireTrail_4(Ang16 ang, Fix16 speed)
 
     if (this->mParticleCooldown == 0)
     {
-        Particle_4C* pParticle = gParticle_8_6FD5E8->New(point.x, point.y, kFpOneThirtySecond_6FD330, point.x, point.y, 0);
+        Particle_4C* pParticle = gParticle_8->New(point.x, point.y, kFpOneThirtySecond_6FD330, point.x, point.y, 0);
         if (pParticle)
         {
             pParticle->mpExplosion = this;
@@ -232,11 +232,11 @@ void Explosion::EmitFireTrail_4(Ang16 ang, Fix16 speed)
             pParticle->mInitialCounter = 32;
             pParticle->mpOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->mState = 4;
-            pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->mDef112BaseSpriteIdx);
+            pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx);
             pParticle->mpOwnSprite->SetNoLighting_4337F0();
             pParticle->mpOwnSprite->set_xyz_lazy_420600(mpObj2C->mSprite->mXy.x, mpObj2C->mSprite->mXy.y, mpObj2C->mSprite->mZpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
-            this->mParticleCooldown = gRng_6F6784.get_int(2);
+            gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+            this->mParticleCooldown = gRng.get_int(2);
         }
     }
     else
@@ -260,7 +260,7 @@ void Explosion::EmitFireTrail_13_14(Ang16 ang, Fix16 speed)
 
     if (this->mParticleCooldown == 0)
     {
-        Particle_4C* pParticle = gParticle_8_6FD5E8->New(point.x, point.y, kFpOneThirtySecond_6FD330, point.x, point.y, 0);
+        Particle_4C* pParticle = gParticle_8->New(point.x, point.y, kFpOneThirtySecond_6FD330, point.x, point.y, 0);
         if (pParticle)
         {
             pParticle->mpExplosion = this;
@@ -273,11 +273,11 @@ void Explosion::EmitFireTrail_13_14(Ang16 ang, Fix16 speed)
             pParticle->mInitialCounter = 32;
             pParticle->mpOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->mState = 36;
-            pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->mDef112BaseSpriteIdx);
+            pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx);
             pParticle->mpOwnSprite->SetNoLighting_4337F0();
             pParticle->mpOwnSprite->set_xyz_lazy_420600(mpObj2C->mSprite->mXy.x, mpObj2C->mSprite->mXy.y, mpObj2C->mSprite->mZpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
-            this->mParticleCooldown = gRng_6F6784.get_int(2);
+            gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+            this->mParticleCooldown = gRng.get_int(2);
         }
     }
     else
@@ -305,7 +305,7 @@ void Explosion::EmitFireTrail_5(Ang16 ang, Fix16 speed)
 
     if (!this->mParticleCooldown)
     {
-        Particle_4C* pParticle = gParticle_8_6FD5E8->New(point.x, point.y, kFpOneThirtySecond_6FD330, point.x, point.y, 0);
+        Particle_4C* pParticle = gParticle_8->New(point.x, point.y, kFpOneThirtySecond_6FD330, point.x, point.y, 0);
         if (pParticle)
         {
             pParticle->mpExplosion = this;
@@ -318,12 +318,12 @@ void Explosion::EmitFireTrail_5(Ang16 ang, Fix16 speed)
             pParticle->mInitialCounter = 32;
             pParticle->mpOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->mState = 5;
-            pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->mDef112BaseSpriteIdx + 96);
+            pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 96);
             pParticle->mpOwnSprite->set_xyz_lazy_420600(mpObj2C->mSprite->mXy.x,
                                                       mpObj2C->mSprite->mXy.y,
                                                       mpObj2C->mSprite->mZpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
-            this->mParticleCooldown = gRng_6F6784.get_int(2);
+            gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+            this->mParticleCooldown = gRng.get_int(2);
             pParticle->mpOwnSprite->SetBlendAndAlpha_4337D0(2, 20);
             pParticle->mpOwnSprite->SetNoLighting_4337F0();
         }
@@ -392,19 +392,19 @@ void Explosion::SpawnFlashParticle()
 {
     if (mType != explosion_type::small_18 && mType != explosion_type::no_ring_32)
     {
-        if (gParticle_4C_Pool_6FD5E4->mpStart)
+        if (gParticle_4C_Pool->mpStart)
         {
-            Particle_4C* pNew = gParticle_4C_Pool_6FD5E4->Allocate();
+            Particle_4C* pNew = gParticle_4C_Pool->Allocate();
             pNew->mSubState = 0;
             pNew->mState = 29;
-            pNew->mpOwnSprite = gSpritePool_703818->get_new_sprite();
+            pNew->mpOwnSprite = gSpritePool->get_new_sprite();
             pNew->mpOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pNew->mpOwnSprite->SetNoLighting_4337F0();
-            pNew->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->mDef112BaseSpriteIdx + 37);
+            pNew->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 37);
             pNew->mpOwnSprite->set_xyz_lazy_420600(mpObj2C->mSprite->mXy.x,
                                                       mpObj2C->mSprite->mXy.y,
                                                       mpObj2C->mSprite->mZpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pNew->mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket_477AE0(pNew->mpOwnSprite);
             pNew->mTimer = 10;
         }
     }
@@ -437,7 +437,7 @@ void Explosion::ApplyBlastDamage(u16 timerVal)
     rect.SetRect_41E350(left, right, top, bottom);
     rect.SetHiLowZ_41E370(z_low, z_high);
 
-    if (gSpriteGrid_1_679208->CollectRectCollisions(&rect, false, sprite_types_enum::none_0, mpObj2C->mSprite, &collision_list))
+    if (gSpriteGrid_1->CollectRectCollisions(&rect, false, sprite_types_enum::none_0, mpObj2C->mSprite, &collision_list))
     {
         while (collision_list.mP18)
         {
@@ -447,7 +447,7 @@ void Explosion::ApplyBlastDamage(u16 timerVal)
             {
                 if (timerVal > explosion_timer::damage_phase_50 && pPedChar->get_ped_state_1_48A4C0() != ped_state_1::immobilized_8)
                 {
-                    s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(this->mpObj2C->mPedRefIdx);
+                    s32 ped_id = gPedRefTable_7F8->GetPedId_420F10(this->mpObj2C->mPedRefIdx);
                     if (!ped_id)
                     {
                         pPedChar->mpPed->mKillerId = this->mOwnerPedId;
@@ -503,7 +503,7 @@ void Explosion::ApplyBlastDamage(u16 timerVal)
                             if (Fix16::MaxAbsDistance_42A6B0(pSprite->mXy.x, pSprite->mXy.y, mpObj2C->mSprite->mXy.x, mpObj2C->mSprite->mXy.y) <= this->mBlastRadius)
                             {
                                 // 9.6f: PedRefTable::GetPedId_420F10 (inlined, using it here makes the diff worse)
-                                s32 exploder_ped_id = gPedRefTable_7F8_703398->mEntries[this->mpObj2C->mPedRefIdx].mPedId;
+                                s32 exploder_ped_id = gPedRefTable_7F8->mEntries[this->mpObj2C->mPedRefIdx].mPedId;
                                 if (!exploder_ped_id)
                                 {
                                     pCar->mExploderPedId = this->mOwnerPedId;
@@ -519,7 +519,7 @@ void Explosion::ApplyBlastDamage(u16 timerVal)
                                 {
                                     if (damage > 0)
                                     {
-                                        Ped* pExploderPed = gPedManager_6787BC->PedById(pCar->mExploderPedId);
+                                        Ped* pExploderPed = gPedManager->PedById(pCar->mExploderPedId);
                                         if (pExploderPed)
                                         {
                                             if (pExploderPed->PedTypeIs(ped_type::player_2))
@@ -561,49 +561,49 @@ void Explosion::ApplyBlastDamage(u16 timerVal)
 MATCH_FUNC(0x541d60)
 void Explosion::EmitExplosion_18_33()
 {
-    if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
+    if (gParticle_4C_Pool->has_pStart_48A8F0())
     {
         if (mTimer > 0x52u)
         {
             if (mTimer > 0x5Au)
             {
                 Fix16 radius;
-                radius = this->mParticleSpread * Fix16(gRng_6F6784.get_int(8));
+                radius = this->mParticleSpread * Fix16(gRng.get_int(8));
 
-                this->mSpawnAngle = Ang16::Fix16_To_Ang16_inlined_40F540(kFpOne64th_6FD448 * Fix16(gRng_6F6784.get_int(360)));
+                this->mSpawnAngle = Ang16::Fix16_To_Ang16_inlined_40F540(kFpOne64th_6FD448 * Fix16(gRng.get_int(360)));
 
                 // 9.6f calls Ang16::PolarToCartesian_41FC20
-                Ang16::PolarToCartesian_41FC20(mSpawnAngle, radius, gParticlePosX_6FD388, gParticlePosY_6FD38C);
+                Ang16::PolarToCartesian_41FC20(mSpawnAngle, radius, gParticlePosX, gParticlePosY);
 
                 // NOTE: This proves these 2 vars are not a Fix16_Point
-                gParticlePosX_6FD388 = this->mpObj2C->mSprite->mXy.x + gParticlePosX_6FD388;
-                gParticlePosY_6FD38C = this->mpObj2C->mSprite->mXy.y + gParticlePosY_6FD38C;
+                gParticlePosX = this->mpObj2C->mSprite->mXy.x + gParticlePosX;
+                gParticlePosY = this->mpObj2C->mSprite->mXy.y + gParticlePosY;
 
-                Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
+                Particle_4C* pParticle = gParticle_4C_Pool->Allocate();
                 pParticle->mSubState = 0;
                 pParticle->mState = 18;
-                pParticle->mpOwnSprite = gSpritePool_703818->get_new_sprite();
+                pParticle->mpOwnSprite = gSpritePool->get_new_sprite();
                 pParticle->mpOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
                 pParticle->mpOwnSprite->SetNoLighting_4337F0();
-                pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->mDef112BaseSpriteIdx + 20);
-                pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, mpObj2C->mSprite->mZpos);
-                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+                pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 20);
+                pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, mpObj2C->mSprite->mZpos);
+                gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
                 pParticle->mTimer = 1;
             }
             else
             {
-                gParticlePosX_6FD388 = this->mpObj2C->mSprite->mXy.x;
-                gParticlePosY_6FD38C = this->mpObj2C->mSprite->mXy.y;
+                gParticlePosX = this->mpObj2C->mSprite->mXy.x;
+                gParticlePosY = this->mpObj2C->mSprite->mXy.y;
 
-                Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
+                Particle_4C* pParticle = gParticle_4C_Pool->Allocate();
                 pParticle->mSubState = 0;
                 pParticle->mState = 18;
-                pParticle->mpOwnSprite = gSpritePool_703818->get_new_sprite();
+                pParticle->mpOwnSprite = gSpritePool->get_new_sprite();
                 pParticle->mpOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
                 pParticle->mpOwnSprite->SetNoLighting_4337F0();
-                pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->mDef112BaseSpriteIdx + 20);
-                pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, mpObj2C->mSprite->mZpos);
-                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+                pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 20);
+                pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, mpObj2C->mSprite->mZpos);
+                gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
                 pParticle->mpOwnSprite->ApplyScaleToDimensions(kFP16Quarter_6FD2EC, 0);
                 pParticle->mTimer = 5;
             }
@@ -614,47 +614,47 @@ void Explosion::EmitExplosion_18_33()
 MATCH_FUNC(0x542060)
 void Explosion::EmitExplosion_19_32()
 {
-    if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
+    if (gParticle_4C_Pool->has_pStart_48A8F0())
     {
         if (this->mTimer > 8u)
         {
             Fix16 radius;
-            radius = this->mParticleSpread * Fix16(gRng_6F6784.get_int(48));
-            this->mSpawnAngle = Ang16::Fix16_To_Ang16_inlined_40F540(kFpOne64th_6FD448 * Fix16(gRng_6F6784.get_int(360)));
+            radius = this->mParticleSpread * Fix16(gRng.get_int(48));
+            this->mSpawnAngle = Ang16::Fix16_To_Ang16_inlined_40F540(kFpOne64th_6FD448 * Fix16(gRng.get_int(360)));
 
             // 9.6f calls Ang16::PolarToCartesian_41FC20
-            Ang16::PolarToCartesian_41FC20(mSpawnAngle, radius, gParticlePosX_6FD388, gParticlePosY_6FD38C);
+            Ang16::PolarToCartesian_41FC20(mSpawnAngle, radius, gParticlePosX, gParticlePosY);
 
-            gParticlePosX_6FD388 = this->mpObj2C->mSprite->mXy.x + gParticlePosX_6FD388;
-            gParticlePosY_6FD38C = this->mpObj2C->mSprite->mXy.y + gParticlePosY_6FD38C;
+            gParticlePosX = this->mpObj2C->mSprite->mXy.x + gParticlePosX;
+            gParticlePosY = this->mpObj2C->mSprite->mXy.y + gParticlePosY;
 
-            Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
+            Particle_4C* pParticle = gParticle_4C_Pool->Allocate();
             pParticle->mSubState = 0;
             pParticle->mState = 19;
-            pParticle->mpOwnSprite = gSpritePool_703818->get_new_sprite();
+            pParticle->mpOwnSprite = gSpritePool->get_new_sprite();
             pParticle->mpOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->mpOwnSprite->SetNoLighting_4337F0();
             pParticle->mpExplosion = this;
-            pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->mDef112BaseSpriteIdx + 20);
-            pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, this->mpObj2C->mSprite->mZpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+            pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 20);
+            pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, this->mpObj2C->mSprite->mZpos);
+            gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
             pParticle->mpOwnSprite->ApplyScaleToDimensions(kFP16Half_6FD39C + kFP16One_6FD4A0, 0);
             pParticle->mTimer = 1;
         }
         else
         {
-            gParticlePosX_6FD388 = this->mpObj2C->mSprite->mXy.x;
-            gParticlePosY_6FD38C = this->mpObj2C->mSprite->mXy.y;
+            gParticlePosX = this->mpObj2C->mSprite->mXy.x;
+            gParticlePosY = this->mpObj2C->mSprite->mXy.y;
 
-            Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
+            Particle_4C* pParticle = gParticle_4C_Pool->Allocate();
             pParticle->mSubState = 0;
             pParticle->mState = 19;
-            pParticle->mpOwnSprite = gSpritePool_703818->get_new_sprite();
+            pParticle->mpOwnSprite = gSpritePool->get_new_sprite();
             pParticle->mpOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->mpOwnSprite->SetNoLighting_4337F0();
-            pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->mDef112BaseSpriteIdx + 20);
-            pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, mpObj2C->mSprite->mZpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+            pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 20);
+            pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, mpObj2C->mSprite->mZpos);
+            gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
             pParticle->mTimer = 5;
         }
     }
@@ -663,45 +663,45 @@ void Explosion::EmitExplosion_19_32()
 MATCH_FUNC(0x542340)
 void Explosion::EmitExplosion_20()
 {
-    if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
+    if (gParticle_4C_Pool->has_pStart_48A8F0())
     {
         if (this->mTimer > 8u)
         {
             Fix16 radius;
-            radius = this->mParticleSpread * Fix16(gRng_6F6784.get_int(80));
-            this->mSpawnAngle = Ang16::Fix16_To_Ang16_inlined_40F540(kFpOne64th_6FD448 * Fix16(gRng_6F6784.get_int(360)));
+            radius = this->mParticleSpread * Fix16(gRng.get_int(80));
+            this->mSpawnAngle = Ang16::Fix16_To_Ang16_inlined_40F540(kFpOne64th_6FD448 * Fix16(gRng.get_int(360)));
 
             // 9.6f calls Ang16::PolarToCartesian_41FC20
-            Ang16::PolarToCartesian_41FC20(mSpawnAngle, radius, gParticlePosX_6FD388, gParticlePosY_6FD38C);
+            Ang16::PolarToCartesian_41FC20(mSpawnAngle, radius, gParticlePosX, gParticlePosY);
 
-            gParticlePosX_6FD388 = this->mpObj2C->mSprite->mXy.x + gParticlePosX_6FD388;
-            gParticlePosY_6FD38C = this->mpObj2C->mSprite->mXy.y + gParticlePosY_6FD38C;
+            gParticlePosX = this->mpObj2C->mSprite->mXy.x + gParticlePosX;
+            gParticlePosY = this->mpObj2C->mSprite->mXy.y + gParticlePosY;
 
-            Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
+            Particle_4C* pParticle = gParticle_4C_Pool->Allocate();
             pParticle->mSubState = 0;
             pParticle->mState = 20;
-            pParticle->mpOwnSprite = gSpritePool_703818->get_new_sprite();
+            pParticle->mpOwnSprite = gSpritePool->get_new_sprite();
             pParticle->mpOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->mpOwnSprite->SetNoLighting_4337F0();
-            pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->mDef112BaseSpriteIdx + 56);
-            pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, mpObj2C->mSprite->mZpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+            pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 56);
+            pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, mpObj2C->mSprite->mZpos);
+            gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
             pParticle->mTimer = 1;
         }
         else
         {
-            gParticlePosX_6FD388 = this->mpObj2C->mSprite->mXy.x;
-            gParticlePosY_6FD38C = this->mpObj2C->mSprite->mXy.y;
+            gParticlePosX = this->mpObj2C->mSprite->mXy.x;
+            gParticlePosY = this->mpObj2C->mSprite->mXy.y;
 
-            Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
+            Particle_4C* pParticle = gParticle_4C_Pool->Allocate();
             pParticle->mSubState = 0;
             pParticle->mState = 20;
-            pParticle->mpOwnSprite = gSpritePool_703818->get_new_sprite();
+            pParticle->mpOwnSprite = gSpritePool->get_new_sprite();
             pParticle->mpOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->mpOwnSprite->SetNoLighting_4337F0();
-            pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->mDef112BaseSpriteIdx + 56);
-            pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, mpObj2C->mSprite->mZpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+            pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 56);
+            pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, mpObj2C->mSprite->mZpos);
+            gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
             pParticle->mTimer = 5;
         }
     }
@@ -713,7 +713,7 @@ void Explosion::UpdateExplosion_18_19_20_32_33()
     bool isOnScreen = true;
     if (this->mTimer < 90u)
     {
-        if (!gGame_0x40_67E008->IsPointOnScreen(this->mpObj2C->mSprite->mXy.x, this->mpObj2C->mSprite->mXy.y))
+        if (!gGame_0x40->IsPointOnScreen(this->mpObj2C->mSprite->mXy.x, this->mpObj2C->mSprite->mXy.y))
         {
             isOnScreen = false;
         }
@@ -748,21 +748,21 @@ void Explosion::UpdateExplosion_18_19_20_32_33()
             case 79:
             case 89:
             {
-                Object* pExplosionObj = gObject_5C_6F8F84->CreateExplosion(Fix16(113), Fix16(145), 2, kAngZero_6FD5D4, explosion_type::molotov_fire_5, mOwnerPedId);
+                Object* pExplosionObj = gObject_5C->CreateExplosion(Fix16(113), Fix16(145), 2, kAngZero_6FD5D4, explosion_type::molotov_fire_5, mOwnerPedId);
                 if (pExplosionObj)
                 {
-                    Object* pDebris = gObject_5C_6F8F84->NewMovingObj(objects::explosion_fragments_127,
+                    Object* pDebris = gObject_5C->NewMovingObj(objects::explosion_fragments_127,
                                                                              mpObj2C->mSprite->mXy.x,
                                                                              mpObj2C->mSprite->mXy.y,
                                                                              mpObj2C->mSprite->mZpos,
                                                                              this->mSpawnAngle,
                                                                              kAngZero_6FD5D4,
                                                                              kFpPoint09,
-                                                                             -kFpOne1024th_6FD540,
+                                                                             -kFpOne1024th,
                                                                              kFpPoint2_6FD2F0);
                     pDebris->mSprite->AttachSprite(pExplosionObj->mSprite, 0, 0, kAngZero_6FD5D4);
 
-                    Object* pLight = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
+                    Object* pLight = gObject_5C->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
                     pDebris->mSprite->AttachSprite(pLight->mSprite, 0, 0, kAngZero_6FD5D4);
                 }
                 break;
@@ -780,7 +780,7 @@ void Explosion::UpdateExplosion_18_19_20_32_33()
         {
             this->mParticleSpread = max_spread;
         }
-        this->mParticleSpread += (kFpOne1024th_6FD540 / kFP16Two_6FD4A4);
+        this->mParticleSpread += (kFpOne1024th / kFP16Two_6FD4A4);
     }
     else
     {
@@ -788,7 +788,7 @@ void Explosion::UpdateExplosion_18_19_20_32_33()
         {
             this->mParticleSpread = kFpOne64th_6FD448;
         }
-        this->mParticleSpread -= (kFpOne1024th_6FD540 / kFP16Two_6FD4A4);
+        this->mParticleSpread -= (kFpOne1024th / kFP16Two_6FD4A4);
     }
 
     if (this->mTimer > explosion_timer::damage_phase_50)
@@ -798,7 +798,7 @@ void Explosion::UpdateExplosion_18_19_20_32_33()
 
     if (this->mTimer == explosion_timer::first_tick_99)
     {
-        gGame_0x40_67E008->ShakeCamerasAtPos(8, this->mpObj2C->mSprite->mXy.x, this->mpObj2C->mSprite->mXy.y);
+        gGame_0x40->ShakeCamerasAtPos(8, this->mpObj2C->mSprite->mXy.x, this->mpObj2C->mSprite->mXy.y);
     }
 
     if (this->mTimer != explosion_timer::forever_9999)
@@ -822,9 +822,9 @@ void Explosion::EmitBuildingDebris_22_23_24_25(u8 direction_idx)
         sExplosionWantsFlash = 0;
         for (u8 i = 0; i < 2u; i++)
         {
-            if (gParticle_4C_Pool_6FD5E4->mpStart)
+            if (gParticle_4C_Pool->mpStart)
             {
-                Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
+                Particle_4C* pParticle = gParticle_4C_Pool->Allocate();
                 pParticle->mSubState = 0;
 
                 switch (direction_idx)
@@ -832,51 +832,51 @@ void Explosion::EmitBuildingDebris_22_23_24_25(u8 direction_idx)
                     case building_debris_dir::towards_135_0:
                     {
                         pParticle->mState = 24;
-                        this->mSpawnAngle = (kAng135_6FD40C + kAng24) + Ang16::Fix16_To_Ang16_40F540((kFpOne64th_6FD448 * Fix16(gRng_6F6784.get_int(45))));
+                        this->mSpawnAngle = (kAng135_6FD40C + kAng24) + Ang16::Fix16_To_Ang16_40F540((kFpOne64th_6FD448 * Fix16(gRng.get_int(45))));
 
-                        Ang16::PolarToCartesian_41FC20(mSpawnAngle, kFpOne1024th_6FD540, gParticlePosX_6FD388, gParticlePosY_6FD38C);
+                        Ang16::PolarToCartesian_41FC20(mSpawnAngle, kFpOne1024th, gParticlePosX, gParticlePosY);
 
-                        gParticlePosX_6FD388 += this->mpObj2C->mSprite->mXy.x;
-                        gParticlePosY_6FD38C += this->mpObj2C->mSprite->mXy.y;
+                        gParticlePosX += this->mpObj2C->mSprite->mXy.x;
+                        gParticlePosY += this->mpObj2C->mSprite->mXy.y;
                         break;
                     }
 
                     case building_debris_dir::towards_315_1:
                     {
                         pParticle->mState = 25;
-                        this->mSpawnAngle = (kAng315 + kAng24) + Ang16::Fix16_To_Ang16_40F540((kFpOne64th_6FD448 * Fix16(gRng_6F6784.get_int(90))));
+                        this->mSpawnAngle = (kAng315 + kAng24) + Ang16::Fix16_To_Ang16_40F540((kFpOne64th_6FD448 * Fix16(gRng.get_int(90))));
 
 
-                        Ang16::PolarToCartesian_41FC20(mSpawnAngle, kFpOne1024th_6FD540, gParticlePosX_6FD388, gParticlePosY_6FD38C);
+                        Ang16::PolarToCartesian_41FC20(mSpawnAngle, kFpOne1024th, gParticlePosX, gParticlePosY);
 
-                        gParticlePosX_6FD388 += this->mpObj2C->mSprite->mXy.x;
-                        gParticlePosY_6FD38C += this->mpObj2C->mSprite->mXy.y;
+                        gParticlePosX += this->mpObj2C->mSprite->mXy.x;
+                        gParticlePosY += this->mpObj2C->mSprite->mXy.y;
                         break;
                     }
 
                     case building_debris_dir::towards_225_2:
                     {
                         pParticle->mState = 23;
-                        this->mSpawnAngle = (kAng225 + kAng24).Add_ool(Ang16::Fix16_To_Ang16_40F540((kFpOne64th_6FD448 * Fix16(gRng_6F6784.get_int(90)))));
+                        this->mSpawnAngle = (kAng225 + kAng24).Add_ool(Ang16::Fix16_To_Ang16_40F540((kFpOne64th_6FD448 * Fix16(gRng.get_int(90)))));
 
 
-                        Ang16::PolarToCartesian_41FC20(mSpawnAngle, kFpOne1024th_6FD540, gParticlePosX_6FD388, gParticlePosY_6FD38C);
+                        Ang16::PolarToCartesian_41FC20(mSpawnAngle, kFpOne1024th, gParticlePosX, gParticlePosY);
 
-                        gParticlePosX_6FD388 += this->mpObj2C->mSprite->mXy.x;
-                        gParticlePosY_6FD38C += this->mpObj2C->mSprite->mXy.y;
+                        gParticlePosX += this->mpObj2C->mSprite->mXy.x;
+                        gParticlePosY += this->mpObj2C->mSprite->mXy.y;
                         break;
                     }
 
                     case building_debris_dir::towards_45_3:
                     {
                         pParticle->mState = 22;
-                        this->mSpawnAngle = kAng45_6FD35C.Add_ool(kAng24).Add_ool(Ang16::Fix16_To_Ang16_ool_40F540((kFpOne64th_6FD448 * Fix16(gRng_6F6784.get_int(90)))));
+                        this->mSpawnAngle = kAng45_6FD35C.Add_ool(kAng24).Add_ool(Ang16::Fix16_To_Ang16_ool_40F540((kFpOne64th_6FD448 * Fix16(gRng.get_int(90)))));
 
 
-                        Ang16::PolarToCartesian_41FC20(mSpawnAngle, kFpOne1024th_6FD540, gParticlePosX_6FD388, gParticlePosY_6FD38C);
+                        Ang16::PolarToCartesian_41FC20(mSpawnAngle, kFpOne1024th, gParticlePosX, gParticlePosY);
 
-                        gParticlePosX_6FD388 += this->mpObj2C->mSprite->mXy.x;
-                        gParticlePosY_6FD38C += this->mpObj2C->mSprite->mXy.y;
+                        gParticlePosX += this->mpObj2C->mSprite->mXy.x;
+                        gParticlePosY += this->mpObj2C->mSprite->mXy.y;
                         break;
                     }
 
@@ -884,7 +884,7 @@ void Explosion::EmitBuildingDebris_22_23_24_25(u8 direction_idx)
                         break;
                 }
 
-                pParticle->mpOwnSprite = gSpritePool_703818->get_new_sprite();
+                pParticle->mpOwnSprite = gSpritePool->get_new_sprite();
                 pParticle->mpOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
                 pParticle->mTimer = 0;
                 pParticle->mSubState = 0;
@@ -895,25 +895,25 @@ void Explosion::EmitBuildingDebris_22_23_24_25(u8 direction_idx)
                     i = 4;
                 }
 
-                pParticle->mSpeed20 = (kFpOne512th_6FD548 * Fix16(gRng_6F6784.get_int(mTimer)));
-                pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->mDef112BaseSpriteIdx + 40);
+                pParticle->mSpeed20 = (kFpOne512th_6FD548 * Fix16(gRng.get_int(mTimer)));
+                pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 40);
 
                 if (mpObj2C->mSprite->mZpos + kFP16One_6FD4A0 >= kFP16Eight_6FD4C0)
                 {
-                    pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, mpObj2C->mSprite->mZpos);
+                    pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, mpObj2C->mSprite->mZpos);
                 }
                 else
                 {
-                    pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, mpObj2C->mSprite->mZpos + kFP16One_6FD4A0);
+                    pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, mpObj2C->mSprite->mZpos + kFP16One_6FD4A0);
                 }
-                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+                gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
                 pParticle->mpOwnSprite->SetNoLighting_4337F0();
             }
         }
 
         if (this->mTimer == explosion_timer::first_tick_99)
         {
-            gGame_0x40_67E008->ShakeCamerasAtPos(8, mpObj2C->mSprite->mXy.x, mpObj2C->mSprite->mXy.y);
+            gGame_0x40->ShakeCamerasAtPos(8, mpObj2C->mSprite->mXy.x, mpObj2C->mSprite->mXy.y);
         }
 
         if (this->mTimer > explosion_timer::damage_phase_50)
@@ -954,7 +954,7 @@ bool Explosion::Update(Fix16 speed, Ang16 ang)
         return true;
     }
 
-    if (bSkip_particles_67D64D)
+    if (bSkip_particles)
     {
         return true;
     }
@@ -1021,11 +1021,11 @@ void Explosion::Release()
     this->mId = 0;
     if (mbIn20Pool == 0)
     {
-        gExplosionPool_7A8_6FD5F0->mbUsed[this->mPoolSlotIdx] = false;
+        gExplosionPool_7A8->mbUsed[this->mPoolSlotIdx] = false;
     }
     else
     {
-        gExplosionPool_3D4_6FD5EC->mbUsed[this->mPoolSlotIdx] = false;
+        gExplosionPool_3D4->mbUsed[this->mPoolSlotIdx] = false;
     }
 }
 
@@ -1233,7 +1233,7 @@ ExplosionPool::ExplosionPool()
         mbUsed[i] = false;
     }
 
-    gParticleInstCount_6FD5F4 = 0;
+    gParticleInstCount = 0;
 }
 
 MATCH_FUNC(0x5438f0)
@@ -1268,7 +1268,7 @@ ExplosionPool_3D4::ExplosionPool_3D4()
         mExplosions[i].mPoolSlotIdx = i;
         mbUsed[i] = false;
     }
-    gParticleInstCount_6FD5F4 = 0;
+    gParticleInstCount = 0;
 }
 
 MATCH_FUNC(0x5439c0)

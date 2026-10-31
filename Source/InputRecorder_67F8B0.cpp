@@ -20,10 +20,10 @@
 
 extern DIDATAFORMAT gInputDeviceFormat_601A6C;
 
-EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
+EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff, 640);
 
 // DirectInput's pre-8 DIDEVICEOBJECTDATA (0x10 bytes, no uAppData): the 0x14 one of our SDK would
-// make sGamePadDeviceData overlap gKeyboardDevice_67B5C0
+// make sGamePadDeviceData overlap gKeyboardDevice
 struct mini_device_obj_data
 {
     s32 dwOfs;
@@ -32,8 +32,8 @@ struct mini_device_obj_data
     s32 dwSequence;
 };
 
-DEFINE_GLOBAL(InputRecorder_67F8B0, gInputRecorder_67F8B0, 0x67F8B0);
-DEFINE_GLOBAL(InputDevices*, gInputDevices_67B990, 0x67B990);
+DEFINE_GLOBAL(InputRecorder_67F8B0, gInputRecorder, 0x67F8B0);
+DEFINE_GLOBAL(InputDevices*, gInputDevices, 0x67B990);
 DEFINE_STATIC_MEMBER(DWORD, InputDevices, sDeviceDataCount, 0x67B624);
 DEFINE_STATIC_MEMBER(u8, InputDevices, sAltKeyDown, 0x67B80C);
 DEFINE_STATIC_MEMBER(bool, InputDevices, sNeedKbAcquire, 0x67B66C);
@@ -42,10 +42,10 @@ DEFINE_STATIC_GLOBAL(mini_device_obj_data, sGamePadDeviceData, 0x67B5B0);
 DEFINE_STATIC_MEMBER_ARRAY(s32, InputDevices, sControlDeviceType, 12, 0x67B91C);
 DEFINE_STATIC_MEMBER_ARRAY(s32, InputDevices, sPlayerControlsBinding, 12, 0x67B6E8);
 
-EXTERN_GLOBAL(DIDATAFORMAT, gKeyboardDataFormat_601A54);
-EXTERN_GLOBAL(HINSTANCE, gHInstance_708220);
-EXTERN_GLOBAL(s32, gGTA2VersionMajor_708280);
-EXTERN_GLOBAL(s32, gGTA2VersionMinor_708284);
+EXTERN_GLOBAL(DIDATAFORMAT, gKeyboardDataFormat);
+EXTERN_GLOBAL(HINSTANCE, gHInstance);
+EXTERN_GLOBAL(s32, gGTA2VersionMajor);
+EXTERN_GLOBAL(s32, gGTA2VersionMinor);
 
 DEFINE_GUID(GUID_SysKeyboard, 0x6F1D2B61, 0xD5A0, 0x11CF, 0xBF, 0xC7, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00);
 
@@ -59,7 +59,7 @@ bool InputDevices::acquire_input_device(LPDIRECTINPUTDEVICEA pGamePadDevice)
         return false;
     }
 
-    if (sNeedKbAcquire && FAILED(gKeyboardDevice_67B5C0->Acquire()))
+    if (sNeedKbAcquire && FAILED(gKeyboardDevice->Acquire()))
     {
         return false;
     }
@@ -77,20 +77,20 @@ bool InputDevices::acquire_input_device(LPDIRECTINPUTDEVICEA pGamePadDevice)
 MATCH_FUNC(0x4987A0)
 void InputDevices::free_input_devices()
 {
-    if (gpDInput_67B804)
+    if (gpDInput)
     {
-        if (gKeyboardDevice_67B5C0)
+        if (gKeyboardDevice)
         {
-            gKeyboardDevice_67B5C0->Unacquire();
-            gKeyboardDevice_67B5C0->Release();
-            gKeyboardDevice_67B5C0 = NULL;
+            gKeyboardDevice->Unacquire();
+            gKeyboardDevice->Release();
+            gKeyboardDevice = NULL;
         }
 
-        if (gGamePadDevice_67B6C0)
+        if (gGamePadDevice)
         {
-            gGamePadDevice_67B6C0->Unacquire();
-            gGamePadDevice_67B6C0->Release();
-            gGamePadDevice_67B6C0 = NULL;
+            gGamePadDevice->Unacquire();
+            gGamePadDevice->Release();
+            gGamePadDevice = NULL;
         }
     }
 }
@@ -102,17 +102,17 @@ BOOL __stdcall InputDevices::make_input_devices(HINSTANCE hInstance)
 
     sNeedKbAcquire = false;
 
-    if (FAILED(gpDInput_67B804->CreateDevice(GUID_SysKeyboard, &gKeyboardDevice_67B5C0, NULL)))
+    if (FAILED(gpDInput->CreateDevice(GUID_SysKeyboard, &gKeyboardDevice, NULL)))
     {
         FatalError_4A38C0(Gta2Error::DirectInputCreateFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 268);
     }
 
-    if (FAILED(gKeyboardDevice_67B5C0->SetDataFormat(&gKeyboardDataFormat_601A54)))
+    if (FAILED(gKeyboardDevice->SetDataFormat(&gKeyboardDataFormat)))
     {
         FatalError_4A38C0(Gta2Error::DirectInputSetDataFormatFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 279);
     }
 
-    if (FAILED(gKeyboardDevice_67B5C0->SetCooperativeLevel(gHwnd_707F04, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND)))
+    if (FAILED(gKeyboardDevice->SetCooperativeLevel(gHwnd, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND)))
     {
         FatalError_4A38C0(Gta2Error::DirectInputSetCooperativeLevelFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 287);
     }
@@ -124,15 +124,15 @@ BOOL __stdcall InputDevices::make_input_devices(HINSTANCE hInstance)
     prop.diph.dwHow = DIPH_DEVICE;
     prop.diph.dwObj = 0;
 
-    HRESULT hr = gKeyboardDevice_67B5C0->SetProperty(DIPROP_BUFFERSIZE, &prop.diph);
+    HRESULT hr = gKeyboardDevice->SetProperty(DIPROP_BUFFERSIZE, &prop.diph);
     if (FAILED(hr))
     {
         FatalDXError(hr, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 300);
     }
 
     prop.dwData = 0;
-    gKeyboardDevice_67B5C0->GetProperty(DIPROP_BUFFERSIZE, &prop.diph);
-    return !FAILED(gKeyboardDevice_67B5C0->Acquire());
+    gKeyboardDevice->GetProperty(DIPROP_BUFFERSIZE, &prop.diph);
+    return !FAILED(gKeyboardDevice->Acquire());
 }
 
 MATCH_FUNC(0x498910)
@@ -140,24 +140,24 @@ EXPORT BOOL CALLBACK DirectInputDeviceEnumCallBack(LPCDIDEVICEINSTANCEA lpddi, L
 {
     const GUID guidInstanceCopy = lpddi->guidInstance;
     LPDIRECTINPUTDEVICEA tempDevice;
-    if (SUCCEEDED(gpDInput_67B804->CreateDevice(guidInstanceCopy, &tempDevice, NULL)))
+    if (SUCCEEDED(gpDInput->CreateDevice(guidInstanceCopy, &tempDevice, NULL)))
     {
-        const HRESULT hr = tempDevice->QueryInterface(IID_IDirectInputDevice2A, reinterpret_cast<LPVOID*>(&gGamePadDevice_67B6C0));
+        const HRESULT hr = tempDevice->QueryInterface(IID_IDirectInputDevice2A, reinterpret_cast<LPVOID*>(&gGamePadDevice));
         tempDevice->Release();
 
         if (SUCCEEDED(hr))
         {
-            if (FAILED(gGamePadDevice_67B6C0->SetCooperativeLevel(gHwnd_707F04, DISCL_EXCLUSIVE | DISCL_FOREGROUND)))
+            if (FAILED(gGamePadDevice->SetCooperativeLevel(gHwnd, DISCL_EXCLUSIVE | DISCL_FOREGROUND)))
             {
-                gGamePadDevice_67B6C0->Release();
-                gGamePadDevice_67B6C0 = NULL;
+                gGamePadDevice->Release();
+                gGamePadDevice = NULL;
                 return DIENUM_STOP;
             }
 
-            if (FAILED(gGamePadDevice_67B6C0->SetDataFormat(&gInputDeviceFormat_601A6C)))
+            if (FAILED(gGamePadDevice->SetDataFormat(&gInputDeviceFormat_601A6C)))
             {
-                gGamePadDevice_67B6C0->Release();
-                gGamePadDevice_67B6C0 = NULL;
+                gGamePadDevice->Release();
+                gGamePadDevice = NULL;
                 return DIENUM_STOP;
             }
         }
@@ -172,32 +172,32 @@ void InputDevices::set_game_pad_device_properties()
     DIPROPRANGE range;
     DIDEVICEINSTANCEA instance;
 
-    if (gGamePadDevice_67B6C0)
+    if (gGamePadDevice)
     {
         instance.dwSize = sizeof(DIDEVICEINSTANCEA);
-        gGamePadDevice_67B6C0->GetDeviceInfo(&instance);
-        gGamePadDevice_67B6C0->Unacquire();
+        gGamePadDevice->GetDeviceInfo(&instance);
+        gGamePadDevice->Unacquire();
 
         prop.dwData = 10000;
         prop.diph.dwSize = sizeof(DIPROPDWORD);
         prop.diph.dwHeaderSize = sizeof(DIPROPHEADER);
         prop.diph.dwHow = DIPH_DEVICE;
         prop.diph.dwObj = 0;
-        gGamePadDevice_67B6C0->SetProperty(DIPROP_SATURATION, &prop.diph);
+        gGamePadDevice->SetProperty(DIPROP_SATURATION, &prop.diph);
 
         prop.dwData = 10000;
         prop.diph.dwSize = sizeof(DIPROPDWORD);
         prop.diph.dwHeaderSize = sizeof(DIPROPHEADER);
         prop.diph.dwHow = DIPH_DEVICE;
         prop.diph.dwObj = 0;
-        HRESULT hr = gGamePadDevice_67B6C0->SetProperty(DIPROP_BUFFERSIZE, &prop.diph);
+        HRESULT hr = gGamePadDevice->SetProperty(DIPROP_BUFFERSIZE, &prop.diph);
         if (FAILED(hr))
         {
             FatalDXError(hr, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 434);
         }
 
         prop.dwData = 0;
-        gGamePadDevice_67B6C0->GetProperty(DIPROP_BUFFERSIZE, &prop.diph);
+        gGamePadDevice->GetProperty(DIPROP_BUFFERSIZE, &prop.diph);
 
         range.diph.dwSize = sizeof(DIPROPRANGE);
         range.diph.dwHeaderSize = sizeof(DIPROPHEADER);
@@ -205,14 +205,14 @@ void InputDevices::set_game_pad_device_properties()
         range.lMin = -1000;
         range.lMax = 1000;
         range.diph.dwObj = DIJOFS_X;
-        if (FAILED(gGamePadDevice_67B6C0->SetProperty(DIPROP_RANGE, &range.diph)))
+        if (FAILED(gGamePadDevice->SetProperty(DIPROP_RANGE, &range.diph)))
         {
             OutputDebugStringA("SetProperty(RANGE, X-Axis) failed.\n");
             return;
         }
 
         range.diph.dwObj = DIJOFS_Y;
-        if (FAILED(gGamePadDevice_67B6C0->SetProperty(DIPROP_RANGE, &range.diph)))
+        if (FAILED(gGamePadDevice->SetProperty(DIPROP_RANGE, &range.diph)))
         {
             OutputDebugStringA("SetProperty(RANGE, Y-Axis) failed.\n");
             return;
@@ -223,32 +223,32 @@ void InputDevices::set_game_pad_device_properties()
         prop.diph.dwHow = DIPH_BYOFFSET;
         prop.dwData = 2500;
         prop.diph.dwObj = DIJOFS_X;
-        if (FAILED(gGamePadDevice_67B6C0->SetProperty(DIPROP_DEADZONE, &prop.diph)))
+        if (FAILED(gGamePadDevice->SetProperty(DIPROP_DEADZONE, &prop.diph)))
         {
             OutputDebugStringA("SetProperty(DEADZONE, X-Axis) failed.\n");
             return;
         }
 
         prop.diph.dwObj = DIJOFS_Y;
-        if (FAILED(gGamePadDevice_67B6C0->SetProperty(DIPROP_DEADZONE, &prop.diph)))
+        if (FAILED(gGamePadDevice->SetProperty(DIPROP_DEADZONE, &prop.diph)))
         {
             OutputDebugStringA("SetProperty(DEADZONE, Y-Axis) failed.\n");
             return;
         }
 
-        gGamePadDevice_67B6C0->Acquire();
+        gGamePadDevice->Acquire();
     }
 }
 
 MATCH_FUNC(0x498BA0)
 bool InputDevices::game_pads_init()
 {
-    if (gpDInput_67B804)
+    if (gpDInput)
     {
 #if defined(__clang__) || (_MSC_VER <= 1200)
     #pragma comment(lib, "DInput.lib")
         // VC6-compatible path
-        if (FAILED(DirectInputCreateA(gHInstance_708220, 0x700, &gpDInput_67B804, NULL)))
+        if (FAILED(DirectInputCreateA(gHInstance, 0x700, &gpDInput, NULL)))
         {
             return true;
         }
@@ -262,7 +262,7 @@ bool InputDevices::game_pads_init()
             if (p)
             {
                 auto pDirectInputCreateA = reinterpret_cast<decltype(&DirectInputCreateA)>(p);
-                if (FAILED(pDirectInputCreateA(gHInstance_708220, 0x700, &gpDInput_67B804, NULL)))
+                if (FAILED(pDirectInputCreateA(gHInstance, 0x700, &gpDInput, NULL)))
                 {
                     return true;
                 }
@@ -271,9 +271,9 @@ bool InputDevices::game_pads_init()
 #endif
     }
 
-    gpDInput_67B804->EnumDevices(DIDEVTYPE_JOYSTICK, DirectInputDeviceEnumCallBack, this, DIEDFL_ATTACHEDONLY);
+    gpDInput->EnumDevices(DIDEVTYPE_JOYSTICK, DirectInputDeviceEnumCallBack, this, DIEDFL_ATTACHEDONLY);
 
-    if (!gGamePadDevice_67B6C0)
+    if (!gGamePadDevice)
     {
         return false;
     }
@@ -287,7 +287,7 @@ void InputDevices::get_registry_controls()
     LOCAL_STATIC_ARRAY_INIT(s32, sDefaultControls, 12, 0x61A9E4, DIK_UP COMMA DIK_DOWN COMMA DIK_LEFT COMMA DIK_RIGHT COMMA DIK_LCONTROL COMMA DIK_RETURN COMMA DIK_SPACE COMMA DIK_Z COMMA DIK_X COMMA DIK_TAB COMMA DIK_LMENU COMMA DIK_RSHIFT);
     for (u32 i = 0; i < 12; ++i)
     {
-        const u32 setting = gRegistry_6FF968.Get_Control_Setting(i, sDefaultControls[i]);
+        const u32 setting = gRegistry.Get_Control_Setting(i, sDefaultControls[i]);
         sControlDeviceType[i] = setting >> 15;
         sPlayerControlsBinding[i] = static_cast<u8>(setting);
     }
@@ -337,15 +337,15 @@ MATCH_FUNC(0x498CC0)
 void InputDevices::flush_keyboard_and_gamepad()
 {
     sDeviceDataCount = -1;
-    if (gKeyboardDevice_67B5C0)
+    if (gKeyboardDevice)
     {
-        gKeyboardDevice_67B5C0->GetDeviceData(16, NULL, &sDeviceDataCount, 0);
+        gKeyboardDevice->GetDeviceData(16, NULL, &sDeviceDataCount, 0);
     }
 
     sDeviceDataCount = -1;
-    if (gGamePadDevice_67B6C0)
+    if (gGamePadDevice)
     {
-        gGamePadDevice_67B6C0->GetDeviceData(16, NULL, &sDeviceDataCount, 0);
+        gGamePadDevice->GetDeviceData(16, NULL, &sDeviceDataCount, 0);
     }
 }
 
@@ -353,12 +353,12 @@ MATCH_FUNC(0x498D20)
 bool InputDevices::game_pad_read()
 {
     DWORD num_items = -1;
-    if (acquire_input_device(gGamePadDevice_67B6C0))
+    if (acquire_input_device(gGamePadDevice))
     {
-        HRESULT jres = gGamePadDevice_67B6C0->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), NULL, &num_items, DIGDD_PEEK);
+        HRESULT jres = gGamePadDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), NULL, &num_items, DIGDD_PEEK);
         if (jres >= DI_OK)
         {
-            sprintf(gTmpBuffer_67C598, "%d: num_items = %d jres = %d", gpRng_67AB34->get_cur_rng_41CFE0(), num_items, jres);
+            sprintf(gTmpBuffer, "%d: num_items = %d jres = %d", gpRng->get_cur_rng_41CFE0(), num_items, jres);
         }
     }
     else
@@ -376,13 +376,13 @@ void InputDevices::read_input_device(s32* input_bits, bool bApplyKeyboardControl
     bool bFirstPass = true;
     s32 bReleased = 0;
     DWORD padItems = 1;
-    if (acquire_input_device(gKeyboardDevice_67B5C0) || acquire_input_device(gGamePadDevice_67B6C0))
+    if (acquire_input_device(gKeyboardDevice) || acquire_input_device(gGamePadDevice))
     {
         memset(&sKeyboardDeviceData, 0, sizeof(mini_device_obj_data));
         memset(&sGamePadDeviceData, 0, sizeof(mini_device_obj_data));
-        if (acquire_input_device(gGamePadDevice_67B6C0))
+        if (acquire_input_device(gGamePadDevice))
         {
-            static_cast<LPDIRECTINPUTDEVICE2A>(gGamePadDevice_67B6C0)->Poll();
+            static_cast<LPDIRECTINPUTDEVICE2A>(gGamePadDevice)->Poll();
         }
 
         while (game_pad_read() || bFirstPass)
@@ -392,33 +392,33 @@ void InputDevices::read_input_device(s32* input_bits, bool bApplyKeyboardControl
             bool bHandled = false;
 
             sDeviceDataCount = 0;
-            if (gKeyboardDevice_67B5C0)
+            if (gKeyboardDevice)
             {
                 sDeviceDataCount = 1;
-                kbResult = gKeyboardDevice_67B5C0->GetDeviceData(16, &sKeyboardDeviceData, &sDeviceDataCount, 0);
+                kbResult = gKeyboardDevice->GetDeviceData(16, &sKeyboardDeviceData, &sDeviceDataCount, 0);
             }
             else
             {
                 kbResult = -1;
             }
 
-            if (gGamePadDevice_67B6C0 && !sDeviceDataCount)
+            if (gGamePadDevice && !sDeviceDataCount)
             {
                 sDeviceDataCount = 1;
-                gGamePadDevice_67B6C0->GetDeviceData(16, NULL, &padItems, DIGDD_PEEK);
-                padResult = gGamePadDevice_67B6C0->GetDeviceData(16,
+                gGamePadDevice->GetDeviceData(16, NULL, &padItems, DIGDD_PEEK);
+                padResult = gGamePadDevice->GetDeviceData(16,
                                                                  reinterpret_cast<DIDEVICEOBJECTDATA*>(&sGamePadDeviceData),
                                                                  &sDeviceDataCount,
                                                                  0);
-                if (bLog_directinput_67D6C0 && sDeviceDataCount > 0)
+                if (bLog_directinput && sDeviceDataCount > 0)
                 {
-                    sprintf(gTmpBuffer_67C598,
+                    sprintf(gTmpBuffer,
                             "%d: input num_items = %d dwOfs = %d; data = %d",
-                            gpRng_67AB34->get_cur_rng_41CFE0(),
+                            gpRng->get_cur_rng_41CFE0(),
                             padItems,
                             sGamePadDeviceData.dwOfs,
                             sGamePadDeviceData.dwData);
-                    gErrorLog_67C530.Write(gTmpBuffer_67C598);
+                    gErrorLog_67C530.Write(gTmpBuffer);
                 }
             }
             else
@@ -443,7 +443,7 @@ void InputDevices::read_input_device(s32* input_bits, bool bApplyKeyboardControl
                 return;
             }
 
-            if (!gHud_2B00_706620->IsInputKeyConsumed(sKeyboardDeviceData.dwOfs))
+            if (!gHud_2B00->IsInputKeyConsumed(sKeyboardDeviceData.dwOfs))
             {
                 // The pad fields are read directly: VC6 keeps them in edi/edx across the loop and
                 // reloads them after each set/clear call, as the original does
@@ -461,14 +461,14 @@ void InputDevices::read_input_device(s32* input_bits, bool bApplyKeyboardControl
                         {
                             if (bApplyKeyboardControls)
                             {
-                                gInputRecorder_67F8B0.set_input(input);
+                                gInputRecorder.set_input(input);
                             }
                         }
                         else
                         {
                             if (bApplyKeyboardControls)
                             {
-                                gInputRecorder_67F8B0.clear_input(input);
+                                gInputRecorder.clear_input(input);
                             }
                         }
                     }
@@ -514,7 +514,7 @@ void InputDevices::read_input_device(s32* input_bits, bool bApplyKeyboardControl
                                     {
                                         bPressed = true;
                                     }
-                                    else if (gInputRecorder_67F8B0.IsInputSet_44C050(input))
+                                    else if (gInputRecorder.IsInputSet_44C050(input))
                                     {
                                         bReleased = 1;
                                     }
@@ -527,7 +527,7 @@ void InputDevices::read_input_device(s32* input_bits, bool bApplyKeyboardControl
                                     {
                                         bPressed = true;
                                     }
-                                    else if (gInputRecorder_67F8B0.IsInputSet_44C050(input))
+                                    else if (gInputRecorder.IsInputSet_44C050(input))
                                     {
                                         bReleased = 1;
                                     }
@@ -560,14 +560,14 @@ void InputDevices::read_input_device(s32* input_bits, bool bApplyKeyboardControl
                             bHandled = true;
                             if (bApplyKeyboardControls)
                             {
-                                gInputRecorder_67F8B0.set_input(input);
+                                gInputRecorder.set_input(input);
                             }
                         }
                         else if (bReleased)
                         {
-                            if (bApplyKeyboardControls && gInputRecorder_67F8B0.IsInputSet_44C050(input))
+                            if (bApplyKeyboardControls && gInputRecorder.IsInputSet_44C050(input))
                             {
-                                gInputRecorder_67F8B0.clear_input(input);
+                                gInputRecorder.clear_input(input);
                             }
                             bHandled = true;
                         }
@@ -584,15 +584,15 @@ void InputDevices::read_input_device(s32* input_bits, bool bApplyKeyboardControl
             {
                 AddKeyToInputBits(input_bits, &sKeyboardDeviceData);
                 bFirstPass = false;
-                if (bLog_directinput_67D6C0)
+                if (bLog_directinput)
                 {
                     if (sKeyboardDeviceData.dwData & 0x80)
                     {
-                        sprintf(gTmpBuffer_67C598, "%d: KEY ON : %d", gpRng_67AB34->get_cur_rng_41CFE0(), sKeyboardDeviceData.dwOfs);
+                        sprintf(gTmpBuffer, "%d: KEY ON : %d", gpRng->get_cur_rng_41CFE0(), sKeyboardDeviceData.dwOfs);
                     }
                     else
                     {
-                        sprintf(gTmpBuffer_67C598, "%d: KEY OFF: %d", gpRng_67AB34->get_cur_rng_41CFE0(), sKeyboardDeviceData.dwOfs);
+                        sprintf(gTmpBuffer, "%d: KEY OFF: %d", gpRng->get_cur_rng_41CFE0(), sKeyboardDeviceData.dwOfs);
                     }
                 }
             }
@@ -605,7 +605,7 @@ void InputDevices::read_input_device(s32* input_bits, bool bApplyKeyboardControl
 MATCH_FUNC(0x4cdcd0)
 void InputRecorder_67F8B0::StaticShutdown()
 {
-    gInputRecorder_67F8B0.Shutdown();
+    gInputRecorder.Shutdown();
 }
 
 MATCH_FUNC(0x4cdce0)
@@ -647,7 +647,7 @@ bool InputRecorder_67F8B0::should_ignore_input(s32 dinput_key)
     return dinput_key == DIK_NUMPAD1 || dinput_key == DIK_NUMPAD2 || dinput_key == DIK_NUMPAD3 || dinput_key == DIK_NUMPAD4 ||
         dinput_key == DIK_NUMPAD5 || dinput_key == DIK_NUMPAD6 || dinput_key == DIK_NUMPAD7 || dinput_key == DIK_NUMPAD8 ||
         dinput_key == DIK_NUMPAD9 || dinput_key == DIK_MULTIPLY || dinput_key == DIK_SUBTRACT || dinput_key == DIK_ESCAPE ||
-        dinput_key == DIK_F6 || dinput_key == DIK_ADD || gHud_2B00_706620->IsQuitMessageInputKey(dinput_key);
+        dinput_key == DIK_F6 || dinput_key == DIK_ADD || gHud_2B00->IsQuitMessageInputKey(dinput_key);
 }
 
 MATCH_FUNC(0x4cddf0)
@@ -672,10 +672,10 @@ void InputRecorder_67F8B0::save_replay_record(u32 inputs)
         if (mRecBufIdx < k_max_records && mReplayState == Live_0)
         {
             mRecBuff[mRecBufIdx].mInputs = inputs;
-            mRecBuff[mRecBufIdx].mRngIdx = gpRng_67AB34->get_cur_rng_41CFE0();
-            mRecBuff[mRecBufIdx].mRngRnd = gpRng_67AB34->get_rnd_45F9E0();
+            mRecBuff[mRecBufIdx].mRngIdx = gpRng->get_cur_rng_41CFE0();
+            mRecBuff[mRecBufIdx].mRngRnd = gpRng->get_rnd_45F9E0();
 
-            if (bConstant_replay_save_67D5C4 == 1)
+            if (bConstant_replay_save == 1)
             {
                 const s32 rec_idx = this->mRecBufIdx;
                 u32 rec_len = sizeof(InputRecord);
@@ -690,7 +690,7 @@ void InputRecorder_67F8B0::save_replay_record(u32 inputs)
 MATCH_FUNC(0x4cded0)
 void InputRecorder_67F8B0::SaveReplay()
 {
-    if (bConstant_replay_save_67D5C4 != 1 && bDo_release_replay_67D4EB && mReplayState != Disabled_2 && mRecBufIdx > 0 &&
+    if (bConstant_replay_save != 1 && bDo_release_replay && mReplayState != Disabled_2 && mRecBufIdx > 0 &&
         !IsPlayingBack())
     {
         size_t len = sizeof(InputRecord) * mRecBufIdx;
@@ -731,7 +731,7 @@ void InputRecorder_67F8B0::AppendReplayHeader()
 
     memset(&header, 0, sizeof(header));
     DWORD computer_name_size = 29;
-    sprintf(header.mVersion, "v%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMinor_708284);
+    sprintf(header.mVersion, "v%d.%d", gGTA2VersionMajor, gGTA2VersionMinor);
 
     time_t now = time(NULL);
     char_type* pDate = ctime(&now);
@@ -739,10 +739,10 @@ void InputRecorder_67F8B0::AppendReplayHeader()
     sprintf(header.mDate, pDate);
 
     GetUserNameA(header.mComputerName, &computer_name_size);
-    strcpy(header.mMapName, gGameSession_67E8E0.GetMapName());
-    strcpy(header.mStyleName, gGameSession_67E8E0.GetStyleName());
-    strcpy(header.mScriptName, gGameSession_67E8E0.GetScriptName());
-    strcpy(header.mDebugStr, gGameSession_67E8E0.GetSaveFileName_4C5970());
+    strcpy(header.mMapName, gGameSession.GetMapName());
+    strcpy(header.mStyleName, gGameSession.GetStyleName());
+    strcpy(header.mScriptName, gGameSession.GetScriptName());
+    strcpy(header.mDebugStr, gGameSession.GetSaveFileName_4C5970());
 
     header.mVersion[7] = '\n';
     header.mDate[29] = '\n';
@@ -753,37 +753,37 @@ void InputRecorder_67F8B0::AppendReplayHeader()
     header.mDebugStr[39] = '\n';
     header.mFlags[39] = '\n';
 
-    header.mFlags[0] = bSkip_dummies_67D4EF ? '1' : '0';
-    header.mFlags[1] = bDo_test_67D4F8 ? '1' : '0';
-    header.mFlags[2] = bSkip_mission_67D4E5 ? '1' : '0';
-    header.mFlags[3] = bDo_brian_test_67D544 ? '1' : '0';
-    header.mFlags[4] = bDo_iain_test_67D4E9 ? '1' : '0';
-    header.mFlags[5] = bSkip_traffic_lights_67D4EC ? '1' : '0';
-    header.mFlags[6] = bSkip_recycling_67D575 ? '1' : '0';
-    header.mFlags[7] = bLimit_recycling_67D4CA ? '1' : '0';
-    header.mFlags[8] = bNo_annoying_chars_67D586 ? '1' : '0';
-    header.mFlags[9] = bDo_mike_67D5CC ? '1' : '0';
-    header.mFlags[10] = bDo_kill_phones_on_answer_67D6E8 ? '1' : '0';
-    header.mFlags[11] = bGet_all_weapons_67D684 ? '1' : '0';
-    header.mFlags[12] = bDont_get_car_back_67D4F5 ? '1' : '0';
-    header.mFlags[13] = bSkip_ambulance_67D6C9 ? '1' : '0';
-    header.mFlags[14] = bSkip_police_67D4F9 ? '1' : '0';
-    header.mFlags[15] = bDo_invulnerable_67D4CB ? '1' : '0';
-    header.mFlags[16] = bDo_free_shopping_67D6CD ? '1' : '0';
-    header.mFlags[17] = bKeep_weapons_after_death_67D54D ? '1' : '0';
-    header.mFlags[18] = bSkip_skidmarks_67D585 ? '1' : '0';
-    header.mFlags[19] = bExplodingScoresOff_67D4FB ? '1' : '0';
-    header.mFlags[20] = gDo_infinite_lives_67D4C9 ? '1' : '0';
-    header.mFlags[21] = bDo_blood_67D5C5 ? '1' : '0';
-    header.mFlags[22] = bDo_load_savegame_67D4F0 ? '1' : '0';
-    header.mFlags[23] = bSkip_audio_67D6BE ? '1' : '0';
-    header.mFlags[24] = bDo_debug_keys_67D6CF ? '1' : '0';
-    header.mFlags[25] = bSkip_trains_67D550 ? '1' : '0';
-    header.mFlags[26] = bSkip_buses_67D558 ? '1' : '0';
-    header.mFlags[27] = bSkip_fire_engines_67D53A ? '1' : '0';
-    header.mFlags[28] = bDo_police_1_67D568 ? '1' : '0';
-    header.mFlags[29] = bDo_police_2_67D569 ? '1' : '0';
-    header.mFlags[30] = bDo_police_3_67D56A ? '1' : '0';
+    header.mFlags[0] = bSkip_dummies ? '1' : '0';
+    header.mFlags[1] = bDo_test ? '1' : '0';
+    header.mFlags[2] = bSkip_mission ? '1' : '0';
+    header.mFlags[3] = bDo_brian_test ? '1' : '0';
+    header.mFlags[4] = bDo_iain_test ? '1' : '0';
+    header.mFlags[5] = bSkip_traffic_lights ? '1' : '0';
+    header.mFlags[6] = bSkip_recycling ? '1' : '0';
+    header.mFlags[7] = bLimit_recycling ? '1' : '0';
+    header.mFlags[8] = bNo_annoying_chars ? '1' : '0';
+    header.mFlags[9] = bDo_mike ? '1' : '0';
+    header.mFlags[10] = bDo_kill_phones_on_answer ? '1' : '0';
+    header.mFlags[11] = bGet_all_weapons ? '1' : '0';
+    header.mFlags[12] = bDont_get_car_back ? '1' : '0';
+    header.mFlags[13] = bSkip_ambulance ? '1' : '0';
+    header.mFlags[14] = bSkip_police ? '1' : '0';
+    header.mFlags[15] = bDo_invulnerable ? '1' : '0';
+    header.mFlags[16] = bDo_free_shopping ? '1' : '0';
+    header.mFlags[17] = bKeep_weapons_after_death ? '1' : '0';
+    header.mFlags[18] = bSkip_skidmarks ? '1' : '0';
+    header.mFlags[19] = bExplodingScoresOff ? '1' : '0';
+    header.mFlags[20] = gDo_infinite_lives ? '1' : '0';
+    header.mFlags[21] = bDo_blood ? '1' : '0';
+    header.mFlags[22] = bDo_load_savegame ? '1' : '0';
+    header.mFlags[23] = bSkip_audio ? '1' : '0';
+    header.mFlags[24] = bDo_debug_keys ? '1' : '0';
+    header.mFlags[25] = bSkip_trains ? '1' : '0';
+    header.mFlags[26] = bSkip_buses ? '1' : '0';
+    header.mFlags[27] = bSkip_fire_engines ? '1' : '0';
+    header.mFlags[28] = bDo_police_1 ? '1' : '0';
+    header.mFlags[29] = bDo_police_2 ? '1' : '0';
+    header.mFlags[30] = bDo_police_3 ? '1' : '0';
 
     size_t header_size = sizeof(header);
     File::AppendBufferToFile("test\\replay.rep", &header, &header_size);
@@ -796,49 +796,49 @@ void InputRecorder_67F8B0::LoadReplayHeader(bool bLoadDebug)
     ReplayHeader header;
     File::Global_Read_4A71C0(&header, header_size);
 
-    if (!bIgnore_replay_header_67D4F3)
+    if (!bIgnore_replay_header)
     {
         s32 major;
         s32 minor;
         sscanf(header.mVersion, "v%d.%d", &major, &minor);
-        gGameSession_67E8E0.SetMapName(header.mMapName);
-        gGameSession_67E8E0.SetStyleName(header.mStyleName);
-        gGameSession_67E8E0.SetScriptName(header.mScriptName);
-        gGameSession_67E8E0.SetSaveFileName(header.mDebugStr);
+        gGameSession.SetMapName(header.mMapName);
+        gGameSession.SetStyleName(header.mStyleName);
+        gGameSession.SetScriptName(header.mScriptName);
+        gGameSession.SetSaveFileName(header.mDebugStr);
 
         if (bLoadDebug)
         {
-        bSkip_dummies_67D4EF = header.mFlags[0] == '1';
-        bDo_test_67D4F8 = header.mFlags[1] == '1';
-        bSkip_mission_67D4E5 = header.mFlags[2] == '1';
-        bDo_brian_test_67D544 = header.mFlags[3] == '1';
-        bDo_iain_test_67D4E9 = header.mFlags[4] == '1';
-        bSkip_traffic_lights_67D4EC = header.mFlags[5] == '1';
-        bSkip_recycling_67D575 = header.mFlags[6] == '1';
-        bLimit_recycling_67D4CA = header.mFlags[7] == '1';
-        bNo_annoying_chars_67D586 = header.mFlags[8] == '1';
-        bDo_mike_67D5CC = header.mFlags[9] == '1';
-        bDo_kill_phones_on_answer_67D6E8 = header.mFlags[10] == '1';
-        bGet_all_weapons_67D684 = header.mFlags[11] == '1';
-        bDont_get_car_back_67D4F5 = header.mFlags[12] == '1';
-        bSkip_ambulance_67D6C9 = header.mFlags[13] == '1';
-        bSkip_police_67D4F9 = header.mFlags[14] == '1';
-        bDo_invulnerable_67D4CB = header.mFlags[15] == '1';
-        bDo_free_shopping_67D6CD = header.mFlags[16] == '1';
-        bKeep_weapons_after_death_67D54D = header.mFlags[17] == '1';
-        bSkip_skidmarks_67D585 = header.mFlags[18] == '1';
-        bExplodingScoresOff_67D4FB = header.mFlags[19] == '1';
-        gDo_infinite_lives_67D4C9 = header.mFlags[20] == '1';
-        bDo_blood_67D5C5 = header.mFlags[21] == '1';
-        bDo_load_savegame_67D4F0 = header.mFlags[22] == '1';
-        bSkip_audio_67D6BE = header.mFlags[23] == '1';
-        bDo_debug_keys_67D6CF = header.mFlags[24] == '1';
-        bSkip_trains_67D550 = header.mFlags[25] == '1';
-        bSkip_buses_67D558 = header.mFlags[26] == '1';
-        bSkip_fire_engines_67D53A = header.mFlags[27] == '1';
-        bDo_police_1_67D568 = header.mFlags[28] == '1';
-        bDo_police_2_67D569 = header.mFlags[29] == '1';
-        bDo_police_3_67D56A = header.mFlags[30] == '1';
+        bSkip_dummies = header.mFlags[0] == '1';
+        bDo_test = header.mFlags[1] == '1';
+        bSkip_mission = header.mFlags[2] == '1';
+        bDo_brian_test = header.mFlags[3] == '1';
+        bDo_iain_test = header.mFlags[4] == '1';
+        bSkip_traffic_lights = header.mFlags[5] == '1';
+        bSkip_recycling = header.mFlags[6] == '1';
+        bLimit_recycling = header.mFlags[7] == '1';
+        bNo_annoying_chars = header.mFlags[8] == '1';
+        bDo_mike = header.mFlags[9] == '1';
+        bDo_kill_phones_on_answer = header.mFlags[10] == '1';
+        bGet_all_weapons = header.mFlags[11] == '1';
+        bDont_get_car_back = header.mFlags[12] == '1';
+        bSkip_ambulance = header.mFlags[13] == '1';
+        bSkip_police = header.mFlags[14] == '1';
+        bDo_invulnerable = header.mFlags[15] == '1';
+        bDo_free_shopping = header.mFlags[16] == '1';
+        bKeep_weapons_after_death = header.mFlags[17] == '1';
+        bSkip_skidmarks = header.mFlags[18] == '1';
+        bExplodingScoresOff = header.mFlags[19] == '1';
+        gDo_infinite_lives = header.mFlags[20] == '1';
+        bDo_blood = header.mFlags[21] == '1';
+        bDo_load_savegame = header.mFlags[22] == '1';
+        bSkip_audio = header.mFlags[23] == '1';
+        bDo_debug_keys = header.mFlags[24] == '1';
+        bSkip_trains = header.mFlags[25] == '1';
+        bSkip_buses = header.mFlags[26] == '1';
+        bSkip_fire_engines = header.mFlags[27] == '1';
+        bDo_police_1 = header.mFlags[28] == '1';
+        bDo_police_2 = header.mFlags[29] == '1';
+        bDo_police_3 = header.mFlags[30] == '1';
         }
     }
 }
@@ -853,7 +853,7 @@ void InputRecorder_67F8B0::VerifyAttractFilesExist()
         long hFind = _findfirst(pAttractFile->mPath, &fileInfo);
         if (hFind == -1)
         {
-            strcpy(gErrStr_67C29C, pAttractFile->mPath);
+            strcpy(gErrStr, pAttractFile->mPath);
             FatalError_4A38C0(Gta2Error::CouldntFindAttractModeFile, "C:\\Splitting\\Gta2\\Source\\input.cpp", 524);
         }
         _findclose(hFind);
@@ -893,10 +893,10 @@ void InputRecorder_67F8B0::input_init_replay(HINSTANCE hInstance)
     this->mInputMasks[11] = input_bit::Special3;
     this->mInputBits = 0;
     this->mReplayState = Attract_3;
-    gInputDevices_67B990->input_devices_init(hInstance);
+    gInputDevices->input_devices_init(hInstance);
     memset(this->mRecBuff, 0, sizeof(this->mRecBuff));
     this->mRecBufIdx = 0;
-    bConstant_replay_save_67D5C4 = false;
+    bConstant_replay_save = false;
     File::Global_Open(FileName);
     LoadReplayHeader(false);
 
@@ -934,20 +934,20 @@ void InputRecorder_67F8B0::input_init_live(HINSTANCE hInstance)
     mInputBits = 0;
     mReplayState = Live_0;
 
-    gInputDevices_67B990 = new InputDevices();
-    if (!gInputDevices_67B990)
+    gInputDevices = new InputDevices();
+    if (!gInputDevices)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\input.cpp", 675);
     }
 
-    gInputDevices_67B990->input_devices_init(hInstance);
+    gInputDevices->input_devices_init(hInstance);
     memset(mRecBuff, 0, sizeof(mRecBuff));
 
     mRecBufIdx = 0;
 
-    if (bPlay_replay_67D4F4 == 1)
+    if (bPlay_replay == 1)
     {
-        bConstant_replay_save_67D5C4 = false;
+        bConstant_replay_save = false;
         File::Global_Open("test\\replay.rep");
         InputRecorder_67F8B0::LoadReplayHeader(true);
         u32 size = sizeof(mRecBuff);
@@ -962,18 +962,18 @@ void InputRecorder_67F8B0::input_init_live(HINSTANCE hInstance)
     }
     else
     {
-        if (bDo_release_replay_67D4EB)
+        if (bDo_release_replay)
         {
             File::CreateFile_4A7000("test\\replay.rep");
             InputRecorder_67F8B0::AppendReplayHeader();
         }
         mReplayState = Live_0;
     }
-    if (bConstant_replay_save_67D5C4)
+    if (bConstant_replay_save)
     {
-        if (bPlay_replay_67D4F4 == 1)
+        if (bPlay_replay == 1)
         {
-            if (bDo_release_replay_67D4EB)
+            if (bDo_release_replay)
             {
                 File::CreateFile_4A7000("test\\replay.rep");
                 InputRecorder_67F8B0::AppendReplayHeader();
@@ -988,9 +988,9 @@ void InputRecorder_67F8B0::Shutdown()
     if (!mbShutDown)
     {
         mbShutDown = true;
-        gInputDevices_67B990->free_input_devices();
+        gInputDevices->free_input_devices();
         SaveReplay();
-        GTA2_DELETE_AND_NULL(gInputDevices_67B990);
+        GTA2_DELETE_AND_NULL(gInputDevices);
     }
 }
 
@@ -1001,7 +1001,7 @@ void InputRecorder_67F8B0::replay_save(u32* input_bits)
     {
         mReplayState = Live_0;
 
-        if (bDo_release_replay_67D4EB)
+        if (bDo_release_replay)
         {
             File::CreateFile_4A7000("test\\replay.rep");
             AppendReplayHeader();
@@ -1011,7 +1011,7 @@ void InputRecorder_67F8B0::replay_save(u32* input_bits)
         memset(&this->mRecBuff[this->mRecBufIdx],
                0,
                sizeof(InputRecord) * ((GTA2_COUNTOF(mRecBuff) - mRecBufIdx)));
-        if (bConstant_replay_save_67D5C4)
+        if (bConstant_replay_save)
         {
             SaveReplay();
         }
@@ -1035,19 +1035,19 @@ u32 InputRecorder_67F8B0::get_input_bits()
     switch (replay_state)
     {
         case Playback_1:
-            if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0()) >= static_cast<u32>(mRecBuff[mRecBufIdx].mRngIdx))
+            if (static_cast<u32>(gpRng->get_cur_rng_41CFE0()) >= static_cast<u32>(mRecBuff[mRecBufIdx].mRngIdx))
             {
                 inputs = mRecBuff[mRecBufIdx].mInputs;
                 mRecBufIdx++;
                 if (mRecBufIdx >= static_cast<u32>(mUsedRecsCount))
                 {
-                    if (bDo_exit_after_replay_67D6E4)
+                    if (bDo_exit_after_replay)
                     {
-                        gGame_0x40_67E008->ExitGameNoBonus(0, GameExitType::CloseGameImmediately_1);
+                        gGame_0x40->ExitGameNoBonus(0, GameExitType::CloseGameImmediately_1);
                     }
                     else
                     {
-                        if (bDo_release_replay_67D4EB)
+                        if (bDo_release_replay)
                         {
                             File::CreateFile_4A7000("test\\replay.rep");
                             InputRecorder_67F8B0::AppendReplayHeader();
@@ -1073,7 +1073,7 @@ u32 InputRecorder_67F8B0::get_input_bits()
                 if ((saved_input & input_bit::KeyBits) == 0 || (*control_status & input_bit::KeyBits) == 0)
                 {
                     *control_status = 0;
-                    gInputDevices_67B990->read_input_device(reinterpret_cast<s32*>(control_status), false);
+                    gInputDevices->read_input_device(reinterpret_cast<s32*>(control_status), false);
                     *control_status |= saved_input;
                     InputRecorder_67F8B0::replay_save(control_status);
                 }
@@ -1081,13 +1081,13 @@ u32 InputRecorder_67F8B0::get_input_bits()
             break;
 
         case Attract_3:
-            if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0()) >= static_cast<u32>(mRecBuff[mRecBufIdx].mRngIdx))
+            if (static_cast<u32>(gpRng->get_cur_rng_41CFE0()) >= static_cast<u32>(mRecBuff[mRecBufIdx].mRngIdx))
             {
                 inputs = mRecBuff[mRecBufIdx].mInputs;
                 mRecBufIdx++;
                 if (mRecBufIdx >= static_cast<u32>(mUsedRecsCount))
                 {
-                    gGame_0x40_67E008->ExitGameNoBonus(0, GameExitType::ReplayExit_6);
+                    gGame_0x40->ExitGameNoBonus(0, GameExitType::ReplayExit_6);
                 }
 
                 if (mRecBufIdx < 2)
@@ -1107,10 +1107,10 @@ u32 InputRecorder_67F8B0::get_input_bits()
                 if ((saved_input & input_bit::KeyBits) == 0 || (*control_status & input_bit::KeyBits) == 0)
                 {
                     *control_status = 0;
-                    gInputDevices_67B990->read_input_device(reinterpret_cast<s32*>(control_status), false);
+                    gInputDevices->read_input_device(reinterpret_cast<s32*>(control_status), false);
                     if ((*control_status & 0xFFFFF000) != 0)
                     {
-                        gGame_0x40_67E008->ExitGameNoBonus(0, GameExitType::ReplayExit_6);
+                        gGame_0x40->ExitGameNoBonus(0, GameExitType::ReplayExit_6);
                     }
                     *control_status |= saved_input;
                     InputRecorder_67F8B0::replay_save(control_status);
@@ -1121,14 +1121,14 @@ u32 InputRecorder_67F8B0::get_input_bits()
         case Live_0:
             if (mbInputEnabled)
             {
-                if (!gGame_0x40_67E008->IsPaused_416BC0())
+                if (!gGame_0x40->IsPaused_416BC0())
                 {
-                    gInputDevices_67B990->read_input_device(reinterpret_cast<s32*>(control_status), true);
+                    gInputDevices->read_input_device(reinterpret_cast<s32*>(control_status), true);
                     InputRecorder_67F8B0::save_replay_inputs(*control_status, saved_input);
                 }
                 else
                 {
-                    gInputDevices_67B990->read_input_device(reinterpret_cast<s32*>(control_status), false);
+                    gInputDevices->read_input_device(reinterpret_cast<s32*>(control_status), false);
                     if (InputRecorder_67F8B0::should_record_input((static_cast<u32>(*control_status) >> input_bit::KeyShift) & input_bit::KeyMask))
                     {
                         *control_status = remove_bit;
@@ -1139,12 +1139,12 @@ u32 InputRecorder_67F8B0::get_input_bits()
             break;
     }
 
-    if (bLog_input_67D4CC)
+    if (bLog_input)
     {
         if (*control_status != saved_input)
         {
-            sprintf(gTmpBuffer_67C598, "%d: control_status = %d", gpRng_67AB34->get_cur_rng_41CFE0(), *control_status);
-            gErrorLog_67C530.Write(gTmpBuffer_67C598);
+            sprintf(gTmpBuffer, "%d: control_status = %d", gpRng->get_cur_rng_41CFE0(), *control_status);
+            gErrorLog_67C530.Write(gTmpBuffer);
         }
     }
     return *control_status;
@@ -1224,8 +1224,8 @@ void InputRecorder_67F8B0::DisplayInputBits()
     {
         if (((1 << bit_idx) & mInputBits) != 0)
         {
-            swprintf(tmpBuff_67BD9C, L"Control %d", bit_idx);
-            gHud_2B00_706620->mTexts.DisplayText(tmpBuff_67BD9C, 10, 16 * (i + 1), gDebugFont_706600, 1);
+            swprintf(tmpBuff, L"Control %d", bit_idx);
+            gHud_2B00->mTexts.DisplayText(tmpBuff, 10, 16 * (i + 1), gDebugFont, 1);
         }
         ++i;
         ++bit_idx;
@@ -1247,11 +1247,11 @@ void InputRecorder_67F8B0::ShowInput()
 {
     if (IsPlayingBack())
     {
-        gHud_2B00_706620->mTexts.DisplayText(L"PLAYBACK", -1, 0, gDebugFont_706600, 1);
+        gHud_2B00->mTexts.DisplayText(L"PLAYBACK", -1, 0, gDebugFont, 1);
     }
     else
     {
-        gHud_2B00_706620->mTexts.DisplayText(L"RECORDING", -1, 0, gDebugFont_706600, 1);
+        gHud_2B00->mTexts.DisplayText(L"RECORDING", -1, 0, gDebugFont, 1);
     }
     DisplayInputBits();
 }

@@ -73,4 +73,4 @@ class CarChaseTaskTable
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarChaseTaskTable, 0x500);
 
-EXTERN_GLOBAL(CarChaseTaskTable*, gCarChaseTaskTable_678E30);
+EXTERN_GLOBAL(CarChaseTaskTable*, gCarChaseTaskTable);

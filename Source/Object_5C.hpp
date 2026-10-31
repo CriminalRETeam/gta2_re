@@ -9,8 +9,8 @@
 #include "fix16.hpp"
 #include "sprite.hpp"
 
-EXTERN_GLOBAL(Fix16_Point, gZeroVector_6F8EF0);
-EXTERN_GLOBAL(s32, gObj2C_id_623EC0);
+EXTERN_GLOBAL(Fix16_Point, gZeroVector);
+EXTERN_GLOBAL(s32, gObj2C_id);
 
 EXPORT void __stdcall UnpackSignedNibbles(u8 packed, s8* pX, s8* pY);
 
@@ -142,7 +142,7 @@ class Object
         {
             return mObj3c->GetSpeedVector_482BA0();
         }
-        return gZeroVector_6F8EF0;
+        return gZeroVector;
     }
 
     EXPORT void SetSpriteIdxOffset(u8 offset);
@@ -273,7 +273,7 @@ class Object
     // 9.6f 0x482490
     inline void PoolAllocate()
     {
-        mId = gObj2C_id_623EC0++;
+        mId = gObj2C_id++;
         mRemovalState = object_removal_state::none_0;
         mPedRefIdx = 99;
         mObj3c = NULL;
@@ -450,4 +450,4 @@ class Object_5C
     Sprite* mCollisionProbeSprite; // 0x58
 };
 
-EXTERN_GLOBAL(Object_5C*, gObject_5C_6F8F84);
+EXTERN_GLOBAL(Object_5C*, gObject_5C);

@@ -31,13 +31,13 @@ class rng
     EXPORT u8 get_uint8(const u8& max_rnd);
     EXPORT s32 rand_4F7C00();
 
-    // Two uses, one per instance: on gpRng_67AB34 the game's tick counter (AdvanceCycle adds one per tick, ShowCycle
+    // Two uses, one per instance: on gpRng the game's tick counter (AdvanceCycle adds one per tick, ShowCycle
     // shows it), which timers are stamped with (CarPhysics::mDamagedUntilCycle, Ped::mLastVoiceRng); on
-    // gRng_6F6784 the last number get_int / get_uint8 drew while bLog_random_67D5FC is set
+    // gRng the last number get_int / get_uint8 drew while bLog_random is set
     s32 mRng; // 0x0
     s32 mRnd; // 0x4
 };
 
-EXTERN_GLOBAL(rng*, gpRng_67AB34);
+EXTERN_GLOBAL(rng*, gpRng);
 
-EXTERN_GLOBAL(rng, gRng_6F6784);
+EXTERN_GLOBAL(rng, gRng);

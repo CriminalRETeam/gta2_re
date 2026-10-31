@@ -9,7 +9,7 @@
 #include "PedGroup.hpp"
 #include "Player.hpp"
 
-DEFINE_GLOBAL(MissionCleanupList*, gMiss2_25C_6F805C, 0x6F805C);
+DEFINE_GLOBAL(MissionCleanupList*, gMiss2_25C, 0x6F805C);
 
 MATCH_FUNC(0x502d90)
 MissionCleanupList::MissionCleanupList() throw()

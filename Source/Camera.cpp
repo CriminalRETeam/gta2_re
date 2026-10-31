@@ -20,7 +20,7 @@ EXPORT void __stdcall SmoothApproachClamped(Fix16* target_coord,
                                                    Fix16* velocity_3,
                                                    Fix16* max_neg_velocity);
 
-DEFINE_GLOBAL(Camera*, gViewCamera_676978, 0x676978);
+DEFINE_GLOBAL(Camera*, gViewCamera, 0x676978);
 DEFINE_GLOBAL_INIT(Fix16, kFpEight_676840, Fix16(8), 0x676840);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_67671C, Fix16(0x2000, 0), 0x67671C);
 DEFINE_GLOBAL_INIT(Fix16, kZero_676818, Fix16(0), 0x676818);
@@ -30,8 +30,8 @@ DEFINE_GLOBAL_INIT(Fix16, kFpFive_67682C, Fix16(5), 0x67682C);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kInitialPanSpeed, kFpFive_67682C, 0x6766E4);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kMaxPanY, Fix16(220), 0x6768F0);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kPanAcceleration, kFpFive_67682C, 0x676910);
-DEFINE_GLOBAL_INIT(Fix16, kMaxTgtElevation_676894, Fix16(20), 0x676894);
-DEFINE_STATIC_GLOBAL_INIT(Fix16, kMaxPanSpeed, kMaxTgtElevation_676894, 0x676608);
+DEFINE_GLOBAL_INIT(Fix16, kMaxTgtElevation, Fix16(20), 0x676894);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kMaxPanSpeed, kMaxTgtElevation, 0x676608);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kMaxPanX, Fix16(300), 0x6768C0);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6767D0, Fix16(256, 0), 0x6767D0);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_676664, Fix16(1638, 0), 0x676664);
@@ -63,7 +63,7 @@ DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint2, kFpPoint2_67666C, 0x676694);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint8, Fix16(0x3333, 0), 0x676684);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpSixteen_6768B4, Fix16(16), 0x6768B4);
-DEFINE_GLOBAL_INIT(Fix16, kFpSixtyFour_6768E4, Fix16(64), 0x6768E4);
+DEFINE_GLOBAL_INIT(Fix16, kFpSixtyFour, Fix16(64), 0x6768E4);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpHalf, kFpHalf_676678, 0x676900);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpSixteen, kFpSixteen_6768B4, 0x67696C);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpOneAndHalf, kOne_67681C + kFpHalf_676678, 0x67674C);
@@ -168,7 +168,7 @@ void Camera::SavePrevCamPos()
 MATCH_FUNC(0x4357F0)
 void Camera::IncreaseElevation()
 {
-    if (mTargetElevation < kMaxTgtElevation_676894)
+    if (mTargetElevation < kMaxTgtElevation)
     {
         mTargetElevation += kFpHalf_676678;
     }
@@ -338,7 +338,7 @@ void Camera::ApplyCarVelocityCameraOffset(Car* pCar, Fix16* pOutX, Fix16* pOutY,
                 Fix16 suspicion;
                 if (this->mSuspicion > 64u)
                 {
-                    suspicion = kFpSixtyFour_6768E4;
+                    suspicion = kFpSixtyFour;
                 }
                 else
                 {
@@ -477,8 +477,8 @@ MATCH_FUNC(0x435F90)
 void Camera::AccumulateSuspicionOnDriver(Car* pCar)
 {
     if (pCar->mDriver &&
-        (gPolice_7B8_6FEE40->IsActivelyChased(pCar->mDriver) ||
-         gCarChaseTaskTable_678E30->HasAnyPursuer(pCar->mDriver)))
+        (gPolice_7B8->IsActivelyChased(pCar->mDriver) ||
+         gCarChaseTaskTable->HasAnyPursuer(pCar->mDriver)))
     {
         mSuspicion++;
         if (mSuspicion > 80u)

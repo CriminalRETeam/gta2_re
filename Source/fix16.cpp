@@ -4,11 +4,11 @@
 #include "ang16.hpp"
 #include <cmath>
 
-DEFINE_GLOBAL_ARRAY(Fix16, gSin_table_667A80, 1440, 0x667A80);
-DEFINE_GLOBAL_ARRAY(Fix16, gCos_table_669260, 1440, 0x669260);
+DEFINE_GLOBAL_ARRAY(Fix16, gSin_table, 1440, 0x667A80);
+DEFINE_GLOBAL_ARRAY(Fix16, gCos_table, 1440, 0x669260);
 
-DEFINE_GLOBAL_ARRAY(Fix16, gTanTable_6663C8, 1440, 0x6663C8);
-DEFINE_GLOBAL_INIT(Fix16, kFPZero_6691B0, Fix16(0), 0x6691B0);
+DEFINE_GLOBAL_ARRAY(Fix16, gTanTable, 1440, 0x6663C8);
+DEFINE_GLOBAL_INIT(Fix16, kFPZero, Fix16(0), 0x6691B0);
 DEFINE_STATIC_GLOBAL_INIT(Ang16, kAngZero, Ang16(0), 0x66A920);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_669156, Ang16(720), 0x669156);
 DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng90, Ang16(360), 0x667A7C);
@@ -129,9 +129,9 @@ MATCH_FUNC(0x405320)
 Ang16 __stdcall Fix16::atan2_fixed(Fix16& y, Fix16& x)
 {
     Ang16 table_angle;
-    if (x == kFPZero_6691B0)
+    if (x == kFPZero)
     {
-        if (y >= kFPZero_6691B0)
+        if (y >= kFPZero)
         {
             return kAngZero;
         }
@@ -140,9 +140,9 @@ Ang16 __stdcall Fix16::atan2_fixed(Fix16& y, Fix16& x)
             return kAng180_669156;
         }
     }
-    else if (y == kFPZero_6691B0)
+    else if (y == kFPZero)
     {
-        if (x > kFPZero_6691B0)
+        if (x > kFPZero)
         {
             return kAng90;
         }
@@ -155,9 +155,9 @@ Ang16 __stdcall Fix16::atan2_fixed(Fix16& y, Fix16& x)
     {
         table_angle = ArcTanLookup(Fix16::Abs(y / x));
 
-        if (y > kFPZero_6691B0)
+        if (y > kFPZero)
         {
-            if (x > kFPZero_6691B0)
+            if (x > kFPZero)
             {
                 return kAng90 - table_angle;
             }
@@ -175,7 +175,7 @@ Ang16 __stdcall Fix16::atan2_fixed(Fix16& y, Fix16& x)
         }
         else
         {
-            if (x > kFPZero_6691B0)
+            if (x > kFPZero)
             {
                 return kAng90 + table_angle;
             }
@@ -203,7 +203,7 @@ EXPORT bool __stdcall IntervalIntersectsRange(const Fix16& intervalStart,
     }
 }
 
-EXTERN_GLOBAL(Fix16, kFPZero_6691B0);
+EXTERN_GLOBAL(Fix16, kFPZero);
 EXTERN_GLOBAL(Fix16, kAngFix16FullCircle_66A8E4);
 EXTERN_GLOBAL(Fix16, kAngFix16HalfCircle_6691EC);
 
@@ -222,14 +222,14 @@ EXPORT Fix16 __stdcall TurnAngleToward(Fix16 cur, const Fix16* pTarget, const Fi
     }
 
     Fix16 diff = *pTarget - cur;
-    if (diff > kFPZero_6691B0)
+    if (diff > kFPZero)
     {
         if (diff > *pSpeed)
         {
             diff = *pSpeed;
         }
     }
-    else if (diff < kFPZero_6691B0)
+    else if (diff < kFPZero)
     {
         if (diff < -*pSpeed)
         {
@@ -238,7 +238,7 @@ EXPORT Fix16 __stdcall TurnAngleToward(Fix16 cur, const Fix16* pTarget, const Fi
     }
 
     Fix16 result = diff + cur;
-    for (; result < kFPZero_6691B0; result += kAngFix16FullCircle_66A8E4)
+    for (; result < kFPZero; result += kAngFix16FullCircle_66A8E4)
     {
         ;
     }
@@ -341,7 +341,7 @@ struct SinTableInit
     SinTableInit()
     {
         s32 arg = 0;
-        Fix16* pSin = gSin_table_667A80;
+        Fix16* pSin = gSin_table;
         for (s32 i = 1440; i != 0; i--)
         {
             f64 radians = arg * 3.141592654;
@@ -358,7 +358,7 @@ struct CosTableInit
     CosTableInit()
     {
         s32 arg = 0;
-        Fix16* pCos = gCos_table_669260;
+        Fix16* pCos = gCos_table;
         for (s32 i = 1440; i != 0; i--)
         {
             f64 radians = arg * 3.141592654;
@@ -374,7 +374,7 @@ MATCH_FUNC(0x4052D0)
 EXPORT void __stdcall arc_tan_table_init()
 {
     s32 arg = 0;
-    Fix16* pTan = gTanTable_6663C8;
+    Fix16* pTan = gTanTable;
     for (s32 i = 1440; i != 0; i--)
     {
         f64 radians = arg * 3.141592654;
@@ -404,7 +404,7 @@ EXPORT Ang16 __stdcall ArcTanLookup(const Fix16& targetTan)
     while (true)
     {
         s16 mid = (low + high) >> 1;
-        Fix16 tanAtMid = gTanTable_6663C8[mid];
+        Fix16 tanAtMid = gTanTable[mid];
 
         // Binary search: go left if target < tanAtMid,
         // go right if target > tanAtMid,
@@ -427,7 +427,7 @@ EXPORT Ang16 __stdcall ArcTanLookup(const Fix16& targetTan)
             // Lower bound case
             if (mid == (0 + 1))
             {
-                if (targetTan < gTanTable_6663C8[0 + 1])
+                if (targetTan < gTanTable[0 + 1])
                 {
                     mid = 0;
                 }
@@ -435,7 +435,7 @@ EXPORT Ang16 __stdcall ArcTanLookup(const Fix16& targetTan)
             // Upper bound case
             else if (mid == (360 - 1))
             {
-                if (targetTan > gTanTable_6663C8[360 - 1])
+                if (targetTan > gTanTable[360 - 1])
                 {
                     mid = 360;
                 }

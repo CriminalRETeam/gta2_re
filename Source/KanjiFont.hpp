@@ -61,4 +61,4 @@ class KanjiFont
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(KanjiFont, 0x8EC);
 
-EXTERN_GLOBAL(KanjiFont*, gKanjiFont_6F5168);
+EXTERN_GLOBAL(KanjiFont*, gKanjiFont);

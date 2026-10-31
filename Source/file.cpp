@@ -9,9 +9,9 @@
 #include "enums.hpp"
 
 DEFINE_STATIC_MEMBER(s32, File, sbGlobalFileOpen, 0x67D160);
-DEFINE_GLOBAL(FILE*, ghFile_67CFEC, 0x67CFEC);
-DEFINE_GLOBAL_INIT(u16, gCdCheckFileCount_6252E0, 22, 0x6252E0);
-DEFINE_GLOBAL_ARRAY_INIT(CdCheckFile, gCdCheckFiles_6252E8, 22, 0x6252E8, {"GTAudio\\1.wav" COMMA 31971388u} COMMA {"GTAudio\\10.wav" COMMA 15985724u} COMMA {"GTAudio\\101A.wav" COMMA 9838652u} COMMA {"GTAudio\\10a.wav" COMMA 7992892u} COMMA {"GTAudio\\11.wav" COMMA 15985724u} COMMA {"GTAudio\\11a.wav" COMMA 7992892u} COMMA {"GTAudio\\12.wav" COMMA 16932924u} COMMA {"GTAudio\\2.wav" COMMA 15985724u} COMMA {"GTAudio\\3.wav" COMMA 15985724u} COMMA {"GTAudio\\4.wav" COMMA 15985724u} COMMA {"GTAudio\\5.wav" COMMA 15985724u} COMMA {"GTAudio\\5a.wav" COMMA 7992892u} COMMA {"GTAudio\\6.wav" COMMA 15985724u} COMMA {"GTAudio\\6a.wav" COMMA 7992892u} COMMA {"GTAudio\\7.wav" COMMA 16003132u} COMMA {"GTAudio\\7a.wav" COMMA 7992892u} COMMA {"GTAudio\\8.wav" COMMA 15985724u} COMMA {"GTAudio\\8a.wav" COMMA 7992892u} COMMA {"GTAudio\\9.wav" COMMA 15985724u} COMMA {"GTAudio\\9a.wav" COMMA 7992892u} COMMA {"GTAudio\\A.wav" COMMA 23026196u} COMMA {"GTAudio\\D.wav" COMMA 6532888u});
+DEFINE_GLOBAL(FILE*, ghFile, 0x67CFEC);
+DEFINE_GLOBAL_INIT(u16, gCdCheckFileCount, 22, 0x6252E0);
+DEFINE_GLOBAL_ARRAY_INIT(CdCheckFile, gCdCheckFiles, 22, 0x6252E8, {"GTAudio\\1.wav" COMMA 31971388u} COMMA {"GTAudio\\10.wav" COMMA 15985724u} COMMA {"GTAudio\\101A.wav" COMMA 9838652u} COMMA {"GTAudio\\10a.wav" COMMA 7992892u} COMMA {"GTAudio\\11.wav" COMMA 15985724u} COMMA {"GTAudio\\11a.wav" COMMA 7992892u} COMMA {"GTAudio\\12.wav" COMMA 16932924u} COMMA {"GTAudio\\2.wav" COMMA 15985724u} COMMA {"GTAudio\\3.wav" COMMA 15985724u} COMMA {"GTAudio\\4.wav" COMMA 15985724u} COMMA {"GTAudio\\5.wav" COMMA 15985724u} COMMA {"GTAudio\\5a.wav" COMMA 7992892u} COMMA {"GTAudio\\6.wav" COMMA 15985724u} COMMA {"GTAudio\\6a.wav" COMMA 7992892u} COMMA {"GTAudio\\7.wav" COMMA 16003132u} COMMA {"GTAudio\\7a.wav" COMMA 7992892u} COMMA {"GTAudio\\8.wav" COMMA 15985724u} COMMA {"GTAudio\\8a.wav" COMMA 7992892u} COMMA {"GTAudio\\9.wav" COMMA 15985724u} COMMA {"GTAudio\\9a.wav" COMMA 7992892u} COMMA {"GTAudio\\A.wav" COMMA 23026196u} COMMA {"GTAudio\\D.wav" COMMA 6532888u});
 
 MATCH_FUNC(0x4A6B10)
 s32 __stdcall File::GetFileSize(FILE* Stream)
@@ -44,9 +44,9 @@ s32 __stdcall File::GetFileSize(FILE* Stream)
 MATCH_FUNC(0x4A6BB0)
 bool __stdcall File::IsCdRomDrive(char_type driveLetter)
 {
-    sprintf(gTmpBuffer_67C598, "%c:", driveLetter);
+    sprintf(gTmpBuffer, "%c:", driveLetter);
     // Silly return structure but needed to match (and somehow produces less code)
-    if (GetDriveTypeA(gTmpBuffer_67C598) == DRIVE_CDROM)
+    if (GetDriveTypeA(gTmpBuffer) == DRIVE_CDROM)
     {
         return true;
     }
@@ -247,8 +247,8 @@ void __stdcall File::Global_Open(const char_type* FileName)
 
     Error_SetName(FileName);
 
-    ghFile_67CFEC = crt::fopen(FileName, "rb");
-    if (!ghFile_67CFEC)
+    ghFile = crt::fopen(FileName, "rb");
+    if (!ghFile)
     {
         FatalError_4A38C0(Gta2Error::FileOpenError, "C:\\Splitting\\Gta2\\Source\\File.cpp", 323);
     }
@@ -261,7 +261,7 @@ void __stdcall File::Global_Close()
 {
     if (sbGlobalFileOpen)
     {
-        s32 close_result = crt::fclose(ghFile_67CFEC);
+        s32 close_result = crt::fclose(ghFile);
         sbGlobalFileOpen = 0;
         if (close_result)
         {
@@ -275,7 +275,7 @@ void __stdcall File::Global_Close_UnChecked()
 {
     if (sbGlobalFileOpen)
     {
-        crt::fclose(ghFile_67CFEC);
+        crt::fclose(ghFile);
         sbGlobalFileOpen = 0;
     }
 }
@@ -288,7 +288,7 @@ void __stdcall File::Global_Seek(u32* pOffset)
         FatalError_4A38C0(Gta2Error::FileReadingNotOpenedFile, "C:\\Splitting\\Gta2\\Source\\File.cpp", 416);
     }
 
-    if (crt::fseek(ghFile_67CFEC, *pOffset, SEEK_CUR))
+    if (crt::fseek(ghFile, *pOffset, SEEK_CUR))
     {
         File_Error(Gta2Error::FseekError, 0, 0);
     }
@@ -309,7 +309,7 @@ void __stdcall File::Global_Read_4A71C0(void* pBuffer, const u32& bufferSize)
         FatalError_4A38C0(Gta2Error::FileReadingNotOpenedFile, "C:\\Splitting\\Gta2\\Source\\File.cpp", 438);
     }
 
-    if (Read(pBuffer, bufferSize, 1u, ghFile_67CFEC) != 1)
+    if (Read(pBuffer, bufferSize, 1u, ghFile) != 1)
     {
         File_Error(Gta2Error::FileReadFailure, 0, 0);
     }
@@ -322,7 +322,7 @@ bool __stdcall File::Global_Read_4A7210(void* Buffer, u32* pSize)
     {
         FatalError_4A38C0(Gta2Error::FileReadingNotOpenedFile, "C:\\Splitting\\Gta2\\Source\\File.cpp", 460);
     }
-    return (Read(Buffer, *pSize, 1u, ghFile_67CFEC) == 1) ? true : false;
+    return (Read(Buffer, *pSize, 1u, ghFile) == 1) ? true : false;
 }
 
 MATCH_FUNC(0x4A7250)
@@ -333,24 +333,24 @@ size_t __stdcall File::Global_ReadRemainder(void* Buffer, u32* pMaxFileSize)
         FatalError_4A38C0(Gta2Error::FileReadingNotOpenedFile, "C:\\Splitting\\Gta2\\Source\\File.cpp", 487);
     }
 
-    s32 curPos = crt::ftell(ghFile_67CFEC);
+    s32 curPos = crt::ftell(ghFile);
     if (curPos == -1)
     {
         File_Error(Gta2Error::FtellError, 0, 0);
     }
 
-    if (crt::fseek(ghFile_67CFEC, 0, SEEK_END))
+    if (crt::fseek(ghFile, 0, SEEK_END))
     {
         File_Error(Gta2Error::FseekError, 0, 0);
     }
 
-    s32 endPos = crt::ftell(ghFile_67CFEC);
+    s32 endPos = crt::ftell(ghFile);
     if (endPos == -1)
     {
         File_Error(Gta2Error::FtellError, 0, 0);
     }
 
-    if (crt::fseek(ghFile_67CFEC, curPos, SEEK_SET))
+    if (crt::fseek(ghFile, curPos, SEEK_SET))
     {
         File_Error(Gta2Error::FseekError, 0, 0);
     }
@@ -361,7 +361,7 @@ size_t __stdcall File::Global_ReadRemainder(void* Buffer, u32* pMaxFileSize)
         File_Error(Gta2Error::FileTooLarge, remainderSize - *pMaxFileSize, 0);
     }
 
-    if (Read(Buffer, remainderSize, 1u, ghFile_67CFEC) != 1)
+    if (Read(Buffer, remainderSize, 1u, ghFile) != 1)
     {
         File_Error(Gta2Error::FileReadFailure, 0, 0);
     }

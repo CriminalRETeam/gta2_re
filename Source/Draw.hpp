@@ -65,13 +65,13 @@ EXPORT void __stdcall DrawTextureScaled(STexture* pTexture, Fix16 x_pos, Fix16 y
 // 9.6f 0x4539B0, the inlined copy of GetLineSpacingFromFontType
 inline s32 __stdcall GetLineSpacingFromFontType_5D7700_inlined(u16 font_type)
 {
-    return static_cast<u16>(gGtx_0x106C_703DD4->GetLineSpacing(&font_type));
+    return static_cast<u16>(gGtx_0x106C->GetLineSpacing(&font_type));
 }
 
 // 9.6f 0x4539D0
 inline s32 __stdcall GetCharWidth_4539D0(u16 font_type, wchar_t chr)
 {
-    return static_cast<u16>(gGtx_0x106C_703DD4->GetFontWidth(&font_type, &chr));
+    return static_cast<u16>(gGtx_0x106C->GetFontWidth(&font_type, &chr));
 }
 
 EXPORT s32 __stdcall CountLineSpacing(const wchar_t* pStr, u16 font_type);
