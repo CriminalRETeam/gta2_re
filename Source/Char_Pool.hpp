@@ -80,6 +80,11 @@ class PedManager
     EXPORT void SpawnDummies_46EB60(Camera* pCam);
 
   public:
+    STATIC_MEMBER(u8, sSpawnSideLocked);
+    STATIC_MEMBER(u8, sSpawnCountLimit);
+    STATIC_MEMBER(s8, sSpawnSide);
+    STATIC_MEMBER(s8, sSpawnIndex);
+    STATIC_MEMBER(u16, sPedsServiceTickCount);
     EXPORT void PedsService_4703F0();
     EXPORT PedManager();
     EXPORT ~PedManager();

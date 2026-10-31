@@ -52,18 +52,18 @@ DEFINE_GLOBAL(PedPool*, gPedPool_6787B8, 0x6787B8);
 DEFINE_GLOBAL(CharPool*, gChar_B4_Pool_6FDB44, 0x6FDB44);
 DEFINE_GLOBAL(PedListNodePool*, gChar_8_Pool_678b50, 0x678b50);
 
-DEFINE_GLOBAL(u16, gPedsServiceTickCount_6787F0, 0x6787F0);
+DEFINE_STATIC_MEMBER(u16, PedManager, sPedsServiceTickCount, 0x6787F0);
 DEFINE_GLOBAL_INIT(u8, gPathStepSlotFree_61A8A1, 1, 0x61A8A1);
 DEFINE_GLOBAL_INIT(u8, gLosCheckSlotFree_61A8A2, 1, 0x61A8A2);
 DEFINE_GLOBAL(u8, gNumPolicePedsInRangeScreen_6787EE, 0x6787EE);
 DEFINE_GLOBAL(u8, bThreateningPedAdded_6787EF, 0x6787EF);
 DEFINE_GLOBAL(u8, bHaveThreateningPeds_6787DA, 0x6787DA);
 
-DEFINE_GLOBAL(u8, spawnSideLocked_6787D5, 0x6787D5);
-DEFINE_GLOBAL(u8, spawnCountLimit_6787D6, 0x6787D6);
+DEFINE_STATIC_MEMBER(u8, PedManager, sSpawnSideLocked, 0x6787D5);
+DEFINE_STATIC_MEMBER(u8, PedManager, sSpawnCountLimit, 0x6787D6);
 DEFINE_STATIC_GLOBAL_INIT(Ang16, sCameraFacingAng, Ang16(0), 0x678760);
-DEFINE_GLOBAL(s8, gSpawnSide_6787C8, 0x6787C8);
-DEFINE_GLOBAL(s8, gSpawnIndex_6787C9, 0x6787C9);
+DEFINE_STATIC_MEMBER(s8, PedManager, sSpawnSide, 0x6787C8);
+DEFINE_STATIC_MEMBER(s8, PedManager, sSpawnIndex, 0x6787C9);
 
 EXTERN_GLOBAL(Fix16, gDummyW_678530);
 EXTERN_GLOBAL(Fix16, gDummyZ_67841C);
@@ -481,28 +481,28 @@ void PedManager::SpawnDummies_46EB60(Camera* pCam)
 
     s16 bound_max = 0;
 
-    if (spawnSideLocked_6787D5)
+    if (sSpawnSideLocked)
     {
         switch (Ang16::GetAngleFace_4F78F0(sCameraFacingAng))
         {
             case 1:
-                gSpawnSide_6787C8 = 1;
+                sSpawnSide = 1;
                 break;
             case 3:
-                gSpawnSide_6787C8 = 2;
+                sSpawnSide = 2;
                 break;
             case 2:
-                gSpawnSide_6787C8 = 3;
+                sSpawnSide = 3;
                 break;
             case 4:
-                gSpawnSide_6787C8 = 0;
+                sSpawnSide = 0;
                 break;
         }
     }
 
-    for (u8 i = 0; i < spawnCountLimit_6787D6; i++)
+    for (u8 i = 0; i < sSpawnCountLimit; i++)
     {
-        switch (gSpawnSide_6787C8)
+        switch (sSpawnSide)
         {
             case 0:
             case 2:
@@ -514,41 +514,41 @@ void PedManager::SpawnDummies_46EB60(Camera* pCam)
                 break;
         }
 
-        if (gSpawnIndex_6787C9 > bound_max)
+        if (sSpawnIndex > bound_max)
         {
-            gSpawnIndex_6787C9 = 0;
-            if (!spawnSideLocked_6787D5)
+            sSpawnIndex = 0;
+            if (!sSpawnSideLocked)
             {
-                if (++gSpawnSide_6787C8 > 3)
+                if (++sSpawnSide > 3)
                 {
-                    gSpawnSide_6787C8 = 0;
+                    sSpawnSide = 0;
                 }
             }
         }
 
-        switch (gSpawnSide_6787C8)
+        switch (sSpawnSide)
         {
             case 0:
                 xpos = Fix16(tileLeft);
-                ypos = Fix16(tileTop + gSpawnIndex_6787C9);
+                ypos = Fix16(tileTop + sSpawnIndex);
                 rotation = gSpawnRotationLeft_6786E0;
                 break;
 
             case 1:
                 ypos = Fix16(tileTop);
-                xpos = Fix16(tileLeft + gSpawnIndex_6787C9);
+                xpos = Fix16(tileLeft + sSpawnIndex);
                 rotation = gSpawnRotationTop_6787B0;
                 break;
 
             case 2:
                 xpos = Fix16(tileRight);
-                ypos = Fix16(tileTop + gSpawnIndex_6787C9);
+                ypos = Fix16(tileTop + sSpawnIndex);
                 rotation = gSpawnRotationRight_678578;
                 break;
 
             case 3:
                 ypos = Fix16(tileBottom);
-                xpos = Fix16(tileLeft + gSpawnIndex_6787C9);
+                xpos = Fix16(tileLeft + sSpawnIndex);
                 rotation = gSpawnRotationBottom_678540;
                 break;
         }
@@ -579,7 +579,7 @@ void PedManager::SpawnDummies_46EB60(Camera* pCam)
                 }
             }
         }
-        ++gSpawnIndex_6787C9;
+        ++sSpawnIndex;
     }
 }
 
@@ -595,18 +595,18 @@ void PedManager::Dummies_470330()
     {
         for (Camera* pCam = gGame_0x40_67E008->IteratePlayerCamera_4B9BC0(); pCam; pCam = gGame_0x40_67E008->IterateNextPlayerCamera_4B9C50())
         {
-            spawnSideLocked_6787D5 = 0;
+            sSpawnSideLocked = 0;
             if (pCam->HasFollowTarget_433E90())
             {
                 if (pCam->ReturnOwnerVelocity_435A20() > kFpZero_678438)
                 {
-                    spawnSideLocked_6787D5 = 1;
+                    sSpawnSideLocked = 1;
                     sCameraFacingAng = pCam->ComputeTargetFacingAngle_4358D0();
-                    spawnCountLimit_6787D6 = 1;
+                    sSpawnCountLimit = 1;
                 }
                 else
                 {
-                    spawnCountLimit_6787D6 = 2;
+                    sSpawnCountLimit = 2;
                 }
             }
             // Use global instance even tho we're already in an instance method :)
@@ -619,7 +619,7 @@ void PedManager::Dummies_470330()
 MATCH_FUNC(0x4703f0)
 void PedManager::PedsService_4703F0()
 {
-    ++gPedsServiceTickCount_6787F0;
+    ++sPedsServiceTickCount;
     gNumPedsUpdated_6787E0 = 0;
     gNumDummyChars_6787E2 = 0;
     gNumEmergencyPeds_6787E4 = 0;
@@ -724,8 +724,8 @@ PedManager::PedManager()
     gPedId_61A89C = 7;
     gLastProcessedPed_6787C0 = NULL;
     sSpawnCounter = 0;
-    gSpawnSide_6787C8 = 0;
-    gSpawnIndex_6787C9 = 0;
+    sSpawnSide = 0;
+    sSpawnIndex = 0;
     gNumberMuggersSpawned_6787CA = 0;
     gNumberCarThiefsSpawned_6787CB = 0;
     gNumberElvisLeadersSpawned_6787CC = 0;
@@ -734,13 +734,13 @@ PedManager::PedManager()
     gNumPedsCrossingRoad_6787D0 = 0;
     field_5_fbi_army_count = 0;
     gPedOffscreenDespawnTime_678656 = kDefaultPedOffscreenDespawnTime_61A898;
-    gPedsServiceTickCount_6787F0 = 0;
+    sPedsServiceTickCount = 0;
     gNewTaxiCustomersThisTick_6787D2 = 0;
     gNumberBusCustomers_6787D3 = 0;
     gSearchConeHalfAngle_6784F0 = gDummyPedAng_6787A8;
     gCloseRangeHit_6787D4 = 0;
-    spawnSideLocked_6787D5 = 0;
-    spawnCountLimit_6787D6 = 0;
+    sSpawnSideLocked = 0;
+    sSpawnCountLimit = 0;
     gTargetSearchMode_6787D7 = threat_search_enum::no_threats_0;
     gRunPedObjectiveAI_61A8A0 = 1;
     gPathStepSlotFree_61A8A1 = 1;
