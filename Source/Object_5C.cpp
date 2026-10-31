@@ -31,7 +31,7 @@
 #include "block_face.hpp"
 
 DEFINE_GLOBAL(Object_5C*, gObject_5C_6F8F84, 0x6F8F84);
-DEFINE_GLOBAL(s32, dword_6F8F88, 0x6f8f88);
+DEFINE_GLOBAL(s32, gObjectCounter_Unused_6F8F88, 0x6f8f88);
 DEFINE_GLOBAL(s32, gObject2C_WallHitSide_6F8F90, 0x6F8F90);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_6F8D62, Ang16(0x2D0), 0x6F8D62);
 
@@ -59,7 +59,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpOneThirtySecond_6F8F5C, Fix16(0x200, 0), 0x6F8F5C);
 DEFINE_GLOBAL_INIT(Fix16, kObjectGravity_6F8DA8, Fix16(0xFFFFFFF8, 0), 0x6F8DA8);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_6F8E14, Fix16(1), 0x6F8E14);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_6F8C58, Fix16(0x666, 0), 0x6F8C58);
-DEFINE_GLOBAL_INIT(u8, byte_623EC4, 1, 0x623EC4);
+DEFINE_GLOBAL_INIT(u8, gObject2C_Unused_623EC4, 1, 0x623EC4);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6F8DC8, Fix16(256, 0), 0x6F8DC8);
 DEFINE_GLOBAL_INIT(Fix16, kFpEighteen_6F8CE8, Fix16(18), 0x6F8CE8);
@@ -137,7 +137,7 @@ void Object::PoolDeallocate()
         gObject_5C_6F8F84->field_1C_sprite_list.RemoveSpriteSafe_5A6B60(this->field_4_sprite);
     }
 
-    --dword_6F8F88;
+    --gObjectCounter_Unused_6F8F88;
 
     if (UsesParamAsPedRef_421080())
     {
@@ -656,7 +656,7 @@ bool Object::TryStartSlide_5233A0(Fix16 speed)
     if (SelectCollisionSprite_522460(this->field_4_sprite))
     {
 
-        byte_623EC4 = 0;
+        gObject2C_Unused_623EC4 = 0;
         if (gObject2C_HitWallOrDoor_6F8F94)
         {
             return false;
@@ -2193,7 +2193,7 @@ void Object::AssignToBucket_527AE0()
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_4_sprite);
             return;
         case collision_bucket_category::sprite_grid_2_region_3:
-            dword_6F8F88++;
+            gObjectCounter_Unused_6F8F88++;
             gSpriteGrid_2_67920C->AddToRegionBuckets_477B20(field_4_sprite);
             return;
         case collision_bucket_category::sprite_grid_1_region_4:
@@ -2214,7 +2214,7 @@ void Object::RemoveFromCollisionBuckets_527D00()
             gSpriteGrid_3_679210->Remove_477B00(field_4_sprite);
             break;
         case collision_bucket_category::sprite_grid_2_region_3:
-            --dword_6F8F88;
+            --gObjectCounter_Unused_6F8F88;
             gSpriteGrid_2_67920C->RemoveFromRegionBuckets_477B60(field_4_sprite);
             break;
         case collision_bucket_category::sprite_grid_1_region_4:
@@ -3486,7 +3486,7 @@ Object* Object_5C::CreateObject_529C00(s32 object_type, Fix16 xpos, Fix16 ypos, 
         default:
             break;
     }
-    ++dword_6F8F88;
+    ++gObjectCounter_Unused_6F8F88;
 
     pNewObject->field_18_model = object_type;
     if (pNewObject->IsPickup_421060())
