@@ -121,7 +121,8 @@ class Fix16_Point
     }
 
     // But also 0x40ACD0 non inlined in 10.5
-    Ang16 atan2_40F790()
+    // 9.6f 0x40F790
+    Ang16 GetAngle()
     {
         return Fix16::atan2_fixed(y, x);
     }
@@ -304,7 +305,7 @@ class Fix16_Point
     EXPORT Fix16 MaxAbs_5E4140() const;
 
     // 9.6f 0x48A270 (the inline of MaxAbs_5E4140)
-    inline Fix16 MaxAbs_48A270()
+    inline Fix16 MaxAbs()
     {
         Fix16 ax = Fix16::Abs_436A50(x);
         Fix16 ay = Fix16::Abs_436A50(y);
@@ -611,7 +612,7 @@ class Fix16_Point
 
     EXPORT Fix16_Point NormalizeSafe();
 
-    EXPORT Ang16 atan2_40ACD0();
+    EXPORT Ang16 GetAngle_40ACD0();
 
     EXPORT Fix16_Point Rotate90CCW() const;
 

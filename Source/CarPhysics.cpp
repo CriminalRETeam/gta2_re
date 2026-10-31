@@ -457,7 +457,7 @@ void CarPhysics::ScarePedsOnDrivingFast()
                 {
                     // 9.6f: CarPhysics::GetLinearSpeed (inlined, using it makes the diff worse)
 
-                    if (mLinvel1.GetLength_out_of_line_x_squared() > FastCarMinVelocity || mpCar->IsEmittingHorn_411970())
+                    if (mLinvel1.GetLength_out_of_line_x_squared() > FastCarMinVelocity || mpCar->IsEmittingHorn())
                     {
                         mpCar->mDriver->AddThreateningPedToList();
                     }
@@ -842,7 +842,7 @@ void CarPhysics::HandleUserInputs(char_type bForwardGasOn,
     else
     {
         // IsVelocityAlignedWithHeading inlined
-        Ang16 heading_delta = (mLinvel1.atan2_40F790() - mTheta);
+        Ang16 heading_delta = (mLinvel1.GetAngle() - mTheta);
         bool aligned = heading_delta <= kAng90_6FE00C || heading_delta >= kAng270_6FE154;
         if (aligned)
         {
@@ -1735,7 +1735,7 @@ void CarPhysics::SpawnSkidSegment(s32 box_idx, Fix16_Point wheel_offset, s32 sur
             Fix16 obj_x = skid_mid.x;
             Fix16 obj_y = skid_mid.y;
 
-            Ang16 r = skid_vec.atan2_40F790();
+            Ang16 r = skid_vec.GetAngle();
             len = skid_vec.GetLength_all_out_of_line_abs();
             if (len > kFP16Zero_6FE20C)
             {
@@ -3589,7 +3589,7 @@ void CarPhysics::EnforceGearSensitiveMaxSpeed()
 
         if (mLinvel1.GetLength_41E260() > radius)
         {
-            polar.FromPolar_41E210(radius, mLinvel1.atan2_40F790());
+            polar.FromPolar_41E210(radius, mLinvel1.GetAngle());
             mLinvel1.ClampTowardsZero(polar);
         }
     }

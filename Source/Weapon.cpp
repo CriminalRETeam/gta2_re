@@ -914,7 +914,7 @@ void __stdcall DrawElectricArc(Fix16_Point_POD start_pos, Fix16_Point& end_pos, 
     // The first length and angle are dead, like 9.6f's (it only kept the atan2 call)
     d = end_pos.Sub(start);
     len = BeamLength_5DE910(d);
-    d.atan2_40F790();
+    d.GetAngle();
 
     to = end_pos;
     from = start;
@@ -927,7 +927,7 @@ void __stdcall DrawElectricArc(Fix16_Point_POD start_pos, Fix16_Point& end_pos, 
     d3 = to.Sub(from);
     len = BeamLength_5DE910(d3);
     u8 count = (len / seg_len).ToInt();
-    angle = d3.atan2_40F790();
+    angle = d3.GetAngle();
 
     cur = from;
     for (u8 i = 0; i < count; i++)
@@ -941,7 +941,7 @@ void __stdcall DrawElectricArc(Fix16_Point_POD start_pos, Fix16_Point& end_pos, 
         step.x = seg_len.Multiply(Ang16::sine(angle));
         step.y = seg_len.Multiply(Ang16::cosine(angle));
         step.RotateByAngle_40F6B0_all_out_of_line(jitter);
-        seg_angle = step.atan2_40F790();
+        seg_angle = step.GetAngle();
 
         next = cur.Add(step);
         mid = next.Sub(cur);
@@ -954,7 +954,7 @@ void __stdcall DrawElectricArc(Fix16_Point_POD start_pos, Fix16_Point& end_pos, 
     }
 
     d = end_pos.Sub(cur);
-    seg_angle = d.atan2_40F790();
+    seg_angle = d.GetAngle();
     len = d.MaxAbs_5E4140() / seg_len;
     if (len != kFpZero_706EB8)
     {
@@ -1171,7 +1171,7 @@ void Weapon::ChainShockTargets(u8 chain_depth, Sprite* pSprite, Ang16 target_ang
         top = pSprite->mXy.y - kFpOne_706EBC;
         bottom = pSprite->mXy.y + kFpOne_706EBC;
     }
-    rect.SetRect_41E350(left, right, top, bottom);
+    rect.SetBounds(left, right, top, bottom);
     rect.SetHiLowZ(pSprite->mZpos - kFpOne_706EBC, pSprite->mZpos + kFpOne_706EBC);
 
     sElectroShooterRotation = mpPed->mGameObject->mSpritePtr->mRotation;

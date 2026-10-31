@@ -839,7 +839,7 @@ bool Car::TrySnapCarToNearestDrivableRoadAndDriveForward(Fix16 xpos, Fix16 ypos,
                     Fix16 h_val = gPixelsToFix16.list[pInfo->h];
                     SwapIf3or4(direction, w_val, h_val);
                     Fix16_Rect rect;
-                    rect.SetRect_41E350(xpos - w_val, w_val + xpos, ypos - h_val, h_val + ypos);
+                    rect.SetBounds(xpos - w_val, w_val + xpos, ypos - h_val, h_val + ypos);
                     rect.SetHiLowZ(pos_z - kFP16One_6777D0, kFP16One_6777D0 + pos_z);
                     if (!gSpriteGrid_1->CheckRectForCollisions(&rect, false, sprite_types_enum::none_0, NULL) && !rect.IsRectBlockedByMap())
                     {
@@ -1122,7 +1122,7 @@ Car* CarManager::SpawnBusAtValidRoadPosition(Fix16 x, Fix16 y, s32 road_directio
                 SwapIf3or4(road_direction, sprite_width, sprite_height);
 
                 Fix16_Rect rect;
-                rect.SetRect_41E350(x - sprite_width, sprite_width + x, y - sprite_height, sprite_height + y);
+                rect.SetBounds(x - sprite_width, sprite_width + x, y - sprite_height, sprite_height + y);
                 rect.SetHiLowZ(ground_z - kFP16One_6777D0, ground_z + kFP16One_6777D0);
 
                 if (!gSpriteGrid_1->CheckRectForCollisions(&rect, false, sprite_types_enum::none_0, NULL) && !rect.IsRectBlockedByMap() &&
@@ -1320,7 +1320,7 @@ Car* CarManager::SpawnCarOnRoadNetwork(Fix16 xpos, Fix16 ypos, s32 road_directio
                 SwapIf3or4(road_direction, sprite_width, sprite_height);
 
                 Fix16_Rect rect;
-                rect.SetRect_41E350(x - sprite_width, sprite_width + x, y - sprite_height, sprite_height + y);
+                rect.SetBounds(x - sprite_width, sprite_width + x, y - sprite_height, sprite_height + y);
                 rect.SetHiLowZ(ground_z - kFP16One_6777D0, ground_z + kFP16One_6777D0);
 
                 if (!gSpriteGrid_1->CheckRectForCollisions(&rect, false, sprite_types_enum::none_0, NULL) && !rect.IsRectBlockedByMap() &&
@@ -1516,7 +1516,7 @@ EXPORT void __stdcall SpawnCabAndTrailerHelper(
     *pOutX = trailer_pos.x;
     *pOutY = trailer_pos.y;
     // 9.6f 0x40F640 (unary -) then 0x40F790 (angle of the vector)
-    *pOutRot = cab_offset.Negate_40ACB0().atan2_40F790();
+    *pOutRot = cab_offset.Negate_40ACB0().GetAngle();
 }
 
 // 9.6f 0x428EC0
@@ -2704,8 +2704,8 @@ MATCH_FUNC(0x43b420)
 void Car::GetDoorWorldPos(u8 door_idx, Fix16* pOutX, Fix16* pOutY)
 {
     door_info* pDoor = reinterpret_cast<door_info*>(gGtx_0x106C->get_car_door_data(mCarInfoIdx) + 1) + door_idx;
-    Fix16 door_x = gPixelsToFix16.SignedPixelsToFix16_41FE70(pDoor->rx);
-    Fix16 door_y = gPixelsToFix16.SignedPixelsToFix16_41FE70(pDoor->ry);
+    Fix16 door_x = gPixelsToFix16.SignedPixelsToFix16(pDoor->rx);
+    Fix16 door_y = gPixelsToFix16.SignedPixelsToFix16(pDoor->ry);
 
     // Ang16::RotateVector written out: old_xpos copy and an Ang16& to the sprite angle as in the
     // inline, the new x kept in x_off, and the y line through the out-of-line Multiply and
@@ -2725,7 +2725,7 @@ MATCH_FUNC(0x43B540)
 bool Car::IsDoorOffsetLarge(u8 targetDoor) const
 {
     s8* pDoorData = reinterpret_cast<s8*>(gGtx_0x106C->get_car_door_data(mCarInfoIdx));
-    if (Fix16::Abs(gPixelsToFix16.SignedPixelsToFix16_41FE70(pDoorData[2 * targetDoor + 1])) >= kFpOne)
+    if (Fix16::Abs(gPixelsToFix16.SignedPixelsToFix16(pDoorData[2 * targetDoor + 1])) >= kFpOne)
     {
         return true;
     }
@@ -2752,8 +2752,8 @@ void Car::GetDoorWorldPosition(u8 target_door, Fix16* pOutX, Fix16* pOutY)
 
     u8* pDoorOffset = &gGtx_0x106C->get_car_door_data(mCarInfoIdx)[2 * target_door + 1];
 
-    door_relative_xpos = gPixelsToFix16.SignedPixelsToFix16_41FE70(pDoorOffset[0]);
-    door_relative_ypos = gPixelsToFix16.SignedPixelsToFix16_41FE70(pDoorOffset[1]);
+    door_relative_xpos = gPixelsToFix16.SignedPixelsToFix16(pDoorOffset[0]);
+    door_relative_ypos = gPixelsToFix16.SignedPixelsToFix16(pDoorOffset[1]);
 
     if (door_relative_xpos >= kFpOne)
     {
@@ -3069,7 +3069,7 @@ void Car::FlashHeadlights()
     {
         if (mBfA4.bHeadlights)
         {
-            ClearHeadlightDeltas_425650();
+            ClearHeadlightDeltas();
         }
         else
         {
@@ -3116,7 +3116,7 @@ void Car::HeadlightsOff()
 {
     if (!mBfA4.bLightFlashing)
     {
-        ClearHeadlightDeltas_425650();
+        ClearHeadlightDeltas();
     }
 
     mBfA4.bHeadlights = false;
@@ -3342,7 +3342,7 @@ void Car::StopLightFlashing()
     }
     else
     {
-        ClearHeadlightDeltas_425650();
+        ClearHeadlightDeltas();
     }
 
     if (this->mBfA4.bBrakeLights)
@@ -5218,7 +5218,7 @@ void Car::UpdateLights()
         {
             if (mFlashPhaseCounter == 6)
             {
-                ClearHeadlightDeltas_425650();
+                ClearHeadlightDeltas();
                 ClearBrakeLightDeltas();
             }
         }
@@ -5403,7 +5403,7 @@ Ang16 Car::GetRadioTowerAngle() const
 {
     Fix16_Point xy;
     xy = gCarManager_6C->mTvVanDir - mCarSprite->get_x_y();
-    return xy.atan2_40F790() - mCarSprite->mRotation;
+    return xy.GetAngle() - mCarSprite->mRotation;
 }
 
 
@@ -5731,7 +5731,7 @@ bool Car::TrainUpdate()
                 {
                     // Written out: here the original inlines operator+ for high_z
                     Fix16 z = mCarSprite->mZpos;
-                    rect.SetRect_41E350(mCarSprite->mXy.x - Fix16(10),
+                    rect.SetBounds(mCarSprite->mXy.x - Fix16(10),
                                         mCarSprite->mXy.x,
                                         mCarSprite->mXy.y - Fix16(1),
                                         mCarSprite->mXy.y + Fix16(1));
@@ -6585,7 +6585,7 @@ Car::~Car()
 MATCH_FUNC(0x447360)
 void Car::ClearHeadlightDeltas_447360()
 {
-    ClearHeadlightDeltas_425650();
+    ClearHeadlightDeltas();
 }
 
 MATCH_FUNC(0x564300)
@@ -6652,7 +6652,7 @@ Fix16_Point Trailer::GetHitchPosition()
 // static copies of the 90/270 degree constants
 static inline bool IsVelocityAlignedWithHeading(CarPhysics* pPhys)
 {
-    Ang16 drift = pPhys->mLinvel1.atan2_40F790().SubtractNormalized(pPhys->mTheta);
+    Ang16 drift = pPhys->mLinvel1.GetAngle().SubtractNormalized(pPhys->mTheta);
     return drift <= kAng90_66A9C8 || drift >= kAng270_66AABC;
 }
 
@@ -6681,7 +6681,7 @@ void Trailer::UpdateTrailerAlignment()
 
     // The trailer points along hitch - rear, kept within a window around the cab's angle
     delta = hitch.Sub(rear);
-    Fix16 new_theta = Ang16::Ang16_to_Fix16(delta.atan2_40F790());
+    Fix16 new_theta = Ang16::Ang16_to_Fix16(delta.GetAngle());
     mHitchAngleClamped = ClampAngleAroundTarget(&cab_theta, &new_theta);
 
     if (new_theta.mValue != cab_theta.mValue && new_theta.mValue == trailer_theta.mValue)
@@ -7240,7 +7240,7 @@ bool TrafficSpawner::SpawnTrafficCar(s32 spawn_type, s32 arrow_direction, s32 bl
                 Fix16 nav_x = xpos.GetFloorValue() + kFpHalf_6FF674;
                 Fix16 nav_y = ypos.GetFloorValue() + kFpHalf_6FF674;
                 sTrafficCarSpeed = kFpPoint2_6FF5CC;
-                mRect->SetRect_41E350(nav_x - car_w, nav_x + car_w, nav_y - car_h, nav_y + car_h);
+                mRect->SetBounds(nav_x - car_w, nav_x + car_w, nav_y - car_h, nav_y + car_h);
                 mRect->SetHiLowZ(ground_z - kFpOne_6FF778, ground_z + kFpOne_6FF778);
                 if (mRect->EveryTileMatchesArrowType(arrow_direction))
                 {
@@ -7348,7 +7348,7 @@ bool TrafficSpawner::SpawnTrafficCar(s32 spawn_type, s32 arrow_direction, s32 bl
                     {
                         Fix16 tx = (xpos - x_one).GetFloorValue() + kFpHalf_6FF674;
                         Fix16 ty = (ypos - y_one).GetFloorValue() + kFpHalf_6FF674;
-                        mRect->SetRect_41E350(tx - car_w, tx + car_w, ty - car_h, ty + car_h);
+                        mRect->SetBounds(tx - car_w, tx + car_w, ty - car_h, ty + car_h);
                         mRect->SetHiLowZ(ground_z - kFpOne_6FF778, ground_z + kFpOne_6FF778);
                         if (mRect->EveryTileMatchesArrowType(arrow_direction))
                         {
@@ -7361,7 +7361,7 @@ bool TrafficSpawner::SpawnTrafficCar(s32 spawn_type, s32 arrow_direction, s32 bl
                     {
                         Fix16 tx = (xpos - x_two).GetFloorValue() + kFpHalf_6FF674;
                         Fix16 ty = (ypos - y_two).GetFloorValue() + kFpHalf_6FF674;
-                        mRect->SetRect_41E350(tx - car_w, tx + car_w, ty - car_h, ty + car_h);
+                        mRect->SetBounds(tx - car_w, tx + car_w, ty - car_h, ty + car_h);
                         mRect->SetHiLowZ(ground_z - kFpOne_6FF778, ground_z + kFpOne_6FF778);
                         if (mRect->EveryTileMatchesArrowType(arrow_direction))
                         {
@@ -7374,7 +7374,7 @@ bool TrafficSpawner::SpawnTrafficCar(s32 spawn_type, s32 arrow_direction, s32 bl
                     {
                         Fix16 tx = (xpos + x_one).GetFloorValue() + kFpHalf_6FF674;
                         Fix16 ty = (ypos + y_one).GetFloorValue() + kFpHalf_6FF674;
-                        mRect->SetRect_41E350(tx - car_w, tx + car_w, ty - car_h, ty + car_h);
+                        mRect->SetBounds(tx - car_w, tx + car_w, ty - car_h, ty + car_h);
                         mRect->SetHiLowZ(ground_z - kFpOne_6FF778, ground_z + kFpOne_6FF778);
                         if (mRect->EveryTileMatchesArrowType(arrow_direction))
                         {
@@ -7387,7 +7387,7 @@ bool TrafficSpawner::SpawnTrafficCar(s32 spawn_type, s32 arrow_direction, s32 bl
                     {
                         Fix16 tx = (xpos + x_two).GetFloorValue() + kFpHalf_6FF674;
                         Fix16 ty = (ypos + y_two).GetFloorValue() + kFpHalf_6FF674;
-                        mRect->SetRect_41E350(tx - car_w, tx + car_w, ty - car_h, ty + car_h);
+                        mRect->SetBounds(tx - car_w, tx + car_w, ty - car_h, ty + car_h);
                         mRect->SetHiLowZ(ground_z - kFpOne_6FF778, ground_z + kFpOne_6FF778);
                         if (mRect->EveryTileMatchesArrowType(arrow_direction))
                         {
@@ -7478,7 +7478,7 @@ bool TrafficSpawner::SpawnTrafficCar(s32 spawn_type, s32 arrow_direction, s32 bl
 
                     Fix16 sx = spawn_x.GetFloorValue() + kFpHalf_6FF674;
                     Fix16 sy = spawn_y.GetFloorValue() + kFpHalf_6FF674;
-                    mRect->SetRect_41E350(sx - car_w, sx + car_w, sy - car_h, sy + car_h);
+                    mRect->SetBounds(sx - car_w, sx + car_w, sy - car_h, sy + car_h);
                     mRect->SetHiLowZ(ground_z - kFpOne_6FF778, ground_z + kFpOne_6FF778);
 
                     u8 spawn_chance;

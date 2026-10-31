@@ -209,10 +209,10 @@ EXPORT void __stdcall CarDoorAlignmentSolver(u8 animPhase, Car* pCar, u8 doorId,
     Fix16 x_pos;
     Fix16 y_pos;
     s8 x_in_scale = car_door_info_array[2 * doorId + 1];
-    x_pos = gPixelsToFix16.SignedPixelsToFix16_41FE70(x_in_scale);
+    x_pos = gPixelsToFix16.SignedPixelsToFix16(x_in_scale);
 
     s8 y_in_scale = car_door_info_array[2 * doorId + 2];
-    y_pos = gPixelsToFix16.SignedPixelsToFix16_41FE70(y_in_scale);
+    y_pos = gPixelsToFix16.SignedPixelsToFix16(y_in_scale);
 
     bool bXOffsetPastTile = false;
     bool bFront = false;

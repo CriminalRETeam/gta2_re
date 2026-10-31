@@ -411,8 +411,8 @@ static inline Fix16 MaxValue_44E540(const Fix16& a, const Fix16& b)
     return b;
 }
 
-// 9.6f 0x48F230: SetXY for src/dst, delta = dst - src, delta.atan2_40F790() (result discarded), segments
-// from delta.MaxAbs_48A270() / kFpOneSixth, delta.DivideAssign(segments), cur += delta, mid = cur - prev,
+// 9.6f 0x48F230: SetXY for src/dst, delta = dst - src, delta.GetAngle() (result discarded), segments
+// from delta.MaxAbs() / kFpOneSixth, delta.DivideAssign(segments), cur += delta, mid = cur - prev,
 // mid.DivideAssign(2), mid += prev, SetBlendAndAlpha(2, 20); the function-scope Ang16 is the jitter;
 // each case is one SetFromPolar(radius, angle sum) call with both arguments as temporaries;
 // dst.SetXY(target) then dst += src (target declared ahead of src, else the x add's operands swap).
@@ -435,8 +435,8 @@ bool Particle_4C::UpdateObjectBeamLink_state_38()
         src.SetXY(mpOwnSprite->mXy.x, mpOwnSprite->mXy.y);
         dst.SetXY(mpSprite->mXy.x, mpSprite->mXy.y);
         delta = dst - src;
-        delta.atan2_40F790();
-        Fix16 segments = delta.MaxAbs_48A270() / kFpOneSixth;
+        delta.GetAngle();
+        Fix16 segments = delta.MaxAbs() / kFpOneSixth;
 
         if (segments != kFP16Zero_6FD49C)
         {

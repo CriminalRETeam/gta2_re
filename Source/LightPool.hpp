@@ -43,7 +43,8 @@ class LightPool : public LightBase
         mPool.mpPrev = pLight;
     }
 
-    inline Light* Alloc_464C40()
+    // 9.6f 0x464C40
+    inline Light* Alloc()
     {
         Light* pFirst = mPool.mpStart;
         mPool.mpStart = mPool.mpStart->mpNext;
@@ -65,13 +66,13 @@ class LightPool : public LightBase
     
     inline Light* Init_469010(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
     {
-        Light* pLight = Alloc_464C40();
+        Light* pLight = Alloc();
         pLight->mX = xpos;
         pLight->mY = ypos;
         pLight->mZ = zpos;
         pLight->mArgb = argb;
         pLight->mIntensityRadius.flag = 0x10000;
-        pLight->mIntensityRadius.SetRadius_463F10(radius);
+        pLight->mIntensityRadius.SetRadius(radius);
         pLight->SetCurrentIntensity(intensity);
         pLight->mIntensity = intensity;
         pLight->AddToGrid();

@@ -1404,7 +1404,7 @@ void MapRenderer::draw_lid_4EE130()
             pgbh_DrawTile(sTileDrawFlags | gLightingDrawFlag,
                           gTextureCache_15D8->GetTexture(texture_idx),
                           gTileVerts_6F65A8,
-                          GetColour_46B5E0((sLidType >> 10) & 3));
+                          GetColour((sLidType >> 10) & 3));
             ++mDrawnTileCount;
         }
     }
@@ -2614,7 +2614,7 @@ void MapRenderer::draw_lid_4F4D60(Fix16& x_min, Fix16& x_max, Fix16& y_min, Fix1
                 sTileDrawFlags = 16517;
             }
 
-            // 9.6f: GetColour_46B5E0 (inlined, using it changes the code: 43 -> 105)
+            // 9.6f: GetColour (inlined, using it changes the code: 43 -> 105)
             u8 diffuse_color;
 
             switch ((static_cast<u16>(sLidType) >> 10) & 3)

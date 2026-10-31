@@ -505,7 +505,7 @@ void ParticleManager::EmitImpactParticles(Fix16 x, Fix16 y, Fix16 z, Fix16_Point
     Ang16 tanAng;
     Fix16_Point unused;
     Fix16_Point t(Fix16(0), Fix16(0));
-    tanAng = dir.atan2_40F790();
+    tanAng = dir.GetAngle();
 
     for (u8 i = 0; i < 6; ++i)
     {

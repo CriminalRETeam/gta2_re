@@ -434,7 +434,7 @@ void Explosion::ApplyBlastDamage(u16 timerVal)
     }
 
     Fix16_Rect rect;
-    rect.SetRect_41E350(left, right, top, bottom);
+    rect.SetBounds(left, right, top, bottom);
     rect.SetHiLowZ(z_low, z_high);
 
     if (gSpriteGrid_1->CollectRectCollisions(&rect, false, sprite_types_enum::none_0, mpObj2C->mSprite, &collision_list))

@@ -1925,7 +1925,7 @@ void sound_obj::HandleCarHornSound(Sound_Params* pParams, SoundPosEntry* pAlloc)
     {
         if (!pCar->IsFireTruck() && !pCar->IsTank() && !pCar->IsGunJeep() || !pCar->IsTurretRotated())
         {
-            if (pParams->mpObj->mCarBcPtr->IsEmittingHorn_411970())
+            if (pParams->mpObj->mCarBcPtr->IsEmittingHorn())
             {
                 bool tryPlay = false;
                 if (pParams->mbDrivenByPlayer || pCar->GetCarInfoIdx() == car_model_enum::ICECREAM)
@@ -2368,7 +2368,7 @@ bool sound_obj::Type_4_InitSirenSound(sound_0x68* pSound)
     if (GetCar(pSound->mEntityIndex, &pCar))
     {
         s32 model = pCar->GetCarInfoIdx();
-        pSound->mSampIdx = GetSirenSampleIdx(pCar->GetCarInfoIdx(), pCar->IsEmittingHorn_411970());
+        pSound->mSampIdx = GetSirenSampleIdx(pCar->GetCarInfoIdx(), pCar->IsEmittingHorn());
         pSound->mSpeedMultiplier = 800;
         pSound->mReleasingVolumeDivider = 2;
 
@@ -2717,7 +2717,7 @@ void sound_obj::HandleTruckCorneringAudio(Sound_Params* pParams)
     Car* pCar = pParams->mpObj->mCarBcPtr;
     CarPhysics* pPhysics = pCar->mPhysics;
 
-    Ang16 slide_angle = pPhysics->mLinvel1.atan2_40F790().SubtractNormalized(pPhysics->mTheta);
+    Ang16 slide_angle = pPhysics->mLinvel1.GetAngle().SubtractNormalized(pPhysics->mTheta);
     if (slide_angle > kMinCorneringAngle && slide_angle < kMaxCorneringAngle)
     {
         if (pCar->GetCarLinearSpeed() > kMinCorneringSpeed)

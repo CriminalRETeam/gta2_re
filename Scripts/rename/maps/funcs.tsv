@@ -2136,6 +2136,7 @@ SetPosition_443D00	SetPosition
 SetProtoAndConnection_51DAE0	SetProtoAndConnection
 SetRadioEmitterRadii_57EDB0	SetRadioEmitterRadii
 SetRecentCrimeTimer_45B550	SetRecentCrimeTimer
+SetRect_5A5E30	SetBounds_5A5E30
 SetRemap_46DD50	SetRemap
 SetRemap_533110	SetRemap
 SetRespect_4BEE30	SetRespect
@@ -2652,6 +2653,7 @@ allocate_next_502F60	allocate_next
 ambient_light_tick_4E9EA0	ambient_light_tick
 arc_tan_table_init_4052D0	arc_tan_table_init
 army_gun_jeep_5E13E0	army_gun_jeep
+atan2_40ACD0	GetAngle_40ACD0
 atan2_fixed_405320	atan2_fixed
 build_delta_container_5AAC70	build_delta_container
 build_zone_list_4E90E0	build_zone_list

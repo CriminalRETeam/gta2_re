@@ -6575,7 +6575,7 @@ void Char::HandleCarImpact(Car* pCar, u8 not_used, Fix16 x, Fix16 y)
     Fix16_Point p(x, y);
     Fix16 vecLen = GetLength_inline_5538A0(p);
     Ang16 impact_angle;
-    impact_angle = p.atan2_40F790();
+    impact_angle = p.GetAngle();
 
     if (this->mpPed->mInvulnerability > 0)
     {

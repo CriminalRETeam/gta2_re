@@ -22,7 +22,7 @@ Fix16_Point Fix16_Point::Negate_40ACB0() const
 }
 
 MATCH_FUNC(0x40ACD0)
-Ang16 Fix16_Point::atan2_40ACD0()
+Ang16 Fix16_Point::GetAngle_40ACD0()
 {
     return Fix16::atan2_fixed(y, x);
 }

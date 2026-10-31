@@ -4095,7 +4095,7 @@ void ScriptThread::Handle_IS_CHAR_HORN()
     Ped* pPed = pPointer->mChar;
     Car* pCar = pPed->get_car();
 
-    if (pCar != NULL && pCar->IsEmittingHorn_411970())
+    if (pCar != NULL && pCar->IsEmittingHorn())
     {
         mCondResult = true;
     }
@@ -5156,7 +5156,7 @@ void ScriptThread::Handle_CHANGE_RADIUS()
     SCR_CHANGE_LIGHT_RADIUS* pCmd = reinterpret_cast<SCR_CHANGE_LIGHT_RADIUS*>(gBasePtr);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(gBasePtr->mIndex));
 
-    pPointer->mLight->mIntensityRadius.SetRadius_463F10(pCmd->mRadius);
+    pPointer->mLight->mIntensityRadius.SetRadius(pCmd->mRadius);
 
     ScriptThread::Next(gBasePtr);
 }

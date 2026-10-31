@@ -135,7 +135,7 @@ bool Camera::IsSpriteInView(Sprite* pSprite, s32 wide_view)
 
     Fix16_Rect rect;
     rect.SetHiLowZ(pSprite->mZpos, pSprite->mZpos);
-    rect.SetRect_41E350(mCurPos.mX - half_width,
+    rect.SetBounds(mCurPos.mX - half_width,
                         mCurPos.mX + half_width,
                         mCurPos.mY - half_height,
                         mCurPos.mY + half_height);
@@ -316,7 +316,7 @@ void Camera::ApplyCarVelocityCameraOffset(Car* pCar, Fix16* pOutX, Fix16* pOutY,
 
         if (!pCar->IsTrainModel() && !pCar->IsTank())
         {
-            angle = vel.atan2_40F790();
+            angle = vel.GetAngle();
 
             Fix16 dist;
             if ((angle > kAng45_6766DC && angle < kAng135_676790) || (angle > kAng225 && angle < kAng315))

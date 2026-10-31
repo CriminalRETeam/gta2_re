@@ -792,7 +792,7 @@ void Hud_Arrow::UpdateScreenPos()
     displacement.SetXY(player_xpos - mTargets.mCurrTarget->mAimX,
                               player_ypos - mTargets.mCurrTarget->mAimY);
 
-    mRotation = displacement.atan2_40F790();
+    mRotation = displacement.GetAngle();
 
     // Assigned, not initialised: GetLength's result goes through a temporary that shares the atan2 temp's slot
     Fix16 distance;

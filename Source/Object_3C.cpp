@@ -33,7 +33,7 @@ void Object_3C::GetMovementSpeedAndAngle(Fix16& Speed, Ang16& Angle)
         point = conveyor_vel + GetSpeedVector_482BA0();
 
         Speed = point.GetLength_41E260();
-        Angle = point.atan2_40F790();
+        Angle = point.GetAngle();
         ClearConveyorSpeed();
     }
     else

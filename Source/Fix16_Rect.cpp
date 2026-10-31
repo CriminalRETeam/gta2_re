@@ -146,7 +146,7 @@ bool Fix16_Rect::EveryTileMatchesArrowType(s32 arrow_type)
 }
 
 MATCH_FUNC(0x5A5E30)
-void Fix16_Rect::SetRect_5A5E30(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom)
+void Fix16_Rect::SetBounds_5A5E30(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom)
 {
     this->mLeft = left;
     this->mRight = right;

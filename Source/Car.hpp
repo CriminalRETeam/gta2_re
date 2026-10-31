@@ -1001,7 +1001,7 @@ class Car
     }
 
     // 9.6f inline 0x425650
-    inline void ClearHeadlightDeltas_425650()
+    inline void ClearHeadlightDeltas()
     {
         if (HasPopupHeadlights())
         {
@@ -1297,7 +1297,8 @@ class Car
         return mCarSprite->mZpos;
     }
 
-    inline bool IsEmittingHorn_411970() const
+    // 9.6f 0x411970
+    inline bool IsEmittingHorn() const
     {
         return mHorn > 0 && mHorn <= 0xF8u;
     }

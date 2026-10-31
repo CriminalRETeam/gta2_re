@@ -12,13 +12,14 @@ struct LightIntensityRadius
         flag = (flag & ~0x0000FF00) | (radius_byte << 8);
     }
 
-    inline void SetRadius_463F10(Fix16 radius)
+    // 9.6f 0x463F10
+    inline void SetRadius(Fix16 radius)
     {
         u8 radius_byte = (radius * 32).ToInt();
         SetRadiusByte(radius_byte);
     }
 
-    // Out-of-line copy of SetRadius_463F10
+    // Out-of-line copy of SetRadius
     EXPORT void SetRadius_5C5CD0(Fix16 radius);
     s32 flag;
 };
@@ -88,7 +89,7 @@ class Light
     inline void SetColourRadiusIntensity(s32 argb, Fix16 radius, u8 intensity)
     {
         mArgb = argb;
-        mIntensityRadius.SetRadius_463F10(radius);
+        mIntensityRadius.SetRadius(radius);
         SetCurrentIntensity(intensity);
         mIntensity = intensity;
     }

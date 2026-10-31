@@ -74,7 +74,7 @@ class Fix16_Rect
 
     // 9.6f 0x41E350
     // https://decomp.me/scratch/HVOft
-    void SetRect_41E350(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom)
+    void SetBounds(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom)
     {
         this->mLeft = left;
         this->mRight = right;
@@ -82,8 +82,8 @@ class Fix16_Rect
         this->mBottom = bottom;
     }
 
-    // Out-of-line copy of SetRect_41E350
-    EXPORT void SetRect_5A5E30(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom);
+    // Out-of-line copy of SetBounds
+    EXPORT void SetBounds_5A5E30(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom);
     EXPORT void MakeRect(Fix16 x, Fix16 y, Fix16 w, Fix16 h);
 
     // 9.6f 0x433560
@@ -119,7 +119,7 @@ class Fix16_Rect
 
     Fix16_Rect(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom, Fix16 z)
     {
-        SetRect_41E350(left, right, top, bottom);
+        SetBounds(left, right, top, bottom);
         mLowZ = z - kCollisionPrismHalfHeight;
         mHighZ = z + kCollisionPrismHalfHeight;
     }

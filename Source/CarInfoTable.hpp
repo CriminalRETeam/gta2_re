@@ -19,7 +19,8 @@ struct PixelsToFix16Table
 {
     EXPORT PixelsToFix16Table();
 
-    Fix16 SignedPixelsToFix16_41FE70(const s8& pixels) const
+    // 9.6f 0x41FE70
+    Fix16 SignedPixelsToFix16(const s8& pixels) const
     {
         if (pixels < 0)
         {
@@ -28,7 +29,7 @@ struct PixelsToFix16Table
         return list[pixels];
     }
 
-    // Same as SignedPixelsToFix16_41FE70, but only matches with the argument by value
+    // Same as SignedPixelsToFix16, but only matches with the argument by value
     EXPORT Fix16 SignedPixelsToFix16_440860(s8 pixels) const;
 
     Fix16 list[256];

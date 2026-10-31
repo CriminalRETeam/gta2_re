@@ -8,6 +8,7 @@ AddScore_41DC40	AddScore
 AddToDrawList_46BB90	AddToDrawList
 AddToUpdateList_464C60	AddToUpdateList
 AllocOfType_4C2F30	AllocOfType
+Alloc_464C40	Alloc
 Alloc_4C4B40	Alloc
 AllocateUnlinked_4CC9E0	AllocateUnlinked
 Allocate_445EF0	Allocate
@@ -40,6 +41,7 @@ ClearElectrofingers_482080	ClearElectrofingers
 ClearF2C_4895F0	ClearF2C
 ClearGlobalFlags_4BA340	ClearGlobalFlags
 ClearGroupAndGroupIdx_403A30	ClearGroupAndGroupIdx
+ClearHeadlightDeltas_425650	ClearHeadlightDeltas
 ClearHitCount_403A20	ClearHitCount
 ClearHorn_421460	ClearHorn
 ClearList_420E90	ClearList
@@ -78,6 +80,7 @@ DoesKillAffectRespect_433B30	DoesKillAffectRespect
 EdgesCrossSegment_463690	EdgesCrossSegment
 Enable_40CEB0	Enable
 Expire_4C70F0	Expire
+ForceNeutralInput_42ABC0	ForceNeutralInput
 Free_47F4B0	Free
 GetActivePed_4A5150	GetActivePed
 GetAimAngle_4CCA90	GetAimAngle
@@ -94,6 +97,7 @@ GetCarRotation_416BB0	GetCarRotation
 GetCarWidth_48A930	GetCarWidth
 GetCharState_433A80	GetCharState
 GetCollideListAt_446820	GetCollideListAt
+GetColour_46B5E0	GetColour
 GetConveyorDirection_493090	GetConveyorDirection
 GetDepth_492170	GetDepth
 GetDimensions_4BA0F0	GetDimensions
@@ -227,6 +231,7 @@ IsDrivenByPlayer_4118D0	IsDrivenByPlayer
 IsDrowning_421100	IsDrowning
 IsEastBlockRoadType_4334A0	IsEastBlockRoadType
 IsElectrifiedFloorType_491F80	IsElectrifiedFloorType
+IsEmittingHorn_411970	IsEmittingHorn
 IsEmpty_434970	IsEmpty
 IsEnd_4C4BC0	IsEnd
 IsEngineCrushed_447EB0	IsEngineCrushed
@@ -324,6 +329,7 @@ ManhattanDistance_446960	ManhattanDistance
 MarkForDespawn_421470	MarkForDespawn
 MaskWithGlobalFlags_4BA330	MaskWithGlobalFlags
 MaxAbsDistance_42A6B0	MaxAbsDistance
+MaxAbs_48A270	MaxAbs
 MultiplyByFix16_401CB0	MultiplyByFix16
 MultiplyByFix16_49E3A0	MultiplyByFix16
 NegateAng16_401C80	NegateAng16
@@ -451,6 +457,8 @@ SetPosition_482D30	SetPosition
 SetProbingAhead_42ACE0	SetProbingAhead
 SetQuit_461DD0	SetQuit
 SetRadiusByte_463EF0	SetRadiusByte
+SetRadius_463F10	SetRadius
+SetRect_41E350	SetBounds
 SetRemap_433C10	SetRemap
 SetRemap_4758A0	SetRemap
 SetRotation_433C00	SetRotation
@@ -488,6 +496,7 @@ SetWidthHeight_4BA070	SetWidthHeight
 SetXY_432860	SetXY
 Set_F84_433900	Set_F84
 ShowGangArrows_4C70B0	ShowGangArrows
+SignedPixelsToFix16_41FE70	SignedPixelsToFix16
 SpawnCarAtCorrectZ_426E40	SpawnCarAtCorrectZ
 SpawnCar_4764A0	SpawnCar
 StartEngine_426E00	StartEngine
@@ -516,6 +525,7 @@ VeerLeftFromWall_4923D0	VeerLeftFromWall
 VeerRightFromWall_4923A0	VeerRightFromWall
 WrapAngle_40E790	WrapAngle
 add_one_491EF0	add_one
+atan2_40F790	GetAngle
 clear_last_char_punched_475B40	clear_last_char_punched
 compound_add_41FA70	compound_add
 compound_subtract_41FA90	compound_subtract

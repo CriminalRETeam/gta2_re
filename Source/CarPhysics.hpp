@@ -124,7 +124,7 @@ class CarPhysics
     // 9.6f 0x4211E0
     inline Ang16 GetLinvelAngle()
     {
-        return mLinvel1.atan2_40F790();
+        return mLinvel1.GetAngle();
     }
 
     // 9.6f 0x421130
@@ -246,7 +246,7 @@ class CarPhysics
     // FUNCTION: 96f 0x40f840
     bool IsVelocityAlignedWithHeading()
     {
-        Ang16 heading_diff = (mLinvel1.atan2_40F790() - mTheta);
+        Ang16 heading_diff = (mLinvel1.GetAngle() - mTheta);
         return heading_diff <= kAng90_6FE00C || heading_diff >= kAng270_6FE154;
     }
 
@@ -446,7 +446,7 @@ class CarPhysics
     }
 
     // FUNCTION: 96f 0x42ABC0
-    void ForceNeutralInput_42ABC0()
+    void ForceNeutralInput()
     {
         mIsCoasting = true;
         mIsFootBrakeOn = 0;

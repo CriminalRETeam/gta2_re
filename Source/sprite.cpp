@@ -1062,7 +1062,7 @@ void Sprite::ShowHorn(f32& x, f32& y)
             Fix16 xpos(static_cast<s32>((x / static_cast<f32>(static_cast<u32>(window_width))) * 640.0f));
             Fix16 ypos(static_cast<s32>((y / static_cast<f32>(static_cast<u32>(window_height))) * 480.0f));
 
-            if (pCar->IsEmittingHorn_411970())
+            if (pCar->IsEmittingHorn())
             {
                 DrawTextScaled_4BA2C0(L"H", xpos, ypos, gStyleTextFont);
             }
@@ -2395,7 +2395,7 @@ void SpriteShape::UpdateRotatedBoundingBox(Fix16 xpos, Fix16 ypos, Fix16 zpos, A
         mCorners[2] = point + corner2;
         mCorners[3] = point + corner3;
 
-        mBoundingBox.SetRect_41E350(xpos - width_over_2, xpos + width_over_2, ypos - height_over_2, ypos + height_over_2);
+        mBoundingBox.SetBounds(xpos - width_over_2, xpos + width_over_2, ypos - height_over_2, ypos + height_over_2);
     }
     else if (rotation == kAng90_70344C) // = 360
     {
@@ -2409,7 +2409,7 @@ void SpriteShape::UpdateRotatedBoundingBox(Fix16 xpos, Fix16 ypos, Fix16 zpos, A
         mCorners[2] = point + corner2;
         mCorners[3] = point + corner3;
 
-        mBoundingBox.SetRect_41E350(xpos - height_over_2, xpos + height_over_2, ypos - width_over_2, ypos + width_over_2);
+        mBoundingBox.SetBounds(xpos - height_over_2, xpos + height_over_2, ypos - width_over_2, ypos + width_over_2);
     }
     else if (rotation == kAng180_70351E) // = 720
     {
@@ -2423,7 +2423,7 @@ void SpriteShape::UpdateRotatedBoundingBox(Fix16 xpos, Fix16 ypos, Fix16 zpos, A
         mCorners[2] = point + corner2;
         mCorners[3] = point + corner3;
 
-        mBoundingBox.SetRect_41E350(xpos - width_over_2, xpos + width_over_2, ypos - height_over_2, ypos + height_over_2);
+        mBoundingBox.SetBounds(xpos - width_over_2, xpos + width_over_2, ypos - height_over_2, ypos + height_over_2);
     }
     else if (rotation == kAng270_703544) // = 1080
     {
@@ -2437,7 +2437,7 @@ void SpriteShape::UpdateRotatedBoundingBox(Fix16 xpos, Fix16 ypos, Fix16 zpos, A
         mCorners[2] = point + corner2;
         mCorners[3] = point + corner3;
 
-        mBoundingBox.SetRect_41E350(xpos - height_over_2, xpos + height_over_2, ypos - width_over_2, ypos + width_over_2);
+        mBoundingBox.SetBounds(xpos - height_over_2, xpos + height_over_2, ypos - width_over_2, ypos + width_over_2);
     }
     else
     {
@@ -2504,7 +2504,7 @@ void SpriteShape::UpdateRotatedBoundingBox(Fix16 xpos, Fix16 ypos, Fix16 zpos, A
                           mCorners[2].y,
                           mCorners[3].y);
 
-        mBoundingBox.SetRect_5A5E30(left, right, top, bottom);
+        mBoundingBox.SetBounds_5A5E30(left, right, top, bottom);
     }
     mBoundingBox.SetHiLowZ(zpos.Subtract(depth_over_2), zpos.Add(depth_over_2));
     mBboxUpToDate = true;

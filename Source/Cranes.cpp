@@ -517,7 +517,7 @@ bool Crane::ComputeHookPolar(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* pOutAng
     // 9.6f (0x448900) only has the minimum radius test
     if (*pOutF16 <= kMaxHookRadius && *pOutF16 >= kMinHookRadius)
     {
-        *pOutAng = Ang16::Ang16_to_Fix16(to_hook.atan2_40F790());
+        *pOutAng = Ang16::Ang16_to_Fix16(to_hook.GetAngle());
         return true;
     }
     else

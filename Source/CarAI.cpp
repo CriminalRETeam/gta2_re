@@ -3909,7 +3909,7 @@ void CarAI::UpdateStateMachine()
                     }
                     else
                     {
-                        mCar->mPhysics->ForceNeutralInput_42ABC0();
+                        mCar->mPhysics->ForceNeutralInput();
                     }
 
                     if (pChase->mSideCounter < maxCount)
@@ -3949,7 +3949,7 @@ void CarAI::UpdateStateMachine()
                     }
                     else
                     {
-                        mCar->mPhysics->ForceNeutralInput_42ABC0();
+                        mCar->mPhysics->ForceNeutralInput();
                     }
 
                     if (pChase->mSideCounter < 10u)
@@ -4010,7 +4010,7 @@ void CarAI::UpdateStateMachine()
                 }
                 else
                 {
-                    mCar->mPhysics->ForceNeutralInput_42ABC0();
+                    mCar->mPhysics->ForceNeutralInput();
                 }
                 break;
 
@@ -4149,7 +4149,7 @@ void CarAI::ReactToNearbyCar()
                         }
                         else if (sCurrCarAIVelocity >= sCurrCarAIDesiredSpeed)
                         {
-                            mCar->mPhysics->ForceNeutralInput_42ABC0();
+                            mCar->mPhysics->ForceNeutralInput();
                         }
                         else
                         {
@@ -4162,7 +4162,7 @@ void CarAI::ReactToNearbyCar()
                     }
                     else
                     {
-                        mCar->mPhysics->ForceNeutralInput_42ABC0();
+                        mCar->mPhysics->ForceNeutralInput();
                     }
                 }
                 else
@@ -5246,7 +5246,7 @@ void CarAI::SetCar(Car* pCar)
 // their stack slot (as in the original)
 static inline bool IsMovingForwards_453C00(CarPhysics* pPhysics)
 {
-    Ang16 heading_delta = pPhysics->mLinvel1.atan2_40F790() - pPhysics->mTheta;
+    Ang16 heading_delta = pPhysics->mLinvel1.GetAngle() - pPhysics->mTheta;
     return heading_delta <= kAng90_6779E4 || heading_delta >= kAng270_677B08;
 }
 
@@ -5259,7 +5259,7 @@ void CarAI::ReverseOrNeutral()
     }
     else
     {
-        mCar->mPhysics->ForceNeutralInput_42ABC0();
+        mCar->mPhysics->ForceNeutralInput();
     }
 }
 

@@ -131,7 +131,8 @@ class MapRenderer
         return gCurrentSlope.mGradientDirection;
     }
 
-    inline u8 GetColour_46B5E0(s32 light_level)
+    // 9.6f 0x46B5E0
+    inline u8 GetColour(s32 light_level)
     {
         switch (light_level)
         {

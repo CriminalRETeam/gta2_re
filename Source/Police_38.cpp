@@ -2600,7 +2600,7 @@ bool PoliceRoadblock::CreateRoadblock(u8 x, u8 y, u8 z, s32 orientation)
         x_right = Fix16(x_start) + kFpHalf_6FEBF4;
         y_bottom = Fix16(y_start + width + 1);
         zpos = Fix16(z);
-        mRect->SetRect_41E350(x_left - kFpHalf_6FEBF4, x_right + kFpHalf_6FEBF4, y_top, y_bottom);
+        mRect->SetBounds(x_left - kFpHalf_6FEBF4, x_right + kFpHalf_6FEBF4, y_top, y_bottom);
         mRect->SetHiLowZ(zpos - kFpOne_6FECEC, zpos + kFpOne_6FECEC);
         if (gSpriteGrid_1->CheckRectForCollisions(mRect, false, sprite_types_enum::none_0, NULL))
         {
@@ -2915,7 +2915,7 @@ bool PoliceRoadblock::CreateRoadblock(u8 x, u8 y, u8 z, s32 orientation)
         x_right = Fix16(x_start + width + 1);
         y_bottom = Fix16(y_start) + kFpHalf_6FEBF4;
         zpos = Fix16(z);
-        mRect->SetRect_41E350(x_left, x_right, y_top - kFpHalf_6FEBF4, y_bottom + kFpHalf_6FEBF4);
+        mRect->SetBounds(x_left, x_right, y_top - kFpHalf_6FEBF4, y_bottom + kFpHalf_6FEBF4);
         mRect->SetHiLowZ(zpos - kFpOne_6FECEC, zpos + kFpOne_6FECEC);
         if (gSpriteGrid_1->CheckRectForCollisions(mRect, false, sprite_types_enum::none_0, NULL))
         {

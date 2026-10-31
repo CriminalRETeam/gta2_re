@@ -570,8 +570,8 @@ void CarInfo_2C::CalculateCarInfo(s32 idx)
         FatalError_4A38C0(Gta2Error::InvalidCarModelGearSpeeds, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 91, static_cast<u8>(idx));
     }
 
-    this->mFrontWheelOffset = gPixelsToFix16.SignedPixelsToFix16_41FE70(pCarInfo->front_wheel_offset);
-    this->mRearWheelOffset = gPixelsToFix16.SignedPixelsToFix16_41FE70(pCarInfo->rear_wheel_offset);
+    this->mFrontWheelOffset = gPixelsToFix16.SignedPixelsToFix16(pCarInfo->front_wheel_offset);
+    this->mRearWheelOffset = gPixelsToFix16.SignedPixelsToFix16(pCarInfo->rear_wheel_offset);
     Fix16 com_offset_y;
     this->mMomentOfInertia = ComputeCarMassAndInertia(gPixelsToFix16.list[pCarInfo->w],
                                                                       gPixelsToFix16.list[pCarInfo->h],

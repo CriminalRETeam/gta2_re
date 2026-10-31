@@ -333,7 +333,7 @@ void Object::SetMovementVector(Fix16_Point& speed)
     {
         new_velocity = GetSpeedVector_482C50() + speed;
         this->mObj3c->mSpeed = new_velocity.GetLength_41E260();
-        this->mObj3c->mAngle = new_velocity.atan2_40F790();
+        this->mObj3c->mAngle = new_velocity.GetAngle();
         this->mObj3c->mFriction = this->mDefinition->mFriction;
     }
     else
@@ -2271,7 +2271,7 @@ void Object::NewObj3C(Fix16_Point& speed)
     pNewObj->mObj2cId = mId;
 
     this->mObj3c->mSpeed = speed.GetLength_41E260();
-    this->mObj3c->mAngle = speed.atan2_40F790();
+    this->mObj3c->mAngle = speed.GetAngle();
 }
 
 MATCH_FUNC(0x528240)

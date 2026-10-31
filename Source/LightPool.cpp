@@ -17,12 +17,12 @@ Light* LightPool::CreateLight(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix1
 MATCH_FUNC(0x5c2b70)
 Light* LightPool::Alloc_5C2B70()
 {
-    return Alloc_464C40();
+    return Alloc();
 }
 
-// Out-of-line copy of LightIntensityRadius::SetRadius_463F10 (26 bytes).
+// Out-of-line copy of LightIntensityRadius::SetRadius (26 bytes).
 MATCH_FUNC(0x5C5CD0)
 void LightIntensityRadius::SetRadius_5C5CD0(Fix16 radius)
 {
-    SetRadius_463F10(radius);
+    SetRadius(radius);
 }
