@@ -8,9 +8,9 @@
 #include "winmain.hpp"
 
 DEFINE_GLOBAL(NetPlay, gNetPlay_7071E8, 0x7071E8);
-DEFINE_GLOBAL_INIT(GUID, kGta2_DP_Guid_5FE928, {0x561E8920 COMMA 0x5C70 COMMA 0x11D2 COMMA {0xAD COMMA 0x00 COMMA 0x00 COMMA 0xA0 COMMA 0xC9 COMMA 0xB6 COMMA 0x13 COMMA 0x98}}, 0x5FE928);
-DEFINE_GLOBAL_ARRAY(s32, gLastPlayerInputs_6F8A4C, 6, 0x6F8A4C);
-DEFINE_GLOBAL_ARRAY(char_type, gLastPlayerInputSeq_6F8A64, 24, 0x6F8A64);
+DEFINE_STATIC_MEMBER_INIT(GUID, NetPlay, kGta2_DP_Guid, {0x561E8920 COMMA 0x5C70 COMMA 0x11D2 COMMA {0xAD COMMA 0x00 COMMA 0x00 COMMA 0xA0 COMMA 0xC9 COMMA 0xB6 COMMA 0x13 COMMA 0x98}}, 0x5FE928);
+DEFINE_STATIC_MEMBER_ARRAY(s32, NetPlay, sLastPlayerInputs, 6, 0x6F8A4C);
+DEFINE_STATIC_MEMBER_ARRAY(char_type, NetPlay, sLastPlayerInputSeq, 24, 0x6F8A64);
 
 // 9.6f 0x409C50
 // Signed difference between two 8-bit sequence numbers, allowing for wrap around
@@ -56,8 +56,8 @@ NetPlay::NetPlay()
     memset(field_4C_func_ptrs_and_params, 0, sizeof(field_4C_func_ptrs_and_params));
     memset(&field_30_enumed_connections, 0, sizeof(field_30_enumed_connections));
     memset(&field_758_n2, 0, sizeof(field_758_n2));
-    memset(gLastPlayerInputs_6F8A4C, 0xFF, sizeof(gLastPlayerInputs_6F8A4C));
-    memset(gLastPlayerInputSeq_6F8A64, 0, sizeof(gLastPlayerInputSeq_6F8A64));
+    memset(sLastPlayerInputs, 0xFF, sizeof(sLastPlayerInputs));
+    memset(sLastPlayerInputSeq, 0, sizeof(sLastPlayerInputSeq));
     field_5DC_handle = CreateEventA(NULL, FALSE, FALSE, NULL);
     field_8EC_unused = 0;
     field_48_net_state = 5;
@@ -220,7 +220,7 @@ s32 NetPlay::SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, Network_Buffer* p
     {
         if (isIpx)
         {
-            if (SUCCEEDED(field_5E4_pDPlay3->EnumConnections(&kGta2_DP_Guid_5FE928, NetPlay::EnumConnections_cb_51DA30, this, 1)))
+            if (SUCCEEDED(field_5E4_pDPlay3->EnumConnections(&kGta2_DP_Guid, NetPlay::EnumConnections_cb_51DA30, this, 1)))
             {
                 field_30_enumed_connections.field_10_enum_success = 1;
                 if (NetPlay::DirectPlayCreate_51DED0())
@@ -581,7 +581,7 @@ s32 NetPlay::EnumSessions_51E650()
 
     memset(&desc, 0, sizeof(desc));
     desc.dwSize = sizeof(desc);
-    desc.guidApplication = kGta2_DP_Guid_5FE928;
+    desc.guidApplication = kGta2_DP_Guid;
 
     HRESULT hr;
     if (field_4_bModem)
@@ -647,7 +647,7 @@ s32 NetPlay::HostSession_51E7A0(wchar_t* pSessionName, wchar_t* pPlayerName, Net
         memset(pDesc, 0, sizeof(DPSESSIONDESC2));
         pDesc->dwSize = sizeof(DPSESSIONDESC2);
         field_758_n2.field_120_session_desc.dwFlags = 0x8000; // DPSESSION_DIRECTPLAYPROTOCOL, not in this DPLAY.H
-        field_758_n2.field_120_session_desc.guidApplication = kGta2_DP_Guid_5FE928;
+        field_758_n2.field_120_session_desc.guidApplication = kGta2_DP_Guid;
         field_758_n2.field_120_session_desc.dwMaxPlayers = 6;
         field_758_n2.field_120_session_desc.lpszSessionName = static_cast<LPWSTR>(operator new(2 * wcslen(pSessionName) + 2));
         wcscpy(field_758_n2.field_120_session_desc.lpszSessionName, pSessionName);
@@ -846,7 +846,7 @@ void NetPlay::NetworkTick_51ED00()
                 DPSESSIONDESC2 desc;
                 memset(&desc, 0, sizeof(desc));
                 desc.dwSize = sizeof(desc);
-                desc.guidApplication = kGta2_DP_Guid_5FE928;
+                desc.guidApplication = kGta2_DP_Guid;
                 if (field_5E4_pDPlay3->EnumSessions(&desc,
                                                     1000,
                                                     reinterpret_cast<LPDPENUMSESSIONSCALLBACK2>(NetPlay::EnumSessions_cb_51EAE0),
@@ -1151,9 +1151,9 @@ void NetPlay::MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pD
                     case packet_subtype::PlayerInputs_3: // In-Game data?
                     {
                         s32 idx = GetPlayerIdx_409C40();
-                        if (SeqDiff(pPacket->field_8_seq, gLastPlayerInputSeq_6F8A64[idx]) == 1 && gLastPlayerInputs_6F8A4C[idx] == *static_cast<s32*>(pPacket->field_D_data))
+                        if (SeqDiff(pPacket->field_8_seq, sLastPlayerInputSeq[idx]) == 1 && sLastPlayerInputs[idx] == *static_cast<s32*>(pPacket->field_D_data))
                         {
-                            gLastPlayerInputSeq_6F8A64[idx] = pPacket->field_8_seq;
+                            sLastPlayerInputSeq[idx] = pPacket->field_8_seq;
                             pBuffer[0] = pkt_data_type::PlayerTickOnly_9;
                             pBuffer[1] = pPacket->field_8_seq;
                             *pDataLen = 2;
@@ -1170,10 +1170,10 @@ void NetPlay::MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pD
                             memcpy(pBuffer + 2, pPacket->field_D_data, pPacket->field_11_len);
                             *pDataLen = pPacket->field_11_len + 2;
                             idx = GetPlayerIdx_409C40();
-                            if (SeqDiff(pPacket->field_8_seq, gLastPlayerInputSeq_6F8A64[idx]) == 1)
+                            if (SeqDiff(pPacket->field_8_seq, sLastPlayerInputSeq[idx]) == 1)
                             {
-                                gLastPlayerInputs_6F8A4C[idx] = *static_cast<s32*>(pPacket->field_D_data);
-                                gLastPlayerInputSeq_6F8A64[GetPlayerIdx_409C40()] = pPacket->field_8_seq;
+                                sLastPlayerInputs[idx] = *static_cast<s32*>(pPacket->field_D_data);
+                                sLastPlayerInputSeq[GetPlayerIdx_409C40()] = pPacket->field_8_seq;
                             }
                         }
                         break;
@@ -2099,13 +2099,13 @@ void NetPlay::ResolvePlayerInput_521820(s32** ppData, s32 idx)
     s32* p = *ppData;
     if (*p == -1)
     {
-        *p = gLastPlayerInputs_6F8A4C[idx];
+        *p = sLastPlayerInputs[idx];
     }
     else
     {
-        gLastPlayerInputs_6F8A4C[idx] = *p;
+        sLastPlayerInputs[idx] = *p;
     }
-    gLastPlayerInputSeq_6F8A64[idx] = field_758_n2.field_8_packet_game_tick[idx];
+    sLastPlayerInputSeq[idx] = field_758_n2.field_8_packet_game_tick[idx];
 }
 
 MATCH_FUNC(0x521870)

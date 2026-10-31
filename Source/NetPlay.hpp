@@ -171,6 +171,9 @@ struct PacketHandlerSlot
 
 struct NetPlay
 {
+    STATIC_MEMBER(GUID, kGta2_DP_Guid);
+    STATIC_MEMBER_ARRAY(s32, sLastPlayerInputs, 6);
+    STATIC_MEMBER_ARRAY(char_type, sLastPlayerInputSeq, 24);
     EXPORT NetPlay();
     EXPORT void* vdtor_51D7B0(char_type flags);
     EXPORT virtual ~NetPlay();
