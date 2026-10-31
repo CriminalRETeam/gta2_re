@@ -30,6 +30,8 @@ class TrainStation;
 class Ped
 {
   public:
+    STATIC_MEMBER(u8, sPedUsedPathThisTick);
+    STATIC_MEMBER(u8, sKeepPaceWithTarget);
     // 9.6f 0x433C90
     inline bool Is_occupation_elvis_433C90() const
     {
