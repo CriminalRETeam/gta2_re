@@ -8,8 +8,6 @@
 #include <direct.h>
 
 DEFINE_GLOBAL(UINT_PTR, gTimerId_6F8A18, 0x6F8A18);
-DEFINE_GLOBAL_ARRAY(char_type, Dest_6F88A4, 256, 0x6F88A4);
-DEFINE_GLOBAL(s32, gChatLineCount_6F8A2C, 0x6F8A2C);
 
 EXTERN_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256);
 
@@ -995,17 +993,18 @@ void NetUi::DbcsToWide_5199B0(wchar_t* pDst, char_type* pSrc)
 MATCH_FUNC(0x519a00)
 char_type* __stdcall GetString_519A00(const char_type* pKey)
 {
+    LOCAL_STATIC_ARRAY(char_type, sDest, 256, 0x6F88A4);
     wchar_t* pText = gtext_0x14_6F87F0->Find_5B5F90(pKey);
 
     if (gtext_0x14_6F87F0->LangIsJapanese_452E60())
     {
-        WideToDbcs_519960(Dest_6F88A4, pText);
+        WideToDbcs_519960(sDest, pText);
     }
     else
     {
-        wcstombs(Dest_6F88A4, pText, 256u);
+        wcstombs(sDest, pText, 256u);
     }
-    return Dest_6F88A4;
+    return sDest;
 }
 
 MATCH_FUNC(0x519a50)
@@ -1835,6 +1834,7 @@ LRESULT NetUi::cb_AddChatMessage_51B2F0(NetUi* pNetUi, Network_ChatMessage* pMsg
 MATCH_FUNC(0x51b4f0)
 s32 NetUi::AppendChatMessage_51B4F0(s32 hmenu, const char_type* pMsg)
 {
+    LOCAL_STATIC(s32, sChatLineCount, 0x6F8A2C);
     char_type line[260];
     char_type name[260];
     char_type newText[2048];
@@ -1845,16 +1845,16 @@ s32 NetUi::AppendChatMessage_51B4F0(s32 hmenu, const char_type* pMsg)
     // The original gets our name as a wide string but then formats with the (unset) narrow buffer
     gNetPlay_7071E8.GetPlayerName_521100(playerName, 7);
     sprintf(line, "%s : %s", name, pMsg);
-    gChatLineCount_6F8A2C++;
+    sChatLineCount++;
 
     switch (field_20310_showing_specific_window_idx)
     {
         case GUEST_LOBBY_2: // Guest
         {
-            if (gChatLineCount_6F8A2C >= 20)
+            if (sChatLineCount >= 20)
             {
                 // Keep only the last 10 lines
-                gChatLineCount_6F8A2C = 10;
+                sChatLineCount = 10;
                 s32 pos = GetWindowTextA(GetDlgItem(Get_2031C_HWND_519E20(), CHATBOX_GUEST_1051), allText, sizeof(allText));
                 s32 lines = 0;
                 while (pos > 0 && lines < 10)
@@ -1884,10 +1884,10 @@ s32 NetUi::AppendChatMessage_51B4F0(s32 hmenu, const char_type* pMsg)
 
         case HOST_LOBBY_1: // Host
         {
-            if (gChatLineCount_6F8A2C >= 20)
+            if (sChatLineCount >= 20)
             {
                 // Keep only the last 10 lines
-                gChatLineCount_6F8A2C = 10;
+                sChatLineCount = 10;
                 s32 pos = GetWindowTextA(GetDlgItem(Get_2031C_HWND_519E20(), CHATBOX_HOST_1022), allText, sizeof(allText));
                 s32 lines = 0;
                 while (pos > 0 && lines < 10)
