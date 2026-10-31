@@ -129,7 +129,6 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint2_678488, Fix16(0xCCC, 0), 0x678488);
 DEFINE_GLOBAL(Ped*, gLastProcessedPed_6787C0, 0x6787C0);
 DEFINE_GLOBAL_INIT(Fix16, gDummyW_678530, kFpPoint2_678488, 0x678530);
 DEFINE_GLOBAL_INIT(Fix16, gDummyZ_67841C, kFpQuarter_678484, 0x67841C);
-DEFINE_GLOBAL(Object*, gNullTargetObject_678558, 0x678558);
 DEFINE_GLOBAL(char_type, gNumberBusCustomers_6787D3, 0x6787D3);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneSixth_678504, Fix16(0xAAA, 0), 0x678504);
 DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_678574, kFpQuarter_678484, 0x678574);
@@ -7476,6 +7475,7 @@ void Ped::TimeWaitedInCar_4682A0()
 MATCH_FUNC(0x468310)
 void Ped::GotoAreaInCar_468310()
 {
+    LOCAL_STATIC(Object*, sNullTargetObject, 0x678558);
     if (this->field_225_objective_status != objective_status::passed_1)
     {
         if (this->field_168_game_object)
@@ -7521,7 +7521,7 @@ void Ped::GotoAreaInCar_468310()
                 gCarChaseTaskTable_678E30->FreeEntry_474CC0(pCar->field_60_pChaseTask);
                 this->field_16C_car->field_60_pChaseTask = NULL;
                 this->field_16C_car->SetAIHalted_421540();
-                this->field_1A0_objective_target_object = gNullTargetObject_678558;
+                this->field_1A0_objective_target_object = sNullTargetObject;
             }
             else
             {
