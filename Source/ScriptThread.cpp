@@ -106,7 +106,7 @@ DEFINE_GLOBAL(ScriptThreadPool*, miss2_0x11C_Pool_6F8064, 0x6F8064);
 // TODO: the current command, of any SCR_* type, typed SCR_POINTER only because many commands read
 // field_8_index; most uses cast it to their command struct
 DEFINE_GLOBAL(SCR_POINTER*, gBasePtr_6F8070, 0x6F8070);
-DEFINE_GLOBAL_INIT(Fix16, kFpOneAndHalf_6F76DC, Fix16(0x6000, 0), 0x6F76DC);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpOneAndHalf, Fix16(0x6000, 0), 0x6F76DC);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6F75F0, Fix16(0x2000, 0), 0x6F75F0);
 DEFINE_GLOBAL(Fix16, kFpZero_6F77C0, 0x6F77C0);
 DEFINE_GLOBAL_INIT(Ang16, kDegreesToAng16_6F8044, Ang16(0x4), 0x6F8044);
@@ -423,7 +423,7 @@ void ScriptThread::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
         Ped* pPed;
         if (gScriptManager_6F8060->IsLoadedFromSave_475A20())
         {
-            Fix16 saved_y = kFpOneAndHalf_6F76DC + gGameSave_6F78C8.field_54_player_and_world_stats.field_4_y.GetFloorValue();
+            Fix16 saved_y = kFpOneAndHalf + gGameSave_6F78C8.field_54_player_and_world_stats.field_4_y.GetFloorValue();
             Fix16 saved_x = kFpHalf_6F75F0 + gGameSave_6F78C8.field_54_player_and_world_stats.field_0_x.GetFloorValue();
 
             pPed = gPedManager_6787BC->SpawnPedAt(saved_x,
