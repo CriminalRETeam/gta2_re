@@ -101,6 +101,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(JunctionRoute, 0x200);
 class RouteFinder
 {
   public:
+    STATIC_MEMBER(u16, sLastRouteLength);
     EXPORT void ShowJunctionIds_588620();
     EXPORT void RoadOff_588810(u8 x, u8 y, u8 z);
     EXPORT void RoadOn_588950(u8 x, u8 y, u8 z);

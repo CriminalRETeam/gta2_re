@@ -15,7 +15,7 @@
 static inline void WorldToScreen_RouteFinder_40CFC0(Camera* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY);
 
 DEFINE_GLOBAL(RouteFinder*, gRouteFinder_6FFDC8, 0x6FFDC8);
-DEFINE_GLOBAL(u16, gLastRouteLength_6FFDCC, 0x6ffdcc);
+DEFINE_STATIC_MEMBER(u16, RouteFinder, sLastRouteLength, 0x6ffdcc);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_6FFC7C, Fix16(1), 0x6FFC7C);
 DEFINE_GLOBAL_INIT(Fix16, kFpEight_6FFC9C, Fix16(8), 0x6FFC9C);
 EXTERN_GLOBAL(s16, gStyleTextFont_703BAA);
@@ -1030,7 +1030,7 @@ s16 RouteFinder::StoreRoute_589EB0()
         pNode = pNode->field_8_pParent;
         count++;
     }
-    gLastRouteLength_6FFDCC = count;
+    sLastRouteLength = count;
 
     pNode = &field_861C_nodes[field_CC66_545_count - 1];
 
@@ -1042,7 +1042,7 @@ s16 RouteFinder::StoreRoute_589EB0()
             pNode = pNode->field_8_pParent;
         } while (pNode != NULL);
     }
-    field_2218_routes[route_idx].field_0_junctions[gLastRouteLength_6FFDCC] = 0;
+    field_2218_routes[route_idx].field_0_junctions[sLastRouteLength] = 0;
     field_0_route_count++;
     return route_idx;
 }
@@ -1069,7 +1069,7 @@ s16 RouteFinder::StoreRouteReversed_589F70()
         pNode = pNode->field_8_pParent;
         length++;
     }
-    gLastRouteLength_6FFDCC = length;
+    sLastRouteLength = length;
 
     pNode = &field_861C_nodes[field_CC66_545_count - 1];
 
@@ -1135,7 +1135,7 @@ s16 RouteFinder::FindOffScreenRoute_58A130(u8 x, s16 y, u8 z, u8* pRouteLength, 
         if (SearchUntilOffScreen_589E70(arrow_type))
         {
             s16 ret = StoreRouteReversed_589F70();
-            *pRouteLength = static_cast<u8>(gLastRouteLength_6FFDCC);
+            *pRouteLength = static_cast<u8>(sLastRouteLength);
             return ret;
         }
     }
