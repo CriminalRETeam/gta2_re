@@ -10,7 +10,7 @@
 
 DEFINE_GLOBAL(PlyDat*, gPlyDat_6FEAC0, 0x6FEAC0);
 EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 2);
-DEFINE_GLOBAL_ARRAY_INIT(ScoreTableLine, gDefaultHiScores_6242B0, 10, 0x6242B0,
+DEFINE_STATIC_GLOBAL_ARRAY_INIT(ScoreTableLine, sDefaultHiScores, 10, 0x6242B0,
     { L"ALISDAIR" COMMA 50000 } COMMA
     { L"BILLY"    COMMA 40000 } COMMA
     { L"BRIAN"    COMMA 30000 } COMMA
@@ -655,7 +655,7 @@ MATCH_FUNC(0x56C1D0)
 void PlyDat::InitDefaultHiScores_56C1D0()
 {
     field_23D0_total_scores.Init_56B520();
-    ScoreTableLine* p10StruIter = gDefaultHiScores_6242B0;
+    ScoreTableLine* p10StruIter = sDefaultHiScores;
     for (s32 k10 = 0; k10 < 10; k10++)
     {
         field_23D0_total_scores.InsertScore_56B550(p10StruIter->field_0_player_name, p10StruIter->field_14_score);
