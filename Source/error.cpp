@@ -130,7 +130,7 @@ DEFINE_GLOBAL(ErrorLog, gMiss2Log_6F7698, 0x6F7698);
 DEFINE_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256, 0x67C598);
 DEFINE_GLOBAL_ARRAY(char_type, gErrStr_67C29C, 256, 0x67C29C);
 DEFINE_GLOBAL_ARRAY(char_type, gErrStr2_67C3A8, 256, 0x67C3A8);
-DEFINE_GLOBAL_ARRAY(char_type, gGlobalFileName_67C6AC, 256, 0x67C6AC);
+DEFINE_STATIC_GLOBAL_ARRAY(char_type, sGlobalFileName, 256, 0x67C6AC);
 
 const char_type* gListTypes_61AB70[30] = {"objects",
                                           "corner_space",
@@ -166,7 +166,7 @@ const char_type* gListTypes_61AB70[30] = {"objects",
 MATCH_FUNC(0x4A0770)
 EXPORT void __stdcall Error_SetName_4A0770(const char_type* pFileName)
 {
-    strcpy(gGlobalFileName_67C6AC, pFileName);
+    strcpy(sGlobalFileName, pFileName);
 }
 
 MATCH_FUNC(0x4A07A0)
@@ -245,33 +245,33 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
 
         case Gta2Error::FtellError:
-            sprintf(gTmpBuffer_67C598, "Ftell error in file: %s", gGlobalFileName_67C6AC);
+            sprintf(gTmpBuffer_67C598, "Ftell error in file: %s", sGlobalFileName);
             break;
 
         case Gta2Error::FileReadFailure:
-            sprintf(gTmpBuffer_67C598, "Read failure in file: %s", gGlobalFileName_67C6AC);
+            sprintf(gTmpBuffer_67C598, "Read failure in file: %s", sGlobalFileName);
             break;
 
         case Gta2Error::FileOpenError:
             sprintf(gTmpBuffer_67C598,
                     "Install Next freeloader episode please. [Temp message].Unable to open file : %s",
-                    gGlobalFileName_67C6AC);
+                    sGlobalFileName);
             break;
 
         case Gta2Error::FileCloseError:
-            sprintf(gTmpBuffer_67C598, "Unable to close file: %s", gGlobalFileName_67C6AC);
+            sprintf(gTmpBuffer_67C598, "Unable to close file: %s", sGlobalFileName);
             break;
 
         case Gta2Error::FileBiggerThanBuffer:
-            sprintf(gTmpBuffer_67C598, "Trying to a load a file too big for buffer: %s", gGlobalFileName_67C6AC);
+            sprintf(gTmpBuffer_67C598, "Trying to a load a file too big for buffer: %s", sGlobalFileName);
             break;
 
         case Gta2Error::WritingZeroBytesToFile:
-            sprintf(gTmpBuffer_67C598, "Writing zero bytes to file : %s", gGlobalFileName_67C6AC);
+            sprintf(gTmpBuffer_67C598, "Writing zero bytes to file : %s", sGlobalFileName);
             break;
 
         case Gta2Error::FileWriteFailure:
-            sprintf(gTmpBuffer_67C598, "Write failure on file : %s", gGlobalFileName_67C6AC);
+            sprintf(gTmpBuffer_67C598, "Write failure on file : %s", sGlobalFileName);
             break;
 
         case Gta2Error::FileReadingNotOpenedFile:
@@ -279,15 +279,15 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
 
         case Gta2Error::ungetcFailrue:
-            sprintf(gTmpBuffer_67C598, "ungetc failure in file %s", gGlobalFileName_67C6AC);
+            sprintf(gTmpBuffer_67C598, "ungetc failure in file %s", sGlobalFileName);
             break;
 
         case Gta2Error::FileInvalidInteger:
-            sprintf(gTmpBuffer_67C598, "invalid integer encountered in file %s", gGlobalFileName_67C6AC);
+            sprintf(gTmpBuffer_67C598, "invalid integer encountered in file %s", sGlobalFileName);
             break;
 
         case Gta2Error::FileEndOfFileInTextString:
-            sprintf(gTmpBuffer_67C598, "End of file in text string in file %s", gGlobalFileName_67C6AC);
+            sprintf(gTmpBuffer_67C598, "End of file in text string in file %s", sGlobalFileName);
             break;
 
         case Gta2Error::TextStringTooLong:
@@ -307,11 +307,11 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
 
         case Gta2Error::InvalidStringInParameterList:
-            sprintf(gTmpBuffer_67C598, "Invalid string in parameter list: %s", gGlobalFileName_67C6AC);
+            sprintf(gTmpBuffer_67C598, "Invalid string in parameter list: %s", sGlobalFileName);
             break;
 
         case Gta2Error::RepeatedFileInParameterList:
-            sprintf(gTmpBuffer_67C598, "Repeated file in parameter list : %s", gGlobalFileName_67C6AC);
+            sprintf(gTmpBuffer_67C598, "Repeated file in parameter list : %s", sGlobalFileName);
             break;
 
         case Gta2Error::InvalidZoneData:
@@ -359,7 +359,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
 
         case Gta2Error::FileWriteByteFail:
-            sprintf(gTmpBuffer_67C598, "Failed writing a byte to file %s", gGlobalFileName_67C6AC);
+            sprintf(gTmpBuffer_67C598, "Failed writing a byte to file %s", sGlobalFileName);
             break;
 
         case Gta2Error::UsingUninitialisedSprite:
@@ -443,11 +443,11 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
 
         case Gta2Error::InvalidFileType:
-            sprintf(gTmpBuffer_67C598, "Invalid file type in %s", gGlobalFileName_67C6AC);
+            sprintf(gTmpBuffer_67C598, "Invalid file type in %s", sGlobalFileName);
             break;
 
         case Gta2Error::InvalidFileVersion:
-            sprintf(gTmpBuffer_67C598, "Invalid file version in %s", gGlobalFileName_67C6AC);
+            sprintf(gTmpBuffer_67C598, "Invalid file version in %s", sGlobalFileName);
             break;
 
         case Gta2Error::CharacterHasNoPedPointer_1:
@@ -940,7 +940,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case Gta2Error::FileTooLarge:
         {
             s32 va_1 = va_arg(va, s32);
-            sprintf(gTmpBuffer_67C598, "File too large: %s exceeds max size by %d bytes", gGlobalFileName_67C6AC, va_1);
+            sprintf(gTmpBuffer_67C598, "File too large: %s exceeds max size by %d bytes", sGlobalFileName, va_1);
             break;
         }
 
