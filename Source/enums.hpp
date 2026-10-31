@@ -685,7 +685,7 @@ enum
     car_shop_busy_131 = 131,
     car_bomb_132 = 132,
     object_133 = 133,
-    crane_unknown_134 = 134,
+    crane_cables_134 = 134,
     crane_rotor_135 = 135,
     crane_hook_136 = 136,
     crane_base_137 = 137,
