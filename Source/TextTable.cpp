@@ -11,7 +11,6 @@
 DEFINE_GLOBAL(TextTable*, gText_0x14_704DFC, 0x704DFC);
 DEFINE_GLOBAL(TextTable*, gtext_0x14_6F87F0, 0x6F87F0);
 DEFINE_GLOBAL_ARRAY(wchar_t, tmpAscii2WideStr_70488C, 640, 0x70488C);
-DEFINE_GLOBAL_ARRAY(char_type, tmpWide2AsciiStr_70462C, 80, 0x70462C);
 
 const wchar_t kToUpperTable_626590[256] = {
     128u, 129u, 130u, 131u, 132u, 133u, 134u, 135u, 136u, 137u, 138u, 139u, 140u, 141u, 142u, 143u, 144u, 145u, 146u, 147u, 148u, 149u,
@@ -286,23 +285,24 @@ s32 __stdcall TextTable::InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr
 MATCH_FUNC(0x5B5D10)
 char_type* TextTable::Wide2PesudoAscii_5B5D10(const wchar_t* pText)
 {
+    LOCAL_STATIC_ARRAY(char_type, sTmpWide2AsciiStr, 80, 0x70462C);
     const wchar_t* pSrc = pText;
     // Signed index and limit: the original compares them with jge
     s32 dstIdx = 0;
     while (pSrc) // bug: should be *pSrc
     {
-        if (dstIdx >= static_cast<s32>(sizeof(tmpWide2AsciiStr_70462C) - 1))
+        if (dstIdx >= static_cast<s32>(sizeof(sTmpWide2AsciiStr) - 1))
         {
             break;
         }
 
         if (*pSrc >= 0x80u)
         {
-            tmpWide2AsciiStr_70462C[dstIdx] = '#';
+            sTmpWide2AsciiStr[dstIdx] = '#';
         }
         else
         {
-            tmpWide2AsciiStr_70462C[dstIdx] = static_cast<char_type>(*pSrc);
+            sTmpWide2AsciiStr[dstIdx] = static_cast<char_type>(*pSrc);
         }
 
         pSrc++;
@@ -310,8 +310,8 @@ char_type* TextTable::Wide2PesudoAscii_5B5D10(const wchar_t* pText)
     }
 
     // add null terminator
-    tmpWide2AsciiStr_70462C[dstIdx] = 0;
-    return tmpWide2AsciiStr_70462C;
+    sTmpWide2AsciiStr[dstIdx] = 0;
+    return sTmpWide2AsciiStr;
 }
 
 MATCH_FUNC(0x5B5DF0)
