@@ -289,6 +289,7 @@ class Pool
         return pToFind;
     }
 
+    // 9.6f 0x420F30
     void UnlinkFromActiveList_420F30(PoolType* toFind)
     {
         PoolType* pLast = 0;

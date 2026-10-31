@@ -39,6 +39,7 @@ class Ped_List
     EXPORT void SyncPassengersWithCarState(Car* pCar);
     EXPORT bool HasScriptCreatedPed() const;
 
+    // 9.6f 0x420E90
     void ClearList_420E90()
     {
         mpFirstPed = NULL;

@@ -94,6 +94,7 @@ struct GameSession
         mSecretTokensCollected = 0;
     }
 
+    // 9.6f 0x461DC0
     inline s32 GetTimeLimit_461DC0() const
     {
         return mGameTimeLimit;

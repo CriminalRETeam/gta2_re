@@ -21,6 +21,7 @@ class SpriteList
         ResetHead_4207E0();
     }
 
+    // 9.6f 0x4207E0
     void ResetHead_4207E0() // inline
     {
         mP18 = NULL;
@@ -90,6 +91,7 @@ class Object_3C
         ++gObj3C_dealloc_count;
     }
 
+    // 9.6f 0x482BD0
     void ClearConveyorSpeed_482BD0()
     {
         mConveyorSpeed = 0;

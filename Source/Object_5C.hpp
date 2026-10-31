@@ -168,12 +168,14 @@ class Object
         return behavior_type == object_behavior_type::shop_10;
     }
 
+    // 9.6f 0x475A80
     bool IsAnimatedBehavior_475A80() const
     {
         s32 behavior_type = this->mDefinition->mBehaviorType;
         return behavior_type == object_behavior_type::animated_2 || behavior_type == object_behavior_type::physics_animated_4 || behavior_type == object_behavior_type::pickup_animated_8 || behavior_type == object_behavior_type::pickup_physics_animated_9;
     }
 
+    // 9.6f 0x434140
     inline bool IsDestroyedPowergen_434140() const
     {
         if (mModel == objects::destroyed_invisible_powergen_285 || mModel == objects::destroyed_powergen_282)
@@ -183,6 +185,7 @@ class Object
         return false;
     }
 
+    // 9.6f 0x482C90
     bool CanBePushed_482C90() const
     {
         s32 behavior_type = mDefinition->mBehaviorType;
@@ -194,6 +197,7 @@ class Object
         return false;
     }
 
+    // 9.6f 0x421080
     bool UsesParamAsPedRef_421080() const
     {
         s32 type = this->mDefinition->mBehaviorType;
@@ -203,11 +207,13 @@ class Object
             type != object_behavior_type::effect_only_12;
     }
 
+    // 9.6f 0x4973E0
     bool IsOwnedByPedRef_4973E0(u8 ped_ref_idx) const
     {
         return UsesParamAsPedRef_421080() && mPedRefIdx == ped_ref_idx;
     }
 
+    // 9.6f 0x4210B0
     bool IsSpriteGrid2Region3_4210B0() const
     {
         return mDefinition->mCollisionBucketCategory == collision_bucket_category::sprite_grid_2_region_3;
@@ -262,6 +268,7 @@ class Object
         return model == 176 || model == 177 || model == 178 || model == 179 || model == 180 || model == 181;
     }
 
+    // 9.6f 0x421060
     bool IsPickup_421060() const
     {
         return mDefinition->mBehaviorType == object_behavior_type::pickup_6 ||
@@ -283,16 +290,19 @@ class Object
         mModel = 0;
     }
 
+    // 9.6f 0x4340D0
     inline Fix16 GetX_4340D0() const
     {
         return mSprite->mXy.x;
     }
 
+    // 9.6f 0x4340E0
     inline Fix16 GetY_4340E0() const
     {
         return mSprite->mXy.y;
     }
 
+    // 9.6f 0x4340F0
     inline Fix16 GetZ_4340F0() const
     {
         return mSprite->mZpos;
@@ -304,6 +314,7 @@ class Object
         return mModel >= objects::loonies_icon_287 && mModel <= objects::russian_mafia_icon_293;
     }
 
+    // 9.6f 0x4BE830
     bool IsFlameObject_4BE830() const
     {
         if (this->mModel == objects::fire_197)
@@ -331,6 +342,7 @@ class Object
         return mDefinition->mMass;
     }
 
+    // 9.6f 0x482BE0
     void ApplyDefinitionDrawLayer_482BE0()
     {
         mSprite->SetDrawLayer_40F7B0(mDefinition->mDrawLayer);

@@ -94,6 +94,7 @@ class BitSet32
         return *this;
     }
 
+    // 9.6f 0x4A5190
     inline u32 GetRaw_4A5190()
     {
         return m_var;
@@ -117,11 +118,13 @@ class BitSet32
         gFlags = kGlobalMask2;
     }
 
+    // 9.6f 0x4BA330
     inline void MaskWithGlobalFlags_4BA330()
     {
         m_var &= gFlags;
     }
 
+    // 9.6f 0x4BA340
     inline void ClearGlobalFlags_4BA340()
     {
         m_var &= ~gFlags;

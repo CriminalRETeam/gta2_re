@@ -13,11 +13,13 @@ class LightBase
 
     }
 
+    // 9.6f 0x45BF50
     void UpdatePool_45BF50()
     {
         mPool.UpdatePool();
     }
 
+    // 9.6f 0x45C1E0
     void Service_45C1E0()
     {
         UpdatePool_45BF50();
@@ -34,6 +36,7 @@ class LightPool : public LightBase
         LightGrid::AllocGrid();
     }
 
+    // 9.6f 0x464C60
     inline void AddToUpdateList_464C60(Light* pLight)
     {
         pLight->mpNext = mPool.mpPrev;
@@ -49,6 +52,7 @@ class LightPool : public LightBase
         return pFirst;
     }
 
+    // 9.6f 0x469070
     inline void SetFlashing_469070(Light* pLight, u8 on_time, u8 off_time, u8 shape)
     {
         pLight->mFlickerRange = shape;
@@ -91,6 +95,7 @@ class LightPool : public LightBase
         return pLight;
     }
 
+    // 9.6f 0x47F4B0
     inline void Free_47F4B0(Light* pLight)
     {
         pLight->PoolDeallocate();
@@ -123,6 +128,7 @@ class LightPool : public LightBase
         }
     }
 
+    // 9.6f 0x47F4F0
     inline void DeallocLight_47F4F0(Light* pLight)
     {
         pLight->RemoveFromGrid();

@@ -21,12 +21,14 @@ class PedRefTable
     EXPORT PedRefTable();
     EXPORT ~PedRefTable();
 
+    // 9.6f 0x434070
     inline void Clear_434070(u8 idx)
     {
         mEntries[idx].mPedId = 0;
         mEntries[idx].mRefCount = 0;
     }
 
+    // 9.6f 0x420F10
     s32 GetPedId_420F10(u8 idx) const
     {
         return mEntries[idx].mPedId;

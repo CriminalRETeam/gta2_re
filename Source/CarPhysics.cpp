@@ -228,6 +228,7 @@ inline wchar_t* Ang16::ThetaText_49E240()
     return sThetaText;
 }
 
+// 9.6f 0x410BA0
 inline f64 Fix16::to_float_410BA0() const
 {
     return ((mValue / 16384.0));

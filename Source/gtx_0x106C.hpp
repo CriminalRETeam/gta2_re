@@ -124,6 +124,7 @@ class car_info
         return num_remaps > 1;
     }
 
+    // 9.6f 0x41FEA0
     bool IsTruckCab_41FEA0() const
     {
         return (this->info_flags & car_info_flag::truck_cab) == car_info_flag::truck_cab;
@@ -136,6 +137,7 @@ class car_info
         return (this->info_flags & car_info_flag::trailer) == car_info_flag::trailer;
     }
 
+    // 9.6f 0x41FF00
     bool IsHeavy_41FF00() const
     {
         return (this->info_flags_2 & car_info_flag2::heavy) == car_info_flag2::heavy;
@@ -208,6 +210,7 @@ enum
 class gtx_0x106C
 {
   public:
+    // 9.6f 0x49E540
     inline bool IsRemappedWaterTile_49E540(u16 spec_idx) const
     {
         if (mSpec[spec_idx] == tile_spec::water && IsTileRemapped(spec_idx))
@@ -260,22 +263,26 @@ class gtx_0x106C
     }
 
     // inline
+    // 9.6f 0x4C2EE0
     bool has_tiles_4C2EE0() const
     {
         return mTiles != NULL;
     }
 
     // inline
+    // 9.6f 0x4C2EB0
     u8* get_tile_4C2EB0(u16 tile_num) const
     {
         return &mTiles[(((tile_num & ~3) * 64) + (tile_num & 3)) * 64];
     }
 
+    // 9.6f 0x420220
     inline u8 get_sprite_width_420220(u16 sprite_idx) const
     {
         return get_sprite_index(sprite_idx)->mWidth;
     }
 
+    // 9.6f 0x4C6C90
     inline u8 get_sprite_height_4C6C90(u16 sprite_idx) const
     {
         return get_sprite_index(sprite_idx)->mHeight;
@@ -401,6 +408,7 @@ class gtx_0x106C
         return mCari->mCarInfo[model_idx] != NULL;
     }
 
+    // 9.6f 0x491F80
     inline bool IsElectrifiedFloorType_491F80(u16 tile_idx) const
     {
         return mSpec[tile_idx] == tile_spec::electrified_floor;

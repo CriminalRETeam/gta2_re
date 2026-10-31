@@ -59,6 +59,7 @@ class Crane
     EXPORT void SetTarget2(Fix16 xpos, Fix16 ypos, Ang16 ang);
     EXPORT Car* GetCarFromCrane();
 
+    // 9.6f 0x4768E0
     inline void SetHomeRotation_4768E0(Ang16 rotation)
     {
         mHomeAngle = Ang16::Ang16_to_Fix16(rotation);

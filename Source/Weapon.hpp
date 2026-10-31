@@ -104,6 +104,7 @@ class Weapon
     }
 
     // Maybe decrement ammo for weapons like shotgun, molotov, grenades, rocket launcher, (dual) pistol etc
+    // 9.6f 0x4CCA30
     __forceinline void decrement_ammo_4CCA30()
     {
         s32 new_ammo = mAmmo - 10;
@@ -118,6 +119,7 @@ class Weapon
     }
 
     // Maybe decrement ammo for weapons like machine gun, SMG etc
+    // 9.6f 0x4CCA60
     void DecreaseAmmo_4CCA60()
     {
         if (!is_infinite_ammo_4A4FA0())
@@ -126,6 +128,7 @@ class Weapon
         }
     }
 
+    // 9.6f 0x4CCA80
     void SetShotFired_4CCA80(bool new_value)
     {
         mShotFired = new_value;
@@ -139,26 +142,31 @@ class Weapon
         return ret;
     }
 
+    // 9.6f 0x4A4F80
     inline bool HasAmmo_4A4F80() const
     {
         return mAmmo != 0;
     }
 
+    // 9.6f 0x4A4FF0
     void SetAmmo_4A4FF0(u16 ammo)
     {
         this->mAmmo = ammo;
     }
 
+    // 9.6f 0x41CC90
     s32 GetWeaponType_41CC90() const
     {
         return mWeaponType;
     }
     
+    // 9.6f 0x433810
     void SetTargetHit_433810(s32 value)
     {
         mbTargetHit = value;
     }
 
+    // 9.6f 0x41CC70
     s32 IsTargetHit_41CC70() const
     {
         return mbTargetHit;

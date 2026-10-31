@@ -126,6 +126,7 @@ class CarRemapRng
     ~CarRemapRng() {}
     EXPORT void IncNextRngRemapIdx();
 
+    // 9.6f 0x4212D0
     u16 GetRngValue_4212D0() const
     {
         return gRngRemapTable[this->mTableIdx];
@@ -166,6 +167,7 @@ class CarManager
         mSpareDriver = pPed;
     }
 
+    // 9.6f 0x4C39F0
     void ToggleTrafficLightState_4C39F0()
     {
         if (mLightStateA != 4)
@@ -229,6 +231,7 @@ class CarManager
     }
 
     // 9.6f inlined
+    // 9.6f 0x4764A0
     inline Car* SpawnCar_4764A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
     {
         return SpawnCarAt(xpos, ypos, zpos, rotation, car_info_idx, kFpHalf_6F7690);
@@ -273,6 +276,7 @@ class CarManager
         }
     }
 
+    // 9.6f 0x426E40
     inline Car* SpawnCarAtCorrectZ_426E40(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_model)
     {
         if (car_model == car_model_enum::TRAIN || car_model == car_model_enum::TRAINCAB || car_model == car_model_enum::TRAINFB ||
@@ -751,6 +755,7 @@ class Car
         return mpTrailer && mpTrailer->mTrailerCar == this;
     }
 
+    // 9.6f 0x4118B0
     Ped* GetDriver_4118B0() const
     {
         return mDriver;
@@ -769,6 +774,7 @@ class Car
         return mpTrailer && mpTrailer->mTrailerCar == pTrailerCar && this != pTrailerCar;
     }
 
+    // 9.6f 0x4BA390
     bool IsCargoCarOf_4BA390(Car* pOther) const
     {
         return mpTrailer && mpTrailer->mTruckCab == pOther && this != pOther;
@@ -801,6 +807,7 @@ class Car
                 && (car_z_pos = pSprite->mZpos, car_z_pos.ToUInt8() == pos->z.ToUInt8()));
     }
 
+    // 9.6f 0x403BA0
     bool IsTrainModel_403BA0() const
     {
         return mCarInfoIdx == car_model_enum::TRAIN || mCarInfoIdx == car_model_enum::TRAINCAB ||
@@ -821,11 +828,13 @@ class Car
         return (gGtx_0x106C->get_car_info_5AA3B0(mCarInfoIdx)->info_flags & car_info_flag::emergency) == car_info_flag::emergency;
     }
 
+    // 9.6f 0x40F890
     bool IsMaxDamage_40F890() const
     {
         return mDamage == 32001;
     }
 
+    // 9.6f 0x414F80
     inline bool AreEmergencyLightsOn_414F80() const
     {
         return HasEmergencyLights_414F20() && mBfA4.bEmergencyLights;
@@ -853,6 +862,7 @@ class Car
         return mCarInfoIdx;
     }
 
+    // 9.6f 0x414F20
     bool HasEmergencyLights_414F20() const
     {
         return HasEmergencyInfoFlag() || IsFbiCar_411920();
@@ -870,6 +880,7 @@ class Car
         return (gGtx_0x106C->get_car_info_5AA3B0(mCarInfoIdx)->info_flags & car_info_flag::roof_light) == car_info_flag::roof_light;
     }
 
+    // 9.6f 0x421640
     inline bool IsTrailerInfo_421640() const
     {
         return (gGtx_0x106C->get_car_info_5AA3B0(mCarInfoIdx)->info_flags & car_info_flag::trailer) == car_info_flag::trailer;
@@ -893,16 +904,19 @@ class Car
         return (gGtx_0x106C->get_car_info_5AA3B0(mCarInfoIdx)->info_flags & car_info_flag::top_roof_lights) == car_info_flag::top_roof_lights;
     }
 
+    // 9.6f 0x421810
     void SetBottomLeftRoofLightDelta_421810()
     {
         mDamagedAreas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
     }
 
+    // 9.6f 0x4218C0
     void SetBulletproof_4218C0()
     {
         AddFlags_421890(car_flag::Bulletproof);
     }
 
+    // 9.6f 0x4218D0
     void SetFlameproof_4218D0()
     {
         AddFlags_421890(car_flag::Flameproof);
@@ -968,16 +982,19 @@ class Car
         }
     }
 
+    // 9.6f 0x4218A0
     void SetNoCollisionDamage_4218A0()
     {
         AddFlags_421890(car_flag::NoCollisionDamage);
     }
 
+    // 9.6f 0x4218B0
     void SetTrain_4218B0()
     {
         AddFlags_421890(car_flag::Train);
     }
 
+    // 9.6f 0x4343B0
     inline s32 GetCarKind_4343B0() const
     {
         return mCarKind;
@@ -1071,6 +1088,7 @@ class Car
         return mCarSprite->GetHeight_447E70();
     }
 
+    // 9.6f 0x4214B0
     bool IsMarkedForDespawn_4214B0() const
     {
         return mDespawnStatus == car_despawn_status::despawn_pending_2 || mDespawnStatus == car_despawn_status::marked_for_despawn_4 || mDespawnStatus == car_despawn_status::despawn_soon_3;
@@ -1136,6 +1154,7 @@ class Car
         }
     }
 
+    // 9.6f 0x421470
     void MarkForDespawn_421470()
     {
         if (mDespawnStatus != car_despawn_status::despawning_5 && mDespawnStatus != car_despawn_status::despawn_pending_2 && mDespawnStatus != car_despawn_status::despawn_soon_3)
@@ -1144,11 +1163,13 @@ class Car
         }
     }
 
+    // 9.6f 0x4214D0
     bool IsDeactivated_4214D0() const
     {
         return mDespawnStatus == car_despawn_status::deactivated_7;
     }
 
+    // 9.6f 0x4214E0
     void SetDeactivatedStatus_4214E0()
     {
         mDespawnStatus = car_despawn_status::deactivated_7;
@@ -1160,16 +1181,19 @@ class Car
         mDespawnStatus = car_despawn_status::active_1;
     }
 
+    // 9.6f 0x411910
     bool IsGunJeep_411910() const
     {
         return mCarInfoIdx == car_model_enum::GUNJEEP;
     }
 
+    // 9.6f 0x411900
     bool IsTank_411900() const
     {
         return mCarInfoIdx == car_model_enum::TANK;
     }
 
+    // 9.6f 0x4217A0
     bool IsSwatVan_4217A0() const
     {
         return mCarInfoIdx == car_model_enum::SWATVAN;
@@ -1187,6 +1211,7 @@ class Car
         return mTurretRotated;
     }
 
+    // 9.6f 0x4118F0
     bool IsFireTruck_4118F0() const
     {
         return mCarInfoIdx == car_model_enum::FIRETRUK;
@@ -1198,42 +1223,50 @@ class Car
         return mCarInfoIdx == car_model_enum::MEDICAR;
     }
 
+    // 9.6f 0x421790
     bool IsCopCar_421790() const
     {
         return mCarInfoIdx == car_model_enum::COPCAR;
     }
 
+    // 9.6f 0x411920
     bool IsFbiCar_411920() const
     {
         return mCarInfoIdx == car_model_enum::EDSELFBI;
     }
 
+    // 9.6f 0x4217D0
     bool IsGt24640_4217D0() const
     {
         return mCarInfoIdx == car_model_enum::GT24640;
     }
 
+    // 9.6f 0x4217E0
     bool IsTvVan_4217E0() const
     {
         return this->mCarInfoIdx == car_model_enum::TVVAN;
     }
 
+    // 9.6f 0x447EC0
     bool IsTruckTransport_447EC0() const
     {
         return this->mCarInfoIdx == car_model_enum::TRUKTRNS;
     }
 
+    // 9.6f 0x4215C0
     bool HasPlayerDriver_4215C0() const
     {
         return mDriver && mDriver->mPlayer &&
             mDriver->get_occupation_403980() != ped_ocupation_enum::empty;
     }
 
+    // 9.6f 0x447EB0
     bool IsEngineCrushed_447EB0() const
     {
         return this->mEngineStatus == car_engine_status::crushed_7;
     }
 
+    // 9.6f 0x421910
     Fix16 ApplyScale_421910(Fix16 value) const
     {
         if (mScale != kFP16One_6777D0)
@@ -1246,16 +1279,19 @@ class Car
         }
     }
 
+    // 9.6f 0x41E430
     Fix16 GetX_41E430() const
     {
         return mCarSprite->mXy.x;
     }
 
+    // 9.6f 0x41E440
     Fix16 GetY_41E440() const
     {
         return mCarSprite->mXy.y;
     }
 
+    // 9.6f 0x41E450
     Fix16 GetZ_41E450() const
     {
         return mCarSprite->mZpos;
@@ -1271,6 +1307,7 @@ class Car
         return mHorn <= 0xF8u && mHorn > 0;
     }
 
+    // 9.6f 0x4A9AD0
     s16 GetLastSeenTimer_4A9AD0() const
     {
         return mLastSeenTimer;
@@ -1282,22 +1319,26 @@ class Car
         return mDespawnStatus == car_despawn_status::despawning_5;
     }
 
+    // 9.6f 0x421620
     bool IsTruckCab_421620() const
     {
         car_info* pCarInfo =  gGtx_0x106C->get_car_info_5AA3B0(mCarInfoIdx);
         return pCarInfo->IsTruckCab_41FEA0();
     }
 
+    // 9.6f 0x447ED0
     bool IsLongerThanOneBlock_447ED0() const
     {
         return (mCarSprite->GetHeight_447E70() > kFpOne_679E74) ? true : false;
     }
 
+    // 9.6f 0x447F00
     bool CanBeLiftedByCrane_447F00() const
     {
         return !IsTruckCab_421620() && !gGtx_0x106C->get_car_info_5AA3B0(mCarInfoIdx)->IsTrailer() && !IsTrainModel_403BA0() && !IsLongerThanOneBlock_447ED0();
     }
 
+    // 9.6f 0x426E00
     void StartEngine_426E00()
     {
         mEngineStatus = car_engine_status::on_3;
@@ -1318,27 +1359,32 @@ class Car
         return mCarSprite->mRotation;
     }
 
+    // 9.6f 0x4216E0
     inline bool CanCollideOver_4216E0() const
     {
         car_info* pCarInfo = gGtx_0x106C->get_car_info_4BF1F0(mCarInfoIdx);
         return pCarInfo->IsHeavy_41FF00();
     }
 
+    // 9.6f 0x4214F0
     inline bool HasNonPlayerDriver_4214F0() const
     {
         return mDriver && !mDriver->PedTypeIs(ped_type::player_2);
     }
 
+    // 9.6f 0x49EFE0
     inline bool CanCrushCars_49EFE0() const
     {
         return CanCollideOver_4216E0() && (IsTank_411900() || !HasNonPlayerDriver_4214F0());
     }
 
+    // 9.6f 0x421890
     inline void AddFlags_421890(u16 flag)
     {
         mFlags |= flag;
     }
 
+    // 9.6f 0x49EFC0
     inline void SetCrushFlag_49EFC0()
     {
         AddFlags_421890(car_flag::Crushing);

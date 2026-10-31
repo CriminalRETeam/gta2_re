@@ -114,6 +114,7 @@ static inline f32 Fix16ToF32_P3(const Fix16& v)
 
 struct VertProjector
 {
+    // 9.6f 0x46BD40
     inline void ProjectVertTop_46BD40(Fix16& x, Fix16& y, Vert* pVert)
     {
         set_vert_xyz_relative_to_cam(x, y, gZCoordTop, pVert);
@@ -122,6 +123,7 @@ struct VertProjector
         pVert->z = gInvDepthTop.ToFloat();
     }
 
+    // 9.6f 0x46BDF0
     inline void ProjectVertBottom_46BDF0(Fix16& xpos, Fix16& ypos, Vert* pVert)
     {
         set_vert_xyz_relative_to_cam(xpos, ypos, gZCoord, pVert);
@@ -131,6 +133,7 @@ struct VertProjector
         pVert->z = gInvDepthBottom.ToFloat();
     }
 
+    // 9.6f 0x46BC70
     inline void ProjectVert_46BC70(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
     {
         set_vert_xyz_relative_to_cam(xpos, ypos, zpos, pVert);
@@ -235,6 +238,7 @@ static inline void set_vert_xyz_relative_to_cam_inlined(Fix16 xCoord, Fix16 yCoo
     gTileVerts_6F65A8[next_idx].z = z_val.ToFloat();
 }
 
+// 9.6f 0x46B910
 static inline void TransformTriangleUVs_46B910(u16& rotation_and_flip)
 {
     s32 vert_idx;

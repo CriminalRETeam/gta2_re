@@ -82,6 +82,7 @@ struct TextureCache
     s16 mNextDigitIdx; // 0x15D4
     u16 mPalCount; // 0x15D6
 
+    // 9.6f 0x46BB50
     inline STexture* GetTexture_46BB50(const u16& tile_idx) const
     {
         return mTileTextures[tile_idx];

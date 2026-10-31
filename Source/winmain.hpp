@@ -36,6 +36,7 @@ EXTERN_GLOBAL(u32, gBufferMode);
 
 EXTERN_GLOBAL(char_type, gLighting);
 
+// 9.6f 0x434B10
 static inline u8 IsNetworkGame_434B10()
 {
     return bStartNetworkGame;

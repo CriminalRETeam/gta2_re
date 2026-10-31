@@ -149,6 +149,7 @@ struct gmp_compressed_map_32
         return &mBlock[block];
     }
 
+    // 9.6f 0x42A830
     u32* get_base_42A830(s32 y, s32 x)
     {
         return &mBase[y][x];
@@ -157,6 +158,7 @@ struct gmp_compressed_map_32
 
 struct gmp_dmap_info
 {
+    // 9.6f 0x463080
     inline void set_data_463080(u8 x, u8 y, u32 column_idx)
     {
         mX = x;
@@ -589,6 +591,7 @@ class Map_0x370
 
     EXPORT ~Map_0x370();
 
+    // 9.6f 0x4B9F40
     inline bool IsWaterBlockAt_4B9F40(s32 x, s32 y, s32 z)
     {
         gmp_block_info* pBlock = GetBlock(x, y, z);
@@ -616,6 +619,7 @@ class Map_0x370
         return scale;
     }
 
+    // 9.6f 0x42A850
     gmp_block_info* get_block_42A850(u8 x, u8 y, u8 z)
     {
         u32 col_idx = *mpDmap->get_base_42A830(y, x);
@@ -706,6 +710,7 @@ class Map_0x370
         return false;
     }
 
+    // 9.6f 0x466CF0
     inline bool IsGradientSlopeAt_466CF0(s32 xpos, s32 ypos, s32 zpos)
     {
         gmp_block_info* pBlockAtPos = GetBlock(xpos, ypos, zpos);
@@ -717,12 +722,14 @@ class Map_0x370
         return false;
     }
 
+    // 9.6f 0x492140
     inline bool HasBlockAnyArrows_492140(s32 xpos, s32 ypos, s32 zpos)
     {
         gmp_block_info* pBlock = GetBlock(xpos, ypos, zpos);
         return pBlock && pBlock->mArrows;
     }
 
+    // 9.6f 0x492130
     inline void ClearBlockedByTerrain_492130()
     {
         mbBlockedByTerrain = false;
@@ -761,6 +768,7 @@ class Map_0x370
         return false;
     }
 
+    // 9.6f 0x4334A0
     bool IsEastBlockRoadType_4334A0(u8 x, u8 y, u8 z)
     {
         gmp_block_info* pBlock = GetBlockOrNull(x + 1, y, z);
@@ -771,6 +779,7 @@ class Map_0x370
         return false;
     }
 
+    // 9.6f 0x4334D0
     bool IsSouthBlockRoadType_4334D0(u8 x, u8 y, u8 z)
     {
         gmp_block_info* pBlock = get_block_42A850(x, y + 1, z);
@@ -781,6 +790,7 @@ class Map_0x370
         return false;
     }
 
+    // 9.6f 0x433500
     bool IsWestBlockRoadType_433500(u8 x, u8 y, u8 z)
     {
         gmp_block_info* pBlock = get_block_42A850(x - 1, y, z);
@@ -791,6 +801,7 @@ class Map_0x370
         return false;
     }
 
+    // 9.6f 0x48A350
     inline bool IsBlockNonAirType_48A350(u8 x, u8 y, u8 z)
     {
         gmp_block_info* pBlock = GetBlockOrNull(x, y, z);

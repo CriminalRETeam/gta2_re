@@ -168,11 +168,13 @@ class Char
         mPedState1 = ped_state;
     }
 
+    // 9.6f 0x433A40
     inline Ang16 get_rotation_433A40() const
     {
         return mRotation;
     }
 
+    // 9.6f 0x433A30
     void set_rotation_433A30(Ang16 rotation)
     {
         mRotation = rotation;
@@ -232,6 +234,7 @@ class Char
         mVelocity = max_speed;
     }
 
+    // 9.6f 0x433A20
     inline Ped* get_ped_433A20() const
     {
         return mpPed;
@@ -242,11 +245,13 @@ class Char
         mPedState1 = new_state;
     }
 
+    // 9.6f 0x433A50
     inline void SetPedState2_433A50(s32 new_state)
     {
         mPedState2 = new_state;
     }
 
+    // 9.6f 0x4923D0
     inline void VeerLeftFromWall_4923D0()
     {
         mRotation.SnapToAng4();
@@ -255,6 +260,7 @@ class Char
         mTimer = 10;
     }
 
+    // 9.6f 0x4923A0
     inline void VeerRightFromWall_4923A0()
     {
         mRotation.SnapToAng4();
@@ -263,11 +269,13 @@ class Char
         mTimer = 10;
     }
 
+    // 9.6f 0x433A80
     inline s32 GetCharState_433A80() const
     {
         return mCharState;
     }
 
+    // 9.6f 0x433A60
     inline void SetCharState_433A60(s32 char_state)
     {
         mCharState = char_state;
@@ -285,11 +293,13 @@ class Char
         return mTargetCar;
     }
 
+    // 9.6f 0x433900
     inline void Set_F84_433900(Car* pCar)
     {
         mTargetCar = pCar;
     }
 
+    // 9.6f 0x433940
     inline void IncreaseSpeedIfAllowed_433940()
     {
         mVelocity += kFpOne128th_6784BC;
@@ -300,11 +310,13 @@ class Char
         }
     }
 
+    // 9.6f 0x4928A0
     inline void AddAngle_4928A0(Ang16 ang)
     {
         mRotation += ang;
     }
 
+    // 9.6f 0x433AA0
     inline bool IsCollidingWithASprite_433AA0() const
     {
         if (mIsCollidingWithSprite)

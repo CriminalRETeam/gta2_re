@@ -42,12 +42,14 @@ class TaxiList
 {
   private:
     // inlined
+    // 9.6f 0x4C09B0
     void Init_4C09B0()
     {
         ClearList_4C0980();
     }
 
     // inlined
+    // 9.6f 0x4C0980
     void ClearList_4C0980()
     {
         mpFirst = NULL;

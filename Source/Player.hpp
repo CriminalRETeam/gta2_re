@@ -159,6 +159,7 @@ class Player
         }
     }
 
+    // 9.6f 0x4CCAD0
     s32 GetThrowStrength_4CCAD0() const
     {
         if (mThrowCharge <= 0x3C)
@@ -171,6 +172,7 @@ class Player
         }
     }
 
+    // 9.6f 0x461DB0
     inline bool GetInUse_461DB0() const
     {
         return mInUse;
@@ -182,16 +184,19 @@ class Player
         return mPlayerPed;
     }
 
+    // 9.6f 0x4CCB00
     bool IsThrowCharging_4CCB00() const
     {
         return this->mThrowCharge >= 0;
     }
 
+    // 9.6f 0x4A5180
     inline void ResetThrowCharge_4A5180()
     {
         mThrowCharge = 0;
     }
 
+    // 9.6f 0x434950
     inline void SetDeathType_434950(s32 death_type)
     {
         mDeathType = death_type;
@@ -291,6 +296,7 @@ class Player
     // 0x56A940
     EXPORT ~Player();
 
+    // 9.6f 0x41DC70
     inline bool IsUser_41DC70() const
     {
         return mIsUser;
@@ -308,6 +314,7 @@ class Player
         }
     }
 
+    // 9.6f 0x4219D0
     inline u8 get_idx_4219D0() const
     {
         return mPlayerIdx;

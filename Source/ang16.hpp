@@ -231,11 +231,13 @@ class Ang16
     // evaluated (ParticleManager::EmitImpactParticles). Also used by ScriptThread::SCRCMD_CRANE.
     EXPORT Ang16(Fix16* value, s32 not_used);
 
+    // 9.6f 0x40F520
     inline static Fix16 __stdcall cosine_40F520(const Ang16& angle)
     {
         return gCos_table[angle.rValue];
     }
 
+    // 9.6f 0x40F500
     inline static Fix16 __stdcall sine_40F500(const Ang16& angle)
     {
         return gSin_table[angle.rValue];
@@ -323,6 +325,7 @@ class Ang16
         Normalize();
     }
 
+    // 9.6f 0x401CB0
     Ang16 MultiplyByFix16_401CB0(const Fix16& factor) const
     {
         return Ang16(Fix16(rValue) * factor, 0);
@@ -344,6 +347,7 @@ class Ang16
         return Ang16(&product, 0);
     }
 
+    // 9.6f 0x40E640
     Fix16 divideBy_40E640(const Ang16& scale) const
     {
         return Fix16(rValue) / scale.rValue;
@@ -354,6 +358,7 @@ class Ang16
     EXPORT u8 ToAng4() const;
 
     // https://decomp.me/scratch/6VBR0  (matched)
+    // 9.6f 0x41FC90
     static inline void __stdcall RotateVector_41FC90(Fix16& xpos, Fix16& ypos, Ang16& rotation)
     {
         Fix16 old_xpos = xpos;

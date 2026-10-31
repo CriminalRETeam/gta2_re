@@ -21,6 +21,7 @@ class Fix16
 {
   public:
     // 9.6f func
+    // 9.6f 0x410BF0
     static inline s32 __stdcall Round_To_Int_410BF0(Fix16& input)
     {
         s32 v = input.mValue;
@@ -405,11 +406,13 @@ class Fix16
         return Fix16(value, 0);
     }
 
+    // 9.6f 0x4754D0
     inline s32 get_value_4754D0() const
     {
         return mValue;
     }
 
+    // 9.6f 0x40F4B0
     inline s32 GetRaw_40F4B0() const
     {
         return mValue;
@@ -428,6 +431,7 @@ class Fix16
     }
 
     // https://decomp.me/scratch/MqQPJ
+    // 9.6f 0x42A6B0
     inline static Fix16 __stdcall MaxAbsDistance_42A6B0(const Fix16& x1, const Fix16& y1, const Fix16& x2, const Fix16& y2)
     {
         Fix16 diff_x;
@@ -470,12 +474,14 @@ class Fix16
         }
     }
 
+    // 9.6f 0x491F00
     inline Fix16* subtract_one_491F00()
     {
         mValue -= 0x4000;
         return this;
     }
 
+    // 9.6f 0x491EF0
     inline Fix16* add_one_491EF0()
     {
         mValue += 0x4000;

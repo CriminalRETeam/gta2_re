@@ -108,6 +108,7 @@ class Game
     EXPORT Game(u8 max_players, s8 player_idx); // 4B9DE0
     EXPORT ~Game(); // 4BAE30
 
+    // 9.6f 0x4219E0
     Player* GetPlayer_4219E0(u8 idx) const
     {
         return mPlayers[idx];

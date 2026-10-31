@@ -88,6 +88,7 @@ class PedGroup
         mCount34 = count;
     }
 
+    // 9.6f 0x433370
     inline s32 Get_F3C_433370() const
     {
         return mIsLeaderWaiting;

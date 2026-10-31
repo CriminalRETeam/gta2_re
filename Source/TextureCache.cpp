@@ -190,6 +190,7 @@ void TextureCache::ReadTextures()
     }
 }
 
+// 9.6f 0x4C2F30
 inline void RemapTextureSet::AllocOfType_4C2F30(s32 sprite_type, s32 pal_type)
 {
     Alloc(gGtx_0x106C->GetSpriteBaseOfType(sprite_type), gGtx_0x106C->GetPaletteBaseOfType(pal_type), sprite_type, pal_type);

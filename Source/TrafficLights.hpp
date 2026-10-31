@@ -52,6 +52,7 @@ class TrafficLights
     EXPORT void CreateFromMapZones();
     EXPORT TrafficLights();
     EXPORT ~TrafficLights();
+    // 9.6f 0x434960
     bool ArePedsCrossing_434960() const
     {
       return mPhase == traffic_light_phase::peds_crossing_7;

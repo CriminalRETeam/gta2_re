@@ -440,6 +440,7 @@ class ArrowTrace
         mbIsTargetVisible = false;
     }
 
+    // 9.6f 0x4767C0
     inline void set_arrow_aim_from_pos_4767C0(Fix16 x, Fix16 y, Fix16 z)
     {
         mAimX = x;
@@ -483,6 +484,7 @@ class Hud_ArrowTargets
 {
   public:
 
+    // 9.6f 0x4C6FB0
     inline bool HasBothTargets_4C6FB0() const
     {
         return !mPrimaryTarget.HasNoTarget_4C6F20() && !mSecondaryTarget.HasNoTarget_4C6F20();
@@ -543,6 +545,7 @@ class Hud_Arrow
         return false;
     }
 
+    // 9.6f 0x4C7060
     inline void swap_arrows_4C7060()
     {
         if (mTargets.mCurrTarget == &mTargets.mPrimaryTarget)
@@ -580,6 +583,7 @@ class Hud_Arrow
         mTargets.mSecondaryTarget.ClearTarget_476830();
     }
 
+    // 9.6f 0x476840
     inline void SetArrowAim_476840(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     {
         ArrowTrace* pTarget = &mTargets.mPrimaryTarget;

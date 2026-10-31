@@ -45,6 +45,7 @@ struct Fix16_Point_POD
         y = new_y;
     }
 
+    // 9.6f 0x432860
     void SetXY_432860(Fix16& new_x, Fix16& new_y)
     {
         this->x = new_x;
@@ -108,6 +109,7 @@ class Fix16_Point
         return x == kFP16Zero_6FE20C || y == kFP16Zero_6FE20C;
     }
 
+    // 9.6f 0x49E3C0
     void ApplyDeadZone_49E3C0()
     {
         Fix16 total = (Fix16::Abs(x) + Fix16::Abs(y));
@@ -269,6 +271,7 @@ class Fix16_Point
         return *this;
     }
 
+    // 9.6f 0x49E3A0
     Fix16_Point& MultiplyByFix16_49E3A0(const Fix16& factor)
     {
         x *= factor;
@@ -345,6 +348,7 @@ class Fix16_Point
     {
     }
 
+    // 9.6f 0x49E480
     void ClampTowardsZero_49E480(const Fix16_Point& limit)
     {
         if (x >= kFP16Zero_6FE20C)

@@ -11,6 +11,7 @@ class root_sound
     SoundObject* mpFreeList; // 0x0
     SoundObject mPool[999 + 1]; // 0x4
 
+    // 9.6f 0x40FE60
     SoundObject* DestroySoundObj_40FE60(SoundObject* pSoundObj) // inline
     {
         pSoundObj->Release();

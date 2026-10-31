@@ -102,6 +102,7 @@ class Camera
                      .Add(Fix16(mScreenPxCenterY));
     }
 
+    // 9.6f 0x475B60
     inline void SetSmoothFollow_475B60()
     {
         mFollowMode = camera_follow_mode::smooth_1;
@@ -151,6 +152,7 @@ class Camera
             y >= mViewBounds.mTop && y <= mViewBounds.mBottom;
     }
 
+    // 9.6f 0x41E410
     inline void CommitPendingTarget_41E410()
     {
         mTargetPos = mPendingTargetPos;
@@ -167,6 +169,7 @@ class Camera
         return mTargetPed || mTargetCar;
     }
 
+    // 9.6f 0x41E3D0
     inline void SetPendingTarget_41E3D0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16 zoom)
     {
         mPendingTargetPos.mX = xpos;
@@ -175,11 +178,13 @@ class Camera
         mPendingTargetPos.mZoom = zoom;
     }
 
+    // 9.6f 0x4B3110
     Fix16 GetPaddedViewBoundsWidth_4B3110() const
     {
         return mPaddedViewBounds.mRight - mPaddedViewBounds.mLeft;
     }
 
+    // 9.6f 0x4B3130
     Fix16 GetPaddedViewBoundsHeight_4B3130() const
     {
         return mPaddedViewBounds.mBottom - mPaddedViewBounds.mTop;

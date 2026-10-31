@@ -59,6 +59,7 @@ class WeaponPool
         return pWeapon;
     }
 
+    // 9.6f 0x4A4F20
     void DeAllocate_4A4F20(Weapon* pWeapon)
     {
         Weapon* pIter = this->mPool.mpPrev;
@@ -88,6 +89,7 @@ class WeaponPool
         }
     }
 
+    // 9.6f 0x4CC9B0
     Weapon* get_next_4CC9B0() const
     {
         return this->mPool.mpPrev;

@@ -70,12 +70,14 @@ EXTERN_GLOBAL(s32, window_width);
 EXTERN_GLOBAL(s32, window_height);
 
 // matched
+// 9.6f 0x4B9C70
 static inline Fix16 __stdcall RoundZToLayer_4B9C70(Fix16& in)
 {
     return Fix16((in.mValue + 0x80) & 0xFFFFFF00, 0);
 }
 
 // matched
+// 9.6f 0x4B9990
 static inline void __stdcall SaveUnprojectedVertex_4B9990(f32 xCoord, f32 yCoord, f32 z_val, Vert* pVerts)
 {
     s32 next_idx = (pVerts - gTileVerts_7036D0) + 4;

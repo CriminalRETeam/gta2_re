@@ -110,6 +110,7 @@ class Fix16_Rect
         mBottom = top + height;
     }
 
+    // 9.6f 0x41E370
     void SetHiLowZ_41E370(Fix16 lowZ, Fix16 highZ)
     {
         this->mLowZ = lowZ;
@@ -158,21 +159,25 @@ class Fix16_Rect
             false;
     }
 
+    // 9.6f 0x45ADD0
     Fix16 get_top_45ADD0() const
     {
         return mTop;
     }
 
+    // 9.6f 0x45ADB0
     Fix16 get_left_45ADB0() const
     {
         return mLeft;
     }
 
+    // 9.6f 0x45ADA0
     Fix16 get_right_45ADA0() const
     {
         return mRight;
     }
 
+    // 9.6f 0x45ADC0
     Fix16 get_bottom_45ADC0() const
     {
         return mBottom;

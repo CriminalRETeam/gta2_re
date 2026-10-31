@@ -15,6 +15,7 @@ class CollisionTarget
   public:
     EXPORT bool IsObj2C() const;
 
+    // 9.6f 0x4637B0
     void Reset_4637B0()
     {
         this->mType = collision_target_type::none_0;
@@ -42,11 +43,13 @@ class CollisionTarget
         this->mpHitSprite = NULL;
     }
 
+    // 9.6f 0x4BA2B0
     void SetMapZ_4BA2B0(Fix16 z)
     {
         this->mZ = z;
     }
 
+    // 9.6f 0x4BA280
     void SetVerticalSegment_4BA280(Fix16 y_min, Fix16 y_max, Fix16 x)
     {
         this->mVsegYMin = y_min;
@@ -56,6 +59,7 @@ class CollisionTarget
         this->mpHitSprite = NULL;
     }
 
+    // 9.6f 0x4BA250
     void SetHorizontalSegment_4BA250(Fix16 x_min, Fix16 x_max, Fix16 y)
     {
         this->mHsegXMin = x_min;
@@ -65,11 +69,13 @@ class CollisionTarget
         this->mpHitSprite = NULL;
     }
 
+    // 9.6f 0x49EF20
     bool IsCharB4_49EF20() const
     {
         return this->mType == collision_target_type::sprite_3 && mpHitSprite->AsCharB4_40FEA0();
     }
 
+    // 9.6f 0x40FEE0
     void SetSprite_40FEE0(Sprite* pSprite)
     {
         mType = collision_target_type::sprite_3;
@@ -98,6 +104,7 @@ class CollisionEvent
     EXPORT void SetupForPed();
     EXPORT bool SetupForObject(Object* pObj);
 
+    // 9.6f 0x40FF10
     void SetImpactStrength_40FF10(const Fix16& strength)
     {
         this->mImpactStrength = strength;

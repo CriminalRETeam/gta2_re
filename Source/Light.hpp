@@ -6,6 +6,7 @@
 
 struct LightIntensityRadius
 {
+    // 9.6f 0x463EF0
     inline void SetRadiusByte_463EF0(u8 radius_byte)
     {
         flag = (flag & ~0x0000FF00) | (radius_byte << 8);
@@ -70,17 +71,20 @@ class Light
         mIntensityRadius.flag = 0x2A2A2A2A;
     }
 
+    // 9.6f 0x463F50
     void Reset_463F50()
     {
         mIntensityRadius.flag = 0;
         mOnTime = 0;
     }
 
+    // 9.6f 0x45B2D0
     void SetCurrentIntensity_45B2D0(u8 intensity)
     {
         mIntensityRadius.flag = intensity | (mIntensityRadius.flag & ~0xFF);
     }
 
+    // 9.6f 0x482D60
     inline void SetColourRadiusIntensity_482D60(s32 argb, Fix16 radius, u8 intensity)
     {
         mArgb = argb;
@@ -89,12 +93,14 @@ class Light
         mIntensity = intensity;
     }
 
+    // 9.6f 0x476AE0
     inline void SetIntensity_476AE0(u8 intensity)
     {
         SetCurrentIntensity_45B2D0(intensity);
         mIntensity = intensity;
     }
 
+    // 9.6f 0x482D30
     void SetPosition_482D30(Fix16 x, Fix16 y, Fix16 z)
     {
         RemoveFromGrid();

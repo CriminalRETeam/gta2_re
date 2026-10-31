@@ -11,6 +11,7 @@ class Fix16_Point;
 class DrawListBlock
 {
   public:
+    // 9.6f 0x46BB60
     inline bool IsEqual_46BB60(const DrawListBlock* other) const
     {
         return mX == other->mX && mY == other->mY;
@@ -152,6 +153,7 @@ class MapRenderer
         }
     }
 
+    // 9.6f 0x46BB90
     inline void AddToDrawList_46BB90(s32& x, s32& y)
     {
         DrawListBlock* pPos = &mDrawList[mCurrDrawLayerSize];
@@ -169,6 +171,7 @@ class MapRenderer
         ++mCurrDrawLayerSize;
     }
 
+    // 9.6f 0x45B040
     inline void ResetCount_45B040()
     {
         mCurrDrawLayerSize = 0;

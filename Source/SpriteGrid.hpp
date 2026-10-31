@@ -41,6 +41,7 @@ class SpriteGrid
     STATIC_MEMBER(s32, sSpriteGridExcludeTypes);
     STATIC_MEMBER(Sprite*, sSpriteGridExcludeSprite);
     STATIC_MEMBER(u8, sbDoCollisionCheck);
+    // 9.6f 0x446820
     inline GridSpriteLink* GetCollideListAt_446820(s32 x_find, s32 y_pos) const
     {
         if (y_pos <= 255 && y_pos >= 0)

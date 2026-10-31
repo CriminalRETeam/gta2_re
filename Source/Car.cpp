@@ -215,6 +215,7 @@ DEFINE_GLOBAL_INIT(car_rng_list, gBadCarModels, car_rng_list(Fix16(5)), 0x676988
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kHitchPullDist, kFpOne64th_677888 * 8, 0x6772C0);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kHitchAttachDist, kFpOne64th_677888 * 3, 0x677900);
 
+// 9.6f 0x41FE40
 static inline void __stdcall SwapIf3or4_41FE40(s32 direction, Fix16& width, Fix16& height) 
 {
     if (direction >= 3 && direction <= 4)
@@ -5409,6 +5410,7 @@ Ang16 Car::GetRadioTowerAngle() const
 EXTERN_GLOBAL(Fix16, kFPZero);
 DEFINE_GLOBAL_INIT(Fix16, kAngFix16FullCircle_66A8E4, Fix16(0x18F60, 0), 0x66A8E4);
 DEFINE_GLOBAL_INIT(Fix16, kAngFix16HalfCircle_6691EC, Fix16(0xC7B0, 0), 0x6691EC);
+// 9.6f 0x40E790
 inline Fix16 __stdcall WrapAngle_40E790(Fix16& angle) // 9.6f inlined func
 {
     Fix16 result = angle;

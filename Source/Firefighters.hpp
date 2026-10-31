@@ -25,6 +25,7 @@ class Firefighter
 {
   public:
     // inline
+    // 9.6f 0x450C10
     void Clear_450C10()
     {
         mTargetCar = NULL;

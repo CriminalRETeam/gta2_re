@@ -49,6 +49,7 @@ class Garage
         mTargetY = 0;
     }
 
+    // 9.6f 0x493540
     bool IsParkingCar_493540(const Car* pCar) const
     {
         if (pCar == mParkingCar)

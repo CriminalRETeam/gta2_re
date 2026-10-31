@@ -296,6 +296,7 @@ class CarPhysics
         }
     }
 
+    // 9.6f 0x49E8E0
     Fix16 CarPhysics::ComputeUndamagedThrottleTorque_49E8E0()
     {
         if (IsTurboActive())
@@ -308,6 +309,7 @@ class CarPhysics
         }
     }
 
+    // 9.6f 0x421100
     bool CarPhysics::IsDrowning_421100()
     {
         if (mSurfaceType == car_surface_type::water_surface_8)
@@ -364,6 +366,7 @@ class CarPhysics
     EXPORT void SetCar(Car* pCar);
     EXPORT CarPhysics();
 
+    // 9.6f 0x4211A0
     inline Fix16 GetLinearSpeed_4211A0()
     {
         return mLinvel1.GetLength_41E260();
@@ -378,11 +381,13 @@ class CarPhysics
         mIsHandBrakeOn = 0;
     }
 
+    // 9.6f 0x411810
     inline char_type is_backward_gas_on_411810()
     {
         return mIsBackwardGasOn;
     }
 
+    // 9.6f 0x4211C0
     inline Fix16 get_car_velocity_4211C0()
     {
         return mVelReadOnly.GetLength_41E260();
@@ -400,6 +405,7 @@ class CarPhysics
         mState = 2;
     }
 
+    // 9.6f 0x49EF80
     inline bool IsStationary_49EF80()
     {
         return mLinvel1.x == kFP16Zero_6FE20C && mLinvel1.y == kFP16Zero_6FE20C &&
@@ -475,6 +481,7 @@ class CarPhysics
         mTurnDirection = car_turn_direction::anticlockwise_1;
     }
 
+    // 9.6f 0x42ABB0
     void SetGoStraight_42ABB0()
     {
         mTurnDirection = car_turn_direction::none_0;
@@ -540,6 +547,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(CarPhysics, 0xB0);
 
 #pragma warning(push)
 #pragma warning(disable : 4101)
+// 9.6f 0x42ABA0
 inline void CarPhysics::TurnClockwise_42ABA0()
 {
     // Never read: its optimizer entry is needed by CarAI::UpdateStateMachine (docs/match_attempts.md)
