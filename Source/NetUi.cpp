@@ -7,7 +7,7 @@
 #include <COMMCTRL.H>
 #include <direct.h>
 
-DEFINE_GLOBAL(UINT_PTR, gTimerId_6F8A18, 0x6F8A18);
+DEFINE_STATIC_MEMBER(UINT_PTR, NetUi, sTimerId, 0x6F8A18);
 
 EXTERN_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256);
 
@@ -1305,7 +1305,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
             switch (pThis->Get_20310_showing_window_idx_51ACC0())
             {
                 case 0:
-                    KillTimer(hDlg, gTimerId_6F8A18);
+                    KillTimer(hDlg, sTimerId);
                     EndDialog(hDlg, 0);
                     break;
                 case 1:
@@ -1595,7 +1595,7 @@ MATCH_FUNC(0x51ac60)
 s32 NetUi::OnInitDialog_51AC60(HWND hWnd, s32 lParam, NetUi* thisPtr)
 {
     SetWindowLongA(hWnd, 8, reinterpret_cast<LONG>(thisPtr));
-    gTimerId_6F8A18 = SetTimer(hWnd, 0xAu, 0xAu, NULL);
+    sTimerId = SetTimer(hWnd, 0xAu, 0xAu, NULL);
     thisPtr->SetDlgHwnd_519E10(hWnd);
     thisPtr->CreateMainUi_51AA90(hWnd);
     thisPtr->PopulateMainUI_51AFA0();

@@ -79,6 +79,7 @@ struct NetworkGameSettings
 class NetUi
 {
   public:
+    STATIC_MEMBER(UINT_PTR, sTimerId);
     EXPORT static void DbcsToWide_5199B0(wchar_t* pDst, char_type* pSrc);
     EXPORT static void GetString_519A50(wchar_t* Dest, char_type* Source, size_t MaxCount);
     EXPORT NetUi();
