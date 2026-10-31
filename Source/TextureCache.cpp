@@ -178,20 +178,20 @@ s16 TextureCache::RegisterDigits(u16 num_of_digits, u16 palette)
 MATCH_FUNC(0x5B92E0)
 void TextureCache::ReadTextures()
 {
-    if (gGtx_0x106C->has_tiles_4C2EE0())
+    if (gGtx_0x106C->has_tiles())
     {
         mbFreeTileTextures = true;
         STexture** p = mTileTextures;
         for (u16 i = 0; i < GTA2_COUNTOF(mTileTextures); i++, p++)
         {
             // 64 256x256 pages of 64x64 8 bit tiles
-            *p = pgbh_RegisterTexture(64, 64, gGtx_0x106C->get_tile_4C2EB0(i), gGtx_0x106C->get_phys_pal(i), 0);
+            *p = pgbh_RegisterTexture(64, 64, gGtx_0x106C->get_tile(i), gGtx_0x106C->get_phys_pal(i), 0);
         }
     }
 }
 
 // 9.6f 0x4C2F30
-inline void RemapTextureSet::AllocOfType_4C2F30(s32 sprite_type, s32 pal_type)
+inline void RemapTextureSet::AllocOfType(s32 sprite_type, s32 pal_type)
 {
     Alloc(gGtx_0x106C->GetSpriteBaseOfType(sprite_type), gGtx_0x106C->GetPaletteBaseOfType(pal_type), sprite_type, pal_type);
 }
@@ -205,22 +205,22 @@ void TextureCache::LoadStyleTextures()
     mSpriteTextures.Alloc(gGtx_0x106C->GetPaletteBaseOfType(palette_types_enum::sprites_2), 1, sprite_types_enum::none_0, palette_types_enum::sprites_2);
     mSpriteTextures.LoadTextures();
 
-    mCarRemapTextures.AllocOfType_4C2F30(sprite_types_enum::car_2, palette_types_enum::car_remaps_3);
+    mCarRemapTextures.AllocOfType(sprite_types_enum::car_2, palette_types_enum::car_remaps_3);
     mCarRemapTextures.LoadRemappedTextures();
 
-    mPedRemapTextures.AllocOfType_4C2F30(sprite_types_enum::ped_3, palette_types_enum::ped_remaps_4);
+    mPedRemapTextures.AllocOfType(sprite_types_enum::ped_3, palette_types_enum::ped_remaps_4);
     mPedRemapTextures.LoadRemappedTextures();
 
-    mCodeObjRemapTextures.AllocOfType_4C2F30(sprite_types_enum::code_obj1_4, palette_types_enum::code_obj_remaps_5);
+    mCodeObjRemapTextures.AllocOfType(sprite_types_enum::code_obj1_4, palette_types_enum::code_obj_remaps_5);
     mCodeObjRemapTextures.LoadRemappedTextures();
 
-    mMapObjRemapTextures.AllocOfType_4C2F30(sprite_types_enum::map_obj_5, palette_types_enum::map_obj_remaps_6);
+    mMapObjRemapTextures.AllocOfType(sprite_types_enum::map_obj_5, palette_types_enum::map_obj_remaps_6);
     mMapObjRemapTextures.LoadRemappedTextures();
 
-    mFontRemapTextures.AllocOfType_4C2F30(sprite_types_enum::font_7, palette_types_enum::font_remaps_8);
+    mFontRemapTextures.AllocOfType(sprite_types_enum::font_7, palette_types_enum::font_remaps_8);
     mFontRemapTextures.LoadRemappedTextures();
 
-    mUserRemapTextures.AllocOfType_4C2F30(sprite_types_enum::user_6, palette_types_enum::user_remaps_7);
+    mUserRemapTextures.AllocOfType(sprite_types_enum::user_6, palette_types_enum::user_remaps_7);
     mUserRemapTextures.LoadRemappedTextures();
 
     LoadCarDamageTextures();

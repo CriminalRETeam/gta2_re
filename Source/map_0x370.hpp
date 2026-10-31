@@ -43,7 +43,7 @@ enum
 struct gmp_block_info
 {
     // 9.6f 0x44C840
-    inline void init_44C840()
+    inline void init()
     {
         mLeft = 0;
         mRight = 0;
@@ -150,7 +150,7 @@ struct gmp_compressed_map_32
     }
 
     // 9.6f 0x42A830
-    u32* get_base_42A830(s32 y, s32 x)
+    u32* get_base(s32 y, s32 x)
     {
         return &mBase[y][x];
     }
@@ -159,7 +159,7 @@ struct gmp_compressed_map_32
 struct gmp_dmap_info
 {
     // 9.6f 0x463080
-    inline void set_data_463080(u8 x, u8 y, u32 column_idx)
+    inline void set_data(u8 x, u8 y, u32 column_idx)
     {
         mX = x;
         mY = y;
@@ -201,7 +201,7 @@ class gmp_map_zone
     EXPORT wchar_t* get_zone_str();
 
     // 9.6f 0x463020
-    inline bool ContainsPoint_463020(u8 x, u8 y) const
+    inline bool ContainsPoint(u8 x, u8 y) const
     {
         return x >= mX && y >= mY && x < mX + mW && y < mY + mH;
     }
@@ -447,7 +447,7 @@ class Map_0x370
     EXPORT s32 GetBlockSpec(Fix16 x, Fix16 y, Fix16 z);
 
     // 9.6f 0x49EBE0, inlined in 10.5; defined in CarPhysics.cpp (ProcessGroundCollisionAndSurfaceType)
-    inline u8 GetBlockSurfaceType_49EBE0(s32 x, s32 y, s32 z, u8* pGradientSize, u8* pGradientLevel);
+    inline u8 GetBlockSurfaceType(s32 x, s32 y, s32 z, u8* pGradientSize, u8* pGradientLevel);
     EXPORT bool TakeBlockedByTerrain();
     EXPORT bool TakeLowerBlockHasArrows();
     EXPORT bool IsMoveOntoSlopeTileBlocked(s32 x, s32 y, s32 z, s32 path_direction, u8* pSlopeZDelta, bool bReportStepUp);
@@ -592,14 +592,14 @@ class Map_0x370
     EXPORT ~Map_0x370();
 
     // 9.6f 0x4B9F40
-    inline bool IsWaterBlockAt_4B9F40(s32 x, s32 y, s32 z)
+    inline bool IsWaterBlockAt(s32 x, s32 y, s32 z)
     {
         gmp_block_info* pBlock = GetBlock(x, y, z);
-        return pBlock && gGtx_0x106C->IsRemappedWaterTile_49E540(pBlock->mLid & 0x3FF);
+        return pBlock && gGtx_0x106C->IsRemappedWaterTile(pBlock->mLid & 0x3FF);
     }
 
     // 9.6f inline 0x4634E0
-    inline Fix16 get_grad_scale_from_size_4634E0(Fix16& scale, u8 gradient_size)
+    inline Fix16 get_grad_scale_from_size(Fix16& scale, u8 gradient_size)
     {
         switch (gradient_size)
         {
@@ -620,9 +620,9 @@ class Map_0x370
     }
 
     // 9.6f 0x42A850
-    gmp_block_info* get_block_42A850(u8 x, u8 y, u8 z)
+    gmp_block_info* get_block(u8 x, u8 y, u8 z)
     {
-        u32 col_idx = *mpDmap->get_base_42A830(y, x);
+        u32 col_idx = *mpDmap->get_base(y, x);
         gmp_col_info* pCol =
             reinterpret_cast<gmp_col_info*>(&mpDmap->mpColumn[col_idx]);
         if (z >= pCol->mHeight || z < pCol->mOffset)
@@ -644,7 +644,7 @@ class Map_0x370
 
     inline bool IsBlockPavementTypeInlined_433530(u8 x, u8 y, u8 z)
     {
-        gmp_block_info* pBlock = get_block_42A850(x, y, z);
+        gmp_block_info* pBlock = get_block(x, y, z);
         if (pBlock)
         {
             return GET_BLOCK_TYPE(pBlock->mSlopeType) == PAVEMENT;
@@ -676,7 +676,7 @@ class Map_0x370
     // 9.6f out of line 0x433470 (North), 0x4334A0 (East), 0x4334D0 (South), 0x433500 (West).
     inline bool IsBlockRoadTypeInlined_433470(u8 x, u8 y, u8 z)
     {
-        gmp_block_info* pBlock = get_block_42A850(x, y, z);
+        gmp_block_info* pBlock = get_block(x, y, z);
         if (pBlock)
         {
             return GET_BLOCK_TYPE(pBlock->mSlopeType) == ROAD;
@@ -685,7 +685,7 @@ class Map_0x370
     }
 
     // 9.6f inline 0x420420
-    inline u8 GetBlockTypeAtCoord_420420(s32 xpos, s32 ypos, s32 zpos)
+    inline u8 GetBlockTypeAtCoord(s32 xpos, s32 ypos, s32 zpos)
     {
         gmp_block_info* pBlock = GetBlock(xpos, ypos, zpos);
         if (pBlock)
@@ -696,7 +696,7 @@ class Map_0x370
     }
 
     // 9.6f 0x433430
-    inline bool IsSlopeB4ToD0At_433430(s32 xpos, s32 ypos, s32 zpos)
+    inline bool IsSlopeB4ToD0At(s32 xpos, s32 ypos, s32 zpos)
     {
         gmp_block_info* pBlock = GetBlock(xpos, ypos, zpos);
         if (pBlock)
@@ -711,7 +711,7 @@ class Map_0x370
     }
 
     // 9.6f 0x466CF0
-    inline bool IsGradientSlopeAt_466CF0(s32 xpos, s32 ypos, s32 zpos)
+    inline bool IsGradientSlopeAt(s32 xpos, s32 ypos, s32 zpos)
     {
         gmp_block_info* pBlockAtPos = GetBlock(xpos, ypos, zpos);
         if (pBlockAtPos && IS_GRADIENT_SLOPE(pBlockAtPos->mSlopeType)
@@ -723,14 +723,14 @@ class Map_0x370
     }
 
     // 9.6f 0x492140
-    inline bool HasBlockAnyArrows_492140(s32 xpos, s32 ypos, s32 zpos)
+    inline bool HasBlockAnyArrows(s32 xpos, s32 ypos, s32 zpos)
     {
         gmp_block_info* pBlock = GetBlock(xpos, ypos, zpos);
         return pBlock && pBlock->mArrows;
     }
 
     // 9.6f 0x492130
-    inline void ClearBlockedByTerrain_492130()
+    inline void ClearBlockedByTerrain()
     {
         mbBlockedByTerrain = false;
     }
@@ -769,7 +769,7 @@ class Map_0x370
     }
 
     // 9.6f 0x4334A0
-    bool IsEastBlockRoadType_4334A0(u8 x, u8 y, u8 z)
+    bool IsEastBlockRoadType(u8 x, u8 y, u8 z)
     {
         gmp_block_info* pBlock = GetBlockOrNull(x + 1, y, z);
         if (pBlock)
@@ -780,9 +780,9 @@ class Map_0x370
     }
 
     // 9.6f 0x4334D0
-    bool IsSouthBlockRoadType_4334D0(u8 x, u8 y, u8 z)
+    bool IsSouthBlockRoadType(u8 x, u8 y, u8 z)
     {
-        gmp_block_info* pBlock = get_block_42A850(x, y + 1, z);
+        gmp_block_info* pBlock = get_block(x, y + 1, z);
         if (pBlock)
         {
             return GET_BLOCK_TYPE(pBlock->mSlopeType) == ROAD;
@@ -791,9 +791,9 @@ class Map_0x370
     }
 
     // 9.6f 0x433500
-    bool IsWestBlockRoadType_433500(u8 x, u8 y, u8 z)
+    bool IsWestBlockRoadType(u8 x, u8 y, u8 z)
     {
-        gmp_block_info* pBlock = get_block_42A850(x - 1, y, z);
+        gmp_block_info* pBlock = get_block(x - 1, y, z);
         if (pBlock)
         {
             return GET_BLOCK_TYPE(pBlock->mSlopeType) == ROAD;
@@ -802,7 +802,7 @@ class Map_0x370
     }
 
     // 9.6f 0x48A350
-    inline bool IsBlockNonAirType_48A350(u8 x, u8 y, u8 z)
+    inline bool IsBlockNonAirType(u8 x, u8 y, u8 z)
     {
         gmp_block_info* pBlock = GetBlockOrNull(x, y, z);
         if (pBlock)

@@ -11,61 +11,61 @@ class Gang
 {
   public:
     // 9.6f 0x45DD50
-    inline bool HasKillRespectChange_45DD50() const
+    inline bool HasKillRespectChange() const
     {
         return mKillRespectChange > 0;
     }
 
     // 9.6f 0x433B30
-    inline bool DoesKillAffectRespect_433B30() const
+    inline bool DoesKillAffectRespect() const
     {
         return mKillAffectsRespect;
     }
 
     // 9.6f 0x4758A0
-    inline void SetRemap_4758A0(char_type v)
+    inline void SetRemap(char_type v)
     {
         mRemap = v;
     }
 
     // 9.6f 0x4758B0
-    inline void SetBasicWeapon_4758B0(u32 v)
+    inline void SetBasicWeapon(u32 v)
     {
         mBasicWeapon = v;
     }
 
     // 9.6f 0x4758C0
-    inline void SetAngryWeapon_4758C0(u32 v)
+    inline void SetAngryWeapon(u32 v)
     {
         mAngryWeapon = v;
     }
 
     // 9.6f 0x4758D0
-    inline void SetHateWeapon_4758D0(u32 v)
+    inline void SetHateWeapon(u32 v)
     {
         mHateWeapon = v;
     }
 
     // 9.6f 0x4758E0
-    inline void SetGangCarModel_4758E0(u32 v)
+    inline void SetGangCarModel(u32 v)
     {
         mGangCarModel = v;
     }
 
     // 9.6f 0x4758F0
-    inline void SetGangCarRemap_4758F0(char_type v)
+    inline void SetGangCarRemap(char_type v)
     {
         mGangCarRemap = v;
     }
 
     // 9.6f 0x475900
-    inline void SetKillAffectsRespect_475900(bool v)
+    inline void SetKillAffectsRespect(bool v)
     {
         mKillAffectsRespect = v;
     }
 
     // 9.6f 0x475910
-    inline void SetInfoPhonePos_475910(Fix16 x, Fix16 y, Fix16 z)
+    inline void SetInfoPhonePos(Fix16 x, Fix16 y, Fix16 z)
     {
         mInfoPhoneX = x;
         mInfoPhoneY = y;
@@ -73,13 +73,13 @@ class Gang
     }
 
     // 9.6f 0x475940
-    inline void SetArrowColour_475940(u8 v)
+    inline void SetArrowColour(u8 v)
     {
         mArrowColour = v;
     }
 
     // 9.6f 0x475950
-    inline void SetKillRespectChange_475950(u8 v)
+    inline void SetKillRespectChange(u8 v)
     {
         mKillRespectChange = v;
     }

@@ -15,13 +15,13 @@ class Crane
     STATIC_MEMBER(Fix16, kHomeHookRadius);
     STATIC_MEMBER(Fix16, kFpTwo);
     // 9.6f 0x447F60
-    inline void SetDisabled_447F60(s32 v)
+    inline void SetDisabled(s32 v)
     {
         mDisabled = v;
     }
 
     // 9.6f 0x476900
-    inline void SetHomeCrane_476900(Crane* v)
+    inline void SetHomeCrane(Crane* v)
     {
         mHomeCrane = v;
     }
@@ -60,19 +60,19 @@ class Crane
     EXPORT Car* GetCarFromCrane();
 
     // 9.6f 0x4768E0
-    inline void SetHomeRotation_4768E0(Ang16 rotation)
+    inline void SetHomeRotation(Ang16 rotation)
     {
         mHomeAngle = Ang16::Ang16_to_Fix16(rotation);
     }
 
     // 9.6f 0x411A00
-    inline Sprite* GetRotorSprite_411A00() const
+    inline Sprite* GetRotorSprite() const
     {
         return mRotorObj->mSprite;
     }
 
     // FUNCTION: 96f 0x447f40
-    inline s32 IsAtHomeAngle_447F40() const
+    inline s32 IsAtHomeAngle() const
     {
         return mCraneAngle == mHomeAngle;
     }

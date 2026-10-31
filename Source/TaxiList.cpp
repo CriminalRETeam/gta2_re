@@ -38,14 +38,14 @@ Car* TaxiList::GetTaxiNear(Fix16 xpos, Fix16 ypos)
     for (TaxiListNode* pIter = mpFirst; pIter; pIter = pIter->mpNext)
     {
         // 9.6f passes references to the sprite position, not get_x/get_y copies
-        Fix16 distance = Fix16::MaxAbsDistance_42A6B0(xpos,
+        Fix16 distance = Fix16::MaxAbsDistance(xpos,
                                                              ypos,
                                                              pIter->mpCar->mCarSprite->mXy.x,
                                                              pIter->mpCar->mCarSprite->mXy.y);
         if (distance < smallest)
         {
             pCarRet = pIter->mpCar;
-            if (!pCarRet->IsDespawning_4215B0())
+            if (!pCarRet->IsDespawning())
             {
                 smallest = distance;
             }
@@ -57,7 +57,7 @@ Car* TaxiList::GetTaxiNear(Fix16 xpos, Fix16 ypos)
 MATCH_FUNC(0x5ae060)
 TaxiList::TaxiList()
 {
-    Init_4C09B0();
+    Init();
 
     if (!sTaxi4Pool)
     {

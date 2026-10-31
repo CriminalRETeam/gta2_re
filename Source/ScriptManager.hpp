@@ -622,43 +622,43 @@ class ScriptManager
 {
   public:
     // 9.6f 0x4C7350
-    inline bool IsOnMission_4C7350() const
+    inline bool IsOnMission() const
     {
         return mMissionFlag && *mMissionFlag;
     }
 
     // 9.6f 0x475980
-    inline bool IsCheckHit_475980(const WeaponCheckTable* pTable) const
+    inline bool IsCheckHit(const WeaponCheckTable* pTable) const
     {
         return (pTable->mFlags & weapon_check_flag::hit_1) == weapon_check_flag::hit_1;
     }
 
     // 9.6f 0x4759A0
-    inline bool IsCarCheck_4759A0(const WeaponCheckTable* pTable) const
+    inline bool IsCarCheck(const WeaponCheckTable* pTable) const
     {
         return (pTable->mFlags & weapon_check_flag::car_2) == weapon_check_flag::car_2;
     }
 
     // 9.6f 0x4759C0
-    inline bool IsPedCheck_4759C0(const WeaponCheckTable* pTable) const
+    inline bool IsPedCheck(const WeaponCheckTable* pTable) const
     {
         return (pTable->mFlags & weapon_check_flag::ped_4) == weapon_check_flag::ped_4;
     }
 
     // 9.6f 0x475A20
-    inline bool IsLoadedFromSave_475A20() const
+    inline bool IsLoadedFromSave() const
     {
         return mbLoadedFromSave;
     }
 
     // 9.6f 0x475A30
-    inline bool IsKillFrenzyActive_475A30() const
+    inline bool IsKillFrenzyActive() const
     {
         return mbKillFrenzyActive;
     }
 
     // 9.6f 0x475A40
-    inline void SetKillFrenzyActive_475A40(bool v)
+    inline void SetKillFrenzyActive(bool v)
     {
         mbKillFrenzyActive = v;
     }

@@ -125,20 +125,20 @@ class car_info
     }
 
     // 9.6f 0x41FEA0
-    bool IsTruckCab_41FEA0() const
+    bool IsTruckCab() const
     {
         return (this->info_flags & car_info_flag::truck_cab) == car_info_flag::truck_cab;
     }
 
-    // Like IsTruckCab_41FEA0; going through a car_info method keeps the check a plain branch in
-    // Car::CanBeLiftedByCrane_447F00 (a direct `(flags & 0x10) == 0x10` there gives a sete)
+    // Like IsTruckCab; going through a car_info method keeps the check a plain branch in
+    // Car::CanBeLiftedByCrane (a direct `(flags & 0x10) == 0x10` there gives a sete)
     bool IsTrailer() const
     {
         return (this->info_flags & car_info_flag::trailer) == car_info_flag::trailer;
     }
 
     // 9.6f 0x41FF00
-    bool IsHeavy_41FF00() const
+    bool IsHeavy() const
     {
         return (this->info_flags_2 & car_info_flag2::heavy) == car_info_flag2::heavy;
     }
@@ -211,7 +211,7 @@ class gtx_0x106C
 {
   public:
     // 9.6f 0x49E540
-    inline bool IsRemappedWaterTile_49E540(u16 spec_idx) const
+    inline bool IsRemappedWaterTile(u16 spec_idx) const
     {
         if (mSpec[spec_idx] == tile_spec::water && IsTileRemapped(spec_idx))
         {
@@ -221,7 +221,7 @@ class gtx_0x106C
     }
 
     // 9.6f 0x4C03D0 (a ctor of the spec array there)
-    inline void ResetSpecs_4C03D0()
+    inline void ResetSpecs()
     {
         for (s32 i = 0; i < GTA2_COUNTOF(mSpec); i++)
         {
@@ -230,19 +230,19 @@ class gtx_0x106C
     }
 
     // 9.6f 0x462FB0
-    inline bool IsWaterTile_462FB0(u16 spec_idx) const
+    inline bool IsWaterTile(u16 spec_idx) const
     {
         return mSpec[spec_idx] == tile_spec::water;
     }
 
     // 9.6f 0x42A810
-    inline bool IsRoadTile_42A810(u16 spec_idx) const
+    inline bool IsRoadTile(u16 spec_idx) const
     {
         return mSpec[spec_idx] == tile_spec::road_junction_special;
     }
 
     // 9.6f 0x462FD0
-    inline s32 GetSpecIgnoringRoadJunction_462FD0(u16 spec_idx) const
+    inline s32 GetSpecIgnoringRoadJunction(u16 spec_idx) const
     {
         s32 result = mSpec[spec_idx];
         if (result == tile_spec::road_junction_special)
@@ -253,7 +253,7 @@ class gtx_0x106C
     }
 
     // 9.6f 0x49E570
-    inline bool IsUnremappedWaterTile_49E570(u16 spec_idx) const
+    inline bool IsUnremappedWaterTile(u16 spec_idx) const
     {
         if (mSpec[spec_idx] == tile_spec::water && !IsTileRemapped(spec_idx))
         {
@@ -264,26 +264,26 @@ class gtx_0x106C
 
     // inline
     // 9.6f 0x4C2EE0
-    bool has_tiles_4C2EE0() const
+    bool has_tiles() const
     {
         return mTiles != NULL;
     }
 
     // inline
     // 9.6f 0x4C2EB0
-    u8* get_tile_4C2EB0(u16 tile_num) const
+    u8* get_tile(u16 tile_num) const
     {
         return &mTiles[(((tile_num & ~3) * 64) + (tile_num & 3)) * 64];
     }
 
     // 9.6f 0x420220
-    inline u8 get_sprite_width_420220(u16 sprite_idx) const
+    inline u8 get_sprite_width(u16 sprite_idx) const
     {
         return get_sprite_index(sprite_idx)->mWidth;
     }
 
     // 9.6f 0x4C6C90
-    inline u8 get_sprite_height_4C6C90(u16 sprite_idx) const
+    inline u8 get_sprite_height(u16 sprite_idx) const
     {
         return get_sprite_index(sprite_idx)->mHeight;
     }
@@ -409,7 +409,7 @@ class gtx_0x106C
     }
 
     // 9.6f 0x491F80
-    inline bool IsElectrifiedFloorType_491F80(u16 tile_idx) const
+    inline bool IsElectrifiedFloorType(u16 tile_idx) const
     {
         return mSpec[tile_idx] == tile_spec::electrified_floor;
     }
@@ -457,7 +457,7 @@ class gtx_0x106C
 EXTERN_GLOBAL(gtx_0x106C*, gGtx_0x106C);
 
 // 9.6f 0x4C23D0
-inline s32 __stdcall GetSpaceWidth_4C23D0(u16 font_type)
+inline s32 __stdcall GetSpaceWidth(u16 font_type)
 {
     return static_cast<u16>(gGtx_0x106C->GetSpaceCharWidth(&font_type));
 }

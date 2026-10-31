@@ -50,7 +50,7 @@ CarChaseTask* CarChaseTaskTable::AllocateEntry()
 MATCH_FUNC(0x474850)
 bool CarChaseTaskTable::AreAllies(Ped* pPed1, Ped* pPed2) const
 {
-    if (pPed1->get_occupation_403980() < ped_ocupation_enum::police || pPed1->get_occupation_403980() > ped_ocupation_enum::army_army) // ped 1 is not police
+    if (pPed1->get_occupation() < ped_ocupation_enum::police || pPed1->get_occupation() > ped_ocupation_enum::army_army) // ped 1 is not police
     {
         if (pPed2->mpGang == pPed1->mpGang) // they are from same gang (or both dont have any)
         {
@@ -59,7 +59,7 @@ bool CarChaseTaskTable::AreAllies(Ped* pPed1, Ped* pPed2) const
     }
     else
     {
-        if (pPed2->get_occupation_403980() >= ped_ocupation_enum::police && pPed2->mOccupation <= ped_ocupation_enum::army_army) // both ped 1 and ped 2 are police feds
+        if (pPed2->get_occupation() >= ped_ocupation_enum::police && pPed2->mOccupation <= ped_ocupation_enum::army_army) // both ped 1 and ped 2 are police feds
         {
             return true;
         }

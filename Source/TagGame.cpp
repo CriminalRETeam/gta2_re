@@ -41,13 +41,13 @@ void TagGame::SetNewFugitive(Player* pNewFugitive)
     {
         mFugitive->GetPlayerPed_41D020()->SetVisible();
         mFugitive->GetPlayerPed_41D020()->ClearInvulnerable();
-        mFugitive->GetPlayerPed_41D020()->ClearElectrofingers_482080();
+        mFugitive->GetPlayerPed_41D020()->ClearElectrofingers();
     }
 
-    if (!mFugitive->IsUser_41DC70())
+    if (!mFugitive->IsUser())
     {
         Hud_Arrow* pArrow = gHud_2B00->mArrows.AllocArrow();
-        pArrow->mTargets.mPrimaryTarget.SetTargetPlayer_4820A0(mFugitive);
+        pArrow->mTargets.mPrimaryTarget.SetTargetPlayer(mFugitive);
 
         if (mFugitive->mPlayerPed != NULL)
         {
@@ -77,7 +77,7 @@ void TagGame::ExecuteGamemodeTick()
                 mTickTimer = 0;
                 if (mFugitive && gNetTimeLimitEnabled != 0)
                 {
-                    mItTimeSecs[mFugitive->get_idx_4219D0()]++;
+                    mItTimeSecs[mFugitive->get_idx()]++;
                 }
             }
             if (!mFugitive)
@@ -88,7 +88,7 @@ void TagGame::ExecuteGamemodeTick()
             if (mFugitive && mFugitive->mPlayerPed &&
                 mFugitive->mPlayerPed->mCar)
             {
-                mFugitive->GetPlayerPed_41D020()->get_car_416B60()->AccumulateDamage(17, &kZeroPoint);
+                mFugitive->GetPlayerPed_41D020()->get_car()->AccumulateDamage(17, &kZeroPoint);
             }
 
             break;

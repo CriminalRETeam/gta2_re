@@ -948,7 +948,7 @@ void gtx_0x106C::LoadSty(const char_type* pStyFileName)
 MATCH_FUNC(0x5AB820)
 gtx_0x106C::gtx_0x106C()
 {
-    ResetSpecs_4C03D0();
+    ResetSpecs();
 
     mCarRecyclingInfo = NULL;
     mRecyChunkSize = 0;

@@ -12,7 +12,7 @@ class DrawListBlock
 {
   public:
     // 9.6f 0x46BB60
-    inline bool IsEqual_46BB60(const DrawListBlock* other) const
+    inline bool IsEqual(const DrawListBlock* other) const
     {
         return mX == other->mX && mY == other->mY;
     }
@@ -154,7 +154,7 @@ class MapRenderer
     }
 
     // 9.6f 0x46BB90
-    inline void AddToDrawList_46BB90(s32& x, s32& y)
+    inline void AddToDrawList(s32& x, s32& y)
     {
         DrawListBlock* pPos = &mDrawList[mCurrDrawLayerSize];
         pPos->mX = x;
@@ -163,7 +163,7 @@ class MapRenderer
         DrawListBlock* pIter = &mDrawList[mCurrDrawLayerSize-1];
         for (s32 i = mCurrDrawLayerSize - 1; i >= 0; i--, pIter--)
         {
-            if (pIter->IsEqual_46BB60(pPos))
+            if (pIter->IsEqual(pPos))
             {
                 return;
             }
@@ -172,7 +172,7 @@ class MapRenderer
     }
 
     // 9.6f 0x45B040
-    inline void ResetCount_45B040()
+    inline void ResetCount()
     {
         mCurrDrawLayerSize = 0;
     }

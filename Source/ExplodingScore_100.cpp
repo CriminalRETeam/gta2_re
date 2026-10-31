@@ -50,7 +50,7 @@ void ExplodingScorePool::PushScore(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score
 {
     if (this->mFreeScores == 0)
     {
-        ExplodingScore* pIter = mPool.GetFirstUsed_4B8FD0();
+        ExplodingScore* pIter = mPool.GetFirstUsed();
         while (pIter)
         {
             if (static_cast<u32>(pIter->mScore) >= score)
@@ -86,7 +86,7 @@ void ExplodingScorePool::Update()
 MATCH_FUNC(0x5969e0)
 void ExplodingScorePool::DrawExplodingScores()
 {
-    ExplodingScore* pIter = mPool.GetFirstUsed_4B8FD0();
+    ExplodingScore* pIter = mPool.GetFirstUsed();
     while (pIter)
     {
         pIter->DrawNumbers();

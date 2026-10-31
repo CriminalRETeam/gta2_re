@@ -69,7 +69,7 @@ void MissionCleanupList::push_type_3_ped(Ped* pPed)
 MATCH_FUNC(0x502ff0)
 void MissionCleanupList::push_type_2_non_pickup_object(Object* pObj, bool bForce)
 {
-    if (bForce || pObj && ((pObj->GetModel_40FEF0() < 64) || pObj->GetModel_40FEF0() > 108) && (pObj->GetModel_40FEF0() < 200 || pObj->GetModel_40FEF0() > 244))
+    if (bForce || pObj && ((pObj->GetModel() < 64) || pObj->GetModel() > 108) && (pObj->GetModel() < 200 || pObj->GetModel() > 244))
     {
         MissionCleanupEntry* pEntry = allocate_next();
         if (pEntry)

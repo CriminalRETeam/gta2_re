@@ -46,7 +46,7 @@ struct Fix16_Point_POD
     }
 
     // 9.6f 0x432860
-    void SetXY_432860(Fix16& new_x, Fix16& new_y)
+    void SetXY(Fix16& new_x, Fix16& new_y)
     {
         this->x = new_x;
         this->y = new_y;
@@ -54,15 +54,15 @@ struct Fix16_Point_POD
 
     inline void SetFromPolar_41E210(Fix16& radius, Ang16& angle)
     {
-        x = Ang16::sine_40F500(angle) * radius;
-        y = Ang16::cosine_40F520(angle) * radius;
+        x = Ang16::sine(angle) * radius;
+        y = Ang16::cosine(angle) * radius;
     }
 
     // Matching impl at RotateVelocity
     inline void RotateByAngle_40F6B0(const Ang16& angle)
     {
-        Fix16 sin = Ang16::sine_40F500(angle);
-        Fix16 cos = Ang16::cosine_40F520(angle);
+        Fix16 sin = Ang16::sine(angle);
+        Fix16 cos = Ang16::cosine(angle);
 
         Fix16 x_old = x;
 
@@ -85,7 +85,7 @@ struct Fix16_Point_POD
 class Fix16_Point
 {
   public:
-    void SetXY_432860(Fix16& new_x, Fix16& new_y)
+    void SetXY(Fix16& new_x, Fix16& new_y)
     {
         this->x = new_x;
         this->y = new_y;
@@ -104,13 +104,13 @@ class Fix16_Point
     }
 
     // 9.6f 0x49E450
-    inline bool HasZeroComponent_49E450() const
+    inline bool HasZeroComponent() const
     {
         return x == kFP16Zero_6FE20C || y == kFP16Zero_6FE20C;
     }
 
     // 9.6f 0x49E3C0
-    void ApplyDeadZone_49E3C0()
+    void ApplyDeadZone()
     {
         Fix16 total = (Fix16::Abs(x) + Fix16::Abs(y));
         if (total < kFP16One256th)
@@ -171,16 +171,16 @@ class Fix16_Point
 
     inline void SetFromPolar_41E210(Fix16& radius, Ang16& angle)
     {
-        x = Ang16::sine_40F500(angle) * radius;
-        y = Ang16::cosine_40F520(angle) * radius;
+        x = Ang16::sine(angle) * radius;
+        y = Ang16::cosine(angle) * radius;
     }
 
     // RotateByAngle_40F6B0 in a function that ran out of inline expansions: every operator but
     // the first + is called out of line (CarPhysics::SpawnSkidSegment)
     inline void RotateByAngle_40F6B0_out_of_line(const Ang16& angle)
     {
-        Fix16 sin = Ang16::sine_40F500(angle);
-        Fix16 cos = Ang16::cosine_40F520(angle);
+        Fix16 sin = Ang16::sine(angle);
+        Fix16 cos = Ang16::cosine(angle);
 
         Fix16 x_old = x;
 
@@ -192,8 +192,8 @@ class Fix16_Point
     // (y * sin, evaluated first): the rest are the out-of-line copies (Car::SpawnDamageFireEffect)
     inline void RotateByAngle_OneMulInline_40F6B0(const Ang16& angle)
     {
-        Fix16 sin = Ang16::sine_40F500(angle);
-        Fix16 cos = Ang16::cosine_40F520(angle);
+        Fix16 sin = Ang16::sine(angle);
+        Fix16 cos = Ang16::cosine(angle);
 
         Fix16 x_old = x;
 
@@ -204,8 +204,8 @@ class Fix16_Point
     // RotateByAngle_40F6B0 with every operator called out of line (ParticleManager::EmitImpactParticles)
     inline void RotateByAngle_40F6B0_all_out_of_line(const Ang16& angle)
     {
-        Fix16 sin = Ang16::sine_40F500(angle);
-        Fix16 cos = Ang16::cosine_40F520(angle);
+        Fix16 sin = Ang16::sine(angle);
+        Fix16 cos = Ang16::cosine(angle);
 
         Fix16 x_old = x;
 
@@ -216,8 +216,8 @@ class Fix16_Point
     // Matching impl at RotateVelocity
     inline void RotateByAngle_40F6B0(const Ang16& angle)
     {
-        Fix16 sin = Ang16::sine_40F500(angle);
-        Fix16 cos = Ang16::cosine_40F520(angle);
+        Fix16 sin = Ang16::sine(angle);
+        Fix16 cos = Ang16::cosine(angle);
 
         Fix16 x_old = x;
 
@@ -230,8 +230,8 @@ class Fix16_Point
     inline void RotateByAngle_OOL_40F6B0(const Ang16& angle)
     {
         Fix16 x_old = x;
-        Fix16 sin = Ang16::sine_40F500(angle);
-        Fix16 cos = Ang16::cosine_40F520(angle);
+        Fix16 sin = Ang16::sine(angle);
+        Fix16 cos = Ang16::cosine(angle);
 
         x = x.Multiply(cos).Add(y.Multiply(sin));
         y = (-x_old).Multiply(sin).Add(y.Multiply(cos));
@@ -241,8 +241,8 @@ class Fix16_Point
     inline void RotateByAngle_NegOOL_40F6B0(const Ang16& angle)
     {
         Fix16 x_old = x;
-        Fix16 sin = Ang16::sine_40F500(angle);
-        Fix16 cos = Ang16::cosine_40F520(angle);
+        Fix16 sin = Ang16::sine(angle);
+        Fix16 cos = Ang16::cosine(angle);
 
         x = x.Multiply(cos).Add(y.Multiply(sin));
         y = x_old.Negate_4086A0().Multiply(sin).Add(y.Multiply(cos));
@@ -251,8 +251,8 @@ class Fix16_Point
     void FromPolar_41E210(const Fix16& radius, const Ang16& angle)
     {
 
-        x = radius * Ang16::sine_40F500(angle);
-        y = radius * Ang16::cosine_40F520(angle);
+        x = radius * Ang16::sine(angle);
+        y = radius * Ang16::cosine(angle);
     }
 
 
@@ -272,7 +272,7 @@ class Fix16_Point
     }
 
     // 9.6f 0x49E3A0
-    Fix16_Point& MultiplyByFix16_49E3A0(const Fix16& factor)
+    Fix16_Point& MultiplyByFix16(const Fix16& factor)
     {
         x *= factor;
         y *= factor;
@@ -316,7 +316,7 @@ class Fix16_Point
     }
 
     // 9.6f 0x48A250: both components through Fix16::DivideAssign (10.5 0x539F90)
-    inline void DivideAssign_48A250(const Fix16& d)
+    inline void DivideAssign(const Fix16& d)
     {
         x.DivideAssign(d);
         y.DivideAssign(d);
@@ -349,7 +349,7 @@ class Fix16_Point
     }
 
     // 9.6f 0x49E480
-    void ClampTowardsZero_49E480(const Fix16_Point& limit)
+    void ClampTowardsZero(const Fix16_Point& limit)
     {
         if (x >= kFP16Zero_6FE20C)
         {
@@ -566,7 +566,7 @@ class Fix16_Point
         }
     }
 
-    // MultiplyByFix16_49E3A0 as inlined into CarPhysics::CalculateRearWheelForce: the
+    // MultiplyByFix16 as inlined into CarPhysics::CalculateRearWheelForce: the
     // second *= is the out-of-line copy
     void MultiplyByFix16_inline_5620D0(const Fix16& factor)
     {

@@ -145,7 +145,7 @@ CrimeReportQueue_CC_Sub::~CrimeReportQueue_CC_Sub()
 MATCH_FUNC(0x484fe0)
 void CrimeReportQueue::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 {
-    switch (pPed->get_occupation_403980())
+    switch (pPed->get_occupation())
     {
         case ped_ocupation_enum::police:
         case ped_ocupation_enum::swat:
@@ -173,7 +173,7 @@ void CrimeReportQueue::ReportCrimeForPed(u32 crime_type, Ped* pPed)
                 default:
                     pPed->SetRecentCrimeTimer();
                     QueueReport(crime_type, pPed->mId);
-                    if (pPed->is_player_41B0A0())
+                    if (pPed->is_player())
                     {
                         gPolice_7B8->UpdateCriminalLatestPosition(pPed);
                     }

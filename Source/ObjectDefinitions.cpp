@@ -399,10 +399,10 @@ s32 kFp255_6F8FA4 = 0x3FC000;
 MATCH_FUNC(0x5331a0)
 void ObjectDefinition::ApplyDefinitionToSprite(Sprite* pSprite) const
 {
-    pSprite->SetType_4206F0(this->mSpriteType);
-    pSprite->set_id_lazy_4206C0(this->mBaseSpriteIdx);
+    pSprite->SetType(this->mSpriteType);
+    pSprite->set_id_lazy(this->mBaseSpriteIdx);
 
-    pSprite->SetDrawLayer_40F7B0(this->mDrawLayer);
+    pSprite->SetDrawLayer(this->mDrawLayer);
     pSprite->mFlags = this->mSpriteFlags;
 
     if (this->mPaletteType != palette_types_enum::sprites_2)

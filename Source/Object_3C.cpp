@@ -34,7 +34,7 @@ void Object_3C::GetMovementSpeedAndAngle(Fix16& Speed, Ang16& Angle)
 
         Speed = point.GetLength_41E260();
         Angle = point.atan2_40F790();
-        ClearConveyorSpeed_482BD0();
+        ClearConveyorSpeed();
     }
     else
     {
@@ -84,7 +84,7 @@ AttachedSprite* SpriteList::GetSpriteForModel(s32 obj_type) const
     AttachedSprite* pIter = this->mP18;
     while (pIter)
     {
-        Object* pObject = pIter->mpSprite->AsObject2C_40FEC0();
+        Object* pObject = pIter->mpSprite->AsObject2C();
         if (pObject)
         {
             if (pObject->mModel == obj_type)
@@ -232,7 +232,7 @@ bool SpriteList::TagSpriteWithRng(Sprite* toFind)
         {
             if (pNext->mpSprite == toFind)
             {
-                pNext->mRng = gpRng->get_cur_rng_41CFE0();
+                pNext->mRng = gpRng->get_cur_rng();
                 return true;
             }
         }
@@ -407,7 +407,7 @@ Sprite* SpriteList::FindClosestSprite(Fix16 xpos, Fix16 ypos) const
     Sprite* pClosest = NULL;
     for (AttachedSprite* pIter = this->mP18; pIter; pIter = pIter->mpNext)
     {
-        Fix16 distance = Fix16::MaxAbsDistance_42A6B0(xpos, ypos, pIter->mpSprite->mXy.x, pIter->mpSprite->mXy.y);
+        Fix16 distance = Fix16::MaxAbsDistance(xpos, ypos, pIter->mpSprite->mXy.x, pIter->mpSprite->mXy.y);
         if (distance < smallest)
         {
             pClosest = pIter->mpSprite;
@@ -428,7 +428,7 @@ Sprite* SpriteList::TakeClosestSprite(Fix16 xpos, Fix16 ypos)
 
     for (AttachedSprite* pIter = mP18; pIter; pIter = pIter->mpNext)
     {
-        distance = Fix16::MaxAbsDistance_42A6B0(xpos, ypos, pIter->mpSprite->mXy.x, pIter->mpSprite->mXy.y);
+        distance = Fix16::MaxAbsDistance(xpos, ypos, pIter->mpSprite->mXy.x, pIter->mpSprite->mXy.y);
         if (distance < smallest)
         {
             pClosest = pIter;
@@ -510,7 +510,7 @@ void SpriteList::DestroyAllSprites()
     while (pIter)
     {
         Sprite* pSprite = pIter->mpSprite;
-        switch (pIter->mpSprite->GetType_416B40())
+        switch (pIter->mpSprite->GetType())
         {
             case sprite_types_enum::car_2:
                 gCarManager_6C->RemoveFromPoolAndCollision(pSprite->mCarBcPtr);
@@ -537,8 +537,8 @@ void SpriteList::CleanupSpriteList()
     while (pIter)
     {
         bool bUnlinkHead = false;
-        s32 type = pIter->mpSprite->GetType_416B40();
-        if ((type == sprite_types_enum::object_1 || type > sprite_types_enum::ped_3 && type <= sprite_types_enum::map_obj_5) && pIter->mpSprite->mObject2CPtr->IsFlameObject_4BE830())
+        s32 type = pIter->mpSprite->GetType();
+        if ((type == sprite_types_enum::object_1 || type > sprite_types_enum::ped_3 && type <= sprite_types_enum::map_obj_5) && pIter->mpSprite->mObject2CPtr->IsFlameObject())
         {
             gObject_5C->RemoveAndFree(pIter->mpSprite->mObject2CPtr);
             if (pLast)
@@ -578,11 +578,11 @@ void SpriteList::ClearGangIconSprite()
     {
         while (pIter)
         {
-            pObject = pIter->mpSprite->AsObject2C_40FEC0();
+            pObject = pIter->mpSprite->AsObject2C();
             if (pObject)
             {
                 // If it is car gang icon
-                if (pObject->IsGangIcon_4BE850())
+                if (pObject->IsGangIcon())
                 {
                     break;
                 }
@@ -642,11 +642,11 @@ void SpriteList::ExpireAttachedFlames()
 {
     for (AttachedSprite* pIter = this->mP18; pIter; pIter = pIter->mpNext)
     {
-        const s32 type = pIter->mpSprite->GetType_416B40();
+        const s32 type = pIter->mpSprite->GetType();
         if (type == sprite_types_enum::object_1 || type > sprite_types_enum::ped_3 && type <= sprite_types_enum::map_obj_5)
         {
             Object* pObject = pIter->mpSprite->mObject2CPtr;
-            if (pObject->IsFlameObject_4BE830())
+            if (pObject->IsFlameObject())
             {
                 pIter->mpSprite->mObject2CPtr->mpAny.pExplosion->mTimer = 2;
             }
@@ -693,7 +693,7 @@ void SpriteList::PropagateMaxZLayer(Sprite* pSprite, bool bAlsoSetSprite)
     AttachedSprite* pIter;
     for (pIter = this->mP18; pIter; pIter = pIter->mpNext)
     {
-        if (pIter->mpSprite->IsTypeAbove1_446950()) // object_5c type
+        if (pIter->mpSprite->IsTypeAbove1()) // object_5c type
         {
             const char_type layer = pIter->mpSprite->ComputeZLayer();
             if (layer > max_layer)
@@ -705,12 +705,12 @@ void SpriteList::PropagateMaxZLayer(Sprite* pSprite, bool bAlsoSetSprite)
 
     if (bAlsoSetSprite)
     {
-        pSprite->set_z_col_4BA220(max_layer);
+        pSprite->set_z_col(max_layer);
     }
 
     for (pIter = this->mP18; pIter; pIter = pIter->mpNext)
     {
-        pIter->mpSprite->set_z_col_4BA220(max_layer);
+        pIter->mpSprite->set_z_col(max_layer);
     }
 }
 

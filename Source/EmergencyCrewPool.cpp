@@ -88,7 +88,7 @@ void EmergencyCrew::RemovePed(Ped* pPed)
 MATCH_FUNC(0x5cbc60)
 bool EmergencyCrew::IsLeaderAlive() const
 {
-    if (mPed && mPed->isDead_403B60())
+    if (mPed && mPed->isDead())
     {
         return false;
     }
@@ -120,7 +120,7 @@ bool EmergencyCrew::ReplaceLeaderIfNeeded()
     Ped* pPedAtIdx = pGroup->mPedList[idx];
     while (pPedAtIdx)
     {
-        if (pPedAtIdx->GetPedState_403990() != ped_state_1::dead_9 && !pPedAtIdx->mCar)
+        if (pPedAtIdx->GetPedState() != ped_state_1::dead_9 && !pPedAtIdx->mCar)
         {
             Ped* pLeaderPed = this->mPed;
             if (pLeaderPed->mCar)
@@ -133,10 +133,10 @@ bool EmergencyCrew::ReplaceLeaderIfNeeded()
                 Ped* pLeader = this->mGroup->mPedLeader;
                 this->mPed = pLeader;
                 pLeader->SetObjective(objectives_enum::no_obj_0);
-                const s32 occupation = pPedAtIdx->get_occupation_403980();
-                pPedAtIdx->set_occupation_403970(ped_ocupation_enum::dummy);
+                const s32 occupation = pPedAtIdx->get_occupation();
+                pPedAtIdx->set_occupation(ped_ocupation_enum::dummy);
                 pPedAtIdx->Kill();
-                pPedAtIdx->set_occupation_403970(occupation);
+                pPedAtIdx->set_occupation(occupation);
                 pPedAtIdx->SetObjective(objectives_enum::dead_patient_28);
             }
             return true;
@@ -169,11 +169,11 @@ void EmergencyCrew::UpdateStateMachine()
     {
         if (mCar)
         {
-            if (mCar->IsDespawning_4215B0())
+            if (mCar->IsDespawning())
             {
                 bCarGone = true;
             }
-            if (mCar->IsMaxDamage_40F890())
+            if (mCar->IsMaxDamage())
             {
                 bCarGone = true;
             }
@@ -231,7 +231,7 @@ void EmergencyCrew::UpdateStateMachine()
                         return;
                     }
 
-                    if (Fix16::MaxAbsDistance_42A6B0(mPed->get_cam_x(),
+                    if (Fix16::MaxAbsDistance(mPed->get_cam_x(),
                                                      mPed->get_cam_y(),
                                                      mCar->mCarSprite->mXy.x,
                                                      mCar->mCarSprite->mXy.y) > kFpFour_706148)
@@ -266,8 +266,8 @@ void EmergencyCrew::UpdateStateMachine()
             {
                 if (mPed)
                 {
-                    mPed->set_occupation_403970(ped_ocupation_enum::dummy);
-                    mPed->ClearGroupAndGroupIdx_403A30();
+                    mPed->set_occupation(ped_ocupation_enum::dummy);
+                    mPed->ClearGroupAndGroupIdx();
                     mPed->Deallocate();
                 }
                 idx = 0;
@@ -275,8 +275,8 @@ void EmergencyCrew::UpdateStateMachine()
                 {
                     for (Ped* pMember = mGroup->mPedList[0]; pMember; pMember = mGroup->mPedList[idx])
                     {
-                        pMember->set_occupation_403970(ped_ocupation_enum::dummy);
-                        pMember->ClearGroupAndGroupIdx_403A30();
+                        pMember->set_occupation(ped_ocupation_enum::dummy);
+                        pMember->ClearGroupAndGroupIdx();
                         pMember->Deallocate();
                         ++idx;
                     }
@@ -365,7 +365,7 @@ void EmergencyCrew::UpdateStateMachine()
                 idx = 0;
                 for (Ped* pMember = mGroup->mPedList[0]; pMember; pMember = mGroup->mPedList[++idx])
                 {
-                    if (!pMember->isDead_403B60())
+                    if (!pMember->isDead())
                     {
                         bCarGone = false;
                     }
@@ -374,7 +374,7 @@ void EmergencyCrew::UpdateStateMachine()
 
             if (bCarGone)
             {
-                if (!mPed || mPed->isDead_403B60())
+                if (!mPed || mPed->isDead())
                 {
                     mPhase = crew_phase::finished_2;
                 }
@@ -383,7 +383,7 @@ void EmergencyCrew::UpdateStateMachine()
             {
                 if (mCar)
                 {
-                    mCar->SetDriverPedType_421560(ped_type::dummy_3);
+                    mCar->SetDriverPedType(ped_type::dummy_3);
                     mCar->mLastSeenTimer = -200;
                 }
             }
@@ -397,7 +397,7 @@ void EmergencyCrew::UpdateStateMachine()
             idx = 0;
             for (Ped* pMember = mGroup->mPedList[0]; pMember; pMember = mGroup->mPedList[++idx])
             {
-                if (!pMember->isDead_403B60())
+                if (!pMember->isDead())
                 {
                     bCarGone = false;
                 }
@@ -406,7 +406,7 @@ void EmergencyCrew::UpdateStateMachine()
 
         if (bCarGone)
         {
-            if (!mPed || mPed->isDead_403B60())
+            if (!mPed || mPed->isDead())
             {
                 mPhase = crew_phase::finished_2;
             }
@@ -445,11 +445,11 @@ void EmergencyCrew::CleanupExpiredEntities()
 
     if (this->mPhase == crew_phase::in_car_1)
     {
-        if (this->mCar && !mCar->IsDespawning_4215B0() && !mCar->IsMaxDamage_40F890())
+        if (this->mCar && !mCar->IsDespawning() && !mCar->IsMaxDamage())
         {
-            if (mCar->GetLastSeenTimer_4A9AD0() > this->mIdleLimit)
+            if (mCar->GetLastSeenTimer() > this->mIdleLimit)
             {
-                mCar->MarkForDespawn_421470();
+                mCar->MarkForDespawn();
                 bReleaseCar = true;
             }
         }
@@ -462,12 +462,12 @@ void EmergencyCrew::CleanupExpiredEntities()
         {
             if (mPed->mGameObject)
             {
-                if (mPed->GetOffscreenCounter_4039F0() < this->mIdleLimit)
+                if (mPed->GetOffscreenCounter() < this->mIdleLimit)
                 {
                     bClearPedAndGroup = false;
                 }
             }
-            else if (mPed->isDead_403B60())
+            else if (mPed->isDead())
             {
                 this->mPed = NULL;
             }
@@ -488,7 +488,7 @@ void EmergencyCrew::CleanupExpiredEntities()
             {
                 if (pPedListIter->mGameObject)
                 {
-                    if (pPedListIter->GetOffscreenCounter_4039F0() < this->mIdleLimit)
+                    if (pPedListIter->GetOffscreenCounter() < this->mIdleLimit)
                     {
                         bClearPedAndGroup = false;
                     }
@@ -518,8 +518,8 @@ void EmergencyCrew::CleanupExpiredEntities()
             {
                 if (mPed)
                 {
-                    mPed->set_occupation_403970(ped_ocupation_enum::dummy);
-                    mPed->ClearGroupAndGroupIdx_403A30();
+                    mPed->set_occupation(ped_ocupation_enum::dummy);
+                    mPed->ClearGroupAndGroupIdx();
                     mPed->Deallocate();
                 }
 
@@ -528,8 +528,8 @@ void EmergencyCrew::CleanupExpiredEntities()
                 {
                     for (Ped* pPedListIter = mGroup->mPedList[0]; pPedListIter;)
                     {
-                        pPedListIter->set_occupation_403970(ped_ocupation_enum::dummy);
-                        pPedListIter->ClearGroupAndGroupIdx_403A30();
+                        pPedListIter->set_occupation(ped_ocupation_enum::dummy);
+                        pPedListIter->ClearGroupAndGroupIdx();
                         pPedListIter->Deallocate();
                         i++;
                         pPedListIter = mGroup->mPedList[i];
@@ -552,7 +552,7 @@ void EmergencyCrew::CleanupExpiredEntities()
 
     if (mPed)
     {
-        if (mPed->GetOffscreenCounter_4039F0() < this->mIdleLimit)
+        if (mPed->GetOffscreenCounter() < this->mIdleLimit)
         {
             bClearPedAndGroup = false;
         }
@@ -563,7 +563,7 @@ void EmergencyCrew::CleanupExpiredEntities()
         u8 i = 0;
         for (Ped* pPedListIter = mGroup->mPedList[0]; pPedListIter;)
         {
-            if (pPedListIter->GetOffscreenCounter_4039F0() < this->mIdleLimit)
+            if (pPedListIter->GetOffscreenCounter() < this->mIdleLimit)
             {
                 bClearPedAndGroup = false;
             }
@@ -576,7 +576,7 @@ void EmergencyCrew::CleanupExpiredEntities()
     {
         if (mPed)
         {
-            mPed->ClearGroupAndGroupIdx_403A30();
+            mPed->ClearGroupAndGroupIdx();
             mPed->Deallocate();
         }
 
@@ -586,7 +586,7 @@ void EmergencyCrew::CleanupExpiredEntities()
             Ped* pPedListIter = mGroup->mPedList[0];
             while(pPedListIter)
             {
-                pPedListIter->ClearGroupAndGroupIdx_403A30();
+                pPedListIter->ClearGroupAndGroupIdx();
                 pPedListIter->Deallocate();
                 i++;
                 pPedListIter = mGroup->mPedList[i];

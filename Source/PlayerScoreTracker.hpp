@@ -12,19 +12,19 @@ class PlayerScoreTracker
 {
   public:
     // 9.6f 0x4A50E0
-    inline void SetMoney_4A50E0(s32 money)
+    inline void SetMoney(s32 money)
     {
-        mMoney.SetValueClamped_4A50B0(money);
+        mMoney.SetValueClamped(money);
     }
 
     // 9.6f 0x45B0A0
-    inline u8 get_accuracy_count_45B0A0() const
+    inline u8 get_accuracy_count() const
     {
         return mAccuracyCount;
     }
 
     // 9.6f 0x45B0B0
-    inline s32 get_reverse_count_45B0B0() const
+    inline s32 get_reverse_count() const
     {
         return mReverseTimeMs;
     }

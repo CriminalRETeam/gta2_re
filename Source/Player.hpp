@@ -48,87 +48,87 @@ class Player
 {
   public:
     // 9.6f 0x45B0C0
-    inline bool has_player_ped_45B0C0() const
+    inline bool has_player_ped() const
     {
         return mPlayerPed != NULL;
     }
 
     // 9.6f 0x4766D0
-    inline Gang* get_gang_curr_location_4766D0() const
+    inline Gang* get_gang_curr_location() const
     {
         return mGangCurrLocation;
     }
 
     // 9.6f 0x4A5170
-    inline void set_in_use_4A5170(bool in_use)
+    inline void set_in_use(bool in_use)
     {
         mInUse = in_use;
     }
 
     // 9.6f 0x4C7340
-    inline gmp_map_zone* get_arrow_blocker_zone_4C7340() const
+    inline gmp_map_zone* get_arrow_blocker_zone() const
     {
         return mArrowBlockerZone;
     }
 
     // 9.6f 0x434920
-    inline bool HasPowerUp_434920(s32 power_up_idx) const
+    inline bool HasPowerUp(s32 power_up_idx) const
     {
         return mPowerUpTimers[power_up_idx] != 0;
     }
 
     // 9.6f 0x434940
-    inline void DecPowerUp_434940(s32 power_up_idx)
+    inline void DecPowerUp(s32 power_up_idx)
     {
         mPowerUpTimers[power_up_idx]--;
     }
 
     // 9.6f 0x4766B0
-    inline void ChangeMultipliers_4766B0(s32 amount)
+    inline void ChangeMultipliers(s32 amount)
     {
         mMultipliers.ChangeStatByAmount(amount);
     }
 
     // 9.6f 0x476700
-    inline bool IsWastedOrBustedNotObjective54_476700() const
+    inline bool IsWastedOrBustedNotObjective54() const
     {
         Ped* pPed;
-        return mWastedOrBusted && mDeathCountdown == 2 && ((pPed = mPlayerPed) == NULL || pPed->get_objective_403A80() != objectives_enum::call_police_car_54);
+        return mWastedOrBusted && mDeathCountdown == 2 && ((pPed = mPlayerPed) == NULL || pPed->get_objective() != objectives_enum::call_police_car_54);
     }
 
     // 9.6f 0x476730
-    inline bool IsBustedObjective54_476730() const
+    inline bool IsBustedObjective54() const
     {
         Ped* pPed;
-        return mWastedOrBusted && mDeathCountdown == 2 && (pPed = mPlayerPed) != NULL && pPed->get_objective_403A80() == objectives_enum::call_police_car_54;
+        return mWastedOrBusted && mDeathCountdown == 2 && (pPed = mPlayerPed) != NULL && pPed->get_objective() == objectives_enum::call_police_car_54;
     }
 
     // 9.6f 0x4766C0
-    inline s32 get_lives_4766C0()
+    inline s32 get_lives()
     {
         return mLives.get_value();
     }
 
     // 9.6f 0x421990
-    inline void AddCash_421990(s32 cash)
+    inline void AddCash(s32 cash)
     {
         mScores.AddCash(cash);
     }
 
     // 9.6f 0x421980
-    inline s32 GetScore_421980() const
+    inline s32 GetScore() const
     {
         return mScores.GetScore();
     }
 
     // 9.6f 0x4766A0
-    inline s32 get_multiplier_4766A0()
+    inline s32 get_multiplier()
     {
         return mMultipliers.get_value();
     }
 
     // 9.6f 0x41DC40
-    inline void AddScore_41DC40(s32 score)
+    inline void AddScore(s32 score)
     {
         mScores.AddCash(score * mMultipliers.mValue);
     }
@@ -139,13 +139,13 @@ class Player
     }
 
     // 0x4CCAE0
-    s32 GetThrowCharge_4CCAE0() const
+    s32 GetThrowCharge() const
     {
         return mThrowCharge;
     }
 
     // 0x4CCAB0
-    void IncrementThrowCharge_4CCAB0()
+    void IncrementThrowCharge()
     {
         s32 t = mThrowCharge;
         if (t >= 0)
@@ -160,7 +160,7 @@ class Player
     }
 
     // 9.6f 0x4CCAD0
-    s32 GetThrowStrength_4CCAD0() const
+    s32 GetThrowStrength() const
     {
         if (mThrowCharge <= 0x3C)
         {
@@ -173,7 +173,7 @@ class Player
     }
 
     // 9.6f 0x461DB0
-    inline bool GetInUse_461DB0() const
+    inline bool GetInUse() const
     {
         return mInUse;
     }
@@ -185,29 +185,29 @@ class Player
     }
 
     // 9.6f 0x4CCB00
-    bool IsThrowCharging_4CCB00() const
+    bool IsThrowCharging() const
     {
         return this->mThrowCharge >= 0;
     }
 
     // 9.6f 0x4A5180
-    inline void ResetThrowCharge_4A5180()
+    inline void ResetThrowCharge()
     {
         mThrowCharge = 0;
     }
 
     // 9.6f 0x434950
-    inline void SetDeathType_434950(s32 death_type)
+    inline void SetDeathType(s32 death_type)
     {
         mDeathType = death_type;
     }
 
     // 9.6f 0x4A5100
-    bool IsRemoteControlActive_4A5100() const
+    bool IsRemoteControlActive() const
     {
         s32 occupation;
         if (!mAuxCamActive || !mAuxPed ||
-            (occupation = mAuxPed->get_occupation_403980(), occupation != ped_ocupation_enum::empty))
+            (occupation = mAuxPed->get_occupation(), occupation != ped_ocupation_enum::empty))
         {
             return false;
         }
@@ -297,7 +297,7 @@ class Player
     EXPORT ~Player();
 
     // 9.6f 0x41DC70
-    inline bool IsUser_41DC70() const
+    inline bool IsUser() const
     {
         return mIsUser;
     }
@@ -315,19 +315,19 @@ class Player
     }
 
     // 9.6f 0x4219D0
-    inline u8 get_idx_4219D0() const
+    inline u8 get_idx() const
     {
         return mPlayerIdx;
     }
 
     // 9.6f 0x4A5150
-    inline Ped* GetActivePed_4A5150() const
+    inline Ped* GetActivePed() const
     {
         return (mCameraMode == 2 || mCameraMode == 3) ? mAuxPed : mPlayerPed;
     }
 
     // 9.6f 0x434900
-    inline Camera* get_camera_434900()
+    inline Camera* get_camera()
     {
         if (mCameraMode == 2 || mCameraMode == 3)
         {
@@ -445,7 +445,7 @@ class Player
 };
 
 // 9.6f 0x434B60
-inline bool TagGame::IsFugitivePed_434B60(Ped* pPed)
+inline bool TagGame::IsFugitivePed(Ped* pPed)
 {
     return mFugitive && mFugitive->GetPlayerPed_41D020() == pPed;
 }

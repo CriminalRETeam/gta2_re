@@ -358,7 +358,7 @@ bool InputDevices::game_pad_read()
         HRESULT jres = gGamePadDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), NULL, &num_items, DIGDD_PEEK);
         if (jres >= DI_OK)
         {
-            sprintf(gTmpBuffer, "%d: num_items = %d jres = %d", gpRng->get_cur_rng_41CFE0(), num_items, jres);
+            sprintf(gTmpBuffer, "%d: num_items = %d jres = %d", gpRng->get_cur_rng(), num_items, jres);
         }
     }
     else
@@ -414,7 +414,7 @@ void InputDevices::read_input_device(s32* input_bits, bool bApplyKeyboardControl
                 {
                     sprintf(gTmpBuffer,
                             "%d: input num_items = %d dwOfs = %d; data = %d",
-                            gpRng->get_cur_rng_41CFE0(),
+                            gpRng->get_cur_rng(),
                             padItems,
                             sGamePadDeviceData.dwOfs,
                             sGamePadDeviceData.dwData);
@@ -514,7 +514,7 @@ void InputDevices::read_input_device(s32* input_bits, bool bApplyKeyboardControl
                                     {
                                         bPressed = true;
                                     }
-                                    else if (gInputRecorder.IsInputSet_44C050(input))
+                                    else if (gInputRecorder.IsInputSet(input))
                                     {
                                         bReleased = 1;
                                     }
@@ -527,7 +527,7 @@ void InputDevices::read_input_device(s32* input_bits, bool bApplyKeyboardControl
                                     {
                                         bPressed = true;
                                     }
-                                    else if (gInputRecorder.IsInputSet_44C050(input))
+                                    else if (gInputRecorder.IsInputSet(input))
                                     {
                                         bReleased = 1;
                                     }
@@ -565,7 +565,7 @@ void InputDevices::read_input_device(s32* input_bits, bool bApplyKeyboardControl
                         }
                         else if (bReleased)
                         {
-                            if (bApplyKeyboardControls && gInputRecorder.IsInputSet_44C050(input))
+                            if (bApplyKeyboardControls && gInputRecorder.IsInputSet(input))
                             {
                                 gInputRecorder.clear_input(input);
                             }
@@ -588,11 +588,11 @@ void InputDevices::read_input_device(s32* input_bits, bool bApplyKeyboardControl
                 {
                     if (sKeyboardDeviceData.dwData & 0x80)
                     {
-                        sprintf(gTmpBuffer, "%d: KEY ON : %d", gpRng->get_cur_rng_41CFE0(), sKeyboardDeviceData.dwOfs);
+                        sprintf(gTmpBuffer, "%d: KEY ON : %d", gpRng->get_cur_rng(), sKeyboardDeviceData.dwOfs);
                     }
                     else
                     {
-                        sprintf(gTmpBuffer, "%d: KEY OFF: %d", gpRng->get_cur_rng_41CFE0(), sKeyboardDeviceData.dwOfs);
+                        sprintf(gTmpBuffer, "%d: KEY OFF: %d", gpRng->get_cur_rng(), sKeyboardDeviceData.dwOfs);
                     }
                 }
             }
@@ -672,8 +672,8 @@ void InputRecorder_67F8B0::save_replay_record(u32 inputs)
         if (mRecBufIdx < k_max_records && mReplayState == Live_0)
         {
             mRecBuff[mRecBufIdx].mInputs = inputs;
-            mRecBuff[mRecBufIdx].mRngIdx = gpRng->get_cur_rng_41CFE0();
-            mRecBuff[mRecBufIdx].mRngRnd = gpRng->get_rnd_45F9E0();
+            mRecBuff[mRecBufIdx].mRngIdx = gpRng->get_cur_rng();
+            mRecBuff[mRecBufIdx].mRngRnd = gpRng->get_rnd();
 
             if (bConstant_replay_save == 1)
             {
@@ -1035,7 +1035,7 @@ u32 InputRecorder_67F8B0::get_input_bits()
     switch (replay_state)
     {
         case Playback_1:
-            if (static_cast<u32>(gpRng->get_cur_rng_41CFE0()) >= static_cast<u32>(mRecBuff[mRecBufIdx].mRngIdx))
+            if (static_cast<u32>(gpRng->get_cur_rng()) >= static_cast<u32>(mRecBuff[mRecBufIdx].mRngIdx))
             {
                 inputs = mRecBuff[mRecBufIdx].mInputs;
                 mRecBufIdx++;
@@ -1081,7 +1081,7 @@ u32 InputRecorder_67F8B0::get_input_bits()
             break;
 
         case Attract_3:
-            if (static_cast<u32>(gpRng->get_cur_rng_41CFE0()) >= static_cast<u32>(mRecBuff[mRecBufIdx].mRngIdx))
+            if (static_cast<u32>(gpRng->get_cur_rng()) >= static_cast<u32>(mRecBuff[mRecBufIdx].mRngIdx))
             {
                 inputs = mRecBuff[mRecBufIdx].mInputs;
                 mRecBufIdx++;
@@ -1121,7 +1121,7 @@ u32 InputRecorder_67F8B0::get_input_bits()
         case Live_0:
             if (mbInputEnabled)
             {
-                if (!gGame_0x40->IsPaused_416BC0())
+                if (!gGame_0x40->IsPaused())
                 {
                     gInputDevices->read_input_device(reinterpret_cast<s32*>(control_status), true);
                     InputRecorder_67F8B0::save_replay_inputs(*control_status, saved_input);
@@ -1143,7 +1143,7 @@ u32 InputRecorder_67F8B0::get_input_bits()
     {
         if (*control_status != saved_input)
         {
-            sprintf(gTmpBuffer, "%d: control_status = %d", gpRng->get_cur_rng_41CFE0(), *control_status);
+            sprintf(gTmpBuffer, "%d: control_status = %d", gpRng->get_cur_rng(), *control_status);
             gErrorLog_67C530.Write(gTmpBuffer);
         }
     }

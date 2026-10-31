@@ -148,7 +148,7 @@ void CarAI::MakeAgressiveSirensAndLights()
 // Inlined in DoShortcutsUsingJunctions (no 9.6f function)
 inline void CarAI::TurnAround_447970()
 {
-    mCar->mPhysics->TurnAntiClockwise_42AB90();
+    mCar->mPhysics->TurnAntiClockwise();
     mCar->mpChaseTask->mFollowingRoute = false;
     mCar->HaltAIDriving();
     mCar->mpChaseTask->mRouteFinished = true;
@@ -171,8 +171,8 @@ void CarAI::PlanTurnAtNextJunction()
                 switch (Ang16::GetAngleFace(this->mAngle))
                 {
                     case road_direction::up_1:
-                        this->mCar->ClearTurnRight_42ACA0();
-                        this->mCar->ClearTurnLeft_42ACB0();
+                        this->mCar->ClearTurnRight();
+                        this->mCar->ClearTurnLeft();
                         switch (turn_dir)
                         {
                             case 2:
@@ -180,17 +180,17 @@ void CarAI::PlanTurnAtNextJunction()
                                 this->mBf24.bTurnPlanned = true;
                                 break;
                             case 3:
-                                this->mCar->SetTurnRight_42AC70();
+                                this->mCar->SetTurnRight();
                                 break;
                             case 4:
-                                this->mCar->SetTurnLeft_42AC80();
+                                this->mCar->SetTurnLeft();
                                 break;
                         }
                         break;
 
                     case road_direction::down_2:
-                        this->mCar->ClearTurnRight_42ACA0();
-                        this->mCar->ClearTurnLeft_42ACB0();
+                        this->mCar->ClearTurnRight();
+                        this->mCar->ClearTurnLeft();
                         switch (turn_dir)
                         {
                             case 1:
@@ -198,24 +198,24 @@ void CarAI::PlanTurnAtNextJunction()
                                 this->mBf24.bTurnPlanned = true;
                                 break;
                             case 3:
-                                this->mCar->SetTurnLeft_42AC80();
+                                this->mCar->SetTurnLeft();
                                 break;
                             case 4:
-                                this->mCar->SetTurnRight_42AC70();
+                                this->mCar->SetTurnRight();
                                 break;
                         }
                         break;
 
                     case road_direction::right_3:
-                        this->mCar->ClearTurnRight_42ACA0();
-                        this->mCar->ClearTurnLeft_42ACB0();
+                        this->mCar->ClearTurnRight();
+                        this->mCar->ClearTurnLeft();
                         switch (turn_dir)
                         {
                             case 1:
-                                this->mCar->SetTurnRight_42AC70();
+                                this->mCar->SetTurnRight();
                                 break;
                             case 2:
-                                this->mCar->SetTurnLeft_42AC80();
+                                this->mCar->SetTurnLeft();
                                 break;
                             case 3:
                                 this->mJunctionTurnDirection = 4;
@@ -225,15 +225,15 @@ void CarAI::PlanTurnAtNextJunction()
                         break;
 
                     case road_direction::left_4:
-                        this->mCar->ClearTurnRight_42ACA0();
-                        this->mCar->ClearTurnLeft_42ACB0();
+                        this->mCar->ClearTurnRight();
+                        this->mCar->ClearTurnLeft();
                         switch (turn_dir)
                         {
                             case 1:
-                                this->mCar->SetTurnLeft_42AC80();
+                                this->mCar->SetTurnLeft();
                                 break;
                             case 2:
-                                this->mCar->SetTurnRight_42AC70();
+                                this->mCar->SetTurnRight();
                                 break;
                             case 4:
                                 this->mJunctionTurnDirection = 3;
@@ -253,21 +253,21 @@ void CarAI::PlanTurnAtNextJunction()
                 if (arrow_run_len > -1)
                 {
                     Car* pCar = this->mCar;
-                    if (pCar->IsTurnRight_42AC20())
+                    if (pCar->IsTurnRight())
                     {
                         if (arrow_blocks_found)
                         {
-                            if (!pCar->IsTurnRightReady_42AC40())
+                            if (!pCar->IsTurnRightReady())
                             {
                                 ClearTurnReady();
-                                this->mCar->SetTurnRightReady_42AC90();
+                                this->mCar->SetTurnRightReady();
                             }
                         }
                     }
-                    else if (pCar->IsTurnLeft_42AC30() && arrow_blocks_found != arrow_run_len - 1 && !pCar->IsTurnLeftReady_42AC50())
+                    else if (pCar->IsTurnLeft() && arrow_blocks_found != arrow_run_len - 1 && !pCar->IsTurnLeftReady())
                     {
                         ClearTurnReady();
-                        this->mCar->SetTurnLeftReady_421530();
+                        this->mCar->SetTurnLeftReady();
                     }
                 }
             }
@@ -418,9 +418,9 @@ bool CarAI::TrySetTargetDirectionFromArrows(const gmp_block_info* pBlock)
     switch (this->mCurrDirection)
     {
         case car_ai_direction::north_1:
-            if (mCar->IsTurnLeft_42AC30() || mCar->IsTurnRight_42AC20())
+            if (mCar->IsTurnLeft() || mCar->IsTurnRight())
             {
-                if (mCar->IsTurnLeft_42AC30())
+                if (mCar->IsTurnLeft())
                 {
                     if ((pBlock->mArrows & block_arrow::green_right_2) && ComputeShortestAngleDelta(kAng90_6779E4, angle) > kAng45_677A38)
                     {
@@ -461,9 +461,9 @@ bool CarAI::TrySetTargetDirectionFromArrows(const gmp_block_info* pBlock)
             return true;
 
         case car_ai_direction::south_2:
-            if (mCar->IsTurnLeft_42AC30() || mCar->IsTurnRight_42AC20())
+            if (mCar->IsTurnLeft() || mCar->IsTurnRight())
             {
-                if (mCar->IsTurnLeft_42AC30())
+                if (mCar->IsTurnLeft())
                 {
                     if (gCurrCarAI_HasChaseUpdate_677CA8)
                     {
@@ -553,9 +553,9 @@ bool CarAI::TrySetTargetDirectionFromArrows(const gmp_block_info* pBlock)
             return false;
 
         case car_ai_direction::west_4:
-            if (mCar->IsTurnLeft_42AC30() || mCar->IsTurnRight_42AC20())
+            if (mCar->IsTurnLeft() || mCar->IsTurnRight())
             {
-                if (mCar->IsTurnLeft_42AC30())
+                if (mCar->IsTurnLeft())
                 {
                     if ((pBlock->mArrows & block_arrow::green_up_4) && ComputeShortestAngleDelta(kAng180_677ADE, angle) > kAng45_677A38)
                     {
@@ -592,9 +592,9 @@ bool CarAI::TrySetTargetDirectionFromArrows(const gmp_block_info* pBlock)
             return false;
 
         case car_ai_direction::east_3:
-            if (mCar->IsTurnLeft_42AC30() || mCar->IsTurnRight_42AC20())
+            if (mCar->IsTurnLeft() || mCar->IsTurnRight())
             {
-                if (mCar->IsTurnLeft_42AC30())
+                if (mCar->IsTurnLeft())
                 {
                     if ((pBlock->mArrows & block_arrow::green_down_8) && ComputeShortestAngleDelta(kAng0_677CE8, angle) > kAng45_677A38)
                     {
@@ -716,7 +716,7 @@ void CarAI::BrakeForBlockedRoadAhead()
 
             if (pNearest)
             {
-                if (pNearest->GetType_416B40() == sprite_types_enum::car_2)
+                if (pNearest->GetType() == sprite_types_enum::car_2)
                 {
                     CarAI* pYieldAI = pNearest->mCarBcPtr->mAI;
                     if (pYieldAI)
@@ -808,7 +808,7 @@ void CarAI::BrakeForBlockedRoadAhead()
             }
 
             pProbe->set_xyz_lazy_420600(probe_x, probe_y, mCar->mCarSprite->mZpos);
-            pProbe->set_ang_lazy_420690(kAng90_6779E4 + this->mAngle);
+            pProbe->set_ang_lazy(kAng90_6779E4 + this->mAngle);
             pProbe->AllocCollisionShape(gF16fOne, gF16fOne, kFpPoint2_6779C0);
             gSpriteGrid_1->FindCollidingSpritePreferType(pProbe, sprite_types_enum::none_0); // result not used
 
@@ -835,7 +835,7 @@ void CarAI::BrakeForBlockedRoadAhead()
                 pProbe->set_xyz_lazy_420600(probe_x, probe_y, mCar->mCarSprite->mZpos);
 
                 Sprite* pHit = gSpriteGrid_1->FindCollidingSpritePreferType(pProbe, sprite_types_enum::none_0);
-                if (pHit && pHit->GetType_416B40() == sprite_types_enum::car_2)
+                if (pHit && pHit->GetType() == sprite_types_enum::car_2)
                 {
                     CarAI* pAi = pHit->mCarBcPtr->mAI;
                     if (pAi && !pAi->mBf24.bHasRightOfWay && pAi->mProbeDirection != this->mProbeDirection)
@@ -921,14 +921,14 @@ void CarAI::CheckRoadAhead()
 
     if (pHalfAheadBlock)
     {
-        if (gGtx_0x106C->IsRoadTile_42A810(pHalfAheadBlock->mLid & block_face::tile_idx_mask) || this->mBf24.bHasRightOfWay)
+        if (gGtx_0x106C->IsRoadTile(pHalfAheadBlock->mLid & block_face::tile_idx_mask) || this->mBf24.bHasRightOfWay)
         {
             if (!sCurrCarAIIsChasing)
             {
                 ChooseRandomTurn();
             }
 
-            if (this->mCar->IsTurnLeft_42AC30())
+            if (this->mCar->IsTurnLeft())
             {
                 Fix16 new_x = static_cast<u8>(gCurrCarAI_ProbeX.ToInt());
                 Fix16 new_y = static_cast<u8>(gCurrCarAI_ProbeY.ToInt());
@@ -956,13 +956,13 @@ void CarAI::CheckRoadAhead()
                 }
 
                 pProbeSprite->set_xyz_lazy_420600(new_x, new_y, this->mCar->mCarSprite->mZpos);
-                pProbeSprite->set_ang_lazy_420690(kAng90_6779E4 + this->mAngle);
+                pProbeSprite->set_ang_lazy(kAng90_6779E4 + this->mAngle);
                 pProbeSprite->AllocCollisionShape(gF16fOne, kFpHalf_677A84, kFpPoint2_6779C0);
 
                 Sprite* pHit = gSpriteGrid_1->FindCollidingSpritePreferType(pProbeSprite, sprite_types_enum::none_0);
                 if (pHit)
                 {
-                    if (pHit->GetType_416B40() == sprite_types_enum::car_2)
+                    if (pHit->GetType() == sprite_types_enum::car_2)
                     {
                         this->mCar->DoBrake();
                         this->mManeuverActive = 0;
@@ -970,7 +970,7 @@ void CarAI::CheckRoadAhead()
                     }
                 }
             }
-            else if (this->mCar->IsTurnRight_42AC20())
+            else if (this->mCar->IsTurnRight())
             {
                 BrakeForBlockedRoadAhead();
             }
@@ -979,7 +979,7 @@ void CarAI::CheckRoadAhead()
 
     this->mCar->mCarSprite->set_xyz_lazy_420600(restore_x, restore_y, mCar->mCarSprite->mZpos);
 
-    mCar->mCarSprite->set_ang_lazy_420690(this->mAngle);
+    mCar->mCarSprite->set_ang_lazy(this->mAngle);
 
     Fix16 probe_x_off;
     Fix16 probe_y_off;
@@ -1201,11 +1201,11 @@ void CarAI::ManageTrafficCarDirection()
                     }
                     else if (mTargetDirection == car_ai_target_direction::eastwards_3)
                     {
-                        mCar->mPhysics->TurnClockwise_42ABA0();
+                        mCar->mPhysics->TurnClockwise();
                     }
                     else if (mTargetDirection == car_ai_target_direction::westwards_4)
                     {
-                        mCar->mPhysics->TurnAntiClockwise_42AB90();
+                        mCar->mPhysics->TurnAntiClockwise();
                     }
                     break;
                 }
@@ -1233,7 +1233,7 @@ void CarAI::ManageTrafficCarDirection()
                         }
                         else
                         {
-                            mCar->mPhysics->SetGoStraight_42ABB0();
+                            mCar->mPhysics->SetGoStraight();
                         }
                         break;
                     }
@@ -1246,16 +1246,16 @@ void CarAI::ManageTrafficCarDirection()
                         {
                             if (cur_angle < target_angle - kAng4_677CE2)
                             {
-                                mCar->mPhysics->SetGoStraight_42ABB0();
+                                mCar->mPhysics->SetGoStraight();
                             }
                             else
                             {
-                                mCar->mPhysics->TurnClockwise_42ABA0();
+                                mCar->mPhysics->TurnClockwise();
                             }
                         }
                         else
                         {
-                            mCar->mPhysics->TurnAntiClockwise_42AB90();
+                            mCar->mPhysics->TurnAntiClockwise();
                         }
                     }
                     else
@@ -1264,17 +1264,17 @@ void CarAI::ManageTrafficCarDirection()
                         {
                             if (cur_angle > target_angle + kAng4_677CE2)
                             {
-                                mCar->mPhysics->SetGoStraight_42ABB0();
+                                mCar->mPhysics->SetGoStraight();
                                 break;
                             }
                             else
                             {
-                                mCar->mPhysics->TurnAntiClockwise_42AB90();
+                                mCar->mPhysics->TurnAntiClockwise();
                             }
                         }
                         else
                         {
-                            mCar->mPhysics->TurnClockwise_42ABA0();
+                            mCar->mPhysics->TurnClockwise();
                         }
                     }
                     break;
@@ -1284,11 +1284,11 @@ void CarAI::ManageTrafficCarDirection()
                 mBf24.bFlag16 = false;
                 if (cur_angle > target_angle)
                 {
-                    mCar->mPhysics->TurnClockwise_42ABA0();
+                    mCar->mPhysics->TurnClockwise();
                 }
                 else
                 {
-                    mCar->mPhysics->TurnAntiClockwise_42AB90();
+                    mCar->mPhysics->TurnAntiClockwise();
                     return;
                 }
                 break;
@@ -1303,11 +1303,11 @@ void CarAI::ManageTrafficCarDirection()
                     {
                         if (mTargetDirection == car_ai_target_direction::westwards_4)
                         {
-                            mCar->mPhysics->TurnClockwise_42ABA0();
+                            mCar->mPhysics->TurnClockwise();
                         }
                         else if (mTargetDirection == car_ai_target_direction::eastwards_3)
                         {
-                            mCar->mPhysics->TurnAntiClockwise_42AB90();
+                            mCar->mPhysics->TurnAntiClockwise();
                         }
                     }
                     else
@@ -1342,7 +1342,7 @@ void CarAI::ManageTrafficCarDirection()
                         }
                         else
                         {
-                            mCar->mPhysics->SetGoStraight_42ABB0();
+                            mCar->mPhysics->SetGoStraight();
                         }
                         return;
                     }
@@ -1355,17 +1355,17 @@ void CarAI::ManageTrafficCarDirection()
                         {
                             if (cur_angle > target_angle + kAng4_677CE2)
                             {
-                                mCar->mPhysics->SetGoStraight_42ABB0();
+                                mCar->mPhysics->SetGoStraight();
                             }
                             else
                             {
-                                mCar->mPhysics->TurnAntiClockwise_42AB90();
+                                mCar->mPhysics->TurnAntiClockwise();
                                 return;
                             }
                         }
                         else
                         {
-                            mCar->mPhysics->TurnClockwise_42ABA0();
+                            mCar->mPhysics->TurnClockwise();
                         }
                     }
                     else
@@ -1374,16 +1374,16 @@ void CarAI::ManageTrafficCarDirection()
                         {
                             if (cur_angle < target_angle - kAng4_677CE2)
                             {
-                                mCar->mPhysics->SetGoStraight_42ABB0();
+                                mCar->mPhysics->SetGoStraight();
                             }
                             else
                             {
-                                mCar->mPhysics->TurnClockwise_42ABA0();
+                                mCar->mPhysics->TurnClockwise();
                             }
                         }
                         else
                         {
-                            mCar->mPhysics->TurnAntiClockwise_42AB90();
+                            mCar->mPhysics->TurnAntiClockwise();
                         }
                     }
                     break;
@@ -1393,11 +1393,11 @@ void CarAI::ManageTrafficCarDirection()
                 mBf24.bFlag16 = false;
                 if (cur_angle > target_angle)
                 {
-                    mCar->mPhysics->TurnClockwise_42ABA0();
+                    mCar->mPhysics->TurnClockwise();
                 }
                 else
                 {
-                    mCar->mPhysics->TurnAntiClockwise_42AB90();
+                    mCar->mPhysics->TurnAntiClockwise();
                 }
                 break;
             }
@@ -1414,11 +1414,11 @@ void CarAI::ManageTrafficCarDirection()
                     {
                         if (mTargetDirection == car_ai_target_direction::northwards_1)
                         {
-                            mCar->mPhysics->TurnAntiClockwise_42AB90();
+                            mCar->mPhysics->TurnAntiClockwise();
                         }
                         else if (mTargetDirection == car_ai_target_direction::southwards_2)
                         {
-                            mCar->mPhysics->TurnClockwise_42ABA0();
+                            mCar->mPhysics->TurnClockwise();
                         }
                     }
                     else
@@ -1450,7 +1450,7 @@ void CarAI::ManageTrafficCarDirection()
                         }
                         else
                         {
-                            mCar->mPhysics->SetGoStraight_42ABB0();
+                            mCar->mPhysics->SetGoStraight();
                             break;
                         }
                         return;
@@ -1464,16 +1464,16 @@ void CarAI::ManageTrafficCarDirection()
                         {
                             if (cur_angle > target_angle - kAng10)
                             {
-                                mCar->mPhysics->SetGoStraight_42ABB0();
+                                mCar->mPhysics->SetGoStraight();
                             }
                             else
                             {
-                                mCar->mPhysics->TurnAntiClockwise_42AB90();
+                                mCar->mPhysics->TurnAntiClockwise();
                             }
                         }
                         else
                         {
-                            mCar->mPhysics->TurnClockwise_42ABA0();
+                            mCar->mPhysics->TurnClockwise();
                         }
                     }
                     else
@@ -1482,16 +1482,16 @@ void CarAI::ManageTrafficCarDirection()
                         {
                             if (cur_angle < target_angle + kAng10)
                             {
-                                mCar->mPhysics->SetGoStraight_42ABB0();
+                                mCar->mPhysics->SetGoStraight();
                             }
                             else
                             {
-                                mCar->mPhysics->TurnClockwise_42ABA0();
+                                mCar->mPhysics->TurnClockwise();
                             }
                         }
                         else
                         {
-                            mCar->mPhysics->TurnAntiClockwise_42AB90();
+                            mCar->mPhysics->TurnAntiClockwise();
                         }
                     }
                     return;
@@ -1501,12 +1501,12 @@ void CarAI::ManageTrafficCarDirection()
                 mBf24.bFlag16 = false;
                 if (cur_angle > target_angle)
                 {
-                    mCar->mPhysics->TurnClockwise_42ABA0();
+                    mCar->mPhysics->TurnClockwise();
                     return;
                 }
                 else
                 {
-                    mCar->mPhysics->TurnAntiClockwise_42AB90();
+                    mCar->mPhysics->TurnAntiClockwise();
                 }
                 break;
             }
@@ -1520,11 +1520,11 @@ void CarAI::ManageTrafficCarDirection()
                     {
                         if (mTargetDirection == car_ai_target_direction::northwards_1)
                         {
-                            mCar->mPhysics->TurnClockwise_42ABA0();
+                            mCar->mPhysics->TurnClockwise();
                         }
                         else if (mTargetDirection == car_ai_target_direction::southwards_2)
                         {
-                            mCar->mPhysics->TurnAntiClockwise_42AB90();
+                            mCar->mPhysics->TurnAntiClockwise();
                             return;
                         }
                     }
@@ -1560,7 +1560,7 @@ void CarAI::ManageTrafficCarDirection()
                         }
                         else
                         {
-                            mCar->mPhysics->SetGoStraight_42ABB0();
+                            mCar->mPhysics->SetGoStraight();
                         }
                         return;
                     }
@@ -1573,16 +1573,16 @@ void CarAI::ManageTrafficCarDirection()
                         {
                             if (cur_angle < target_angle + kAng10)
                             {
-                                mCar->mPhysics->SetGoStraight_42ABB0();
+                                mCar->mPhysics->SetGoStraight();
                             }
                             else
                             {
-                                mCar->mPhysics->TurnClockwise_42ABA0();
+                                mCar->mPhysics->TurnClockwise();
                             }
                         }
                         else
                         {
-                            mCar->mPhysics->TurnAntiClockwise_42AB90();
+                            mCar->mPhysics->TurnAntiClockwise();
                         }
                     }
                     else
@@ -1591,17 +1591,17 @@ void CarAI::ManageTrafficCarDirection()
                         {
                             if (cur_angle > target_angle - kAng10)
                             {
-                                mCar->mPhysics->SetGoStraight_42ABB0();
+                                mCar->mPhysics->SetGoStraight();
                                 return;
                             }
                             else
                             {
-                                mCar->mPhysics->TurnAntiClockwise_42AB90();
+                                mCar->mPhysics->TurnAntiClockwise();
                             }
                         }
                         else
                         {
-                            mCar->mPhysics->TurnClockwise_42ABA0();
+                            mCar->mPhysics->TurnClockwise();
                         }
                     }
                     break;
@@ -1611,11 +1611,11 @@ void CarAI::ManageTrafficCarDirection()
                 mBf24.bFlag16 = false;
                 if (cur_angle > target_angle)
                 {
-                    mCar->mPhysics->TurnClockwise_42ABA0();
+                    mCar->mPhysics->TurnClockwise();
                 }
                 else
                 {
-                    mCar->mPhysics->TurnAntiClockwise_42AB90();
+                    mCar->mPhysics->TurnAntiClockwise();
                 }
                 break;
             }
@@ -1685,32 +1685,32 @@ void CarAI::FollowRoadDirection()
                             {
                                 if (travel_angle < (lane_angle - kAng4_677CE2))
                                 {
-                                    mCar->mPhysics->SetGoStraight_42ABB0();
+                                    mCar->mPhysics->SetGoStraight();
                                 }
                                 else
                                 {
-                                    mCar->mPhysics->TurnClockwise_42ABA0();
+                                    mCar->mPhysics->TurnClockwise();
                                 }
                             }
                             else
                             {
-                                mCar->mPhysics->TurnAntiClockwise_42AB90();
+                                mCar->mPhysics->TurnAntiClockwise();
                             }
                         }
                         else if (travel_angle < (kAng10 + lane_angle_copy))
                         {
                             if (travel_angle > (lane_angle + kAng4_677CE2))
                             {
-                                mCar->mPhysics->SetGoStraight_42ABB0();
+                                mCar->mPhysics->SetGoStraight();
                             }
                             else
                             {
-                                mCar->mPhysics->TurnAntiClockwise_42AB90();
+                                mCar->mPhysics->TurnAntiClockwise();
                             }
                         }
                         else
                         {
-                            mCar->mPhysics->TurnClockwise_42ABA0();
+                            mCar->mPhysics->TurnClockwise();
                         }
                     }
 
@@ -1718,38 +1718,38 @@ void CarAI::FollowRoadDirection()
                 }
 
                 case car_ai_direction::south_2:
-                    mCar->mPhysics->TurnClockwise_42ABA0();
+                    mCar->mPhysics->TurnClockwise();
                     return;
 
                 case car_ai_direction::east_3:
                     if (mBf24.bTurning && mTargetDirection == car_ai_target_direction::northwards_1)
                     {
-                        mCar->mPhysics->TurnAntiClockwise_42AB90();
+                        mCar->mPhysics->TurnAntiClockwise();
                     }
                     else if (mAngle > kAng45_677A38)
                     {
                         if (mBf24.bReversing)
                         {
-                            mCar->mPhysics->TurnClockwise_42ABA0();
+                            mCar->mPhysics->TurnClockwise();
                         }
                         else
                         {
-                            mCar->mPhysics->TurnAntiClockwise_42AB90();
+                            mCar->mPhysics->TurnAntiClockwise();
                         }
                     }
                     else if (mBf24.bReversing)
                     {
-                        mCar->mPhysics->TurnAntiClockwise_42AB90();
+                        mCar->mPhysics->TurnAntiClockwise();
                     }
                     else
                     {
-                        mCar->mPhysics->TurnClockwise_42ABA0();
+                        mCar->mPhysics->TurnClockwise();
                     }
 
                     return;
 
                 case car_ai_direction::west_4:
-                    mCar->mPhysics->TurnClockwise_42ABA0();
+                    mCar->mPhysics->TurnClockwise();
                     return;
 
                 default:
@@ -1765,42 +1765,42 @@ void CarAI::FollowRoadDirection()
                 {
                     if (mBf24.bReversing)
                     {
-                        mCar->mPhysics->TurnClockwise_42ABA0();
+                        mCar->mPhysics->TurnClockwise();
                     }
                     else
                     {
-                        mCar->mPhysics->TurnAntiClockwise_42AB90();
+                        mCar->mPhysics->TurnAntiClockwise();
                     }
                 }
                 else
                 {
                     if (mBf24.bReversing)
                     {
-                        mCar->mPhysics->TurnAntiClockwise_42AB90();
+                        mCar->mPhysics->TurnAntiClockwise();
                     }
                     else
                     {
-                        mCar->mPhysics->TurnClockwise_42ABA0();
+                        mCar->mPhysics->TurnClockwise();
                     }
                 }
             }
             else if (mCurrDirection == car_ai_direction::east_3)
             {
-                mCar->mPhysics->TurnClockwise_42ABA0();
+                mCar->mPhysics->TurnClockwise();
             }
             else if (mCurrDirection == car_ai_direction::south_2)
             {
-                mCar->mPhysics->SetGoStraight_42ABB0();
+                mCar->mPhysics->SetGoStraight();
             }
             else if (mCurrDirection == car_ai_direction::north_1)
             {
                 if (mBf24.bTurning && mTargetDirection == car_ai_target_direction::westwards_4)
                 {
-                    mCar->mPhysics->TurnAntiClockwise_42AB90();
+                    mCar->mPhysics->TurnAntiClockwise();
                 }
                 else
                 {
-                    mCar->mPhysics->TurnClockwise_42ABA0();
+                    mCar->mPhysics->TurnClockwise();
                 }
             }
             return;
@@ -1811,18 +1811,18 @@ void CarAI::FollowRoadDirection()
                 case car_ai_direction::north_1:
                     if (mBf24.bReversing)
                     {
-                        mCar->mPhysics->TurnAntiClockwise_42AB90();
+                        mCar->mPhysics->TurnAntiClockwise();
                     }
                     return;
 
                 case car_ai_direction::south_2:
                     if (mAngle > kAng270_677B08)
                     {
-                        mCar->mPhysics->TurnClockwise_42ABA0();
+                        mCar->mPhysics->TurnClockwise();
                     }
                     else
                     {
-                        mCar->mPhysics->TurnAntiClockwise_42AB90();
+                        mCar->mPhysics->TurnAntiClockwise();
                     }
                     return;
 
@@ -1832,7 +1832,7 @@ void CarAI::FollowRoadDirection()
                         Fix16((mCar->mCarSprite->mXy.y.ToUInt8()));
                     if (lane_dy > kFpPoint4 && lane_dy < kFpPoint6)
                     {
-                        mCar->mPhysics->SetGoStraight_42ABB0();
+                        mCar->mPhysics->SetGoStraight();
                     }
                     else
                     {
@@ -1844,18 +1844,18 @@ void CarAI::FollowRoadDirection()
                             {
                                 if (travel_angle > Ang16(lane_angle_copy.rValue - kAng10.rValue, 0))
                                 {
-                                    mCar->mPhysics->SetGoStraight_42ABB0();
+                                    mCar->mPhysics->SetGoStraight();
                                     // This return (and the one in left_4/south_2) decide which identical tail VC6 keeps when cross-jumping
                                     return;
                                 }
                                 else
                                 {
-                                    mCar->mPhysics->TurnAntiClockwise_42AB90();
+                                    mCar->mPhysics->TurnAntiClockwise();
                                 }
                             }
                             else
                             {
-                                mCar->mPhysics->TurnClockwise_42ABA0();
+                                mCar->mPhysics->TurnClockwise();
                             }
                         }
                         else
@@ -1864,16 +1864,16 @@ void CarAI::FollowRoadDirection()
                             {
                                 if (travel_angle < Ang16(kAng10.rValue + lane_angle_copy.rValue, 0))
                                 {
-                                    mCar->mPhysics->SetGoStraight_42ABB0();
+                                    mCar->mPhysics->SetGoStraight();
                                 }
                                 else
                                 {
-                                    mCar->mPhysics->TurnClockwise_42ABA0();
+                                    mCar->mPhysics->TurnClockwise();
                                 }
                             }
                             else
                             {
-                                mCar->mPhysics->TurnAntiClockwise_42AB90();
+                                mCar->mPhysics->TurnAntiClockwise();
                             }
                         }
                     }
@@ -1883,11 +1883,11 @@ void CarAI::FollowRoadDirection()
                 case car_ai_direction::west_4:
                     if (mBf24.bTurning && mTargetDirection == car_ai_target_direction::southwards_2)
                     {
-                        mCar->mPhysics->TurnAntiClockwise_42AB90();
+                        mCar->mPhysics->TurnAntiClockwise();
                     }
                     else
                     {
-                        mCar->mPhysics->TurnClockwise_42ABA0();
+                        mCar->mPhysics->TurnClockwise();
                     }
                     return;
 
@@ -1904,34 +1904,34 @@ void CarAI::FollowRoadDirection()
                 case car_ai_direction::north_1:
                     if (mAngle > kAng180_677ADE)
                     {
-                        mCar->mPhysics->TurnAntiClockwise_42AB90();
+                        mCar->mPhysics->TurnAntiClockwise();
                     }
                     else
                     {
-                        mCar->mPhysics->TurnClockwise_42ABA0();
+                        mCar->mPhysics->TurnClockwise();
                     }
                     return;
 
                 case car_ai_direction::south_2:
                     if (mBf24.bTurning && mTargetDirection == car_ai_target_direction::westwards_4)
                     {
-                        mCar->mPhysics->TurnClockwise_42ABA0();
+                        mCar->mPhysics->TurnClockwise();
                         return;
                     }
                     else
                     {
-                        mCar->mPhysics->TurnAntiClockwise_42AB90();
+                        mCar->mPhysics->TurnAntiClockwise();
                     }
                     return;
 
                 case car_ai_direction::east_3:
                     if (mBf24.bTurning && mTargetDirection == car_ai_target_direction::northwards_1)
                     {
-                        mCar->mPhysics->TurnAntiClockwise_42AB90();
+                        mCar->mPhysics->TurnAntiClockwise();
                     }
                     else
                     {
-                        mCar->mPhysics->TurnClockwise_42ABA0();
+                        mCar->mPhysics->TurnClockwise();
                     }
                     return;
             }
@@ -1998,7 +1998,7 @@ void CarAI::FollowRoadDirection()
             }
             else if (mSeekRoadTurn == 3)
             {
-                mCar->mPhysics->SetGoStraight_42ABB0();
+                mCar->mPhysics->SetGoStraight();
             }
     }
 }
@@ -2040,22 +2040,22 @@ void CarAI::AlignToLaneCenter()
                     {
                         if (this->mAngle > kAng180_677ADE - kAng12_677A2E)
                         {
-                            this->mCar->mPhysics->TurnClockwise_42ABA0();
+                            this->mCar->mPhysics->TurnClockwise();
                         }
                         else
                         {
-                            this->mCar->mPhysics->SetGoStraight_42ABB0();
+                            this->mCar->mPhysics->SetGoStraight();
                         }
                     }
                     else
                     {
                         if (this->mAngle < kAng180_677ADE + kAng12_677A2E)
                         {
-                            this->mCar->mPhysics->TurnAntiClockwise_42AB90();
+                            this->mCar->mPhysics->TurnAntiClockwise();
                         }
                         else
                         {
-                            this->mCar->mPhysics->SetGoStraight_42ABB0();
+                            this->mCar->mPhysics->SetGoStraight();
                         }
                     }
                     break;
@@ -2074,22 +2074,22 @@ void CarAI::AlignToLaneCenter()
                     {
                         if (this->mAngle < kAng12_677A2E)
                         {
-                            this->mCar->mPhysics->TurnAntiClockwise_42AB90();
+                            this->mCar->mPhysics->TurnAntiClockwise();
                         }
                         else
                         {
-                            this->mCar->mPhysics->SetGoStraight_42ABB0();
+                            this->mCar->mPhysics->SetGoStraight();
                         }
                     }
                     else
                     {
                         if (this->mAngle > kAng0_677CE8 - kAng12_677A2E)
                         {
-                            this->mCar->mPhysics->TurnClockwise_42ABA0();
+                            this->mCar->mPhysics->TurnClockwise();
                         }
                         else
                         {
-                            this->mCar->mPhysics->SetGoStraight_42ABB0();
+                            this->mCar->mPhysics->SetGoStraight();
                         }
                     }
                     break;
@@ -2108,22 +2108,22 @@ void CarAI::AlignToLaneCenter()
                     {
                         if (this->mAngle > kAng90_6779E4 - kAng12_677A2E)
                         {
-                            this->mCar->mPhysics->TurnClockwise_42ABA0();
+                            this->mCar->mPhysics->TurnClockwise();
                         }
                         else
                         {
-                            this->mCar->mPhysics->SetGoStraight_42ABB0();
+                            this->mCar->mPhysics->SetGoStraight();
                         }
                     }
                     else
                     {
                         if (this->mAngle < kAng90_6779E4 + kAng12_677A2E)
                         {
-                            this->mCar->mPhysics->TurnAntiClockwise_42AB90();
+                            this->mCar->mPhysics->TurnAntiClockwise();
                         }
                         else
                         {
-                            this->mCar->mPhysics->SetGoStraight_42ABB0();
+                            this->mCar->mPhysics->SetGoStraight();
                         }
                     }
                     break;
@@ -2142,22 +2142,22 @@ void CarAI::AlignToLaneCenter()
                     {
                         if (this->mAngle < kAng270_677B08 - kAng12_677A2E)
                         {
-                            this->mCar->mPhysics->TurnAntiClockwise_42AB90();
+                            this->mCar->mPhysics->TurnAntiClockwise();
                         }
                         else
                         {
-                            this->mCar->mPhysics->SetGoStraight_42ABB0();
+                            this->mCar->mPhysics->SetGoStraight();
                         }
                     }
                     else
                     {
                         if (this->mAngle > kAng270_677B08 + kAng12_677A2E)
                         {
-                            this->mCar->mPhysics->TurnClockwise_42ABA0();
+                            this->mCar->mPhysics->TurnClockwise();
                         }
                         else
                         {
-                            this->mCar->mPhysics->SetGoStraight_42ABB0();
+                            this->mCar->mPhysics->SetGoStraight();
                         }
                     }
                     break;
@@ -2194,11 +2194,11 @@ void CarAI::AlignToLaneCenter()
                     {
                         if (this->mAngle > kAng90_6779E4 - kAng12_677A2E)
                         {
-                            this->mCar->mPhysics->TurnClockwise_42ABA0();
+                            this->mCar->mPhysics->TurnClockwise();
                         }
                         else
                         {
-                            this->mCar->mPhysics->SetGoStraight_42ABB0();
+                            this->mCar->mPhysics->SetGoStraight();
                         }
                     }
                     break;
@@ -2219,11 +2219,11 @@ void CarAI::AlignToLaneCenter()
                     {
                         if (this->mAngle > kAng270_677B08 - kAng12_677A2E)
                         {
-                            this->mCar->mPhysics->TurnClockwise_42ABA0();
+                            this->mCar->mPhysics->TurnClockwise();
                         }
                         else
                         {
-                            this->mCar->mPhysics->SetGoStraight_42ABB0();
+                            this->mCar->mPhysics->SetGoStraight();
                         }
                     }
                     break;
@@ -2244,11 +2244,11 @@ void CarAI::AlignToLaneCenter()
                     {
                         if (this->mAngle <= kAng0_677CE8 - kAng12_677A2E && this->mAngle >= kAng90_6779E4)
                         {
-                            this->mCar->mPhysics->SetGoStraight_42ABB0();
+                            this->mCar->mPhysics->SetGoStraight();
                         }
                         else
                         {
-                            this->mCar->mPhysics->TurnClockwise_42ABA0();
+                            this->mCar->mPhysics->TurnClockwise();
                         }
                     }
                     break;
@@ -2269,11 +2269,11 @@ void CarAI::AlignToLaneCenter()
                     {
                         if (this->mAngle > kAng180_677ADE - kAng12_677A2E)
                         {
-                            this->mCar->mPhysics->TurnClockwise_42ABA0();
+                            this->mCar->mPhysics->TurnClockwise();
                         }
                         else
                         {
-                            this->mCar->mPhysics->SetGoStraight_42ABB0();
+                            this->mCar->mPhysics->SetGoStraight();
                         }
                     }
                     break;
@@ -2305,11 +2305,11 @@ void CarAI::AlignToLaneCenter()
                     {
                         if (this->mAngle < kAng90_6779E4 + kAng12_677A2E)
                         {
-                            this->mCar->mPhysics->TurnAntiClockwise_42AB90();
+                            this->mCar->mPhysics->TurnAntiClockwise();
                         }
                         else
                         {
-                            this->mCar->mPhysics->SetGoStraight_42ABB0();
+                            this->mCar->mPhysics->SetGoStraight();
                         }
                     }
                     break;
@@ -2330,11 +2330,11 @@ void CarAI::AlignToLaneCenter()
                     {
                         if (this->mAngle < kAng270_677B08 + kAng12_677A2E)
                         {
-                            this->mCar->mPhysics->TurnAntiClockwise_42AB90();
+                            this->mCar->mPhysics->TurnAntiClockwise();
                         }
                         else
                         {
-                            this->mCar->mPhysics->SetGoStraight_42ABB0();
+                            this->mCar->mPhysics->SetGoStraight();
                         }
                     }
                     break;
@@ -2355,11 +2355,11 @@ void CarAI::AlignToLaneCenter()
                     {
                         if (this->mAngle < kAng0_677CE8 + kAng12_677A2E)
                         {
-                            this->mCar->mPhysics->TurnAntiClockwise_42AB90();
+                            this->mCar->mPhysics->TurnAntiClockwise();
                         }
                         else
                         {
-                            this->mCar->mPhysics->SetGoStraight_42ABB0();
+                            this->mCar->mPhysics->SetGoStraight();
                         }
                     }
                     break;
@@ -2380,11 +2380,11 @@ void CarAI::AlignToLaneCenter()
                     {
                         if (this->mAngle < kAng180_677ADE + kAng12_677A2E)
                         {
-                            this->mCar->mPhysics->TurnAntiClockwise_42AB90();
+                            this->mCar->mPhysics->TurnAntiClockwise();
                         }
                         else
                         {
-                            this->mCar->mPhysics->SetGoStraight_42ABB0();
+                            this->mCar->mPhysics->SetGoStraight();
                         }
                     }
                     break;
@@ -2676,8 +2676,8 @@ probe_sides:
         switch (this->mCurrDirection)
         {
             case car_ai_direction::north_1:
-                x_off = Ang16::sine_40F500(kAng90_6779E4) * kFpPoint7;
-                y_off = Ang16::cosine_40F520(kAng90_6779E4) * kFpPoint7;
+                x_off = Ang16::sine(kAng90_6779E4) * kFpPoint7;
+                y_off = Ang16::cosine(kAng90_6779E4) * kFpPoint7;
                 mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
@@ -2685,8 +2685,8 @@ probe_sides:
                 {
                     return;
                 }
-                x_off = Ang16::sine_40F500(kAng180_677ADE) * kFpTwo_677B98;
-                y_off = Ang16::cosine_40F520(kAng180_677ADE) * kFpTwo_677B98;
+                x_off = Ang16::sine(kAng180_677ADE) * kFpTwo_677B98;
+                y_off = Ang16::cosine(kAng180_677ADE) * kFpTwo_677B98;
                 mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
@@ -2697,8 +2697,8 @@ probe_sides:
                 goto tail_2;
 
             case car_ai_direction::south_2:
-                x_off = Ang16::sine_40F500(kAng270_677B08) * kFpPoint7;
-                y_off = Ang16::cosine_40F520(kAng270_677B08) * kFpPoint7;
+                x_off = Ang16::sine(kAng270_677B08) * kFpPoint7;
+                y_off = Ang16::cosine(kAng270_677B08) * kFpPoint7;
                 mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
@@ -2706,8 +2706,8 @@ probe_sides:
                 {
                     return;
                 }
-                x_off = Ang16::sine_40F500(kAng0_677CE8) * kFpTwo_677B98;
-                y_off = Ang16::cosine_40F520(kAng0_677CE8) * kFpTwo_677B98;
+                x_off = Ang16::sine(kAng0_677CE8) * kFpTwo_677B98;
+                y_off = Ang16::cosine(kAng0_677CE8) * kFpTwo_677B98;
                 mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
@@ -2718,8 +2718,8 @@ probe_sides:
                 goto tail_2;
 
             case car_ai_direction::east_3:
-                x_off = Ang16::sine_40F500(kAng0_677CE8) * kFpPoint7;
-                y_off = Ang16::cosine_40F520(kAng0_677CE8) * kFpPoint7;
+                x_off = Ang16::sine(kAng0_677CE8) * kFpPoint7;
+                y_off = Ang16::cosine(kAng0_677CE8) * kFpPoint7;
                 mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
@@ -2727,8 +2727,8 @@ probe_sides:
                 {
                     return;
                 }
-                x_off = Ang16::sine_40F500(kAng90_6779E4) * kFpTwo_677B98;
-                y_off = Ang16::cosine_40F520(kAng90_6779E4) * kFpTwo_677B98;
+                x_off = Ang16::sine(kAng90_6779E4) * kFpTwo_677B98;
+                y_off = Ang16::cosine(kAng90_6779E4) * kFpTwo_677B98;
                 mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
@@ -2739,8 +2739,8 @@ probe_sides:
                 goto tail_2;
 
             case car_ai_direction::west_4:
-                x_off = Ang16::sine_40F500(kAng180_677ADE) * kFpPoint7;
-                y_off = Ang16::cosine_40F520(kAng180_677ADE) * kFpPoint7;
+                x_off = Ang16::sine(kAng180_677ADE) * kFpPoint7;
+                y_off = Ang16::cosine(kAng180_677ADE) * kFpPoint7;
                 mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
@@ -2748,8 +2748,8 @@ probe_sides:
                 {
                     return;
                 }
-                x_off = Ang16::sine_40F500(kAng270_677B08) * kFpTwo_677B98;
-                y_off = Ang16::cosine_40F520(kAng270_677B08) * kFpTwo_677B98;
+                x_off = Ang16::sine(kAng270_677B08) * kFpTwo_677B98;
+                y_off = Ang16::cosine(kAng270_677B08) * kFpTwo_677B98;
                 mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
@@ -2813,7 +2813,7 @@ void CarAI::UpdateChase()
 
     sCurrCarAITargetZ = target_z;
     Fix16 dist;
-    dist = Fix16::MaxAbsDistance_42A6B0(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
+    dist = Fix16::MaxAbsDistance(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
     if (dist < kFpFive_677BA4 && this->mCar->mpChaseTask->mTaskType != car_task_type::goto_position_1)
     {
         if (mRouteIdx > 0)
@@ -2942,7 +2942,7 @@ void CarAI::UpdateChase()
 }
 
 // https://decomp.me/scratch/Auxlx
-// MaxAbsDistance_42A6B0 past the inline budget: the y difference stays inline, the Abs calls
+// MaxAbsDistance past the inline budget: the y difference stays inline, the Abs calls
 // go out of line (budget)
 static inline Fix16 __stdcall MaxAbsDistanceRawY_451980(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
 {
@@ -3068,12 +3068,12 @@ void CarAI::UpdateStateMachine()
                     Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation - kAng180_677ADE, kFpThree_677B9C, dx, dy);
                     gCurrCarAI_TargetX += dx;
                     sCurrCarAITargetY += dy;
-                    target_dist = Fix16::MaxAbsDistance_42A6B0(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
+                    target_dist = Fix16::MaxAbsDistance(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
                     target_angle = Fix16::atan2_fixed(sCurrCarAITargetY - gCurrCarAI_ypos, gCurrCarAI_TargetX - gCurrCarAI_xpos);
                 }
                 else
                 {
-                    target_dist = Fix16::MaxAbsDistance_42A6B0(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
+                    target_dist = Fix16::MaxAbsDistance(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
                     target_angle = Fix16::atan2_fixed(sCurrCarAITargetY - gCurrCarAI_ypos, gCurrCarAI_TargetX - gCurrCarAI_xpos);
                 }
                 break;
@@ -3088,7 +3088,7 @@ void CarAI::UpdateStateMachine()
                     Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation + kAng90_6779E4, kFpHalf_677A84, dx, dy);
                     gCurrCarAI_TargetX += dx;
                     sCurrCarAITargetY += dy;
-                    target_dist = Fix16::MaxAbsDistance_42A6B0(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
+                    target_dist = Fix16::MaxAbsDistance(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
                     target_angle = Fix16::atan2_fixed(sCurrCarAITargetY - gCurrCarAI_ypos, gCurrCarAI_TargetX - gCurrCarAI_xpos);
                 }
                 break;
@@ -3100,7 +3100,7 @@ void CarAI::UpdateStateMachine()
                     Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation - kAng180_677ADE, kFpThree_677B9C, dx, dy);
                     gCurrCarAI_TargetX += dx;
                     sCurrCarAITargetY += dy;
-                    target_dist = Fix16::MaxAbsDistance_42A6B0(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
+                    target_dist = Fix16::MaxAbsDistance(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
                     target_angle = Fix16::atan2_fixed(sCurrCarAITargetY - gCurrCarAI_ypos, gCurrCarAI_TargetX - gCurrCarAI_xpos);
                 }
                 break;
@@ -3115,7 +3115,7 @@ void CarAI::UpdateStateMachine()
                 Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation, kFpHalf_677A84, dx, dy);
                 gCurrCarAI_TargetX += dx;
                 sCurrCarAITargetY += dy;
-                target_dist = Fix16::MaxAbsDistance_42A6B0(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
+                target_dist = Fix16::MaxAbsDistance(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
                 target_angle = Fix16::atan2_fixed(sCurrCarAITargetY - gCurrCarAI_ypos, gCurrCarAI_TargetX - gCurrCarAI_xpos);
                 break;
             }
@@ -3130,7 +3130,7 @@ void CarAI::UpdateStateMachine()
                     gCurrCarAI_TargetX += dx;
                     sCurrCarAITargetY += dy;
                 }
-                target_dist = Fix16::MaxAbsDistance_42A6B0(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
+                target_dist = Fix16::MaxAbsDistance(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
                 target_angle = Fix16::atan2_fixed(sCurrCarAITargetY - gCurrCarAI_ypos, gCurrCarAI_TargetX - gCurrCarAI_xpos);
                 break;
             }
@@ -3145,7 +3145,7 @@ void CarAI::UpdateStateMachine()
                 Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation, kFpHalf_677A84, dx, dy);
                 gCurrCarAI_TargetX += dx;
                 sCurrCarAITargetY += dy;
-                target_dist = Fix16::MaxAbsDistance_42A6B0(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
+                target_dist = Fix16::MaxAbsDistance(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
                 target_angle = Fix16::atan2_fixed(sCurrCarAITargetY - gCurrCarAI_ypos, gCurrCarAI_TargetX - gCurrCarAI_xpos);
                 break;
             }
@@ -3158,7 +3158,7 @@ void CarAI::UpdateStateMachine()
                 Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation - kAng90_6779E4, kFpThreeQuarters, dx, dy);
                 gCurrCarAI_TargetX += dx;
                 sCurrCarAITargetY += dy;
-                target_dist = Fix16::MaxAbsDistance_42A6B0(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
+                target_dist = Fix16::MaxAbsDistance(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
                 target_angle = Fix16::atan2_fixed(sCurrCarAITargetY - gCurrCarAI_ypos, gCurrCarAI_TargetX - gCurrCarAI_xpos);
                 break;
             }
@@ -3253,7 +3253,7 @@ void CarAI::UpdateStateMachine()
                     Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation, kFpHalf_677A84, dx, dy);
                     gCurrCarAI_TargetX += dx;
                     sCurrCarAITargetY += dy;
-                    target_dist = Fix16::MaxAbsDistance_42A6B0(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
+                    target_dist = Fix16::MaxAbsDistance(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
                     target_angle = Fix16::atan2_fixed(sCurrCarAITargetY - gCurrCarAI_ypos, gCurrCarAI_TargetX - gCurrCarAI_xpos);
                 }
                 else
@@ -3265,7 +3265,7 @@ void CarAI::UpdateStateMachine()
                         Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation, gF16fOne, dx, dy);
                         gCurrCarAI_TargetX += dx;
                         sCurrCarAITargetY += dy;
-                        target_dist = Fix16::MaxAbsDistance_42A6B0(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
+                        target_dist = Fix16::MaxAbsDistance(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
                         target_angle = Fix16::atan2_fixed(sCurrCarAITargetY - gCurrCarAI_ypos, gCurrCarAI_TargetX - gCurrCarAI_xpos);
                     }
                     else
@@ -3285,7 +3285,7 @@ void CarAI::UpdateStateMachine()
                 Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation + kAng90_6779E4, kFpThreeQuarters, dx, dy);
                 gCurrCarAI_TargetX += dx;
                 sCurrCarAITargetY += dy;
-                target_dist = Fix16::MaxAbsDistance_42A6B0(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
+                target_dist = Fix16::MaxAbsDistance(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
                 target_angle = Fix16::atan2_fixed(sCurrCarAITargetY - gCurrCarAI_ypos, gCurrCarAI_TargetX - gCurrCarAI_xpos);
                 break;
             }
@@ -3379,7 +3379,7 @@ void CarAI::UpdateStateMachine()
                     Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation, gF16fOne, dx, dy);
                     gCurrCarAI_TargetX += dx;
                     sCurrCarAITargetY += dy;
-                    target_dist = Fix16::MaxAbsDistance_42A6B0(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
+                    target_dist = Fix16::MaxAbsDistance(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
                     target_angle = Fix16::atan2_fixed(sCurrCarAITargetY - gCurrCarAI_ypos, gCurrCarAI_TargetX - gCurrCarAI_xpos);
                 }
                 else
@@ -3391,7 +3391,7 @@ void CarAI::UpdateStateMachine()
                         Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation, gF16fOne, dx, dy);
                         gCurrCarAI_TargetX += dx;
                         sCurrCarAITargetY += dy;
-                        target_dist = Fix16::MaxAbsDistance_42A6B0(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
+                        target_dist = Fix16::MaxAbsDistance(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
                         target_angle = Fix16::atan2_fixed(sCurrCarAITargetY - gCurrCarAI_ypos, gCurrCarAI_TargetX - gCurrCarAI_xpos);
                     }
                     else
@@ -3414,7 +3414,7 @@ void CarAI::UpdateStateMachine()
                 Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation, gF16fOne + kFpHalf_677A84, dx, dy);
                 gCurrCarAI_TargetX += dx;
                 sCurrCarAITargetY += dy;
-                target_dist = Fix16::MaxAbsDistance_42A6B0(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
+                target_dist = Fix16::MaxAbsDistance(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
                 target_angle = Fix16::atan2_fixed(sCurrCarAITargetY - gCurrCarAI_ypos, gCurrCarAI_TargetX - gCurrCarAI_xpos);
                 break;
             }
@@ -3430,7 +3430,7 @@ void CarAI::UpdateStateMachine()
                 Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation, gF16fOne + kFpHalf_677A84, dx, dy);
                 gCurrCarAI_TargetX += dx;
                 sCurrCarAITargetY += dy;
-                target_dist = Fix16::MaxAbsDistance_42A6B0(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
+                target_dist = Fix16::MaxAbsDistance(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
                 target_angle = Fix16::atan2_fixed(sCurrCarAITargetY - gCurrCarAI_ypos, gCurrCarAI_TargetX - gCurrCarAI_xpos);
                 break;
             }
@@ -3444,7 +3444,7 @@ void CarAI::UpdateStateMachine()
                 Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation, kFpThree_677B9C, dx, dy);
                 gCurrCarAI_TargetX += dx;
                 sCurrCarAITargetY += dy;
-                target_dist = Fix16::MaxAbsDistance_42A6B0(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
+                target_dist = Fix16::MaxAbsDistance(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_TargetX, sCurrCarAITargetY);
                 target_angle = Fix16::atan2_fixed(sCurrCarAITargetY - gCurrCarAI_ypos, gCurrCarAI_TargetX - gCurrCarAI_xpos);
                 if (pChase->mChaseState == car_chase_state::in_front_stopping_13)
                 {
@@ -3460,11 +3460,11 @@ void CarAI::UpdateStateMachine()
 
                     if (Ang16::IsAngleAhead(&this->mAngle, &aim_angle) != 0)
                     {
-                        this->mCar->mPhysics->TurnAntiClockwise_42AB90();
+                        this->mCar->mPhysics->TurnAntiClockwise();
                     }
                     else
                     {
-                        this->mCar->mPhysics->TurnClockwise_42ABA0();
+                        this->mCar->mPhysics->TurnClockwise();
                     }
 
                     heading_delta = ComputeShortestAngleDelta(this->mAngle, sCurrCarAITargetCar->mCarSprite->mRotation);
@@ -3473,7 +3473,7 @@ void CarAI::UpdateStateMachine()
                         pChase->mChaseState = car_chase_state::target_stopped_15;
                         return;
                     }
-                    this->mCar->mPhysics->SetHandBrakeOn_421250();
+                    this->mCar->mPhysics->SetHandBrakeOn();
                     return;
                 }
                 break;
@@ -3481,7 +3481,7 @@ void CarAI::UpdateStateMachine()
 
             case car_chase_state::target_stopped_15:
                 this->mBf24.bAIHalted = true;
-                mCar->SetAIHalted_421540();
+                mCar->SetAIHalted();
                 break;
 
             default:
@@ -3512,22 +3512,22 @@ void CarAI::UpdateStateMachine()
         {
             if (this->mBf24.bReversing != 0)
             {
-                this->mCar->mPhysics->TurnClockwise_42ABA0();
+                this->mCar->mPhysics->TurnClockwise();
             }
             else
             {
-                this->mCar->mPhysics->TurnAntiClockwise_42AB90();
+                this->mCar->mPhysics->TurnAntiClockwise();
             }
         }
         else
         {
             if (this->mBf24.bReversing != 0)
             {
-                this->mCar->mPhysics->TurnAntiClockwise_42AB90();
+                this->mCar->mPhysics->TurnAntiClockwise();
             }
             else
             {
-                this->mCar->mPhysics->TurnClockwise_42ABA0();
+                this->mCar->mPhysics->TurnClockwise();
             }
         }
     }
@@ -3545,11 +3545,11 @@ void CarAI::UpdateStateMachine()
             {
                 if (this->mBf24.bReversing != 0)
                 {
-                    this->mCar->mPhysics->TurnClockwise_42ABA0();
+                    this->mCar->mPhysics->TurnClockwise();
                 }
                 else
                 {
-                    this->mCar->mPhysics->TurnAntiClockwise_42AB90();
+                    this->mCar->mPhysics->TurnAntiClockwise();
                 }
             }
         }
@@ -3561,17 +3561,17 @@ void CarAI::UpdateStateMachine()
                 {
                     if (this->mBf24.bReversing != 0)
                     {
-                        this->mCar->mPhysics->TurnAntiClockwise_42AB90();
+                        this->mCar->mPhysics->TurnAntiClockwise();
                     }
                     else
                     {
-                        this->mCar->mPhysics->TurnClockwise_42ABA0();
+                        this->mCar->mPhysics->TurnClockwise();
                     }
                 }
             }
             else
             {
-                this->mCar->mPhysics->SetGoStraight_42ABB0();
+                this->mCar->mPhysics->SetGoStraight();
                 sCurrCarAIWentStraight = 1;
             }
         }
@@ -3585,7 +3585,7 @@ void CarAI::UpdateStateMachine()
     {
         // Probe one unit ahead in the direction we are turning to
         mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_zpos);
-        Ang16::PolarToCartesian_41FC20(kAng45_677A38.MultiplyByFix16_401CB0(Fix16(this->mCar->mPhysics->mTurnDirection)) + this->mAngle,
+        Ang16::PolarToCartesian_41FC20(kAng45_677A38.MultiplyByFix16(Fix16(this->mCar->mPhysics->mTurnDirection)) + this->mAngle,
                                        gF16fOne,
                                        dx,
                                        dy);
@@ -3595,7 +3595,7 @@ void CarAI::UpdateStateMachine()
                                                               pCar->mCarSprite->mZpos);
         if (mCar->mCarSprite->CheckSpriteMovementRegion() != 0)
         {
-            this->mCar->mPhysics->SetGoStraight_42ABB0();
+            this->mCar->mPhysics->SetGoStraight();
         }
     }
 
@@ -3941,11 +3941,11 @@ void CarAI::UpdateStateMachine()
                     sCurrCarAIDesiredSpeed = sCurrCarAITargetCar->GetCarLinearSpeed();
                     if (target_dist < gF16fOne)
                     {
-                        mCar->mPhysics->NeutralGear_42AC00();
+                        mCar->mPhysics->NeutralGear();
                     }
                     else if (sCurrCarAIVelocity < sCurrCarAIDesiredSpeed)
                     {
-                        mCar->mPhysics->Accelerate_421210();
+                        mCar->mPhysics->Accelerate();
                     }
                     else
                     {
@@ -3966,7 +3966,7 @@ void CarAI::UpdateStateMachine()
                 }
                 else
                 {
-                    mCar->mPhysics->Accelerate_421210();
+                    mCar->mPhysics->Accelerate();
                 }
                 break;
 
@@ -3977,7 +3977,7 @@ void CarAI::UpdateStateMachine()
                 }
                 else
                 {
-                    mCar->mPhysics->Accelerate_421210();
+                    mCar->mPhysics->Accelerate();
                 }
                 break;
 
@@ -3993,20 +3993,20 @@ void CarAI::UpdateStateMachine()
                     }
                     else
                     {
-                        mCar->mPhysics->NeutralGear_42AC00();
+                        mCar->mPhysics->NeutralGear();
                     }
                 }
                 else if (target_dist > kFpThreeQuarters)
                 {
-                    mCar->mPhysics->Accelerate_421210();
+                    mCar->mPhysics->Accelerate();
                 }
                 else if (sCurrCarAIVelocity < sCurrCarAIDesiredSpeed)
                 {
-                    mCar->mPhysics->Accelerate_421210();
+                    mCar->mPhysics->Accelerate();
                 }
                 else if (sCurrCarAIVelocity > sCurrCarAIDesiredSpeed + kFpPoint02_677B5C)
                 {
-                    mCar->mPhysics->NeutralGear_42AC00();
+                    mCar->mPhysics->NeutralGear();
                 }
                 else
                 {
@@ -4027,7 +4027,7 @@ void CarAI::UpdateStateMachine()
                 if (target_dist < gF16fOne + kFpHalf_677A84)
                 {
                     ++pChase->mBlockCounter;
-                    mCar->mPhysics->NeutralGear_42AC00();
+                    mCar->mPhysics->NeutralGear();
                     pChase->mChaseState = car_chase_state::in_front_stopping_13;
                 }
                 break;
@@ -4126,7 +4126,7 @@ void CarAI::ReactToNearbyCar()
                 else
                 {
                     sCurrCarAIPedalsFree = 0;
-                    mCar->mPhysics->NeutralGear_42AC00();
+                    mCar->mPhysics->NeutralGear();
                 }
                 mCar->TryHonkHorn(2);
             }
@@ -4153,12 +4153,12 @@ void CarAI::ReactToNearbyCar()
                         }
                         else
                         {
-                            mCar->mPhysics->Accelerate_421210();
+                            mCar->mPhysics->Accelerate();
                         }
                     }
                     else if (sCurrCarAIVelocity < sCurrCarAIDesiredSpeed)
                     {
-                        mCar->mPhysics->Accelerate_421210();
+                        mCar->mPhysics->Accelerate();
                     }
                     else
                     {
@@ -4168,7 +4168,7 @@ void CarAI::ReactToNearbyCar()
                 else
                 {
                     sCurrCarAIPedalsFree = 0;
-                    mCar->mPhysics->NeutralGear_42AC00();
+                    mCar->mPhysics->NeutralGear();
                 }
             }
             else if (mBf24.bDriveAggressively)
@@ -4178,7 +4178,7 @@ void CarAI::ReactToNearbyCar()
             else
             {
                 sCurrCarAIPedalsFree = 0;
-                mCar->mPhysics->NeutralGear_42AC00();
+                mCar->mPhysics->NeutralGear();
             }
         }
         else if (pCar->mPedType == ped_type::player_2)
@@ -4190,7 +4190,7 @@ void CarAI::ReactToNearbyCar()
             else
             {
                 sCurrCarAIPedalsFree = 0;
-                mCar->mPhysics->NeutralGear_42AC00();
+                mCar->mPhysics->NeutralGear();
             }
             mCar->TryHonkHorn(2);
         }
@@ -4229,7 +4229,7 @@ void CarAI::ReactToNearbyCar()
                             {
                                 if (pCar->mPedType == ped_type::dummy_3)
                                 {
-                                    pCar->MarkForDespawn_421470();
+                                    pCar->MarkForDespawn();
                                 }
                             }
                             else
@@ -4248,14 +4248,14 @@ void CarAI::ReactToNearbyCar()
                                         case car_chase_state::move_left_3:
                                         case car_chase_state::approach_left_6:
                                         case car_chase_state::alongside_left_8:
-                                            mCar->mPhysics->TurnAntiClockwise_42AB90();
+                                            mCar->mPhysics->TurnAntiClockwise();
                                             sCurrCarAIIsChasing = false;
                                             sCurrCarAIAllowTrafficSteering = false;
                                             return;
                                         case car_chase_state::move_right_4:
                                         case car_chase_state::approach_right_7:
                                         case car_chase_state::alongside_right_9:
-                                            mCar->mPhysics->TurnClockwise_42ABA0();
+                                            mCar->mPhysics->TurnClockwise();
                                             sCurrCarAIIsChasing = false;
                                             sCurrCarAIAllowTrafficSteering = false;
                                             return;
@@ -4282,11 +4282,11 @@ void CarAI::ReactToNearbyCar()
 
                                     if (our_heading < their_heading)
                                     {
-                                        mCar->mPhysics->TurnClockwise_42ABA0();
+                                        mCar->mPhysics->TurnClockwise();
                                     }
                                     else
                                     {
-                                        mCar->mPhysics->TurnAntiClockwise_42AB90();
+                                        mCar->mPhysics->TurnAntiClockwise();
                                     }
                                 }
 
@@ -4307,7 +4307,7 @@ void CarAI::ReactToNearbyCar()
         }
         else
         {
-            mCar->mPhysics->NeutralGear_42AC00();
+            mCar->mPhysics->NeutralGear();
         }
         sCurrCarAIPedalsFree = 0;
     }
@@ -4333,7 +4333,7 @@ void CarAI::ReactToNearbyObject()
 {
     if (!sCurrCarAIIsChasing)
     {
-        Object* pObj = mNearestEntity->AsObject2C_40FEC0();
+        Object* pObj = mNearestEntity->AsObject2C();
         if (pObj->mModel == objects::roadblock_21 || pObj->mModel == objects::pedestrian_crossing_marker_122)
         {
             mCar->DoBrakeAndHandbrake();
@@ -4366,7 +4366,7 @@ void CarAI::ReactToNearbyPed()
 }
 
 // 9.6f 0x42ACE0 (a Car method there): sets the flag Object_5C reads while the car probes ahead
-static inline void SetProbingAhead_42ACE0(u8 value)
+static inline void SetProbingAhead(u8 value)
 {
     gCarAIProbingAhead = value;
 }
@@ -4409,7 +4409,7 @@ void CarAI::ScanAheadForObstacles()
                                                           offset_y + mCar->mCarSprite->mXy.y,
                                                           new_z);
 
-    SetProbingAhead_42ACE0(1);
+    SetProbingAhead(1);
 
     if (this->mBf24.bTurning)
     {
@@ -4489,7 +4489,7 @@ void CarAI::ScanAheadForObstacles()
         bCheckMovement = mCar->mCarSprite->CheckSpriteMovementRegion();
     }
 
-    SetProbingAhead_42ACE0(0);
+    SetProbingAhead(0);
     if (sbOnGradientSlope)
     {
         if (bCheckMovement)
@@ -4582,7 +4582,7 @@ void CarAI::ScanAheadForObstacles()
                                                                    pNearestEntity->mZpos.ToInt()))
         {
         react:
-            switch (this->mNearestEntity->GetType_416B40())
+            switch (this->mNearestEntity->GetType())
             {
                 case sprite_types_enum::object_1:
                 case sprite_types_enum::code_obj1_4:
@@ -4701,7 +4701,7 @@ void CarAI::ManageCollisions()
 
     if (mBf24.bCollidedWithCar)
     {
-        if (mCarInCollision->IsDespawning_4215B0())
+        if (mCarInCollision->IsDespawning())
         {
             return;
         }
@@ -4767,7 +4767,7 @@ void CarAI::ManageCollisions()
 
         if (pDriver && pDriver->PedTypeIs(ped_type::player_2) && !mBf24.bDriveAggressively)
         {
-            mCar->mPhysics->NeutralGear_42AC00();
+            mCar->mPhysics->NeutralGear();
             sCurrCarAIAllowTrafficSteering = false;
             return;
         }
@@ -4776,38 +4776,38 @@ void CarAI::ManageCollisions()
         {
             if (rotX > mCar->mCarSprite->mXy.x)
             {
-                mCar->mPhysics->TurnClockwise_42ABA0();
+                mCar->mPhysics->TurnClockwise();
             }
             else
             {
-                mCar->mPhysics->TurnAntiClockwise_42AB90();
+                mCar->mPhysics->TurnAntiClockwise();
             }
         }
         else if (mStoppedTimer > 0 && mStoppedTimer < 20)
         {
             if (rotX > mCar->mCarSprite->mXy.x)
             {
-                mCar->mPhysics->TurnClockwise_42ABA0();
+                mCar->mPhysics->TurnClockwise();
             }
             else
             {
-                mCar->mPhysics->TurnAntiClockwise_42AB90();
+                mCar->mPhysics->TurnAntiClockwise();
             }
         }
         else if (mStoppedTimer > 20)
         {
             if (rotX > mCar->mCarSprite->mXy.x)
             {
-                mCar->mPhysics->TurnAntiClockwise_42AB90();
+                mCar->mPhysics->TurnAntiClockwise();
             }
             else
             {
-                mCar->mPhysics->TurnClockwise_42ABA0();
+                mCar->mPhysics->TurnClockwise();
             }
         }
         else
         {
-            mCar->mPhysics->NeutralGear_42AC00();
+            mCar->mPhysics->NeutralGear();
             return;
         }
 
@@ -4815,22 +4815,22 @@ void CarAI::ManageCollisions()
         {
             if (mNearestEntity->mCarBcPtr == mCarInCollision)
             {
-                mCar->mPhysics->Accelerate_421210();
+                mCar->mPhysics->Accelerate();
             }
             else
             {
-                mCar->mPhysics->NeutralGear_42AC00();
+                mCar->mPhysics->NeutralGear();
             }
         }
         else
         {
-            mCar->mPhysics->NeutralGear_42AC00();
+            mCar->mPhysics->NeutralGear();
         }
         sCurrCarAIAllowTrafficSteering = false;
 
         if (mBf24.bDriveAggressively && mStoppedTimer < 60 && sCurrCarAIVelocity < kFpPoint03)
         {
-            mCar->mPhysics->Accelerate_421210();
+            mCar->mPhysics->Accelerate();
         }
 
         if (!mAccelCooldown)
@@ -4937,18 +4937,18 @@ void CarAI::UpdateDrivingAI()
         {
             case 0:
                 mFlags &= ~0x20C0;
-                mCar->mPhysics->SetGoStraight_42ABB0();
+                mCar->mPhysics->SetGoStraight();
                 break;
 
             case 1:
                 mFlags &= ~0x2040;
-                mCar->mPhysics->TurnAntiClockwise_42AB90();
+                mCar->mPhysics->TurnAntiClockwise();
                 mBf24.bTurning = true;
                 break;
 
             case 2:
                 mFlags &= ~0x2040;
-                mCar->mPhysics->TurnClockwise_42ABA0();
+                mCar->mPhysics->TurnClockwise();
                 mBf24.bTurning = true;
                 break;
 
@@ -4992,8 +4992,8 @@ void CarAI::UpdateDrivingAI()
     }
     else if (!sCurrCarAIIsChasing)
     {
-        if (mNearestEntity && mNearestEntity->GetType_416B40() == sprite_types_enum::object_1 &&
-            mNearestEntity->AsObject2C_40FEC0()->mModel == objects::pedestrian_crossing_marker_122)
+        if (mNearestEntity && mNearestEntity->GetType() == sprite_types_enum::object_1 &&
+            mNearestEntity->AsObject2C()->mModel == objects::pedestrian_crossing_marker_122)
         {
             mBf24.bFlag4 = true;
             mNearestEntity = NULL;
@@ -5037,12 +5037,12 @@ MATCH_FUNC(0x453470)
 void CarAI::UpdateDriving()
 {
     this->mCar->mPhysics->SetHandBrakeOff_421260();
-    Fix16 speed = mCar->mPhysics->GetLinearSpeed_4211A0();
+    Fix16 speed = mCar->mPhysics->GetLinearSpeed();
     sCurrCarAIVelocity = speed;
 
     if (this->mCar->mAbandoned)
     {
-        this->mCar->SetAIHalted_421540();
+        this->mCar->SetAIHalted();
     }
 
     if (this->mForcedStopTimer > 0)
@@ -5051,15 +5051,15 @@ void CarAI::UpdateDriving()
 
         if (this->mForcedStopTimer)
         {
-            this->mCar->SetAIHalted_421540();
+            this->mCar->SetAIHalted();
         }
         else
         {
-            this->mCar->ClearAIHalted_421550();
+            this->mCar->ClearAIHalted();
         }
     }
 
-    if (this->mCar->IsAIHalted_42AC60())
+    if (this->mCar->IsAIHalted())
     {
         if (this->mBf24.bAIHalted)
         {
@@ -5082,7 +5082,7 @@ void CarAI::UpdateDriving()
             }
             else
             {
-                mCar->mPhysics->NeutralGear_42AC00();
+                mCar->mPhysics->NeutralGear();
             }
             this->mCarInCollision = NULL;
             this->mBf24.bCollidedWithCar = false;
@@ -5097,15 +5097,15 @@ void CarAI::UpdateDriving()
 MATCH_FUNC(0x4537d0)
 void CarAI::ChooseRandomTurn()
 {
-    if (!this->mCar->IsTurnLeft_42AC30() && !this->mCar->IsTurnRight_42AC20())
+    if (!this->mCar->IsTurnLeft() && !this->mCar->IsTurnRight())
     {
         if (gRng.get_int(2) > 0)
         {
-            mCar->SetTurnLeft_42AC80();
+            mCar->SetTurnLeft();
         }
         else
         {
-            mCar->SetTurnRight_42AC70();
+            mCar->SetTurnRight();
         }
     }
 }
@@ -5115,8 +5115,8 @@ void CarAI::ClearSteeringIfTurning()
 {
     if (this->mBf24.bTurning)
     {
-        this->mCar->ClearTurnLeft_42ACB0();
-        this->mCar->ClearTurnRight_42ACA0();
+        this->mCar->ClearTurnLeft();
+        this->mCar->ClearTurnRight();
     }
 }
 
@@ -5158,7 +5158,7 @@ void CarAI::UpdateSpeedTowardTarget()
         }
     }
 
-    this->mCar->mPhysics->NeutralGear_42AC00();
+    this->mCar->mPhysics->NeutralGear();
 }
 
 MATCH_FUNC(0x453a40)

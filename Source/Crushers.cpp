@@ -39,7 +39,7 @@ Crusher::~Crusher()
 {
     if (mSound)
     {
-        gRoot_sound.DestroySoundObj_40FE60(mSound);
+        gRoot_sound.DestroySoundObj(mSound);
         mSound = NULL;
     }
 }
@@ -47,11 +47,11 @@ Crusher::~Crusher()
 MATCH_FUNC(0x488310)
 void Crusher::CrushCar(Car* pCar)
 {
-    if (mState == CrusherStates::Idle_0 && !pCar->IsDespawning_4215B0() && !pCar->IsSpriteShrunk() && !pCar->IsEngineCrushed_447EB0())
+    if (mState == CrusherStates::Idle_0 && !pCar->IsDespawning() && !pCar->IsSpriteShrunk() && !pCar->IsEngineCrushed())
     {
         mpCarBeingCrushed = pCar;
         mState = CrusherStates::CrushW_1;
-        pCar->SetNoCollide_44A3E0();
+        pCar->SetNoCollide();
     }
 }
 
@@ -81,7 +81,7 @@ void Crusher::Service()
                     mpCarBeingCrushed->HandleCarExplosion(explosion_type::item_19);
                     mpCarBeingCrushed->mAttachments.CleanupSpriteList();
                 }
-                if (mW - kCrusherPistonHalfDepth <= mpCarBeingCrushed->GetCarWidth_48A930() / 2)
+                if (mW - kCrusherPistonHalfDepth <= mpCarBeingCrushed->GetCarWidth() / 2)
                 {
                     mpCarBeingCrushed->CarShrinkSprite(2, 0);
                 }
@@ -104,7 +104,7 @@ void Crusher::Service()
                     mState = CrusherStates::UnCrushH_4;
                 }
 
-                if (mH - kCrusherPistonHalfDepth <= (mpCarBeingCrushed->GetCarHeight_48A950() / 2))
+                if (mH - kCrusherPistonHalfDepth <= (mpCarBeingCrushed->GetCarHeight() / 2))
                 {
                     mpCarBeingCrushed->CarShrinkSprite(0, 2);
                 }
@@ -126,22 +126,22 @@ void Crusher::Service()
 
         Object* Obj_0 = mPistonTop;
         Obj_0->RemoveFromCollisionBuckets();
-        Obj_0->mSprite->set_xy_lazy_447E20(mXpos, mYpos - mH);
+        Obj_0->mSprite->set_xy_lazy(mXpos, mYpos - mH);
         Obj_0->AssignToBucket();
 
         Object* Obj_4 = mPistonRight;
         Obj_4->RemoveFromCollisionBuckets();
-        Obj_4->mSprite->set_xy_lazy_447E20(mXpos + mW, mYpos);
+        Obj_4->mSprite->set_xy_lazy(mXpos + mW, mYpos);
         Obj_4->AssignToBucket();
 
         Object* Obj_8 = mPistonBottom;
         Obj_8->RemoveFromCollisionBuckets();
-        Obj_8->mSprite->set_xy_lazy_447E20(mXpos, mH + mYpos);
+        Obj_8->mSprite->set_xy_lazy(mXpos, mH + mYpos);
         Obj_8->AssignToBucket();
 
         Object* Obj_C = mPistonLeft;
         Obj_C->RemoveFromCollisionBuckets();
-        Obj_C->mSprite->set_xy_lazy_447E20(mXpos - mW, mYpos);
+        Obj_C->mSprite->set_xy_lazy(mXpos - mW, mYpos);
         Obj_C->AssignToBucket();
     }
 }

@@ -18,11 +18,11 @@ class SpriteList
   public:
     SpriteList() // 424620 inline
     {
-        ResetHead_4207E0();
+        ResetHead();
     }
 
     // 9.6f 0x4207E0
-    void ResetHead_4207E0() // inline
+    void ResetHead() // inline
     {
         mP18 = NULL;
     }
@@ -92,7 +92,7 @@ class Object_3C
     }
 
     // 9.6f 0x482BD0
-    void ClearConveyorSpeed_482BD0()
+    void ClearConveyorSpeed()
     {
         mConveyorSpeed = 0;
     }

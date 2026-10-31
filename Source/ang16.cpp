@@ -46,11 +46,11 @@ Fix16 __stdcall Ang16::NormalizeAngleDeltaScaled(Ang16& from, Ang16& to, Ang16& 
     if (d > kAng180_669156)
     {
         d = -d;
-        return d.divideBy_40E640(divisor);
+        return d.divideBy(divisor);
     }
     else
     {
-        return d.divideBy_40E640(divisor);
+        return d.divideBy(divisor);
     }
 }
 
@@ -94,8 +94,8 @@ Ang16::Ang16(Fix16* value, s32 not_used)
 MATCH_FUNC(0x451730)
 void __stdcall Ang16::PolarToCartesian_451730(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
 {
-    ret1 = radius * Ang16::sine_40F500(angle);
-    ret2 = radius * Ang16::cosine_40F520(angle);
+    ret1 = radius * Ang16::sine(angle);
+    ret2 = radius * Ang16::cosine(angle);
 }
 
 MATCH_FUNC(0x482740)

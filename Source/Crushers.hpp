@@ -12,19 +12,19 @@ class Crusher
   public:
     STATIC_MEMBER(Fix16, kCrusherOpenDist);
     // 9.6f 0x411A20
-    inline Fix16 get_xpos_411A20() const
+    inline Fix16 get_xpos() const
     {
         return mXpos;
     }
 
     // 9.6f 0x411A30
-    inline Fix16 get_ypos_411A30() const
+    inline Fix16 get_ypos() const
     {
         return mYpos;
     }
 
     // 9.6f 0x411A10
-    inline s32 get_state_411A10() const
+    inline s32 get_state() const
     {
         return mState;
     }

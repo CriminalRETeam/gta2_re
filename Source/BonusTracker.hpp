@@ -44,13 +44,13 @@ class BonusTracker
     };
 
     // 9.6f 0x476660
-    inline u8 GetProgressCount_476660(u16 idx) const
+    inline u8 GetProgressCount(u16 idx) const
     {
         return mBonuses[idx].mProgressCount;
     }
 
     // 9.6f 0x476680
-    inline void DeactivateBonus_476680(u16 idx)
+    inline void DeactivateBonus(u16 idx)
     {
         mBonuses[idx].Deactivate();
     }

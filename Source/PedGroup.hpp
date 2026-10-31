@@ -9,13 +9,13 @@ class PedGroup
 {
   private:
     // 9.6f 0x4038E0
-    inline void set_in_use_4038E0()
+    inline void set_in_use()
     {
         mInUse = true;
     }
 
     // 9.6f 0x4038F0
-    inline bool get_in_use_4038F0() const
+    inline bool get_in_use() const
     {
         return mInUse;
     }
@@ -82,14 +82,14 @@ class PedGroup
     EXPORT ~PedGroup();
 
     // 9.6f 0x433360
-    inline void SetCounts_433360(u8 count)
+    inline void SetCounts(u8 count)
     {
         mCount36 = count;
         mCount34 = count;
     }
 
     // 9.6f 0x433370
-    inline s32 Get_F3C_433370() const
+    inline s32 Get_F3C() const
     {
         return mIsLeaderWaiting;
     }

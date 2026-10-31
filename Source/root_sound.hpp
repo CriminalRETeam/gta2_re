@@ -12,7 +12,7 @@ class root_sound
     SoundObject mPool[999 + 1]; // 0x4
 
     // 9.6f 0x40FE60
-    SoundObject* DestroySoundObj_40FE60(SoundObject* pSoundObj) // inline
+    SoundObject* DestroySoundObj(SoundObject* pSoundObj) // inline
     {
         pSoundObj->Release();
         SoundObject* result = mpFreeList;
@@ -22,7 +22,7 @@ class root_sound
     }
 
     // 9.6f 0x410730
-    inline SoundObject* PopFree_410730()
+    inline SoundObject* PopFree()
     {
         SoundObject* pCurrent = mpFreeList;
         mpFreeList = pCurrent->mpAny.pNextFree;

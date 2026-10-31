@@ -82,7 +82,7 @@ MATCH_FUNC(0x5bc260)
 void TileAnimManager::AddAnim(s16 base, s16 start_frame, s16 length, s16 frame_rate, s16 repeat)
 {
     TileAnim* pAnim = gTileAnimPool->Allocate();
-    pAnim->Init_4C33F0(base, start_frame, length, frame_rate, repeat);
+    pAnim->Init(base, start_frame, length, frame_rate, repeat);
     pAnim->Start();
 }
 

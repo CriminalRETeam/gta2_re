@@ -161,9 +161,9 @@ DEFINE_GLOBAL_INIT(Fix16, kFP16Half_6FE2F8, kFP16Half_6FE0C0, 0x6FE2F8);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_6FE070, kFpOne_6FE210, 0x6FE070);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_6FE3DC, kFpOne_6FE210, 0x6FE3DC);
 
-DEFINE_GLOBAL_INIT(Ang16, kAng1_6FE3B8, Ang16(4), 0x6FE3B8); // Only exists so that MultiplyByFix16_401CB0 can be called
+DEFINE_GLOBAL_INIT(Ang16, kAng1_6FE3B8, Ang16(4), 0x6FE3B8); // Only exists so that MultiplyByFix16 can be called
 
-DEFINE_GLOBAL_INIT(Ang16, kAng45_6FE058, kAng1_6FE3B8.MultiplyByFix16_401CB0(Fix16(45)), 0x6FE058);
+DEFINE_GLOBAL_INIT(Ang16, kAng45_6FE058, kAng1_6FE3B8.MultiplyByFix16(Fix16(45)), 0x6FE058);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint01_6FE37C, kFpPoint01_6FE1C4, 0x6FE37C);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpSevenSixteenths, Fix16(0x1C00, 0), 0x6FE004);
 
@@ -192,9 +192,9 @@ DEFINE_GLOBAL_INIT(Fix16, kFP16One_6FE0D4, kFpOne_6FE210, 0x6FE0D4);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Quarter_6FDFB8, kFP16Quarter_6FDFD4, 0x6FDFB8);
 
 // 9.6f 0x49EF50
-inline void CarPhysics::AddDamage_49EF50(s32 damage)
+inline void CarPhysics::AddDamage(s32 damage)
 {
-    u32 new_damage = gpRng->get_cur_rng_41CFE0() + damage;
+    u32 new_damage = gpRng->get_cur_rng() + damage;
     if (new_damage > mDamagedUntilCycle)
     {
         mDamagedUntilCycle = new_damage;
@@ -222,14 +222,14 @@ DEFINE_STATIC_GLOBAL_ARRAY(wchar_t, sThetaText, 16, 0x66A8EC);
 
 // https://decomp.me/scratch/xqLh0
 // 9.6f 0x49E240
-inline wchar_t* Ang16::ThetaText_49E240()
+inline wchar_t* Ang16::ThetaText()
 {
     swprintf(sThetaText, L"%3.2f", (rValue * 0.25));
     return sThetaText;
 }
 
 // 9.6f 0x410BA0
-inline f64 Fix16::to_float_410BA0() const
+inline f64 Fix16::to_float() const
 {
     return ((mValue / 16384.0));
 }
@@ -271,43 +271,43 @@ void CarPhysics::ShowPhysicsDebug()
 
         swprintf(tmpBuff,
                  L"CM = (%3.3f,%3.3f) CP = (%3.3f,%3.3f,%3.3f)",
-                 mCm1.x.to_float_410BA0(),
-                 mCm1.y.to_float_410BA0(),
-                 mCp1.x.to_float_410BA0(),
-                 mCp1.y.to_float_410BA0(),
-                 mCp3.to_float_410BA0());
+                 mCm1.x.to_float(),
+                 mCm1.y.to_float(),
+                 mCp1.x.to_float(),
+                 mCp1.y.to_float(),
+                 mCp3.to_float());
         gHud_2B00->mTexts.DisplayText(tmpBuff, 0, 64, gDebugFont, 1);
 
         swprintf(tmpBuff,
                  L"linvel = (%3.3f,%3.3f) angvelrad = %3.3f",
-                 mLinvel1.x.to_float_410BA0(),
-                 mLinvel1.y.to_float_410BA0(),
-                 mAngVelRad.to_float_410BA0());
+                 mLinvel1.x.to_float(),
+                 mLinvel1.y.to_float(),
+                 mAngVelRad.to_float());
         gHud_2B00->mTexts.DisplayText(tmpBuff, 0, 80, gDebugFont, 1);
 
-        swprintf(tmpBuff, L"theta = %s", mTheta.ThetaText_49E240());
+        swprintf(tmpBuff, L"theta = %s", mTheta.ThetaText());
         gHud_2B00->mTexts.DisplayText(tmpBuff, 0, 96, gDebugFont, 1);
 
-        swprintf(tmpBuff, L"pointingangrad = %3.3f", mPointingAngRad.to_float_410BA0());
+        swprintf(tmpBuff, L"pointingangrad = %3.3f", mPointingAngRad.to_float());
         gHud_2B00->mTexts.DisplayText(tmpBuff, 0, 112, gDebugFont, 1);
 
-        swprintf(tmpBuff, L"mass = %3.3f", CalculateMass().to_float_410BA0());
+        swprintf(tmpBuff, L"mass = %3.3f", CalculateMass().to_float());
         gHud_2B00->mTexts.DisplayText(tmpBuff, 0, 128, gDebugFont, 1);
 
-        swprintf(tmpBuff, L"front skid = %3.3f", mFrontSkid.to_float_410BA0());
+        swprintf(tmpBuff, L"front skid = %3.3f", mFrontSkid.to_float());
         pText = gHud_2B00->mTexts.DisplayText(tmpBuff, 0, 144, gDebugFont, 1);
         if (mFrontSkid >= gCarInfo_2C->mSkidThreshhold1 ||
             (mDriveWheelsLockedQ > 0 && gCarInfo_48->mFrontDriveBias > kFP16Zero_6FE20C))
         {
-            pText->SetFontRemap_45AFD0(5);
+            pText->SetFontRemap(5);
         }
 
-        swprintf(tmpBuff, L"rear skid = %3.3f", mRearSkid.to_float_410BA0());
+        swprintf(tmpBuff, L"rear skid = %3.3f", mRearSkid.to_float());
         pText = gHud_2B00->mTexts.DisplayText(tmpBuff, 0, 160, gDebugFont, 1);
         if (mRearSkid >= gCarInfo_2C->mSkidThreshhold2 ||
             (mDriveWheelsLockedQ > 0 && gCarInfo_2C->mRearDriveBias > kFP16Zero_6FE20C))
         {
-            pText->SetFontRemap_45AFD0(5);
+            pText->SetFontRemap(5);
         }
 
         swprintf(tmpBuff,
@@ -337,7 +337,7 @@ void CarPhysics::ShowSpeedRevsDamage()
             gear = (speed > gCarInfo_48->mGear2Speed) + 1;
         }
 
-        swprintf(tmpBuff, L"speed:%3.3f(%d)", GetLinearSpeed_4211A0().AsDouble(), gear);
+        swprintf(tmpBuff, L"speed:%3.3f(%d)", GetLinearSpeed().AsDouble(), gear);
         gHud_2B00->mTexts.DisplayText(tmpBuff, 0, 16, gDebugFont, 1);
 
         swprintf(tmpBuff, L"revs:%3.3f %c", mGasPedal.AsDouble(), IsTurboActive() ? 'T' : ' ');
@@ -354,12 +354,12 @@ bool CarPhysics::IsNotMoving()
     Trailer* pTrailer = mpCar->mpTrailer;
     if (pTrailer)
     {
-        return pTrailer->mTruckCab->mPhysics->IsStationary_49EF80() &&
-            pTrailer->mTrailerCar->mPhysics->IsStationary_49EF80();
+        return pTrailer->mTruckCab->mPhysics->IsStationary() &&
+            pTrailer->mTrailerCar->mPhysics->IsStationary();
     }
     else
     {
-        return IsStationary_49EF80();
+        return IsStationary();
     }
 }
 
@@ -392,7 +392,7 @@ void CarPhysics::EnforceTrailerControlLimits()
     Trailer* pTrailer = this->mpCar->mpTrailer;
     if (pTrailer)
     {
-        if (pTrailer->IsHitchAngleClamped_49EFB0())
+        if (pTrailer->IsHitchAngleClamped())
         {
             if (this->mIsBackwardGasOn)
             {
@@ -416,7 +416,7 @@ void CarPhysics::SetOilSpinDir(const s32& spin_dir)
 MATCH_FUNC(0x559ba0)
 void CarPhysics::SpinOutOnOil()
 {
-    if (!mpCar->IsTrainModel_403BA0())
+    if (!mpCar->IsTrainModel())
     {
         if (mOilSpinDir != 1 && mOilSpinDir != 2)
         {
@@ -430,7 +430,7 @@ void CarPhysics::SpinOutOnOil()
             }
         }
         this->mOilSpinTimer = 30;
-        AddDamage_49EF50(30);
+        AddDamage(30);
     }
 }
 
@@ -440,7 +440,7 @@ void CarPhysics::ScarePedsOnDrivingFast()
 {
     Fix16 cp3 = mCp3;
 
-    if (!gMap_0x370->IsGradientSlopeAt_466CF0(mCp1.x.ToInt(), mCp1.y.ToInt(), cp3.ToInt()))
+    if (!gMap_0x370->IsGradientSlopeAt(mCp1.x.ToInt(), mCp1.y.ToInt(), cp3.ToInt()))
     {
         cp3 = mCp3 - kFpOne_6FE210;
     }
@@ -453,9 +453,9 @@ void CarPhysics::ScarePedsOnDrivingFast()
         {
             if (mpCar->mDriver)
             {
-                if (!mpCar->IsTrainModel_403BA0())
+                if (!mpCar->IsTrainModel())
                 {
-                    // 9.6f: CarPhysics::GetLinearSpeed_4211A0 (inlined, using it makes the diff worse)
+                    // 9.6f: CarPhysics::GetLinearSpeed (inlined, using it makes the diff worse)
 
                     if (mLinvel1.GetLength_out_of_line_x_squared() > FastCarMinVelocity || mpCar->IsEmittingHorn_411970())
                     {
@@ -501,10 +501,10 @@ void CarPhysics::ApplyConveyorPush(Object* pObj)
 {
     s8 conveyor_x;
     s8 conveyor_y;
-    pObj->GetConveyorDirection_493090(&conveyor_x, &conveyor_y);
+    pObj->GetConveyorDirection(&conveyor_x, &conveyor_y);
     gConveyorVelocity.x += kFP16One64th_6FE2E0 * conveyor_x;
     gConveyorVelocity.y += kFP16One64th_6FE2E0 * conveyor_y;
-    AddDamage_49EF50(15);
+    AddDamage(15);
 }
 
 MATCH_FUNC(0x559E90)
@@ -591,7 +591,7 @@ bool CarPhysics::IsInAir()
 MATCH_FUNC(0x55a100)
 Fix16 CarPhysics::GetTrailerAwareTurnRatio()
 {
-    if (mpCar->IsTrailerCab_41E460())
+    if (mpCar->IsTrailerCab())
     {
         return kFpTwoAndHalf * gCarInfo_48->mTurnRatio;
     }
@@ -841,7 +841,7 @@ void CarPhysics::HandleUserInputs(char_type bForwardGasOn,
     }
     else
     {
-        // IsVelocityAlignedWithHeading_40F840 inlined
+        // IsVelocityAlignedWithHeading inlined
         Ang16 heading_delta = (mLinvel1.atan2_40F790() - mTheta);
         bool aligned = heading_delta <= kAng90_6FE00C || heading_delta >= kAng270_6FE154;
         if (aligned)
@@ -903,7 +903,7 @@ void CarPhysics::HandleGravityOnSlope()
     }
 
     // Trains ignore slope gravity
-    if (mpCar->IsTrainModel_403BA0())
+    if (mpCar->IsTrainModel())
     {
         return;
     }
@@ -943,7 +943,7 @@ Fix16 CarPhysics::ComputeSlopeCorrection(Fix16* pOutY)
 
     Fix16_Point point_to_sub;
     Fix16_Point sub_point;
-    if (mpCar->IsTrailerCar_421720())
+    if (mpCar->IsTrailerCar())
     {
         point_to_sub = sTrailerCp1;
     }
@@ -1130,7 +1130,7 @@ void CarPhysics::UpdateZPhysics(Fix16 dt)
         }
     }
 
-    if (mpCar->IsCrushing_414F70())
+    if (mpCar->IsCrushing())
     {
         UpdateSpriteFromPhysics();
 
@@ -1159,19 +1159,19 @@ void CarPhysics::UpdateZPhysics(Fix16 dt)
 }
 
 // 9.6f 0x49EBE0 (a Map_0x370 method: 9.6f calls it with gMap in ecx)
-inline u8 Map_0x370::GetBlockSurfaceType_49EBE0(s32 x, s32 y, s32 z, u8* pGradientSize, u8* pGradientLevel)
+inline u8 Map_0x370::GetBlockSurfaceType(s32 x, s32 y, s32 z, u8* pGradientSize, u8* pGradientLevel)
 {
     gmp_block_info* pBlock = GetBlock(x, y, z);
     if (pBlock)
     {
-        if (gGtx_0x106C->IsRemappedWaterTile_49E540(pBlock->mLid & block_face::tile_idx_mask))
+        if (gGtx_0x106C->IsRemappedWaterTile(pBlock->mLid & block_face::tile_idx_mask))
         {
             return car_surface_type::remapped_water_tile_7;
         }
 
         if (!IS_AIR_TYPE(pBlock->mSlopeType))
         {
-            if (gGtx_0x106C->IsUnremappedWaterTile_49E570(pBlock->mLid & block_face::tile_idx_mask))
+            if (gGtx_0x106C->IsUnremappedWaterTile(pBlock->mLid & block_face::tile_idx_mask))
             {
                 return car_surface_type::water_tile_9;
             }
@@ -1279,7 +1279,7 @@ void CarPhysics::EmitImpactParticles(u8 apply_to_corners_mask)
     u32 cornerCount;
 
     // The original tests only al: IsOnWater returns a bool there.
-    if (!static_cast<u8>(pCarSprite->IsOnWater()) && !mpCar->IsMaxDamage_40F890())
+    if (!static_cast<u8>(pCarSprite->IsOnWater()) && !mpCar->IsMaxDamage())
     {
         if (apply_to_corners_mask == 0)
         {
@@ -1382,7 +1382,7 @@ char_type CarPhysics::ProcessGroundCollisionAndSurfaceType(char_type* check_mask
     s32 cp3_int = cp3.ToInt();
     u8 gradient_level;
     u8 gradient_size;
-    s32 surface_type = gMap_0x370->GetBlockSurfaceType_49EBE0(mCp1.x.ToInt(), this->mCp1.y.ToInt(), cp3_int, &gradient_size, &gradient_level);
+    s32 surface_type = gMap_0x370->GetBlockSurfaceType(mCp1.x.ToInt(), this->mCp1.y.ToInt(), cp3_int, &gradient_size, &gradient_level);
 
     if (surface_type != car_surface_type::no_block_5)
     {
@@ -1467,7 +1467,7 @@ bool CarPhysics::TestCollision()
             return false;
         }
     }
-    gCollisionTarget.SetSourceSprite_49EF10(pCarSprite);
+    gCollisionTarget.SetSourceSprite(pCarSprite);
     return true;
 }
 
@@ -1551,12 +1551,12 @@ void CarPhysics::HandleMapBoundaryCollisionY(Fix16_Point& point, Ang16 angle)
                                                                                         CollisionIntersectionPoint,
                                                                                         sCollisionArea))
     {
-        sCollisionNormal.SetXY_432860(Fix16(0), mCp1.y - gCollisionTarget.mHsegY);
+        sCollisionNormal.SetXY(Fix16(0), mCp1.y - gCollisionTarget.mHsegY);
         RelativePointVelocity = ComputeRelativePointVelocity(&CollisionIntersectionPoint);
     }
     else
     {
-        CollisionIntersectionPoint.SetXY_432860(gCollisionTarget.mVsegX, gCollisionTarget.mHsegY);
+        CollisionIntersectionPoint.SetXY(gCollisionTarget.mVsegX, gCollisionTarget.mHsegY);
         CollisionIntersectionPoint -= point;
         {
             Ang16 rot_angle(mTheta.rValue - angle.rValue);
@@ -1578,11 +1578,11 @@ void CarPhysics::HandleMapBoundaryCollisionY(Fix16_Point& point, Ang16 angle)
         RelativePointVelocity = ComputeRelativePointVelocity(&CollisionIntersectionPoint);
         if (mCp1.y < CollisionIntersectionPoint.y)
         {
-            sCollisionNormal.SetXY_432860(Fix16(0), -kFpOne_6FE210);
+            sCollisionNormal.SetXY(Fix16(0), -kFpOne_6FE210);
         }
         else
         {
-            sCollisionNormal.SetXY_432860(Fix16(0), kFpOne_6FE210);
+            sCollisionNormal.SetXY(Fix16(0), kFpOne_6FE210);
         }
     }
     CarPhysics::HandleWorldCollision(RelativePointVelocity);
@@ -1597,12 +1597,12 @@ void CarPhysics::HandleMapBoundaryCollisionX(Fix16_Point& point, Ang16 angle)
                                                                                       CollisionIntersectionPoint,
                                                                                       sCollisionArea))
     {
-        sCollisionNormal.SetXY_432860(mCp1.x - gCollisionTarget.mVsegX, Fix16(0));
+        sCollisionNormal.SetXY(mCp1.x - gCollisionTarget.mVsegX, Fix16(0));
         RelativePointVelocity = ComputeRelativePointVelocity(&CollisionIntersectionPoint);
     }
     else
     {
-        CollisionIntersectionPoint.SetXY_432860(gCollisionTarget.mVsegX, gCollisionTarget.mHsegY);
+        CollisionIntersectionPoint.SetXY(gCollisionTarget.mVsegX, gCollisionTarget.mHsegY);
         CollisionIntersectionPoint -= point;
         {
             Ang16 rot_angle(mTheta.rValue - angle.rValue);
@@ -1624,11 +1624,11 @@ void CarPhysics::HandleMapBoundaryCollisionX(Fix16_Point& point, Ang16 angle)
         RelativePointVelocity = ComputeRelativePointVelocity(&CollisionIntersectionPoint);
         if (mCp1.x < CollisionIntersectionPoint.x)
         {
-            sCollisionNormal.SetXY_432860(-kFpOne_6FE210, Fix16(0));
+            sCollisionNormal.SetXY(-kFpOne_6FE210, Fix16(0));
         }
         else
         {
-            sCollisionNormal.SetXY_432860(kFpOne_6FE210, Fix16(0));
+            sCollisionNormal.SetXY(kFpOne_6FE210, Fix16(0));
         }
     }
     CarPhysics::HandleWorldCollision(RelativePointVelocity);
@@ -1656,21 +1656,21 @@ void CarPhysics::DispatchCollision(Fix16_Point& point, Ang16 angle)
                                                                                                      sOtherCollisionArea,
                                                                                                      overlap_count);
 
-            Car* pCar = gCollisionTarget.mpHitSprite->AsCar_40FEB0();
+            Car* pCar = gCollisionTarget.mpHitSprite->AsCar();
             if (pCar)
             {
                 HandleCarCollision(pCar);
             }
             else
             {
-                Char* pChar = gCollisionTarget.mpHitSprite->AsCharB4_40FEA0();
+                Char* pChar = gCollisionTarget.mpHitSprite->AsCharB4();
                 if (pChar)
                 {
                     ProcessPedImpact(pChar, overlap_count);
                 }
                 else
                 {
-                    Object* pObject = gCollisionTarget.mpHitSprite->AsObject2C_40FEC0();
+                    Object* pObject = gCollisionTarget.mpHitSprite->AsObject2C();
                     HandleObjectCollision(pObject, sCollisionArea);
                 }
             }
@@ -1685,7 +1685,7 @@ MATCH_FUNC(0x55cbb0)
 void CarPhysics::ReplayAndDispatchCollision(Fix16 step_a, Fix16 step_b)
 {
     Fix16_Point point;
-    CarPhysics* pPhysics = gCollisionTarget.mpSourceSprite->AsCar_40FEB0()->mPhysics;
+    CarPhysics* pPhysics = gCollisionTarget.mpSourceSprite->AsCar()->mPhysics;
 
     restore_saved_physics_state();
     ApplyMovementStep(step_a);
@@ -1830,9 +1830,9 @@ void CarPhysics::UpdateWheelSkidEffects()
 
         s32 skid_surface = (mBlockSpec == 2 || mBlockSpec == 10) ? 2 : 0;
 
-        Fix16 half_width = mpCar->GetCarWidth_48A930() * kFpSevenSixteenths;
-        rear_wheel_offset = mpCar->ApplyScale_421910(gCarInfo_2C->mRearWheelOffset);
-        front_wheel_offset = mpCar->ApplyScale_421910(gCarInfo_2C->mFrontWheelOffset);
+        Fix16 half_width = mpCar->GetCarWidth() * kFpSevenSixteenths;
+        rear_wheel_offset = mpCar->ApplyScale(gCarInfo_2C->mRearWheelOffset);
+        front_wheel_offset = mpCar->ApplyScale(gCarInfo_2C->mFrontWheelOffset);
 
         if (mSurfaceType == car_surface_type::remapped_water_tile_7 || mSurfaceType == car_surface_type::water_surface_8 || mSurfaceType == car_surface_type::water_tile_9)
         {
@@ -1917,7 +1917,7 @@ bool CarPhysics::StepMovementAndCollisions()
 
     while (sRemainingTimeStep >= kFP16Eighth)
     {
-        gCollisionTarget.Reset_4637B0();
+        gCollisionTarget.Reset();
         this->mZVel = 0;
         save_physics_state();
         ApplyMovementStep(kFpOne_6FE210);
@@ -1940,7 +1940,7 @@ bool CarPhysics::StepMovementAndCollisions()
             }
 
             BinarySearchCollisionTime(hit_step, no_hit_step);
-            if (mpCar->IsTrainModel_403BA0() && !mLinvel1.HasZeroComponent_49E450())
+            if (mpCar->IsTrainModel() && !mLinvel1.HasZeroComponent())
             {
                 no_hit_step = kFP16Zero_6FE20C;
             }
@@ -1950,7 +1950,7 @@ bool CarPhysics::StepMovementAndCollisions()
         sRemainingTimeStep = (sRemainingTimeStep * (kFpOne_6FE210 - no_hit_step));
         hit_sprites[hit_count++] = gCollisionTarget.mpHitSprite;
 
-        if ((gCollisionTarget.IsCharB4_49EF20() || gCollisionTarget.IsObj2C()) && max_hits < 4)
+        if ((gCollisionTarget.IsCharB4() || gCollisionTarget.IsObj2C()) && max_hits < 4)
         {
             ++max_hits;
         }
@@ -2076,7 +2076,7 @@ void CarPhysics::ApplyTurningForce()
 {
     Fix16_Point local_offset;
     Fix16 turn_force = kAiWallTurnForce;
-    Object* pObj = gCollisionTarget.mpHitSprite->AsObject2C_40FEC0();
+    Object* pObj = gCollisionTarget.mpHitSprite->AsObject2C();
     Fix16 turn_torque;
 
     if (pObj && pObj->mModel == objects::diagonal_wall_collision_obj_166)
@@ -2086,7 +2086,7 @@ void CarPhysics::ApplyTurningForce()
     }
     else
     {
-        if (mpCar->IsDrivenByPlayer_4118D0())
+        if (mpCar->IsDrivenByPlayer())
         {
             turn_torque = kPlayerWallTurnTorque;
             turn_force = kPlayerWallTurnForce;
@@ -2193,14 +2193,14 @@ void CarPhysics::StepPhysics()
 MATCH_FUNC(0x55f360)
 char_type CarPhysics::CheckPendingCollision()
 {
-    if (this->mpCar->IsCrushing_414F70())
+    if (this->mpCar->IsCrushing())
     {
         gCarManager_6C->mImpactMode = car_impact_mode::crush_damage_1;
         if (gSpriteGrid_1->CheckAndHandleAllCollisionsForSprite(mpCar->mCarSprite, sprite_types_enum::car_2))
         {
             return 1;
         }
-        this->mpCar->ClearCrushFlag_49EFD0();
+        this->mpCar->ClearCrushFlag();
     }
     return 0;
 }
@@ -2267,7 +2267,7 @@ MATCH_FUNC(0x55f740)
 void CarPhysics::ApplyForceWithTrailerRedirect(Fix16_Point* pPoint, Fix16_Point* pForce)
 {
 
-    if (mpCar->IsTrailerCar_421720())
+    if (mpCar->IsTrailerCar())
     {
         CarPhysics* pPhysics = mpCar->mpTrailer->mTruckCab->mPhysics;
         pPhysics->SetCurrentCarInfoAndModelPhysics();
@@ -2361,7 +2361,7 @@ void CarPhysics::ApplyForceScaledByMass(Fix16_Point& force)
 MATCH_FUNC(0x55fa10)
 void CarPhysics::ApplyImpulseWithTrailerRedirect(Fix16_Point* pPoint)
 {
-    if (mpCar->IsTrailerCar_421720())
+    if (mpCar->IsTrailerCar())
     {
         // We are on the trailer so apply impulse to the truck cab instead
         CarPhysics* pPhysics = mpCar->mpTrailer->mTruckCab->mPhysics;
@@ -2386,11 +2386,11 @@ Fix16 CarPhysics::ApplyImpactForcesAndDamage(Fix16_Point& PointOfForce, Fix16_Po
     {
         NewImpulse = Impulse;
 
-        if (mpCar->IsFlagSet_411930(car_flag::ResistsPushWhenStopped))
+        if (mpCar->IsFlagSet(car_flag::ResistsPushWhenStopped))
         {
-            if (!mpCar->IsDrivenByPlayer_4118D0())
+            if (!mpCar->IsDrivenByPlayer())
             {
-                Fix16 CarSpeed = get_car_velocity_4211C0();
+                Fix16 CarSpeed = get_car_velocity();
                 if (CarSpeed <= kFpPoint05_6FE1D4 || mIsHandBrakeOn)
                 {
                     NewImpulse = (Impulse / kFP16Three_6FE218);
@@ -2400,12 +2400,12 @@ Fix16 CarPhysics::ApplyImpactForcesAndDamage(Fix16_Point& PointOfForce, Fix16_Po
 
         mpCar->TriggerCarAlarm();
 
-        if (!mpCar->IsFlagSet_411930(car_flag::NoCollide))
+        if (!mpCar->IsFlagSet(car_flag::NoCollide))
         {
             ApplyForceWithTrailerRedirect(&PointOfForce, &NewImpulse);
-            AddDamage_49EF50(base_dmg);
+            AddDamage(base_dmg);
 
-            if (!mpCar->IsDrivenByPlayer_4118D0())
+            if (!mpCar->IsDrivenByPlayer())
             {
                 ClearHandBrake_421260();
             }
@@ -2436,7 +2436,7 @@ void CarPhysics::AccumulateImpulse_55FC30(Fix16_Point& point, s32 base_dmg)
 {
 
     Fix16_Point impulse;
-    if (!mpCar->IsTrainModel_403BA0())
+    if (!mpCar->IsTrainModel())
     {
         if (this->mIsHandBrakeOn)
         {
@@ -2449,13 +2449,13 @@ void CarPhysics::AccumulateImpulse_55FC30(Fix16_Point& point, s32 base_dmg)
 
         ApplyImpulseWithTrailerRedirect(&impulse);
 
-        u32 rng_damage = base_dmg + gpRng->get_cur_rng_41CFE0();
+        u32 rng_damage = base_dmg + gpRng->get_cur_rng();
         if (rng_damage > this->mDamagedUntilCycle)
         {
             this->mDamagedUntilCycle = rng_damage;
         }
 
-        if (!mpCar->IsDrivenByPlayer_4118D0())
+        if (!mpCar->IsDrivenByPlayer())
         {
             this->mIsHandBrakeOn = 0;
         }
@@ -2498,7 +2498,7 @@ void CarPhysics::HandleWorldCollision(Fix16_Point& relative_velocity)
     mpCar->ApplyImpactDamage(damage);
     if (mLinvel1.GetLength_41E260() > FastCarMinVelocity)
     {
-        if (!mpCar->IsMaxDamage_40F890())
+        if (!mpCar->IsMaxDamage())
         {
             EmitImpact_55FD00(mCp3, -relative_velocity);
         }
@@ -2556,14 +2556,14 @@ void CarPhysics::HandleCarCollision(Car* pOtherCar)
 
         DirectionBetweenCoMs_Scaled = (ThisCoM - OtherCoM).NormalizeSafe().DivideInl_55F9E0(10);
 
-        // CanCrushCars_49EFE0 and CanCollideOver_4216E0 with get_car_info_5AA3B0 and the driver check out of line
+        // CanCrushCars and CanCollideOver with get_car_info_5AA3B0 and the driver check out of line
         // (IsDrivenByNonPlayer)
         pThisCar = mpCar;
-        if (gGtx_0x106C->get_car_info_5AA3B0(pThisCar->mCarInfoIdx)->IsHeavy_41FF00() &&
-            (pThisCar->IsTank_411900() || !pThisCar->IsDrivenByNonPlayer()) &&
-            !gGtx_0x106C->get_car_info_5AA3B0(pOtherCar->mCarInfoIdx)->IsHeavy_41FF00())
+        if (gGtx_0x106C->get_car_info_5AA3B0(pThisCar->mCarInfoIdx)->IsHeavy() &&
+            (pThisCar->IsTank() || !pThisCar->IsDrivenByNonPlayer()) &&
+            !gGtx_0x106C->get_car_info_5AA3B0(pOtherCar->mCarInfoIdx)->IsHeavy())
         {
-            mpCar->SetCrushFlag_49EFC0();
+            mpCar->SetCrushFlag();
         }
         else
         {
@@ -2580,19 +2580,19 @@ void CarPhysics::HandleCarCollision(Car* pOtherCar)
 
     bool bGreatCollision;
 
-    // CanCrushCars_49EFE0 with get_car_info_5AA3B0 called out of line
+    // CanCrushCars with get_car_info_5AA3B0 called out of line
     pThisCar = mpCar;
-    if (gGtx_0x106C->get_car_info_5AA3B0(pThisCar->mCarInfoIdx)->IsHeavy_41FF00() &&
-        (pThisCar->IsTank_411900() || !pThisCar->HasNonPlayerDriver_4214F0()) &&
-        !gGtx_0x106C->get_car_info_5AA3B0(pOtherCar->mCarInfoIdx)->IsHeavy_41FF00() &&
-        ImpulseForce.GetLength_all_out_of_line_abs_y_negate_2() > kFpPoint2_6FDFD8 && GetLinearSpeed_4211A0() > kFpPoint01_6FE1C4)
+    if (gGtx_0x106C->get_car_info_5AA3B0(pThisCar->mCarInfoIdx)->IsHeavy() &&
+        (pThisCar->IsTank() || !pThisCar->HasNonPlayerDriver()) &&
+        !gGtx_0x106C->get_car_info_5AA3B0(pOtherCar->mCarInfoIdx)->IsHeavy() &&
+        ImpulseForce.GetLength_all_out_of_line_abs_y_negate_2() > kFpPoint2_6FDFD8 && GetLinearSpeed() > kFpPoint01_6FE1C4)
     {
         bGreatCollision = true;
-        mpCar->SetCrushFlag_49EFC0();
+        mpCar->SetCrushFlag();
         if (pOtherCar->IsPoliceCar())
         {
             Ped* pDriver = mpCar->GetEffectiveDriver();
-            if (pDriver && pDriver->is_player_41B0A0() && pDriver->mWantedPoints < cop_level_ped_enum::cop_1_stars)
+            if (pDriver && pDriver->is_player() && pDriver->mWantedPoints < cop_level_ped_enum::cop_1_stars)
             {
                 pDriver->mWantedPoints = cop_level_ped_enum::cop_1_stars;
             }
@@ -2610,7 +2610,7 @@ void CarPhysics::HandleCarCollision(Car* pOtherCar)
     if (damage > 200)
     {
         Ped* pDriver = pOtherCar->GetEffectiveDriver();
-        if (pDriver && pDriver->is_player_41B0A0())
+        if (pDriver && pDriver->is_player())
         {
             pDriver->mPlayer->mScores.AwardCarDamageScore(mpCar, damage);
         }
@@ -2623,7 +2623,7 @@ void CarPhysics::HandleCarCollision(Car* pOtherCar)
 
         // A train explodes the car it hits
         s16 damage_2;
-        if (mpCar->IsTrainModel_403BA0())
+        if (mpCar->IsTrainModel())
         {
             pOtherCar->HandleCarExplosion(explosion_type::item_19);
             damage_2 = 32000;
@@ -2637,7 +2637,7 @@ void CarPhysics::HandleCarCollision(Car* pOtherCar)
         if (damage_2 > 200)
         {
             Ped* pDriver = mpCar->GetEffectiveDriver();
-            if (pDriver && pDriver->is_player_41B0A0())
+            if (pDriver && pDriver->is_player())
             {
                 pDriver->mPlayer->mScores.AwardCarDamageScore(pOtherCar, damage_2);
             }
@@ -2645,7 +2645,7 @@ void CarPhysics::HandleCarCollision(Car* pOtherCar)
         SetCurrentCarInfoAndModelPhysics();
     }
 
-    if (mLinvel1.GetLength_all_out_of_line_abs_y_negate_2() > FastCarMinVelocity && !mpCar->IsMaxDamage_40F890())
+    if (mLinvel1.GetLength_all_out_of_line_abs_y_negate_2() > FastCarMinVelocity && !mpCar->IsMaxDamage())
     {
         EmitImpact_55FD00(mCp3, RelativeVelocity.Negate_40ACB0());
     }
@@ -2657,7 +2657,7 @@ void CarPhysics::HandleCarCollision(Car* pOtherCar)
         if (sCollisionDamage > kFpPoint6_6FDFF0 && pOtherCar->IsPoliceCar())
         {
             Ped* pDriver = mpCar->GetEffectiveDriver();
-            if (pDriver && pDriver->is_player_41B0A0() && pDriver->mWantedPoints < cop_level_ped_enum::cop_1_stars)
+            if (pDriver && pDriver->is_player() && pDriver->mWantedPoints < cop_level_ped_enum::cop_1_stars)
             {
                 pDriver->mWantedPoints = cop_level_ped_enum::cop_1_stars;
             }
@@ -2696,9 +2696,9 @@ void CarPhysics::HandleObjectCollision(Object* pObject, char_type damage_area)
     Fix16 CarMass = CalculateMass();
     Fix16 ObjMass;
     sCollisionNormal = CoM - CollisionIntersectionPoint;
-    if (pObject->CanBePushed_482C90())
+    if (pObject->CanBePushed())
     {
-        ObjMass = pObject->GetMass_482C80();
+        ObjMass = pObject->GetMass();
         tmp = pObject->GetSpeedVector_52AE90();
         RelativeVelocity = ComputeRelativePointVelocity(&CollisionIntersectionPoint) - tmp;
 
@@ -2742,7 +2742,7 @@ void CarPhysics::HandleObjectCollision(Object* pObject, char_type damage_area)
         }
         push_impulse = (CoM - ObjPos).NormalizeSafe().DivideInl_55F9E0(10);
         AccumulateImpulse_55FC30(push_impulse, 50);
-        if (pObject->CanBePushed_482C90())
+        if (pObject->CanBePushed())
         {
             pObject->SetMovementVectorWithRandomState(push_impulse.Negate_40ACB0());
         }
@@ -2759,7 +2759,7 @@ void CarPhysics::HandleObjectCollision(Object* pObject, char_type damage_area)
 
     if (sCollisionDamage > kFpPoint3_6FDFE4)
     {
-        if (!mpCar->IsMaxDamage_40F890())
+        if (!mpCar->IsMaxDamage())
         {
             EmitImpact_55FD00(mCp3, RelativeVelocity.Negate_40ACB0());
         }
@@ -2816,7 +2816,7 @@ void CarPhysics::ProcessPedImpact(Char* pChar, u8 overlap_count)
         pChar->mpPed->mKillerIdTimer = 50;
 
         Ped* pPed = pChar->mpPed;
-        if (pPed->GetStolenCar_49EF40() == this->mpCar)
+        if (pPed->GetStolenCar() == this->mpCar)
         {
             pPed->mDeathCause = ped_death_cause::run_over_by_stolen_car_3;
         }
@@ -2830,7 +2830,7 @@ void CarPhysics::ProcessPedImpact(Char* pChar, u8 overlap_count)
         Trailer* pTrailer = mpCar->mpTrailer;
         if (pTrailer)
         {
-            // IsTrailerCar_421720 ?
+            // IsTrailerCar ?
             Car* pCarOnTrailer = pTrailer->mTrailerCar;
             if (pCarOnTrailer)
             {
@@ -2847,7 +2847,7 @@ void CarPhysics::ProcessPedImpact(Char* pChar, u8 overlap_count)
                             pChar->mpPed->mKillerIdTimer = 50;
 
                             Ped* pPed = pChar->mpPed;
-                            if (pPed->GetStolenCar_49EF40() == this->mpCar->mpTrailer->mTruckCab)
+                            if (pPed->GetStolenCar() == this->mpCar->mpTrailer->mTruckCab)
                             {
                                 pPed->mDeathCause = ped_death_cause::run_over_by_stolen_car_3;
                             }
@@ -2880,7 +2880,7 @@ void CarPhysics::ApplyMovementStep(Fix16 time_scale)
     if (dt != kFP16Zero_6FE20C)
     {
         // 9.6f: Ang16::Fix16_To_Ang16_40F540, written out so Normalize is inlined on a register
-        Ang16 delta_theta(static_cast<s16>((dt * mAngVelRad).GetRaw_40F4B0() / 71), static_cast<u8>(0));
+        Ang16 delta_theta(static_cast<s16>((dt * mAngVelRad).GetRaw() / 71), static_cast<u8>(0));
         this->mTheta = Ang16(mTheta.rValue + delta_theta.rValue).Normalized_406C20();
 
         // 9.6f: Fix16_Point operator+= (0x40F680, inlined)
@@ -2892,7 +2892,7 @@ void CarPhysics::ApplyMovementStep(Fix16 time_scale)
 
         UpdateTrailerAlignment();
 
-        if (mpCar->IsTrainModel_403BA0())
+        if (mpCar->IsTrainModel())
         {
             UpdateZPosition_55B7B0(time_scale);
             UpdateCarAndTrailerSpriteFromPhysics();
@@ -2913,7 +2913,7 @@ void CarPhysics::IntegrateAndClampVelocities()
 
     ResetForceAccumulators();
 
-    mLinvel1.ApplyDeadZone_49E3C0();
+    mLinvel1.ApplyDeadZone();
     mAngVelRad = mAngVelRad.ApplyDeadZone_482730(mAngVelRad);
 }
 
@@ -2975,7 +2975,7 @@ Fix16 CarPhysics::ApplyDriveForce(Fix16_Point& wheel_point, Ang16 angle, Fix16_P
 
     if (mIsCoasting)
     {
-        force.SetXY_432860(kFP16Zero_6FE20C, kFP16Zero_6FE20C);
+        force.SetXY(kFP16Zero_6FE20C, kFP16Zero_6FE20C);
     }
     else
     {
@@ -2989,7 +2989,7 @@ Fix16 CarPhysics::ApplyDriveForce(Fix16_Point& wheel_point, Ang16 angle, Fix16_P
     y_abs = Fix16::Abs(local_vel.y);
     x_abs = Fix16::Abs(force.x);
 
-    if (mState == 2 && !mpCar->IsTank_411900())
+    if (mState == 2 && !mpCar->IsTank())
     {
         if ((y_abs > kFpPoint01_6FE15C) || (Fix16::Abs(slip_speed) < kFpPoint05))
         {
@@ -3027,7 +3027,7 @@ MATCH_FUNC(0x561970)
 Fix16 CarPhysics::ComputeEngineTorque()
 {
     Fix16 torque;
-    if (mpCar->IsEngineOn_4118C0() && mSurfaceType != car_surface_type::remapped_water_tile_7 && mSurfaceType != car_surface_type::water_surface_8)
+    if (mpCar->IsEngineOn() && mSurfaceType != car_surface_type::remapped_water_tile_7 && mSurfaceType != car_surface_type::water_surface_8)
     {
         if (this->mState == 2)
         {
@@ -3177,13 +3177,13 @@ Fix16 CarPhysics::CalculateFrontWheelForce()
                 break;
         }
 
-        // 9.6f: Fix16_Point::SetXY_432860
+        // 9.6f: Fix16_Point::SetXY
         point2.x = force_x;
         point2.y = force_y_base + brake_force;
 
         // 9.6f: theta + Fix16_To_Ang16_40F540(pointing_ang_rad). Written with the Ang16 ctor directly,
         // since Normalize is too deep to inline through those helpers
-        Ang16 rotation(pointing_ang_rad.GetRaw_40F4B0() / 71, 0);
+        Ang16 rotation(pointing_ang_rad.GetRaw() / 71, 0);
 
         return CarPhysics::ApplyDriveForce(point, Ang16(mTheta.rValue + rotation.rValue, 0), point2, front_torque);
     }
@@ -3273,7 +3273,7 @@ Fix16 CarPhysics::CalculateRearWheelForce()
         pointing_ang_rad = this->mPointingAngRad;
     }
 
-    rear_force.SetXY_432860(new_x, brake_force1 + brake_force2 + brake_force3);
+    rear_force.SetXY(new_x, brake_force1 + brake_force2 + brake_force3);
     rear_force.MultiplyByFix16_inline_5620D0(gCarInfo_48->mRearEndStability);
 
     // The function is at VC6's inline budget: Fix16_To_Ang16_40F540 / Ang16 - Ang16 here push the Ang16
@@ -3281,7 +3281,7 @@ Fix16 CarPhysics::CalculateRearWheelForce()
     v = kFpPoint6 - mLinvel1.GetLength_inline_5620D0();
     v = v / (kFpThreePoint8 * kFpPoint6);
     {
-        Ang16 ang((pointing_ang_rad * v).GetRaw_40F4B0() / 71);
+        Ang16 ang((pointing_ang_rad * v).GetRaw() / 71);
         ang.Normalize_406C20();
         Ang16 steer(mTheta.rValue - ang.rValue);
         steer.Normalize_406C20();
@@ -3411,7 +3411,7 @@ void CarPhysics::ApplyArrowSteerAssist()
     {
         if (IsGasPedalPressedEnough())
         {
-            if (IsVelocityAlignedWithHeading_40F840() && !this->mLinvel1.IsNull() && !this->mOilSpinDir)
+            if (IsVelocityAlignedWithHeading() && !this->mLinvel1.IsNull() && !this->mOilSpinDir)
             {
                 gmp_block_info* pBlock = gMap_0x370->GetBlock(this->mCp1.x.ToInt(),
                                                                              this->mCp1.y.ToInt(),
@@ -3483,7 +3483,7 @@ void CarPhysics::ApplyArrowSteerAssist()
                                     Player* pPlayer = pDriver->mPlayer;
                                     if (pPlayer)
                                     {
-                                        if (pPlayer->IsUser_41DC70())
+                                        if (pPlayer->IsUser())
                                         {
                                             gHud_2B00->mTexts.DisplayText(L"snap", 0, 64, gDebugFont, 1);
                                         }
@@ -3508,7 +3508,7 @@ void CarPhysics::StabilizeVelocityAtSpeed()
         if (Fix16::Abs(mLinvel1.x) <= kFP16One128th &&
             Fix16::Abs(mLinvel1.y) <= kFP16One128th)
         {
-            mLinvel1.MultiplyByFix16_49E3A0(kFpPoint95);
+            mLinvel1.MultiplyByFix16(kFpPoint95);
         }
         else
         {
@@ -3531,7 +3531,7 @@ void CarPhysics::StabilizeVelocityAtSpeed()
         if (Fix16::Abs(mLinvel1.x) <= kFP16One128th &&
             Fix16::Abs(mLinvel1.y) <= kFP16One128th)
         {
-            mLinvel1.MultiplyByFix16_49E3A0(kFpPoint9);
+            mLinvel1.MultiplyByFix16(kFpPoint9);
         }
         else
         {
@@ -3559,8 +3559,8 @@ void CarPhysics::StabilizeVelocityAtSpeed()
 MATCH_FUNC(0x562c20)
 void Fix16_Point::RotateVelocity(const Ang16& angle)
 {
-    const Fix16 sin = Ang16::sine_40F500(angle);
-    const Fix16 cos = Ang16::cosine_40F520(angle);
+    const Fix16 sin = Ang16::sine(angle);
+    const Fix16 cos = Ang16::cosine(angle);
 
     const Fix16 x_old = x;
 
@@ -3578,7 +3578,7 @@ void CarPhysics::EnforceGearSensitiveMaxSpeed()
     if (!IsInAir())
     {
         Fix16 radius;
-        if (IsVelocityAlignedWithHeading_40F840())
+        if (IsVelocityAlignedWithHeading())
         {
             radius = gCarInfo_48->mMaxSpeed;
         }
@@ -3590,7 +3590,7 @@ void CarPhysics::EnforceGearSensitiveMaxSpeed()
         if (mLinvel1.GetLength_41E260() > radius)
         {
             polar.FromPolar_41E210(radius, mLinvel1.atan2_40F790());
-            mLinvel1.ClampTowardsZero_49E480(polar);
+            mLinvel1.ClampTowardsZero(polar);
         }
     }
 }
@@ -3610,7 +3610,7 @@ void CarPhysics::SetCarInfoGlobal()
 
 // https://decomp.me/scratch/Uxers
 // 9.6f 0x40F760: negates a point in place (inlined in 10.5)
-static inline void NegateInPlace_40F760(Fix16_Point& p)
+static inline void NegateInPlace(Fix16_Point& p)
 {
     p.x = -p.x;
     p.y = -p.y;
@@ -3719,7 +3719,7 @@ bool CarPhysics::ProcessCarPhysicsStateMachine()
             bCollided = ProcessCollisionAndClampVelocity() | bCollided;
             bCollided = CheckPendingCollision() | bCollided;
             DoSkidmarks();
-            if (this->mpCar->IsDrivenByPlayer_4118D0())
+            if (this->mpCar->IsDrivenByPlayer())
             {
                 SetField8C_to_2();
             }
@@ -3734,7 +3734,7 @@ bool CarPhysics::ProcessCarPhysicsStateMachine()
             bCollided = ProcessCollisionAndClampVelocity() | bCollided;
             bCollided = CheckPendingCollision() | bCollided;
             DoSkidmarks();
-            if (this->mpCar->IsDrivenByPlayer_4118D0())
+            if (this->mpCar->IsDrivenByPlayer())
             {
                 SetField8C_to_2();
             }
@@ -3748,7 +3748,7 @@ bool CarPhysics::ProcessCarPhysicsStateMachine()
             StepPhysics();
             ProcessGroundCollisionAndEmitImpactParticles();
             DoSkidmarks();
-            if (this->mpCar->IsDrivenByPlayer_4118D0())
+            if (this->mpCar->IsDrivenByPlayer())
             {
                 SetField8C_to_2();
             }
@@ -3770,7 +3770,7 @@ MATCH_FUNC(0x563280)
 void CarPhysics::UpdateCp1FromCm1()
 {
     Fix16_Point point = gCarInfo_2C->mCenterOfMassOffset;
-    NegateInPlace_40F760(point);
+    NegateInPlace(point);
 
     point.RotateByAngle_40F6B0(mTheta);
 
@@ -3785,8 +3785,8 @@ void CarPhysics::UpdateCenterOfMassPoint()
     Fix16_Point point(info->mCenterOfMassOffset.x, info->mCenterOfMassOffset.y);
 
     // RotateByAngle_40F6B0, but the y part uses the out-of-line Fix16 operators
-    Fix16 sin = Ang16::sine_40F500(mTheta);
-    Fix16 cos = Ang16::cosine_40F520(mTheta);
+    Fix16 sin = Ang16::sine(mTheta);
+    Fix16 cos = Ang16::cosine(mTheta);
     Fix16 x_old = point.x;
     point.x = (point.x * cos) + (point.y * sin);
     point.y = x_old.Negate_4086A0().Multiply(sin).Add(point.y * cos);
@@ -3802,8 +3802,8 @@ void CarPhysics::UpdateReferencePoint()
     Fix16_Point point = gCarInfo_2C->mCenterOfMassOffset;
 
     // RotateByAngle_40F6B0, but the y part uses the out-of-line Fix16 operators
-    Fix16 sin = Ang16::sine_40F500(mTheta);
-    Fix16 cos = Ang16::cosine_40F520(mTheta);
+    Fix16 sin = Ang16::sine(mTheta);
+    Fix16 cos = Ang16::cosine(mTheta);
     Fix16 x_old = point.x;
     point.x = (point.x * cos) + (point.y * sin);
     point.y = x_old.Negate_4086A0().Multiply(sin).Add(point.y * cos);
@@ -3834,7 +3834,7 @@ void CarPhysics::UpdateSpriteFromPhysics()
 {
     Sprite* car_sprite = mpCar->mCarSprite;
     car_sprite->set_xyz_lazy_420600(mCp1.x, mCp1.y, mCp3);
-    car_sprite->set_ang_lazy_420690(mTheta);
+    car_sprite->set_ang_lazy(mTheta);
 }
 
 MATCH_FUNC(0x5636c0)

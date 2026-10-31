@@ -19,7 +19,7 @@ class Garage
     EXPORT Garage();
 
     // inlined 0x44C870
-    bool IsParkedCar_44C870(const Car* pCar) const
+    bool IsParkedCar(const Car* pCar) const
     {
         if (pCar == this->mParkedCar && pCar != NULL && pCar->mCarId == this->mParkedCarId)
         {
@@ -29,13 +29,13 @@ class Garage
     }
 
     // 9.6f 0x434AF0
-    inline bool IsParkingCarInPosition_434AF0(const Car* pCar) const
+    inline bool IsParkingCarInPosition(const Car* pCar) const
     {
         return pCar == mParkingCar && mInPosition;
     }
 
     // 9.6f 0x489650
-    inline void Reset_489650()
+    inline void Reset()
     {
         mDoor = NULL;
         mState = garage_state::idle_0;
@@ -50,7 +50,7 @@ class Garage
     }
 
     // 9.6f 0x493540
-    bool IsParkingCar_493540(const Car* pCar) const
+    bool IsParkingCar(const Car* pCar) const
     {
         if (pCar == mParkingCar)
         {

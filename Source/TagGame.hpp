@@ -16,37 +16,37 @@ class TagGame
     EXPORT void UpdateFugitive(Player* pFormerPlayerFugitive, Player* pPlayer_killer);
 
     // 9.6f 0x434B20
-    inline bool IsTagGame_434B20()
+    inline bool IsTagGame()
     {
         return gGameSession.GetMultiplayerGamemode() == TAG_GAME_3;
     }
 
     // 9.6f 0x434B60, defined in Player.hpp
-    inline bool IsFugitivePed_434B60(Ped* pPed);
+    inline bool IsFugitivePed(Ped* pPed);
 
     // 9.6f 0x453A90
-    inline bool HasQuit_453A90(s32 player_idx)
+    inline bool HasQuit(s32 player_idx)
     {
         return mbHasQuit[player_idx];
     }
 
     // 9.6f 0x4C7380, defined in Hud.cpp (needs Player)
-    inline s32 GetPlayerTime_4C7380(Player* pPlayer);
+    inline s32 GetPlayerTime(Player* pPlayer);
 
     // 9.6f 0x461DD0
-    inline void SetQuit_461DD0(s32 player_idx)
+    inline void SetQuit(s32 player_idx)
     {
         mbHasQuit[player_idx] = true;
     }
 
     // 9.6f 0x453AA0
-    inline s32 GetTime_453AA0(s32 player_idx)
+    inline s32 GetTime(s32 player_idx)
     {
         return mItTimeSecs[player_idx];
     }
 
     // 9.6f 0x453AB0, defined in Frontend.cpp
-    inline s32 GetLeaderIdx_453AB0();
+    inline s32 GetLeaderIdx();
 
     Player* mFugitive;  // 0x0:  the player who is "IT"
     s32 mItTimeSecs[MAX_PLAYERS]; // 0x4:  seconds each player has spent as "IT" (counted while the net time limit is enabled)

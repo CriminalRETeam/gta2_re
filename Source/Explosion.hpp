@@ -35,7 +35,7 @@ class Explosion
     EXPORT void SetObject(Object* pObj);
 
     // 9.6f 0x482A90
-    inline void SetType_482A90(s32 type_or_state)
+    inline void SetType(s32 type_or_state)
     {
         mType = type_or_state;
     }

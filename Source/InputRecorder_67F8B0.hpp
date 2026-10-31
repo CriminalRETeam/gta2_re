@@ -123,13 +123,13 @@ class InputRecorder_67F8B0
     }
 
     // 9.6f 0x44C050
-    inline bool IsInputSet_44C050(s32 mask_idx) const
+    inline bool IsInputSet(s32 mask_idx) const
     {
         return static_cast<u32>(mInputBits & mInputMasks[mask_idx]) > 0;
     }
 
     // 9.6f 0x44AA80
-    inline s32 GetLastRecRngIdx_44AA80() const
+    inline s32 GetLastRecRngIdx() const
     {
         return mRecBuff[mUsedRecsCount - 1].mRngIdx;
     }

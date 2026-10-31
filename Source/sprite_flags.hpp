@@ -3,7 +3,7 @@
 #include "types.hpp"
 
 // Sprite::mBf2C (aliases mFlags): blend mode (0..3), "no lighting" and a 5 bit alpha value
-// (see Sprite::GetBlendMode_4BA200, GetAlphaBits_4BA210 and GetLightingDrawFlag_4B9BA0).
+// (see Sprite::GetBlendMode, GetAlphaBits and GetLightingDrawFlag).
 struct SpriteFlags8
 {
     u8 blend_mode : 2; // bits 0-1

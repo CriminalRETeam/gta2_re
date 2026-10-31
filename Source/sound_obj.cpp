@@ -362,7 +362,7 @@ void sound_obj::ProcessType1_Sprite(s32 idx)
     if (entity.mpObj)
     {
 
-        entity.mpObj->GetPosition_4117B0(&msQueueSample.mObj.mX,
+        entity.mpObj->GetPosition(&msQueueSample.mObj.mX,
                                            &msQueueSample.mObj.mY,
                                            &msQueueSample.mObj.mZ);
 
@@ -375,15 +375,15 @@ void sound_obj::ProcessType1_Sprite(s32 idx)
         this->mDistSquared = ComputeEmitterDistanceSquared();
         this->mDistCalculated = false;
 
-        if (entity.mpObj->AsCharB4_40FEA0())
+        if (entity.mpObj->AsCharB4())
         {
             sound_obj::ProcessPed(&entity);
         }
-        else if (entity.mpObj->AsCar_40FEB0())
+        else if (entity.mpObj->AsCar())
         {
             sound_obj::ProcessCar(&entity);
         }
-        else if (entity.mpObj->AsObject2C_40FEC0())
+        else if (entity.mpObj->AsObject2C())
         {
             sound_obj::ProcessObject(&entity);
         }
@@ -396,10 +396,10 @@ void sound_obj::ProcessType8_Crane(s32 idx)
     Crane* pCrane = mAudioEntities[idx].mpObj->mpAny.pCrane_15C;
     if (pCrane)
     {
-        Sprite* pSprite = pCrane->GetRotorSprite_411A00();
+        Sprite* pSprite = pCrane->GetRotorSprite();
         if (pSprite)
         {
-            pSprite->GetPosition_4117B0(&msQueueSample.mObj.mX,
+            pSprite->GetPosition(&msQueueSample.mObj.mX,
                                    &msQueueSample.mObj.mY,
                                    &msQueueSample.mObj.mZ);
 
@@ -507,12 +507,12 @@ void sound_obj::ProcessType9_Crusher(s32 idx)
     Crusher* pCrusher = mAudioEntities[idx].mpObj->mpAny.pCrusher_30;
     if (pCrusher)
     {
-        if (pCrusher->get_state_411A10())
+        if (pCrusher->get_state())
         {
-            Fix16 x = pCrusher->get_xpos_411A20();
+            Fix16 x = pCrusher->get_xpos();
             this->msQueueSample.mObj.mX = x;
 
-            Fix16 y = pCrusher->get_ypos_411A30();
+            Fix16 y = pCrusher->get_ypos();
             this->msQueueSample.mObj.mY = y;
 
             Fix16 z = this->mListenerZ;
@@ -556,7 +556,7 @@ void sound_obj::ProcessCar(Sound_Params* pParams)
     Car* pCar = pParams->mpObj->mCarBcPtr;
     if (pCar)
     {
-        pParams->mbDrivenByPlayer = pCar->IsDrivenByPlayer_4118D0();
+        pParams->mbDrivenByPlayer = pCar->IsDrivenByPlayer();
 
         SoundPosEntry* pAlloc = mAudioEntities[msQueueSample.mEntityIndex].mpAlloc;
         if (pAlloc)
@@ -570,7 +570,7 @@ void sound_obj::ProcessCar(Sound_Params* pParams)
             {
                 pAlloc->mLastSpeed = kFpZero_66F3F0;
             }
-            switch (pParams->mpObj->mCarBcPtr->GetCarInfoIdx_411940())
+            switch (pParams->mpObj->mCarBcPtr->GetCarInfoIdx())
             {
                 case car_model_enum::boxcar:
                 case car_model_enum::TRAIN:
@@ -1033,7 +1033,7 @@ bool sound_obj::SelectObjectImpactSound(CollisionEvent* pEvent, s32 interactionT
             switch (interactionType)
             {
                 case 3:
-                    // 9.6f: Car::IsBulletproof_414F60 (mFlags & 0x100 via IsFlagSet_411930, inlined, a bool helper changes the code)
+                    // 9.6f: Car::IsBulletproof_414F60 (mFlags & 0x100 via IsFlagSet, inlined, a bool helper changes the code)
                     if ((pEvent->mCar->mFlags & car_flag::Bulletproof))
                     {
                         samp_idx = manRandomTable[1] % 3 + 46;
@@ -1359,7 +1359,7 @@ u8 sound_obj::GetCollisionVolume_413A10(CollisionEvent* pEvent)
         default:
             return this->manRandomTable[static_cast<u8>(++sCollisionVolumeRngIndex) % 5] % 0xAu + 5;
     }
-    return Fix16::Round_To_Int_410BF0(ratio * kFp127);
+    return Fix16::Round_To_Int(ratio * kFp127);
 }
 
 MATCH_FUNC(0x413B90)
@@ -1441,10 +1441,10 @@ void sound_obj::HandleAICarHornBeep(Sound_Params* pParams)
     s32 samp_idx;
 
     Car* pCar = pParams->mpObj->mCarBcPtr;
-    const s32 sound_event = pCar->TakeSoundEvent_411950();
-    if (!pCar->IsMaxDamage_40F890() && pCar->mDriver && pParams->mbDrivenByPlayer != 1)
+    const s32 sound_event = pCar->TakeSoundEvent();
+    if (!pCar->IsMaxDamage() && pCar->mDriver && pParams->mbDrivenByPlayer != 1)
     {
-        switch (pCar->GetCarInfoIdx_411940())
+        switch (pCar->GetCarInfoIdx())
         {
             case car_model_enum::apc:
             case car_model_enum::COPCAR:
@@ -1605,7 +1605,7 @@ bool sound_obj::GetCar(s32 idx, Car** ppOut) const
         {
             if (pSprite->mSound)
             {
-                Car* pCar = pSprite->AsCar_40FEB0();
+                Car* pCar = pSprite->AsCar();
                 *ppOut = pCar;
                 if (pCar)
                 {
@@ -1637,14 +1637,14 @@ void sound_obj::HandleTrainStationSound(Sound_Params* pParams)
     Ped* pDriver = pParams->mpObj->mCarBcPtr->mDriver;
     if (pDriver)
     {
-        TrainStation* pTrainStation = pDriver->PopTrainStation_4117D0();
+        TrainStation* pTrainStation = pDriver->PopTrainStation();
         if (pTrainStation)
         {
             this->msQueueSample.mSampIdx = 139;
         }
         else
         {
-            pTrainStation = pDriver->PopTrainStation_4117D0();
+            pTrainStation = pDriver->PopTrainStation();
             if (!pTrainStation)
             {
                 return;
@@ -1708,7 +1708,7 @@ void sound_obj::HandleTankMovementSound(Sound_Params* pParams)
                     vol_mult = max_speed;
                 }
 
-                u8 vol = Fix16::Round_To_Int_410BF0((vol_mult / max_speed) * Fix16(90));
+                u8 vol = Fix16::Round_To_Int((vol_mult / max_speed) * Fix16(90));
 
                 if (VolCalc(vol, Fix16(20) / Fix16(2), pParams->mbHasSolidAbove))
                 {
@@ -1824,7 +1824,7 @@ void sound_obj::HandleTankCrushSound(Sound_Params* pParams)
 {
 
     Car* pCar = pParams->mpObj->mCarBcPtr;
-    if (pCar->IsEngineOn_4118C0() && pCar->IsCrushing_414F70())
+    if (pCar->IsEngineOn() && pCar->IsCrushing())
     {
         if (CalculateDistance(Fix16(921600, 0)))
         {
@@ -1838,7 +1838,7 @@ void sound_obj::HandleTankCrushSound(Sound_Params* pParams)
                     vol_mult = max_speed;
                 }
 
-                u8 vol = Fix16::Round_To_Int_410BF0((vol_mult / max_speed) * Fix16(80));
+                u8 vol = Fix16::Round_To_Int((vol_mult / max_speed) * Fix16(80));
 
                 if (VolCalc(vol, Fix16(122880, 0), pParams->mbHasSolidAbove))
                 {
@@ -1874,7 +1874,7 @@ MATCH_FUNC(0x415480)
 void sound_obj::PlayCarShopEventSound(Sound_Params* pParams)
 {
     Car* pCar = pParams->mpObj->mCarBcPtr;
-    const s32 shop_event = pCar->TakeShopEvent_4119D0();
+    const s32 shop_event = pCar->TakeShopEvent();
     switch (shop_event)
     {
         case car_shop_event::respray_1:
@@ -1921,14 +1921,14 @@ MATCH_FUNC(0x415570)
 void sound_obj::HandleCarHornSound(Sound_Params* pParams, SoundPosEntry* pAlloc)
 {
     Car* pCar = pParams->mpObj->mCarBcPtr;
-    if (pCar->IsFireTruck_4118F0() || !pCar->HasEmergencyLights_414F20() || !pCar->AreEmergencyLightsOn_414F80())
+    if (pCar->IsFireTruck() || !pCar->HasEmergencyLights() || !pCar->AreEmergencyLightsOn())
     {
-        if (!pCar->IsFireTruck_4118F0() && !pCar->IsTank_411900() && !pCar->IsGunJeep_411910() || !pCar->IsTurretRotated_4119F0())
+        if (!pCar->IsFireTruck() && !pCar->IsTank() && !pCar->IsGunJeep() || !pCar->IsTurretRotated())
         {
             if (pParams->mpObj->mCarBcPtr->IsEmittingHorn_411970())
             {
                 bool tryPlay = false;
-                if (pParams->mbDrivenByPlayer || pCar->GetCarInfoIdx_411940() == car_model_enum::ICECREAM)
+                if (pParams->mbDrivenByPlayer || pCar->GetCarInfoIdx() == car_model_enum::ICECREAM)
                 {
                     tryPlay = true;
                 }
@@ -1949,7 +1949,7 @@ void sound_obj::HandleCarHornSound(Sound_Params* pParams, SoundPosEntry* pAlloc)
 
                 if (tryPlay && CalculateDistance((Fix16(15) / Fix16(2)) * (Fix16(15) / Fix16(2))))
                 {
-                    const u8 vol = pCar->GetCarInfoIdx_411940() == car_model_enum::TRAINCAB ? 127 : 20;
+                    const u8 vol = pCar->GetCarInfoIdx() == car_model_enum::TRAINCAB ? 127 : 20;
                     if (VolCalc(vol, Fix16(15) / Fix16(2), pParams->mbHasSolidAbove))
                     {
                         this->msQueueSample.mSoundIntensity = Fix16(15) / Fix16(2);
@@ -2022,7 +2022,7 @@ void sound_obj::HandleCarEngineSound(Sound_Params* pParams)
                     max_speed = kFpFive_66F1D0;
                 }
                 gas_pedal = pCar->mPhysics->mGasPedal;
-                emitting_vol = Fix16::Round_To_Int_410BF0(Fix16(35) * (gas_pedal / max_speed)) + 25;
+                emitting_vol = Fix16::Round_To_Int(Fix16(35) * (gas_pedal / max_speed)) + 25;
             }
             else
             {
@@ -2033,11 +2033,11 @@ void sound_obj::HandleCarEngineSound(Sound_Params* pParams)
 
                 if (pCar->mCarInfoIdx == car_model_enum::TANK || pCar->mPhysics->mIsBackwardGasOn)
                 {
-                    emitting_vol = Fix16::Round_To_Int_410BF0(Fix16(35) * (gas_pedal / max_speed)) + 25;
+                    emitting_vol = Fix16::Round_To_Int(Fix16(35) * (gas_pedal / max_speed)) + 25;
                 }
                 else if (pCar->mScale != kFpOne_66F3F4)
                 {
-                    emitting_vol = Fix16::Round_To_Int_410BF0(Fix16(40) * (gas_pedal / max_speed));
+                    emitting_vol = Fix16::Round_To_Int(Fix16(40) * (gas_pedal / max_speed));
                 }
                 else
                 {
@@ -2045,15 +2045,15 @@ void sound_obj::HandleCarEngineSound(Sound_Params* pParams)
                     Fix16 gear3_speed = gCarInfo_48->mGear3Speed;
                     if (gas_pedal < gear2_speed)
                     {
-                        emitting_vol = Fix16::Round_To_Int_410BF0(Fix16(35) * (gas_pedal / gear2_speed)) + 25;
+                        emitting_vol = Fix16::Round_To_Int(Fix16(35) * (gas_pedal / gear2_speed)) + 25;
                     }
                     else if (gas_pedal < gear3_speed)
                     {
-                        emitting_vol = Fix16::Round_To_Int_410BF0(Fix16(35) * ((gas_pedal - gear2_speed) / (gear3_speed - gear2_speed))) + 25;
+                        emitting_vol = Fix16::Round_To_Int(Fix16(35) * ((gas_pedal - gear2_speed) / (gear3_speed - gear2_speed))) + 25;
                     }
                     else
                     {
-                        emitting_vol = Fix16::Round_To_Int_410BF0((Fix16(35) * kFpHalf_66F258) * ((gas_pedal - gear3_speed) / (max_speed - gear3_speed))) + 25;
+                        emitting_vol = Fix16::Round_To_Int((Fix16(35) * kFpHalf_66F258) * ((gas_pedal - gear3_speed) / (max_speed - gear3_speed))) + 25;
                     }
                 }
             }
@@ -2114,7 +2114,7 @@ bool sound_obj::Type_1_6_InitCarEngineOrDamageSound(sound_0x68* pSound)
                 if (speed == kFpZero_66F3F0)
                 {
                     max_speed = kFpFive;
-                    if (!pCar->mPhysics->is_backward_gas_on_411810())
+                    if (!pCar->mPhysics->is_backward_gas_on())
                     {
                         max_speed = kFpFive_66F1D0;
                     }
@@ -2124,18 +2124,18 @@ bool sound_obj::Type_1_6_InitCarEngineOrDamageSound(sound_0x68* pSound)
                         if (pCar->mScale == kFpOne_66F3F4)
                         {
                             speed = pCar->mPhysics->mGasPedal;
-                            pSound->mRate = Fix16::Round_To_Int_410BF0(Fix16(22000) * (speed / max_speed)) + 8000;
+                            pSound->mRate = Fix16::Round_To_Int(Fix16(22000) * (speed / max_speed)) + 8000;
                         }
                         else
                         {
                             speed = pCar->mPhysics->mGasPedal;
-                            pSound->mRate = Fix16::Round_To_Int_410BF0(Fix16(19000) * (speed / max_speed)) + 11000;
+                            pSound->mRate = Fix16::Round_To_Int(Fix16(19000) * (speed / max_speed)) + 11000;
                         }
                     }
                     else
                     {
                         speed = pCar->mPhysics->mGasPedal;
-                        pSound->mRate = Fix16::Round_To_Int_410BF0(Fix16(33075) * (speed / max_speed)) + 11025;
+                        pSound->mRate = Fix16::Round_To_Int(Fix16(33075) * (speed / max_speed)) + 11025;
                     }
                 }
                 else
@@ -2145,13 +2145,13 @@ bool sound_obj::Type_1_6_InitCarEngineOrDamageSound(sound_0x68* pSound)
                         speed = max_speed;
                     }
 
-                    if (pCar->IsTank_411900() || pCar->mPhysics->mIsBackwardGasOn)
+                    if (pCar->IsTank() || pCar->mPhysics->mIsBackwardGasOn)
                     {
-                        pSound->mRate = Fix16::Round_To_Int_410BF0(Fix16(16000) * (speed / max_speed)) + 12000;
+                        pSound->mRate = Fix16::Round_To_Int(Fix16(16000) * (speed / max_speed)) + 12000;
                     }
                     else if (pCar->mScale != kFpOne_66F3F4)
                     {
-                        pSound->mRate = Fix16::Round_To_Int_410BF0(Fix16(19000) * (speed / max_speed)) + 11000;
+                        pSound->mRate = Fix16::Round_To_Int(Fix16(19000) * (speed / max_speed)) + 11000;
                     }
                     else
                     {
@@ -2161,30 +2161,30 @@ bool sound_obj::Type_1_6_InitCarEngineOrDamageSound(sound_0x68* pSound)
                         {
                             if (pSound->mType == 1)
                             {
-                                pSound->mRate = Fix16::Round_To_Int_410BF0(Fix16(16000) * (speed / gear2_speed)) + 12000;
+                                pSound->mRate = Fix16::Round_To_Int(Fix16(16000) * (speed / gear2_speed)) + 12000;
                             }
                             else
                             {
-                                pSound->mRate = Fix16::Round_To_Int_410BF0(Fix16(33075) * (speed / max_speed)) + 11025;
+                                pSound->mRate = Fix16::Round_To_Int(Fix16(33075) * (speed / max_speed)) + 11025;
                             }
                         }
                         else if (speed < gear3_speed)
                         {
                             pSound->mRate = pSound->mType == 1
-                                ? Fix16::Round_To_Int_410BF0(Fix16(16000) * ((speed - gear2_speed) / (gear3_speed - gear2_speed))) + 14600
-                                : Fix16::Round_To_Int_410BF0(Fix16(33075) * (speed / max_speed)) + 11025;
+                                ? Fix16::Round_To_Int(Fix16(16000) * ((speed - gear2_speed) / (gear3_speed - gear2_speed))) + 14600
+                                : Fix16::Round_To_Int(Fix16(33075) * (speed / max_speed)) + 11025;
                         }
                         else
                         {
                             if (pSound->mType == 1)
                             {
-                                pSound->mRate = Fix16::Round_To_Int_410BF0(
+                                pSound->mRate = Fix16::Round_To_Int(
                                                         (speed - gear3_speed) / (max_speed - gear3_speed) * (Fix16(16000) * kFpHalf_66F258)) +
                                     16000;
                             }
                             else
                             {
-                                pSound->mRate = Fix16::Round_To_Int_410BF0(Fix16(33075) * (speed / max_speed)) + 11025;
+                                pSound->mRate = Fix16::Round_To_Int(Fix16(33075) * (speed / max_speed)) + 11025;
                             }
                         }
                     }
@@ -2300,7 +2300,7 @@ MATCH_FUNC(0x4177D0)
 void sound_obj::HandleCarDamageSound(Sound_Params* pParams)
 {
     Car* pCar = pParams->mpObj->mCarBcPtr;
-    if (pCar->IsEngineOn_4118C0() && pCar->mDamage > 16000)
+    if (pCar->IsEngineOn() && pCar->mDamage > 16000)
     {
         if (CalculateDistance(Fix16(49)))
         {
@@ -2327,7 +2327,7 @@ MATCH_FUNC(0x4178C0)
 void sound_obj::HandleSirenActivationSound(Sound_Params* pParams)
 {
     Car* pCar = pParams->mpObj->mCarBcPtr;
-    if ((pCar->HasEmergencyInfoFlag() || pCar->IsFbiCar_411920()) && (pCar->mBfA4.bEmergencyLights))
+    if ((pCar->HasEmergencyInfoFlag() || pCar->IsFbiCar()) && (pCar->mBfA4.bEmergencyLights))
     {
         Car* pCar_ = pParams->mpObj->mCarBcPtr;
         if (pCar_->mEngineStatus == car_engine_status::on_3)
@@ -2367,8 +2367,8 @@ bool sound_obj::Type_4_InitSirenSound(sound_0x68* pSound)
     Car* pCar;
     if (GetCar(pSound->mEntityIndex, &pCar))
     {
-        s32 model = pCar->GetCarInfoIdx_411940();
-        pSound->mSampIdx = GetSirenSampleIdx(pCar->GetCarInfoIdx_411940(), pCar->IsEmittingHorn_411970());
+        s32 model = pCar->GetCarInfoIdx();
+        pSound->mSampIdx = GetSirenSampleIdx(pCar->GetCarInfoIdx(), pCar->IsEmittingHorn_411970());
         pSound->mSpeedMultiplier = 800;
         pSound->mReleasingVolumeDivider = 2;
 
@@ -2619,7 +2619,7 @@ s32 sound_obj::get_samp_idx_for_car(Car* pCar, bool bDoorOpening, bool bLargeDoo
         return 31;
     }
 
-    switch (pCar->GetCarInfoIdx_411940())
+    switch (pCar->GetCarInfoIdx())
     {
         case car_model_enum::apc:
         case car_model_enum::boxtruck:
@@ -2657,7 +2657,7 @@ void sound_obj::HandleHeavyVehicleStopSound(Sound_Params* pParams, SoundPosEntry
     car_speed = pCar->GetCarLinearSpeed();
     if (pAlloc->mLastSpeed > kFpZero_66F3F0 && car_speed == kFpZero_66F3F0)
     {
-        if (IsHeavyTruckOrBus(pCar->GetCarInfoIdx_411940()))
+        if (IsHeavyTruckOrBus(pCar->GetCarInfoIdx()))
         {
             if (CalculateDistance(Fix16(25)))
             {
@@ -2776,7 +2776,7 @@ void sound_obj::HandleAICarEngineSound(Sound_Params* pParams)
         speed = pParams->mpObj->mCarBcPtr->GetCarLinearSpeed();
         if (max_speed > kFpZero_66F3F0 && speed > kFpZero_66F3F0 && CalculateDistance(Fix16(81)))
         {
-            u8 emitting_vol = Fix16::Round_To_Int_410BF0((speed / max_speed) * Fix16(11));
+            u8 emitting_vol = Fix16::Round_To_Int((speed / max_speed) * Fix16(11));
             if (emitting_vol > 0)
             {
                 if (VolCalc(emitting_vol, Fix16(9), pParams->mbHasSolidAbove))
@@ -2815,7 +2815,7 @@ void sound_obj::HandleCarDoorSounds(Sound_Params* pParams)
     bool bQueued1 = false;
     bool bQueued2 = false;
     Car* pCar = pParams->mpObj->mCarBcPtr;
-    s32 model = pCar->GetCarInfoIdx_411940();
+    s32 model = pCar->GetCarInfoIdx();
     u8* pDoorData = gGtx_0x106C->get_car_door_data(model);
     for (u8 i = 0; i < static_cast<u8>(pCar->GetDoorCount()); ++i)
     {
@@ -2969,7 +2969,7 @@ void sound_obj::HandleCarTireScrubSound(Sound_Params* pParams)
                     Fix16* pSpeed = &pCar->GetCarLinearSpeed();
                     speed = *pSpeed;
                     speed /= gCarInfo_48->mMaxSpeed;
-                    emitVol = Fix16::Round_To_Int_410BF0(Fix16(60) * speed) + 10;
+                    emitVol = Fix16::Round_To_Int(Fix16(60) * speed) + 10;
                 }
                 else
                 {
@@ -2986,7 +2986,7 @@ void sound_obj::HandleCarTireScrubSound(Sound_Params* pParams)
                     {
                         front_scrub = kFpOne_66F3F4;
                     }
-                    u8 frontVol = Fix16::Round_To_Int_410BF0(Fix16(70) * front_scrub);
+                    u8 frontVol = Fix16::Round_To_Int(Fix16(70) * front_scrub);
                     if (frontVol > emitVol)
                     {
                         emitVol = frontVol;
@@ -3000,7 +3000,7 @@ void sound_obj::HandleCarTireScrubSound(Sound_Params* pParams)
                     {
                         rear_scrub = kFpOne_66F3F4;
                     }
-                    u8 rearVol = Fix16::Round_To_Int_410BF0(Fix16(70) * rear_scrub);
+                    u8 rearVol = Fix16::Round_To_Int(Fix16(70) * rear_scrub);
                     if (rearVol > emitVol)
                     {
                         emitVol = rearVol;
@@ -3079,7 +3079,7 @@ bool sound_obj::Type_10_HandleCarSkidSound(sound_0x68* pSound)
                     // reference before the call (`lea 0x28(%ecx)` held across it); the original reloads
                     // gCarInfo_48 after the shift, which only the raw expression gives.
                     skid_amount = Fix16(static_cast<s32>((static_cast<__int64>(pCar->GetCarLinearSpeed().mValue) << 14) / gCarInfo_48->mMaxSpeed.mValue), 0);
-                    pSound->mRate = rate + Fix16::Round_To_Int_410BF0(Fix16(6000) * skid_amount);
+                    pSound->mRate = rate + Fix16::Round_To_Int(Fix16(6000) * skid_amount);
                 }
                 else
                 {
@@ -3115,7 +3115,7 @@ bool sound_obj::Type_10_HandleCarSkidSound(sound_0x68* pSound)
                     skid_amount = front_skid;
                 }
 
-                pSound->mRate = rate + Fix16::Round_To_Int_410BF0(Fix16(6000) * skid_amount);
+                pSound->mRate = rate + Fix16::Round_To_Int(Fix16(6000) * skid_amount);
             }
 
             pSound->mSpeedMultiplier = 600;
@@ -3135,15 +3135,15 @@ void sound_obj::ProcessType11_HudPager(s32 entity_idx)
     Hud_Pager* pPager = mAudioEntities[entity_idx].mpObj->mpAny.pHud_Pager_C;
     if (pPager)
     {
-        if (pPager->get_timer_411A40() > 0)
+        if (pPager->get_timer() > 0)
         {
             u8 vol;
-            if (pPager->get_timer_411A40() > 300)
+            if (pPager->get_timer() > 300)
             {
                 msQueueSample.mRate = 22050;
                 vol = 40;
             }
-            else if (pPager->get_timer_411A40() > 150)
+            else if (pPager->get_timer() > 150)
             {
                 msQueueSample.mRate = 26221;
                 vol = 55;
@@ -3628,7 +3628,7 @@ s32 sound_obj::AddSoundObject(SoundObject* pSoundObj)
                     Sprite* pEntSprite = mAudioEntities[idx].mpObj->mpAny.pSprite;
                     if (pEntSprite)
                     {
-                        switch (pEntSprite->GetType_416B40())
+                        switch (pEntSprite->GetType())
                         {
                             case sprite_types_enum::car_2: // note: sub eax, 2 added via switch case instead of if
                                 SoundPosEntry* pNewObj = new SoundPosEntry();
@@ -3679,7 +3679,7 @@ void sound_obj::FreeSoundEntry(u32 idx)
             if (pSoundObj->mpAny.pSprite)
             {
                 Sprite* pSprite = pSoundObj->mpAny.pSprite;
-                switch (pSprite->GetType_416B40())
+                switch (pSprite->GetType())
                 {
                     case sprite_types_enum::car_2:
                         if (mAudioEntities[idx].mpAlloc)
@@ -3889,7 +3889,7 @@ u8 sound_obj::CalcVolume(u8 base_volume, Fix16 max_dist, Fix16 dist) const
 
     Fix16 falloff = (max_dist - dist) / max_dist;
     dist = Fix16(base_volume); // 9.6f also reuses the dist slot here
-    s32 volume = Fix16::Round_To_Int_410BF0(falloff * falloff * dist);
+    s32 volume = Fix16::Round_To_Int(falloff * falloff * dist);
     if (volume > 127)
     {
         volume = 127;
@@ -3968,7 +3968,7 @@ s32 sound_obj::AdjustPlaybackRate(s32 snd_rate, Fix16 xpos, Fix16 ypos, Fix16 zp
         Fix16 rate;
         rate = Fix16(snd_rate);
         // The speed of sound is not shifted here (raw ratio speed / (relative_speed + speed))
-        return Fix16::Round_To_Int_410BF0(rate * (Fix16(mSpeedOfSound, 0) / Fix16(relative_speed + mSpeedOfSound, 0)));
+        return Fix16::Round_To_Int(rate * (Fix16(mSpeedOfSound, 0) / Fix16(relative_speed + mSpeedOfSound, 0)));
     }
 
     return snd_rate;
@@ -4028,15 +4028,15 @@ void sound_obj::InterrogateAudioEntities()
 
     if (mType5Idx != 0 && (pCamera = mAudioEntities[mType5Idx].mpObj->mpAny.pCamera_0xBC) != NULL)
     {
-        Ped* pPed = pCamera->GetFollowedPed_416B70();
+        Ped* pPed = pCamera->GetFollowedPed();
 
         if (pPed != NULL)
         {
-            Car* pCar = pPed->get_car_416B60();
+            Car* pCar = pPed->get_car();
             if (pCar != NULL)
             {
-                pCar->GetXYZ_416B80(&mListenerX, &mListenerY, &mListenerZ);
-                mRotation = pCar->GetCarRotation_416BB0();
+                pCar->GetXYZ(&mListenerX, &mListenerY, &mListenerZ);
+                mRotation = pCar->GetCarRotation();
             }
             else
             {
@@ -5525,7 +5525,7 @@ void sound_obj::ProcessPed(Sound_Params* pParams)
     Char* pChar = pParams->mpObj->mCharB4Ptr;
     if (pChar->mpPed)
     {
-        if (!gGame_0x40->mLocalPlayer->GetPlayerCar() && pChar->get_velocity_41B080() > kFpZero)
+        if (!gGame_0x40->mLocalPlayer->GetPlayerCar() && pChar->get_velocity() > kFpZero)
         {
             const u32 animation_state = pChar->mAnimationState;
             if (animation_state == 4 || animation_state == 1 || animation_state == 0)
@@ -5642,7 +5642,7 @@ void sound_obj::ProcessPed(Sound_Params* pParams)
             }
         }
 
-        switch (pChar->get_ped_state_2_41B090())
+        switch (pChar->get_ped_state_2())
         {
             case ped_state_2::electrocuted_27:
                 samp_idx = 58;
@@ -5656,7 +5656,7 @@ void sound_obj::ProcessPed(Sound_Params* pParams)
                 break;
 
             case ped_state_2::knocked_fatal_26:
-                if (!pChar->mpPed->is_player_41B0A0() && (this->msQueueSample.mEntityIndex & 1) != 0)
+                if (!pChar->mpPed->is_player() && (this->msQueueSample.mEntityIndex & 1) != 0)
                 {
                     return;
                 }
@@ -5668,13 +5668,13 @@ void sound_obj::ProcessPed(Sound_Params* pParams)
                 if (zpos > kFpFive_675414)
                 {
                     samp_idx = 193;
-                    if (Fix16::Round_To_Int_410BF0(Fix16(40) * (zpos - kFpFive_675414)) > 127)
+                    if (Fix16::Round_To_Int(Fix16(40) * (zpos - kFpFive_675414)) > 127)
                     {
                         vol = 127;
                     }
                     else
                     {
-                        vol = Fix16::Round_To_Int_410BF0(Fix16(40) * (zpos - kFpFive_675414));
+                        vol = Fix16::Round_To_Int(Fix16(40) * (zpos - kFpFive_675414));
                     }
                     release_mod = 5;
                     sound_intensity = Fix16(5);
@@ -5684,7 +5684,7 @@ void sound_obj::ProcessPed(Sound_Params* pParams)
                     rate = gSampManager.GetPlayBackRate(193);
                     this->msQueueSample.mRate = rate;
                     this->msQueueSample.mRate =
-                        rate + Fix16::Round_To_Int_410BF0(pParams->mpObj->mZpos * kFp400);
+                        rate + Fix16::Round_To_Int(pParams->mpObj->mZpos * kFp400);
                     break;
                 }
                 // fall through: zpos too low, play the ped voice instead
@@ -5747,14 +5747,14 @@ void sound_obj::HandlePedVoiceEvent(Sound_Params* pParams)
     LOCAL_STATIC(u8, sPedVoice22Cooldown, 0x67554C);
     Char* pChar = pParams->mpObj->mCharB4Ptr;
     Ped* pPed = pChar->mpPed;
-    s32 voice = pPed->TakeVoiceEvent_41B0B0();
+    s32 voice = pPed->TakeVoiceEvent();
     bool bTank;
     s32 samp = 321;
 
-    if (!pPed->is_player_41B0A0())
+    if (!pPed->is_player())
     {
-        bTank = pPed->IsLawEnforcement() || pPed->get_occupation_403980() == ped_ocupation_enum::tank_driver ||
-            pPed->get_occupation_403980() == ped_ocupation_enum::road_block_tank_man;
+        bTank = pPed->IsLawEnforcement() || pPed->get_occupation() == ped_ocupation_enum::tank_driver ||
+            pPed->get_occupation() == ped_ocupation_enum::road_block_tank_man;
         switch (voice)
         {
             case 1:
@@ -5874,7 +5874,7 @@ void sound_obj::HandlePedVoiceEvent(Sound_Params* pParams)
                 break;
         }
 
-        s32 occupation = pPed->get_occupation_403980();
+        s32 occupation = pPed->get_occupation();
         if (occupation == ped_ocupation_enum::elvis || occupation == ped_ocupation_enum::elvis_leader)
         {
             if (!sElvisVoiceCooldown)
@@ -6321,8 +6321,8 @@ void sound_obj::GenerateRadioVehicleDescription_426F20(Car* pCar)
     }
     else
     {
-        const s32 car_info_idx = pCar->GetCarInfoIdx_411940();
-        if (this->mCarInfoIdx != car_info_idx || sLastRadioCarRemap != static_cast<u16>(pCar->mCarSprite->get_remap_41C1F0()))
+        const s32 car_info_idx = pCar->GetCarInfoIdx();
+        if (this->mCarInfoIdx != car_info_idx || sLastRadioCarRemap != static_cast<u16>(pCar->mCarSprite->get_remap()))
         {
             this->mCarInfoIdx = car_info_idx;
             switch (car_info_idx)
@@ -6382,7 +6382,7 @@ void sound_obj::GenerateRadioVehicleDescription_426F20(Car* pCar)
                     return;
             }
 
-            sLastRadioCarRemap = static_cast<u16>(pCar->mCarSprite->get_remap_41C1F0());
+            sLastRadioCarRemap = static_cast<u16>(pCar->mCarSprite->get_remap());
             switch (sLastRadioCarRemap)
             {
                 case 1:
@@ -6599,14 +6599,14 @@ void sound_obj::ProcessType7_Weapon(s32 idx)
     s32 rate_adjust = 0;
     Weapon* pWeapon = mAudioEntities[idx].mpObj->mpAny.pWeapon_30;
     this->msQueueSample.mReleasingSoundFlag = 2;
-    const char_type shot_fired = pWeapon->TakeShotFired_41CC80();
+    const char_type shot_fired = pWeapon->TakeShotFired();
     if (shot_fired)
     {
         if (pWeapon)
         {
-            if (!pWeapon->IsTargetHit_41CC70()) // bSuppressSound ?
+            if (!pWeapon->IsTargetHit()) // bSuppressSound ?
             {
-                switch (pWeapon->GetWeaponType_41CC90())
+                switch (pWeapon->GetWeaponType())
                 {
                     case weapon_type::pistol:
                     case weapon_type::dual_pistol:
@@ -6745,7 +6745,7 @@ void sound_obj::ProcessType3_CopRadioAndMusic()
         // flags (sete) before testing either.
         bool flags[2];
         flags[0] = IsTrainOrBoxcar(pCar);
-        flags[1] = pCar->IsMaxDamage_40F890();
+        flags[1] = pCar->IsMaxDamage();
         if (!flags[0] && !flags[1])
         {
             mbInRadioCar = 1;
@@ -7145,7 +7145,7 @@ void sound_obj::ChooseRadioEmitterForVehicle()
     mMainVariant = 1;
 
     u8 emitter;
-    switch (pCar->GetCarInfoIdx_411940())
+    switch (pCar->GetCarInfoIdx())
     {
         case car_model_enum::VTYPE:
             emitter = FindEmitterByStation(5);
@@ -7592,7 +7592,7 @@ u8 sound_obj::FindEmitterByStation(s32 station_idx) const
 MATCH_FUNC(0x57F090)
 bool sound_obj::IsPoliceOrServiceVehicle(Car* pCar) const
 {
-    switch (pCar->GetCarInfoIdx_411940())
+    switch (pCar->GetCarInfoIdx())
     {
         case car_model_enum::apc:
         case car_model_enum::COPCAR:

@@ -90,21 +90,21 @@ static inline Fix16 Max_41E130(Fix16 a, Fix16 b)
 MATCH_FUNC(0x4355D0)
 bool Camera::IsSpriteTheCameraSubject(Sprite* pSprite) const
 {
-    Car* pCar = pSprite->AsCar_40FEB0();
+    Car* pCar = pSprite->AsCar();
     if (pCar)
     {
         if (mTargetCar == pCar)
         {
             return true;
         }
-        if (mTargetPed && mTargetPed->get_car_416B60() == pCar)
+        if (mTargetPed && mTargetPed->get_car() == pCar)
         {
             return true;
         }
     }
     else
     {
-        Char* pChar = pSprite->AsCharB4_40FEA0();
+        Char* pChar = pSprite->AsCharB4();
         if (pChar)
         {
             if (mTargetPed)
@@ -134,7 +134,7 @@ bool Camera::IsSpriteInView(Sprite* pSprite, s32 wide_view)
     Fix16 half_height = (half_width * kFpThreeQuarters_6766F4);
 
     Fix16_Rect rect;
-    rect.SetHiLowZ_41E370(pSprite->mZpos, pSprite->mZpos);
+    rect.SetHiLowZ(pSprite->mZpos, pSprite->mZpos);
     rect.SetRect_41E350(mCurPos.mX - half_width,
                         mCurPos.mX + half_width,
                         mCurPos.mY - half_height,
@@ -222,13 +222,13 @@ Ang16 Camera::ComputeTargetFacingAngle()
 
     if (mTargetPed)
     {
-        Car* mCar = mTargetPed->get_car_416B60();
+        Car* mCar = mTargetPed->get_car();
         if (mCar)
         {
-            CarRotation = mCar->GetCarRotation_416BB0();
+            CarRotation = mCar->GetCarRotation();
             CarPhysics* pCarPhysics = mCar->mPhysics;
 
-            if (pCarPhysics && pCarPhysics->is_backward_gas_on_411810())
+            if (pCarPhysics && pCarPhysics->is_backward_gas_on())
             {
                 return CarRotation + kAng180_676772;
             }
@@ -249,10 +249,10 @@ Ang16 Camera::ComputeTargetFacingAngle()
     {
         if (mTargetCar)
         {
-            CarRotation = mTargetCar->GetCarRotation_416BB0();
+            CarRotation = mTargetCar->GetCarRotation();
             CarPhysics* pCarPhysics = mTargetCar->mPhysics;
 
-            if (pCarPhysics && pCarPhysics->is_backward_gas_on_411810())
+            if (pCarPhysics && pCarPhysics->is_backward_gas_on())
             {
                 return CarRotation + kAng180_676772;
             }
@@ -300,7 +300,7 @@ void Camera::ApplyCarVelocityCameraOffset(Car* pCar, Fix16* pOutX, Fix16* pOutY,
     Fix16 radius;
     Fix16 speed;
 
-    if (pCar->IsTrainModel_403BA0())
+    if (pCar->IsTrainModel())
     {
         speed = kFpHalf * kFpSixteen;
     }
@@ -314,7 +314,7 @@ void Camera::ApplyCarVelocityCameraOffset(Car* pCar, Fix16* pOutX, Fix16* pOutY,
     {
         *pOutZ += speed;
 
-        if (!pCar->IsTrainModel_403BA0() && !pCar->IsTank_411900())
+        if (!pCar->IsTrainModel() && !pCar->IsTank())
         {
             angle = vel.atan2_40F790();
 
@@ -328,7 +328,7 @@ void Camera::ApplyCarVelocityCameraOffset(Car* pCar, Fix16* pOutX, Fix16* pOutY,
                 dist = Fix16(180);
             }
 
-            if (pCar->IsTrailerCab_41E460())
+            if (pCar->IsTrailerCab())
             {
                 dist *= kFpThreeQuarters_6768E0;
             }
@@ -594,16 +594,16 @@ void Camera::UpdateFollowCarCamera(Car* pCar)
     if (pCar)
     {
         Fix16 new_x;
-        new_x = pCar->GetX_41E430();
+        new_x = pCar->GetX();
         Fix16 new_y;
-        new_y = pCar->GetY_41E440();
+        new_y = pCar->GetY();
         Fix16 new_z;
-        new_z = Max_41E130(pCar->GetZ_41E450() - kTwo_676820, kOne_67681C);
+        new_z = Max_41E130(pCar->GetZ() - kTwo_676820, kOne_67681C);
         Fix16 zoom = kDefaultZoom;
 
         AccumulateSuspicionOnDriver(pCar);
         ApplyCarVelocityCameraOffset(pCar, &new_x, &new_y, &new_z);
-        SetPendingTarget_41E3D0(new_x, new_y, new_z, zoom);
+        SetPendingTarget(new_x, new_y, new_z, zoom);
     }
 }
 
@@ -620,7 +620,7 @@ void Camera::UpdateFollowPedCamera(Ped* pPed)
         Fix16 xpos;
         Fix16 ypos;
         Fix16 zpos;
-        Car* pCar = pPed->get_car_416B60();
+        Car* pCar = pPed->get_car();
         if (pCar || (pCar_2 = pPed->GetCarBeingEnteredOrExited(), pCar_2 == NULL))
         {
             xpos = pPed->get_cam_x();
@@ -635,20 +635,20 @@ void Camera::UpdateFollowPedCamera(Ped* pPed)
         }
         else
         {
-            xpos = pCar_2->GetX_41E430();
-            ypos = pCar_2->GetY_41E440();
-            zpos = Max_41E130(pCar_2->GetZ_41E450() - kTwo_676820, kOne_67681C);
+            xpos = pCar_2->GetX();
+            ypos = pCar_2->GetY();
+            zpos = Max_41E130(pCar_2->GetZ() - kTwo_676820, kOne_67681C);
             zposToUse = zpos;
             Camera::AccumulateSuspicionOnDriver(pCar_2);
             Camera::ApplyCarVelocityCameraOffset(pCar_2, &xpos, &ypos, &zposToUse);
         }
         Fix16 zoom = kFpThreePoint55;
-        if (pPed->GetPedState_403990() != ped_state_1::dead_9)
+        if (pPed->GetPedState() != ped_state_1::dead_9)
         {
             zoom = kDefaultZoom;
         }
         Camera::ApplyPanOffset(pPed, xpos, ypos, zposToUse);
-        SetPendingTarget_41E3D0(xpos, ypos, zposToUse, zoom);
+        SetPendingTarget(xpos, ypos, zposToUse, zoom);
     }
 }
 
@@ -759,7 +759,7 @@ Camera::Camera()
     ResetElevation();
     mCurPos.mZoom = kDefaultZoom;
     SetTarget(-1, -1, -1, kDefaultZoom);
-    CommitPendingTarget_41E410();
+    CommitPendingTarget();
     mScreenScale.x = Fix16(-1);
     mScreenScale.y = Fix16(-1);
     mCamVelocity.mX = kZero_676818;

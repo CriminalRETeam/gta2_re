@@ -2,8 +2,8 @@
 
 #include "types.hpp"
 
-// Car::mFlags masks. Flags named FlagN are not used. Car::IsFlagSet_411930
-// and AddFlags_421890 (9.6f inlines) take the mask as an argument, so the original treats this as a plain flag word.
+// Car::mFlags masks. Flags named FlagN are not used. Car::IsFlagSet
+// and AddFlags (9.6f inlines) take the mask as an argument, so the original treats this as a plain flag word.
 namespace car_flag
 {
 enum
@@ -21,7 +21,7 @@ enum
     Flameproof = 0x400,
     ResistsPushWhenStopped = 0x800,
     JammedAccelerator = 0x1000,
-    Crushing = 0x2000, // set by SetCrushFlag_49EFC0
+    Crushing = 0x2000, // set by SetCrushFlag
     Flag14 = 0x4000,
     Flag15 = 0x8000,
 };

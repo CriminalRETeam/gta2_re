@@ -124,13 +124,13 @@ void RouteFinder::RoadOff(u8 x, u8 y, u8 z)
         Junction* j2 = &mJunctions[r2];
         if ((j1->mE.GetIndex_0040CE90()) == r2)
         {
-            j1->mE.Disable_40CEC0();
-            j2->mW.Disable_40CEC0();
+            j1->mE.Disable();
+            j2->mW.Disable();
         }
         else if ((j1->mW.GetIndex_0040CE90()) == r2)
         {
-            j1->mW.Disable_40CEC0();
-            j2->mE.Disable_40CEC0();
+            j1->mW.Disable();
+            j2->mE.Disable();
         }
     }
     else
@@ -144,13 +144,13 @@ void RouteFinder::RoadOff(u8 x, u8 y, u8 z)
 
             if ((j1->mS.GetIndex_0040CE90()) == r4)
             {
-                j1->mS.Disable_40CEC0();
-                j2->mN.Disable_40CEC0();
+                j1->mS.Disable();
+                j2->mN.Disable();
             }
             else if ((j1->mN.GetIndex_0040CE90()) == r4)
             {
-                j1->mN.Disable_40CEC0();
-                j2->mS.Disable_40CEC0();
+                j1->mN.Disable();
+                j2->mS.Disable();
             }
         }
     }
@@ -168,13 +168,13 @@ void RouteFinder::RoadOn(u8 x, u8 y, u8 z)
         Junction* j2 = &mJunctions[r2];
         if ((j1->mE.GetIndex_0040CE90()) == r2)
         {
-            j1->mE.Enable_40CEB0();
-            j2->mW.Enable_40CEB0();
+            j1->mE.Enable();
+            j2->mW.Enable();
         }
         else if ((j1->mW.GetIndex_0040CE90()) == r2)
         {
-            j1->mW.Enable_40CEB0();
-            j2->mE.Enable_40CEB0();
+            j1->mW.Enable();
+            j2->mE.Enable();
         }
     }
 
@@ -187,20 +187,20 @@ void RouteFinder::RoadOn(u8 x, u8 y, u8 z)
 
         if ((j1->mS.GetIndex_0040CE90()) == r4)
         {
-            j1->mS.Enable_40CEB0();
+            j1->mS.Enable();
         }
         else if ((j1->mN.GetIndex_0040CE90()) == r4)
         {
-            j1->mN.Enable_40CEB0();
+            j1->mN.Enable();
         }
 
         if ((j2->mS.GetIndex_0040CE90()) == r3)
         {
-            j2->mS.Enable_40CEB0();
+            j2->mS.Enable();
         }
         else if ((j2->mN.GetIndex_0040CE90()) == r3)
         {
-            j2->mN.Enable_40CEB0();
+            j2->mN.Enable();
         }
     }
 }
@@ -444,7 +444,7 @@ u16 RouteFinder::FindHorzSegmentJunction(u8 x, u8 y, u8 z, bool bIsDest, s32 arr
         bool bHasArrow = RouteFinder::HasBlockDesiredArrow(pBlockAtPos, arrow_type, LEFT_3);
         for (s16 junc_idx = 0; junc_idx < mHorzSegmentCount; pSegment++, junc_idx++)
         {
-            if (pSegment->ContainsPoint_40CF20(x, y))
+            if (pSegment->ContainsPoint(x, y))
             {
                 if (bIsDest == 1)
                 {
@@ -485,7 +485,7 @@ u16 RouteFinder::FindVertSegmentJunction(u8 x, u8 y, u8 z, bool bIsDest, s32 arr
         bool bHasArrow = RouteFinder::HasBlockDesiredArrow(pBlockAtPos, arrow_type, UP_1);
         for (s16 junc_idx = 0; junc_idx < mVertSegmentCount; pSegment++, junc_idx++)
         {
-            if (pSegment->ContainsPoint_40CF20(x, y))
+            if (pSegment->ContainsPoint(x, y))
             {
                 if (bIsDest == 1)
                 {

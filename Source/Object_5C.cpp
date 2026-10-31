@@ -96,7 +96,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint7_6F8C78, Fix16(0x2CCC, 0), 0x6F8C78);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kObjectBounceRestitution, kFpPoint7_6F8C78, 0x6F8DBC);
 
 // 9.6f 0x482C10
-inline bool Object::IsAnimFinished_482C10() const
+inline bool Object::IsAnimFinished() const
 {
     return !mpAny.o8->mTimer && !mpAny.o8->mFrameIdx;
 }
@@ -138,7 +138,7 @@ void Object::PoolDeallocate()
 
     --sObjectCounterUnused;
 
-    if (UsesParamAsPedRef_421080())
+    if (UsesParamAsPedRef())
     {
         if (mPedRefIdx > 0)
         {
@@ -159,17 +159,17 @@ void Object::PoolDeallocate()
 MATCH_FUNC(0x522250)
 bool Object::IsSpriteOwnerPed(Sprite* pSprite) const
 {
-    if (UsesParamAsPedRef_421080())
+    if (UsesParamAsPedRef())
     {
-        u8 ped_ref_idx = this->GetPedRefIdx_420FF0();
+        u8 ped_ref_idx = this->GetPedRefIdx();
         if (ped_ref_idx > 0)
         {
             if (pSprite)
             {
-                Char* pChar = pSprite->AsCharB4_40FEA0();
+                Char* pChar = pSprite->AsCharB4();
                 if (pChar)
                 {
-                    if (pChar->mpPed->get_ped_ref_idx_420B50() == ped_ref_idx)
+                    if (pChar->mpPed->get_ped_ref_idx() == ped_ref_idx)
                     {
                         return true;
                     }
@@ -265,19 +265,19 @@ bool Object::ShouldCollideWith(Sprite* pSprite) const
         case CollisionReaction::Always_0:
             return true;
         case CollisionReaction::OnlyCars_1:
-            if (pSprite->GetType_416B40() == sprite_types_enum::car_2)
+            if (pSprite->GetType() == sprite_types_enum::car_2)
             {
                 return false;
             }
             break;
         case CollisionReaction::OnlyPeds_2:
-            if (pSprite->GetType_416B40() == sprite_types_enum::ped_3)
+            if (pSprite->GetType() == sprite_types_enum::ped_3)
             {
                 return false;
             }
             break;
         case CollisionReaction::OnlyObjects_3:
-            sprite_type = pSprite->GetType_416B40();
+            sprite_type = pSprite->GetType();
             if (sprite_type != sprite_types_enum::code_obj1_4 && sprite_type != sprite_types_enum::map_obj_5 &&
                 sprite_type != sprite_types_enum::object_1)
             {
@@ -310,7 +310,7 @@ bool Object::SelectCollisionSprite(Sprite* pProbe)
     sObject2CHitWallOrDoor = false;
 
     Sprite* pSprite = pProbe->QuerySpriteCollision(sprite_types_enum::car_2);
-    if (pSprite && sObject2CLastCollisionSprite && pSprite->GetType_416B40() == sprite_types_enum::car_2 // IsCar
+    if (pSprite && sObject2CLastCollisionSprite && pSprite->GetType() == sprite_types_enum::car_2 // IsCar
         || !ShouldCollideWithSprite_522430(pSprite) || pSprite == sObject2CLastCollisionSprite)
     {
         return false;
@@ -321,7 +321,7 @@ bool Object::SelectCollisionSprite(Sprite* pProbe)
     {
         sObject2CHitWallOrDoor = true;
     }
-    gCollisionTarget.SetSprite_40FEE0(pSprite);
+    gCollisionTarget.SetSprite(pSprite);
     return true;
 }
 
@@ -388,11 +388,11 @@ void Object::ResolveCollisionWithObject(Object* pObj, Fix16_Point* pPoint)
     Ang16 impact_angle = 0;
     offset = (my_pos - *pPoint);
 
-    if (pObj->CanBePushed_482C90())
+    if (pObj->CanBePushed())
     {
         rel_velocity = (GetSpeedVector_52AE90() - pObj->GetSpeedVector_52AE90());
-        impulse = ComputeCollisionImpulse(GetMass_482C80(),
-                                                 pObj->GetMass_482C80(),
+        impulse = ComputeCollisionImpulse(GetMass(),
+                                                 pObj->GetMass(),
                                                  rel_velocity,
                                                  offset,
                                                  *pPoint,
@@ -402,7 +402,7 @@ void Object::ResolveCollisionWithObject(Object* pObj, Fix16_Point* pPoint)
                                                  kFP16One_6F8D38,
                                                  kFP16One_6F8D24);
 
-        pObj->SetMovementVectorWithRandomState(impulse.Negate_40ACB0() / pObj->GetMass_482C80());
+        pObj->SetMovementVectorWithRandomState(impulse.Negate_40ACB0() / pObj->GetMass());
     }
     else
     {
@@ -412,7 +412,7 @@ void Object::ResolveCollisionWithObject(Object* pObj, Fix16_Point* pPoint)
             offset = rel_velocity;
         }
 
-        impulse = ComputeCollisionImpulse(GetMass_482C80(),
+        impulse = ComputeCollisionImpulse(GetMass(),
                                                  kFP16MinusOne,
                                                  rel_velocity,
                                                  offset,
@@ -429,7 +429,7 @@ void Object::ResolveCollisionWithObject(Object* pObj, Fix16_Point* pPoint)
         impact_angle = mObj3c->mAngle;
     }
 
-    SetMovementVectorWithRandomState(impulse / GetMass_482C80());
+    SetMovementVectorWithRandomState(impulse / GetMass());
 
     if (sObject2CHitWallOrDoor)
     {
@@ -461,7 +461,7 @@ void Object::ResolveCollisionWithPed(Char* pChar, Fix16_Point* pPoint, u8 not_us
     Fix16_Point spritePos = GetXY();
     posDelta = (spritePos - *pPoint);
 
-    impulse = ComputeCollisionImpulse(GetMass_482C80(),
+    impulse = ComputeCollisionImpulse(GetMass(),
                                                     kFP16Half_6F8EE4,
                                                     pChar->GetRunVelocity(),
                                                     posDelta,
@@ -471,20 +471,20 @@ void Object::ResolveCollisionWithPed(Char* pChar, Fix16_Point* pPoint, u8 not_us
                                                     kFP16One_6F8D38,
                                                     kFP16One_6F8CE0,
                                                     kFP16One_6F8F74);
-    SetMovementVectorWithRandomState(impulse.Divide(GetMass_482C80()));
+    SetMovementVectorWithRandomState(impulse.Divide(GetMass()));
     ped_impulse = impulse.Negate_40ACB0().Divide(kFP16Half_6F8EE4);
     // The ped impact was compiled out: ped_impulse is overwritten with zero
     ped_impulse.x = kFpZero_6F8E10;
     ped_impulse.y = kFpZero_6F8E10;
 
-    HandleImpact(pChar->get_sprite_ptr_4338D0());
+    HandleImpact(pChar->get_sprite_ptr());
 }
 
 MATCH_FUNC(0x522b20)
 void Object::ResolveCollisionWithWorld(Fix16_Point* pCollisionPoint, Fix16_Point* pPoint, Fix16_Point* speed)
 {
     // GetXY() is a temporary argument, not a local: that gives the original EH states (0, 2, 3) and frame
-    Fix16_Point impulse = ComputeCollisionImpulse(GetMass_482C80(),
+    Fix16_Point impulse = ComputeCollisionImpulse(GetMass(),
                                                         kFP16MinusOne,
                                                         *speed,
                                                         *pPoint,
@@ -494,7 +494,7 @@ void Object::ResolveCollisionWithWorld(Fix16_Point* pCollisionPoint, Fix16_Point
                                                         kFP16One_6F8D38,
                                                         kFpZero_6F8E10,
                                                         kFP16Half_6F8D3C);
-    SetMovementVectorWithRandomState(impulse.Divide(GetMass_482C80()));
+    SetMovementVectorWithRandomState(impulse.Divide(GetMass()));
     HandleImpact(NULL);
 }
 
@@ -508,11 +508,11 @@ void Object::ResolveCollisionWithHorizontalEdge(Fix16_Point* pPoint)
     u8 edge_flag;
     if (this->mSprite->GetNearestHorizontalEdgeToCoordinate(gCollisionTarget.mHsegY, hit_point, edge_flag))
     {
-        reflect_dir.SetXY_432860(Fix16(0), mSprite->mXy.y - gCollisionTarget.mHsegY);
+        reflect_dir.SetXY(Fix16(0), mSprite->mXy.y - gCollisionTarget.mHsegY);
     }
     else
     {
-        hit_point.SetXY_432860(gCollisionTarget.mVsegX, gCollisionTarget.mHsegY);
+        hit_point.SetXY(gCollisionTarget.mVsegX, gCollisionTarget.mHsegY);
         hit_point -= *pPoint;
         hit_point.x += mSprite->mXy.x;
         hit_point.y = gCollisionTarget.mHsegY;
@@ -546,11 +546,11 @@ void Object::ResolveCollisionWithVerticalEdge(Fix16_Point* pPoint)
     obj_speed = Object::GetSpeedVector_52AE90();
     if (mSprite->GetNearestVerticalEdgeToCoordinate(gCollisionTarget.mVsegX, hit_point, edge_flag))
     {
-        reflect_dir.SetXY_432860(mSprite->mXy.x - gCollisionTarget.mVsegX, Fix16(0));
+        reflect_dir.SetXY(mSprite->mXy.x - gCollisionTarget.mVsegX, Fix16(0));
     }
     else
     {
-        hit_point.SetXY_432860(gCollisionTarget.mVsegX, gCollisionTarget.mHsegY);
+        hit_point.SetXY(gCollisionTarget.mVsegX, gCollisionTarget.mHsegY);
         hit_point -= *pPoint;
         hit_point.y += mSprite->mXy.y;
         hit_point.x = gCollisionTarget.mVsegX;
@@ -592,15 +592,15 @@ void Object::HandleCollision(Fix16_Point* pPoint)
             u8 side_other;
             u8 overlap_count;
             hit_point = mSprite->FindCollisionIntersectionPoint(gCollisionTarget.mpHitSprite, *pPoint, mSprite->mRotation, side_self, side_other, overlap_count);
-            Car* pCar = gCollisionTarget.mpHitSprite->AsCar_40FEB0();
+            Car* pCar = gCollisionTarget.mpHitSprite->AsCar();
             if (pCar)
             {
                 pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
-                pCar->mPhysics->HandleObjectCollisionAt_482CC0(this, hit_point, side_other);
+                pCar->mPhysics->HandleObjectCollisionAt(this, hit_point, side_other);
             }
             else
             {
-                Char* pChar = gCollisionTarget.mpHitSprite->AsCharB4_40FEA0();
+                Char* pChar = gCollisionTarget.mpHitSprite->AsCharB4();
                 if (pChar)
                 {
                     ResolveCollisionWithPed(pChar, &hit_point, overlap_count);
@@ -608,7 +608,7 @@ void Object::HandleCollision(Fix16_Point* pPoint)
                 }
                 else
                 {
-                    Object* pObj = gCollisionTarget.mpHitSprite->AsObject2C_40FEC0();
+                    Object* pObj = gCollisionTarget.mpHitSprite->AsObject2C();
                     ResolveCollisionWithObject(pObj, &hit_point);
                 }
             }
@@ -621,7 +621,7 @@ MATCH_FUNC(0x522FA0)
 void Object::Sprite_UpdateZFromSlopeAndTile(Sprite* pSprite)
 {
     Fix16 z_val = pSprite->mZpos;
-    if (gMap_0x370->IsGradientSlopeAt_466CF0(pSprite->mXy.x.ToInt(), pSprite->mXy.y.ToInt(), (z_val.ToInt()) - 1))
+    if (gMap_0x370->IsGradientSlopeAt(pSprite->mXy.x.ToInt(), pSprite->mXy.y.ToInt(), (z_val.ToInt()) - 1))
     {
         z_val -= Fix16(1);
     }
@@ -644,7 +644,7 @@ void Object::Sprite_UpdateZFromSlopeAndTile(Sprite* pSprite)
         }
     }
 
-    pSprite->set_z_lazy_420660(z_val);
+    pSprite->set_z_lazy(z_val);
 }
 
 MATCH_FUNC(0x5233a0)
@@ -670,11 +670,11 @@ bool Object::TryStartSlide(Fix16 speed)
 
         if (this->mObj3c->mSpriteCollideMode == 1)
         {
-            SetTopDrawLayer_482BF0();
+            SetTopDrawLayer();
         }
         else
         {
-            this->mSprite->SetDrawLayer_40F7B0(6);
+            this->mSprite->SetDrawLayer(6);
         }
         this->mObj3c->mSpeed = kFpPoint1_6F8C58;
         this->mObj3c->mFriction = this->mDefinition->mFriction;
@@ -699,19 +699,19 @@ void Object::HandleCollisionOutcome(Fix16_Point point, bool bHitFloorBelow, bool
         case 4:
             if (gCollisionTarget.mpHitSprite)
             {
-                mSprite->set_z_lazy_420660(gCollisionTarget.mpHitSprite->mZpos);
+                mSprite->set_z_lazy(gCollisionTarget.mpHitSprite->mZpos);
             }
 
             if (!bHitFloorBelow || gCollisionTarget.mType == collision_target_type::sprite_3)
             {
                 if (bHitBlockAtZ && gCollisionTarget.mType != collision_target_type::sprite_3)
                 {
-                    gCollisionTarget.SetBlockAtZ_482A80();
+                    gCollisionTarget.SetBlockAtZ();
                 }
             }
             else
             {
-                gCollisionTarget.SetFloorBelow_482A70();
+                gCollisionTarget.SetFloorBelow();
             }
 
             HandleImpact(gCollisionTarget.mpHitSprite);
@@ -721,11 +721,11 @@ void Object::HandleCollisionOutcome(Fix16_Point point, bool bHitFloorBelow, bool
         case 1:
             if (bHitFloorBelow)
             {
-                gCollisionTarget.SetFloorBelow_482A70();
+                gCollisionTarget.SetFloorBelow();
             }
             else if (bHitBlockAtZ)
             {
-                gCollisionTarget.SetBlockAtZ_482A80();
+                gCollisionTarget.SetBlockAtZ();
             }
             HandleImpact(gCollisionTarget.mpHitSprite);
             return;
@@ -745,7 +745,7 @@ bool Object::HandleSpriteGroundAndCollision(Sprite* pSprite, Fix16_Point* pPoint
     Fix16 ground_z;
     bool bOnGround;
     mObj3c->mbAirborne = 0;
-    if (gMap_0x370->IsGradientSlopeAt_466CF0(pSprite->mXy.x.ToInt(), pSprite->mXy.y.ToInt(), pSprite->mZpos.ToInt()))
+    if (gMap_0x370->IsGradientSlopeAt(pSprite->mXy.x.ToInt(), pSprite->mXy.y.ToInt(), pSprite->mZpos.ToInt()))
     {
         ground_z = gMap_0x370->GetGroundZBelowCoordEx(pSprite->mXy.x, pSprite->mXy.y, pSprite->mZpos, bOnGround);
 
@@ -765,7 +765,7 @@ bool Object::HandleSpriteGroundAndCollision(Sprite* pSprite, Fix16_Point* pPoint
     }
     else
     {
-        if (gMap_0x370->GetBlockTypeAtCoord_420420(pSprite->mXy.x.ToInt(),
+        if (gMap_0x370->GetBlockTypeAtCoord(pSprite->mXy.x.ToInt(),
                                                           pSprite->mXy.y.ToInt(),
                                                           pSprite->mZpos.ToInt() - 1) ||
             mObj3c->mbOnSlope)
@@ -871,9 +871,9 @@ bool Object::HandleSpriteZCollision(Sprite* pSprite, Fix16_Point* pPoint, bool* 
     // non-slope `bAirborne = 1` block (and lets the two `bAirborne = 1` tails merge there).
     bool bLanded = false;
 
-    if (gMap_0x370->IsGradientSlopeAt_466CF0(pSprite->mXy.x.ToInt(), pSprite->mXy.y.ToInt(), pSprite->mZpos.ToInt()))
+    if (gMap_0x370->IsGradientSlopeAt(pSprite->mXy.x.ToInt(), pSprite->mXy.y.ToInt(), pSprite->mZpos.ToInt()))
     {
-        if (gMap_0x370->GetBlockTypeAtCoord_420420(pSprite->mXy.x.ToInt(),
+        if (gMap_0x370->GetBlockTypeAtCoord(pSprite->mXy.x.ToInt(),
                                                            pSprite->mXy.y.ToInt(),
                                                            pSprite->mZpos.ToInt()) != AIR)
         {
@@ -998,7 +998,7 @@ bool Object::HandleSpriteZCollision(Sprite* pSprite, Fix16_Point* pPoint, bool* 
             if (pObj3C->mSpriteCollideMode == 2)
             {
                 pObj3C->mSpriteCollideMode = 1;
-                ApplyDefinitionDrawLayer_482BE0();
+                ApplyDefinitionDrawLayer();
                 mObj3c->mZSpeed = kObjectBounceRestitution * (-mObj3c->mZSpeed);
             }
             return true;
@@ -1026,20 +1026,20 @@ void Object::IntegrateMovementAndCollisions(Fix16 mov_speed, Ang16 angle)
     Fix16 step_count;
     Sprite* pSprt = gObject_5C->mCollisionProbeSprite;
     sObject2CWallHitSide = 0;
-    ApplyDefinitionDrawLayer_482BE0();
+    ApplyDefinitionDrawLayer();
     if (Object::TryStartSlide(mov_speed))
     {
         mov_speed_copy = mObj3c->mSpeed;
     }
     if (mov_speed_copy != kFpZero_6F8E10 || mObj3c->mbAirborne || mObj3c->mZSpeed != kFpZero_6F8E10)
     {
-        gCollisionTarget.Reset_4637B0();
+        gCollisionTarget.Reset();
         pSprt->set_xyz_lazy_420600(mSprite->mXy.x, mSprite->mXy.y, mSprite->mZpos);
-        pSprt->set_ang_lazy_420690(mSprite->mRotation);
+        pSprt->set_ang_lazy(mSprite->mRotation);
         pSprt->AllocCollisionShape(mDefinition->mWidth, mDefinition->mHeight, mDefinition->mDepth);
-        pSprt->SetType_4206F0(mSprite->GetType_416B40());
-        pSprt->SetObject2C_482A30(mSprite->mObject2CPtr);
-        if (gMap_0x370->IsGradientSlopeAt_466CF0(pSprt->mXy.x.ToInt(), pSprt->mXy.y.ToInt(), pSprt->mZpos.ToInt()))
+        pSprt->SetType(mSprite->GetType());
+        pSprt->SetObject2C(mSprite->mObject2CPtr);
+        if (gMap_0x370->IsGradientSlopeAt(pSprt->mXy.x.ToInt(), pSprt->mXy.y.ToInt(), pSprt->mZpos.ToInt()))
         {
             mObj3c->mbOnSlope = true;
         }
@@ -1089,7 +1089,7 @@ void Object::IntegrateMovementAndCollisions(Fix16 mov_speed, Ang16 angle)
             Fix16 found_z;
             found_z = gMap_0x370->FindGroundZBelowCoord(pSprt->mXy.x, pSprt->mXy.y, pSprt->mZpos);
             pSprt->set_xyz_lazy_420600(pSprt->mXy.x + step_dx, pSprt->mXy.y + step_dy, pSprt->mZpos + step_dz);
-            pSprt->set_ang_lazy_420690(angle);
+            pSprt->set_ang_lazy(angle);
             if (step_dz == kFpZero_6F8E10)
             {
                 bHandled = Object::HandleSpriteGroundAndCollision(pSprt, &point, &bHitWall, found_z);
@@ -1111,7 +1111,7 @@ void Object::IntegrateMovementAndCollisions(Fix16 mov_speed, Ang16 angle)
         if (!bHandled)
         {
             mSprite->set_xyz_lazy_420600(pSprt->mXy.x, pSprt->mXy.y, pSprt->mZpos);
-            mSprite->set_ang_lazy_420690(pSprt->mRotation);
+            mSprite->set_ang_lazy(pSprt->mRotation);
             if (bHitSomething)
             {
                 if (static_cast<u8>(mSprite->IsOnWater()))
@@ -1134,7 +1134,7 @@ void Object::IntegrateMovementAndCollisions(Fix16 mov_speed, Ang16 angle)
             sObj2CLastValidAng = prev_rotation;
             Fix16 tmp_radius = radius;
             pSprt->set_xyz_lazy_420600(sObj2CLastValidX, sObj2CLastValidY, gObj2C_LastValidZ);
-            pSprt->set_ang_lazy_420690(prev_rotation);
+            pSprt->set_ang_lazy(prev_rotation);
             Object::Sprite_UpdateZFromSlopeAndTile(pSprt);
             bool bLastStepClear;
 
@@ -1143,7 +1143,7 @@ void Object::IntegrateMovementAndCollisions(Fix16 mov_speed, Ang16 angle)
                 tmp_radius = tmp_radius / 2;
                 Ang16::PolarToCartesian_41FC20(angle, tmp_radius, step_dx, step_dy);
                 pSprt->set_xyz_lazy_420600(pSprt->mXy.x + step_dx, pSprt->mXy.y + step_dy, pSprt->mZpos);
-                pSprt->set_ang_lazy_420690(angle);
+                pSprt->set_ang_lazy(angle);
                 Object::Sprite_UpdateZFromSlopeAndTile(pSprt);
                 bool bHitSprite = false;
                 if (mObj3c->mSpriteCollideMode == 2 && Object::SelectCollisionSprite(pSprt))
@@ -1154,7 +1154,7 @@ void Object::IntegrateMovementAndCollisions(Fix16 mov_speed, Ang16 angle)
                 {
                     point = pSprt->get_x_y_443580();
                     pSprt->set_xyz_lazy_420600(sObj2CLastValidX, sObj2CLastValidY, gObj2C_LastValidZ);
-                    pSprt->set_ang_lazy_420690(sObj2CLastValidAng);
+                    pSprt->set_ang_lazy(sObj2CLastValidAng);
                     bLastStepClear = false;
                 }
                 else
@@ -1169,10 +1169,10 @@ void Object::IntegrateMovementAndCollisions(Fix16 mov_speed, Ang16 angle)
             if (!bLastStepClear)
             {
                 pSprt->set_xyz_lazy_420600(sObj2CLastValidX, sObj2CLastValidY, gObj2C_LastValidZ);
-                pSprt->set_ang_lazy_420690(sObj2CLastValidAng);
+                pSprt->set_ang_lazy(sObj2CLastValidAng);
             }
             mSprite->set_xyz_lazy_420600(pSprt->mXy.x, pSprt->mXy.y, pSprt->mZpos);
-            mSprite->set_ang_lazy_420690(pSprt->mRotation);
+            mSprite->set_ang_lazy(pSprt->mRotation);
             if (bHitSomething || bHitWall || bHitBlockAtZ)
             {
                 Object::HandleCollisionOutcome(point, bHitSomething, bHitBlockAtZ);
@@ -1226,13 +1226,13 @@ void Object::IntegrateHorizontalMovementAndCollisions(Fix16 move_len, Ang16 move
     {
         return;
     }
-    gCollisionTarget.Reset_4637B0();
+    gCollisionTarget.Reset();
 
     pProbe->set_xyz_lazy_420600(mSprite->mXy.x, mSprite->mXy.y, mSprite->mZpos);
-    pProbe->set_ang_lazy_420690(mSprite->mRotation);
+    pProbe->set_ang_lazy(mSprite->mRotation);
     pProbe->AllocCollisionShape(this->mDefinition->mWidth, this->mDefinition->mHeight, this->mDefinition->mDepth);
-    pProbe->SetType_4206F0(this->mSprite->GetType_416B40());
-    pProbe->SetObject2C_482A30(this->mSprite->mObject2CPtr);
+    pProbe->SetType(this->mSprite->GetType());
+    pProbe->SetObject2C(this->mSprite->mObject2CPtr);
 
     Fix16 step_count;
     Fix16 step_len;
@@ -1258,8 +1258,8 @@ void Object::IntegrateHorizontalMovementAndCollisions(Fix16 move_len, Ang16 move
     {
         // 9.6f: PolarToCartesian_41FC20 on a copy of the step
         Fix16 radius = step_len;
-        step_dx = Ang16::sine_40F500(move_angle) * radius;
-        step_dy = Ang16::cosine_40F520(move_angle).Multiply(radius);
+        step_dx = Ang16::sine(move_angle) * radius;
+        step_dy = Ang16::cosine(move_angle).Multiply(radius);
     } // 9.6f inlined: PolarToCartesian_41FC20
 
     Ang16 start_rotation;
@@ -1279,24 +1279,24 @@ void Object::IntegrateHorizontalMovementAndCollisions(Fix16 move_len, Ang16 move
             start_rotation = pProbe->mRotation;
             mObj3c->mbAirborne = 0;
 
-            if (gMap_0x370->IsGradientSlopeAt_466CF0(pProbe->mXy.x.ToInt(), pProbe->mXy.y.ToInt(), pProbe->mZpos.ToInt()))
+            if (gMap_0x370->IsGradientSlopeAt(pProbe->mXy.x.ToInt(), pProbe->mXy.y.ToInt(), pProbe->mZpos.ToInt()))
             {
                 bOnSlope = true;
             }
 
-            pProbe->set_xy_lazy_447E20(pProbe->mXy.x + step_dx, pProbe->mXy.y + step_dy);
-            pProbe->set_ang_lazy_420690(move_angle);
+            pProbe->set_xy_lazy(pProbe->mXy.x + step_dx, pProbe->mXy.y + step_dy);
+            pProbe->set_ang_lazy(move_angle);
 
-            if (gMap_0x370->IsGradientSlopeAt_466CF0(pProbe->mXy.x.ToInt(), pProbe->mXy.y.ToInt(), pProbe->mZpos.ToInt()))
+            if (gMap_0x370->IsGradientSlopeAt(pProbe->mXy.x.ToInt(), pProbe->mXy.y.ToInt(), pProbe->mZpos.ToInt()))
             {
                 Sprite_UpdateZFromSlopeAndTile(pProbe);
             }
 
-            if (!gMap_0x370->GetBlockTypeAtCoord_420420(pProbe->mXy.x.ToInt(),
+            if (!gMap_0x370->GetBlockTypeAtCoord(pProbe->mXy.x.ToInt(),
                                                                pProbe->mXy.y.ToInt(),
                                                                (pProbe->mZpos - kFP16One_6F8E14).ToInt()))
             {
-                if (gMap_0x370->IsGradientSlopeAt_466CF0(pProbe->mXy.x.ToInt(),
+                if (gMap_0x370->IsGradientSlopeAt(pProbe->mXy.x.ToInt(),
                                                                 pProbe->mXy.y.ToInt(),
                                                                 (pProbe->mZpos - kFP16One_6F8E14).ToInt()))
                 {
@@ -1335,15 +1335,15 @@ void Object::IntegrateHorizontalMovementAndCollisions(Fix16 move_len, Ang16 move
             }
         }
         mSprite->set_xyz_lazy_420600(pProbe->mXy.x, pProbe->mXy.y, pProbe->mZpos);
-        mSprite->set_ang_lazy_420690(pProbe->mRotation);
+        mSprite->set_ang_lazy(pProbe->mRotation);
         return;
     }
 
 LABEL_48:
     Fix16 step = step_len;
 
-    pProbe->set_xy_lazy_447E20(start_x, start_y);
-    pProbe->set_ang_lazy_420690(start_rotation);
+    pProbe->set_xy_lazy(start_x, start_y);
+    pProbe->set_ang_lazy(start_rotation);
 
     Sprite_UpdateZFromSlopeAndTile(pProbe);
     s32 tries = 3;
@@ -1353,22 +1353,22 @@ LABEL_48:
         Fix16 old_y = pProbe->mXy.y;
         start_rotation = pProbe->mRotation;
         step = step / 2;
-        step_dx = Ang16::sine_40F500(move_angle) * step;
-        step_dy = Ang16::cosine_40F520(move_angle) * step;
-        pProbe->set_xy_lazy_447E20(pProbe->mXy.x + step_dx, pProbe->mXy.y + step_dy);
-        pProbe->set_ang_lazy_420690(move_angle);
+        step_dx = Ang16::sine(move_angle) * step;
+        step_dy = Ang16::cosine(move_angle) * step;
+        pProbe->set_xy_lazy(pProbe->mXy.x + step_dx, pProbe->mXy.y + step_dy);
+        pProbe->set_ang_lazy(move_angle);
 
         if (pProbe->CheckSpriteMovementRegion() || SelectCollisionSprite(pProbe))
         {
             hitPoint = pProbe->get_x_y();
-            pProbe->set_xy_lazy_447E20(old_x, old_y);
-            pProbe->set_ang_lazy_420690(start_rotation);
+            pProbe->set_xy_lazy(old_x, old_y);
+            pProbe->set_ang_lazy(start_rotation);
             Sprite_UpdateZFromSlopeAndTile(pProbe);
         }
     } while (--tries);
 
     mSprite->set_xyz_lazy_420600(pProbe->mXy.x, pProbe->mXy.y, pProbe->mZpos);
-    mSprite->set_ang_lazy_420690(pProbe->mRotation);
+    mSprite->set_ang_lazy(pProbe->mRotation);
 
     switch (this->mDefinition->mCollisionResponse)
     {
@@ -1407,7 +1407,7 @@ MATCH_FUNC(0x525190)
 void Object::OnExplosionNearby(u8 ped_ref_idx)
 {
 
-    if (IsExplosiveItemDefinition_482400(mDefinition->mNextDefinitionIdx))
+    if (IsExplosiveItemDefinition(mDefinition->mNextDefinitionIdx))
     {
         PoolGiveAndQueueObjectType(mDefinition->mNextDefinitionIdx);
     }
@@ -1419,7 +1419,7 @@ void Object::OnExplosionNearby(u8 ped_ref_idx)
                                                                           this->mSprite->mZpos,
                                                                           kZeroAng_6F8F68,
                                                                           explosion_type::item_19,
-                                                                          gPedRefTable_7F8->GetPedId_420F10(ped_ref_idx));
+                                                                          gPedRefTable_7F8->GetPedId(ped_ref_idx));
         if (pExplosion)
         {
             pExplosion->SetDamageOwner(ped_ref_idx);
@@ -1431,7 +1431,7 @@ void Object::OnExplosionNearby(u8 ped_ref_idx)
 MATCH_FUNC(0x525290)
 bool Object::ShouldStopAtTrafficLight(Sprite* pSprite) const
 {
-    Car* pCar = pSprite->AsCar_40FEB0();
+    Car* pCar = pSprite->AsCar();
     if (pCar)
     {
         if (gCarAIProbingAhead)
@@ -1464,7 +1464,7 @@ bool Object::ShouldCollideWithSprite_525370(Sprite* pSprite) const
         case objects::door_collision_obj_169:
             if (pSprite)
             {
-                return gDoor_4D4->CheckDoorAccess(pSprite, this->GetParam_421050());
+                return gDoor_4D4->CheckDoorAccess(pSprite, this->GetParam());
             }
             else
             {
@@ -1474,17 +1474,17 @@ bool Object::ShouldCollideWithSprite_525370(Sprite* pSprite) const
         case objects::tunnel_blocker_294:
             if (pSprite)
             {
-                Car* pCar = pSprite->AsCar_40FEB0();
+                Car* pCar = pSprite->AsCar();
                 if (pCar)
                 {
-                    return !pCar->IsTrainModel_403BA0();
+                    return !pCar->IsTrainModel();
                 }
             }
             // Fall through
         default:
             if (gCollisionCounters->mbDoorAccessCheck == 1)
             {
-                if (CanBePushed_482C90())
+                if (CanBePushed())
                 {
                     return false;
                 }
@@ -1499,7 +1499,7 @@ bool Object::ShouldCollideWithSprite_525370(Sprite* pSprite) const
 
                 if (pSprite)
                 {
-                    if (pSprite->GetType_416B40() != sprite_types_enum::ped_3)
+                    if (pSprite->GetType() != sprite_types_enum::ped_3)
                     {
                         if (mDefinition->mCollisionResponse == 3)
                         {
@@ -1527,7 +1527,7 @@ bool Object::ShouldCollideWithSprite_525370(Sprite* pSprite) const
 
             if (pSprite)
             {
-                Object* pObject = pSprite->AsObject2C_40FEC0();
+                Object* pObject = pSprite->AsObject2C();
                 if (pObject)
                 {
                     if (pObject->mDefinition->mTouchBehavior == 7 || pObject->mDefinition->mTouchBehavior == 8)
@@ -1549,7 +1549,7 @@ bool Object::ShouldCollideWithSprite_525370(Sprite* pSprite) const
                     }
 
                     // Only pickups collide with pickups
-                    if (pObject->IsPickup_421060() && !IsPickup_421060())
+                    if (pObject->IsPickup() && !IsPickup())
                     {
                         return false;
                     }
@@ -1578,9 +1578,9 @@ void Object::UpdateAnimation()
         }
         const s16 target_id = this->mDefinition->mBaseSpriteIdx + this->mpAny.o8->mFrameIdx;
 
-        mSprite->set_id_lazy_4206C0(target_id);
+        mSprite->set_id_lazy(target_id);
 
-        if (IsAnimFinished_482C10())
+        if (IsAnimFinished())
         {
             Object::TickObject(this->mDefinition->mNextDefinitionIdx);
         }
@@ -1733,9 +1733,9 @@ void Object::UpdatePhysicsAndMovement()
                 mObj3c->mNextDefinitionTimer--;
                 if (mObj3c->mNextDefinitionTimer == 0)
                 {
-                    if (GetPedRefIdx_420FF0() > 0)
+                    if (GetPedRefIdx() > 0)
                     {
-                        s32 ped_id = gPedRefTable_7F8->GetPedId_420F10(GetPedRefIdx_420FF0());
+                        s32 ped_id = gPedRefTable_7F8->GetPedId(GetPedRefIdx());
                         if (ped_id)
                         {
                             Ped* pPed = gPedManager->PedById(ped_id);
@@ -1755,9 +1755,9 @@ void Object::UpdatePhysicsAndMovement()
             this->mObj3c->mZSpeed = kFpZero_6F8E10;
 
             TickObject(mDefinition->mImpactDefinitionIdx);
-            if (UsesParamAsPedRef_421080())
+            if (UsesParamAsPedRef())
             {
-                if (GetPedRefIdx_420FF0() > 0)
+                if (GetPedRefIdx() > 0)
                 {
                     gPedRefTable_7F8->DecrementRefCount(mPedRefIdx);
                     this->mPedRefIdx = 0;
@@ -1822,9 +1822,9 @@ void Object::UpdatePhysicsMovementAndAnimation()
 
                 if (mModel != objects::grenade_obj_183)
                 {
-                    if (UsesParamAsPedRef_421080())
+                    if (UsesParamAsPedRef())
                     {
-                        // 9.6f: Object::GetPedRefIdx_420FF0 (inlined, using it changes the code)
+                        // 9.6f: Object::GetPedRefIdx (inlined, using it changes the code)
                         if (mPedRefIdx > 0)
                         {
                             gPedRefTable_7F8->DecrementRefCount(mPedRefIdx);
@@ -1948,18 +1948,18 @@ MATCH_FUNC(0x526790)
 void Object::TriggerCarExplosionIfApplicable(Sprite* pSprite)
 {
     ObjectDefinition* pDefinition = this->mDefinition;
-    if (IsAnimatedBehavior_475A80())
+    if (IsAnimatedBehavior())
     {
-        if (IsAnimFinished_482C10())
+        if (IsAnimFinished())
         {
-            if (IsExplosiveItemDefinition_482400(pDefinition->mNextDefinitionIdx))
+            if (IsExplosiveItemDefinition(pDefinition->mNextDefinitionIdx))
             {
-                Car* pCar = pSprite->AsCar_40FEB0();
+                Car* pCar = pSprite->AsCar();
                 if (pCar)
                 {
                     if (this->mModel == objects::car_bomb_132)
                     {
-                        s32 ped_id = gPedRefTable_7F8->GetPedId_420F10(GetPedRefIdx_420FF0());
+                        s32 ped_id = gPedRefTable_7F8->GetPedId(GetPedRefIdx());
                         if (ped_id)
                         {
                             pCar->mExploderPedId = ped_id;
@@ -1998,18 +1998,18 @@ void Object::InheritMotionFromSprite(Sprite* pSprite)
 {
     Object_3C* pObject3C;
 
-    switch (pSprite->GetType_416B40())
+    switch (pSprite->GetType())
     {
         case sprite_types_enum::ped_3:
-            this->mObj3c->mSpeed = (pSprite->mCharB4Ptr->get_velocity_41B080() * kFpOne64th_6F8C9C);
+            this->mObj3c->mSpeed = (pSprite->mCharB4Ptr->get_velocity() * kFpOne64th_6F8C9C);
             this->mObj3c->mAngle = pSprite->mRotation;
-            this->mSprite->SetDrawLayer_40F7B0(27);
+            this->mSprite->SetDrawLayer(27);
             break;
 
         case sprite_types_enum::car_2:
             this->mObj3c->mSpeed = pSprite->mCarBcPtr->GetCarLinearSpeed();
             this->mObj3c->mAngle = pSprite->mCarBcPtr->GetOrientationAngle();
-            this->mSprite->SetDrawLayer_40F7B0(pSprite->AsCar_40FEB0()->GetAttachedDrawLayer());
+            this->mSprite->SetDrawLayer(pSprite->AsCar()->GetAttachedDrawLayer());
             break;
 
         case sprite_types_enum::code_obj1_4:
@@ -2021,7 +2021,7 @@ void Object::InheritMotionFromSprite(Sprite* pSprite)
                 this->mObj3c->mAngle = pSprite->mObject2CPtr->mObj3c->mAngle;
                 this->mObj3c->mZSpeed = pSprite->mObject2CPtr->mObj3c->mZSpeed;
             }
-            this->mSprite->SetDrawLayer_40F7B0(12);
+            this->mSprite->SetDrawLayer(12);
             break;
 
         default:
@@ -2060,13 +2060,13 @@ bool Object::UpdateMovementAndEffects(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 r
         {
             xpos = x;
             ypos = y;
-            Ang16::RotateVector_41FC90(xpos, ypos, pSprite->mRotation);
+            Ang16::RotateVector(xpos, ypos, pSprite->mRotation);
             xpos += pSprite->mXy.x;
             ypos += pSprite->mXy.y;
         }
 
         mSprite->set_xyz_lazy_420600(xpos, ypos, pSprite->mZpos);
-        mSprite->set_ang_lazy_420690(pSprite->mRotation + rot);
+        mSprite->set_ang_lazy(pSprite->mRotation + rot);
 
         switch (mDefinition->mBehaviorType)
         {
@@ -2078,7 +2078,7 @@ bool Object::UpdateMovementAndEffects(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 r
             {
                 if (mpAny.pExplosion)
                 {
-                    switch (pSprite->GetType_416B40())
+                    switch (pSprite->GetType())
                     {
                         case sprite_types_enum::code_obj1_4:
                         case sprite_types_enum::map_obj_5:
@@ -2092,7 +2092,7 @@ bool Object::UpdateMovementAndEffects(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 r
                         case sprite_types_enum::car_2:
                             if (mpAny.pExplosion->IsFireType())
                             {
-                                mSprite->set_z_lazy_420660(pSprite->mCarBcPtr->GetZPos());
+                                mSprite->set_z_lazy(pSprite->mCarBcPtr->GetZPos());
                                 pSprite->mCarBcPtr->AccumulateDamage(1, &gZeroVector);
                             }
 
@@ -2121,7 +2121,7 @@ bool Object::UpdateMovementAndEffects(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 r
             }
 
             case object_behavior_type::light_11:
-                mpAny.pLight->SetPosition_482D30(mSprite->mXy.x, mSprite->mXy.y, mSprite->mZpos);
+                mpAny.pLight->SetPosition(mSprite->mXy.x, mSprite->mXy.y, mSprite->mZpos);
                 break;
 
             default:
@@ -2166,9 +2166,9 @@ void Object::InitializeObject(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpo
     }
 
     mSprite->set_xyz_lazy_420600(xpos, ypos, zpos);
-    mSprite->set_ang_lazy_420690(rotation);
+    mSprite->set_ang_lazy(rotation);
 
-    mSprite->SetObject2C_482A30(this);
+    mSprite->SetObject2C(this);
 }
 
 MATCH_FUNC(0x527990)
@@ -2180,7 +2180,7 @@ void Object::TurnOffLight()
 MATCH_FUNC(0x527A30)
 void Object::UpdateLight()
 {
-    mpAny.pLight->SetCurrentIntensity_45B2D0(mpAny.pLight->mIntensity);
+    mpAny.pLight->SetCurrentIntensity(mpAny.pLight->mIntensity);
 }
 
 MATCH_FUNC(0x527ae0)
@@ -2234,7 +2234,7 @@ void Object::ReleaseSubObjects()
     {
         if (this->mDefinition->mBehaviorType == object_behavior_type::light_11)
         {
-            gLight_1D4CC->DeallocLight_47F4F0(mpAny.pLight);
+            gLight_1D4CC->DeallocLight(mpAny.pLight);
             this->mpAny.o8 = NULL;
         }
         else if (this->mHasExplosion)
@@ -2350,14 +2350,14 @@ void Object::TickObject(s32 obj_type)
     }
     else
     {
-        if (IsExplosiveItemDefinition_482400(obj_type))
+        if (IsExplosiveItemDefinition(obj_type))
         {
             Object* pExplosion = gObject_5C->CreateExplosion(mSprite->mXy.x,
                                                                               mSprite->mXy.y,
                                                                               mSprite->mZpos,
                                                                               kZeroAng_6F8F68,
                                                                               GetExplosionTypeForItemDefinition(obj_type),
-                                                                              gPedRefTable_7F8->GetPedId_420F10(mPedRefIdx));
+                                                                              gPedRefTable_7F8->GetPedId(mPedRefIdx));
             if (pExplosion)
             {
                 pExplosion->SetDamageOwner(this->mPedRefIdx);
@@ -2454,7 +2454,7 @@ void Object::TickObject(s32 obj_type)
                                                                this->mSprite->mXy.y,
                                                                this->mSprite->mZpos,
                                                                this->mSprite->mRotation);
-                            mSprite->set_id_lazy_4206C0(this->mDefinition->mBaseSpriteIdx + this->mpAny.o8->mFrameIdx);
+                            mSprite->set_id_lazy(this->mDefinition->mBaseSpriteIdx + this->mpAny.o8->mFrameIdx);
                             break;
                         }
 
@@ -2496,7 +2496,7 @@ void Object::TickObject(s32 obj_type)
                                                                this->mSprite->mXy.y,
                                                                this->mSprite->mZpos,
                                                                this->mSprite->mRotation);
-                            mSprite->set_id_lazy_4206C0(this->mDefinition->mBaseSpriteIdx + this->mpAny.o8->mFrameIdx);
+                            mSprite->set_id_lazy(this->mDefinition->mBaseSpriteIdx + this->mpAny.o8->mFrameIdx);
                             this->mObj3c->mFriction = pDefinition->mFriction;
                             this->mObj3c->mZAccel = kFpZero_6F8E10;
                             this->mObj3c->mZSpeed = kFpZero_6F8E10;
@@ -2547,13 +2547,13 @@ bool Object::OnObjectTouched(Sprite* pSprite)
         return false;
     }
 
-    Char* pChar = pSprite->AsCharB4_40FEA0();
+    Char* pChar = pSprite->AsCharB4();
     if (pChar)
     {
         return pChar->OnObjectTouched(this);
     }
 
-    Car* pCar = pSprite->AsCar_40FEB0();
+    Car* pCar = pSprite->AsCar();
     if (pCar)
     {
         return pCar->OnObjectTouched(this);
@@ -2570,12 +2570,12 @@ void Object::HandleWaterDeath()
         mObj3c->mbSkipAnim = true;
     }
 
-    if ((gpRng->get_cur_rng_41CFE0() & 3) == 0)
+    if ((gpRng->get_cur_rng() & 3) == 0)
     {
         mSprite->IncreaseZoom(1);
         if (mSprite->ShrinkSprite(kFpOneThirtySecond, kFpOneThirtySecond, 0))
         {
-            mSprite->set_z_lazy_420660(kFpZero_6F8E10);
+            mSprite->set_z_lazy(kFpZero_6F8E10);
             RequestRemoval();
         }
     }
@@ -2597,23 +2597,23 @@ bool Object::HandleObjectHitIfExplosive(Object* pOther)
 MATCH_FUNC(0x528990)
 bool Object::HandleObjectHit(Sprite* pSprite)
 {
-    Char* pChar = pSprite->AsCharB4_40FEA0();
+    Char* pChar = pSprite->AsCharB4();
     if (pChar)
     {
         return pChar->HandlePedObjectHit(this);
     }
 
-    Car* pCar = pSprite->AsCar_40FEB0();
+    Car* pCar = pSprite->AsCar();
     if (pCar)
     {
         return pCar->HandleCarHitByObject(this);
     }
 
-    Object* pObject = pSprite->AsObject2C_40FEC0();
+    Object* pObject = pSprite->AsObject2C();
 
-    if (gPedRefTable_7F8->GetPedId_420F10(GetPedRefIdx_420FF0()))
+    if (gPedRefTable_7F8->GetPedId(GetPedRefIdx()))
     {
-        Ped* pPed = gPedManager->PedById(gPedRefTable_7F8->GetPedId_420F10(GetPedRefIdx_420FF0()));
+        Ped* pPed = gPedManager->PedById(gPedRefTable_7F8->GetPedId(GetPedRefIdx()));
         if (pPed)
         {
             pPed->ProcessWeaponHitResponse(pObject);
@@ -2651,10 +2651,10 @@ void Object::ProcessObjectExplosionImpact(Object* pObj)
                                                                               this->mSprite->mZpos,
                                                                               kZeroAng_6F8F68,
                                                                               explosion_kind,
-                                                                              gPedRefTable_7F8->GetPedId_420F10(GetPedRefIdx_420FF0()));
+                                                                              gPedRefTable_7F8->GetPedId(GetPedRefIdx()));
             if (pExplosion)
             {
-                pExplosion->SetDamageOwner(GetPedRefIdx_420FF0());
+                pExplosion->SetDamageOwner(GetPedRefIdx());
             }
             break;
         }
@@ -2676,7 +2676,7 @@ void Object::ProcessObjectExplosionImpact(Object* pObj)
     }
 
     Ped* pPed;
-    s32 ped_id = gPedRefTable_7F8->GetPedId_420F10(GetPedRefIdx_420FF0());
+    s32 ped_id = gPedRefTable_7F8->GetPedId(GetPedRefIdx());
     if (ped_id)
     {
         pPed = gPedManager->PedById(ped_id);
@@ -2710,10 +2710,10 @@ void Object::HandleImpactNoSprite()
                                                                               mSprite->mZpos,
                                                                               kZeroAng_6F8F68,
                                                                               GetExplosionTypeForWallSide(sObject2CWallHitSide),
-                                                                              gPedRefTable_7F8->GetPedId_420F10(GetPedRefIdx_420FF0()));
+                                                                              gPedRefTable_7F8->GetPedId(GetPedRefIdx()));
             if (pExplosion)
             {
-                pExplosion->SetDamageOwner(GetPedRefIdx_420FF0());
+                pExplosion->SetDamageOwner(GetPedRefIdx());
             }
             // Fall through
         }
@@ -2744,7 +2744,7 @@ void Object::HandleImpactNoSprite()
             return;
     }
 
-    const s32 ped_id = gPedRefTable_7F8->GetPedId_420F10(GetPedRefIdx_420FF0());
+    const s32 ped_id = gPedRefTable_7F8->GetPedId(GetPedRefIdx());
     if (ped_id)
     {
         Ped* pPed = gPedManager->PedById(ped_id);
@@ -2830,7 +2830,7 @@ void Object::HandleImpact(Sprite* pSprite)
                 break;
 
             case 3:
-                if (pSprite->AsCar_40FEB0())
+                if (pSprite->AsCar())
                 {
                     this->mTouchedResult = 1;
                 }
@@ -2848,7 +2848,7 @@ void Object::HandleImpact(Sprite* pSprite)
 
             case 4:
             case 5:
-                if (pSprite->AsCharB4_40FEA0())
+                if (pSprite->AsCharB4())
                 {
                     this->mTouchedResult = 1;
                 }
@@ -2869,7 +2869,7 @@ void Object::HandleImpact(Sprite* pSprite)
                 {
                     break;
                 }
-                if (pSprite->AsCharB4_40FEA0())
+                if (pSprite->AsCharB4())
                 {
                     this->mTouchedResult = 1;
                 }
@@ -2887,7 +2887,7 @@ void Object::HandleImpact(Sprite* pSprite)
         {
             if (pSprite)
             {
-                if (!IsPickup_421060() || !pSprite->IsControlledByRemotePlayer())
+                if (!IsPickup() || !pSprite->IsControlledByRemotePlayer())
                 {
                     gCollisionSoundQueue->AddSpriteCollision(mSprite, pSprite);
                 }
@@ -2935,7 +2935,7 @@ void Object::SetConveyorSpeed(s8 speed_x, s8 speed_y)
 MATCH_FUNC(0x529070)
 void Object::ApplyConveyorSpeedFrom(Object* pObj)
 {
-    SetConveyorPush(pObj->GetParam_421050());
+    SetConveyorPush(pObj->GetParam());
 }
 
 MATCH_FUNC(0x529080)
@@ -3033,7 +3033,7 @@ bool Object::IsNotModel_174() const
 MATCH_FUNC(0x529210)
 s32 Object::GetExplosionTypeForDiagonalWall() const
 {
-    switch (GetParam_421050())
+    switch (GetParam())
     {
         case 46: // diagonal up right
         case 48: // diagonal down right
@@ -3051,16 +3051,16 @@ s32 Object::GetMapBlockSoundSpec() const
     s32 result;
     gmp_block_info* pBlockInfo =
         gMap_0x370->GetBlock(mSprite->mXy.x.ToInt(), mSprite->mXy.y.ToInt(), mSprite->mZpos.ToInt());
-    switch (GetParam_421050())
+    switch (GetParam())
     {
         case 45u:
         case 47u:
-            result = gGtx_0x106C->GetSpecIgnoringRoadJunction_462FD0(pBlockInfo->mLeft & block_face::tile_idx_mask);
+            result = gGtx_0x106C->GetSpecIgnoringRoadJunction(pBlockInfo->mLeft & block_face::tile_idx_mask);
             break;
 
         case 46u:
         case 48u:
-            result = gGtx_0x106C->GetSpecIgnoringRoadJunction_462FD0(pBlockInfo->mRight & block_face::tile_idx_mask);
+            result = gGtx_0x106C->GetSpecIgnoringRoadJunction(pBlockInfo->mRight & block_face::tile_idx_mask);
             break;
 
         default:
@@ -3085,7 +3085,7 @@ void Object::SetDefaultWeaponAmmo()
 
     if (weapon_kind <= 27)
     {
-        SetParam_447E90(gWeapon_8->get_defalt_ammo(weapon_kind));
+        SetParam(gWeapon_8->get_defalt_ammo(weapon_kind));
     }
 }
 
@@ -3095,7 +3095,7 @@ void Object_5C::TrimSpriteList()
     for (s32 i = mListedSpriteCount - 88; i >= 0; i--)
     {
         Sprite* pSprite = mSpriteList.PopBackSprite();
-        Object* pObject = pSprite->AsObject2C_40FEC0();
+        Object* pObject = pSprite->AsObject2C();
         if (pObject->mModel == objects::mine_10)
         {
             if (gGame_0x40->IsSpriteInAnyPlayerBounds(pSprite, kFpZero_6F8E10))
@@ -3105,7 +3105,7 @@ void Object_5C::TrimSpriteList()
                                                   pSprite->mZpos,
                                                   kZeroAng_6F8F68,
                                                   explosion_type::small_18,
-                                                  gPedRefTable_7F8->GetPedId_420F10(pObject->GetPedRefIdx_420FF0()));
+                                                  gPedRefTable_7F8->GetPedId(pObject->GetPedRefIdx()));
             }
         }
         pObject->Dealloc();
@@ -3166,7 +3166,7 @@ Object_5C::Object_5C()
     mCollisionProbeSprite = gSpritePool->get_new_sprite();
     mCollisionProbeSprite->set_xyz_lazy_451950(0, 0, 0);
 
-    mCollisionProbeSprite->set_ang_lazy_420690(kZeroAng_6F8F68);
+    mCollisionProbeSprite->set_ang_lazy(kZeroAng_6F8F68);
     mCollisionProbeSprite->AllocCollisionShape(0, 0, 0);
 
     mDiagonalWallAng315 = NULL;
@@ -3209,16 +3209,16 @@ MATCH_FUNC(0x5297f0)
 void Object_5C::CreateDiagonalWallObjects()
 {
     mDiagonalWallAng315 = Object_5C::NewPhysicsObj(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng315);
-    mDiagonalWallAng315->SetParam_447E90(45);
+    mDiagonalWallAng315->SetParam(45);
 
     mDiagonalWallAng135 = Object_5C::NewPhysicsObj(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng135_6F8D80);
-    mDiagonalWallAng135->SetParam_447E90(48);
+    mDiagonalWallAng135->SetParam(48);
 
     mDiagonalWallAng225 = Object_5C::NewPhysicsObj(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng225);
-    mDiagonalWallAng225->SetParam_447E90(46);
+    mDiagonalWallAng225->SetParam(46);
 
     mDiagonalWallAng45 = Object_5C::NewPhysicsObj(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng45_6F8CD0);
-    mDiagonalWallAng45->SetParam_447E90(47);
+    mDiagonalWallAng45->SetParam(47);
 }
 
 MATCH_FUNC(0x5298e0)
@@ -3256,7 +3256,7 @@ Object* Object_5C::NewTouchPoint(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang
     Object* pNewObj = CreateObject(object_type, x, y, z, rot, false);
     if (pNewObj)
     {
-        pNewObj->mSprite->SetDimensions_482A40(w, h, depth);
+        pNewObj->mSprite->SetDimensions(w, h, depth);
         pNewObj->AssignToBucket();
     }
     return pNewObj;
@@ -3279,7 +3279,7 @@ Object* Object_5C::NewWithPedRefIdx(s32 object_type, u32 ped_ref_idx, Fix16 xpos
     Object* pNewObj = CreateObject(object_type, xpos, ypos, zpos, kZeroAng_6F8F68, false);
     if (pNewObj)
     {
-        pNewObj->SetParam_447E90(ped_ref_idx);
+        pNewObj->SetParam(ped_ref_idx);
         if (object_type == objects::sound_object_type_2_279)
         {
             pNewObj->RequestRemoval();
@@ -3294,7 +3294,7 @@ Object* Object_5C::NewLight_529A40(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb,
     Object* pNewObj = CreateObject(objects::light_165, xpos, ypos, zpos, kZeroAng_6F8F68, false);
     if (pNewObj)
     {
-        pNewObj->mpAny.pLight->SetColourRadiusIntensity_482D60(argb, radius, intensity);
+        pNewObj->mpAny.pLight->SetColourRadiusIntensity(argb, radius, intensity);
     }
     return pNewObj;
 }
@@ -3305,7 +3305,7 @@ Object* Object_5C::NewLight_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16
     Object* pNewObj = Object_5C::CreateObject(light_type, xpos, ypos, zpos, kZeroAng_6F8F68, false);
     if (pNewObj)
     {
-        pNewObj->mpAny.pLight->SetColourRadiusIntensity_482D60(argb, radius, intensity);
+        pNewObj->mpAny.pLight->SetColourRadiusIntensity(argb, radius, intensity);
     }
     return pNewObj;
 }
@@ -3324,8 +3324,8 @@ Object* Object_5C::NewFlashingLight(Fix16 xpos,
     Object* pNewObj = CreateObject(objects::light_165, xpos, ypos, zpos, kZeroAng_6F8F68, false);
     if (pNewObj)
     {
-        pNewObj->mpAny.pLight->SetColourRadiusIntensity_482D60(argb, radius, intensity);
-        gLight_1D4CC->SetFlashing_469070(pNewObj->mpAny.pLight, on_time, off_time, shape);
+        pNewObj->mpAny.pLight->SetColourRadiusIntensity(argb, radius, intensity);
+        gLight_1D4CC->SetFlashing(pNewObj->mpAny.pLight, on_time, off_time, shape);
     }
     return pNewObj;
 }
@@ -3489,7 +3489,7 @@ Object* Object_5C::CreateObject(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 z
     ++sObjectCounterUnused;
 
     pNewObject->mModel = object_type;
-    if (pNewObject->IsPickup_421060())
+    if (pNewObject->IsPickup())
     {
         pNewObject->SetDefaultWeaponAmmo();
     }
@@ -3506,7 +3506,7 @@ Object* Object_5C::CreateObject(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 z
     {
         if (pNewObject->mModel == objects::secret_token_266)
         {
-            pNewObject->SetParam_447E90(mUncollectedTokenIndex);
+            pNewObject->SetParam(mUncollectedTokenIndex);
             mUncollectedTokenIndex++;
         }
     }
@@ -3610,7 +3610,7 @@ Object* Object_5C::CreateExplosion(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 kin
             return NULL;
         }
 
-        pNewObject->mpAny.pExplosion->SetType_482A90(kind);
+        pNewObject->mpAny.pExplosion->SetType(kind);
         pNewObject->mpAny.pExplosion->SetObject(pNewObject);
         pNewObject->mpAny.pExplosion->mOwnerPedId = ped_id;
 
@@ -3653,13 +3653,13 @@ void Object_5C::SaveObjects(SavedObjectData* pData)
     Object* pObj = gObject_2C_Pool->mPool;
     for (u16 i = 0; i < 3825; pObj++, i++)
     {
-        if (pObj->mModel && pObj->IsPickup_421060())
+        if (pObj->mModel && pObj->IsPickup())
         {
-            pData->mObjX[0][saved_count].mValue = pObj->GetX_4340D0();
-            pData->mObjX[1][saved_count].mValue = pObj->GetY_4340E0();
-            pData->mObjX[2][saved_count].mValue = pObj->GetZ_4340F0();
+            pData->mObjX[0][saved_count].mValue = pObj->GetX();
+            pData->mObjX[1][saved_count].mValue = pObj->GetY();
+            pData->mObjX[2][saved_count].mValue = pObj->GetZ();
             pData->mModel[saved_count] = pObj->mModel;
-            pData->mPickupAmmo[saved_count] = pObj->GetAmmo_4340A0();
+            pData->mPickupAmmo[saved_count] = pObj->GetAmmo();
             saved_count++;
             if (saved_count >= 20)
             {
@@ -3681,7 +3681,7 @@ void Object_5C::RestoreObjects(SavedObjectData* pData)
                                                    pData->mObjX[1][i].mValue,
                                                    pData->mObjX[2][i].mValue,
                                                    kZeroAng_6F8F68);
-            pNewObj->SetParam_447E90(pData->mPickupAmmo[i]);
+            pNewObj->SetParam(pData->mPickupAmmo[i]);
         }
     }
 
@@ -3724,10 +3724,10 @@ void Object::OnAttachedToSprite(Sprite* pSprite)
 
     PoolTake();
 
-    Car* pCar = pSprite->AsCar_40FEB0();
+    Car* pCar = pSprite->AsCar();
     if (pCar)
     {
-        mSprite->SetDrawLayer_40F7B0(pCar->GetAttachedDrawLayer());
+        mSprite->SetDrawLayer(pCar->GetAttachedDrawLayer());
     }
 }
 

@@ -32,7 +32,7 @@ Gang* GangPool::FirstGang()
 {
     for (sGangIdx = 0; sGangIdx < GTA2_COUNTOF_S(mGangList); sGangIdx++)
     {
-        if (mGangList[sGangIdx].mUsed && mGangList[sGangIdx].HasKillRespectChange_45DD50())
+        if (mGangList[sGangIdx].mUsed && mGangList[sGangIdx].HasKillRespectChange())
         {
             return &mGangList[sGangIdx];
         }
@@ -45,7 +45,7 @@ Gang* GangPool::NextGang()
 {
     while (++sGangIdx < GTA2_COUNTOF_S(mGangList))
     {
-        if (mGangList[sGangIdx].mUsed && mGangList[sGangIdx].HasKillRespectChange_45DD50())
+        if (mGangList[sGangIdx].mUsed && mGangList[sGangIdx].HasKillRespectChange())
         {
             return &mGangList[sGangIdx];
         }

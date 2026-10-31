@@ -457,7 +457,7 @@ EXPORT void __stdcall NoRefs_sub()
     gGtx_0x106C->get_sprite_index(
         gGtx_0x106C->GetSpriteTrueIndex(sprite_types_enum::font_7,
                                                       gGtx_0x106C->GetSpriteIdxFromFont(gKanjiSmallFont, 0)));
-    block.init_44C840();
+    block.init();
     block.mLeft = 7206;
     block.mRight = 7206;
     block.mTop = 7206;
@@ -489,9 +489,9 @@ EXPORT void __stdcall NoRefs_sub()
     gMap_0x370->AddNewBlock(112, 152, 2, &block);
     gTestCar1 =
         gCarManager_6C->SpawnCarAtCorrectZ_Scaled(Fix16(98), Fix16(180), kAng90_70420C, car_model_enum::GT24640, kFpHalf_7042A4);
-    gTestCar1->LockPermanently_475C30();
+    gTestCar1->LockPermanently();
     gTestCar1->IncrementCarStats(car_kind::mission_car_8);
-    gTestCar1->SetMiniCar_476270();
+    gTestCar1->SetMiniCar();
     gTestCar1->UpdateDrawLayer();
     gWeapon_8->allocate_5E3D50(23, 1, gTestCar1);
     gTestCar1->IsBeingCrushed();
@@ -608,16 +608,16 @@ EXPORT void __stdcall NoRefs_sub()
     gObject_5C->NewPhysicsObj(240, 113, 180, 2, kAng0_704500);
     gObject_5C->NewPhysicsObj(247, 107, 180, 2, kAng0_704500);
     gTestObject = gObject_5C->NewPhysicsObj(objects::car_shop_130, 107, 180, 2, kAng0_704500);
-    gTestObject->SetParam_447E90(1);
+    gTestObject->SetParam(1);
     gObject_5C->NewPhysicsObj(247, 105, 180, 2, kAng0_704500);
     gTestObject = gObject_5C->NewPhysicsObj(objects::car_shop_130, 105, 180, 2, kAng0_704500);
-    gTestObject->SetParam_447E90(254);
+    gTestObject->SetParam(254);
     gObject_5C->NewPhysicsObj(247, 103, 180, 2, kAng0_704500);
     gTestObject = gObject_5C->NewPhysicsObj(objects::car_shop_130, 103, 180, 2, kAng0_704500);
-    gTestObject->SetParam_447E90(250);
+    gTestObject->SetParam(250);
     gObject_5C->NewPhysicsObj(175, 101, 180, 2, kAng0_704500);
     gTestObject = gObject_5C->NewPhysicsObj(objects::car_shop_130, 101, 180, 2, kAng0_704500);
-    gTestObject->SetParam_447E90(252);
+    gTestObject->SetParam(252);
     gObject_5C->NewPhysicsObj(objects::cone_3, 106, 180, 2, kAng0_704500);
     gObject_5C->NewPhysicsObj(objects::footy_13, 107, 180, 2, kAng0_704500);
     gObject_5C->NewPhysicsObj(objects::invisible_powergen_283, 108, 180, 2, kAng0_704500);
@@ -1061,7 +1061,7 @@ void ClearGlobalArrow()
 {
     if (gpArrow)
     {
-        gpArrow->ClearTargets_476880();
+        gpArrow->ClearTargets();
     }
 }
 
@@ -1858,7 +1858,7 @@ void CC ImGuiDebugDraw()
                         CarAI* pAI_Iter = pCarIter->mAI;
                         if (pAI_Iter && pCarIter->mCarSprite)
                         {
-                            Fix16 curr_dist = Fix16::MaxAbsDistance_42A6B0(pPlayerSprt->mXy.x, pPlayerSprt->mXy.y,
+                            Fix16 curr_dist = Fix16::MaxAbsDistance(pPlayerSprt->mXy.x, pPlayerSprt->mXy.y,
                                                         pCarIter->mCarSprite->mXy.x, pCarIter->mCarSprite->mXy.y);
                             if (curr_dist < smallest)
                             {
@@ -1938,7 +1938,7 @@ void CC ImGuiDebugDraw()
                 {
                     if (spawned_obj->mSprite)
                     {
-                        spawned_obj->mSprite->set_id_lazy_4206C0(sprt_lazy_idx);
+                        spawned_obj->mSprite->set_id_lazy(sprt_lazy_idx);
                     }
                 }
                 Object_3C* obj_3c = spawned_obj->mObj3c;
@@ -1984,7 +1984,7 @@ void CC ImGuiDebugDraw()
                             if (spawned_obj != NULL && spawned_obj->mSprite)
                             {
                                 spawned_obj->mSprite->mSpriteTypeEnum = sprite_types_enum::code_obj1_4;
-                                spawned_obj->mSprite->set_id_lazy_4206C0(id);
+                                spawned_obj->mSprite->set_id_lazy(id);
                             }
                             break;
                         }
@@ -2225,7 +2225,7 @@ void CC ImGuiDebugDraw()
                                 pPlayerPed->get_cam_x(),
                                 pPlayerPed->get_cam_y(),
                                 pPlayerPed->get_cam_z(),
-                                pPlayerPed->GetAimAngle_4CCA90(),
+                                pPlayerPed->GetAimAngle(),
                                 pPlayerPed->GetVelocityVector());
                         }
                     }
@@ -2853,15 +2853,15 @@ void CC ImGuiDebugDraw()
                 ImGui::Value("Type", gCollisionTarget.mType);
                 if (gCollisionTarget.mpHitSprite)
                 {
-                    if (gCollisionTarget.mpHitSprite->AsCharB4_40FEA0())
+                    if (gCollisionTarget.mpHitSprite->AsCharB4())
                     {
                         PointArrowToEntity(gCollisionTarget.mpHitSprite->mCharB4Ptr->mpPed, NULL, NULL);
                     }
-                    else if (gCollisionTarget.mpHitSprite->AsCar_40FEB0())
+                    else if (gCollisionTarget.mpHitSprite->AsCar())
                     {
                         PointArrowToEntity(NULL, gCollisionTarget.mpHitSprite->mCarBcPtr, NULL);
                     }
-                    else if (gCollisionTarget.mpHitSprite->AsObject2C_40FEC0())
+                    else if (gCollisionTarget.mpHitSprite->AsObject2C())
                     {
                         PointArrowToEntity(NULL, NULL, gCollisionTarget.mpHitSprite->mObject2CPtr);
                     }
@@ -2915,8 +2915,8 @@ void CC ImGuiDebugDraw()
                     pParticle->mCounter = counter;
                     pParticle->mInitialCounter = initial_counter;
 
-                    pParticle->mpOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
-                    pParticle->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 132);
+                    pParticle->mpOwnSprite->SetType(sprite_types_enum::code_obj2_8);
+                    pParticle->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 132);
                     pParticle->mSubState = 0;
                     pParticle->mTimer = timer;
                     pParticle->mpOwnSprite->set_xyz_lazy_420600(pPlayerSprite->mXy.x, pPlayerSprite->mXy.y, pPlayerSprite->mZpos);

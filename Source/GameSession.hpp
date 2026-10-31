@@ -22,19 +22,19 @@ class Player;
 struct GameSession
 {
     // 9.6f 0x453A80
-    inline s32 get_secret_tokens_collected_453A80() const
+    inline s32 get_secret_tokens_collected() const
     {
         return mSecretTokensCollected;
     }
 
     // 9.6f 0x476B10
-    inline void set_secret_tokens_collected_476B10(s32 count)
+    inline void set_secret_tokens_collected(s32 count)
     {
         mSecretTokensCollected = count;
     }
 
     // 9.6f 0x434A10
-    inline void IncSecretTokensCollected_434A10()
+    inline void IncSecretTokensCollected()
     {
         mSecretTokensCollected++;
     }
@@ -48,7 +48,7 @@ struct GameSession
     }
 
     // 9.6f 0x453A60
-    inline void DecodeStage_453A60(u8 stage, u8* pMainStageIdx, u8* pBonusStageIdx)
+    inline void DecodeStage(u8 stage, u8* pMainStageIdx, u8* pBonusStageIdx)
     {
         *pMainStageIdx = stage >> 4;
         *pBonusStageIdx = stage & 0xF;
@@ -95,7 +95,7 @@ struct GameSession
     }
 
     // 9.6f 0x461DC0
-    inline s32 GetTimeLimit_461DC0() const
+    inline s32 GetTimeLimit() const
     {
         return mGameTimeLimit;
     }
@@ -197,7 +197,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(GameSession, 0x578);
 EXTERN_GLOBAL(GameSession, gGameSession);
 
 // 9.6f 0x434B20
-inline bool IsTagGame_434B20()
+inline bool IsTagGame()
 {
     return gGameSession.GetMultiplayerGamemode() == TAG_GAME_3;
 }

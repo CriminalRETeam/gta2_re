@@ -58,13 +58,13 @@ class PedListNodePool
     }
 
     // 9.6f 0x445EF0
-    inline PedListNode* Allocate_445EF0()
+    inline PedListNode* Allocate()
     {
         return mPool.Allocate();
     }
 
     // 9.6f 0x445F00
-    inline void DeAllocate_445F00(PedListNode* pItem)
+    inline void DeAllocate(PedListNode* pItem)
     {
         mPool.DeAllocate(pItem);
     }
@@ -132,7 +132,7 @@ class PedPool
 
     // 9.6f 0x445960
     // Pool::UpdatePool with the next item stored in both branches
-    void UpdatePool_445960()
+    void UpdatePool()
     {
         mPool.field_X_count = 0;
 
@@ -188,7 +188,7 @@ class PedPool
     }
 
     // 9.6f 0x435530
-    inline Ped* GetFirstPed_435530() const
+    inline Ped* GetFirstPed() const
     {
         return mPool.mpPrev;
     }

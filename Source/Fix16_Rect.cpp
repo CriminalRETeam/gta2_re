@@ -30,8 +30,8 @@ bool Fix16_Rect::IntersectsSpriteRenderingRect(Sprite* pSprite)
 {
     Fix16_Point* pCorners = pSprite->mpCollisionShape->mCorners;
 
-    return (IsPointInRect_4B9FD0(&pCorners[0]) || IsPointInRect_4B9FD0(&pCorners[1]) 
-        || IsPointInRect_4B9FD0(&pCorners[2]) || IsPointInRect_4B9FD0(&pCorners[3]));
+    return (IsPointInRect(&pCorners[0]) || IsPointInRect(&pCorners[1]) 
+        || IsPointInRect(&pCorners[2]) || IsPointInRect(&pCorners[3]));
 }
 
 MATCH_FUNC(0x59de80)

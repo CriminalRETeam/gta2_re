@@ -259,7 +259,7 @@ void Player::SetKFCarWeapon(Car* pCar, s32 weapon_kind)
     this->mKfCar = pCar;
     this->mKfCarId = pCar->mCarId;
 
-    pWeapon->set_infinite_ammo_4A4F90();
+    pWeapon->set_infinite_ammo();
 
     Ped* pDriver = pCar->mDriver;
     if (pDriver)
@@ -278,7 +278,7 @@ void Player::SetKFWeapon(s32 weapon_idx)
     this->mPreKfWeaponKind = this->mCurrWeaponIdx;
     this->mKfWeaponKind = weapon_idx;
     this->mPreKfAmmo = this->mWeapons[weapon_idx]->get_ammo_4A4FE0();
-    this->mWeapons[weapon_idx]->set_infinite_ammo_4A4F90();
+    this->mWeapons[weapon_idx]->set_infinite_ammo();
     this->mCurrWeaponIdx = this->mKfWeaponKind;
     EnableKFMode();
 }
@@ -293,10 +293,10 @@ void Player::ClearKFWeapon()
             if (mKfCar->mCarId == this->mKfCarId)
             {
                 Weapon* pWeapon = gWeapon_8->find(mKfCar, this->mKfWeaponKind);
-                pWeapon->SetAmmo_4A4FF0(this->mPreKfAmmo);
+                pWeapon->SetAmmo(this->mPreKfAmmo);
                 if (!this->mPreKfAmmo)
                 {
-                    gWeapon_30_Pool->DeAllocate_4A4F20(pWeapon);
+                    gWeapon_30_Pool->DeAllocate(pWeapon);
                     Ped* pDriver = this->mKfCar->mDriver;
                     if (pDriver)
                     {
@@ -320,7 +320,7 @@ void Player::ClearKFWeapon()
             else
             {
                 DisableKFMode();
-                this->mWeapons[this->mKfWeaponKind]->SetAmmo_4A4FF0(this->mPreKfAmmo);
+                this->mWeapons[this->mKfWeaponKind]->SetAmmo(this->mPreKfAmmo);
                 this->mCurrWeaponIdx = this->mPreKfWeaponKind;
             }
         }
@@ -364,7 +364,7 @@ bool Player::AddWeaponWithAmmo(s32 weapon_kind, u8 ammo)
     bool bHasAnyAmmo;
     bool bAmmoAdded;
 
-    if (GetPlayerPed_4A5130()->get_car_416B60())
+    if (GetPlayerPed_4A5130()->get_car())
     {
         bHasAnyAmmo = false;
     }
@@ -396,7 +396,7 @@ void Player::SelectNextOrPrevWeapon(bool go_forwards, bool go_backwards)
     if (!mKfWeaponMode)
     {
         s32 max_idx;
-        if (!pPlayerPed || !pPlayerPed->get_car_416B60())
+        if (!pPlayerPed || !pPlayerPed->get_car())
         {
             max_idx = weapon_type::car_bomb; // 15
         }
@@ -427,7 +427,7 @@ void Player::SelectNextOrPrevWeapon(bool go_forwards, bool go_backwards)
                 pWeapon = mWeapons[mCurrWeaponIdx];
                 if (pWeapon)
                 {
-                    if (pWeapon->HasAmmo_4A4F80())
+                    if (pWeapon->HasAmmo())
                     {
                         break;
                     }
@@ -440,7 +440,7 @@ void Player::SelectNextOrPrevWeapon(bool go_forwards, bool go_backwards)
             if (mCurrWeaponIdx != -1)
             {
                 pWeapon = mWeapons[mCurrWeaponIdx];
-                if (!pWeapon || !pWeapon->HasAmmo_4A4F80())
+                if (!pWeapon || !pWeapon->HasAmmo())
                 {
                     mBlockAttack = true;
                 }
@@ -473,7 +473,7 @@ void Player::SelectNextOrPrevWeapon(bool go_forwards, bool go_backwards)
             pWeapon = mWeapons[dec_idx];
             if (pWeapon)
             {
-                if (pWeapon->HasAmmo_4A4F80())
+                if (pWeapon->HasAmmo())
                 {
                     break;
                 }
@@ -529,7 +529,7 @@ void Player::CleanupEmptyAmmoWeapons()
         {
             if (!mWeapons[i]->mAmmo)
             {
-                gWeapon_30_Pool->DeAllocate_4A4F20(mWeapons[i]);
+                gWeapon_30_Pool->DeAllocate(mWeapons[i]);
             }
         }
         mWeapons[i] = NULL;
@@ -566,7 +566,7 @@ void Player::RemovePlayerWeapons()
         if ((!gCheatUnlimitedElectroGun || pWeapon->mWeaponType != weapon_type::shocker) &&
             (!gCheatUnlimitedFlameThrower || pWeapon->mWeaponType != weapon_type::flamethrower))
         {
-            if (pWeapon->HasAmmo_4A4F80())
+            if (pWeapon->HasAmmo())
             {
                 pWeapon->set_ammo_clips(0);
             }
@@ -613,7 +613,7 @@ void Player::ClearPowerUpsExceptJailCard()
     }
     if (mPowerUpTimers[power_up_indices::Electrofingers_9])
     {
-        mPlayerPed->ClearElectrofingers_482080();
+        mPlayerPed->ClearElectrofingers();
     }
     if (mPowerUpTimers[power_up_indices::Invisibility_11])
     {
@@ -636,7 +636,7 @@ bool Player::CollectPowerUp(s32 power_up_idx)
             {
                 return false;
             }
-            ChangeMultipliers_4766B0(1);
+            ChangeMultipliers(1);
             break;
 
         case power_up_indices::ExtraLife_1:
@@ -648,11 +648,11 @@ bool Player::CollectPowerUp(s32 power_up_idx)
             break;
 
         case power_up_indices::Health_2:
-            if (mPlayerPed->get_health_433B70() >= 100)
+            if (mPlayerPed->get_health() >= 100)
             {
                 return false;
             }
-            mPlayerPed->SetFullHealth_4A5050();
+            mPlayerPed->SetFullHealth();
             break;
 
         case power_up_indices::Armor_3:
@@ -664,11 +664,11 @@ bool Player::CollectPowerUp(s32 power_up_idx)
             break;
 
         case power_up_indices::CopBribe_5:
-            if (mPlayerPed->get_wanted_points_433DC0() == 0)
+            if (mPlayerPed->get_wanted_points() == 0)
             {
                 return false;
             }
-            mPlayerPed->ClearWantedPoints_420B80();
+            mPlayerPed->ClearWantedPoints();
             break;
 
         case power_up_indices::Invulnerability_6:
@@ -702,7 +702,7 @@ bool Player::CollectPowerUp(s32 power_up_idx)
                 return false;
             }
             this->mPowerUpTimers[power_up_indices::Electrofingers_9] = 2100;
-            this->mPlayerPed->SetElectrofingers_4A5060();
+            this->mPlayerPed->SetElectrofingers();
             break;
 
         case power_up_indices::Invisibility_11:
@@ -727,7 +727,7 @@ bool Player::CollectPowerUp(s32 power_up_idx)
             break;
 
         case power_up_indices::InstantGang_12:
-            if (!mPlayerPed->get_game_object_4A5020())
+            if (!mPlayerPed->get_game_object())
             {
                 return false;
             }
@@ -774,7 +774,7 @@ void Player::tick_down_powerups()
         mPowerUpTimers[power_up_indices::Electrofingers_9]--;
         if (!mPowerUpTimers[power_up_indices::Electrofingers_9])
         {
-            mPlayerPed->ClearElectrofingers_482080();
+            mPlayerPed->ClearElectrofingers();
         }
     }
 
@@ -806,7 +806,7 @@ void Player::RestorePowerUpsFromSave(SavedPlayerStats* pSave)
                     mPlayerPed->SetInvulnerable();
                     break;
                 case power_up_indices::Electrofingers_9:
-                    mPlayerPed->SetElectrofingers_4A5060();
+                    mPlayerPed->SetElectrofingers();
                     break;
                 case power_up_indices::Invisibility_11:
                     mPlayerPed->SetInvisible();
@@ -824,7 +824,7 @@ void Player::TeleportToDebugCam()
     memcpy(&this->mGameCamera, &this->mViewCamera, sizeof(this->mGameCamera));
     this->mInDebugCamMode = 0;
     this->mCameraMode = 0;
-    this->mGameCamera.SetSmoothFollow_475B60();
+    this->mGameCamera.SetSmoothFollow();
     gHud_2B00->mMessage.ShowMessage(gText_0x14->Find("tport"), hud_message_priority::important_3);
 }
 
@@ -935,7 +935,7 @@ void Player::Hud_Controls(u16 action)
             case DIK_ESCAPE:
                 if (bSkip_quit_confirm)
                 {
-                    if (this->IsUser_41DC70())
+                    if (this->IsUser())
                     {
                         gGame_0x40->ExitGameNoBonus(1, GameExitType::PlayerQuit_2);
                     }
@@ -1002,19 +1002,19 @@ void Player::Hud_Controls(u16 action)
                 gGame_0x40->TogglePause();
                 break;
             case DIK_F7:
-                if (this->IsUser_41DC70())
+                if (this->IsUser())
                 {
                     gHud_2B00->mBrief.ShowBrief();
                 }
                 break;
             case DIK_F8:
-                if (this->IsUser_41DC70())
+                if (this->IsUser())
                 {
                     Start_GTA2Manager();
                 }
                 break;
             case DIK_F9:
-                if (this->IsUser_41DC70())
+                if (this->IsUser())
                 {
                     gHud_2B00->mZoneName.clear_zones();
                 }
@@ -1029,14 +1029,14 @@ void Player::Hud_Controls(u16 action)
                 if (bDo_debug_keys)
                 {
                     this->mCameraMode = 0;
-                    this->mGameCamera.SetSmoothFollow_475B60();
+                    this->mGameCamera.SetSmoothFollow();
                 }
                 break;
             case DIK_F12:
                 if (bDo_debug_keys)
                 {
                     this->mCameraMode = 1;
-                    this->mGameCamera.SetSnapFollow_4A5070();
+                    this->mGameCamera.SetSnapFollow();
                 }
                 break;
             case DIK_ADD:
@@ -1048,7 +1048,7 @@ void Player::Hud_Controls(u16 action)
             case DIK_SUBTRACT:
                 if (bDo_debug_keys)
                 {
-                    gGame_0x40->ToggleFastForward_4A4750();
+                    gGame_0x40->ToggleFastForward();
                 }
                 break;
             case DIK_NUMPAD2:
@@ -1141,9 +1141,9 @@ void Player::Hud_Controls(u16 action)
             case DIK_C:
                 if (bDo_debug_keys)
                 {
-                    if (this->IsUser_41DC70())
+                    if (this->IsUser())
                     {
-                        gHud_2B00->mShowCoords.ToggleShowCoords_4A4760();
+                        gHud_2B00->mShowCoords.ToggleShowCoords();
                     }
                 }
                 break;
@@ -1177,7 +1177,7 @@ void Player::Hud_Controls(u16 action)
                 {
                     if (mPlayerPed)
                     {
-                        mPlayerPed->ClearWantedPoints_420B80();
+                        mPlayerPed->ClearWantedPoints();
                     }
                 }
                 break;
@@ -1350,28 +1350,28 @@ MATCH_FUNC(0x5668D0)
 void Player::HandleControls(Ped* pPed)
 {
     bool bNoPed = (pPed == NULL);
-    Car* pPedCar = pPed->get_car_416B60();
+    Car* pPedCar = pPed->get_car();
 
     if (bNoPed)
     {
         return;
     }
-    if (pPed->GetPedState_403990() == ped_state_1::dead_9)
+    if (pPed->GetPedState() == ped_state_1::dead_9)
     {
         return;
     }
     if (mNowEnterExitPressed && mEnterExitChanged)
     {
-        if (!pPed->has_car_403B80())
+        if (!pPed->has_car())
         {
-            if (pPed->get_objective_403A80() != objectives_enum::leave_car_36)
+            if (pPed->get_objective() != objectives_enum::leave_car_36)
             {
                 Car* pCar = gCarManager_6C->GetNearestFrontVehicle(pPed->mGameObject->mSpritePtr, 3u);
                 if (pCar)
                 {
                     pPed->SetObjective2(objectives_enum::no_obj_0);
 
-                    if (pCar->IsTrainModel_403BA0())
+                    if (pCar->IsTrainModel())
                     {
                         pPed->SetObjective(objectives_enum::enter_train_37);
                     }
@@ -1381,8 +1381,8 @@ void Player::HandleControls(Ped* pPed)
                     }
 
                     pPed->SetTargetObjectiveCar(pCar);
-                    pPed->set_enter_car_as_passenger_4039B0(0);
-                    pPed->set_target_car_door_403A70(0);
+                    pPed->set_enter_car_as_passenger(0);
+                    pPed->set_target_car_door(0);
                 }
             }
         }
@@ -1391,7 +1391,7 @@ void Player::HandleControls(Ped* pPed)
             if (pPedCar->CanExitCar())
             {
                 pPed->SetObjective2(objectives_enum::no_obj_0);
-                if (pPed->get_car_416B60()->mCarInfoIdx == car_model_enum::TRAIN)
+                if (pPed->get_car()->mCarInfoIdx == car_model_enum::TRAIN)
                 {
                     pPed->SetObjective(objectives_enum::leave_train_38);
                 }
@@ -1399,18 +1399,18 @@ void Player::HandleControls(Ped* pPed)
                 {
                     pPed->SetObjective(objectives_enum::leave_car_36);
                 }
-                pPed->SetTargetObjectiveCar(pPed->get_car_416B60());
+                pPed->SetTargetObjectiveCar(pPed->get_car());
             }
         }
     }
     else
     {
-        s32 objective = pPed->get_objective_403A80();
+        s32 objective = pPed->get_objective();
         if (objective == objectives_enum::enter_car_as_driver_35 || objective == objectives_enum::enter_train_37)
         {
-            if (pPed->GetPedState_403990() != ped_state_1::in_car_10)
+            if (pPed->GetPedState() != ped_state_1::in_car_10)
             {
-                if (pPed->GetObjectiveStatus_450CB0() == objective_status::failed_2 || !pPed->get_target_objective_car_403AB0())
+                if (pPed->GetObjectiveStatus() == objective_status::failed_2 || !pPed->get_target_objective_car())
                 {
                     pPed->SetObjective(objectives_enum::no_obj_0);
                     pPed->SetObjective2(objectives_enum::no_obj_0);
@@ -1419,7 +1419,7 @@ void Player::HandleControls(Ped* pPed)
             }
             else
             {
-                if (pPed->GetObjectiveStatus_450CB0() != objective_status::not_finished_0)
+                if (pPed->GetObjectiveStatus() != objective_status::not_finished_0)
                 {
                     pPed->SetObjective(objectives_enum::no_obj_0);
                     pPed->SetObjective2(objectives_enum::no_obj_0);
@@ -1440,14 +1440,14 @@ void Player::HandleControls(Ped* pPed)
         {
             if (mCurrWeaponIdx == -1)
             {
-                pPed->SetAttacking_4A5010();
+                pPed->SetAttacking();
             }
             else
             {
                 bNoPed = !mWeapons[mCurrWeaponIdx]->CanFireWhileHeld();
                 if (!bNoPed)
                 {
-                    pPed->SetAttacking_4A5010();
+                    pPed->SetAttacking();
                 }
                 else
                 {
@@ -1457,15 +1457,15 @@ void Player::HandleControls(Ped* pPed)
         }
         else
         {
-            pPed->SetAttacking_4A5010();
+            pPed->SetAttacking();
         }
     }
 
     if (pPedCar)
     {
-        if (pPed->not_enter_car_as_passenger_4A5040())
+        if (pPed->not_enter_car_as_passenger())
         {
-            if (pPedCar->IsTrainModel_403BA0())
+            if (pPedCar->IsTrainModel())
             {
                 Player::DoPedControlInputs(pPed);
             }
@@ -1597,10 +1597,10 @@ void Player::DoPedControlInputs(Ped* pPed)
     // --- Jump / handbrake ---
     if (mNowHandBrakeOrJumpPressed == 1 && mHandBrakeOrJumpChanged)
     {
-        if (pPed->mGameObject && pPed->mGameObject->GetCharState_433A80() != Char_B4_state::Jumping_15 &&
+        if (pPed->mGameObject && pPed->mGameObject->GetCharState() != Char_B4_state::Jumping_15 &&
             pPed->mBf21C.bLeftVehicle == 0)
         {
-            pPed->DoJump_433C40();
+            pPed->DoJump();
         }
     }
 
@@ -1609,7 +1609,7 @@ void Player::DoPedControlInputs(Ped* pPed)
     {
         if (mNowSpecial1Pressed && mSpecial1Changed && !mNowAttackPressed)
         {
-            pPed->SetVoiceEventIfNotOnFire_433DD0(20);
+            pPed->SetVoiceEventIfNotOnFire(20);
         }
     }
 }
@@ -1620,7 +1620,7 @@ void Player::ShowDebugInfo(bool skip)
     if (!skip)
     {
         Ped* pPed = GetPlayerPed_4A5130();
-        Car* pCar = pPed->get_car_416B60();
+        Car* pCar = pPed->get_car();
 
         if (pCar)
         {
@@ -1672,14 +1672,14 @@ void Player::ShowDebugInfo(bool skip)
 MATCH_FUNC(0x5670B0)
 void Player::RespawnPlayer()
 {
-    if (!IsNetworkGame_434B10() && !mBusted)
+    if (!IsNetworkGame() && !mBusted)
     {
         Player::ChangeLifeCountByAmount(-1);
     }
     if (mLives.get_value() > 0)
     {
         gmp_map_zone* pZone;
-        if (IsNetworkGame_434B10())
+        if (IsNetworkGame())
         {
             pZone = gMap_0x370->GetNextZoneOfTypeRoundRobin(0x10u);
         }
@@ -1721,7 +1721,7 @@ void Player::Wasted()
 
         (&gTagGame)
             ->UpdateFugitive( //  tag mode death handler
-                gGame_0x40->GetPlayer_4219E0(get_idx_4219D0()),
+                gGame_0x40->GetPlayer(get_idx()),
                 player_killer); //  if player_killer != NULL then 'player_killer' now is "IT"
     }
 
@@ -1729,7 +1729,7 @@ void Player::Wasted()
     mPlayerPed->ClearAttacking_403A40();
     if (!mWastedOrBusted)
     {
-        if (IsUser_41DC70())
+        if (IsUser())
         {
             if (mLives.get_value() > 1 || bStartNetworkGame)
             {
@@ -1744,7 +1744,7 @@ void Player::Wasted()
                 gRoot_sound.PlayVoice(voice_line::game_over_21);
             }
         }
-        SetDeathType_434950(0);
+        SetDeathType(0);
         if (mAuxCamActive)
         {
             Player::ResetAuxCamera();
@@ -1784,7 +1784,7 @@ void Player::Wasted()
                 }
                 mCameraMode = 0;
                 mGameCamera.ResetCameraSmoothing();
-                mGameCamera.SetSmoothFollow_475B60();
+                mGameCamera.SetSmoothFollow();
 
                 if (mAuxPed != NULL)
                 {
@@ -1832,12 +1832,12 @@ void Player::Busted()
     if (!mWastedOrBusted)
     {
         gRoot_sound.PlayVoice(voice_line::busted_17);
-        SetDeathType_434950(3);
-        if (IsUser_41DC70())
+        SetDeathType(3);
+        if (IsUser())
         {
             gHud_2B00->mMessage.ShowMessage(gText_0x14->Find(Player::GetDeathText()), hud_message_priority::normal_1);
         }
-        SetDeathType_434950(0);
+        SetDeathType(0);
         mWastedOrBusted = true;
         mDeathCountdown = 70;
         if (mAuxCamActive)
@@ -1859,7 +1859,7 @@ void Player::Busted()
         mAuxCamActive = true;
         Player::RespawnPlayer();
         mPlayerPed->mShockCounter = 0;
-        mPlayerPed->ClearWantedPoints_420B80();
+        mPlayerPed->ClearWantedPoints();
         mPlayerPed->mBf21C.bBusted = 0;
     }
     else
@@ -1877,11 +1877,11 @@ void Player::Busted()
             {
                 gHud_2B00->mMessage.ClearTimeToShow();
                 Player::ClearKFWeapon();
-                if (HasPowerUp_434920(power_up_indices::JailCard_4))
+                if (HasPowerUp(power_up_indices::JailCard_4))
                 {
                     if (!gCheatUnlimitedJailCard)
                     {
-                        DecPowerUp_434940(power_up_indices::JailCard_4);
+                        DecPowerUp(power_up_indices::JailCard_4);
                     }
                 }
                 else
@@ -1897,11 +1897,11 @@ void Player::Busted()
                     {
                         multiplers = 1;
                     }
-                    mMultipliers.SetValueClamped_4A50B0(multiplers);
+                    mMultipliers.SetValueClamped(multiplers);
                 }
                 mCameraMode = 0;
                 mGameCamera.ResetCameraSmoothing();
-                mGameCamera.SetSmoothFollow_475B60();
+                mGameCamera.SetSmoothFollow();
                 mAuxPed->mShockCounter = 0;
                 mAuxPed->mShockCounter = 0;
                 mAuxPed->mWantedPoints = cop_level_ped_enum::cop_0_stars;
@@ -1917,7 +1917,7 @@ void Player::Busted()
             if (mDeathCountdown == 2 && mLives.mValue > 0 && gGameSession.IsBonusStage() != 1)
             {
                 mPlayerPed->mShockCounter = 0;
-                mPlayerPed->ClearWantedPoints_420B80();
+                mPlayerPed->ClearWantedPoints();
                 mPlayerPed->SetObjective(objectives_enum::call_police_car_54, 60);
                 mPlayerPed->SetTargetObjectiveCar(NULL);
             }
@@ -2000,7 +2000,7 @@ void Player::Disconnect()
     {
         pPed->BecomeDummyOnPlayerDisconnect();
     }
-    set_in_use_4A5170(false);
+    set_in_use(false);
 }
 
 MATCH_FUNC(0x5687F0)
@@ -2143,7 +2143,7 @@ void Player::Service()
 
     if (this->mInDebugCamMode == 1)
     {
-        this->mViewCamera.SetSnapFollow_4A5070();
+        this->mViewCamera.SetSnapFollow();
 
         mViewCamera.MoveTarget(this->mDbgCamNorth,
                                          this->mDbgCamSouth,
@@ -2167,7 +2167,7 @@ void Player::Service()
             this->mBusted = true;
         }
 
-        if (mPlayerPed->GetPedState_403990() == ped_state_1::dead_9 && !mBusted)
+        if (mPlayerPed->GetPedState() == ped_state_1::dead_9 && !mBusted)
         {
             Player::Wasted();
         }
@@ -2181,7 +2181,7 @@ void Player::Service()
     {
         if (mAuxPed)
         {
-            if (mAuxPed->GetPedState_403990() == ped_state_1::dead_9 && !this->mWastedOrBusted)
+            if (mAuxPed->GetPedState() == ped_state_1::dead_9 && !this->mWastedOrBusted)
             {
                 Player::UpdateAuxPedDeath();
             }
@@ -2240,7 +2240,7 @@ void Player::UpdatePaused()
     }
     if (mInDebugCamMode == 1)
     {
-        mViewCamera.SetSnapFollow_4A5070();
+        mViewCamera.SetSnapFollow();
         mViewCamera.MoveTarget(mDbgCamNorth,
                                          mDbgCamSouth,
                                          mDbgCamWest,
@@ -2254,22 +2254,22 @@ void Player::UpdatePaused()
 MATCH_FUNC(0x569530)
 void Player::EndRemoteControl()
 {
-    Car* pCar = mAuxPed->get_car_416B60();
+    Car* pCar = mAuxPed->get_car();
     if (pCar->mDriver)
     {
         pCar->ClearDriver();
     }
 
-    pCar->UnlockUnlessPermanent_475C80();
+    pCar->UnlockUnlessPermanent();
 
     mAuxPed->Kill();
     mAuxPed = NULL;
 
     UnloadCarWeapons();
 
-    if (mPlayerPed->get_car_416B60())
+    if (mPlayerPed->get_car())
     {
-        LoadCarWeapons(mPlayerPed->get_car_416B60());
+        LoadCarWeapons(mPlayerPed->get_car());
     }
 }
 
@@ -2279,14 +2279,14 @@ void Player::ResetAuxCamera()
     if (!mWastedOrBusted)
     {
         mCameraMode = 0;
-        if (IsRemoteControlActive_4A5100())
+        if (IsRemoteControlActive())
         {
             EndRemoteControl();
         }
         mAuxPed = NULL;
         mWatchedCar = NULL;
         mAuxCamActive = false;
-        mGameCamera.SetSmoothFollow_475B60();
+        mGameCamera.SetSmoothFollow();
     }
 }
 
@@ -2294,15 +2294,15 @@ MATCH_FUNC(0x569600)
 void Player::StartRemoteControl(Car* pCar)
 {
     mAuxPed = gPedManager->SpawnDriver(pCar);
-    mAuxPed->SetPedType_403920(ped_type::player_2);
-    mAuxPed->set_occupation_403970(ped_ocupation_enum::empty);
+    mAuxPed->SetPedType(ped_type::player_2);
+    mAuxPed->set_occupation(ped_ocupation_enum::empty);
     mAuxPed->SetPlayer(this, true);
     mAuxPed->UpdatePositionFromCar();
     pCar->AssignDriver(mAuxPed);
-    pCar->LockUnlessPermanent_475C10();
+    pCar->LockUnlessPermanent();
     mCameraMode = 2;
     mAuxGameCamera.UpdateFollowPedCamera(mAuxPed);
-    mAuxGameCamera.CommitPendingTarget_41E410();
+    mAuxGameCamera.CommitPendingTarget();
     mAuxGameCamera.ResetCameraSmoothing();
     mAuxCamActive = true;
     Player::UnloadCarWeapons();
@@ -2316,7 +2316,7 @@ void Player::WatchCar(Car* pCar)
     {
         mWatchedCar = pCar;
         mAuxGameCamera.UpdateFollowCarCamera(pCar);
-        mAuxGameCamera.CommitPendingTarget_41E410();
+        mAuxGameCamera.CommitPendingTarget();
         mAuxGameCamera.ResetCameraSmoothing();
         mCameraMode = 3;
         mAuxCamActive = true;
@@ -2387,15 +2387,15 @@ Car* Player::GetPlayerCar()
 MATCH_FUNC(0x569920)
 void Player::get_pos(Fix16* out_x, Fix16* out_y, Fix16* out_z)
 {
-    Ped* pPed = GetActivePed_4A5150();
+    Ped* pPed = GetActivePed();
     if (pPed)
     {
         Car* pCar = pPed->GetCarBeingEnteredOrExited();
         if (pCar)
         {
-            *out_x = pCar->GetX_41E430();
-            *out_y = pCar->GetY_41E440();
-            *out_z = pCar->GetZ_41E450();
+            *out_x = pCar->GetX();
+            *out_y = pCar->GetY();
+            *out_z = pCar->GetZ();
         }
         else
         {
@@ -2406,7 +2406,7 @@ void Player::get_pos(Fix16* out_x, Fix16* out_y, Fix16* out_z)
     }
     else
     {
-        Camera* pCam = get_camera_434900();
+        Camera* pCam = get_camera();
         *out_x = pCam->mCurPos.mX;
         *out_y = pCam->mCurPos.mY;
         *out_z = pCam->mCurPos.mZ + kTwo_6FE618;
@@ -2528,7 +2528,7 @@ void Player::InitializePlayerState()
     mMultipliers.InitDigitSprites();
     mJumping = false;
     mPreKfWeaponKind = -2;
-    if (gScriptManager->IsLoadedFromSave_475A20())
+    if (gScriptManager->IsLoadedFromSave())
     {
         Player::UpdateGameFromSave(&gGameSave.mPlayerAndWorldStats);
     }
@@ -2546,18 +2546,18 @@ void Player::InitializePlayerState()
     }
 
     mGameCamera.UpdateFollowPedCamera(mPlayerPed);
-    mGameCamera.SetSmoothFollow_475B60();
-    mGameCamera.CommitPendingTarget_41E410();
+    mGameCamera.SetSmoothFollow();
+    mGameCamera.CommitPendingTarget();
     mGameCamera.ResetCameraSmoothing();
 
     mAuxGameCamera.UpdateFollowPedCamera(mPlayerPed);
-    mAuxGameCamera.SetSmoothFollow_475B60();
-    mAuxGameCamera.CommitPendingTarget_41E410();
+    mAuxGameCamera.SetSmoothFollow();
+    mAuxGameCamera.CommitPendingTarget();
     mAuxGameCamera.ResetCameraSmoothing();
 
     mAuxCamActive = false;
 
-    if (IsUser_41DC70())
+    if (IsUser())
     {
         if (!bSkip_audio)
         {
@@ -2578,7 +2578,7 @@ void Player::InitializePlayerState()
 MATCH_FUNC(0x569E70)
 void Player::DebugToggleRemoteControl()
 {
-    if (IsRemoteControlActive_4A5100())
+    if (IsRemoteControlActive())
     {
         if (mCameraMode == 2)
         {
@@ -2649,12 +2649,12 @@ void Player::DisableInputs()
     {
         pPed->ClearAttacking_403A40();
 
-        Car* pCar = pPed->get_car_416B60();
+        Car* pCar = pPed->get_car();
         if (pCar)
         {
-            if (pPed->not_enter_car_as_passenger_4A5040())
+            if (pPed->not_enter_car_as_passenger())
             {
-                if (pCar->IsTrainModel_403BA0())
+                if (pCar->IsTrainModel())
                 {
                     this->mTurnSpeed = kAngZero_6FE754;
                     this->mMoveDirection = kZero_6FE610;
@@ -2724,7 +2724,7 @@ void Player::RestoreCarsFromSave()
                                                                 kOne_6FE614);
             AddCarToHistory(pNewCar);
             pNewCar->mDamagedAreas.m_var = gGameSave.mCarAndScriptData.mSavedCars.mDamagedAreas[i];
-            pNewCar->SetDamage_4A51B0(gGameSave.mCarAndScriptData.mSavedCars.mDamage[i]);
+            pNewCar->SetDamage(gGameSave.mCarAndScriptData.mSavedCars.mDamage[i]);
         }
     }
     memset(&gGameSave.mCarAndScriptData.mSavedCars, 0, 68u);
@@ -2737,11 +2737,11 @@ void Player::CopyPlayerDataToSave(SavedPlayerStats* pSave)
     pSave->mY = mPlayerPed->get_cam_y();
     pSave->mZ = mPlayerPed->get_cam_z();
     pSave->mRotation = mPlayerPed->GetRotation();
-    pSave->mMoney = GetScore_421980();
-    pSave->mMultipliers = get_multiplier_4766A0();
-    pSave->mHealth = mPlayerPed->get_health_433B70();
-    pSave->mPlayerPedRemap = mPlayerPed->get_remap_433BA0();
-    pSave->mLives = get_lives_4766C0();
+    pSave->mMoney = GetScore();
+    pSave->mMultipliers = get_multiplier();
+    pSave->mHealth = mPlayerPed->get_health();
+    pSave->mPlayerPedRemap = mPlayerPed->get_remap();
+    pSave->mLives = get_lives();
     pSave->mCurrWeaponIdx = mCurrWeaponIdx;
     pSave->mWantedLevel = mPlayerPed->mWantedPoints;
 
@@ -2767,14 +2767,14 @@ void Player::CopyPlayerDataToSave(SavedPlayerStats* pSave)
 MATCH_FUNC(0x56A310)
 void Player::UpdateGameFromSave(SavedPlayerStats* pSave)
 {
-    mLives.SetValueClamped_4A50B0(pSave->mLives);
-    mMultipliers.SetValueClamped_4A50B0(pSave->mMultipliers);
-    mScores.SetMoney_4A50E0(pSave->mMoney);
+    mLives.SetValueClamped(pSave->mLives);
+    mMultipliers.SetValueClamped(pSave->mMultipliers);
+    mScores.SetMoney(pSave->mMoney);
 
     mCurrWeaponIdx = pSave->mCurrWeaponIdx;
-    mPlayerPed->set_health_4039A0(pSave->mHealth);
+    mPlayerPed->set_health(pSave->mHealth);
 
-    mPlayerPed->ClearWantedPoints_420B80();
+    mPlayerPed->ClearWantedPoints();
     mPlayerPed->add_wanted_points(pSave->mWantedLevel);
 
     for (u8 gang_idx = 0; gang_idx < 10; gang_idx++)
@@ -2804,19 +2804,19 @@ void Player::ApplyCheats()
 {
     if (gCheatGetPlayerPoints)
     {
-        mScores.SetMoney_4A50E0(200000);
+        mScores.SetMoney(200000);
     }
     if (gCheatGet10MillionMoney)
     {
-        mScores.SetMoney_4A50E0(9999999);
+        mScores.SetMoney(9999999);
     }
     if (gCheatUnlimitedElectroGun)
     {
-        mWeapons[weapon_type::shocker]->set_infinite_ammo_4A4F90();
+        mWeapons[weapon_type::shocker]->set_infinite_ammo();
     }
     if (gCheatUnlimitedFlameThrower)
     {
-        mWeapons[weapon_type::flamethrower]->set_infinite_ammo_4A4F90();
+        mWeapons[weapon_type::flamethrower]->set_infinite_ammo();
     }
     if (gCheatAllGangMaxRespect)
     {
@@ -2827,7 +2827,7 @@ void Player::ApplyCheats()
     }
     if (gCheatGet99Lives)
     {
-        mLives.SetValueClamped_4A50B0(99);
+        mLives.SetValueClamped(99);
     }
     if (gCheat10xMultiplier)
     {
@@ -2950,8 +2950,8 @@ Player::Player(u8 player_idx)
     mLives.SetupDigitsParams(1, 99, 115);
     mMultipliers.SetupDigitsParams(1, 99, 116);
     Player::ClearPowerUps();
-    ResetThrowCharge_4A5180();
-    SetDeathType_434950(0);
+    ResetThrowCharge();
+    SetDeathType(0);
     mPlayerName[0] = 0;
     mShowQuitMessage = false;
 }
@@ -2969,7 +2969,7 @@ Player::~Player()
 
     if (mSoundObj)
     {
-        gRoot_sound.DestroySoundObj_40FE60(mSoundObj);
+        gRoot_sound.DestroySoundObj(mSoundObj);
         mSoundObj = NULL;
     }
 
@@ -2999,11 +2999,11 @@ void DebugTest::DoTest(u16 action)
             gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::now_3, "8013");
             break;
         case 6:
-            gGame_0x40->mLocalPlayer->ChangeMultipliers_4766B0(1);
+            gGame_0x40->mLocalPlayer->ChangeMultipliers(1);
             break;
         case 7:
             sTestArrow = gHud_2B00->mArrows.AllocArrow();
-            sTestArrow->SetArrowTargetCar_476860(gTestArrowCar);
+            sTestArrow->SetArrowTargetCar(gTestArrowCar);
             sTestArrow->SetArrowColour(5);
             break;
         case 8:

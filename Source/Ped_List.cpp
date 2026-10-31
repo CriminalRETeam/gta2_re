@@ -10,7 +10,7 @@ DEFINE_GLOBAL_INIT(Ang16, kAng0_678B40, Ang16(0), 0x678B40);
 MATCH_FUNC(0x471140)
 PedListNode* Ped_List::AddPedToFront(Ped* pPed)
 {
-    PedListNode* pNew = gChar_8_Pool->Allocate_445EF0();
+    PedListNode* pNew = gChar_8_Pool->Allocate();
 
     pNew->mCharPed = pPed;
 
@@ -40,7 +40,7 @@ void Ped_List::AddPedToBackIfMissing(Ped* pPed)
         }
     }
 
-    PedListNode* pNew = gChar_8_Pool->Allocate_445EF0();
+    PedListNode* pNew = gChar_8_Pool->Allocate();
     pNew->mCharPed = pPed;
 
     if (pTail)
@@ -76,7 +76,7 @@ void Ped_List::AddPedToFrontIfMissing(Ped* pPed)
         }
     }
 
-    PedListNode* pNew = gChar_8_Pool->Allocate_445EF0();
+    PedListNode* pNew = gChar_8_Pool->Allocate();
     pNew->mCharPed = pPed;
 
     pNew->mpNext = mpFirstPed;
@@ -100,7 +100,7 @@ void Ped_List::RemovePed_4711F0(Ped* pPed)
             {
                 mpFirstPed = pIter->mpNext;
             }
-            gChar_8_Pool->DeAllocate_445F00(pIter);
+            gChar_8_Pool->DeAllocate(pIter);
             break;
         }
         pPrev = pIter;
@@ -125,7 +125,7 @@ void Ped_List::RemovePed_471240(Ped* pPed)
             {
                 mpFirstPed = pIter->mpNext;
             }
-            gChar_8_Pool->DeAllocate_445F00(pIter);
+            gChar_8_Pool->DeAllocate(pIter);
             break;
         }
         pPrev = pIter;
@@ -141,7 +141,7 @@ u8 Ped_List::RemoveNonCorpses()
     u8 removedCount = 0;
     while (pIter)
     {
-        if (pIter->mCharPed->IsActive_433B40() && pIter->mCharPed->mPedState1 == ped_state_1::dead_9)
+        if (pIter->mCharPed->IsActive() && pIter->mCharPed->mPedState1 == ped_state_1::dead_9)
         {
             pPrevKept = pIter;
             pIter = pIter->mpNext;
@@ -159,7 +159,7 @@ u8 Ped_List::RemoveNonCorpses()
 
             PedListNode* pNext = pIter->mpNext;
 
-            gChar_8_Pool->DeAllocate_445F00(pIter);
+            gChar_8_Pool->DeAllocate(pIter);
             pIter = pNext;
 
             ++removedCount;
@@ -193,12 +193,12 @@ Ped* Ped_List::RemoveFirstPed()
 
     Ped* pPed = pIter->mCharPed;
     mpFirstPed = pIter->mpNext;
-    gChar_8_Pool->DeAllocate_445F00(pIter);
+    gChar_8_Pool->DeAllocate(pIter);
     return pPed;
 }
 
 // 9.6f 0x445C30
-// 9.6f calls MaxAbsDistance_42A6B0 here. By value, with the y difference first, VC6 keeps
+// 9.6f calls MaxAbsDistance here. By value, with the y difference first, VC6 keeps
 // both differences and the max in registers as the original does.
 MATCH_FUNC(0x471340)
 Ped* Ped_List::FindClosestActivePed(Fix16 x, Fix16 y) const
@@ -209,9 +209,9 @@ Ped* Ped_List::FindClosestActivePed(Fix16 x, Fix16 y) const
     while (pIter)
     {
         Ped* pPed = pIter->mCharPed;
-        if (pIter->mCharPed->IsActive_433B40() == 1)
+        if (pIter->mCharPed->IsActive() == 1)
         {
-            Fix16 distance = Fix16::MaxAbsDistance_42A6B0(x, y, pPed->get_cam_x(), pPed->get_cam_y());
+            Fix16 distance = Fix16::MaxAbsDistance(x, y, pPed->get_cam_x(), pPed->get_cam_y());
             if (distance < closestDistance)
             {
                 pClosest = pPed;
@@ -233,10 +233,10 @@ Ped* Ped_List::FindClosestPedInViewCone(Fix16 x, Fix16 y, Ang16 facing, Ang16 ha
 
     for (; pIter; pIter = pIter->mpNext)
     {
-        if (pIter->mCharPed->IsActive_433B40() == 1)
+        if (pIter->mCharPed->IsActive() == 1)
         {
             bool withinCone = false;
-            Fix16 distance = Fix16::MaxAbsDistance_42A6B0(x, y, pIter->mCharPed->get_cam_x(), pIter->mCharPed->get_cam_y());
+            Fix16 distance = Fix16::MaxAbsDistance(x, y, pIter->mCharPed->get_cam_x(), pIter->mCharPed->get_cam_y());
 
             Ang16 angle_diff = Fix16::atan2_fixed(pIter->mCharPed->get_cam_y() - y, pIter->mCharPed->get_cam_x() - x) - facing;
 
@@ -265,7 +265,7 @@ void Ped_List::KillAndClearAllPeds()
         PedListNode* pFreed = pIter;
         pIter->mCharPed->Kill();
         pIter = pIter->mpNext;
-        gChar_8_Pool->DeAllocate_445F00(pFreed);
+        gChar_8_Pool->DeAllocate(pFreed);
     }
 
     mpFirstPed = NULL;
@@ -281,7 +281,7 @@ void Ped_List::KillAndClearAllPedsResetCarRef()
         pIter->mCharPed->Kill();
         pIter->mCharPed->mCar = NULL;
         pIter = pIter->mpNext;
-        gChar_8_Pool->DeAllocate_445F00(pFreed);
+        gChar_8_Pool->DeAllocate(pFreed);
     }
 
     mpFirstPed = NULL;
@@ -292,7 +292,7 @@ void Ped_List::ApplyPassengerBusStopBehavior()
 {
     for (PedListNode* pIter = mpFirstPed; pIter; pIter = pIter->mpNext)
     {
-        if (pIter->mCharPed->get_occupation_403980() == ped_ocupation_enum::bus_customer_8)
+        if (pIter->mCharPed->get_occupation() == ped_ocupation_enum::bus_customer_8)
         {
             pIter->mCharPed->SetObjective2(objectives_enum::no_obj_0);
             pIter->mCharPed->SetObjective(objectives_enum::leave_car_and_flee_34);

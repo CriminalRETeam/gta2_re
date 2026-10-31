@@ -33,37 +33,37 @@ class Ped
     STATIC_MEMBER(u8, sPedUsedPathThisTick);
     STATIC_MEMBER(u8, sKeepPaceWithTarget);
     // 9.6f 0x433C90
-    inline bool Is_occupation_elvis_433C90() const
+    inline bool Is_occupation_elvis() const
     {
         return mOccupation == ped_ocupation_enum::elvis;
     }
 
     // 9.6f 0x4039B0
-    inline void set_enter_car_as_passenger_4039B0(s32 v)
+    inline void set_enter_car_as_passenger(s32 v)
     {
         mEnterCarAsPassenger = v;
     }
 
     // 9.6f 0x4039C0
-    inline s32 get_enter_car_as_passenger_4039C0() const
+    inline s32 get_enter_car_as_passenger() const
     {
         return mEnterCarAsPassenger;
     }
 
     // 9.6f 0x4039D0
-    inline u8 GetInternalObjectiveStatus_4039D0() const
+    inline u8 GetInternalObjectiveStatus() const
     {
         return mInternalObjectiveStatus;
     }
 
     // 9.6f 0x433C20
-    inline Fix16 GetGameObjectVelocity_433C20() const
+    inline Fix16 GetGameObjectVelocity() const
     {
-        return mGameObject->get_velocity_41B080();
+        return mGameObject->get_velocity();
     }
 
     // 9.6f 0x4AF860 (0x4AF880 is an identical copy)
-    inline void SetTrainStation_4AF860(TrainStation* pStation)
+    inline void SetTrainStation(TrainStation* pStation)
     {
         if (pStation != mpTrainStation)
         {
@@ -72,7 +72,7 @@ class Ped
     }
 
     // 9.6f 0x4117D0 (0x4117F0 is an identical copy)
-    inline TrainStation* PopTrainStation_4117D0()
+    inline TrainStation* PopTrainStation()
     {
         TrainStation* pStation = mpTrainStation;
         mpTrainStation = NULL;
@@ -80,79 +80,79 @@ class Ped
     }
 
     // 9.6f 0x403A70
-    inline void set_target_car_door_403A70(u8 v)
+    inline void set_target_car_door(u8 v)
     {
         mTargetCarDoor = v;
     }
 
     // 9.6f 0x403AC0
-    inline void set_objective_target_ped_403AC0(Ped* v)
+    inline void set_objective_target_ped(Ped* v)
     {
         mObjectiveTargetPed = v;
     }
 
     // 9.6f 0x403AD0
-    inline Ped* get_objective_target_ped_403AD0() const
+    inline Ped* get_objective_target_ped() const
     {
         return mObjectiveTargetPed;
     }
 
     // 9.6f 0x403B00
-    inline void set_target_to_enter_403B00(Car* v)
+    inline void set_target_to_enter(Car* v)
     {
         mTargetToEnter = v;
     }
 
     // 9.6f 0x403B20
-    inline u16 get_internal_objective_timer_403B20() const
+    inline u16 get_internal_objective_timer() const
     {
         return mInternalObjectiveTimer;
     }
 
     // 9.6f 0x403B30
-    inline u16 get_objective_timer_403B30() const
+    inline u16 get_objective_timer() const
     {
         return mObjectiveTimer;
     }
 
     // 9.6f 0x403B40
-    inline void set_objective_status_403B40(u8 v)
+    inline void set_objective_status(u8 v)
     {
         mObjectiveStatus = v;
     }
 
     // 9.6f 0x403B50
-    inline void SetInternalObjectiveStatus_403B50(u8 v)
+    inline void SetInternalObjectiveStatus(u8 v)
     {
         mInternalObjectiveStatus = v;
     }
 
     // 9.6f 0x433B80
-    inline void SetOffscreenCounter_433B80(s16 v)
+    inline void SetOffscreenCounter(s16 v)
     {
         mOffscreenCounter = v;
     }
 
     // 9.6f 0x433C80
-    inline void set_objective_timer_433C80(u16 v)
+    inline void set_objective_timer(u16 v)
     {
         mObjectiveTimer = v;
     }
 
     // 9.6f 0x475B40
-    inline void clear_last_char_punched_475B40()
+    inline void clear_last_char_punched()
     {
         mLastCharPunched = NULL;
     }
 
     // 9.6f 0x475B10
-    inline Ped* get_last_char_punched_475B10() const
+    inline Ped* get_last_char_punched() const
     {
         return mLastCharPunched;
     }
 
     // 9.6f 0x4A5020
-    inline Char* get_game_object_4A5020() const
+    inline Char* get_game_object() const
     {
         return mGameObject;
     }
@@ -382,20 +382,20 @@ class Ped
   public:
 
     // 9.6f 0x420B50
-    inline u8 get_ped_ref_idx_420B50() const
+    inline u8 get_ped_ref_idx() const
     {
         return mPedRefIdx;
     }
 
     // 9.6f 0x403A30
-    inline void ClearGroupAndGroupIdx_403A30()
+    inline void ClearGroupAndGroupIdx()
     {
         this->mPedGroup = NULL;
         this->mGroupIdx = 0;
     }
 
     // 9.6f 0x420B70
-    inline s32 GetPedType_420B70() const
+    inline s32 GetPedType() const
     {
         return mPedType;
     }
@@ -406,25 +406,25 @@ class Ped
     }
 
     // 9.6f 0x4A5060
-    inline void SetElectrofingers_4A5060()
+    inline void SetElectrofingers()
     {
         mBf21C.bElectroFingers = true;
     }
 
     // 9.6f 0x4A5050
-    inline void SetFullHealth_4A5050()
+    inline void SetFullHealth()
     {
-        set_health_4039A0(100);
+        set_health(100);
     }
 
     // 9.6f 0x482080
-    inline void ClearElectrofingers_482080()
+    inline void ClearElectrofingers()
     {
         mBf21C.bElectroFingers = false;
     }
 
     // 9.6f 0x433B40
-    bool IsActive_433B40() const
+    bool IsActive() const
     {
         return mBf21C.bActive;
     }
@@ -435,7 +435,7 @@ class Ped
     }
 
     // 9.6f inline 0x450CB0
-    inline u8 GetObjectiveStatus_450CB0() const
+    inline u8 GetObjectiveStatus() const
     {
         return mObjectiveStatus;
     }
@@ -458,43 +458,43 @@ class Ped
     }
 
     // 9.6f 0x4039F0
-    u16 GetOffscreenCounter_4039F0() const
+    u16 GetOffscreenCounter() const
     {
         return mOffscreenCounter;
     }
 
     // 9.6f 0x403B80
-    bool has_car_403B80() const
+    bool has_car() const
     {
         return mCar != NULL;
     }
 
     // 9.6f 0x403990
-    s32 GetPedState_403990() const
+    s32 GetPedState() const
     {
         return mPedState1;
     }
 
     // 9.6f 0x492CB0
-    void SetStolenCar_492CB0(Car* pCar)
+    void SetStolenCar(Car* pCar)
     {
         mStolenCar = pCar;
     }
 
     // 9.6f 0x49EF40
-    inline Car* GetStolenCar_49EF40() const
+    inline Car* GetStolenCar() const
     {
         return mStolenCar;
     }
 
     // 9.6f inline 0x403AE0
-    void SetInternalTargetPed_403AE0(Ped* pSrc)
+    void SetInternalTargetPed(Ped* pSrc)
     {
         mInternalTargetPed = pSrc;
     }
 
     // 9.6f inline 0x403950
-    inline void SetPanicking_403950()
+    inline void SetPanicking()
     {
         mBf21C.bPanicking = true;
     }
@@ -505,7 +505,7 @@ class Ped
     }
 
     // 9.6f 0x403960
-    void ClearPanicking_403960()
+    void ClearPanicking()
     {
         mBf21C.bPanicking = false;
     }
@@ -517,13 +517,13 @@ class Ped
     }
 
     // 9.6f 0x403AB0
-    Car* get_target_objective_car_403AB0() const
+    Car* get_target_objective_car() const
     {
         return mTargetObjectiveCar;
     }
 
     // 9.6f 0x403920
-    void SetPedType_403920(s32 type)
+    void SetPedType(s32 type)
     {
         mPedType = type;
     }
@@ -560,19 +560,19 @@ class Ped
     }
 
     // 9.6f 0x433DC0
-    inline s16 get_wanted_points_433DC0() const
+    inline s16 get_wanted_points() const
     {
         return mWantedPoints;
     }
 
     // 9.6f 0x4A5040
-    inline bool not_enter_car_as_passenger_4A5040() const
+    inline bool not_enter_car_as_passenger() const
     {
         return mEnterCarAsPassenger != 1;
     }
 
     // 9.6f 0x416B60
-    inline Car* get_car_416B60() const
+    inline Car* get_car() const
     {
         return mCar;
     }
@@ -589,25 +589,25 @@ class Ped
     }
 
     // 9.6f 0x433B50
-    inline void SetStateInitPending_433B50()
+    inline void SetStateInitPending()
     {
         mGameObject->mStateInitPending = true;
     }
 
     // 9.6f 0x433BA0
-    inline s8 get_remap_433BA0() const
+    inline s8 get_remap() const
     {
         return mRemap;
     }
 
     // 9.6f 0x41B0A0
-    inline bool is_player_41B0A0() const
+    inline bool is_player() const
     {
         return mPlayer != NULL;
     }
 
     // 9.6f 0x433C40
-    inline void DoJump_433C40()
+    inline void DoJump()
     {
         if (mGameObject)
         {
@@ -616,7 +616,7 @@ class Ped
     }
 
     // 9.6f 0x41B0B0
-    inline s32 TakeVoiceEvent_41B0B0()
+    inline s32 TakeVoiceEvent()
     {
         s32 ret = mVoiceEvent; // sound id the ped says next
         mVoiceEvent = 0;
@@ -624,7 +624,7 @@ class Ped
     }
 
     // 9.6f 0x433DD0
-    inline void SetVoiceEventIfNotOnFire_433DD0(s32 voice_event)
+    inline void SetVoiceEventIfNotOnFire(s32 voice_event)
     {
         if (!mBf21C.bOnFire)
         {
@@ -633,67 +633,67 @@ class Ped
     }
 
     // 9.6f 0x403A60
-    inline u8 get_target_car_door_403A60() const
+    inline u8 get_target_car_door() const
     {
         return mTargetCarDoor;
     }
 
     // 9.6f inline 0x433B90
-    void set_remap_433B90(u8 remap)
+    void set_remap(u8 remap)
     {
         mRemap = remap;
     }
 
     // 9.6f inline 0x4039A0
-    void set_health_4039A0(s16 health)
+    void set_health(s16 health)
     {
         mHealth = health;
     }
 
     // 9.6f inline 0x433B70
-    inline s32 get_health_433B70() const
+    inline s32 get_health() const
     {
         return mHealth;
     }
 
     // 9.6f 0x403970
-    void set_occupation_403970(s32 occupation)
+    void set_occupation(s32 occupation)
     {
         mOccupation = occupation;
     }
 
     // 9.6f 0x403980
-    s32 get_occupation_403980() const
+    s32 get_occupation() const
     {
         return mOccupation;
     }
 
     // 9.6f 0x433C50
-    void SetMoveTargetX_433C50(Fix16 x)
+    void SetMoveTargetX(Fix16 x)
     {
         this->mMoveTargetX = x;
     }
 
     // 9.6f 0x433C60
-    void SetMoveTargetY_433C60(Fix16 y)
+    void SetMoveTargetY(Fix16 y)
     {
         this->mMoveTargetY = y;
     }
 
     // 9.6f 0x433C70
-    void SetMoveTargetZ_433C70(Fix16 z)
+    void SetMoveTargetZ(Fix16 z)
     {
         this->mMoveTargetZ = z;
     }
 
     // 9.6f 0x492CE0
-    Fix16 GetMoveTargetX_492CE0() const
+    Fix16 GetMoveTargetX() const
     {
         return mMoveTargetX;
     }
 
     // 9.6f 0x492CF0
-    Fix16 GetMoveTargetY_492CF0() const
+    Fix16 GetMoveTargetY() const
     {
         return mMoveTargetY;
     }
@@ -703,78 +703,78 @@ class Ped
 
     // 9.6f 0x433C10: a thin wrapper around Char::SetRemap. The remap is taken by const reference:
     // by value, VC6 loads the argument before the Char and 9 callers stop matching.
-    inline void SetRemap_433C10(const u8& remap)
+    inline void SetRemap(const u8& remap)
     {
         Char* pChar = mGameObject; // local necessary to match Ped::SetupFollower
         pChar->SetRemap_Inline(remap);
     }
 
     // 9.6f 0x433E50
-    inline void TriggerVoiceEventRateLimited_433E50()
+    inline void TriggerVoiceEventRateLimited()
     {
-        if (static_cast<u32>(gpRng->get_cur_rng_41CFE0() - mLastVoiceRng) > 5)
+        if (static_cast<u32>(gpRng->get_cur_rng() - mLastVoiceRng) > 5)
         {
-            SetVoiceEventIfNotOnFire_433DD0(25);
-            mLastVoiceRng = gpRng->get_cur_rng_41CFE0();
+            SetVoiceEventIfNotOnFire(25);
+            mLastVoiceRng = gpRng->get_cur_rng();
         }
     }
 
     // 9.6f 0x433BB0
-    inline void SetJumpOverMode_433BB0(s32 value)
+    inline void SetJumpOverMode(s32 value)
     {
         mJumpOverMode = value;
     }
 
     // 9.6f 0x492CC0
-    inline Ang16 GetTargetFacingAngle_492CC0() const
+    inline Ang16 GetTargetFacingAngle() const
     {
         return mTargetFacingAngle;
     }
 
     // 9.6f 0x492C20
-    inline s32 GetJumpOverMode_492C20() const
+    inline s32 GetJumpOverMode() const
     {
         return mJumpOverMode;
     }
 
     // 9.6f 0x433BC0
-    inline void SetPedClass_433BC0(s32 value)
+    inline void SetPedClass(s32 value)
     {
         mPedClass = value;
     }
 
     // 9.6f 0x403A20
-    inline void ClearHitCount_403A20()
+    inline void ClearHitCount()
     {
         mHitCount = 0;
     }
 
     // 9.6f 0x420B80
-    inline void ClearWantedPoints_420B80()
+    inline void ClearWantedPoints()
     {
         mWantedPoints = cop_level_ped_enum::cop_0_stars;
     }
 
     // 9.6f 0x472FD0
-    inline bool IsGroupLeader_472FD0() const
+    inline bool IsGroupLeader() const
     {
         return mGroupIdx == 99;
     }
 
     // 9.6f 0x433BE0
-    inline void ClearAttacker_433BE0()
+    inline void ClearAttacker()
     {
         mAttacker = NULL;
     }
 
     // 9.6f 0x433C00
-    inline void SetRotation_433C00(Ang16 rotation)
+    inline void SetRotation(Ang16 rotation)
     {
-        mGameObject->set_rotation_433A30(rotation);
+        mGameObject->set_rotation(rotation);
     }
 
     // 9.6f 0x433B60
-    inline s32 GetPedState2_433B60() const
+    inline s32 GetPedState2() const
     {
         return mPedState2;
     }
@@ -802,13 +802,13 @@ class Ped
     }
 
     // 9.6f 0x433CA0
-    inline bool GetAttacking_433CA0() const
+    inline bool GetAttacking() const
     {
         return mBf21C.bAttacking;
     }
 
     // 9.6f 0x475B50
-    bool IsOnFire_475B50() const
+    bool IsOnFire() const
     {
         return mBf21C.bOnFire;
     }
@@ -819,19 +819,19 @@ class Ped
     }
 
     // 9.6f 0x403A80
-    inline s32 get_objective_403A80() const
+    inline s32 get_objective() const
     {
         return mObjective;
     }
 
     // 9.6f 0x403B10
-    inline Car* get_target_to_enter_403B10() const
+    inline Car* get_target_to_enter() const
     {
         return mTargetToEnter;
     }
 
     // 9.6f 0x4A5010
-    inline void SetAttacking_4A5010()
+    inline void SetAttacking()
     {
         mBf21C.bAttacking = true;
     }
@@ -843,49 +843,49 @@ class Ped
     }
 
     // 9.6f 0x492FD0
-    inline bool IsPedGoingToEnterCar_492FD0() const
+    inline bool IsPedGoingToEnterCar() const
     {
         return mObjective == objectives_enum::enter_car_as_driver_35 || mInternalObjective == objectives_enum::enter_car_as_driver_35;
     }
 
     // 9.6f 0x4CCA90
-    Ang16 GetAimAngle_4CCA90() const
+    Ang16 GetAimAngle() const
     {
         return mAimAngle;
     }
 
     // 9.6f 0x403B60
-    bool isDead_403B60() const
+    bool isDead() const
     {
         return this->mPedState1 == ped_state_1::dead_9;
     }
 
     // 9.6f 0x475AF0
-    PedGroup* GetGroup_475AF0() const
+    PedGroup* GetGroup() const
     {
         return this->mPedGroup;
     }
 
     // 9.6f 0x403A90
-    inline s32 GetInternalObjective_403A90() const
+    inline s32 GetInternalObjective() const
     {
         return mInternalObjective;
     }
 
     // 9.6f 0x403AF0
-    inline Ped* GetInternalTargetPed_403AF0() const
+    inline Ped* GetInternalTargetPed() const
     {
         return mInternalTargetPed;
     }
 
     // 9.6f 0x433BF0
-    inline void SetAttacker_433BF0(Ped* pPed)
+    inline void SetAttacker(Ped* pPed)
     {
         mAttacker = pPed;
     }
 
     // 9.6f 0x433BD0
-    inline void IncrementAttackersCount_433BD0()
+    inline void IncrementAttackersCount()
     {
         ++mAttackersCount;
     }

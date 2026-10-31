@@ -43,14 +43,14 @@ class TaxiList
   private:
     // inlined
     // 9.6f 0x4C09B0
-    void Init_4C09B0()
+    void Init()
     {
-        ClearList_4C0980();
+        ClearList();
     }
 
     // inlined
     // 9.6f 0x4C0980
-    void ClearList_4C0980()
+    void ClearList()
     {
         mpFirst = NULL;
     }
@@ -58,7 +58,7 @@ class TaxiList
   public:
     STATIC_MEMBER(TaxiListPool*, sTaxi4Pool);
     // 9.6f 0x434970
-    inline bool IsEmpty_434970() const
+    inline bool IsEmpty() const
     {
         return mpFirst == NULL;
     }

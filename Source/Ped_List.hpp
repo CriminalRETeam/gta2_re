@@ -12,7 +12,7 @@ class Ped_List
   public:
     Ped_List()
     {
-        ClearList_420E90();
+        ClearList();
     }
 
     EXPORT PedListNode* AddPedToFront(Ped* pPed);
@@ -40,7 +40,7 @@ class Ped_List
     EXPORT bool HasScriptCreatedPed() const;
 
     // 9.6f 0x420E90
-    void ClearList_420E90()
+    void ClearList()
     {
         mpFirstPed = NULL;
     }

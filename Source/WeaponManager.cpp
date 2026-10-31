@@ -24,11 +24,11 @@ u8 default_ammo_5FF778[40] = {10u, 10u, 5u,  20u, 5u, 5u, 10u, 20u, 20u, 10u, 10
 MATCH_FUNC(0x5e3c10)
 Weapon* WeaponManager::allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo)
 {
-    Weapon* pNewWeap = gWeapon_30_Pool->AllocateUnlinked_4CC9E0();
+    Weapon* pNewWeap = gWeapon_30_Pool->AllocateUnlinked();
     pNewWeap->init();
     mRefCount++;
-    pNewWeap->set_idx_4CCA00(weapon_kind);
-    pNewWeap->set_pPed_4CCA10(pPed);
+    pNewWeap->set_idx(weapon_kind);
+    pNewWeap->set_pPed(pPed);
     pNewWeap->set_ammo_clips(ammo);
     return pNewWeap;
 }
@@ -48,8 +48,8 @@ Weapon* WeaponManager::allocate_5E3CE0(s32 weapon_kind, Car* pCar, u8 ammo)
 {
     Weapon* pWeapon = gWeapon_30_Pool->Allocate();
     pWeapon->init();
-    pWeapon->set_idx_4CCA00(weapon_kind);
-    pWeapon->set_car_4CCA20(pCar);
+    pWeapon->set_idx(weapon_kind);
+    pWeapon->set_car(pCar);
     pWeapon->set_ammo_clips(ammo);
     return pWeapon;
 }
@@ -57,7 +57,7 @@ Weapon* WeaponManager::allocate_5E3CE0(s32 weapon_kind, Car* pCar, u8 ammo)
 MATCH_FUNC(0x5e3d20)
 Weapon* WeaponManager::find(Car* pCar, s32 weapon_kind)
 {
-    Weapon* result = gWeapon_30_Pool->get_next_4CC9B0();
+    Weapon* result = gWeapon_30_Pool->get_next();
     if (!result)
     {
         return NULL;
@@ -92,7 +92,7 @@ bool WeaponManager::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car* pCar)
 
     if (bAddedAmmo)
     {
-        if (pCar->IsDrivenByPlayer_4118D0())
+        if (pCar->IsDrivenByPlayer())
         {
             pCar->mDriver->mPlayer->SetWeapon(pWeapon);
             return bAddedAmmo;
@@ -114,14 +114,14 @@ bool WeaponManager::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car* pCar)
 MATCH_FUNC(0x5e3df0)
 void WeaponManager::dealloc_car_weapon(Car* pCar)
 {
-    Weapon* pIter = gWeapon_30_Pool->get_next_4CC9B0();
+    Weapon* pIter = gWeapon_30_Pool->get_next();
     while (pIter)
     {
         if ( pIter->mCar == pCar )
         {
           Weapon* pOldIter = pIter;
           pIter = pIter->mpNext;
-          gWeapon_30_Pool->DeAllocate_4A4F20(pOldIter);
+          gWeapon_30_Pool->DeAllocate(pOldIter);
         }
         else
         {
@@ -154,7 +154,7 @@ WeaponManager::WeaponManager()
         }
     }
     mRefCount = 0;
-    mHitSprites.ResetHead_4207E0();
+    mHitSprites.ResetHead();
 }
 
 MATCH_FUNC(0x5e3f60)

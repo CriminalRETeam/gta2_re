@@ -60,7 +60,7 @@ class TextTable
 {
   public:
     // 9.6f 0x452E60
-    inline bool LangIsJapanese_452E60() const
+    inline bool LangIsJapanese() const
     {
         return mLangCode == 'j';
     }

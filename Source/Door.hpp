@@ -51,7 +51,7 @@ class Door
 {
   public:
     // 9.6f 0x476A90
-    inline s32 get_open_type_476A90() const
+    inline s32 get_open_type() const
     {
         return mOpenType;
     }
@@ -73,26 +73,26 @@ class Door
     EXPORT void get_door_xyz_face(u8* pX, u8* pY, u8* pZ, u32* pFace);
     
     // 9.6f 0x44C860, defined in DoorPool.hpp (needs DoorData)
-    inline bool IsOpen_44C860() const;
+    inline bool IsOpen() const;
 
     // 9.6f 0x476A30, defined in DoorPool.hpp (needs DoorData)
-    inline void CloseDoors_476A30();
+    inline void CloseDoors();
 
     // 9.6f 0x4895F0
-    inline void ClearF2C_4895F0()
+    inline void ClearF2C()
     {
         mbCanAutoOpen = false;
     }
 
     // 9.6f 0x489600
-    inline bool IsDoubleDoor_489600() const
+    inline bool IsDoubleDoor() const
     {
         return mPrimaryDoorData && mSecondaryDoorData;
     }
 
     // inlined in 0x476990
     // 9.6f 0x476990
-    inline void SetOpenType_476990(u32 v)
+    inline void SetOpenType(u32 v)
     {
         mOpenType = v;
     }

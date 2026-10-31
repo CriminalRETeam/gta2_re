@@ -38,7 +38,7 @@ class SpriteShape
     // While the shape is out of the pool, mpNext holds the id of the last collision query that
     // tested it, so a query doesn't test a shape twice
     // 9.6f 0x446920
-    void SetCollisionId_446920(u32 id)
+    void SetCollisionId(u32 id)
     {
         this->mpNext = reinterpret_cast<SpriteShape*>(id);
     }
@@ -50,13 +50,13 @@ class SpriteShape
 
     // 9.6f 0x41E390
     // https://decomp.me/scratch/YTMyx
-    bool IsZeroWidth_41E390() const
+    bool IsZeroWidth() const
     {
         return (mWidth == mHeight && mWidth <= kSmallWidthEpslion) ? true : false;
     }
 
     // 9.6f 0x482980
-    void SetDimensions_482980(Fix16 w, Fix16 h, Fix16 depth)
+    void SetDimensions(Fix16 w, Fix16 h, Fix16 depth)
     {
         mWidth = w;
         mHeight = h;
@@ -64,7 +64,7 @@ class SpriteShape
     }
 
     // 9.6f 0x4BA070
-    void SetWidthHeight_4BA070(Fix16 w, Fix16 h)
+    void SetWidthHeight(Fix16 w, Fix16 h)
     {
         mWidth = w;
         mHeight = h;
@@ -73,7 +73,7 @@ class SpriteShape
     }
 
     // 9.6f 0x4BA030
-    void SetWidthHeightLazy_4BA030(Fix16 w, Fix16 h)
+    void SetWidthHeightLazy(Fix16 w, Fix16 h)
     {
         // Avoid BB-box recompute if we can
         if (w != mWidth || h != mHeight)
@@ -85,7 +85,7 @@ class SpriteShape
     }
 
     // 9.6f 0x4BA0F0
-    void GetDimensions_4BA0F0(Fix16* pOut, Fix16* pOutH, Fix16* pOutDepth) const
+    void GetDimensions(Fix16* pOut, Fix16* pOutH, Fix16* pOutDepth) const
     {
         *pOut = this->mWidth;
         *pOutH = this->mHeight;
@@ -93,25 +93,25 @@ class SpriteShape
     }
 
     // 9.6f 0x420590
-    Fix16 GetWidth_420590() const
+    Fix16 GetWidth() const
     {
         return mWidth;
     }
 
     // 9.6f 0x447E10
-    Fix16 GetHeight_447E10() const
+    Fix16 GetHeight() const
     {
         return mHeight;
     }
 
     // 9.6f 0x492170
-    Fix16 GetDepth_492170() const
+    Fix16 GetDepth() const
     {
         return mDepth;
     }
 
     // 9.6f 0x4BA120
-    bool ReduceWidthBy_4BA120(Fix16 amount)
+    bool ReduceWidthBy(Fix16 amount)
     {
         mWidth -= amount;
         if (mWidth <= gFix16_7035C0)
@@ -123,13 +123,13 @@ class SpriteShape
     }
 
     // 9.6f 0x4BA110
-    void ReduceHeightNoClamp_4BA110(Fix16 amount)
+    void ReduceHeightNoClamp(Fix16 amount)
     {
         mHeight -= amount;
     }
 
     // 9.6f 0x447DF0
-    void CopyDimensions_447DF0(const SpriteShape* pOther)
+    void CopyDimensions(const SpriteShape* pOther)
     {
         this->mWidth = pOther->mWidth;
         this->mHeight = pOther->mHeight;
@@ -137,7 +137,7 @@ class SpriteShape
     }
 
     // 9.6f 0x4BA160
-    bool ReduceHeightBy_4BA160(Fix16 amount)
+    bool ReduceHeightBy(Fix16 amount)
     {
         mHeight -= amount;
         if (mHeight <= gFix16_7035C0)
@@ -155,7 +155,7 @@ class SpriteShape
     }
 
     // 9.6f 0x4BA1A0
-    void ScaleWidthHeight_4BA1A0(Fix16 scale)
+    void ScaleWidthHeight(Fix16 scale)
     {
         mWidth *= scale;
         if (mWidth <= gFix16_7035C0)
@@ -195,13 +195,13 @@ class Sprite
 {
   public:
     // 9.6f 0x41C1F0
-    inline s16 get_remap_41C1F0() const
+    inline s16 get_remap() const
     {
         return mRemap;
     }
 
     // 9.6f 0x4BA220
-    inline void set_z_col_4BA220(char_type v)
+    inline void set_z_col(char_type v)
     {
         mZCol = v;
     }
@@ -311,25 +311,25 @@ class Sprite
     }
 
     // 9.6f 0x446940
-    inline bool TypeIs_446940(s32 sprite_type) const
+    inline bool TypeIs(s32 sprite_type) const
     {
         return mSpriteTypeEnum == sprite_type;
     }
 
     // 9.6f 0x420740
-    Fix16 GetWidth_420740() const
+    Fix16 GetWidth() const
     {
-        return mpCollisionShape->GetWidth_420590();
+        return mpCollisionShape->GetWidth();
     }
 
     // 9.6f 0x447E70
-    Fix16 GetHeight_447E70() const
+    Fix16 GetHeight() const
     {
-        return mpCollisionShape->GetHeight_447E10();
+        return mpCollisionShape->GetHeight();
     }
 
     // 9.6f 0x4117B0
-    void GetPosition_4117B0(Fix16* pOutX, Fix16* pOutY, Fix16* pOutZ) const
+    void GetPosition(Fix16* pOutX, Fix16* pOutY, Fix16* pOutZ) const
     {
         *pOutX = this->mXy.x;
         *pOutY = this->mXy.y;
@@ -337,19 +337,19 @@ class Sprite
     }
 
     // 9.6f 0x420700
-    inline void SetPaletteSprites_420700()
+    inline void SetPaletteSprites()
     {
         mPaletteType = palette_types_enum::sprites_2;
     }
 
     // 9.6f 0x416B40
-    s32 GetType_416B40() const
+    s32 GetType() const
     {
         return mSpriteTypeEnum;
     }
 
     // 9.6f 0x40FEB0
-    Car* AsCar_40FEB0() const
+    Car* AsCar() const
     {
         if (mSpriteTypeEnum == sprite_types_enum::car_2)
         {
@@ -362,7 +362,7 @@ class Sprite
     }
 
     // 9.6f 0x40FEA0
-    Char* AsCharB4_40FEA0() const
+    Char* AsCharB4() const
     {
         if (mSpriteTypeEnum == sprite_types_enum::ped_3)
         {
@@ -375,30 +375,30 @@ class Sprite
     }
 
     // 9.6f 0x4BA230, defined in sprite.cpp
-    inline u16 GetTrueSpriteIdx_4BA230();
+    inline u16 GetTrueSpriteIdx();
 
     // 9.6f 0x446960
-    inline Fix16 ManhattanDistance_446960(const Sprite* pOther) const
+    inline Fix16 ManhattanDistance(const Sprite* pOther) const
     {
         return Fix16::Abs(pOther->mXy.x - mXy.x) + Fix16::Abs(pOther->mXy.y - mXy.y);
     }
 
     // 9.6f 0x446950
-    bool IsTypeAbove1_446950() const
+    bool IsTypeAbove1() const
     {
         return mSpriteTypeEnum > sprite_types_enum::object_1;
     }
 
     // 9.6f 0x40FE80
-    bool IsObject2CType_40FE80() const
+    bool IsObject2CType() const
     {
         return mSpriteTypeEnum == sprite_types_enum::code_obj1_4 || mSpriteTypeEnum == sprite_types_enum::map_obj_5 || mSpriteTypeEnum == sprite_types_enum::object_1;
     }
 
     // 9.6f 0x40FEC0
-    Object* AsObject2C_40FEC0() const
+    Object* AsObject2C() const
     {
-        if (IsObject2CType_40FE80())
+        if (IsObject2CType())
         {
             return mObject2CPtr;
         }
@@ -409,19 +409,19 @@ class Sprite
     }
 
     // 9.6f 0x4BA200
-    inline s32 GetBlendMode_4BA200() const
+    inline s32 GetBlendMode() const
     {
         return mFlags & 3;
     }
 
     // 9.6f 0x4BA210
-    inline u32 GetAlphaBits_4BA210() const
+    inline u32 GetAlphaBits() const
     {
         return mFlags & 0xFFFFFFF8;
     }
 
     // 9.6f 0x4B9BA0
-    inline s32 GetLightingDrawFlag_4B9BA0() const
+    inline s32 GetLightingDrawFlag() const
     {
         if ((mFlags & 4) == 0)
         {
@@ -432,27 +432,27 @@ class Sprite
 
     // matched on 9.6f but slight different on 10.5: https://decomp.me/scratch/iNjwT
     // 9.6f 0x4BAC60
-    inline u32 ComputeDrawFlags_4BAC60() const
+    inline u32 ComputeDrawFlags() const
     {
         u32 flags;
-        switch (GetBlendMode_4BA200())
+        switch (GetBlendMode())
         {
             case 0:
-                return GetLightingDrawFlag_4B9BA0() | 0x80;
+                return GetLightingDrawFlag() | 0x80;
             case 1:
-                flags = GetAlphaBits_4BA210();
+                flags = GetAlphaBits();
                 gTileVerts_7036D0[0].diff = (flags << 24) | 0xFFFFFF;
                 gTileVerts_7036D0[1].diff = (flags << 24) | 0xFFFFFF;
                 gTileVerts_7036D0[2].diff = (flags << 24) | 0xFFFFFF;
                 gTileVerts_7036D0[3].diff = (flags << 24) | 0xFFFFFF;
-                return GetLightingDrawFlag_4B9BA0() | 0x2180;
+                return GetLightingDrawFlag() | 0x2180;
             case 2:
-                flags = GetAlphaBits_4BA210();
+                flags = GetAlphaBits();
                 gTileVerts_7036D0[0].diff = (flags << 24) | 0xFFFFFF;
                 gTileVerts_7036D0[1].diff = (flags << 24) | 0xFFFFFF;
                 gTileVerts_7036D0[2].diff = (flags << 24) | 0xFFFFFF;
                 gTileVerts_7036D0[3].diff = (flags << 24) | 0xFFFFFF;
-                return GetLightingDrawFlag_4B9BA0() | 0x2280;
+                return GetLightingDrawFlag() | 0x2280;
             default:
                 return 0;
         }
@@ -484,32 +484,32 @@ class Sprite
     SoundObject* mSound; // 0x10
 
     // 9.6f 0x4206F0
-    void SetType_4206F0(s32 sprite_type)
+    void SetType(s32 sprite_type)
     {
         mSpriteTypeEnum = sprite_type;
         SetDefaultDrawLayerBySpriteType(); // Update field_28
     }
 
     // 9.6f 0x482A30
-    void SetObject2C_482A30(Object* pObject)
+    void SetObject2C(Object* pObject)
     {
         this->mObject2CPtr = pObject;
     }
 
     // 9.6f 0x420710
-    void SetCar_420710(Car* pCar)
+    void SetCar(Car* pCar)
     {
         this->mCarBcPtr = pCar;
     }
 
     // 9.6f 0x492180
-    void SetChar_492180(Char* pChar)
+    void SetChar(Char* pChar)
     {
         this->mCharB4Ptr = pChar;
     }
 
     // 9.6f 0x4206C0
-    void set_id_lazy_4206C0(s16 new_id)
+    void set_id_lazy(s16 new_id)
     {
         if (mTypeSpriteIdx != new_id)
         {
@@ -519,38 +519,38 @@ class Sprite
     }
 
     // 9.6f 0x4206E0
-    void set_id_4206E0(u16 new_id)
+    void set_id(u16 new_id)
     {
         this->mTypeSpriteIdx = new_id;
     }
 
     // 9.6f 0x4337F0
-    void SetNoLighting_4337F0()
+    void SetNoLighting()
     {
         this->mFlags |= 4u;
     }
 
     // 9.6f 0x482A40
-    void SetDimensions_482A40(Fix16 w, Fix16 h, Fix16 depth)
+    void SetDimensions(Fix16 w, Fix16 h, Fix16 depth)
     {
-        mpCollisionShape->SetDimensions_482980(w, h, depth);
+        mpCollisionShape->SetDimensions(w, h, depth);
         InvalidateZColAndBBoxes();
     }
 
     // 9.6f 0x433800
-    void ClearNoLighting_433800()
+    void ClearNoLighting()
     {
         this->mFlags &= ~4u;
     }
 
     // 9.6f 0x4337D0
-    void SetBlendAndAlpha_4337D0(u8 low_bits, u8 high_bits)
+    void SetBlendAndAlpha(u8 low_bits, u8 high_bits)
     {
         this->mFlags = (high_bits << 3) | low_bits;
     }
 
     // 9.6f inline 0x420690
-    inline void set_ang_lazy_420690(Ang16 ang)
+    inline void set_ang_lazy(Ang16 ang)
     {
         if (ang != mRotation)
         {
@@ -585,7 +585,7 @@ class Sprite
     }
 
     // 9.6f inline 0x447E20
-    void set_xy_lazy_447E20(Fix16 x_target, Fix16 y_target)
+    void set_xy_lazy(Fix16 x_target, Fix16 y_target)
     {
         if (mXy.x != x_target || mXy.y != y_target)
         {
@@ -596,7 +596,7 @@ class Sprite
     }
 
     // 9.6f inline 0x420660
-    void set_z_lazy_420660(Fix16 zpos)
+    void set_z_lazy(Fix16 zpos)
     {
         if (mZpos != zpos)
         {
@@ -621,7 +621,7 @@ class Sprite
     }
 
     // 9.6f 0x40F7B0
-    inline void SetDrawLayer_40F7B0(s32 new_layer)
+    inline void SetDrawLayer(s32 new_layer)
     {
         mDrawLayer = new_layer;
     }
@@ -662,13 +662,13 @@ class SpriteMask
     }
 
     // 9.6f 0x44AF70
-    void Invalidate_44AF70()
+    void Invalidate()
     {
         mSpriteIdx = -1;
     }
 
     // 9.6f 0x44AF50
-    void SetKey_44AF50(u16 sprite_idx, u32 delta_mask, u16 palette)
+    void SetKey(u16 sprite_idx, u32 delta_mask, u16 palette)
     {
         mSpriteIdx = sprite_idx;
         mDeltaMask = delta_mask;
@@ -821,7 +821,7 @@ class SpritePool
     }
 
     // 9.6f 0x48A8D0
-    inline bool has_free_48A8D0() const
+    inline bool has_free() const
     {
         return mPool.mpHead != NULL;
     }

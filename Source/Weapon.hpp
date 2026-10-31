@@ -26,25 +26,25 @@ class Weapon
     }
 
     // 9.6f 0x4A4F90
-    inline void set_infinite_ammo_4A4F90()
+    inline void set_infinite_ammo()
     {
         mAmmo = 0xFFFF;
     }
 
     // 9.6f 0x4CCA00
-    inline void set_idx_4CCA00(s32 v)
+    inline void set_idx(s32 v)
     {
         mWeaponType = v;
     }
 
     // 9.6f 0x4CCA10
-    inline void set_pPed_4CCA10(Ped* v)
+    inline void set_pPed(Ped* v)
     {
         mpPed = v;
     }
 
     // 9.6f 0x4CCA20
-    inline void set_car_4CCA20(Car* v)
+    inline void set_car(Car* v)
     {
         mCar = v;
     }
@@ -85,7 +85,7 @@ class Weapon
     EXPORT void GetSoundPos(Fix16* pX, Fix16* pY, Fix16* pZ) const;
 
     // 9.6f inline 0x4A4FA0
-    bool is_infinite_ammo_4A4FA0() const
+    bool is_infinite_ammo() const
     {
         return mAmmo == 0xFFFF;
     }
@@ -93,7 +93,7 @@ class Weapon
     // 9.6f inline 0x4A4FB0
     u8 get_ammo_4A4FB0() const
     {
-        if (is_infinite_ammo_4A4FA0())
+        if (is_infinite_ammo())
         {
             return -1;
         }
@@ -105,10 +105,10 @@ class Weapon
 
     // Maybe decrement ammo for weapons like shotgun, molotov, grenades, rocket launcher, (dual) pistol etc
     // 9.6f 0x4CCA30
-    __forceinline void decrement_ammo_4CCA30()
+    __forceinline void decrement_ammo()
     {
         s32 new_ammo = mAmmo - 10;
-        if (!is_infinite_ammo_4A4FA0())
+        if (!is_infinite_ammo())
         {
             if (new_ammo < 0)
             {
@@ -120,22 +120,22 @@ class Weapon
 
     // Maybe decrement ammo for weapons like machine gun, SMG etc
     // 9.6f 0x4CCA60
-    void DecreaseAmmo_4CCA60()
+    void DecreaseAmmo()
     {
-        if (!is_infinite_ammo_4A4FA0())
+        if (!is_infinite_ammo())
         {
             --mAmmo;
         }
     }
 
     // 9.6f 0x4CCA80
-    void SetShotFired_4CCA80(bool new_value)
+    void SetShotFired(bool new_value)
     {
         mShotFired = new_value;
     }
 
     // 9.6f 0x41CC80
-    inline bool TakeShotFired_41CC80()
+    inline bool TakeShotFired()
     {
         bool ret = mShotFired;
         mShotFired = false;
@@ -143,31 +143,31 @@ class Weapon
     }
 
     // 9.6f 0x4A4F80
-    inline bool HasAmmo_4A4F80() const
+    inline bool HasAmmo() const
     {
         return mAmmo != 0;
     }
 
     // 9.6f 0x4A4FF0
-    void SetAmmo_4A4FF0(u16 ammo)
+    void SetAmmo(u16 ammo)
     {
         this->mAmmo = ammo;
     }
 
     // 9.6f 0x41CC90
-    s32 GetWeaponType_41CC90() const
+    s32 GetWeaponType() const
     {
         return mWeaponType;
     }
     
     // 9.6f 0x433810
-    void SetTargetHit_433810(s32 value)
+    void SetTargetHit(s32 value)
     {
         mbTargetHit = value;
     }
 
     // 9.6f 0x41CC70
-    s32 IsTargetHit_41CC70() const
+    s32 IsTargetHit() const
     {
         return mbTargetHit;
     }

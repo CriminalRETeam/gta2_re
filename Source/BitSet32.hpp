@@ -95,43 +95,43 @@ class BitSet32
     }
 
     // 9.6f 0x4A5190
-    inline u32 GetRaw_4A5190()
+    inline u32 GetRaw()
     {
         return m_var;
     }
 
     // 9.6f 0x4BA360
-    inline void SetGlobal0_4BA360()
+    inline void SetGlobal0()
     {
         gFlags = kGlobalMask0;
     }
 
     // 9.6f 0x4BA370
-    inline void SetGlobal1_4BA370()
+    inline void SetGlobal1()
     {
         gFlags = kGlobalMask1;
     }
 
     // 9.6f 0x4BA350
-    inline void SetGlobal2_4BA350()
+    inline void SetGlobal2()
     {
         gFlags = kGlobalMask2;
     }
 
     // 9.6f 0x4BA330
-    inline void MaskWithGlobalFlags_4BA330()
+    inline void MaskWithGlobalFlags()
     {
         m_var &= gFlags;
     }
 
     // 9.6f 0x4BA340
-    inline void ClearGlobalFlags_4BA340()
+    inline void ClearGlobalFlags()
     {
         m_var &= ~gFlags;
     }
 
     // 9.6f 0x420D90
-    void ClearAllBits_420D90()
+    void ClearAllBits()
     {
         m_var = 0;
     }

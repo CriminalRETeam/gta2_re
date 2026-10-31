@@ -40,31 +40,31 @@ class Game
 {
   public:
     // 9.6f 0x4A4750
-    inline void ToggleFastForward_4A4750()
+    inline void ToggleFastForward()
     {
         mFastForward = !mFastForward;
     }
 
     // 9.6f 0x416BC0
-    inline bool IsPaused_416BC0() const
+    inline bool IsPaused() const
     {
         return mGameState == GameState::Paused_2;
     }
 
     // 9.6f 0x4B7590
-    inline bool IsExitTimerSet_4B7590() const
+    inline bool IsExitTimerSet() const
     {
         return mExitTimer != -1;
     }
 
     // 9.6f 0x476790
-    inline u8 GetLocalPlayerIdx_476790() const
+    inline u8 GetLocalPlayerIdx() const
     {
         return mLocalPlayerIdx;
     }
 
     // 9.6f 0x4D09C0
-    inline s32 GetExitType_4D09C0() const
+    inline s32 GetExitType() const
     {
         return mGameExitType;
     }
@@ -109,7 +109,7 @@ class Game
     EXPORT ~Game(); // 4BAE30
 
     // 9.6f 0x4219E0
-    Player* GetPlayer_4219E0(u8 idx) const
+    Player* GetPlayer(u8 idx) const
     {
         return mPlayers[idx];
     }

@@ -16,7 +16,7 @@ class CollisionTarget
     EXPORT bool IsObj2C() const;
 
     // 9.6f 0x4637B0
-    void Reset_4637B0()
+    void Reset()
     {
         this->mType = collision_target_type::none_0;
         this->mpHitSprite = NULL;
@@ -24,33 +24,33 @@ class CollisionTarget
     }
 
     // 9.6f 0x49EF10
-    void SetSourceSprite_49EF10(Sprite* pSprite)
+    void SetSourceSprite(Sprite* pSprite)
     {
         this->mpSourceSprite = pSprite;
     }
 
     // 9.6f 0x482A70
-    void SetFloorBelow_482A70()
+    void SetFloorBelow()
     {
         this->mType = collision_target_type::floor_below_4;
         this->mpHitSprite = NULL;
     }
 
     // 9.6f 0x482A80
-    void SetBlockAtZ_482A80()
+    void SetBlockAtZ()
     {
         this->mType = collision_target_type::block_at_z_5;
         this->mpHitSprite = NULL;
     }
 
     // 9.6f 0x4BA2B0
-    void SetMapZ_4BA2B0(Fix16 z)
+    void SetMapZ(Fix16 z)
     {
         this->mZ = z;
     }
 
     // 9.6f 0x4BA280
-    void SetVerticalSegment_4BA280(Fix16 y_min, Fix16 y_max, Fix16 x)
+    void SetVerticalSegment(Fix16 y_min, Fix16 y_max, Fix16 x)
     {
         this->mVsegYMin = y_min;
         this->mType = collision_target_type::vertical_edge_2;
@@ -60,7 +60,7 @@ class CollisionTarget
     }
 
     // 9.6f 0x4BA250
-    void SetHorizontalSegment_4BA250(Fix16 x_min, Fix16 x_max, Fix16 y)
+    void SetHorizontalSegment(Fix16 x_min, Fix16 x_max, Fix16 y)
     {
         this->mHsegXMin = x_min;
         this->mType = collision_target_type::horizontal_edge_1;
@@ -70,13 +70,13 @@ class CollisionTarget
     }
 
     // 9.6f 0x49EF20
-    bool IsCharB4_49EF20() const
+    bool IsCharB4() const
     {
-        return this->mType == collision_target_type::sprite_3 && mpHitSprite->AsCharB4_40FEA0();
+        return this->mType == collision_target_type::sprite_3 && mpHitSprite->AsCharB4();
     }
 
     // 9.6f 0x40FEE0
-    void SetSprite_40FEE0(Sprite* pSprite)
+    void SetSprite(Sprite* pSprite)
     {
         mType = collision_target_type::sprite_3;
         mpHitSprite = pSprite;
@@ -105,7 +105,7 @@ class CollisionEvent
     EXPORT bool SetupForObject(Object* pObj);
 
     // 9.6f 0x40FF10
-    void SetImpactStrength_40FF10(const Fix16& strength)
+    void SetImpactStrength(const Fix16& strength)
     {
         this->mImpactStrength = strength;
     }

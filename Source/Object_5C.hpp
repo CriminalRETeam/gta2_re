@@ -52,7 +52,7 @@ class Object
     STATIC_MEMBER(Sprite*, sObject2CLastCollisionSprite);
     STATIC_MEMBER(bool, sObject2CHitWallOrDoor);
     // 9.6f 0x4C4F10
-    inline void SetThreadTriggerIdx_4C4F10(char_type v)
+    inline void SetThreadTriggerIdx(char_type v)
     {
         mThreadTriggerIdx = v;
     }
@@ -156,27 +156,27 @@ class Object
     EXPORT void Sprite_UpdateZFromSlopeAndTile(Sprite* pSprite);
 
     // 9.6f 0x475A70
-    inline bool IsStaticCollisionCheck_475A70() const
+    inline bool IsStaticCollisionCheck() const
     {
         return mDefinition->mBehaviorType == object_behavior_type::static_collision_check_1;
     }
 
     // 9.6f 0x475A60
-    inline bool IsShop_475A60() const
+    inline bool IsShop() const
     {
         s32 behavior_type = mDefinition->mBehaviorType;
         return behavior_type == object_behavior_type::shop_10;
     }
 
     // 9.6f 0x475A80
-    bool IsAnimatedBehavior_475A80() const
+    bool IsAnimatedBehavior() const
     {
         s32 behavior_type = this->mDefinition->mBehaviorType;
         return behavior_type == object_behavior_type::animated_2 || behavior_type == object_behavior_type::physics_animated_4 || behavior_type == object_behavior_type::pickup_animated_8 || behavior_type == object_behavior_type::pickup_physics_animated_9;
     }
 
     // 9.6f 0x434140
-    inline bool IsDestroyedPowergen_434140() const
+    inline bool IsDestroyedPowergen() const
     {
         if (mModel == objects::destroyed_invisible_powergen_285 || mModel == objects::destroyed_powergen_282)
         {
@@ -186,7 +186,7 @@ class Object
     }
 
     // 9.6f 0x482C90
-    bool CanBePushed_482C90() const
+    bool CanBePushed() const
     {
         s32 behavior_type = mDefinition->mBehaviorType;
         if (behavior_type == object_behavior_type::physics_3 || behavior_type == object_behavior_type::physics_animated_4 ||
@@ -198,7 +198,7 @@ class Object
     }
 
     // 9.6f 0x421080
-    bool UsesParamAsPedRef_421080() const
+    bool UsesParamAsPedRef() const
     {
         s32 type = this->mDefinition->mBehaviorType;
         return type != object_behavior_type::pickup_6 && type != object_behavior_type::pickup_physics_7 &&
@@ -208,68 +208,68 @@ class Object
     }
 
     // 9.6f 0x4973E0
-    bool IsOwnedByPedRef_4973E0(u8 ped_ref_idx) const
+    bool IsOwnedByPedRef(u8 ped_ref_idx) const
     {
-        return UsesParamAsPedRef_421080() && mPedRefIdx == ped_ref_idx;
+        return UsesParamAsPedRef() && mPedRefIdx == ped_ref_idx;
     }
 
     // 9.6f 0x4210B0
-    bool IsSpriteGrid2Region3_4210B0() const
+    bool IsSpriteGrid2Region3() const
     {
         return mDefinition->mCollisionBucketCategory == collision_bucket_category::sprite_grid_2_region_3;
     }
 
     // Inlined on version 9.6f 0x447e90 (also 9.6f copies 0x45E0A0 and 0x482C00)
-    inline void SetParam_447E90(u8 v)
+    inline void SetParam(u8 v)
     {
         mPedRefIdx = v;
     }
 
     // Inlined on version 9.6f 0x420FF0
-    inline u8 GetPedRefIdx_420FF0() const
+    inline u8 GetPedRefIdx() const
     {
         return mPedRefIdx;
     }
 
     // 9.6f 0x421050
-    inline u8 GetParam_421050() const
+    inline u8 GetParam() const
     {
         return mPedRefIdx;
     }
 
     // 9.6f 0x4340A0
-    inline u8 GetAmmo_4340A0() const
+    inline u8 GetAmmo() const
     {
         return mPedRefIdx;
     }
 
     // 9.6f 0x434130
-    inline void SetO8Timer_434130(s16 timer)
+    inline void SetO8Timer(s16 timer)
     {
         mpAny.o8->mTimer = timer;
     }
 
     // 9.6f 0x40FEF0
-    s32 GetModel_40FEF0() const
+    s32 GetModel() const
     {
         return mModel;
     }
 
     // 9.6f 0x40FF00
-    inline char_type MakesCollisionSound_40FF00() const
+    inline char_type MakesCollisionSound() const
     {
         return mDefinition->mMakesCollisionSound;
     }
 
     // 9.6f 0x475AA0
-    inline bool IsModel176To181_475AA0() const
+    inline bool IsModel176To181() const
     {
         s32 model = mModel;
         return model == 176 || model == 177 || model == 178 || model == 179 || model == 180 || model == 181;
     }
 
     // 9.6f 0x421060
-    bool IsPickup_421060() const
+    bool IsPickup() const
     {
         return mDefinition->mBehaviorType == object_behavior_type::pickup_6 ||
             mDefinition->mBehaviorType == object_behavior_type::pickup_physics_7 ||
@@ -291,31 +291,31 @@ class Object
     }
 
     // 9.6f 0x4340D0
-    inline Fix16 GetX_4340D0() const
+    inline Fix16 GetX() const
     {
         return mSprite->mXy.x;
     }
 
     // 9.6f 0x4340E0
-    inline Fix16 GetY_4340E0() const
+    inline Fix16 GetY() const
     {
         return mSprite->mXy.y;
     }
 
     // 9.6f 0x4340F0
-    inline Fix16 GetZ_4340F0() const
+    inline Fix16 GetZ() const
     {
         return mSprite->mZpos;
     }
 
     // 9.6f 0x4BE850
-    bool IsGangIcon_4BE850() const
+    bool IsGangIcon() const
     {
         return mModel >= objects::loonies_icon_287 && mModel <= objects::russian_mafia_icon_293;
     }
 
     // 9.6f 0x4BE830
-    bool IsFlameObject_4BE830() const
+    bool IsFlameObject() const
     {
         if (this->mModel == objects::fire_197)
         {
@@ -331,36 +331,36 @@ class Object
     }
 
     // 9.6f 0x482400
-    static inline bool IsExplosiveItemDefinition_482400(s32 idx)
+    static inline bool IsExplosiveItemDefinition(s32 idx)
     {
         return idx >= 39 && idx <= 42;
     }
 
     // 9.6f 0x482C80
-    inline Fix16 GetMass_482C80() const
+    inline Fix16 GetMass() const
     {
         return mDefinition->mMass;
     }
 
     // 9.6f 0x482BE0
-    void ApplyDefinitionDrawLayer_482BE0()
+    void ApplyDefinitionDrawLayer()
     {
-        mSprite->SetDrawLayer_40F7B0(mDefinition->mDrawLayer);
+        mSprite->SetDrawLayer(mDefinition->mDrawLayer);
     }
 
     // 9.6f 0x482C10, defined in Object_5C.cpp (needs Object_8)
-    inline bool IsAnimFinished_482C10() const;
+    inline bool IsAnimFinished() const;
 
     // 9.6f 0x493090
-    inline void GetConveyorDirection_493090(s8* pX, s8* pY)
+    inline void GetConveyorDirection(s8* pX, s8* pY)
     {
-        UnpackSignedNibbles(GetParam_421050(), pX, pY);
+        UnpackSignedNibbles(GetParam(), pX, pY);
     }
 
     // 9.6f 0x482BF0
-    void SetTopDrawLayer_482BF0()
+    void SetTopDrawLayer()
     {
-        mSprite->SetDrawLayer_40F7B0(29);
+        mSprite->SetDrawLayer(29);
     }
 
     Object* mpNext;

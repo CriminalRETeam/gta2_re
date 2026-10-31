@@ -26,7 +26,7 @@ class Firefighter
   public:
     // inline
     // 9.6f 0x450C10
-    void Clear_450C10()
+    void Clear()
     {
         mTargetCar = NULL;
         mState = firefighter_state::idle_0;

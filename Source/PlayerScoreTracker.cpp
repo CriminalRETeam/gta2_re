@@ -74,21 +74,21 @@ void PlayerScoreTracker::Service()
     if (mOneSecondTimerMs >= 1000)
     {
         mOneSecondTimerMs -= 1000;
-        Car* pCar = player_ped->get_car_416B60();
+        Car* pCar = player_ped->get_car();
 
         if (pCar)
         {
-            if (player_ped->not_enter_car_as_passenger_4A5040() && pCar->HasTaxiLight_4216C0())
+            if (player_ped->not_enter_car_as_passenger() && pCar->HasTaxiLight())
             {
                 if (!pCar->mPassengersList.IsEmpty_420EA0())
                 {
-                    mPlayer->AddScore_41DC40(1);
+                    mPlayer->AddScore(1);
                 }
             }
         }
-        if (player_ped->get_wanted_points_433DC0() >= cop_level_ped_enum::cop_4_stars)
+        if (player_ped->get_wanted_points() >= cop_level_ped_enum::cop_4_stars)
         {
-            mPlayer->AddScore_41DC40(1);
+            mPlayer->AddScore(1);
         }
 
         mPlayer->mCrimeStats.AddEvasionRating(player_ped->get_wanted_star_count());
@@ -97,9 +97,9 @@ void PlayerScoreTracker::Service()
     if (mExecutionCount >= 20u)
     {
         mExecutionCount = 0;
-        mPlayer->AddScore_41DC40(100000);
+        mPlayer->AddScore(100000);
 
-        if (mPlayer->IsUser_41DC70())
+        if (mPlayer->IsUser())
         {
             gHud_2B00->mMessage.ShowMessage(gText_0x14->Find("excutin"), hud_message_priority::normal_1);
             gRoot_sound.PlayVoice(voice_line::expiditious_4);
@@ -109,8 +109,8 @@ void PlayerScoreTracker::Service()
     if (mNumElvisKilled >= 6u)
     {
         mNumElvisKilled = 0;
-        mPlayer->AddScore_41DC40(30000);
-        if (mPlayer->IsUser_41DC70())
+        mPlayer->AddScore(30000);
+        if (mPlayer->IsUser())
         {
             gHud_2B00->mMessage.ShowMessage(gText_0x14->Find("elvis_d"), hud_message_priority::normal_1);
             gRoot_sound.PlayVoice(voice_line::elvis_8);
@@ -120,8 +120,8 @@ void PlayerScoreTracker::Service()
     if (mKilledCarsFlags == emergency_car_kill_flag::all_7)
     {
         mKilledCarsFlags = emergency_car_kill_flag::none_0;
-        mPlayer->AddScore_41DC40(10000);
-        if (mPlayer->IsUser_41DC70())
+        mPlayer->AddScore(10000);
+        if (mPlayer->IsUser())
         {
             gHud_2B00->mMessage.ShowMessage(gText_0x14->Find("em_dest"), hud_message_priority::normal_1);
             gRoot_sound.PlayVoice(voice_line::medicalemer_11);
@@ -131,8 +131,8 @@ void PlayerScoreTracker::Service()
     if (mTotalKills >= 1000)
     {
         mTotalKills = 0;
-        mPlayer->AddScore_41DC40(30000);
-        if (mPlayer->IsUser_41DC70())
+        mPlayer->AddScore(30000);
+        if (mPlayer->IsUser())
         {
             gHud_2B00->mMessage.ShowMessage(gText_0x14->Find("gencide"), hud_message_priority::normal_1);
             gRoot_sound.PlayVoice(voice_line::genocide_5);
@@ -142,8 +142,8 @@ void PlayerScoreTracker::Service()
     if (mCopCarsDestroyed >= 20u)
     {
         mCopCarsDestroyed = 0;
-        mPlayer->AddScore_41DC40(5000);
-        if (mPlayer->IsUser_41DC70())
+        mPlayer->AddScore(5000);
+        if (mPlayer->IsUser())
         {
             gHud_2B00->mMessage.ShowMessage(gText_0x14->Find("copkill"), hud_message_priority::normal_1);
             gRoot_sound.PlayVoice(voice_line::copkilla_6);
@@ -153,8 +153,8 @@ void PlayerScoreTracker::Service()
     if (mCarsStolenCount >= 100)
     {
         mCarsStolenCount = 0;
-        mPlayer->AddScore_41DC40(10000);
-        if (mPlayer->IsUser_41DC70())
+        mPlayer->AddScore(10000);
+        if (mPlayer->IsUser())
         {
             gHud_2B00->mMessage.ShowMessage(gText_0x14->Find("carjaka"), hud_message_priority::normal_1);
             gRoot_sound.PlayVoice(voice_line::carjacker_7);
@@ -164,8 +164,8 @@ void PlayerScoreTracker::Service()
     if (mAccuracyCount >= 25)
     {
         mAccuracyCount = 0;
-        mPlayer->AddScore_41DC40(5000);
-        if (mPlayer->IsUser_41DC70())
+        mPlayer->AddScore(5000);
+        if (mPlayer->IsUser())
         {
             gHud_2B00->mMessage.ShowMessage(gText_0x14->Find("accurcy"), hud_message_priority::normal_1);
             gRoot_sound.PlayVoice(voice_line::accuracyb_9);
@@ -173,12 +173,12 @@ void PlayerScoreTracker::Service()
     }
 
     Car* pReversingCar;
-    if (player_ped->get_wanted_points_433DC0() > cop_level_ped_enum::cop_3_stars && (player_ped->has_car_403B80()) &&
-        player_ped->not_enter_car_as_passenger_4A5040() &&
-        (pReversingCar = player_ped->get_car_416B60()) != NULL && // already tested by has_car_403B80, so the compiler drops it
+    if (player_ped->get_wanted_points() > cop_level_ped_enum::cop_3_stars && (player_ped->has_car()) &&
+        player_ped->not_enter_car_as_passenger() &&
+        (pReversingCar = player_ped->get_car()) != NULL && // already tested by has_car, so the compiler drops it
         (pReversingCar->mPhysics) != NULL &&
 
-        pReversingCar->mPhysics->is_backward_gas_on_411810())
+        pReversingCar->mPhysics->is_backward_gas_on())
     {
         mReverseTimeMs += gGame_0x40->GetFrameDurationMs();
     }
@@ -190,16 +190,16 @@ void PlayerScoreTracker::Service()
     if (mReverseTimeMs >= 60000u)
     {
         mReverseTimeMs = 0;
-        mPlayer->AddScore_41DC40(1000);
-        if (mPlayer->IsUser_41DC70())
+        mPlayer->AddScore(1000);
+        if (mPlayer->IsUser())
         {
             gHud_2B00->mMessage.ShowMessage(gText_0x14->Find("wrngway"), hud_message_priority::normal_1);
             gRoot_sound.PlayVoice(voice_line::back2front_10);
         }
     }
 
-    Car* pFlyingCar = player_ped->get_car_416B60();
-    if (pFlyingCar && player_ped->not_enter_car_as_passenger_4A5040() && (pFlyingCar->mPhysics) != NULL &&
+    Car* pFlyingCar = player_ped->get_car();
+    if (pFlyingCar && player_ped->not_enter_car_as_passenger() && (pFlyingCar->mPhysics) != NULL &&
         pFlyingCar->mPhysics->IsInAir()
         && pFlyingCar->GetVelocity() > kFlyCarMinVelocity)
     {
@@ -212,9 +212,9 @@ void PlayerScoreTracker::Service()
 
     if (mFlyCarTimeMs >= 1250 && mFlyCarTimeMs < 2250)
     {
-        mPlayer->AddScore_41DC40(1000);
+        mPlayer->AddScore(1000);
         mFlyCarTimeMs = 2250;
-        if (mPlayer->IsUser_41DC70())
+        if (mPlayer->IsUser())
         {
             gHud_2B00->mMessage.ShowMessage(gText_0x14->Find("fly_car"), hud_message_priority::normal_1);
             gRoot_sound.PlayVoice(voice_line::insanestunt_1);
@@ -224,7 +224,7 @@ void PlayerScoreTracker::Service()
     if (bStartNetworkGame)
     {
         s32 frags_or_points;
-        u8 player_idx = mPlayer->get_idx_4219D0();
+        u8 player_idx = mPlayer->get_idx();
         u8 gamemode = gGameSession.GetMultiplayerGamemode();
         s32 points_limit = gGameSession.GetMultiplayerPointsLimit();
 
@@ -245,7 +245,7 @@ void PlayerScoreTracker::Service()
             if (frags_or_points >= points_limit)
             {
                 gGameSession.SetWinnerIdx(player_idx);
-                if (!gGame_0x40->IsExitTimerSet_4B7590())
+                if (!gGame_0x40->IsExitTimerSet())
                 {
                     gHud_2B00->mMessage.ShowMessage(gText_0x14->Find("g_over"), hud_message_priority::important_3);
                 }
@@ -254,9 +254,9 @@ void PlayerScoreTracker::Service()
         }
     }
 
-    const s32 cur_rng = gpRng->get_cur_rng_41CFE0();
+    const s32 cur_rng = gpRng->get_cur_rng();
 
-    if (static_cast<u32>(gpRng->get_cur_rng_41CFE0() - mLastCarKillTime) > 15)
+    if (static_cast<u32>(gpRng->get_cur_rng() - mLastCarKillTime) > 15)
     {
         mCarKillCombo = 1;
     }
@@ -354,8 +354,8 @@ void PlayerScoreTracker::CheckAllCarModelsFlagged(char_type bits)
             }
         }
 
-        mPlayer->AddScore_41DC40(30000);
-        if (mPlayer->IsUser_41DC70())
+        mPlayer->AddScore(30000);
+        if (mPlayer->IsUser())
         {
             gHud_2B00->mMessage.ShowMessage(gText_0x14->Find("stl_all"), hud_message_priority::normal_1);
             gRoot_sound.PlayVoice(voice_line::gta_2);
@@ -372,8 +372,8 @@ void PlayerScoreTracker::CheckAllCarModelsFlagged(char_type bits)
             }
         }
 
-        mPlayer->AddScore_41DC40(50000);
-        if (mPlayer->IsUser_41DC70())
+        mPlayer->AddScore(50000);
+        if (mPlayer->IsUser())
         {
             gHud_2B00->mMessage.ShowMessage(gText_0x14->Find("dst_all"), hud_message_priority::normal_1);
             gRoot_sound.PlayVoice(voice_line::wipeout_3);
@@ -414,7 +414,7 @@ void PlayerScoreTracker::AddCash(s32 cash)
 
     if (bStartNetworkGame)
     {
-        gGameSession.ChangePointsForPlayerIdxByAmount(mPlayer->get_idx_4219D0(), cash);
+        gGameSession.ChangePointsForPlayerIdxByAmount(mPlayer->get_idx(), cash);
     }
 }
 
@@ -423,7 +423,7 @@ void PlayerScoreTracker::AddCash(s32 cash)
 MATCH_FUNC(0x592660)
 void PlayerScoreTracker::AwardPedKilledScore(Ped* pVictim, Ped* pKiller)
 {
-    const s32 multiplier = mPlayer->get_multiplier_4766A0();
+    const s32 multiplier = mPlayer->get_multiplier();
     gmp_map_zone* pZone = gMap_0x370->GetFirstZoneAtPos(pKiller->get_cam_x().ToInt(), pKiller->get_cam_y().ToInt());
 
     s16 gang_idx;
@@ -441,7 +441,7 @@ void PlayerScoreTracker::AwardPedKilledScore(Ped* pVictim, Ped* pKiller)
     }
 
     s32 killer_car_model;
-    Car* pKillerCar = pKiller->get_car_416B60();
+    Car* pKillerCar = pKiller->get_car();
     if (pKillerCar)
     {
         killer_car_model = pKillerCar->mCarInfoIdx;
@@ -452,14 +452,14 @@ void PlayerScoreTracker::AwardPedKilledScore(Ped* pVictim, Ped* pKiller)
     }
     mBonuses.ProcessBonusEvent(bonus_event_type::ped_killed_0,
                              car_model_enum::none,
-                             pVictim->get_occupation_403980(),
+                             pVictim->get_occupation(),
                              gang_idx,
-                             pVictim->get_remap_433BA0(),
+                             pVictim->get_remap(),
                              pVictim->mDeathCause,
                              killer_car_model,
                              pZone);
 
-    s32 rng = gpRng->get_cur_rng_41CFE0();
+    s32 rng = gpRng->get_cur_rng();
     if (static_cast<u32>(rng - mLastKillTime) > 15)
     {
         mExecutionCount = 1;
@@ -523,7 +523,7 @@ void PlayerScoreTracker::AwardPedKilledScore(Ped* pVictim, Ped* pKiller)
             bOtherGang = true;
         }
 
-        switch (pVictim->get_occupation_403980())
+        switch (pVictim->get_occupation())
         {
             case ped_ocupation_enum::paramedic_23:
             case ped_ocupation_enum::police:
@@ -704,7 +704,7 @@ void PlayerScoreTracker::AwardPedKilledScore(Ped* pVictim, Ped* pKiller)
     bool bAwardScore = true;
     if (bIsFrench)
     {
-        s32 occupation = pVictim->get_occupation_403980();
+        s32 occupation = pVictim->get_occupation();
         if (occupation == ped_ocupation_enum::police || occupation == ped_ocupation_enum::walking_guard_29 || occupation == ped_ocupation_enum::roadblock_cop_37 || bFbi || bSwat || bArmy)
         {
             bAwardScore = false;
@@ -714,13 +714,13 @@ void PlayerScoreTracker::AwardPedKilledScore(Ped* pVictim, Ped* pKiller)
     if (score > 0)
     {
         u32 total = mScoreMult * score;
-        if (!bExplodingScoresOff && bHasGameObject && bAwardScore && mPlayer->IsUser_41DC70())
+        if (!bExplodingScoresOff && bHasGameObject && bAwardScore && mPlayer->IsUser())
         {
             gExplodingScorePool->PushScore(pVictim->get_cam_x(), pVictim->get_cam_y(), pVictim->get_cam_z(), total * multiplier);
         }
         if (bAwardScore)
         {
-            mPlayer->AddScore_41DC40(total);
+            mPlayer->AddScore(total);
         }
         if (mScoreMult < 5)
         {
@@ -752,7 +752,7 @@ void PlayerScoreTracker::AwardPedKilledScore(Ped* pVictim, Ped* pKiller)
 MATCH_FUNC(0x592dd0)
 void PlayerScoreTracker::AwardCarDestroyedScore(Car* pCar, Ped* pKiller)
 {
-    const s32 multiplier = mPlayer->get_multiplier_4766A0();
+    const s32 multiplier = mPlayer->get_multiplier();
     gmp_map_zone* pZone = gMap_0x370->GetFirstZoneAtPos(pKiller->get_cam_x().ToInt(), pKiller->get_cam_y().ToInt());
 
     u32 killer_car_model = pKiller->get_car_model();
@@ -763,7 +763,7 @@ void PlayerScoreTracker::AwardCarDestroyedScore(Car* pCar, Ped* pKiller)
                              pCar->mCarInfoIdx,
                              ped_ocupation_enum::no_occupation,
                              gang_idx,
-                             pCar->mCarSprite->get_remap_41C1F0(),
+                             pCar->mCarSprite->get_remap(),
                              pCar->mDeathCause,
                              killer_car_model,
                              pZone);
@@ -777,13 +777,13 @@ void PlayerScoreTracker::AwardCarDestroyedScore(Car* pCar, Ped* pKiller)
         }
     }
 
-    s32 cur_rng = gpRng->get_cur_rng_41CFE0();
-    if (pCar->IsFireTruck_4118F0() || pCar->IsCopCar_421790() ||
-        pCar->IsMediCar_421780() || pCar->IsSwatVan_4217A0() ||
-        pCar->IsFbiCar_411920())
+    s32 cur_rng = gpRng->get_cur_rng();
+    if (pCar->IsFireTruck() || pCar->IsCopCar() ||
+        pCar->IsMediCar() || pCar->IsSwatVan() ||
+        pCar->IsFbiCar())
     {
 
-        if (static_cast<u32>(gpRng->get_cur_rng_41CFE0() - mLastEmergencyCarKillTime) > 150)
+        if (static_cast<u32>(gpRng->get_cur_rng() - mLastEmergencyCarKillTime) > 150)
         {
             mKilledCarsFlags = emergency_car_kill_flag::none_0;
         }
@@ -805,7 +805,7 @@ void PlayerScoreTracker::AwardCarDestroyedScore(Car* pCar, Ped* pKiller)
 
         mLastEmergencyCarKillTime = cur_rng;
     }
-    if (pCar->IsCopCar_421790() && bAwardScore)
+    if (pCar->IsCopCar() && bAwardScore)
     {
         mCopCarsDestroyed++;
     }
@@ -818,11 +818,11 @@ void PlayerScoreTracker::AwardCarDestroyedScore(Car* pCar, Ped* pKiller)
     {
         if (bAwardScore)
         {
-            if (mPlayer->IsUser_41DC70())
+            if (mPlayer->IsUser())
             {
-                gExplodingScorePool->PushScore(pCar->GetX_41E430(),
-                                                       pCar->GetY_41E440(),
-                                                       pCar->GetZ_41E450(),
+                gExplodingScorePool->PushScore(pCar->GetX(),
+                                                       pCar->GetY(),
+                                                       pCar->GetZ(),
                                                        multiplier * kill_car_score);
             }
         }
@@ -830,7 +830,7 @@ void PlayerScoreTracker::AwardCarDestroyedScore(Car* pCar, Ped* pKiller)
 
     if (bAwardScore)
     {
-        mPlayer->AddScore_41DC40(kill_car_score);
+        mPlayer->AddScore(kill_car_score);
     }
 
     mLastCarKillTime = cur_rng;
@@ -851,7 +851,7 @@ MATCH_FUNC(0x593030)
 void PlayerScoreTracker::AwardCarDamageScore(Car* pCar, s16 damage)
 {
     bool bAddScore = true;
-    s32 multiplier = mPlayer->get_multiplier_4766A0();
+    s32 multiplier = mPlayer->get_multiplier();
 
     if (bIsFrench)
     {
@@ -878,11 +878,11 @@ void PlayerScoreTracker::AwardCarDamageScore(Car* pCar, s16 damage)
         {
             if (bAddScore)
             {
-                if (this->mPlayer->IsUser_41DC70())
+                if (this->mPlayer->IsUser())
                 {
-                    gExplodingScorePool->PushScore(pCar->GetX_41E430(),
-                                                           pCar->GetY_41E440(),
-                                                           pCar->GetZ_41E450(),
+                    gExplodingScorePool->PushScore(pCar->GetX(),
+                                                           pCar->GetY(),
+                                                           pCar->GetZ(),
                                                            multiplier * base_score);
                 }
             }
@@ -890,7 +890,7 @@ void PlayerScoreTracker::AwardCarDamageScore(Car* pCar, s16 damage)
 
         if (bAddScore)
         {
-            mPlayer->AddScore_41DC40(base_score);
+            mPlayer->AddScore(base_score);
         }
 
         mPlayer->mCrimeStats.AddCarDamageCost(multiplier * base_score);
@@ -904,9 +904,9 @@ void PlayerScoreTracker::AwardCarDamageScore(Car* pCar, s16 damage)
 MATCH_FUNC(0x593150)
 void PlayerScoreTracker::AwardCarDamageScoreHit(Car* pCar, s16 damage)
 {
-    if (!pCar->IsMaxDamage_40F890())
+    if (!pCar->IsMaxDamage())
     {
-        const s32 multiplier = mPlayer->get_multiplier_4766A0();
+        const s32 multiplier = mPlayer->get_multiplier();
         u32 damage_u = damage;
         if (damage_u > 0)
         {
@@ -921,7 +921,7 @@ void PlayerScoreTracker::AwardCarDamageScoreHit(Car* pCar, s16 damage)
             }
             if (!bIsFrench || !pCar->IsPoliceCar())
             {
-                mPlayer->AddScore_41DC40(base_score);
+                mPlayer->AddScore(base_score);
             }
             mPlayer->mCrimeStats.AddCarDamageCost(multiplier * base_score);
 
@@ -933,30 +933,30 @@ void PlayerScoreTracker::AwardCarDamageScoreHit(Car* pCar, s16 damage)
 MATCH_FUNC(0x593220)
 void PlayerScoreTracker::AddCashWithMultiplier()
 {
-    mPlayer->AddScore_41DC40(20);
+    mPlayer->AddScore(20);
 }
 
 MATCH_FUNC(0x593240)
 void PlayerScoreTracker::AwardCarHijackedScore(Car* pCar)
 {
-    const s32 multiplier = mPlayer->get_multiplier_4766A0();
+    const s32 multiplier = mPlayer->get_multiplier();
     gmp_map_zone* pZone = gMap_0x370->GetFirstZoneAtPos(mPlayer->mPlayerPed->get_cam_x().ToInt(),
                                                            mPlayer->mPlayerPed->get_cam_y().ToInt());
 
     const u16 gang_idx = gGangPool_CA8->FindGangByCarModel(pCar->mCarInfoIdx);
-    mBonuses.ProcessBonusEvent(bonus_event_type::car_hijacked_2, pCar->mCarInfoIdx, ped_ocupation_enum::no_occupation, gang_idx, pCar->mCarSprite->get_remap_41C1F0(), ped_death_cause::any_23, car_model_enum::none, pZone);
+    mBonuses.ProcessBonusEvent(bonus_event_type::car_hijacked_2, pCar->mCarInfoIdx, ped_ocupation_enum::no_occupation, gang_idx, pCar->mCarSprite->get_remap(), ped_death_cause::any_23, car_model_enum::none, pZone);
 
     mCarsStolenCount++;
 
     const s32 base_score = GetCarScoreValue(pCar->mCarInfoIdx, car_score_tier::hijacked_0);
-    if (!bExplodingScoresOff && mPlayer->IsUser_41DC70())
+    if (!bExplodingScoresOff && mPlayer->IsUser())
     {
-        gExplodingScorePool->PushScore(pCar->GetX_41E430(),
-                                               pCar->GetY_41E440(),
-                                               pCar->GetZ_41E450(),
+        gExplodingScorePool->PushScore(pCar->GetX(),
+                                               pCar->GetY(),
+                                               pCar->GetZ(),
                                                multiplier * base_score);
     }
-    mPlayer->AddScore_41DC40(base_score);
+    mPlayer->AddScore(base_score);
 
     gCrimeReportQueue->ReportCrimeForPed(crime_stats_type::vehicles_hijacked_5, mPlayer->GetPlayerPed_4A5130());
     SetCarModelFlag(car_model_flag::stolen_1, pCar->mCarInfoIdx);
@@ -965,34 +965,34 @@ void PlayerScoreTracker::AwardCarHijackedScore(Car* pCar)
 MATCH_FUNC(0x593370)
 void PlayerScoreTracker::AwardBusStolenScore(Car* pCar)
 {
-    if (!bExplodingScoresOff && mPlayer->IsUser_41DC70())
+    if (!bExplodingScoresOff && mPlayer->IsUser())
     {
-        gExplodingScorePool->PushScore(pCar->GetX_41E430(),
-                                               pCar->GetY_41E440(),
-                                               pCar->GetZ_41E450(),
-                                               mPlayer->get_multiplier_4766A0() * 10);
+        gExplodingScorePool->PushScore(pCar->GetX(),
+                                               pCar->GetY(),
+                                               pCar->GetZ(),
+                                               mPlayer->get_multiplier() * 10);
     }
 
-    mPlayer->AddScore_41DC40(10);
+    mPlayer->AddScore(10);
     gCrimeReportQueue->ReportCrimeForPed(crime_stats_type::bus_stolen_4, mPlayer->GetPlayerPed_4A5130());
 }
 
 MATCH_FUNC(0x593410)
 void PlayerScoreTracker::AwardFullBusDestroyedScore(Car* pCar)
 {
-    const s32 multiplier = mPlayer->get_multiplier_4766A0();
+    const s32 multiplier = mPlayer->get_multiplier();
     if (!bExplodingScoresOff)
     {
-        if (mPlayer->IsUser_41DC70())
+        if (mPlayer->IsUser())
         {
-            gExplodingScorePool->PushScore(pCar->GetX_41E430(),
-                                                   pCar->GetY_41E440(),
-                                                   pCar->GetZ_41E450(),
+            gExplodingScorePool->PushScore(pCar->GetX(),
+                                                   pCar->GetY(),
+                                                   pCar->GetZ(),
                                                    multiplier * 100);
         }
     }
 
-    mPlayer->AddScore_41DC40(100);
+    mPlayer->AddScore(100);
     mPlayer->mCrimeStats.AddCarDamageCost(multiplier * 100);
 
     if (gCrimeReportQueue->ShouldReportCarCrime(pCar, mPlayer))
@@ -1007,7 +1007,7 @@ void PlayerScoreTracker::UpdateAccuracyCount(u32 event, s32 weapon_model, Ped* p
     mLastAccuracyEvent = event;
     if (pTarget && bIsFrench)
     {
-        switch (pTarget->get_occupation_403980())
+        switch (pTarget->get_occupation())
         {
             case ped_ocupation_enum::police:
             case ped_ocupation_enum::swat:

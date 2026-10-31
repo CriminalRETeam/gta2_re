@@ -1150,7 +1150,7 @@ void NetPlay::MakeSendData(Packet_SubType_3* pPacket, s32* pData, u32* pDataLen)
 
                     case packet_subtype::PlayerInputs_3: // In-Game data?
                     {
-                        s32 idx = GetPlayerIdx_409C40();
+                        s32 idx = GetPlayerIdx();
                         if (SeqDiff(pPacket->mSeq, sLastPlayerInputSeq[idx]) == 1 && sLastPlayerInputs[idx] == *static_cast<s32*>(pPacket->mData))
                         {
                             sLastPlayerInputSeq[idx] = pPacket->mSeq;
@@ -1169,11 +1169,11 @@ void NetPlay::MakeSendData(Packet_SubType_3* pPacket, s32* pData, u32* pDataLen)
                             pBuffer[1] = pPacket->mSeq;
                             memcpy(pBuffer + 2, pPacket->mData, pPacket->mLen);
                             *pDataLen = pPacket->mLen + 2;
-                            idx = GetPlayerIdx_409C40();
+                            idx = GetPlayerIdx();
                             if (SeqDiff(pPacket->mSeq, sLastPlayerInputSeq[idx]) == 1)
                             {
                                 sLastPlayerInputs[idx] = *static_cast<s32*>(pPacket->mData);
-                                sLastPlayerInputSeq[GetPlayerIdx_409C40()] = pPacket->mSeq;
+                                sLastPlayerInputSeq[GetPlayerIdx()] = pPacket->mSeq;
                             }
                         }
                         break;
@@ -1948,7 +1948,7 @@ bool NetPlay::WaitForPlayersSync()
     u32 waitingForSync = 0;
     for (u32 i = 0; i < MAX_PLAYERS; i++)
     {
-        if (mN2.mPlayers[i].mInUse && i != static_cast<u32>(GetPlayerIdx_409C40()))
+        if (mN2.mPlayers[i].mInUse && i != static_cast<u32>(GetPlayerIdx()))
         {
             waitingForAck |= 1 << i;
             waitingForSync |= 1 << i;
@@ -2024,7 +2024,7 @@ s32 NetPlay::SendToPlayer(Network_Buffer* pSendData, s32 player_idx, char_type d
     pStru.mData = pSendData->mData;
     pStru.mLen = pSendData->mLen;
     NetPlay::MakeSendData(&pStru, &pData, &dataLen);
-    reinterpret_cast<char_type*>(pData)[1] = mN2.mPacketGameTick[GetPlayerIdx_409C40()] - delayed_ticks;
+    reinterpret_cast<char_type*>(pData)[1] = mN2.mPacketGameTick[GetPlayerIdx()] - delayed_ticks;
     return mpDPlay3->Send(mPlayerId, mN2.mPlayers[player_idx].mPlayerId, 0, reinterpret_cast<void*>(pData), dataLen);
 }
 
@@ -2153,7 +2153,7 @@ bool NetPlay::ReceiveGameMessage(Network_Buffer* pOut, s32* pPlayerIdx, u32* pac
 
             // diff: received player tick - our (buffered?) current stored tick for the same player
             s32 diff = SeqDiff(receivedTick, mN2.mPacketGameTick[*pPlayerIdx]);
-            s32 diffLocal = SeqDiff(receivedTick, mN2.mPacketGameTick[GetPlayerIdx_409C40()]);
+            s32 diffLocal = SeqDiff(receivedTick, mN2.mPacketGameTick[GetPlayerIdx()]);
             if (diff < 0)
             {
                 // we received an old packet, so ignore it and clear its packet slot
@@ -2190,7 +2190,7 @@ bool NetPlay::ReceiveGameMessage(Network_Buffer* pOut, s32* pPlayerIdx, u32* pac
                     if (*packet_subtype == packet_subtype::PlayerInputs_3)
                     {
                         s32 diff = SeqDiff(reinterpret_cast<u8*>(pData)[1], mN2.mPacketGameTick[*pPlayerIdx]);
-                        s32 diffLocal = SeqDiff(reinterpret_cast<u8*>(pData)[1], mN2.mPacketGameTick[GetPlayerIdx_409C40()]);
+                        s32 diffLocal = SeqDiff(reinterpret_cast<u8*>(pData)[1], mN2.mPacketGameTick[GetPlayerIdx()]);
                         if (diff < 0)
                         {
                             // we received an old packet, so ignore it
@@ -2233,13 +2233,13 @@ void NetPlay::SendToAll(Network_Buffer* pSendData)
     memset(&pStru, 0, sizeof(pStru));
     pStru.header.mSubType = packet_subtype::PlayerInputs_3;
     pStru.header.mType = 1;
-    pStru.mSeq = mN2.mPacketGameTick[GetPlayerIdx_409C40()];
+    pStru.mSeq = mN2.mPacketGameTick[GetPlayerIdx()];
     pStru.mbLoadData = 1;
     pStru.mData = pSendData->mData;
     pStru.mLen = pSendData->mLen;
     NetPlay::MakeSendData(&pStru, &pData, &dataLen);
     mpDPlay3->Send(mPlayerId, 0, 0, reinterpret_cast<void*>(pData), dataLen);
-    const s32 player_idx = GetPlayerIdx_409C40();
+    const s32 player_idx = GetPlayerIdx();
     mN2.mPacketGameTick[player_idx] = (mN2.mPacketGameTick[player_idx] + 1) % 256;
 }
 
@@ -2253,7 +2253,7 @@ s32 NetPlay::NoRefs_Send_521BE0(Network_Buffer* pSendData, s32 tick_delay)
     memset(&pStru, 0, sizeof(pStru));
     pStru.header.mSubType = packet_subtype::PlayerInputs_3;
     pStru.header.mType = 1;
-    pStru.mSeq = mN2.mPacketGameTick[GetPlayerIdx_409C40()] - static_cast<char_type>(tick_delay);
+    pStru.mSeq = mN2.mPacketGameTick[GetPlayerIdx()] - static_cast<char_type>(tick_delay);
     pStru.mbLoadData = 1;
     pStru.mData = pSendData->mData;
     pStru.mLen = pSendData->mLen;
@@ -2275,7 +2275,7 @@ s32 NetPlay::NoRefs_Send_521C80(s32 pSendData)
     pStru.mData = reinterpret_cast<void*>(pSendData);
     pStru.mLen = 0xE;
     NetPlay::MakeSendData(&pStru, &pData, &dataLen);
-    reinterpret_cast<char_type*>(pData)[1] = mN2.mPacketGameTick[GetPlayerIdx_409C40()];
+    reinterpret_cast<char_type*>(pData)[1] = mN2.mPacketGameTick[GetPlayerIdx()];
     return mpDPlay3->Send(mPlayerId, 0, 0, reinterpret_cast<void*>(pData), dataLen);
 }
 

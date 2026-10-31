@@ -244,7 +244,7 @@ class ObjectDefinitions
     EXPORT ObjectDefinition* GetObjectDefinition(s32 idx) const;
 
     // 9.6f 0x4C6E30
-    inline s16 GetObjectBaseSpriteIdx_4C6E30(s32 idx) const
+    inline s16 GetObjectBaseSpriteIdx(s32 idx) const
     {
         return GetObjectDefinition(idx)->mBaseSpriteIdx;
     }

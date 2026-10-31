@@ -82,7 +82,7 @@ void BonusTracker::Init(PlayerScoreTracker* pScores)
 MATCH_FUNC(0x431E30);
 void BonusTracker::Service()
 {
-    mCurTime = gpRng->get_cur_rng_41CFE0();
+    mCurTime = gpRng->get_cur_rng();
 
     BonusRule* pIter = &mBonuses[0];
     for (s32 i = GTA2_COUNTOF(mBonuses) - 1; i >= 0; i--)
@@ -204,7 +204,7 @@ s16 BonusTracker::AllocRule(s16 event_type,
     mBonuses[idx].mDeathCause = death_cause;
     mBonuses[idx].mAltCarModel = alt_car_model;
     mBonuses[idx].mpZone = pZone;
-    mBonuses[idx].mStartTime = gpRng->get_cur_rng_41CFE0();
+    mBonuses[idx].mStartTime = gpRng->get_cur_rng();
     mBonuses[idx].mTimeLimit = time_limit;
     mBonuses[idx].mCheckMode = check_mode;
     mBonuses[idx].mTargetCount = target_count;
@@ -254,9 +254,9 @@ void BonusTracker::ProcessBonusEvent(s16 event_type, s32 car_model, s32 occupati
         }
         BonusRule* pFound = &mBonuses[i];
         mBonuses[i].mProgressCount++;
-        if (GetProgressCount_476660(i) == pFound->mTargetCount)
+        if (GetProgressCount(i) == pFound->mTargetCount)
         {
-            mpScores->mPlayer->AddScore_41DC40(pFound->mReward);
+            mpScores->mPlayer->AddScore(pFound->mReward);
             pFound->Deactivate();
         }
     }

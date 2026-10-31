@@ -181,7 +181,7 @@ class Hud_ShowCoords
     EXPORT void ShowPlayerCoords();
 
     // 9.6f 0x4A4760
-    inline void ToggleShowCoords_4A4760()
+    inline void ToggleShowCoords()
     {
         mShowCoords = !mShowCoords;
     }
@@ -239,20 +239,20 @@ class Hud_TextEntry
     EXPORT bool operator_equals(const Hud_TextEntry* pOther) const;
 
     // 9.6f 0x4C70F0
-    inline void Expire_4C70F0()
+    inline void Expire()
     {
         mDisplayTime = 0;
     }
 
     // 9.6f 0x4C70E0
-    inline void ClearAlpha_4C70E0()
+    inline void ClearAlpha()
     {
         mAlpha = 0;
         *reinterpret_cast<u8*>(&mAlphaFlag) = 0; // byte store in both 9.6f and 10.5, the field is read as s32 elsewhere
     }
 
     // 9.6f 0x45AFD0
-    void SetFontRemap_45AFD0(s16 palette)
+    void SetFontRemap(s16 palette)
     {
         mDrawKind = 8;
         mPalette = palette;
@@ -290,13 +290,13 @@ class Hud_Pager
 {
   public:
     // 9.6f 0x4C7160
-    inline bool no_ptr_counter_4C7160() const
+    inline bool no_ptr_counter() const
     {
         return mPtrCounter == NULL;
     }
 
     // 9.6f 0x4C7170
-    inline bool IsTimerOff_4C7170() const
+    inline bool IsTimerOff() const
     {
         return mTimer < 0;
     }
@@ -308,10 +308,10 @@ class Hud_Pager
     }
 
     // 9.6f 0x4C7130, defined in Hud.cpp
-    inline void SetCounter_4C7130(s32* pCounter);
+    inline void SetCounter(s32* pCounter);
 
     // 9.6f 0x411A40
-    inline s32 get_timer_411A40() const
+    inline s32 get_timer() const
     {
         return mTimer;
     }
@@ -353,13 +353,13 @@ class Hud_Pager_C_Array
 inline u8 __stdcall get_sprite_width_4C7220(s16 user_sprite_idx)
 {
     s16 sprite_idx = gGtx_0x106C->GetSpriteTrueIndex(sprite_types_enum::user_6, user_sprite_idx);
-    return gGtx_0x106C->get_sprite_width_420220(sprite_idx);
+    return gGtx_0x106C->get_sprite_width(sprite_idx);
 }
 
 inline u8 __stdcall get_sprite_height_4C7250(s16 user_sprite_idx)
 {
     s16 sprite_idx = gGtx_0x106C->GetSpriteTrueIndex(sprite_types_enum::user_6, user_sprite_idx);
-    return gGtx_0x106C->get_sprite_height_4C6C90(sprite_idx);
+    return gGtx_0x106C->get_sprite_height(sprite_idx);
 }
 
 class Hud_BriefEntry
@@ -410,21 +410,21 @@ class ArrowTrace
     }
 
     // 9.6f 0x4767E0
-    inline void SetTargetPed_4767E0(Ped* pPed)
+    inline void SetTargetPed(Ped* pPed)
     {
         mPed = pPed;
         mTargetType = ArrowTargetType::Ped_2;
     }
 
     // 9.6f 0x476810
-    inline void SetTargetObject_476810(Object* pObj)
+    inline void SetTargetObject(Object* pObj)
     {
         mObj = pObj;
         mTargetType = ArrowTargetType::Object_4;
     }
 
     // 9.6f 0x476830
-    inline void ClearTarget_476830()
+    inline void ClearTarget()
     {
         mTargetType = ArrowTargetType::Nothing_0;
     }
@@ -441,7 +441,7 @@ class ArrowTrace
     }
 
     // 9.6f 0x4767C0
-    inline void set_arrow_aim_from_pos_4767C0(Fix16 x, Fix16 y, Fix16 z)
+    inline void set_arrow_aim_from_pos(Fix16 x, Fix16 y, Fix16 z)
     {
         mAimX = x;
         mAimY = y;
@@ -455,14 +455,14 @@ class ArrowTrace
     }
     
     // 9.6f 0x4C6F30
-    inline Player* GetTargetPlayer_4C6F30() const
+    inline Player* GetTargetPlayer() const
     {
         return mPlayer;
     }
 
     // 9.6f inline 0x4820A0. The player is stored first (VC7 gives 9.6f's body either way): with the
     // type store first, SetNewFugitive schedules and allocates registers differently
-    inline void SetTargetPlayer_4820A0(Player* player)
+    inline void SetTargetPlayer(Player* player)
     {
         mPlayer = player;
         mTargetType = ArrowTargetType::Player_6;
@@ -485,7 +485,7 @@ class Hud_ArrowTargets
   public:
 
     // 9.6f 0x4C6FB0
-    inline bool HasBothTargets_4C6FB0() const
+    inline bool HasBothTargets() const
     {
         return !mPrimaryTarget.HasNoTarget_4C6F20() && !mSecondaryTarget.HasNoTarget_4C6F20();
     }
@@ -506,10 +506,10 @@ class Hud_Arrow
 {
   public:
     // 9.6f 0x4CA610, defined in Hud.cpp
-    inline void Reset_4CA610();
+    inline void Reset();
 
     // 9.6f 0x4C6FF0, defined in Hud.cpp
-    inline void SetMinRadiusPos_4C6FF0(s32 steps);
+    inline void SetMinRadiusPos(s32 steps);
 
     // 9.6f 0x4C6F20
     inline bool Is_radius_pos_0_4C6F20() const
@@ -526,7 +526,7 @@ class Hud_Arrow
     EXPORT void SetPlayerArrowColour(Ped* pPed);
 
     // 9.6f inline 0x4C6F80
-    inline bool HasNeitherTarget_4C6F80() const
+    inline bool HasNeitherTarget() const
     {
         if (mTargets.mPrimaryTarget.HasNoTarget_4C6F20() && mTargets.mSecondaryTarget.HasNoTarget_4C6F20())
         {
@@ -536,7 +536,7 @@ class Hud_Arrow
     }
 
     // 9.6f inline 0x4C7050
-    inline bool IsVisible_4C7050() const
+    inline bool IsVisible() const
     {
         if (mTargets.mGangInfo.mIsVisible)
         {
@@ -546,7 +546,7 @@ class Hud_Arrow
     }
 
     // 9.6f 0x4C7060
-    inline void swap_arrows_4C7060()
+    inline void swap_arrows()
     {
         if (mTargets.mCurrTarget == &mTargets.mPrimaryTarget)
         {
@@ -559,32 +559,32 @@ class Hud_Arrow
     }
 
     // 9.6f 0x476850
-    inline void SetArrowTargetPed_476850(Ped* pPed)
+    inline void SetArrowTargetPed(Ped* pPed)
     {
-        mTargets.mPrimaryTarget.SetTargetPed_4767E0(pPed);
+        mTargets.mPrimaryTarget.SetTargetPed(pPed);
     }
 
     // 9.6f 0x476860
-    inline void SetArrowTargetCar_476860(Car* pCar)
+    inline void SetArrowTargetCar(Car* pCar)
     {
         mTargets.mPrimaryTarget.SetTargetCar(pCar);
     }
 
     // 9.6f 0x476870
-    inline void SetArrowTargetObject_476870(Object* pObj)
+    inline void SetArrowTargetObject(Object* pObj)
     {
-        mTargets.mPrimaryTarget.SetTargetObject_476810(pObj);
+        mTargets.mPrimaryTarget.SetTargetObject(pObj);
     }
 
     // 9.6f 0x476880
-    inline void ClearTargets_476880()
+    inline void ClearTargets()
     {
-        mTargets.mPrimaryTarget.ClearTarget_476830();
-        mTargets.mSecondaryTarget.ClearTarget_476830();
+        mTargets.mPrimaryTarget.ClearTarget();
+        mTargets.mSecondaryTarget.ClearTarget();
     }
 
     // 9.6f 0x476840
-    inline void SetArrowAim_476840(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+    inline void SetArrowAim(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     {
         ArrowTrace* pTarget = &mTargets.mPrimaryTarget;
         pTarget->mAimX = xpos;
@@ -608,7 +608,7 @@ class Hud_Arrow_7C_Array
 {
   public:
     // 9.6f 0x4C70B0
-    inline bool ShowGangArrows_4C70B0() const
+    inline bool ShowGangArrows() const
     {
         return mShowGangArrows;
     }
@@ -727,7 +727,7 @@ class Hud
     EXPORT void UpdateCarName();
 
     // 9.6f 0x4219F0
-    void HideCarName_4219F0()
+    void HideCarName()
     {
         mCarName.mDisplayTime = 0;
     }

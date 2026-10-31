@@ -196,7 +196,7 @@ MATCH_FUNC(0x452980)
 gmp_block_info* Map_0x370::GetBlockOrNull(u8 x_coord, u8 y_coord, u8 z_coord) const
 {
     gmp_col_info* pColData =
-        reinterpret_cast<gmp_col_info*>(&mpDmap->mpColumn[*mpDmap->get_base_42A830(y_coord, x_coord)]);
+        reinterpret_cast<gmp_col_info*>(&mpDmap->mpColumn[*mpDmap->get_base(y_coord, x_coord)]);
     if (z_coord >= pColData->mHeight || z_coord < pColData->mOffset)
     {
         return NULL;
@@ -211,7 +211,7 @@ MATCH_FUNC(0x4DEF40)
 bool gmp_map_zone::IsZoneVisibleToAnyPlayer() const
 {
     Fix16_Rect zoneBounds;
-    zoneBounds.SetFromPosSize_463710(mX, mY, mW, mH);
+    zoneBounds.SetFromPosSize(mX, mY, mW, mH);
     return gGame_0x40->IsRectVisibleToAnyPlayer(&zoneBounds);
 }
 
@@ -338,7 +338,7 @@ gmp_map_zone* Map_0x370::GetNearestZoneOfType(u8 xpos, u8 ypos, u8 zone_type)
             && !pZone->IsZoneVisibleToAnyPlayer())
         {
             Fix16 dist;
-            dist = Fix16::MaxAbsDistance_42A6B0(Fix16(pZone->mX), Fix16(pZone->mY), Fix16(xpos), Fix16(ypos));
+            dist = Fix16::MaxAbsDistance(Fix16(pZone->mX), Fix16(pZone->mY), Fix16(xpos), Fix16(ypos));
 
             if (dist < nearest_dist)
             {
@@ -434,7 +434,7 @@ gmp_map_zone* Map_0x370::GetZoneAtPosOfType(u8 zone_x, u8 zone_y, u8 zone_type)
         for (mCurZoneIdx = 0; mCurZoneIdx < mpZones->mNumZones; mCurZoneIdx++)
         {
             gmp_map_zone* pZone = GetZone(mCurZoneIdx);
-            if (pZone->mZoneType == mZoneType && pZone->ContainsPoint_463020(mZoneX, mZoneY))
+            if (pZone->mZoneType == mZoneType && pZone->ContainsPoint(mZoneX, mZoneY))
             {
                 return pZone;
             }
@@ -457,7 +457,7 @@ gmp_map_zone* Map_0x370::GetNavZoneAtPos(u8 zone_x, u8 zone_y)
             if ((pZone->mZoneType == Information_10 
                 || pZone->mZoneType == Navigation_1 
                 || pZone->mZoneType == Local_Navigation_15) &&
-                pZone->ContainsPoint_463020(mZoneX, mZoneY))
+                pZone->ContainsPoint(mZoneX, mZoneY))
             {
                 return pZone;
             }
@@ -480,7 +480,7 @@ gmp_map_zone* Map_0x370::GetFirstZoneAtPos(u8 zone_x, u8 zone_y)
         for (mCurZoneIdx = 0; mCurZoneIdx < mpZones->mNumZones; mCurZoneIdx++)
         {
             pZone = Map_0x370::GetZone(this->mCurZoneIdx);
-            if (pZone->ContainsPoint_463020(this->mZoneX, this->mZoneY))
+            if (pZone->ContainsPoint(this->mZoneX, this->mZoneY))
             {
                 return pZone;
             }
@@ -504,7 +504,7 @@ gmp_map_zone* Map_0x370::GetNextZone()
             }
             pZoneIter = Map_0x370::GetZone(mCurZoneIdx);
             if (pZoneIter->mZoneType == this->mZoneType &&
-                (!this->mbMatchPos || pZoneIter->ContainsPoint_463020(mZoneX, mZoneY)))
+                (!this->mbMatchPos || pZoneIter->ContainsPoint(mZoneX, mZoneY)))
             {
                 return pZoneIter;
             }
@@ -710,8 +710,8 @@ void Map_0x370::SpawnMapObjects()
     gmp_map_object* pMapObjects = mpMapObjects;
     for (u32 i = 0; i < static_cast<u32>(this->mMapObjectCount); i++, ++pMapObjects)
     {
-        Fix16 x_pos = Fix16::ctor_462ED0(pMapObjects->mX);
-        Fix16 y_pos = Fix16::ctor_462ED0(pMapObjects->mY);
+        Fix16 x_pos = Fix16::ctor(pMapObjects->mX);
+        Fix16 y_pos = Fix16::ctor(pMapObjects->mY);
 
         Ang16 rotation = pMapObjects->mRotation.convert_to_ang16();
         rotation.Normalize();
@@ -747,10 +747,10 @@ void Map_0x370::UpdateLights()
 
     for (u32 light_idx = 0; light_idx < static_cast<u32>(mNumLights); light_idx++, ++pMapLight)
     {
-        Fix16 xpos = Fix16::ctor_462ED0(pMapLight->mX);
-        Fix16 ypos = Fix16::ctor_462ED0(pMapLight->mY);
-        Fix16 zpos = Fix16::ctor_462ED0(pMapLight->mZ);
-        Fix16 radius = Fix16::ctor_462ED0(pMapLight->mRadius);
+        Fix16 xpos = Fix16::ctor(pMapLight->mX);
+        Fix16 ypos = Fix16::ctor(pMapLight->mY);
+        Fix16 zpos = Fix16::ctor(pMapLight->mZ);
+        Fix16 radius = Fix16::ctor(pMapLight->mRadius);
 
         if (radius == kFpEight_6F6130)
         {
@@ -762,7 +762,7 @@ void Map_0x370::UpdateLights()
 
         if (pMapLight->mOnTime)
         {
-            gLight_1D4CC->SetFlashing_469070(pLight, pMapLight->mOnTime, pMapLight->mOffTime, pMapLight->mShape);
+            gLight_1D4CC->SetFlashing(pLight, pMapLight->mOnTime, pMapLight->mOffTime, pMapLight->mShape);
         }
     }
 }
@@ -771,7 +771,7 @@ MATCH_FUNC(0x4DFE10)
 gmp_block_info* Map_0x370::GetBlock(s32 x_coord, s32 y_coord, s32 z_coord) const
 {
     gmp_col_info* pCol =
-        reinterpret_cast<gmp_col_info*>(&mpDmap->mpColumn[*mpDmap->get_base_42A830(y_coord, x_coord)]);
+        reinterpret_cast<gmp_col_info*>(&mpDmap->mpColumn[*mpDmap->get_base(y_coord, x_coord)]);
     if (z_coord < pCol->mHeight)
     {
         s32 offset = pCol->mOffset;
@@ -789,7 +789,7 @@ gmp_block_info* Map_0x370::GetEffectiveBlock(s32 x, s32 y, s32 z)
     // If it's a partial block, get a null/empty block. 
     // If it's a tridiagonal block (four-sided or tri-sided), replace it by a flat solid block
     // Otherwise, return the original block. It's ideal for checking collisions
-    gmp_col_info* pColumn = reinterpret_cast<gmp_col_info*>(&mpDmap->mpColumn[*mpDmap->get_base_42A830(y, x)]);
+    gmp_col_info* pColumn = reinterpret_cast<gmp_col_info*>(&mpDmap->mpColumn[*mpDmap->get_base(y, x)]);
     if (z < pColumn->mHeight)
     {
         if (z >= pColumn->mOffset)
@@ -838,7 +838,7 @@ gmp_block_info* Map_0x370::GetBlockClamped(s32 x_coord, s32 y_coord, s32 z_coord
     }
 
     gmp_compressed_map_32* pDmap = mpDmap;
-    gmp_col_info* pColInfo = reinterpret_cast<gmp_col_info*>(&pDmap->mpColumn[*pDmap->get_base_42A830(y_coord, x_coord)]);
+    gmp_col_info* pColInfo = reinterpret_cast<gmp_col_info*>(&pDmap->mpColumn[*pDmap->get_base(y_coord, x_coord)]);
 
     if (z_coord < pColInfo->mHeight)
     {
@@ -857,13 +857,13 @@ DWORD Map_0x370::GetLeftEdgeSpec(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
     gmp_block_info* pBlock1 = GetBlock((x_coord - kFpOne_6F6110).ToInt(), y_coord.ToInt(), z_coord.ToInt());
     if (pBlock1 && pBlock1->mRight != 0)
     {
-        return gGtx_0x106C->GetSpecIgnoringRoadJunction_462FD0(get_tile_idx(pBlock1->mRight));
+        return gGtx_0x106C->GetSpecIgnoringRoadJunction(get_tile_idx(pBlock1->mRight));
     }
 
     gmp_block_info* pBlock2 = GetBlock(x_coord.ToInt(), y_coord.ToInt(), z_coord.ToInt());
     if (pBlock2 && pBlock2->mLeft != 0)
     {
-        return gGtx_0x106C->GetSpecIgnoringRoadJunction_462FD0(get_tile_idx(pBlock2->mLeft));
+        return gGtx_0x106C->GetSpecIgnoringRoadJunction(get_tile_idx(pBlock2->mLeft));
     }
 
     return 0;
@@ -875,14 +875,14 @@ s32 Map_0x370::GetTopEdgeSpec(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
     gmp_block_info* pBlockAtPos = Map_0x370::GetBlock(x_pos.ToInt(), (y_pos - kFpOne_6F6110).ToInt(), z_pos.ToInt());
     if (pBlockAtPos && has_bottom(pBlockAtPos))
     {
-        return gGtx_0x106C->GetSpecIgnoringRoadJunction_462FD0(get_tile_idx(pBlockAtPos->mBottom));
+        return gGtx_0x106C->GetSpecIgnoringRoadJunction(get_tile_idx(pBlockAtPos->mBottom));
     }
     else
     {
         gmp_block_info* pBlock = Map_0x370::GetBlock(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt());
         if (pBlock && has_top(pBlock))
         {
-            return gGtx_0x106C->GetSpecIgnoringRoadJunction_462FD0(get_tile_idx(pBlock->mTop));
+            return gGtx_0x106C->GetSpecIgnoringRoadJunction(get_tile_idx(pBlock->mTop));
         }
         else
         {
@@ -904,7 +904,7 @@ s32 Map_0x370::GetBlockSpec(Fix16 x, Fix16 y, Fix16 z)
                 u16 lid = pBlock->mLid;
                 if (lid)
                 {
-                    return gGtx_0x106C->GetSpecIgnoringRoadJunction_462FD0(get_tile_idx(lid));
+                    return gGtx_0x106C->GetSpecIgnoringRoadJunction(get_tile_idx(lid));
                 }
             }
         }
@@ -1606,7 +1606,7 @@ bool Map_0x370::IsMoveOntoSlopeTileBlocked(s32 x, s32 y, s32 z, s32 path_directi
 }
 
 // 9.6f 0x463690: does the segment p1-p2 cross any edge of the rect
-inline bool Fix16_Rect::EdgesCrossSegment_463690(Fix16_Point& p1, Fix16_Point& p2)
+inline bool Fix16_Rect::EdgesCrossSegment(Fix16_Point& p1, Fix16_Point& p2)
 {
     return ComputeScanlineIntersectionY(mLeft, mRight, mTop, p1, p2) ||
         ComputeScanlineIntersectionY(mLeft, mRight, mBottom, p1, p2) ||
@@ -1622,7 +1622,7 @@ bool Map_0x370::RectHitsDiagonalWall(Fix16_Rect* pRect)
 
     pRect->DoSetCurrentRect();
 
-    s32 z_calc = pRect->GetMidZ_463760();
+    s32 z_calc = pRect->GetMidZ();
 
     for (s32 y_count = gSpriteGrid_top; y_count <= gSpriteGrid_bottom; y_count++)
     {
@@ -1634,7 +1634,7 @@ bool Map_0x370::RectHitsDiagonalWall(Fix16_Rect* pRect)
                 s32 slope_mask = GET_SLOPE_BITS(pBlock->mSlopeType);
                 if (slope_mask >= DIAGONAL_WALL_UP_LEFT && slope_mask <= TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT)
                 {
-                    // 9.6f: Fix16_Point::SetXY_432860 for p1/p2 (inlined, using it changes the code)
+                    // 9.6f: Fix16_Point::SetXY for p1/p2 (inlined, using it changes the code)
                     if (slope_mask == DIAGONAL_WALL_UP_LEFT || slope_mask == DIAGONAL_WALL_DOWN_RIGHT || slope_mask == TRIANGULAR_SIDES_DIAGONAL_UP_LEFT ||
                         slope_mask == TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT)
                     {
@@ -1651,7 +1651,7 @@ bool Map_0x370::RectHitsDiagonalWall(Fix16_Rect* pRect)
                         p2.y = Fix16(y_count + 1);
                     }
 
-                    if (pRect->EdgesCrossSegment_463690(p1, p2))
+                    if (pRect->EdgesCrossSegment(p1, p2))
                     {
                         return true;
                     }
@@ -1679,7 +1679,7 @@ bool Map_0x370::SpriteHitsDiagonalWall(s32 z_pos)
                 u32 slope_type = GET_SLOPE_BITS(pBlock->mSlopeType);
                 if (slope_type >= DIAGONAL_WALL_UP_LEFT && slope_type <= TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT)
                 {
-                    // 9.6f: Fix16_Point::SetXY_432860 for both points (inlined, using it changes the code)
+                    // 9.6f: Fix16_Point::SetXY for both points (inlined, using it changes the code)
                     if (slope_type == DIAGONAL_WALL_UP_LEFT || slope_type == DIAGONAL_WALL_DOWN_RIGHT ||
                         slope_type == TRIANGULAR_SIDES_DIAGONAL_UP_LEFT || slope_type == TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT)
                     {
@@ -1705,7 +1705,7 @@ bool Map_0x370::SpriteHitsDiagonalWall(s32 z_pos)
                                                    Fix16(static_cast<u32>(y_pos)) + kFpHalf_6F5FE0,
                                                    z_pos);
                         pSprt->UpdateCollisionBoundsIfNeeded();
-                        gCollisionTarget.SetSprite_40FEE0(pSprt);
+                        gCollisionTarget.SetSprite(pSprt);
                         return true;
                     }
                 }
@@ -1880,7 +1880,7 @@ bool Map_0x370::IsTileBlockedForSprite(s32 regionLeft,
     {
         if (!IsZOnGround(gSprite->mXy.x, gSprite->mXy.y, gSprite->mZpos))
         {
-            if (!IsGradientSlopeAt_466CF0(gSprite->mXy.x.ToInt(),
+            if (!IsGradientSlopeAt(gSprite->mXy.x.ToInt(),
                                           gSprite->mXy.y.ToInt(),
                                           gSprite->mZpos.ToInt()))
             {
@@ -2392,16 +2392,16 @@ bool Map_0x370::SlopeBordersFlatInSpriteGrid(Fix16 z_pos)
 MATCH_FUNC(0x4E4820)
 bool Map_0x370::AllBlocksInRectHaveSlopeBits(Fix16_Rect* pRect, u8 slope_bits)
 {
-    s32 left = Fix16::Round_To_Int_410BF0(pRect->get_left_45ADB0());
-    s32 right = Fix16::Round_To_Int_410BF0(pRect->get_right_45ADA0());
-    s32 top = Fix16::Round_To_Int_410BF0(pRect->get_top_45ADD0());
-    s32 bottom = Fix16::Round_To_Int_410BF0(pRect->get_bottom_45ADC0());
+    s32 left = Fix16::Round_To_Int(pRect->get_left());
+    s32 right = Fix16::Round_To_Int(pRect->get_right());
+    s32 top = Fix16::Round_To_Int(pRect->get_top());
+    s32 bottom = Fix16::Round_To_Int(pRect->get_bottom());
 
     for (s32 y = top; y <= bottom; y++)
     {
         for (s32 x = left; x <= right; x++)
         {
-            sBlockInfo0 = GetBlock(x, y, pRect->get_low_z_4637A0().ToInt());
+            sBlockInfo0 = GetBlock(x, y, pRect->get_low_z().ToInt());
             switch (slope_bits)
             {
                 case 0:
@@ -2524,7 +2524,7 @@ bool __stdcall Map_0x370::IsSearchBlockOfType(char_type block_type)
                 return true;
             }
         }
-        else if (gMap_0x370->GetBlockTypeAtCoord_420420(sSearchX, sSearchY, sSearchZ) == ROAD)
+        else if (gMap_0x370->GetBlockTypeAtCoord(sSearchX, sSearchY, sSearchZ) == ROAD)
         {
             return true;
         }
@@ -2558,7 +2558,7 @@ bool Map_0x370::CheckGreenArrowDirection(s32 direction, gmp_block_info* pBlock)
 MATCH_FUNC(0x4E4BB0)
 gmp_block_info* Map_0x370::FindPavementBlockForCoord(s32 x, s32 y, s32& z)
 {
-    gmp_col_info* pColumn = reinterpret_cast<gmp_col_info*>(&mpDmap->mpColumn[*mpDmap->get_base_42A830(y, x)]);
+    gmp_col_info* pColumn = reinterpret_cast<gmp_col_info*>(&mpDmap->mpColumn[*mpDmap->get_base(y, x)]);
     for (s32 curr_z_pos = pColumn->mHeight - pColumn->mOffset - 1; curr_z_pos >= 0; curr_z_pos--)
     {
         //  Begin with the highest non-empty block in the column
@@ -2580,7 +2580,7 @@ gmp_block_info* Map_0x370::FindPavementBlockForCoord(s32 x, s32 y, s32& z)
 MATCH_FUNC(0x4E4C30)
 gmp_block_info* Map_0x370::FindHighestBlockForCoord(s32 x, s32 y, s32* found_z)
 {
-    gmp_col_info* pColumn = reinterpret_cast<gmp_col_info*>(&this->mpDmap->mpColumn[*mpDmap->get_base_42A830(y, x)]);
+    gmp_col_info* pColumn = reinterpret_cast<gmp_col_info*>(&this->mpDmap->mpColumn[*mpDmap->get_base(y, x)]);
 
     for (s32 curr_z_pos = pColumn->mHeight - pColumn->mOffset - 1; curr_z_pos >= 0; curr_z_pos--)
     {
@@ -2598,7 +2598,7 @@ gmp_block_info* Map_0x370::FindHighestBlockForCoord(s32 x, s32 y, s32* found_z)
 MATCH_FUNC(0x4E4CB0)
 gmp_block_info* Map_0x370::FindNonAirBlockAtOrBelowZ(s32 x, s32 y, s32& z)
 {
-    gmp_col_info* pColumn = reinterpret_cast<gmp_col_info*>(&this->mpDmap->mpColumn[*this->mpDmap->get_base_42A830(y, x)]);
+    gmp_col_info* pColumn = reinterpret_cast<gmp_col_info*>(&this->mpDmap->mpColumn[*this->mpDmap->get_base(y, x)]);
 
     if (z < pColumn->mOffset)
     {
@@ -2625,7 +2625,7 @@ Fix16 Map_0x370::FindGroundZBelowCoord(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
     u8 slope_byte;
     Fix16 new_z;
 
-    if (z_pos.GetFracValue() == kFpZero_6F610C || !IsGradientSlopeAt_466CF0(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt()) ||
+    if (z_pos.GetFracValue() == kFpZero_6F610C || !IsGradientSlopeAt(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt()) ||
         (new_z = z_pos.GetFloorValue(), Map_0x370::UpdateZFromSlopeAtCoord(x_pos, y_pos, new_z), new_z > z_pos))
     {
         s32 below_z = z_pos.ToInt() - 1;
@@ -2697,7 +2697,7 @@ Fix16 Map_0x370::GetGroundZBelowCoord(Fix16 x, Fix16 y, Fix16 z)
 {
     Fix16 new_z;
 
-    if (z.GetFracValue() == kFpZero_6F610C || !IsGradientSlopeAt_466CF0(x.ToInt(), y.ToInt(), z.ToInt()) ||
+    if (z.GetFracValue() == kFpZero_6F610C || !IsGradientSlopeAt(x.ToInt(), y.ToInt(), z.ToInt()) ||
         (new_z = z.GetFloorValue(), Map_0x370::UpdateZFromSlopeAtCoord(x, y, new_z), new_z > z))
     {
         s32 int_z = z.ToInt() - 1;
@@ -2801,7 +2801,7 @@ char_type Map_0x370::GetSurfaceTypeBelowCoord(Fix16 x, Fix16 y, Fix16 z)
 
     if (sBlockInfo0)
     {
-        if (gGtx_0x106C->IsWaterTile_462FB0(get_tile_idx(sBlockInfo0->mLid)))
+        if (gGtx_0x106C->IsWaterTile(get_tile_idx(sBlockInfo0->mLid)))
         {
             return 7;
         }
@@ -2943,8 +2943,8 @@ bool Map_0x370::CanPlaceOilOrMine(Fix16 x, Fix16 y, Fix16 z, Fix16 z_high, Fix16
 // temporary before the two multiplications (the by-reference version passes value_2's own slot).
 static inline void __stdcall PolarToCartesianByVal(Ang16& angle, Fix16 radius, Fix16& ret1, Fix16& ret2)
 {
-    ret1 = Ang16::sine_40F500(angle) * radius;
-    ret2 = Ang16::cosine_40F520(angle) * radius;
+    ret1 = Ang16::sine(angle) * radius;
+    ret2 = Ang16::cosine(angle) * radius;
 }
 
 // Walks the collision probe sprite from (x_1, y_1, z_1) towards (x_2, y_2, z_2) in steps of about `height`,
@@ -2957,14 +2957,14 @@ bool Map_0x370::IsProbePathClear(Fix16 width, Fix16 height, Fix16 depth, Fix16 f
     Ang16 angle;
     Fix16_Point pos_diff(to_x - from_x, to_y - from_y);
 
-    gCollisionTarget.Reset_4637B0();
+    gCollisionTarget.Reset();
 
     angle = Fix16::atan2_fixed(to_y - from_y, to_x - from_x);
 
     Fix16 total_dist;
     total_dist = pos_diff.GetLength_41E260();
     pProbe->set_xyz_lazy_420600(from_x, from_y, from_z);
-    pProbe->set_ang_lazy_420690(angle);
+    pProbe->set_ang_lazy(angle);
     pProbe->AllocCollisionShape(width, height, depth);
 
     Fix16 num_steps;
@@ -3025,11 +3025,11 @@ bool Map_0x370::IsProbePathClear(Fix16 width, Fix16 height, Fix16 depth, Fix16 f
                 }
 
                 if (!(pProbe->mZpos < kFpSeven_6F6128) ||
-                    gMap_0x370->GetBlockTypeAtCoord_420420(pProbe->mXy.x.ToInt(),
+                    gMap_0x370->GetBlockTypeAtCoord(pProbe->mXy.x.ToInt(),
                                                                   pProbe->mXy.y.ToInt(),
                                                                   (pProbe->mZpos + kFpHalf_6F5FE0).ToInt()))
                 {
-                    if (!gMap_0x370->IsGradientSlopeAt_466CF0(pProbe->mXy.x.ToInt(),
+                    if (!gMap_0x370->IsGradientSlopeAt(pProbe->mXy.x.ToInt(),
                                                                      pProbe->mXy.y.ToInt(),
                                                                      pProbe->mZpos.ToInt()))
                     {
@@ -3051,11 +3051,11 @@ bool Map_0x370::IsProbePathClear(Fix16 width, Fix16 height, Fix16 depth, Fix16 f
                                               pProbe->mXy.y + step_y,
                                               pProbe->mZpos + step_dz);
 
-                if (gMap_0x370->IsGradientSlopeAt_466CF0(pProbe->mXy.x.ToInt(),
+                if (gMap_0x370->IsGradientSlopeAt(pProbe->mXy.x.ToInt(),
                                                                 pProbe->mXy.y.ToInt(),
                                                                 pProbe->mZpos.ToInt()))
                 {
-                    if (gMap_0x370->GetBlockTypeAtCoord_420420(pProbe->mXy.x.ToInt(),
+                    if (gMap_0x370->GetBlockTypeAtCoord(pProbe->mXy.x.ToInt(),
                                                                       pProbe->mXy.y.ToInt(),
                                                                       pProbe->mZpos.ToInt()))
                     {
@@ -3156,7 +3156,7 @@ u8 Map_0x370::UpdateZFromSlopeAtCoord(Fix16 x_pos, Fix16 y_pos, Fix16& z_pos)
                     break;
             }
 
-            get_grad_scale_from_size_4634E0(grad_scale, gCurrentBlockSlope->mGradientSize);
+            get_grad_scale_from_size(grad_scale, gCurrentBlockSlope->mGradientSize);
 
             Fix16 relative_z_pos = gCurrentBlockSlope->mZposLower + (grad_pos * grad_scale);
 
@@ -3324,7 +3324,7 @@ s32 Map_0x370::GetArrowDirectionFromBlock(gmp_block_info* pBlock, bool bDontFlip
 MATCH_FUNC(0x4E6190)
 s16 Map_0x370::ClassifyArrowOnSlope(Fix16 x, Fix16 y, Fix16 z, s32 arrow_dir, bool bReverse)
 {
-    if (!IsGradientSlopeAt_466CF0(x.ToInt(), y.ToInt(), z.ToInt()))
+    if (!IsGradientSlopeAt(x.ToInt(), y.ToInt(), z.ToInt()))
     {
         return 1;
     }
@@ -3399,7 +3399,7 @@ Fix16 Map_0x370::FloorPlusOne(Fix16 value)
 MATCH_FUNC(0x4E62D0)
 gmp_block_info* Map_0x370::FindRailwayAtCoord(s32 x, s32 y, s32& found_z)
 {
-    gmp_col_info* pColumn = reinterpret_cast<gmp_col_info*>(&mpDmap->mpColumn[*mpDmap->get_base_42A830(y, x)]);
+    gmp_col_info* pColumn = reinterpret_cast<gmp_col_info*>(&mpDmap->mpColumn[*mpDmap->get_base(y, x)]);
 
     for (s32 curr_z = pColumn->mHeight - pColumn->mOffset - 1; curr_z >= 0; curr_z--)
     {
@@ -3416,7 +3416,7 @@ gmp_block_info* Map_0x370::FindRailwayAtCoord(s32 x, s32 y, s32& found_z)
 MATCH_FUNC(0x4E6360)
 gmp_block_info* Map_0x370::FindRailwayBelowZAtCoord(s32 x, s32 y, s32& z)
 {
-    gmp_col_info* pColumn = reinterpret_cast<gmp_col_info*>(&mpDmap->mpColumn[*mpDmap->get_base_42A830(y, x)]);
+    gmp_col_info* pColumn = reinterpret_cast<gmp_col_info*>(&mpDmap->mpColumn[*mpDmap->get_base(y, x)]);
 
     if (z >= pColumn->mOffset)
     {
@@ -3443,7 +3443,7 @@ Fix16 Map_0x370::GetRailwayZBelowCoord(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
     u8 slope_byte;
     Fix16 new_z;
 
-    if (z_pos.GetFracValue() == kFpZero_6F610C || !IsGradientSlopeAt_466CF0(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt()) ||
+    if (z_pos.GetFracValue() == kFpZero_6F610C || !IsGradientSlopeAt(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt()) ||
         (new_z = z_pos.GetFloorValue(), Map_0x370::UpdateZFromSlopeAtCoord(x_pos, y_pos, new_z), new_z > z_pos))
     {
         s32 below_z = z_pos.ToInt() - 1;
@@ -4037,7 +4037,7 @@ bool Map_0x370::CheckColumnHasSolidAbove(Fix16 x, Fix16 y, Fix16 z)
     gmp_compressed_map_32* pDMap = this->mpDmap;
 
     s32 z_int = z.ToInt();
-    gmp_col_info* pColInfo = reinterpret_cast<gmp_col_info*>(&pDMap->mpColumn[*pDMap->get_base_42A830(y.ToInt(), x.ToInt())]);
+    gmp_col_info* pColInfo = reinterpret_cast<gmp_col_info*>(&pDMap->mpColumn[*pDMap->get_base(y.ToInt(), x.ToInt())]);
     if (z_int < pColInfo->mHeight)
     {
         if (z_int < pColInfo->mOffset)
@@ -4094,7 +4094,7 @@ void gmp_compressed_map_32::ApplyDmapInfos(DmapInfoList* pMapSub)
     {
         u32 x = pMapSub->mDmapInfos[j].mX;
         u32 y = pMapSub->mDmapInfos[j].mY;
-        *get_base_42A830(y, x) = pMapSub->mDmapInfos[j].mColumnIdx;
+        *get_base(y, x) = pMapSub->mDmapInfos[j].mColumnIdx;
     }
 }
 
@@ -4113,7 +4113,7 @@ void DmapInfoList::AddOrUpdateDmapInfo(u8 x, u8 y, u32 column_idx)
         }
     }
 
-    mDmapInfos[local_max_idx].set_data_463080(x, y, column_idx);
+    mDmapInfos[local_max_idx].set_data(x, y, column_idx);
     ++mMaxIdx;
 }
 
@@ -4317,8 +4317,8 @@ s32 Map_0x370::CloneColumnWithoutBlock(u32 column_idx, s32 z, char_type bDropAbo
 MATCH_FUNC(0x4E8620)
 void Map_0x370::ChangeBlock(s32 x, s32 y, s32 z, s32 info_type_to_set, u16 info_value)
 {
-    s32 column_idx = Map_0x370::CloneOriginalColumn(*mpDmap->get_base_42A830(y, x));
-    *mpDmap->get_base_42A830(y, x) = column_idx;
+    s32 column_idx = Map_0x370::CloneOriginalColumn(*mpDmap->get_base(y, x));
+    *mpDmap->get_base(y, x) = column_idx;
     mObj.AddOrUpdateDmapInfo(x, y, column_idx);
 
     gmp_col_info* pColumn = reinterpret_cast<gmp_col_info*>(&this->mpDmap->mpColumn[column_idx]);
@@ -4359,8 +4359,8 @@ void Map_0x370::ChangeBlock(s32 x, s32 y, s32 z, s32 info_type_to_set, u16 info_
 MATCH_FUNC(0x4E87C0)
 void Map_0x370::AddNewBlock(s32 x, s32 y, s32 z, gmp_block_info* pBlockData)
 {
-    s32 column_idx = Map_0x370::CloneColumnExtendedToZ(*mpDmap->get_base_42A830(y, x), z);
-    *mpDmap->get_base_42A830(y, x) = column_idx;
+    s32 column_idx = Map_0x370::CloneColumnExtendedToZ(*mpDmap->get_base(y, x), z);
+    *mpDmap->get_base(y, x) = column_idx;
     mObj.AddOrUpdateDmapInfo(x, y, column_idx);
     gmp_col_info* pColumn = reinterpret_cast<gmp_col_info*>(&mpDmap->mpColumn[column_idx]);
     u32 block_id = pColumn->mBlockd[z - pColumn->mOffset];
@@ -4378,10 +4378,10 @@ void Map_0x370::AddNewBlock(s32 x, s32 y, s32 z, gmp_block_info* pBlockData)
 MATCH_FUNC(0x4E8940)
 void Map_0x370::RemoveBlock(s32 x_pos, s32 y_pos, s32 offset, char_type do_drop)
 {
-    const s32 column_idx = CloneColumnWithoutBlock(*mpDmap->get_base_42A830(y_pos, x_pos), offset, do_drop);
+    const s32 column_idx = CloneColumnWithoutBlock(*mpDmap->get_base(y_pos, x_pos), offset, do_drop);
     if (column_idx != -1)
     {
-        *mpDmap->get_base_42A830(y_pos, x_pos) = column_idx;
+        *mpDmap->get_base(y_pos, x_pos) = column_idx;
         mObj.AddOrUpdateDmapInfo(x_pos, y_pos, column_idx);
     }
 }
@@ -4389,7 +4389,7 @@ void Map_0x370::RemoveBlock(s32 x_pos, s32 y_pos, s32 offset, char_type do_drop)
 MATCH_FUNC(0x4E8A10)
 void Map_0x370::LowerColumn(s32 x_pos, s32 y_pos)
 {
-    u32 column_idx = *mpDmap->get_base_42A830(y_pos, x_pos);
+    u32 column_idx = *mpDmap->get_base(y_pos, x_pos);
     gmp_col_info* pColumn = reinterpret_cast<gmp_col_info*>(&mpDmap->mpColumn[column_idx]);
     if (pColumn->mOffset == pColumn->mHeight - 1 && pColumn->mOffset)
     {
@@ -4779,7 +4779,7 @@ Map_0x370::Map_0x370()
     mbBlockedByTerrain = false;
     mbLowerBlockHasArrows = false;
 
-    sBlockInfo1.init_44C840();
+    sBlockInfo1.init();
 
     sBlockInfo2.mArrows = 0;
     sBlockInfo2.mLeft = 3073;

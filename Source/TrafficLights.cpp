@@ -313,7 +313,7 @@ void TrafficLights::TrafficLightsService()
     {
         if (mPhase == traffic_light_phase::east_west_amber_5)
         {
-            gCarManager_6C->ToggleTrafficLightState_4C39F0();
+            gCarManager_6C->ToggleTrafficLightState();
         }
 
         mPhase++;

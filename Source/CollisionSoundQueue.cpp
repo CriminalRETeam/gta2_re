@@ -40,21 +40,21 @@ void CollisionEvent::SetupForCar(Car* pCar)
 
         case collision_target_type::sprite_3:
         {
-            Car* pCar = gCollisionTarget.mpHitSprite->AsCar_40FEB0();
+            Car* pCar = gCollisionTarget.mpHitSprite->AsCar();
             if (pCar)
             {
                 mOtherCar = pCar;
                 mType = collision_event_type::car_car_2;
             }
-            else if (gCollisionTarget.mpHitSprite->AsCharB4_40FEA0())
+            else if (gCollisionTarget.mpHitSprite->AsCharB4())
             {
                 mType = collision_event_type::car_ped_4;
             }
             else
             {
-                Object* pObject = gCollisionTarget.mpHitSprite->AsObject2C_40FEC0();
+                Object* pObject = gCollisionTarget.mpHitSprite->AsObject2C();
 
-                mObjectModel = pObject->GetModel_40FEF0();
+                mObjectModel = pObject->GetModel();
                 if (mObjectModel == objects::diagonal_wall_collision_obj_166)
                 {
                     mType = collision_event_type::car_wall_5;
@@ -89,20 +89,20 @@ void CollisionEvent::SetupForPed()
 
         case collision_target_type::sprite_3:
         {
-            Car* pCar = gCollisionTarget.mpHitSprite->AsCar_40FEB0();
+            Car* pCar = gCollisionTarget.mpHitSprite->AsCar();
             if (pCar)
             {
                 mCar = pCar;
                 mType = collision_event_type::car_ped_4;
             }
-            else if (gCollisionTarget.mpHitSprite->AsCharB4_40FEA0())
+            else if (gCollisionTarget.mpHitSprite->AsCharB4())
             {
                 mType = collision_event_type::ped_ped_6;
             }
             else
             {
-                Object* pObject = gCollisionTarget.mpHitSprite->AsObject2C_40FEC0();
-                mObjectModel = pObject->GetModel_40FEF0();
+                Object* pObject = gCollisionTarget.mpHitSprite->AsObject2C();
+                mObjectModel = pObject->GetModel();
                 if (mObjectModel == objects::diagonal_wall_collision_obj_166)
                 {
                     mType = collision_event_type::ped_wall_8;
@@ -121,7 +121,7 @@ void CollisionEvent::SetupForPed()
 MATCH_FUNC(0x40BA60)
 bool CollisionEvent::SetupForObject(Object* pObj)
 {
-    if (!pObj->MakesCollisionSound_40FF00())
+    if (!pObj->MakesCollisionSound())
     {
         return false;
     }
@@ -146,27 +146,27 @@ bool CollisionEvent::SetupForObject(Object* pObj)
 
         case collision_target_type::sprite_3:
         {
-            Car* pCar = gCollisionTarget.mpHitSprite->AsCar_40FEB0();
+            Car* pCar = gCollisionTarget.mpHitSprite->AsCar();
             if (pCar)
             {
                 mCar = pCar;
                 mType = collision_event_type::car_object_3;
                 return true;
             }
-            else if (gCollisionTarget.mpHitSprite->AsCharB4_40FEA0())
+            else if (gCollisionTarget.mpHitSprite->AsCharB4())
             {
                 mType = collision_event_type::ped_object_7;
                 return true;
             }
             else
             {
-                Object* pObject = gCollisionTarget.mpHitSprite->AsObject2C_40FEC0();
-                if (!pObject->MakesCollisionSound_40FF00())
+                Object* pObject = gCollisionTarget.mpHitSprite->AsObject2C();
+                if (!pObject->MakesCollisionSound())
                 {
                     return false;
                 }
 
-                mOtherObjectModel = pObject->GetModel_40FEF0();
+                mOtherObjectModel = pObject->GetModel();
                 if (mOtherObjectModel == objects::diagonal_wall_collision_obj_166)
                 {
                     mType = collision_event_type::object_wall_10;
@@ -198,18 +198,18 @@ void CollisionSoundQueue::AddCollision(Sprite* pSprite, Fix16 impact_strength)
     if (!bSkip_audio)
     {
         CollisionEvent* pEvent = &mEvents[mCount];
-        Car* pCar = pSprite->AsCar_40FEB0();
+        Car* pCar = pSprite->AsCar();
         if (pCar)
         {
             pEvent->SetupForCar(pCar);
         }
-        else if (pSprite->AsCharB4_40FEA0())
+        else if (pSprite->AsCharB4())
         {
             pEvent->SetupForPed();
         }
         else
         {
-            Object* pObject = pSprite->AsObject2C_40FEC0();
+            Object* pObject = pSprite->AsObject2C();
             if (!pEvent->SetupForObject(pObject))
             {
                 return;
@@ -217,7 +217,7 @@ void CollisionSoundQueue::AddCollision(Sprite* pSprite, Fix16 impact_strength)
         }
 
         pEvent->SetPosition(pSprite->mXy.x, pSprite->mXy.y, pSprite->mZpos);
-        pEvent->SetImpactStrength_40FF10(impact_strength);
+        pEvent->SetImpactStrength(impact_strength);
         mCount++;
     }
 }
@@ -229,23 +229,23 @@ void CollisionSoundQueue::AddFloorCollision(Sprite* pSprite)
     {
         CollisionEvent* pEvent = &mEvents[mCount];
         pEvent->SetPosition(pSprite->mXy.x, pSprite->mXy.y, pSprite->mZpos);
-        pEvent->SetImpactStrength_40FF10(kFpZero_66AE98);
+        pEvent->SetImpactStrength(kFpZero_66AE98);
 
-        Car* pCar = pSprite->AsCar_40FEB0();
+        Car* pCar = pSprite->AsCar();
         if (pCar)
         {
             pEvent->mType = collision_event_type::car_floor_12;
             pEvent->mCar = pCar;
         }
-        else if (pSprite->AsCharB4_40FEA0())
+        else if (pSprite->AsCharB4())
         {
             pEvent->mType = collision_event_type::ped_floor_11;
         }
         else
         {
-            Object* pObject = pSprite->AsObject2C_40FEC0();
+            Object* pObject = pSprite->AsObject2C();
             pEvent->mType = collision_event_type::object_floor_1;
-            pEvent->mObjectModel = pObject->GetModel_40FEF0();
+            pEvent->mObjectModel = pObject->GetModel();
         }
         pEvent->mMapBlockSpec = gMap_0x370->GetBlockSpec(pSprite->mXy.x,
                                                                               pSprite->mXy.y,
@@ -261,23 +261,23 @@ void CollisionSoundQueue::AddBlockCollision(Sprite* pSprite)
     {
         CollisionEvent* pEvent = &this->mEvents[this->mCount];
         pEvent->SetPosition(pSprite->mXy.x, pSprite->mXy.y, pSprite->mZpos);
-        pEvent->SetImpactStrength_40FF10(kFpZero_66AE98);
+        pEvent->SetImpactStrength(kFpZero_66AE98);
 
-        Car* pCar = pSprite->AsCar_40FEB0();
+        Car* pCar = pSprite->AsCar();
         if (pCar)
         {
             pEvent->mType = collision_event_type::car_floor_12;
             pEvent->mCar = pCar;
         }
-        else if (pSprite->AsCharB4_40FEA0())
+        else if (pSprite->AsCharB4())
         {
             pEvent->mType = collision_event_type::ped_floor_11;
         }
         else
         {
-            Object* pObject = pSprite->AsObject2C_40FEC0();
+            Object* pObject = pSprite->AsObject2C();
             pEvent->mType = collision_event_type::object_floor_1;
-            pEvent->mObjectModel = pObject->GetModel_40FEF0();
+            pEvent->mObjectModel = pObject->GetModel();
         }
         pEvent->mMapBlockSpec =
             gMap_0x370->GetBlockSpec(pSprite->mXy.x, pSprite->mXy.y, pSprite->mZpos);
@@ -312,7 +312,7 @@ CollisionSoundQueue::~CollisionSoundQueue()
 {
     if (mpSoundObj)
     {
-        gRoot_sound.DestroySoundObj_40FE60(mpSoundObj);
+        gRoot_sound.DestroySoundObj(mpSoundObj);
         mpSoundObj = NULL;
     }
 }
@@ -322,7 +322,7 @@ bool CollisionTarget::IsObj2C() const
 {
     if (mType == collision_target_type::sprite_3)
     {
-        Object* pObject = mpHitSprite->AsObject2C_40FEC0();
+        Object* pObject = mpHitSprite->AsObject2C();
         if (pObject)
         {
             if (pObject->mDefinition->mCollisionResponse == 3)

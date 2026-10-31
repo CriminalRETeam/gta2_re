@@ -23,7 +23,7 @@ class TileAnim
 {
   public:
     // 9.6f 0x4C33F0
-    inline void Init_4C33F0(s16 base, s16 start_frame, s16 length, s16 frame_rate, s16 repeat)
+    inline void Init(s16 base, s16 start_frame, s16 length, s16 frame_rate, s16 repeat)
     {
         mBase = base;
         mStartFrame = start_frame;

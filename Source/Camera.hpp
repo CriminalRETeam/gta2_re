@@ -47,7 +47,7 @@ class Camera
 {
   public:
     // 9.6f 0x416B70
-    inline Ped* GetFollowedPed_416B70() const
+    inline Ped* GetFollowedPed() const
     {
         return mTargetPed;
     }
@@ -103,13 +103,13 @@ class Camera
     }
 
     // 9.6f 0x475B60
-    inline void SetSmoothFollow_475B60()
+    inline void SetSmoothFollow()
     {
         mFollowMode = camera_follow_mode::smooth_1;
     }
 
     // 9.6f 0x4A5070
-    inline void SetSnapFollow_4A5070()
+    inline void SetSnapFollow()
     {
         mFollowMode = camera_follow_mode::snap_2;
     }
@@ -128,7 +128,7 @@ class Camera
     }
 
     // 9.6f 0x45AEA0
-    inline bool IsSpriteInBounds_45AEA0(Sprite* pSprite, Fix16 margin)
+    inline bool IsSpriteInBounds(Sprite* pSprite, Fix16 margin)
     {
         return pSprite->mXy.x >= mPaddedViewBounds.mLeft - margin &&
             pSprite->mXy.x <= mPaddedViewBounds.mRight + margin &&
@@ -137,23 +137,23 @@ class Camera
     }
 
     // 9.6f 0x45AF40
-    inline bool IsRectInBounds_45AF40(Fix16_Rect* pRect)
+    inline bool IsRectInBounds(Fix16_Rect* pRect)
     {
-        return pRect->get_top_45ADD0() <= mPaddedViewBounds.mBottom &&
-            pRect->get_bottom_45ADC0() >= mPaddedViewBounds.mTop &&
-            pRect->get_left_45ADB0() <= mPaddedViewBounds.mRight &&
-            pRect->get_right_45ADA0() >= mPaddedViewBounds.mLeft;
+        return pRect->get_top() <= mPaddedViewBounds.mBottom &&
+            pRect->get_bottom() >= mPaddedViewBounds.mTop &&
+            pRect->get_left() <= mPaddedViewBounds.mRight &&
+            pRect->get_right() >= mPaddedViewBounds.mLeft;
     }
 
     // 9.6f 0x40CF60
-    inline bool IsPointInViewBounds_40CF60(Fix16 x, Fix16 y) const
+    inline bool IsPointInViewBounds(Fix16 x, Fix16 y) const
     {
         return x >= mViewBounds.mLeft && x <= mViewBounds.mRight &&
             y >= mViewBounds.mTop && y <= mViewBounds.mBottom;
     }
 
     // 9.6f 0x41E410
-    inline void CommitPendingTarget_41E410()
+    inline void CommitPendingTarget()
     {
         mTargetPos = mPendingTargetPos;
     }
@@ -164,13 +164,13 @@ class Camera
     }
 
     // 9.6f inline 0x433E90
-    inline bool HasFollowTarget_433E90() const
+    inline bool HasFollowTarget() const
     {
         return mTargetPed || mTargetCar;
     }
 
     // 9.6f 0x41E3D0
-    inline void SetPendingTarget_41E3D0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16 zoom)
+    inline void SetPendingTarget(Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16 zoom)
     {
         mPendingTargetPos.mX = xpos;
         mPendingTargetPos.mY = ypos;
@@ -179,13 +179,13 @@ class Camera
     }
 
     // 9.6f 0x4B3110
-    Fix16 GetPaddedViewBoundsWidth_4B3110() const
+    Fix16 GetPaddedViewBoundsWidth() const
     {
         return mPaddedViewBounds.mRight - mPaddedViewBounds.mLeft;
     }
 
     // 9.6f 0x4B3130
-    Fix16 GetPaddedViewBoundsHeight_4B3130() const
+    Fix16 GetPaddedViewBoundsHeight() const
     {
         return mPaddedViewBounds.mBottom - mPaddedViewBounds.mTop;
     }

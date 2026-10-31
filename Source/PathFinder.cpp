@@ -93,7 +93,7 @@ bool PathFinder::CanMoveToAdjacentTile(u8 desired_xpos, u8 desired_ypos)
     if (xd != 0 && yd != 0)
     {
         // No diagonal move from a slope tile
-        if (gMap_0x370->IsGradientSlopeAt_466CF0(mXpos25, mYpos26, mZpos27))
+        if (gMap_0x370->IsGradientSlopeAt(mXpos25, mYpos26, mZpos27))
         {
             return false;
         }
@@ -103,12 +103,12 @@ bool PathFinder::CanMoveToAdjacentTile(u8 desired_xpos, u8 desired_ypos)
             if (yd == 1)
             {
                 // moving southeast
-                if (gMap_0x370->IsGradientSlopeAt_466CF0(this->mXpos25, this->mYpos26 + 1, this->mZpos27))
+                if (gMap_0x370->IsGradientSlopeAt(this->mXpos25, this->mYpos26 + 1, this->mZpos27))
                 {
                     return false;
                 }
 
-                if (gMap_0x370->IsGradientSlopeAt_466CF0(this->mXpos25 + 1, this->mYpos26, this->mZpos27))
+                if (gMap_0x370->IsGradientSlopeAt(this->mXpos25 + 1, this->mYpos26, this->mZpos27))
                 {
                     return false;
                 }
@@ -134,12 +134,12 @@ bool PathFinder::CanMoveToAdjacentTile(u8 desired_xpos, u8 desired_ypos)
                 return false;
             }
 
-            if (gMap_0x370->IsGradientSlopeAt_466CF0(this->mXpos25, this->mYpos26 - 1, this->mZpos27))
+            if (gMap_0x370->IsGradientSlopeAt(this->mXpos25, this->mYpos26 - 1, this->mZpos27))
             {
                 return false;
             }
 
-            if (gMap_0x370->IsGradientSlopeAt_466CF0(this->mXpos25 + 1, this->mYpos26, this->mZpos27))
+            if (gMap_0x370->IsGradientSlopeAt(this->mXpos25 + 1, this->mYpos26, this->mZpos27))
             {
                 return false;
             }
@@ -164,12 +164,12 @@ bool PathFinder::CanMoveToAdjacentTile(u8 desired_xpos, u8 desired_ypos)
 
         if (yd == 1)
         {
-            if (gMap_0x370->IsGradientSlopeAt_466CF0(this->mXpos25, this->mYpos26 + 1, this->mZpos27))
+            if (gMap_0x370->IsGradientSlopeAt(this->mXpos25, this->mYpos26 + 1, this->mZpos27))
             {
                 return false;
             }
 
-            if (gMap_0x370->IsGradientSlopeAt_466CF0(this->mXpos25 - 1, this->mYpos26, this->mZpos27))
+            if (gMap_0x370->IsGradientSlopeAt(this->mXpos25 - 1, this->mYpos26, this->mZpos27))
             {
                 return false;
             }
@@ -188,12 +188,12 @@ bool PathFinder::CanMoveToAdjacentTile(u8 desired_xpos, u8 desired_ypos)
                        ->IsMoveOntoSlopeTileBlocked(this->mXpos25, this->mYpos26 + 1, this->mZpos27, path_direction::left_4, &sPathFinderSlopeZDelta, 1) ? false : true;
         }
 
-        if (gMap_0x370->IsGradientSlopeAt_466CF0(this->mXpos25, this->mYpos26 - 1, this->mZpos27))
+        if (gMap_0x370->IsGradientSlopeAt(this->mXpos25, this->mYpos26 - 1, this->mZpos27))
         {
             return false;
         }
 
-        if (gMap_0x370->IsGradientSlopeAt_466CF0(this->mXpos25 - 1, this->mYpos26, this->mZpos27))
+        if (gMap_0x370->IsGradientSlopeAt(this->mXpos25 - 1, this->mYpos26, this->mZpos27))
         {
             return false;
         }
@@ -581,7 +581,7 @@ bool PathFinder::ComputePath(s32 ped_id,
         mbFindTileMode = false;
         PathFinder::ClearGrid();
 
-        if (!gMap_0x370->IsGradientSlopeAt_466CF0(x_start, y_start, z_start))
+        if (!gMap_0x370->IsGradientSlopeAt(x_start, y_start, z_start))
         {
             mZStart = gMap_0x370->FindGroundZBelowCoord(Fix16(x_start), Fix16(y_start), Fix16(z_start)).ToUInt8();
         }
@@ -912,7 +912,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType(u8 block_type, u8* xpos, u8* yp
     mZStart = *zpos;
     mbFindTileMode = true;
 
-    if (!gMap_0x370->IsGradientSlopeAt_466CF0(mXStart, mYStart, mZStart))
+    if (!gMap_0x370->IsGradientSlopeAt(mXStart, mYStart, mZStart))
     {
         mZStart = gMap_0x370->FindGroundZBelowCoord(Fix16(mXStart), Fix16(mYStart), Fix16(mZStart)).ToUInt8();
     }
@@ -969,7 +969,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType(u8 block_type, u8* xpos, u8* yp
         mYpos26 = sPathFinderBestY;
         mZpos27 = sPathFinderBestZ;
 
-        u8 block_below_type = gMap_0x370->GetBlockTypeAtCoord_420420(mXpos25, mYpos26, mZpos27 - 1);
+        u8 block_below_type = gMap_0x370->GetBlockTypeAtCoord(mXpos25, mYpos26, mZpos27 - 1);
 
         if (block_type == 5)
         {

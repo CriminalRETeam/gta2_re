@@ -37,7 +37,7 @@ class SpriteTreeStack
 
     // 9.6f inline
     // 9.6f 0x4C4B80
-    void Push_4C4B80(SpriteTreeNode* pToPush)
+    void Push(SpriteTreeNode* pToPush)
     {
         SpriteTreeNode*** ppTop = &this->mpTop;
         *(*ppTop)++ = pToPush;
@@ -45,14 +45,14 @@ class SpriteTreeStack
 
     // 9.6f inline
     // 9.6f 0x4C4BC0
-    bool IsEnd_4C4BC0() const
+    bool IsEnd() const
     {
         return this->mpTop == mStack;
     }
 
     // 9.6f inline
     // 9.6f 0x4C4BA0
-    SpriteTreeNode* Pop_4C4BA0()
+    SpriteTreeNode* Pop()
     {
         SpriteTreeNode*** ppTop = &gSpriteTreeStack->mpTop;
         (*ppTop)--;
@@ -70,7 +70,7 @@ class SpriteTreeNodePool
   public:
 
     // 9.6f 0x4C4B40
-    inline SpriteTreeNode* Alloc_4C4B40()
+    inline SpriteTreeNode* Alloc()
     {
         if (mNextFreeIdx >= SpriteTreeStack::k_max_nodes)
         {
@@ -85,7 +85,7 @@ class SpriteTreeNodePool
     }
 
     // 9.6f 0x4C4B70
-    inline void Reset_4C4B70()
+    inline void Reset()
     {
         mNextFreeIdx = 0;
     }

@@ -162,7 +162,7 @@ void SpriteTree::AddSprite(Sprite* pSprite)
         }
     }
 
-    SpriteTreeNode* pAllocated = gSpriteTreeNodePool->Alloc_4C4B40();
+    SpriteTreeNode* pAllocated = gSpriteTreeNodePool->Alloc();
     pAllocated->mpSprite = pSprite;
     pAllocated->mpLeft = NULL;
     pAllocated->mpRight = NULL;
@@ -192,15 +192,15 @@ void SpriteTree::Draw()
     {
         while (pIter)
         {
-            gSpriteTreeStack->Push_4C4B80(pIter);
+            gSpriteTreeStack->Push(pIter);
             pIter = pIter->mpLeft;
         }
-        if (gSpriteTreeStack->IsEnd_4C4BC0())
+        if (gSpriteTreeStack->IsEnd())
         {
             break;
         }
 
-        pIter = gSpriteTreeStack->Pop_4C4BA0();
+        pIter = gSpriteTreeStack->Pop();
         pIter->mpSprite->Draw();
         pIter = pIter->mpRight;
     }
@@ -211,7 +211,7 @@ DEFINE_GLOBAL_INIT(u32, gCyclesPerMs, 1701493, 0x705334);
 MATCH_FUNC(0x5c5e50)
 void SpriteTree::Reset()
 {
-    gSpriteTreeNodePool->Reset_4C4B70();
+    gSpriteTreeNodePool->Reset();
     mpRoot = NULL;
 }
 
@@ -256,7 +256,7 @@ SpriteTreeNodePool::SpriteTreeNodePool()
     {
         mEntries[i].mpSprite = NULL;
     }
-    Reset_4C4B70();
+    Reset();
 }
 
 MATCH_FUNC(0x5c5f90)

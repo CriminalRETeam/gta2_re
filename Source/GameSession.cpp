@@ -377,7 +377,7 @@ MATCH_FUNC(0x4C5CD0)
 void GameSession::UpdateFrags(u8 player_killer_idx, u8 player_victim_idx)
 {
     mFragsByVictim[player_killer_idx].mFragsOnVictim[player_victim_idx]++;
-    Player* pPlayer = gGame_0x40->GetPlayer_4219E0(player_killer_idx);
+    Player* pPlayer = gGame_0x40->GetPlayer(player_killer_idx);
     if (player_killer_idx == player_victim_idx)
     {
         // player killed himself

@@ -329,8 +329,8 @@ void SpriteGrid::CheckTileSpritesForClosestMatch(GridSpriteLink* pSpriteLinks)
     for (GridSpriteLink* pColIter = pSpriteLinks; pColIter; pColIter = pColIter->mpNext)
     {
         Sprite* pLinkSprite = pColIter->mpSprite;
-        if ((pColIter->mpSprite->TypeIs_446940(sSpriteGridSpriteType1) ||
-             pColIter->mpSprite->TypeIs_446940(sSpriteGridSpriteType2)) &&
+        if ((pColIter->mpSprite->TypeIs(sSpriteGridSpriteType1) ||
+             pColIter->mpSprite->TypeIs(sSpriteGridSpriteType2)) &&
             pLinkSprite != sSpriteGridExcludeSprite)
         {
 
@@ -341,7 +341,7 @@ void SpriteGrid::CheckTileSpritesForClosestMatch(GridSpriteLink* pSpriteLinks)
                     dist = sSpriteGridExcludeSprite->MinDistanceToAnySpriteBBoxCorner(pLinkSprite);
                     if (dist < gSpriteGrid_smallestDistance)
                     {
-                        if (pColIter->mpSprite->GetType_416B40() == sprite_types_enum::car_2)
+                        if (pColIter->mpSprite->GetType() == sprite_types_enum::car_2)
                         {
                             if (pColIter->mpSprite->mCarBcPtr->IsEnterable())
                             {
@@ -359,7 +359,7 @@ void SpriteGrid::CheckTileSpritesForClosestMatch(GridSpriteLink* pSpriteLinks)
                 else
                 {
 
-                    dist = sSpriteGridExcludeSprite->ManhattanDistance_446960(pLinkSprite);
+                    dist = sSpriteGridExcludeSprite->ManhattanDistance(pLinkSprite);
 
                     if (dist < gSpriteGrid_smallestDistance)
                     {
@@ -385,7 +385,7 @@ void SpriteGrid::SearchTileColumnForClosestSprite(u8 height)
         GridCell** pXItemIter = &this->mRows[gSpriteGrid_start_y];
         while (y_pos < gSpriteGrid_start_y + static_cast<u32>(height))
         {
-            CheckTileSpritesForClosestMatch(GetCollideListAt_446820(gSpriteGrid_start_x, y_pos));
+            CheckTileSpritesForClosestMatch(GetCollideListAt(gSpriteGrid_start_x, y_pos));
             ++y_pos;
             ++pXItemIter;
         }
@@ -428,7 +428,7 @@ void SpriteGrid::AddToDrawList(s32 left, s32 right, s32 top, s32 bottom)
                 {
                     for (GridSpriteLink* pLinkIter = pXItem->mpSpriteLinks; pLinkIter; pLinkIter = pLinkIter->mpNext)
                     {
-                        if (pLinkIter->mpSprite->IsTypeAbove1_446950())
+                        if (pLinkIter->mpSprite->IsTypeAbove1())
                         {
                             gSpriteRenderer->DisplayAdd(pLinkIter->mpSprite);
                         }
@@ -689,7 +689,7 @@ bool SpriteGrid::CheckRowForRectCollisions(u32 y_pos, Fix16_Rect* pRect)
         for (GridSpriteLink* pObj = pXItemIter->mpSpriteLinks; pObj; pObj = pObj->mpNext)
         {
             Sprite* pLinkSprite = pObj->mpSprite;
-            if (!pObj->mpSprite->TypeIs_446940(sSpriteGridExcludeTypes) &&
+            if (!pObj->mpSprite->TypeIs(sSpriteGridExcludeTypes) &&
                 pLinkSprite != gSpriteGrid_exclusion_sprite &&
                 !pObj->mpSprite->mpCollisionShape->CollisionIdIs_446930(gCollisionCounters->mQueryId) &&
                 pLinkSprite->ShouldCollideWithSprite(NULL))
@@ -697,9 +697,9 @@ bool SpriteGrid::CheckRowForRectCollisions(u32 y_pos, Fix16_Rect* pRect)
                 gCollisionCounters->mTestCount++;
 
                 Fix16_Rect* pBBox = &pObj->mpSprite->mpCollisionShape->mBoundingBox;
-                if (pRect->AABB_Intersects_41E2F0(pBBox) &&
-                    (!sbDoCollisionCheck || pObj->mpSprite->mpCollisionShape->IsZeroWidth_41E390() ||
-                     pObj->mpSprite->mRotation.jIsAxisAligned_41E3C0() || pObj->mpSprite->IntersectsRectSAT(pRect) ||
+                if (pRect->AABB_Intersects(pBBox) &&
+                    (!sbDoCollisionCheck || pObj->mpSprite->mpCollisionShape->IsZeroWidth() ||
+                     pObj->mpSprite->mRotation.jIsAxisAligned() || pObj->mpSprite->IntersectsRectSAT(pRect) ||
                      pRect->IntersectsSpriteRenderingRect(pObj->mpSprite)))
                 {
                     if (sSpriteGridList)
@@ -715,7 +715,7 @@ bool SpriteGrid::CheckRowForRectCollisions(u32 y_pos, Fix16_Rect* pRect)
                     }
                 }
 
-                pObj->mpSprite->mpCollisionShape->SetCollisionId_446920(gCollisionCounters->mQueryId);
+                pObj->mpSprite->mpCollisionShape->SetCollisionId(gCollisionCounters->mQueryId);
             }
 
         }
@@ -746,7 +746,7 @@ bool SpriteGrid::CheckAndHandleCollisionsInStrip(u32 y_pos, Sprite* pSprite)
                     bRet = true;
                     pLinkIter->mpSprite->HandleObjectCollision(pSprite);
                 }
-                pLinkIter->mpSprite->mpCollisionShape->SetCollisionId_446920(gCollisionCounters->mQueryId);
+                pLinkIter->mpSprite->mpCollisionShape->SetCollisionId(gCollisionCounters->mQueryId);
             }
         }
         pIter = pIter->mpNext;
@@ -768,7 +768,7 @@ bool SpriteGrid::CheckAndHandleRowCollisionsForSprite(u32 y_pos, Sprite* pSprite
 
         for (GridSpriteLink* pLinkIter = pXItemIter->mpSpriteLinks; pLinkIter; pLinkIter = pLinkIter->mpNext)
         {
-            if (pLinkIter->mpSprite->TypeIs_446940(sSpriteGridSpriteTypeFilter) &&
+            if (pLinkIter->mpSprite->TypeIs(sSpriteGridSpriteTypeFilter) &&
                 !pLinkIter->mpSprite->mpCollisionShape->CollisionIdIs_446930(gCollisionCounters->mQueryId))
             {
                 gCollisionCounters->mTestCount++;
@@ -779,7 +779,7 @@ bool SpriteGrid::CheckAndHandleRowCollisionsForSprite(u32 y_pos, Sprite* pSprite
                     pLinkIter->mpSprite->ProcessCarToCarImpactIfCar(pSprite);
                 }
 
-                pLinkIter->mpSprite->mpCollisionShape->SetCollisionId_446920(gCollisionCounters->mQueryId);
+                pLinkIter->mpSprite->mpCollisionShape->SetCollisionId(gCollisionCounters->mQueryId);
             }
         }
         pXItemIter = pXItemIter->mpNext;
@@ -803,7 +803,7 @@ Sprite* SpriteGrid::FindCollidingSpriteInRow(u32 y_pos, Sprite* pSprite)
         {
             Sprite* pLinkSprite = pObj->mpSprite;
             if (pObj->mpSprite == gSpriteGrid_exclusion_sprite ||
-                sSpriteGridSmallestDistSprite && !pLinkSprite->TypeIs_446940(sSpriteGridPreferredType) ||
+                sSpriteGridSmallestDistSprite && !pLinkSprite->TypeIs(sSpriteGridPreferredType) ||
                 pLinkSprite->mpCollisionShape->CollisionIdIs_446930(gCollisionCounters->mQueryId) || !pLinkSprite->ShouldCollideWithSprite(pSprite))
             {
                 continue;
@@ -813,7 +813,7 @@ Sprite* SpriteGrid::FindCollidingSpriteInRow(u32 y_pos, Sprite* pSprite)
 
             if (pSprite->CollisionCheck_59E590(pObj->mpSprite))
             {
-                if (!pObj->mpSprite->TypeIs_446940(sSpriteGridPreferredType))
+                if (!pObj->mpSprite->TypeIs(sSpriteGridPreferredType))
                 {
                     sSpriteGridSmallestDistSprite = pObj->mpSprite;
                 }
@@ -822,7 +822,7 @@ Sprite* SpriteGrid::FindCollidingSpriteInRow(u32 y_pos, Sprite* pSprite)
                     return pObj->mpSprite;
                 }
             }
-            pObj->mpSprite->mpCollisionShape->SetCollisionId_446920(gCollisionCounters->mQueryId);
+            pObj->mpSprite->mpCollisionShape->SetCollisionId(gCollisionCounters->mQueryId);
         }
         pXItem = pXItem->mpNext;
     }

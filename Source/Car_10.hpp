@@ -8,7 +8,7 @@ class Car_Door
 {
   public:
     // 9.6f 0x4341B0
-    inline Ped* get_pObj_4341B0() const
+    inline Ped* get_pObj() const
     {
         return mpObj;
     }
@@ -23,13 +23,13 @@ class Car_Door
     EXPORT ~Car_Door(); // 447350
 
     // 9.6f 0x421360
-    inline bool IsStateActive_421360() const
+    inline bool IsStateActive() const
     {
         return mState != 0 && mState != 6;
     }
 
     // 9.6f 0x421340
-    inline void ResetState_421340()
+    inline void ResetState()
     {
         mState = 0;
     }
@@ -47,7 +47,7 @@ class Car_Door
     }
 
     // 9.6f inline 0x421380
-    inline void set_ped_421380(Ped* pPed)
+    inline void set_ped(Ped* pPed)
     {
         mpObj = pPed;
     }

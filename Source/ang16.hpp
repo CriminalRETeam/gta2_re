@@ -84,7 +84,7 @@ class Ang16
     }
 
     // 9.6f 0x49E240, defined in CarPhysics.cpp
-    inline wchar_t* ThetaText_49E240();
+    inline wchar_t* ThetaText();
 
     Ang16 operator-() const
     {
@@ -232,13 +232,13 @@ class Ang16
     EXPORT Ang16(Fix16* value, s32 not_used);
 
     // 9.6f 0x40F520
-    inline static Fix16 __stdcall cosine_40F520(const Ang16& angle)
+    inline static Fix16 __stdcall cosine(const Ang16& angle)
     {
         return gCos_table[angle.rValue];
     }
 
     // 9.6f 0x40F500
-    inline static Fix16 __stdcall sine_40F500(const Ang16& angle)
+    inline static Fix16 __stdcall sine(const Ang16& angle)
     {
         return gSin_table[angle.rValue];
     }
@@ -263,12 +263,12 @@ class Ang16
     // OBS: INLINE_MODE required to match Char::ApplyRandomRotationJitter
     INLINE_MODE static Ang16 __stdcall Fix16_To_Ang16_inlined_40F540(const Fix16& input)
     {
-        return Ang16(input.GetRaw_40F4B0() / 71, 0);
+        return Ang16(input.GetRaw() / 71, 0);
     }
 
     inline static Ang16 __stdcall Fix16_To_Ang16_40F540(const Fix16& input)
     {
-        return Ang16(input.GetRaw_40F4B0() / 71, 0);
+        return Ang16(input.GetRaw() / 71, 0);
     }
 
     // Fix16_To_Ang16_40F540 with the normalizing Ang16 ctor called out of line (AssignNormalized),
@@ -276,21 +276,21 @@ class Ang16
     inline static Ang16 __stdcall Fix16_To_Ang16_ool_40F540(const Fix16& input)
     {
         // The quotient is stored as a dword, like 9.6f's 0x40F540 passing it to 0x401C60
-        s32 value = input.GetRaw_40F4B0() / 71;
+        s32 value = input.GetRaw() / 71;
         return Ang16(&value, 0);
     }
 
     // 9.6f 0x41E110
     // https://decomp.me/scratch/RKAuT
-    bool IsAxisAligned_41E110() const
+    bool IsAxisAligned() const
     {
         return (rValue == 0 || rValue == 360 || rValue == 720 || rValue == 1080) ? true : false;
     }
 
     // 9.6f 0x41E3C0
-    bool jIsAxisAligned_41E3C0() const
+    bool jIsAxisAligned() const
     {
-        return IsAxisAligned_41E110();
+        return IsAxisAligned();
     }
 
     // 9.6f 0x401C60
@@ -326,12 +326,12 @@ class Ang16
     }
 
     // 9.6f 0x401CB0
-    Ang16 MultiplyByFix16_401CB0(const Fix16& factor) const
+    Ang16 MultiplyByFix16(const Fix16& factor) const
     {
         return Ang16(Fix16(rValue) * factor, 0);
     }
 
-    // MultiplyByFix16_401CB0 with the multiply and the Fix16* constructor out of line. The product
+    // MultiplyByFix16 with the multiply and the Fix16* constructor out of line. The product
     // goes straight into the constructor call, so its 0 argument is pushed before the multiply
     // (ParticleManager::EmitImpactParticles)
     Ang16 MultiplyByFix16_401CB0_out_of_line(const Fix16& factor) const
@@ -339,7 +339,7 @@ class Ang16
         return Ang16(const_cast<Fix16*>(&static_cast<const Fix16&>(Fix16(rValue).Multiply(factor))), 0);
     }
 
-    // MultiplyByFix16_401CB0 with the multiply inline and the Fix16* constructor out of line
+    // MultiplyByFix16 with the multiply inline and the Fix16* constructor out of line
     // (ParticleManager::EmitWaterSplash)
     Ang16 MultiplyByFix16_401CB0_ctor_ool(const Fix16& factor) const
     {
@@ -348,7 +348,7 @@ class Ang16
     }
 
     // 9.6f 0x40E640
-    Fix16 divideBy_40E640(const Ang16& scale) const
+    Fix16 divideBy(const Ang16& scale) const
     {
         return Fix16(rValue) / scale.rValue;
     }
@@ -359,11 +359,11 @@ class Ang16
 
     // https://decomp.me/scratch/6VBR0  (matched)
     // 9.6f 0x41FC90
-    static inline void __stdcall RotateVector_41FC90(Fix16& xpos, Fix16& ypos, Ang16& rotation)
+    static inline void __stdcall RotateVector(Fix16& xpos, Fix16& ypos, Ang16& rotation)
     {
         Fix16 old_xpos = xpos;
-        xpos = xpos * Ang16::cosine_40F520(rotation) + ypos * Ang16::sine_40F500(rotation);
-        ypos = (-old_xpos) * Ang16::sine_40F500(rotation) + ypos * Ang16::cosine_40F520(rotation);
+        xpos = xpos * Ang16::cosine(rotation) + ypos * Ang16::sine(rotation);
+        ypos = (-old_xpos) * Ang16::sine(rotation) + ypos * Ang16::cosine(rotation);
     }
 
     s16 rValue;
@@ -375,8 +375,8 @@ inline void __stdcall Ang16::PolarToCartesian_41FC20(Ang16& angle, Fix16& radius
 {
     // Never read: its optimizer entry is needed by CarAI::UpdateStateMachine (docs/match_attempts.md)
     s32 unused;
-    ret1 = Ang16::sine_40F500(angle) * radius;
-    ret2 = Ang16::cosine_40F520(angle) * radius;
+    ret1 = Ang16::sine(angle) * radius;
+    ret2 = Ang16::cosine(angle) * radius;
 }
 #pragma warning(pop)
 
@@ -405,6 +405,6 @@ inline void __stdcall RotateAndTranslatePoint_42A720(Fix16& inX,
                                                          Fix16& outX,
                                                          Fix16& outY)
 {
-    outX = (((inX - transX) * Ang16::cosine_40F520(rotation)) + ((inY - transY) * Ang16::sine_40F500(rotation)));
-    outY = ((-(inX - transX) * Ang16::sine_40F500(rotation)) + ((inY - transY) * Ang16::cosine_40F520(rotation)));
+    outX = (((inX - transX) * Ang16::cosine(rotation)) + ((inY - transY) * Ang16::sine(rotation)));
+    outY = ((-(inX - transX) * Ang16::sine(rotation)) + ((inY - transY) * Ang16::cosine(rotation)));
 }

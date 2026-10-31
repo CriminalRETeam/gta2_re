@@ -56,13 +56,13 @@ class Pool
 {
   public:
     // 9.6f 0x48A8F0
-    inline bool has_pStart_48A8F0()
+    inline bool has_pStart()
     {
         return mpStart != NULL;
     }
 
     // 9.6f 0x4B8FD0 (CokeZero_FC, 10.5 copy 0x5935C0): first used item
-    inline PoolType* GetFirstUsed_4B8FD0()
+    inline PoolType* GetFirstUsed()
     {
         return mpPrev;
     }
@@ -290,7 +290,7 @@ class Pool
     }
 
     // 9.6f 0x420F30
-    void UnlinkFromActiveList_420F30(PoolType* toFind)
+    void UnlinkFromActiveList(PoolType* toFind)
     {
         PoolType* pLast = 0;
         for (PoolType* pIter = this->mpPrev; pIter; pIter = pIter->mpNext)

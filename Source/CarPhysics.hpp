@@ -77,60 +77,60 @@ class CarPhysics
     STATIC_MEMBER(u8, sCollisionArea);
     STATIC_MEMBER(Fix16, sBrakeForce);
     // 9.6f 0x40F800
-    inline Fix16 get_cp3_40F800()
+    inline Fix16 get_cp3()
     {
         return mCp3;
     }
 
     // 9.6f 0x40F810
-    inline void set_cp3_40F810(Fix16 v)
+    inline void set_cp3(Fix16 v)
     {
         mCp3 = v;
     }
 
     // 9.6f 0x40F820
-    inline Ang16 get_theta_40F820()
+    inline Ang16 get_theta()
     {
         return mTheta;
     }
 
     // 9.6f 0x40F830
-    inline void set_theta_40F830(Ang16 v)
+    inline void set_theta(Ang16 v)
     {
         mTheta = v;
     }
 
     // 9.6f 0x40F7E0
-    inline void set_cp1_40F7E0(const Fix16_Point& v)
+    inline void set_cp1(const Fix16_Point& v)
     {
         mCp1.x = v.x;
         mCp1.y = v.y;
     }
 
     // 9.6f 0x421170
-    inline void set_linvel_421170(const Fix16_Point& v)
+    inline void set_linvel(const Fix16_Point& v)
     {
         mLinvel1.x = v.x;
         mLinvel1.y = v.y;
     }
 
     // 9.6f 0x4895D0
-    inline void StopMoving_4895D0()
+    inline void StopMoving()
     {
         mAngVelRad = kFpZero_6FD120;
         mLinvel1.clear_41E1E0();
     }
 
     // 9.6f 0x4211E0
-    inline Ang16 GetLinvelAngle_4211E0()
+    inline Ang16 GetLinvelAngle()
     {
         return mLinvel1.atan2_40F790();
     }
 
     // 9.6f 0x421130
-    inline bool IsDamageWindowOpen_421130()
+    inline bool IsDamageWindowOpen()
     {
-        return static_cast<u32>(gpRng->get_cur_rng_41CFE0()) < mDamagedUntilCycle;
+        return static_cast<u32>(gpRng->get_cur_rng()) < mDamagedUntilCycle;
     }
 
     // 9.6f 0x421260
@@ -140,13 +140,13 @@ class CarPhysics
     }
 
     // 9.6f 0x421250
-    inline void SetHandBrakeOn_421250()
+    inline void SetHandBrakeOn()
     {
         mIsHandBrakeOn = 1;
     }
 
     // 9.6f 0x421270
-    inline char_type get_is_hand_brake_on_421270()
+    inline char_type get_is_hand_brake_on()
     {
         return mIsHandBrakeOn;
     }
@@ -244,7 +244,7 @@ class CarPhysics
     EXPORT Fix16 ComputeTorqueFromThrottle();
 
     // FUNCTION: 96f 0x40f840
-    bool IsVelocityAlignedWithHeading_40F840()
+    bool IsVelocityAlignedWithHeading()
     {
         Ang16 heading_diff = (mLinvel1.atan2_40F790() - mTheta);
         return heading_diff <= kAng90_6FE00C || heading_diff >= kAng270_6FE154;
@@ -281,7 +281,7 @@ class CarPhysics
         }
     }
 
-    // ComputeUndamagedThrottleTorque_49E8E0 as inlined into ComputeEngineTorque (out of line operators)
+    // ComputeUndamagedThrottleTorque as inlined into ComputeEngineTorque (out of line operators)
     Fix16 ComputeUndamagedThrottleTorque_49E8E0_ool()
     {
         if (IsTurboActive())
@@ -297,7 +297,7 @@ class CarPhysics
     }
 
     // 9.6f 0x49E8E0
-    Fix16 CarPhysics::ComputeUndamagedThrottleTorque_49E8E0()
+    Fix16 CarPhysics::ComputeUndamagedThrottleTorque()
     {
         if (IsTurboActive())
         {
@@ -310,7 +310,7 @@ class CarPhysics
     }
 
     // 9.6f 0x421100
-    bool CarPhysics::IsDrowning_421100()
+    bool CarPhysics::IsDrowning()
     {
         if (mSurfaceType == car_surface_type::water_surface_8)
         {
@@ -337,7 +337,7 @@ class CarPhysics
     EXPORT void SetCurrentCarInfoAndModelPhysics();
 
     // 9.6f 0x482CC0
-    inline void HandleObjectCollisionAt_482CC0(Object* pObj, Fix16_Point& point, char_type damage_area)
+    inline void HandleObjectCollisionAt(Object* pObj, Fix16_Point& point, char_type damage_area)
     {
         SetCurrentCarInfoAndModelPhysics();
         CollisionIntersectionPoint = point;
@@ -367,13 +367,13 @@ class CarPhysics
     EXPORT CarPhysics();
 
     // 9.6f 0x4211A0
-    inline Fix16 GetLinearSpeed_4211A0()
+    inline Fix16 GetLinearSpeed()
     {
         return mLinvel1.GetLength_41E260();
     }
 
     // 9.6f 0x49EF50, defined in CarPhysics.cpp
-    inline void AddDamage_49EF50(s32 damage);
+    inline void AddDamage(s32 damage);
 
     // 9.6f 0x421260
     inline void ClearHandBrake_421260()
@@ -382,13 +382,13 @@ class CarPhysics
     }
 
     // 9.6f 0x411810
-    inline char_type is_backward_gas_on_411810()
+    inline char_type is_backward_gas_on()
     {
         return mIsBackwardGasOn;
     }
 
     // 9.6f 0x4211C0
-    inline Fix16 get_car_velocity_4211C0()
+    inline Fix16 get_car_velocity()
     {
         return mVelReadOnly.GetLength_41E260();
     }
@@ -406,7 +406,7 @@ class CarPhysics
     }
 
     // 9.6f 0x49EF80
-    inline bool IsStationary_49EF80()
+    inline bool IsStationary()
     {
         return mLinvel1.x == kFP16Zero_6FE20C && mLinvel1.y == kFP16Zero_6FE20C &&
             mAngVelRad == kFP16Zero_6FE20C;
@@ -437,7 +437,7 @@ class CarPhysics
     }
 
     // FUNCTION: 96f 0x421210
-    void Accelerate_421210()
+    void Accelerate()
     {
         mIsForwardGasOn = 1;
         mIsFootBrakeOn = 0;
@@ -455,7 +455,7 @@ class CarPhysics
     }
 
     // FUNCTION: 96f 0x42AC00
-    void NeutralGear_42AC00()
+    void NeutralGear()
     {
         mIsFootBrakeOn = 0;
         mIsForwardGasOn = 0;
@@ -473,16 +473,16 @@ class CarPhysics
     }
 
     // FUNCTION: 96f 0x42ABA0
-    void TurnClockwise_42ABA0();
+    void TurnClockwise();
 
     // FUNCTION: 96f 0x42AB90
-    void TurnAntiClockwise_42AB90()
+    void TurnAntiClockwise()
     {
         mTurnDirection = car_turn_direction::anticlockwise_1;
     }
 
     // 9.6f 0x42ABB0
-    void SetGoStraight_42ABB0()
+    void SetGoStraight()
     {
         mTurnDirection = car_turn_direction::none_0;
         mPointingAngRad = kF16Zero;
@@ -496,7 +496,7 @@ class CarPhysics
 
 
     Fix16_Point mVelReadOnly; // 0x0
-    u32 mDamagedUntilCycle; // 0x8: the tick (gpRng's cycle) plus the damage of the last impact: IsDamageWindowOpen_421130
+    u32 mDamagedUntilCycle; // 0x8: the tick (gpRng's cycle) plus the damage of the last impact: IsDamageWindowOpen
     CarPhysics* mpNext;
     Fix16_Point mLastSkidPos[4]; // 0x10
     Fix16_Point mCm1; // 0x30
@@ -548,7 +548,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(CarPhysics, 0xB0);
 #pragma warning(push)
 #pragma warning(disable : 4101)
 // 9.6f 0x42ABA0
-inline void CarPhysics::TurnClockwise_42ABA0()
+inline void CarPhysics::TurnClockwise()
 {
     // Never read: its optimizer entry is needed by CarAI::UpdateStateMachine (docs/match_attempts.md)
     s32 unused;

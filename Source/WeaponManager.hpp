@@ -51,7 +51,7 @@ class WeaponPool
     }
 
     // 9.6f 0x4CC9E0 (which also calls 0x4CC810, init in 10.5)
-    inline Weapon* AllocateUnlinked_4CC9E0()
+    inline Weapon* AllocateUnlinked()
     {
         Weapon* pWeapon = mPool.mpStart;
         mPool.mpStart = pWeapon->mpNext;
@@ -60,7 +60,7 @@ class WeaponPool
     }
 
     // 9.6f 0x4A4F20
-    void DeAllocate_4A4F20(Weapon* pWeapon)
+    void DeAllocate(Weapon* pWeapon)
     {
         Weapon* pIter = this->mPool.mpPrev;
         Weapon* pLastIter = NULL;
@@ -90,7 +90,7 @@ class WeaponPool
     }
 
     // 9.6f 0x4CC9B0
-    Weapon* get_next_4CC9B0() const
+    Weapon* get_next() const
     {
         return this->mPool.mpPrev;
     }

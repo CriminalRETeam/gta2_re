@@ -52,7 +52,7 @@ void DoorData::Init(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
     }
     else
     {
-        blockData.init_44C840();
+        blockData.init();
 
         // Remaining diff: the original stores tile_word before loading the tile idx in each case
         switch (mFace)
@@ -263,7 +263,7 @@ Door* DoorPool::RegisterDoubleDoor(u8 gr_id,
 
 inline bool IsDoorOpenWithoutAutoClose(Door* pDoor)
 {
-    if (pDoor->IsOpen_44C860())
+    if (pDoor->IsOpen())
     {
         if (pDoor->mCloseType == door_close_type::close_never || pDoor->mCloseType == door_close_type::none)
         {
@@ -320,7 +320,7 @@ Door* DoorPool::GetNextFreeDoor()
 MATCH_FUNC(0x49d3c0)
 bool DoorPool::CheckDoorAccess(Sprite* pSprite, u8 door_idx)
 {
-    Car* pCar = pSprite->AsCar_40FEB0();
+    Car* pCar = pSprite->AsCar();
     if (pCar)
     {
 
@@ -335,12 +335,12 @@ bool DoorPool::CheckDoorAccess(Sprite* pSprite, u8 door_idx)
         return false;
     }
 
-    Char* pChar = pSprite->AsCharB4_40FEA0();
+    Char* pChar = pSprite->AsCharB4();
     if (pChar)
     {
         if (!IsDoorOpenWithoutAutoClose(&mDoors[door_idx]))
         {
-            // 9.6f: Char::get_ped_433A20 (inlined, using it changes the code)
+            // 9.6f: Char::get_ped (inlined, using it changes the code)
             if (!mDoors[door_idx].CanOpenForPed(pChar->mpPed))
             {
                 return true;

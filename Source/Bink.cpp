@@ -18,7 +18,7 @@ enum BinkDDState
 };
 
 // 9.6f 0x481DF0
-static inline bool IsDirectBufferMode_481DF0()
+static inline bool IsDirectBufferMode()
 {
     return gBufferMode == 2;
 }
@@ -57,7 +57,7 @@ bool Bink::TickFrame()
 
     BinkDoFrame(hbink);
 
-    if (IsDirectBufferMode_481DF0())
+    if (IsDirectBufferMode())
     {
         // Hardware-accelerated path: blit decoded frame into the locked surface directly.
         MakeScreenTableAndSetWindow();
@@ -148,7 +148,7 @@ void __stdcall Bink::OpenSlot2(const char_type* pFileName, HDIGDRIVER hDriver)
 
     if (gBinkHandleSlot2 != NULL)
     {
-        if (IsDirectBufferMode_481DF0())
+        if (IsDirectBufferMode())
         {
             // Hardware-accelerated path: pick Bink colour format based on surface bit depth.
             if (gVidSys->field_5C == 5)
@@ -223,7 +223,7 @@ void __stdcall Bink::OpenSlot1(const char_type* pFileName, HDIGDRIVER hDriver)
 
     if (gBinkHandleSlot1)
     {
-        if (IsDirectBufferMode_481DF0())
+        if (IsDirectBufferMode())
         {
             if (gVidSys->field_5C == 5)
             {

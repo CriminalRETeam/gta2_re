@@ -31,19 +31,19 @@ class DoorData // Contains only position, face and DoorInfo id
     EXPORT static s32 __stdcall GetOppositeFace(s32 v);
 
     // 9.6f 0x489640
-    u8 get_z_489640() const
+    u8 get_z() const
     {
         return mZ;
     }
 
     // 9.6f 0x489630
-    u8 get_y_489630() const
+    u8 get_y() const
     {
         return mY;
     }
 
     // 9.6f 0x489620
-    u8 get_x_489620() const
+    u8 get_x() const
     {
         return mX;
     }
@@ -59,13 +59,13 @@ class DoorData // Contains only position, face and DoorInfo id
 GTA2_ASSERT_SIZEOF_ALWAYS(DoorData, 0x10);
 
 // 9.6f 0x44C860
-inline bool Door::IsOpen_44C860() const
+inline bool Door::IsOpen() const
 {
     return mPrimaryDoorData->mState == door_state::open_2;
 }
 
 // 9.6f 0x476A30
-inline void Door::CloseDoors_476A30()
+inline void Door::CloseDoors()
 {
     if (mbClosing)
     {

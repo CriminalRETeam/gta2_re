@@ -175,7 +175,7 @@ void Train::ReassignTrainHead()
 
         gCar_BC_Pool->UpdateNextPrev(this->mCarriages[0]);
 
-        gCar_BC_Pool->mPool.UnlinkFromActiveList_420F30(this->mCarriages[this->mWagonCount]);
+        gCar_BC_Pool->mPool.UnlinkFromActiveList(this->mCarriages[this->mWagonCount]);
 
         // AllocCarPhysics only allocates when there is no physics, so these guarded calls do nothing
         Car* pTrainCar = this->mCarriages[this->mWagonCount];
@@ -199,7 +199,7 @@ void Train::ReassignTrainHead()
         }
 
         Car* pHead = this->mCarriages[0];
-        if (pHead->IsDrivenByPlayer_4118D0())
+        if (pHead->IsDrivenByPlayer())
         {
             pHead->mPhysics->SetField8C_to_2();
         }
@@ -215,7 +215,7 @@ void Train::ReassignTrainHead()
 
         pFirst->DeAllocateAI();
 
-        this->mCarriages[0]->SetDriverPedType_421560(this->mCarriages[0]->mDriver->GetPedType_420B70());
+        this->mCarriages[0]->SetDriverPedType(this->mCarriages[0]->mDriver->GetPedType());
     }
 }
 
@@ -355,7 +355,7 @@ void Train::CloseCarriageDoors()
         {
             if (mCarriages[i + 1])
             {
-                if (mCarriages[i + 1]->GetCarInfoIdx_411940() == car_model_enum::TRAIN)
+                if (mCarriages[i + 1]->GetCarInfoIdx() == car_model_enum::TRAIN)
                 {
                     mCarriages[i + 1]->CloseAllDoors();
                 }
@@ -373,7 +373,7 @@ void Train::OpenCarriageDoors()
         {
             if (mCarriages[i + 1])
             {
-                if (mCarriages[i + 1]->GetCarInfoIdx_411940() == car_model_enum::TRAIN)
+                if (mCarriages[i + 1]->GetCarInfoIdx() == car_model_enum::TRAIN)
                 {
                     mCarriages[i + 1]->OpenAllDoors();
                 }
@@ -392,7 +392,7 @@ void Train::UpdatePassengerAI()
             for (u8 i = 0; i < this->mWagonCount; i++)
             {
                 Car** ppWagon = &this->mCarriages[i + 1];
-                if ((*ppWagon)->GetCarInfoIdx_411940() == car_model_enum::TRAIN)
+                if ((*ppWagon)->GetCarInfoIdx() == car_model_enum::TRAIN)
                 {
                     this->mPassengerCount = 1;
                     if (gGame_0x40->IsSpriteInAnyPlayerBounds((*ppWagon)->mCarSprite, kFpZero_6FF078))
@@ -410,7 +410,7 @@ void Train::UpdatePassengerAI()
                                     Ped_List* pLink = &pPassenger->mCar->mPassengersList;
                                     pPassenger->SetTargetObjectiveCar(*ppWagon);
                                     pLink->AddPedToFront(pPassenger);
-                                    pPassenger->set_target_car_door_403A70(gTargetCarDoor);
+                                    pPassenger->set_target_car_door(gTargetCarDoor);
                                     --this->mPassengerCount;
                                 }
                             }
@@ -438,8 +438,8 @@ void Train::UpdatePassengerAI()
                             pPassenger->SetObjective(objectives_enum::leave_train_38);
                             Car* pBus = this->mCarriages[0];
                             pPassenger->SetTargetObjectiveCar(pBus);
-                            pPassenger->set_target_car_door_403A70(2);
-                            pPassenger->set_occupation_403970(ped_ocupation_enum::bus_customer_8);
+                            pPassenger->set_target_car_door(2);
+                            pPassenger->set_occupation(ped_ocupation_enum::bus_customer_8);
                             if (this->mIsHijacked == 1)
                             {
                                 this->mPassengerCount--;
@@ -453,8 +453,8 @@ void Train::UpdatePassengerAI()
                         pPassenger->SetObjective(objectives_enum::leave_train_38);
                         Car* pBus = this->mCarriages[0];
                         pPassenger->SetTargetObjectiveCar(pBus);
-                        pPassenger->set_target_car_door_403A70(2);
-                        pPassenger->set_occupation_403970(ped_ocupation_enum::bus_customer_8);
+                        pPassenger->set_target_car_door(2);
+                        pPassenger->set_occupation(ped_ocupation_enum::bus_customer_8);
                         if (this->mIsHijacked == 1)
                         {
                             if (this->mPassengerCount > 0)
@@ -783,26 +783,26 @@ void PublicTransport::SpawnTrainsFromStations()
                     pTrain->mWagonCount = wagons;
                     for (j = 0; j < wagons; j++)
                     {
-                        gCar_BC_Pool->mPool.UnlinkFromActiveList_420F30(pTrain->mCarriages[j + 1]);
+                        gCar_BC_Pool->mPool.UnlinkFromActiveList(pTrain->mCarriages[j + 1]);
                     }
 
                     EnsureAI_421510(pTrain->mCarriages[0]);
                     pTrain->mCarriages[0]->mAI->SetCar(pTrain->mCarriages[0]);
                     pTrain->mCarriages[0]->SpawnDriverPed();
-                    pTrain->mCarriages[0]->SetDriverPedType_421560(ped_type::script_created_5);
+                    pTrain->mCarriages[0]->SetDriverPedType(ped_type::script_created_5);
                     Object* pLight = gObject_5C->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
                     pTrain->mCarriages[0]->mAttachments.PushAttachedSprite(pLight->mSprite, 0, 2, kAng0_6FF1BC);
-                    pTrain->mCarriages[0]->LockPermanently_475C30();
+                    pTrain->mCarriages[0]->LockPermanently();
 
                     for (j = 0; j < wagons; j++)
                     {
                         pTrain->mCarriages[j + 1]->SpawnDriverPed();
-                        pTrain->mCarriages[j + 1]->SetDriverPedType_421560(ped_type::script_created_5);
+                        pTrain->mCarriages[j + 1]->SetDriverPedType(ped_type::script_created_5);
                         pTrain->mCarriages[j + 1]->SetupCarPhysicsAndSpriteBinding_43BCA0();
-                        pTrain->mCarriages[j + 1]->StartEngine_426E00();
+                        pTrain->mCarriages[j + 1]->StartEngine();
                         if (pTrain->mCarriages[j + 1]->mCarInfoIdx == car_model_enum::TRAINFB)
                         {
-                            pTrain->mCarriages[j + 1]->LockPermanently_475C30();
+                            pTrain->mCarriages[j + 1]->LockPermanently();
                         }
                     }
 
@@ -1161,7 +1161,7 @@ bool PublicTransport::GetTrainSpeed(Car* pToFind, Fix16* pOutSpeed)
             Car* pCar = pTrain->mCarriages[0];
             if (pCar == pToFind)
             {
-                if (!pCar->IsEngineOn_4118C0())
+                if (!pCar->IsEngineOn())
                 {
                     *pOutSpeed = kFpZero_6FF078;
                     if (pTrain->mState != 0 && pTrain->mState != 1)
@@ -1236,21 +1236,21 @@ void PublicTransport::BusesService()
                             }
                             break;
                         case 1:
-                            if (gMap_0x370->IsEastBlockRoadType_4334A0(xpos.ToInt(), ypos.ToInt(), found_z))
+                            if (gMap_0x370->IsEastBlockRoadType(xpos.ToInt(), ypos.ToInt(), found_z))
                             {
                                 xpos += kFpOne_6FF07C;
                                 i = 4;
                             }
                             break;
                         case 2:
-                            if (gMap_0x370->IsSouthBlockRoadType_4334D0(xpos.ToInt(), ypos.ToInt(), found_z))
+                            if (gMap_0x370->IsSouthBlockRoadType(xpos.ToInt(), ypos.ToInt(), found_z))
                             {
                                 ypos += kFpOne_6FF07C;
                                 i = 4;
                             }
                             break;
                         case 3:
-                            if (gMap_0x370->IsWestBlockRoadType_433500(xpos.ToInt(), ypos.ToInt(), found_z))
+                            if (gMap_0x370->IsWestBlockRoadType(xpos.ToInt(), ypos.ToInt(), found_z))
                             {
                                 xpos -= kFpHalf_6FEEE8;
                                 i = 4;
@@ -1289,9 +1289,9 @@ void PublicTransport::BusesService()
                     EnsureAI_421510(pBusCar);
                     mBus.mCarriages[0]->mAI->SetCar(mBus.mCarriages[0]);
                     mBus.mCarriages[0]->SpawnDriverPed();
-                    mBus.mCarriages[0]->SetDriverPedType_421560(ped_type::special_ped_4);
+                    mBus.mCarriages[0]->SetDriverPedType(ped_type::special_ped_4);
                     mBus.mCarriages[0]->InitCarAIControl();
-                    mBus.mCarriages[0]->StartEngine_426E00();
+                    mBus.mCarriages[0]->StartEngine();
 
                     sBusSpawned = true;
                     mBus.mStopPhase = 0;
@@ -1307,7 +1307,7 @@ void PublicTransport::BusesService()
         {
             if (!mBus.mIsHijacked)
             {
-                if (mBus.mCarriages[0]->IsDrivenByPlayer_4118D0())
+                if (mBus.mCarriages[0]->IsDrivenByPlayer())
                 {
                     mBus.mIsHijacked = true;
                     pBusCar->mDriver->mPlayer->mScores.AwardBusStolenScore(pBusCar);
@@ -1316,8 +1316,8 @@ void PublicTransport::BusesService()
                 {
                     if (pBusCar->mDriver)
                     {
-                        if (pBusCar->mDriver->get_occupation_403980() != ped_ocupation_enum::dummy_driver_4 &&
-                            pBusCar->mDriver->get_occupation_403980() != ped_ocupation_enum::driver)
+                        if (pBusCar->mDriver->get_occupation() != ped_ocupation_enum::dummy_driver_4 &&
+                            pBusCar->mDriver->get_occupation() != ped_ocupation_enum::driver)
                         {
                             mBus.mIsHijacked = true;
                         }
@@ -1326,16 +1326,16 @@ void PublicTransport::BusesService()
             }
             else
             {
-                if (!mBus.mCarriages[0]->IsDrivenByPlayer_4118D0())
+                if (!mBus.mCarriages[0]->IsDrivenByPlayer())
                 {
                     if (pBusCar->mDriver)
                     {
-                        if (pBusCar->mDriver->get_occupation_403980() == ped_ocupation_enum::angry_armed_robbed_driver_12)
+                        if (pBusCar->mDriver->get_occupation() == ped_ocupation_enum::angry_armed_robbed_driver_12)
                         {
                             mBus.mIsHijacked = false;
                             mBus.mPassengersFleeing = false;
-                            pBusCar->mDriver->set_occupation_403970(ped_ocupation_enum::driver);
-                            mBus.mCarriages[0]->mDriver->SetPedType_403920(ped_type::dummy_3);
+                            pBusCar->mDriver->set_occupation(ped_ocupation_enum::driver);
+                            mBus.mCarriages[0]->mDriver->SetPedType(ped_type::dummy_3);
                         }
                     }
                 }
@@ -1349,16 +1349,16 @@ void PublicTransport::BusesService()
                 }
             }
 
-            if (mBus.mCarriages[0]->GetLastSeenTimer_4A9AD0() > 200)
+            if (mBus.mCarriages[0]->GetLastSeenTimer() > 200)
             {
-                mBus.mCarriages[0]->MarkForDespawn_421470();
+                mBus.mCarriages[0]->MarkForDespawn();
                 mBus.mCarriages[0] = NULL;
                 sBusSpawned = false;
                 sBusSpawnDelay = 100;
             }
             else
             {
-                if (mBus.mCarriages[0]->IsDespawning_4215B0() ||
+                if (mBus.mCarriages[0]->IsDespawning() ||
                     mBus.mCarriages[0]->mDamage == 32000)
                 {
                     mBus.mCarriages[0] = NULL;
@@ -1444,7 +1444,7 @@ static inline void SetDriverStation(Train* pTrain, TrainStation* pStation)
         Ped* pDriver = pCar->mDriver;
         if (pDriver && pTrain->mWagonCount > 0)
         {
-            pDriver->SetTrainStation_4AF860(pStation);
+            pDriver->SetTrainStation(pStation);
         }
     }
 }
@@ -1466,11 +1466,11 @@ void PublicTransport::PublicTransportService()
 
             pTrain->ProcessTrainExplosionChain();
             Car* pCar = pTrain->mCarriages[0];
-            if (pCar->IsDrivenByPlayer_4118D0())
+            if (pCar->IsDrivenByPlayer())
             {
                 if (!pTrain->mCarriages[0]->mDriver)
                 {
-                    pCar->SetDriverPedType_421560(ped_type::unknown_1);
+                    pCar->SetDriverPedType(ped_type::unknown_1);
                     pTrain->mIsHijacked = false;
                 }
                 else
@@ -1779,7 +1779,7 @@ TrainStation* PublicTransport::TrainStationForZone(gmp_map_zone* pZone)
 MATCH_FUNC(0x57b540)
 Car* PublicTransport::GetLeadTrainCar(Car* pCar)
 {
-    if (!bSkip_trains && pCar->IsTrainModel_403BA0())
+    if (!bSkip_trains && pCar->IsTrainModel())
     {
         return GetTrainFromCar(pCar)->mCarriages[0];
     }
@@ -1839,7 +1839,7 @@ Train* PublicTransport::GetTrainFromCarExcludingLeadCar(Car* pToFind)
 MATCH_FUNC(0x57b740)
 bool PublicTransport::AreTrainsOnDifferentTracks(Car* pCar1, Car* pCar2)
 {
-    if (pCar1->IsTrainModel_403BA0() && pCar2->IsTrainModel_403BA0())
+    if (pCar1->IsTrainModel() && pCar2->IsTrainModel())
     {
         Train* pTrain1 = GetTrainFromCar(pCar1);
         Train* pTrain2 = GetTrainFromCar(pCar2);

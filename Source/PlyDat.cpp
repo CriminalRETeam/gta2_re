@@ -419,7 +419,7 @@ void PlyDat::UpdateStageScore(Player* pPlayer)
     }
     else
     {
-        gGameSession.DecodeStage_453A60(gGameSession.GetStage(), &map_num, &bonus_num);
+        gGameSession.DecodeStage(gGameSession.GetStage(), &map_num, &bonus_num);
     }
 
     StageStats* pStageStats = &pPlayerStats->mPlyrStageStats[map_num][bonus_num];
@@ -590,7 +590,7 @@ void PlyDat::UpdateHiScores()
     }
     else
     {
-        gGameSession.DecodeStage_453A60(gGameSession.GetStage(), &map_num, &bonus_num);
+        gGameSession.DecodeStage(gGameSession.GetStage(), &map_num, &bonus_num);
     }
 
     PlySlot* pPlayerStats = &mPlyrStats[gGameSession.GetPlySlotIdx()];

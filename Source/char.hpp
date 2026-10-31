@@ -41,37 +41,37 @@ class Char
   public:
     STATIC_MEMBER(Fix16, sCharB4DistanceToTarget);
     // 9.6f 0x41B080
-    inline Fix16 get_velocity_41B080() const
+    inline Fix16 get_velocity() const
     {
         return mVelocity;
     }
 
     // 9.6f 0x433930
-    inline void UseRunOrJumpSpeed_433930()
+    inline void UseRunOrJumpSpeed()
     {
         mVelocity = mRunOrJumpSpeed;
     }
 
     // 9.6f 0x4338F0
-    inline void SetSpriteNum_4338F0(s32 num)
+    inline void SetSpriteNum(s32 num)
     {
-        mSpritePtr->SetDrawLayer_40F7B0(num);
+        mSpritePtr->SetDrawLayer(num);
     }
 
     // 9.6f 0x41B090
-    inline s32 get_ped_state_2_41B090() const
+    inline s32 get_ped_state_2() const
     {
         return mPedState2;
     }
 
     // 9.6f 0x4338D0
-    inline Sprite* get_sprite_ptr_4338D0() const
+    inline Sprite* get_sprite_ptr() const
     {
         return mSpritePtr;
     }
 
     // 9.6f 0x4338E0
-    inline void set_pPed_4338E0(Ped* v)
+    inline void set_pPed(Ped* v)
     {
         mpPed = v;
     }
@@ -158,7 +158,7 @@ class Char
     s32 mScreamTimer; // 0xB0
 
     // 9.6f 0x48A4C0
-    inline s32 get_ped_state_1_48A4C0() const
+    inline s32 get_ped_state_1() const
     {
         return mPedState1;
     }
@@ -169,13 +169,13 @@ class Char
     }
 
     // 9.6f 0x433A40
-    inline Ang16 get_rotation_433A40() const
+    inline Ang16 get_rotation() const
     {
         return mRotation;
     }
 
     // 9.6f 0x433A30
-    void set_rotation_433A30(Ang16 rotation)
+    void set_rotation(Ang16 rotation)
     {
         mRotation = rotation;
     }
@@ -235,7 +235,7 @@ class Char
     }
 
     // 9.6f 0x433A20
-    inline Ped* get_ped_433A20() const
+    inline Ped* get_ped() const
     {
         return mpPed;
     }
@@ -246,13 +246,13 @@ class Char
     }
 
     // 9.6f 0x433A50
-    inline void SetPedState2_433A50(s32 new_state)
+    inline void SetPedState2(s32 new_state)
     {
         mPedState2 = new_state;
     }
 
     // 9.6f 0x4923D0
-    inline void VeerLeftFromWall_4923D0()
+    inline void VeerLeftFromWall()
     {
         mRotation.SnapToAng4();
         mRotation += kAng16_6FD940;
@@ -261,7 +261,7 @@ class Char
     }
 
     // 9.6f 0x4923A0
-    inline void VeerRightFromWall_4923A0()
+    inline void VeerRightFromWall()
     {
         mRotation.SnapToAng4();
         mRotation += kAng344;
@@ -270,37 +270,37 @@ class Char
     }
 
     // 9.6f 0x433A80
-    inline s32 GetCharState_433A80() const
+    inline s32 GetCharState() const
     {
         return mCharState;
     }
 
     // 9.6f 0x433A60
-    inline void SetCharState_433A60(s32 char_state)
+    inline void SetCharState(s32 char_state)
     {
         mCharState = char_state;
     }
 
     // 9.6f 0x433A90
-    inline s8 Get_F44_433A90() const
+    inline s8 Get_F44() const
     {
         return mBlockType;
     }
 
     // 9.6f 0x403900
-    inline Car* Get_F84_403900() const
+    inline Car* Get_F84() const
     {
         return mTargetCar;
     }
 
     // 9.6f 0x433900
-    inline void Set_F84_433900(Car* pCar)
+    inline void Set_F84(Car* pCar)
     {
         mTargetCar = pCar;
     }
 
     // 9.6f 0x433940
-    inline void IncreaseSpeedIfAllowed_433940()
+    inline void IncreaseSpeedIfAllowed()
     {
         mVelocity += kFpOne128th_6784BC;
         
@@ -311,13 +311,13 @@ class Char
     }
 
     // 9.6f 0x4928A0
-    inline void AddAngle_4928A0(Ang16 ang)
+    inline void AddAngle(Ang16 ang)
     {
         mRotation += ang;
     }
 
     // 9.6f 0x433AA0
-    inline bool IsCollidingWithASprite_433AA0() const
+    inline bool IsCollidingWithASprite() const
     {
         if (mIsCollidingWithSprite)
         {
@@ -384,7 +384,7 @@ class Char
     EXPORT bool ContinueMovementAfterCollision();
     EXPORT void SnapRotationToFace();
     EXPORT bool CanMoveOntoSlope(s32 path_direction);
-    inline void SetTurnTarget_492400(Ang16 target_rotation);
+    inline void SetTurnTarget(Ang16 target_rotation);
     EXPORT void TurnToFreeAdjacentFace();
     EXPORT bool CanMoveToTile(char_type x, char_type y);
     EXPORT void SelectRandomIdleBehavior();

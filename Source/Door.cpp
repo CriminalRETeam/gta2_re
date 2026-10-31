@@ -69,7 +69,7 @@ bool Door::CanOpen(Car* pCar)
     switch (mOpenType)
     {
         case door_open_type::any_player:
-            if (!pCar->IsDrivenByPlayer_4118D0())
+            if (!pCar->IsDrivenByPlayer())
             {
                 if (ped_type::player_2 != pCar->mPedType)
                 {
@@ -109,13 +109,13 @@ bool Door::CanOpen(Car* pCar)
                 break;
             }
 
-            if (IsSpriteClearOfDoorCollision(pCar->mCarSprite) && (!pCar->IsDrivenByPlayer_4118D0() || gGarage_48->IsParkedCar_44C870(pCar)))
+            if (IsSpriteClearOfDoorCollision(pCar->mCarSprite) && (!pCar->IsDrivenByPlayer() || gGarage_48->IsParkedCar(pCar)))
             {
-                if (pCar->IsDrivenByPlayer_4118D0())
+                if (pCar->IsDrivenByPlayer())
                 {
                     break;
                 }
-                if (!gGarage_48->IsParkedCar_44C870(pCar))
+                if (!gGarage_48->IsParkedCar(pCar))
                 {
                     break;
                 }
@@ -136,7 +136,7 @@ bool Door::CanOpenForPed(Ped* pPed)
     switch (mOpenType)
     {
         case door_open_type::any_player:
-            if (pPed->is_player_41B0A0())
+            if (pPed->is_player())
             {
                 ret = true;
             }
@@ -260,10 +260,10 @@ void Door::InitSingleNoCheck(u8 door_group, u8 gr_id, u8 x, u8 y, u8 z, s32 faci
     mCloseTimer = mCloseDelay = (gDoorAnimInfo[gr_id].mEndFrame - gDoorAnimInfo[gr_id].mStartFrame) * gDoorAnimInfo[gr_id].mSpeed8;
 
     mTriggerObj = gObject_5C->NewPhysicsObj(objects::door_trigger_167, trigger_x, trigger_y, z, DAT_0067BD18);
-    mTriggerObj->SetParam_447E90(door_group);
+    mTriggerObj->SetParam(door_group);
 
     mDoorObj = gObject_5C->NewPhysicsObj(objects::door_collision_obj_169, door_x, door_y, z, DAT_0067BD18);
-    mDoorObj->SetParam_447E90(door_group);
+    mDoorObj->SetParam(door_group);
     mX = door_x;
     mY = door_y;
 }
@@ -330,10 +330,10 @@ void Door::InitSingle(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fix16 tri
                                                                       trigger_w,
                                                                       trigger_h,
                                                                       kFpOne_67BBE4);
-        mTriggerObj->SetParam_447E90(obj_id);
+        mTriggerObj->SetParam(obj_id);
     }
     mDoorObj = gObject_5C->NewPhysicsObj(objects::door_collision_obj_169, x, y, z, DAT_0067BD18);
-    mDoorObj->SetParam_447E90(obj_id);
+    mDoorObj->SetParam(obj_id);
     mX = x;
     mY = y;
 }
@@ -395,12 +395,12 @@ void Door::InitDouble(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fix16 tri
                                                                       trigger_w,
                                                                       trigger_h,
                                                                       kFpOne_67BBE4);
-        mTriggerObj->SetParam_447E90(obj_id);
+        mTriggerObj->SetParam(obj_id);
     }
     mDoorObj =
         gObject_5C
             ->NewTouchPoint(objects::door_collision_obj_169, x, y, z, door_angle, kFpOne_67BBE4, kFpTwo_67BBE8, kFpOne_67BBE4);
-    mDoorObj->SetParam_447E90(obj_id);
+    mDoorObj->SetParam(obj_id);
     mX = x;
     mY = y;
 }

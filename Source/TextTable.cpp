@@ -66,7 +66,7 @@ u16 TextTable::RemapExtendedChar(u16 ch) const
 MATCH_FUNC(0x5B5910)
 void TextTable::RemapExtendedCharsIfNotJapanese(wchar_t* pText)
 {
-    if (!LangIsJapanese_452E60())
+    if (!LangIsJapanese())
     {
         RemapExtendedChars(pText);
     }
@@ -225,7 +225,7 @@ s32 __stdcall TextTable::InsertLineBreaksAndGetNumLines(wchar_t* pDestStr, const
     const wchar_t* pSrc = pSrcStr;
     wchar_t* pDest = pDestStr;
     s32 num_of_lines = 1;
-    s32 space_width = GetSpaceWidth_4C23D0(font_type);
+    s32 space_width = GetSpaceWidth(font_type);
     s32 current_width = 0;
     const wchar_t* pPrevSrcCheckpoint = NULL;
     wchar_t* pPrevDestCheckpoint = NULL;

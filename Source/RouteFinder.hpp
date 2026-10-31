@@ -26,13 +26,13 @@ class Link
     }
 
     // 9.6f 0x40CEC0
-    inline void Disable_40CEC0()
+    inline void Disable()
     {
         mPacked &= ~0x8000u;
     }
 
     // 9.6f 0x40CEB0
-    inline void Enable_40CEB0()
+    inline void Enable()
     {
         mPacked |= 0x8000u;
     }
@@ -68,7 +68,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Junction, 0x10);
 struct JunctionSegment
 {
     // 9.6f 0x40CF20
-    inline bool ContainsPoint_40CF20(s16 x, s16 y) const
+    inline bool ContainsPoint(s16 x, s16 y) const
     {
         return x >= mMinX && x <= mMaxX && y >= mMinY && y <= mMaxY;
     }

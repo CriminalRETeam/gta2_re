@@ -228,35 +228,35 @@ EXPORT void __stdcall SpawnTestGroup(char_type remap, u8 count)
     Ped* pPlayerPed = gGame_0x40->mLocalPlayer->GetPlayerPed_41D020();
     PedGroup* pGroup = PedGroup::New();
     pGroup->add_ped_leader(pPlayerPed);
-    pGroup->SetCounts_433360(0);
+    pGroup->SetCounts(0);
     pGroup->mGroupType = ped_group_type::normal_2;
 
     sLastTestPed = gPedPool->Allocate();
-    sLastTestPed->set_occupation_403970(ped_ocupation_enum::bank_robber);
-    sLastTestPed->set_remap_433B90(remap);
+    sLastTestPed->set_occupation(ped_ocupation_enum::bank_robber);
+    sLastTestPed->set_remap(remap);
     sLastTestPed->mGraphicType = pPlayerPed->mGraphicType;
-    sLastTestPed->SetPedType_403920(ped_type::script_created_5);
+    sLastTestPed->SetPedType(ped_type::script_created_5);
     if (!sLastTestPed->AllocCharB4(pPlayerPed->mCam.x, pPlayerPed->mCam.y, pPlayerPed->mCam.z))
     // 9.6f: Ped::get_cam_x/get_cam_y/get_cam_z (inlined, using them changes the code)
     {
-        sLastTestPed->mGameObject->SetRemap(sLastTestPed->get_remap_433BA0());
+        sLastTestPed->mGameObject->SetRemap(sLastTestPed->get_remap());
     }
-    sLastTestPed->set_health_4039A0(100);
-    sLastTestPed->SetPedClass_433BC0(ped_class::gang_member_1);
+    sLastTestPed->set_health(100);
+    sLastTestPed->SetPedClass(ped_class::gang_member_1);
     pGroup->add_ped_to_end_of_list(sLastTestPed);
     sLastTestPed->ForceWeapon(weapon_type::pistol);
 
     for (u8 i = 1; i < count; i++)
     {
         Ped* pPed = gPedPool->Allocate();
-        pPed->set_occupation_403970(ped_ocupation_enum::bank_robber);
-        pPed->set_remap_433B90(remap);
+        pPed->set_occupation(ped_ocupation_enum::bank_robber);
+        pPed->set_remap(remap);
         pPed->mGraphicType = pPlayerPed->mGraphicType;
-        pPed->SetPedType_403920(ped_type::script_created_5);
+        pPed->SetPedType(ped_type::script_created_5);
         pPed->AllocCharB4(pPlayerPed->mCam.x, pPlayerPed->mCam.y, pPlayerPed->mCam.z);
-        pPed->SetRemap_433C10(pPed->get_remap_433BA0());
-        pPed->set_health_4039A0(100);
-        pPed->SetPedClass_433BC0(ped_class::gang_member_1);
+        pPed->SetRemap(pPed->get_remap());
+        pPed->set_health(100);
+        pPed->SetPedClass(ped_class::gang_member_1);
         pGroup->add_ped_to_end_of_list(pPed);
         pPed->ForceWeapon(weapon_type::pistol);
     }
@@ -347,10 +347,10 @@ void Game::ShowCounters()
     Player* pLocalPlayer = gGame_0x40->mLocalPlayer;
     if (pLocalPlayer)
     {
-        swprintf(tmpBuff, L"accuracy_count : %d", static_cast<u8>(pLocalPlayer->mScores.get_accuracy_count_45B0A0()));
+        swprintf(tmpBuff, L"accuracy_count : %d", static_cast<u8>(pLocalPlayer->mScores.get_accuracy_count()));
         gHud_2B00->mTexts.DisplayText(tmpBuff, 0, 128, gDebugFont, 1);
 
-        swprintf(tmpBuff, L"reverse_count : %d", pLocalPlayer->mScores.get_reverse_count_45B0B0());
+        swprintf(tmpBuff, L"reverse_count : %d", pLocalPlayer->mScores.get_reverse_count());
         gHud_2B00->mTexts.DisplayText(tmpBuff, 0, 144, gDebugFont, 1);
 
         const u32 x = pLocalPlayer->mPlayerPed->get_cam_x().ToInt();
@@ -374,7 +374,7 @@ void Game::ShowDebugOverlay()
     if (mFastForward)
     {
         Hud_TextEntry* pTextEntry = gHud_2B00->mTexts.DisplayText(L"FF", 0, 440, gDebugFont, 1);
-        pTextEntry->SetFontRemap_45AFD0(6);
+        pTextEntry->SetFontRemap(6);
     }
 }
 
@@ -472,7 +472,7 @@ void Game::UpdateGame()
 
     if (gLighting)
     {
-        gLight_1D4CC->Service_45C1E0();
+        gLight_1D4CC->Service();
     }
 
     gCranePool_D9C->CranesService();
@@ -659,7 +659,7 @@ Player* Game::GetFirstPlayerWithoutPed()
 {
     for (s32 i = 0; i < mNumPlayers; i++)
     {
-        if (mPlayers[i]->mInUse && !mPlayers[i]->has_player_ped_45B0C0())
+        if (mPlayers[i]->mInUse && !mPlayers[i]->has_player_ped())
         {
             return mPlayers[i];
         }
@@ -673,7 +673,7 @@ void Game::ShakeCamerasAtPos(Fix16 amount, Fix16 x, Fix16 y)
     Camera* pCam = IteratePlayerCamera();
     while (pCam)
     {
-        if (pCam->IsPointInViewBounds_40CF60(x, y))
+        if (pCam->IsPointInViewBounds(x, y))
         {
             pCam->SetShake(amount);
         }
@@ -744,12 +744,12 @@ bool Game::IsSpriteInPlayerBounds(Sprite* pSprite, u8 player_idx, Fix16 margin) 
         return false;
     }
 
-    if (pPlayer->mGameCamera.IsSpriteInBounds_45AEA0(pSprite, margin))
+    if (pPlayer->mGameCamera.IsSpriteInBounds(pSprite, margin))
     {
         return true;
     }
 
-    if (pPlayer->mAuxCamActive && pPlayer->mAuxGameCamera.IsSpriteInBounds_45AEA0(pSprite, margin))
+    if (pPlayer->mAuxCamActive && pPlayer->mAuxGameCamera.IsSpriteInBounds(pSprite, margin))
     {
         return true;
     }
@@ -781,11 +781,11 @@ bool Game::IsPointOnScreen(Fix16 x, Fix16 y)
         Player* pPlayer = *ppPlayer;
         if (pPlayer->mInUse)
         {
-            if (pPlayer->mGameCamera.IsPointInViewBounds_40CF60(x, y))
+            if (pPlayer->mGameCamera.IsPointInViewBounds(x, y))
             {
                 return true;
             }
-            if (pPlayer->mAuxCamActive && pPlayer->mAuxGameCamera.IsPointInViewBounds_40CF60(x, y))
+            if (pPlayer->mAuxCamActive && pPlayer->mAuxGameCamera.IsPointInViewBounds(x, y))
             {
                 return true;
             }
@@ -804,11 +804,11 @@ bool Game::IsRectVisibleToAnyPlayer(Fix16_Rect* pBounds)
         Player* pCurPlayer = *ppPlayer;
         if (pCurPlayer->mInUse)
         {
-            if (pCurPlayer->mGameCamera.IsRectInBounds_45AF40(pBounds))
+            if (pCurPlayer->mGameCamera.IsRectInBounds(pBounds))
             {
                 return true;
             }
-            if (pCurPlayer->mAuxCamActive && pCurPlayer->mAuxGameCamera.IsRectInBounds_45AF40(pBounds))
+            if (pCurPlayer->mAuxCamActive && pCurPlayer->mAuxGameCamera.IsRectInBounds(pBounds))
             {
                 return true;
             }
@@ -899,7 +899,7 @@ void Game::ReduceTrafficSpawnCounterOfOtherViewers(Sprite* pSprite, Player* pExc
 {
     for (u8 i = 0; i < GTA2_COUNTOF(mPlayers); i++)
     {
-        Player* p = gGame_0x40->GetPlayer_4219E0(i);
+        Player* p = gGame_0x40->GetPlayer(i);
         if (p && p != pExclude)
         {
             if (gGame_0x40->IsSpriteInPlayerBounds(pSprite, i, kFpFive))
@@ -1231,7 +1231,7 @@ Game::Game(u8 max_players, s8 player_idx)
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1918);
     }
 
-    if (gText_0x14->LangIsJapanese_452E60())
+    if (gText_0x14->LangIsJapanese())
     {
         gKanjiFont = new KanjiFont(); // ctor call
         if (!gKanjiFont)

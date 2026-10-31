@@ -312,7 +312,7 @@ struct Frontend
     u8 mNumBonusStages[3]; // 0x1EB51
 
     // 9.6f 0x453A30
-    inline void SetField10D_453A30(const char_type& value)
+    inline void SetField10D(const char_type& value)
     {
         mbInputEnabled = value;
     }

@@ -22,7 +22,7 @@ class Fix16
   public:
     // 9.6f func
     // 9.6f 0x410BF0
-    static inline s32 __stdcall Round_To_Int_410BF0(Fix16& input)
+    static inline s32 __stdcall Round_To_Int(Fix16& input)
     {
         s32 v = input.mValue;
         return (v + 0x2000) >> 14;
@@ -174,7 +174,7 @@ class Fix16
 
     // 9.6f 0x410BA0, defined in CarPhysics.cpp (AsDouble with the parentheses of the original: each
     // pair is a no-op node for VC6's x87 scheduler, see Scripts/x87_sched/README.md)
-    inline f64 to_float_410BA0() const;
+    inline f64 to_float() const;
 
     inline f64 AsDouble() const
     {
@@ -265,7 +265,7 @@ class Fix16
 
     // 9.6f 0x403840, out-of-line copy Abs_436A50. No braces and a const& parameter on purpose: VC6's
     // inline budget sees the front-end size, 57 here (each brace pair adds 2, the else 2 more, a non-const
-    // parameter 1 less). 57 is the only size that gives the original's cut-offs both in MaxAbsDistance_42A6B0
+    // parameter 1 less). 57 is the only size that gives the original's cut-offs both in MaxAbsDistance
     // (Ped::NotifyWeaponHit needs <= 57) and in GetLength_41E260 (Car::ManageDrowning >= 57).
     inline static Fix16 __stdcall Abs(const Fix16& input)
     {
@@ -306,13 +306,13 @@ class Fix16
     }
 
     // 9.6f 0x4B9E10
-    inline static bool IsBetween_4B9E10(Fix16& min, Fix16& max, Fix16& input)
+    inline static bool IsBetween(Fix16& min, Fix16& max, Fix16& input)
     {
         return input >= min && input <= max;
     }
 
     // 9.6f 0x462ED0
-    static Fix16 ctor_462ED0(s16 value)
+    static Fix16 ctor(s16 value)
     {
         return Fix16(value << 7, 0);
     }
@@ -348,7 +348,7 @@ class Fix16
 
     EXPORT static Fix16 __stdcall Max_44E540(const Fix16& lhs, const Fix16& rhs);
     // 9.6f 0x41E130, out-of-line copy Max_44E540. Small functions inline it (Ped_List::FindClosestActivePed),
-    // and as a site after the two Abs it sets their nested budget in MaxAbsDistance_42A6B0
+    // and as a site after the two Abs it sets their nested budget in MaxAbsDistance
     inline static Fix16 __stdcall Max_41E130(Fix16& a, Fix16& b)
     {
         if (a > b)
@@ -407,13 +407,13 @@ class Fix16
     }
 
     // 9.6f 0x4754D0
-    inline s32 get_value_4754D0() const
+    inline s32 get_value() const
     {
         return mValue;
     }
 
     // 9.6f 0x40F4B0
-    inline s32 GetRaw_40F4B0() const
+    inline s32 GetRaw() const
     {
         return mValue;
     }
@@ -432,7 +432,7 @@ class Fix16
 
     // https://decomp.me/scratch/MqQPJ
     // 9.6f 0x42A6B0
-    inline static Fix16 __stdcall MaxAbsDistance_42A6B0(const Fix16& x1, const Fix16& y1, const Fix16& x2, const Fix16& y2)
+    inline static Fix16 __stdcall MaxAbsDistance(const Fix16& x1, const Fix16& y1, const Fix16& x2, const Fix16& y2)
     {
         Fix16 diff_x;
         diff_x = x2 - x1;
@@ -475,14 +475,14 @@ class Fix16
     }
 
     // 9.6f 0x491F00
-    inline Fix16* subtract_one_491F00()
+    inline Fix16* subtract_one()
     {
         mValue -= 0x4000;
         return this;
     }
 
     // 9.6f 0x491EF0
-    inline Fix16* add_one_491EF0()
+    inline Fix16* add_one()
     {
         mValue += 0x4000;
         return this;

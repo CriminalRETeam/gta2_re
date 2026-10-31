@@ -996,7 +996,7 @@ char_type* __stdcall GetString_519A00(const char_type* pKey)
     LOCAL_STATIC_ARRAY(char_type, sDest, 256, 0x6F88A4);
     wchar_t* pText = gtext_0x14->Find(pKey);
 
-    if (gtext_0x14->LangIsJapanese_452E60())
+    if (gtext_0x14->LangIsJapanese())
     {
         WideToDbcs(sDest, pText);
     }
@@ -1010,7 +1010,7 @@ char_type* __stdcall GetString_519A00(const char_type* pKey)
 MATCH_FUNC(0x519a50)
 void NetUi::GetString(wchar_t* Dest, char_type* Source, size_t MaxCount)
 {
-    if (gtext_0x14->LangIsJapanese_452E60())
+    if (gtext_0x14->LangIsJapanese())
     {
         DbcsToWide(Dest, Source);
     }
@@ -1157,7 +1157,7 @@ void NetUi::cb_AddPlayerToList(NetUi* pNetUi, wchar_t* pName, s32 player_idx)
     LVITEMA item;
     char_type name[260];
 
-    if (gtext_0x14->LangIsJapanese_452E60())
+    if (gtext_0x14->LangIsJapanese())
     {
         WideToDbcs(name, pName);
     }

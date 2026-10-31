@@ -22,7 +22,7 @@ class RollingDigitCounter
     EXPORT void UpdateRollingDigits();
 
     // 9.6f 0x4A50B0
-    inline void SetValueClamped_4A50B0(s32 value)
+    inline void SetValueClamped(s32 value)
     {
         if (value < -mMaxValue)
         {

@@ -83,7 +83,7 @@ bool Particle_4C::UpdateFloatingParticle_state_6_15_16_17()
     }
 
     if (new_z.GetFracValue() > kFpThreeQuarters_6FD55C &&
-        gMap_0x370->IsBlockNonAirType_48A350(mpOwnSprite->mXy.x.ToInt(),
+        gMap_0x370->IsBlockNonAirType(mpOwnSprite->mXy.x.ToInt(),
                                                     mpOwnSprite->mXy.y.ToInt(),
                                                     new_z.ToInt()))
     {
@@ -156,8 +156,8 @@ bool Particle_4C::UpdateFloatingParticle_state_6_15_16_17()
         vector.y = mSpeed20;
         vector.x = zero;
         {
-            Fix16 sin = Ang16::sine_40F500(mAngle);
-            Fix16 cos = Ang16::cosine_40F520(mAngle);
+            Fix16 sin = Ang16::sine(mAngle);
+            Fix16 cos = Ang16::cosine(mAngle);
             Fix16 old_x = vector.x;
             vector.x = (vector.x * cos).Add(vector.y * sin);
             vector.y = old_x.Negate_4086A0().Multiply(sin).Add(vector.y.Multiply(cos));
@@ -256,33 +256,33 @@ bool Particle_4C::UpdateDirectedProjectile_state_3_12()
             {
                 return true;
             }
-            mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 102);
+            mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 102);
             dir.x = 0;
             dir.y = mSpeed20 * kFpPoint6;
             bJitter = false;
             break;
         case 3:
-            mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 101);
+            mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 101);
             dir.x = 0;
             dir.y = mSpeed20 * kFpPoint7;
             break;
         case 4:
-            mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 100);
+            mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 100);
             dir.x = 0;
             dir.y = mSpeed20 * kFpPoint8;
             break;
         case 5:
-            mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 99);
+            mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 99);
             dir.x = 0;
             dir.y = mSpeed20 * kFpPoint8;
             break;
         case 6:
-            mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 98);
+            mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 98);
             dir.x = 0;
             dir.y = mSpeed20 * kFpPoint8;
             break;
         case 7:
-            mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 97);
+            mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 97);
             dir.x = 0;
             dir.y = mSpeed20 * kFpPoint8;
             break;
@@ -331,29 +331,29 @@ bool Particle_4C::UpdateDirectedProjectile_state_3_12()
     {
         case 0:
         case 1:
-            mpOwnSprite->SetBlendAndAlpha_4337D0(1, 10);
+            mpOwnSprite->SetBlendAndAlpha(1, 10);
             break;
         case 2:
-            mpOwnSprite->SetBlendAndAlpha_4337D0(1, 10);
+            mpOwnSprite->SetBlendAndAlpha(1, 10);
             break;
         case 3:
-            mpOwnSprite->SetBlendAndAlpha_4337D0(2, 10);
+            mpOwnSprite->SetBlendAndAlpha(2, 10);
             break;
         case 4:
-            mpOwnSprite->SetBlendAndAlpha_4337D0(2, 15);
+            mpOwnSprite->SetBlendAndAlpha(2, 15);
             break;
         case 5:
-            mpOwnSprite->SetBlendAndAlpha_4337D0(2, 20);
+            mpOwnSprite->SetBlendAndAlpha(2, 20);
             break;
         case 6:
-            mpOwnSprite->SetBlendAndAlpha_4337D0(2, 25);
+            mpOwnSprite->SetBlendAndAlpha(2, 25);
             break;
         case 7:
-            mpOwnSprite->SetBlendAndAlpha_4337D0(2, 30);
+            mpOwnSprite->SetBlendAndAlpha(2, 30);
             break;
     }
 
-    mpOwnSprite->SetNoLighting_4337F0();
+    mpOwnSprite->SetNoLighting();
     if (mpExplosion)
     {
         mpOwnSprite->ResolveZOrder(mpExplosion->mpObj2C->mSprite);
@@ -378,10 +378,10 @@ bool Particle_4C::UpdateBeamSegment_state_43()
         return true;
     }
 
-    mpOwnSprite->set_id_lazy_4206C0(mSubState + gObjectDefinitions->mDef112BaseSpriteIdx + 103);
+    mpOwnSprite->set_id_lazy(mSubState + gObjectDefinitions->mDef112BaseSpriteIdx + 103);
 
-    this->mpOwnSprite->SetBlendAndAlpha_4337D0(2, 20);
-    this->mpOwnSprite->SetNoLighting_4337F0();
+    this->mpOwnSprite->SetBlendAndAlpha(2, 20);
+    this->mpOwnSprite->SetNoLighting();
     gSpriteGrid_3->AddToSingleBucket_477AE0(this->mpOwnSprite);
     return false;
 }
@@ -397,8 +397,8 @@ static inline Ang16 NormalizedAng(s16 value)
 // The angle is a temporary passed by reference, so the table index is reloaded after each multiply.
 static inline void SetFromPolar_OOL_41E210(Fix16_Point& p, const Fix16& radius, const Ang16& angle)
 {
-    p.x = radius.Multiply(Ang16::sine_40F500(angle));
-    p.y = radius.Multiply(Ang16::cosine_40F520(angle));
+    p.x = radius.Multiply(Ang16::sine(angle));
+    p.y = radius.Multiply(Ang16::cosine(angle));
 }
 
 // Inlined Fix16::Max_44E540: compares and returns the values, not references
@@ -411,9 +411,9 @@ static inline Fix16 MaxValue_44E540(const Fix16& a, const Fix16& b)
     return b;
 }
 
-// 9.6f 0x48F230: SetXY_432860 for src/dst, delta = dst - src, delta.atan2_40F790() (result discarded), segments
-// from delta.MaxAbs_48A270() / kFpOneSixth, delta.DivideAssign_48A250(segments), cur += delta, mid = cur - prev,
-// mid.DivideAssign_48A250(2), mid += prev, SetBlendAndAlpha_4337D0(2, 20); the function-scope Ang16 is the jitter;
+// 9.6f 0x48F230: SetXY for src/dst, delta = dst - src, delta.atan2_40F790() (result discarded), segments
+// from delta.MaxAbs_48A270() / kFpOneSixth, delta.DivideAssign(segments), cur += delta, mid = cur - prev,
+// mid.DivideAssign(2), mid += prev, SetBlendAndAlpha(2, 20); the function-scope Ang16 is the jitter;
 // each case is one SetFromPolar(radius, angle sum) call with both arguments as temporaries;
 // dst.SetXY(target) then dst += src (target declared ahead of src, else the x add's operands swap).
 MATCH_FUNC(0x538ac0)
@@ -430,24 +430,24 @@ bool Particle_4C::UpdateObjectBeamLink_state_38()
     Fix16_Point prev;
     Fix16_Point mid;
     gSpriteGrid_3->Remove(mpOwnSprite);
-    if (mSubState != 6 && mpSprite->GetType_416B40() == sprite_types_enum::code_obj1_4)
+    if (mSubState != 6 && mpSprite->GetType() == sprite_types_enum::code_obj1_4)
     {
-        src.SetXY_432860(mpOwnSprite->mXy.x, mpOwnSprite->mXy.y);
-        dst.SetXY_432860(mpSprite->mXy.x, mpSprite->mXy.y);
+        src.SetXY(mpOwnSprite->mXy.x, mpOwnSprite->mXy.y);
+        dst.SetXY(mpSprite->mXy.x, mpSprite->mXy.y);
         delta = dst - src;
         delta.atan2_40F790();
         Fix16 segments = delta.MaxAbs_48A270() / kFpOneSixth;
 
         if (segments != kFP16Zero_6FD49C)
         {
-            delta.DivideAssign_48A250(segments);
+            delta.DivideAssign(segments);
             prev = src;
             cur = src;
             for (s32 i = 1; i <= segments.ToInt(); i++)
             {
                 cur += delta;
                 mid = cur - prev;
-                mid.DivideAssign_48A250(kFP16Two_6FD4A4);
+                mid.DivideAssign(kFP16Two_6FD4A4);
                 mid += prev;
 
                 Particle_4C* pSegment = gParticle_8->New(0, 0, 0, 0, 0, 0);
@@ -458,18 +458,18 @@ bool Particle_4C::UpdateObjectBeamLink_state_38()
                     pSegment->mCounter = 50;
                     pSegment->mSubState = 0;
                     pSegment->mInitialCounter = 50;
-                    pSegment->mpOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
-                    pSegment->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 104);
+                    pSegment->mpOwnSprite->SetType(sprite_types_enum::code_obj2_8);
+                    pSegment->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 104);
                     pSegment->mpOwnSprite->set_xyz_lazy_420600(mid.x, mid.y, mpOwnSprite->mZpos);
-                    pSegment->mpOwnSprite->SetBlendAndAlpha_4337D0(2, 20);
-                    pSegment->mpOwnSprite->SetNoLighting_4337F0();
+                    pSegment->mpOwnSprite->SetBlendAndAlpha(2, 20);
+                    pSegment->mpOwnSprite->SetNoLighting();
                     gSpriteGrid_3->AddToSingleBucket_477AE0(pSegment->mpOwnSprite);
                 }
                 prev = cur;
             }
         }
 
-        target.SetXY_432860(mpSprite->mXy.x, mpSprite->mXy.y);
+        target.SetXY(mpSprite->mXy.x, mpSprite->mXy.y);
         jitter = kAng1_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng.get_int(16) - 8));
 
         switch (mSubState)
@@ -493,14 +493,14 @@ bool Particle_4C::UpdateObjectBeamLink_state_38()
             }
         }
 
-        dst.SetXY_432860(target.x, target.y);
+        dst.SetXY(target.x, target.y);
         dst += src;
 
-        if (mpSprite->GetType_416B40() == sprite_types_enum::code_obj1_4)
+        if (mpSprite->GetType() == sprite_types_enum::code_obj1_4)
         {
-            mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + mSubState + 163);
-            mpOwnSprite->SetBlendAndAlpha_4337D0(2, 20);
-            mpOwnSprite->SetNoLighting_4337F0();
+            mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + mSubState + 163);
+            mpOwnSprite->SetBlendAndAlpha(2, 20);
+            mpOwnSprite->SetNoLighting();
             mpOwnSprite->set_xyz_lazy_420600(dst.x, dst.y, mpOwnSprite->mZpos);
             gSpriteGrid_3->AddToSingleBucket_477AE0(mpOwnSprite);
             return false;
@@ -567,13 +567,13 @@ bool Particle_4C::UpdateDirectedBurstSweep_state_4()
 
             if (mSubState > 0 && mSubState <= 4)
             {
-                mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + mSubState + 147);
+                mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + mSubState + 147);
                 dir.x = 0;
                 dir.y = (kFP16One_6FD4A0 - Fix16(mSubState) * kFpPoint1_6FD2E8) * mSpeed20;
             }
             else
             {
-                mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + mSubState + 147);
+                mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + mSubState + 147);
                 dir.x = 0;
                 dir.y = (mSpeed20 * kFpPoint3_6FD2F4) * Fix16(mSubState / 10);
             }
@@ -604,8 +604,8 @@ bool Particle_4C::UpdateDirectedBurstSweep_state_4()
                 mpOwnSprite->set_xyz_lazy_420600(mpOwnSprite->mXy.x, mpOwnSprite->mXy.y, zpos);
             }
 
-            mpOwnSprite->SetBlendAndAlpha_4337D0(2, 15);
-            mpOwnSprite->SetNoLighting_4337F0();
+            mpOwnSprite->SetBlendAndAlpha(2, 15);
+            mpOwnSprite->SetNoLighting();
             mpOwnSprite->ApplyScaleToDimensions(kFP16One_6FD4A0 + Fix16(mSubState) * kFpPoint1_6FD2E8, 0);
             if (mpExplosion)
             {
@@ -676,13 +676,13 @@ bool Particle_4C::UpdateDirectedBurst_state_13_14_36()
 
             if (mSubState > 0 && mSubState <= 4)
             {
-                mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + mSubState + 147);
+                mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + mSubState + 147);
                 dir.x = 0;
                 dir.y = (kFP16One_6FD4A0 - Fix16(mSubState) * kFpPoint1_6FD2E8) * mSpeed20;
             }
             else
             {
-                mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + mSubState + 147);
+                mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + mSubState + 147);
                 dir.x = 0;
                 dir.y = (mSpeed20 * kFpPoint6) * Fix16(mSubState / 10);
             }
@@ -713,8 +713,8 @@ bool Particle_4C::UpdateDirectedBurst_state_13_14_36()
                 mpOwnSprite->set_xyz_lazy_420600(mpOwnSprite->mXy.x, mpOwnSprite->mXy.y, zpos);
             }
 
-            mpOwnSprite->SetBlendAndAlpha_4337D0(2, 15);
-            mpOwnSprite->SetNoLighting_4337F0();
+            mpOwnSprite->SetBlendAndAlpha(2, 15);
+            mpOwnSprite->SetNoLighting();
             if (mpExplosion)
             {
                 mpOwnSprite->ResolveZOrder(mpExplosion->mpObj2C->mSprite);
@@ -787,32 +787,32 @@ bool Particle_4C::UpdateCircularBurst_state_5()
             {
                 return true;
             }
-            mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 102);
-            mpOwnSprite->SetBlendAndAlpha_4337D0(1, 25);
-            mpOwnSprite->ClearNoLighting_433800();
+            mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 102);
+            mpOwnSprite->SetBlendAndAlpha(1, 25);
+            mpOwnSprite->ClearNoLighting();
             dir.x = 0;
             dir.y = kFpPoint6 * mSpeed20;
             bJitter = false;
             break;
         case 3:
-            mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 101);
-            mpOwnSprite->SetBlendAndAlpha_4337D0(1, 25);
-            mpOwnSprite->ClearNoLighting_433800();
+            mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 101);
+            mpOwnSprite->SetBlendAndAlpha(1, 25);
+            mpOwnSprite->ClearNoLighting();
             dir.x = 0;
             dir.y = kFpPoint7 * mSpeed20;
             break;
         case 4:
-            mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 100);
+            mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 100);
             dir.x = 0;
             dir.y = kFpPoint8 * mSpeed20;
             break;
         case 5:
-            mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 99);
+            mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 99);
             dir.x = 0;
             dir.y = kFpPoint8 * mSpeed20;
             break;
         case 6:
-            mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 98);
+            mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 98);
             dir.x = 0;
             dir.y = 0;
             if (mpExplosion && mpExplosion->mpObj2C->mSprite)
@@ -825,7 +825,7 @@ bool Particle_4C::UpdateCircularBurst_state_5()
             bJitter = false;
             break;
         case 7:
-            mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 97);
+            mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 97);
             dir.x = 0;
             dir.y = 0;
             if (mpExplosion && mpExplosion->mpObj2C->mSprite)
@@ -842,7 +842,7 @@ bool Particle_4C::UpdateCircularBurst_state_5()
             {
                 return true;
             }
-            mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 103);
+            mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 103);
             dir.x = 0;
             dir.y = mSpeed20 / kFP16Two_6FD4A4;
             bJitter = false;
@@ -857,9 +857,9 @@ bool Particle_4C::UpdateCircularBurst_state_5()
                     pSmoke->mState = 6;
                     pSmoke->mCounter = 100;
                     pSmoke->mInitialCounter = 100;
-                    pSmoke->mpOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
+                    pSmoke->mpOwnSprite->SetType(sprite_types_enum::code_obj2_8);
                     pSmoke->mState = 6;
-                    pSmoke->mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx);
+                    pSmoke->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx);
                     pSmoke->mpOwnSprite->set_xyz_lazy_420600(mpOwnSprite->mXy.x,
                                                                 mpOwnSprite->mXy.y,
                                                                 mpOwnSprite->mZpos);
@@ -872,8 +872,8 @@ bool Particle_4C::UpdateCircularBurst_state_5()
     // 9.6f: Fix16_Point::RotateByAngle_40F6B0 (inlined). The original calls the out-of-line
     // Add/Multiply/Negate_4086A0 copies for all but x * cos and y * sin
     {
-        Fix16 sin = Ang16::sine_40F500(mAngle);
-        Fix16 cos = Ang16::cosine_40F520(mAngle);
+        Fix16 sin = Ang16::sine(mAngle);
+        Fix16 cos = Ang16::cosine(mAngle);
         Fix16 old_x = dir.x;
         dir.x = (dir.x * cos).Add(dir.y * sin);
         dir.y = old_x.Negate_4086A0().Multiply(sin).Add(dir.y.Multiply(cos));
@@ -911,7 +911,7 @@ bool Particle_4C::UpdateCircularBurst_state_5()
     }
 
     mpOwnSprite->mFlags = 0xA2;
-    mpOwnSprite->SetNoLighting_4337F0();
+    mpOwnSprite->SetNoLighting();
     gSpriteGrid_3->AddToSingleBucket_477AE0(mpOwnSprite);
 
     if (++mSubState > 8)
@@ -945,12 +945,12 @@ bool Particle_4C::UpdateStaticAnim_state_39()
         }
     }
 
-    mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + this->mSubState + 191);
+    mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + this->mSubState + 191);
     gSpriteGrid_3->AddToSingleBucket_477AE0(this->mpOwnSprite);
     return false;
 }
 
-// 9.6f 0x48BEE0: the car box is read through GetCarWidth_48A930/GetCarHeight_48A950 (puts this in edi)
+// 9.6f 0x48BEE0: the car box is read through GetCarWidth/GetCarHeight (puts this in edi)
 MATCH_FUNC(0x53a280)
 bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41()
 {
@@ -966,8 +966,8 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41()
 
     if (mpSprite->mSpriteTypeEnum == sprite_types_enum::car_2)
     {
-        Car* pCar = mpSprite->AsCar_40FEB0();
-        if (!pCar || pCar->IsDespawning_4215B0())
+        Car* pCar = mpSprite->AsCar();
+        if (!pCar || pCar->IsDespawning())
         {
             return true;
         }
@@ -984,13 +984,13 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41()
         Fix16 half_h;
         if (sub < 4)
         {
-            half_w = pCar->GetCarWidth_48A930() / 2 + kFpMinusOneThirtySecond;
-            half_h = pCar->GetCarHeight_48A950() / 2 + kFpPoint2PlusOne64th;
+            half_w = pCar->GetCarWidth() / 2 + kFpMinusOneThirtySecond;
+            half_h = pCar->GetCarHeight() / 2 + kFpPoint2PlusOne64th;
         }
         else
         {
-            half_w = pCar->GetCarWidth_48A930() / 2 + kFpMinusOneThirtySecond;
-            half_h = pCar->GetCarHeight_48A950() / 2 + kFpPoint1_6FD2E8 + kFpOne64th_6FD554;
+            half_w = pCar->GetCarWidth() / 2 + kFpMinusOneThirtySecond;
+            half_h = pCar->GetCarHeight() / 2 + kFpPoint1_6FD2E8 + kFpOne64th_6FD554;
         }
 
         // The rotations are written out (RotateByAngle_OOL_40F6B0 shape): with the helper in both
@@ -1002,8 +1002,8 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41()
             corner.x = half_w;
             corner.y = half_h;
             Fix16 x_old = corner.x;
-            Fix16 sin = Ang16::sine_40F500(angle);
-            Fix16 cos = Ang16::cosine_40F520(angle);
+            Fix16 sin = Ang16::sine(angle);
+            Fix16 cos = Ang16::cosine(angle);
             corner.x = corner.x.Multiply(cos).Add(corner.y.Multiply(sin));
             corner.y = (-x_old).Multiply(sin).Add(corner.y.Multiply(cos));
             corner += mpSprite->get_x_y();
@@ -1013,24 +1013,24 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41()
             Fix16 x_old = -half_w;
             corner.x = x_old;
             corner.y = half_h;
-            Fix16 sin = Ang16::sine_40F500(angle);
-            Fix16 cos = Ang16::cosine_40F520(angle);
+            Fix16 sin = Ang16::sine(angle);
+            Fix16 cos = Ang16::cosine(angle);
             corner.x = corner.x.Multiply(cos).Add(corner.y.Multiply(sin));
             corner.y = (-x_old).Multiply(sin).Add(corner.y.Multiply(cos));
             corner += mpSprite->get_x_y();
         }
 
-        mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + mSubState + 200);
+        mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + mSubState + 200);
         mpOwnSprite->mFlags = 0xA2;
-        mpOwnSprite->set_ang_lazy_420690(mpSprite->mRotation);
+        mpOwnSprite->set_ang_lazy(mpSprite->mRotation);
         mpOwnSprite->set_xyz_lazy_420600(corner.x, corner.y, mpSprite->mZpos);
-        mpOwnSprite->SetNoLighting_4337F0();
+        mpOwnSprite->SetNoLighting();
         gSpriteGrid_3->AddToSingleBucket_477AE0(mpOwnSprite);
         return false;
     }
     else
     {
-        Char* pChar = mpSprite->AsCharB4_40FEA0();
+        Char* pChar = mpSprite->AsCharB4();
         if (!pChar || !pChar->mpPed || !pChar->mpPed->mBf21C.bActive)
         {
             return true;
@@ -1054,12 +1054,12 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41()
         offset.RotateByAngle_OneMulInline_40F6B0(mpSprite->mRotation);
         offset = offset.Add(pChar->mVelocityVector);
 
-        mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + mSubState + 197);
+        mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + mSubState + 197);
         mpOwnSprite->mFlags = 0xA2;
         mpOwnSprite->set_xyz_lazy_420600(mpSprite->mXy.x + offset.x,
                                             mpSprite->mXy.y + offset.y,
                                             mpSprite->mZpos);
-        mpOwnSprite->SetNoLighting_4337F0();
+        mpOwnSprite->SetNoLighting();
         gSpriteGrid_3->AddToSingleBucket_477AE0(mpOwnSprite);
         return false;
     }
@@ -1151,7 +1151,7 @@ bool Particle_4C::UpdateLargeBallisticDebris_state_35()
     {
         zpos = kMaxZ;
     }
-    mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + mSubState + 131);
+    mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + mSubState + 131);
     mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, zpos);
     gSpriteGrid_3->AddToSingleBucket_477AE0(mpOwnSprite);
     mpOwnSprite->mFlags = 0xA2;
@@ -1199,18 +1199,18 @@ bool Particle_4C::UpdateDebrisArc_state_7()
     {
         case 5:
         case 6:
-            mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 127);
+            mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 127);
             break;
         case 4:
-            mpOwnSprite->set_id_4206E0(gObjectDefinitions->mDef112BaseSpriteIdx + 128);
+            mpOwnSprite->set_id(gObjectDefinitions->mDef112BaseSpriteIdx + 128);
             break;
         case 2:
         case 3:
-            mpOwnSprite->set_id_4206E0(gObjectDefinitions->mDef112BaseSpriteIdx + 129);
+            mpOwnSprite->set_id(gObjectDefinitions->mDef112BaseSpriteIdx + 129);
             break;
         case 0:
         case 1:
-            mpOwnSprite->set_id_4206E0(gObjectDefinitions->mDef112BaseSpriteIdx + 130);
+            mpOwnSprite->set_id(gObjectDefinitions->mDef112BaseSpriteIdx + 130);
             break;
         default:
             break;
@@ -1240,15 +1240,15 @@ bool Particle_4C::UpdateShortAnim_state_37()
     switch (mSubState)
     {
         case 1:
-            this->mpOwnSprite->set_id_lazy_4206C0(mpOwnSprite->mTypeSpriteIdx);
+            this->mpOwnSprite->set_id_lazy(mpOwnSprite->mTypeSpriteIdx);
             break;
 
         default:
-            this->mpOwnSprite->set_id_4206E0(mpOwnSprite->mTypeSpriteIdx + 4);
+            this->mpOwnSprite->set_id(mpOwnSprite->mTypeSpriteIdx + 4);
             break;
     }
 
-    this->mpOwnSprite->SetNoLighting_4337F0();
+    this->mpOwnSprite->SetNoLighting();
     gSpriteGrid_3->AddToSingleBucket_477AE0(this->mpOwnSprite);
     return false;
 }
@@ -1268,15 +1268,15 @@ bool Particle_4C::UpdateAttachedEmitter_state_9_10()
     Sprite* pSprite = mpSprite;
     Fix16 zpos = mpOwnSprite->mZpos;
     Fix16_Point_POD offset;
-    if (pSprite->GetType_416B40() != sprite_types_enum::ped_3)
+    if (pSprite->GetType() != sprite_types_enum::ped_3)
     {
         return true;
     }
 
     Char* pChar = pSprite->mCharB4Ptr;
 
-    Ped* pPed = pChar->get_ped_433A20();
-    if (!pPed || !pPed->IsActive_433B40())
+    Ped* pPed = pChar->get_ped();
+    if (!pPed || !pPed->IsActive())
     {
         return true;
     }
@@ -1287,7 +1287,7 @@ bool Particle_4C::UpdateAttachedEmitter_state_9_10()
         {
             return true;
         }
-        mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 3);
+        mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 3);
         if (pChar->mAnimationFrame != 5)
         {
             gParticle_8->SpawnCigaretteSmokePuff(mpSprite, 0);
@@ -1309,16 +1309,16 @@ bool Particle_4C::UpdateAttachedEmitter_state_9_10()
                     radius = kFpOne1024th * kFpThree_6FD4A8;
                     Ang16::PolarToCartesian_41FC20(mpSprite->mRotation + jitter, radius, offset.x, offset.y);
                 }
-                mpOwnSprite->SetBlendAndAlpha_4337D0(1, 10);
-                mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 17);
+                mpOwnSprite->SetBlendAndAlpha(1, 10);
+                mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 17);
                 zpos += kFpPoint04;
             }
             else
             {
                 Fix16 radius = kFP16One_6FD4A0 * kFpOne1024th;
                 Ang16::PolarToCartesian_41FC20(mpOwnSprite->mRotation, radius, offset.x, offset.y);
-                mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 17);
-                mpOwnSprite->SetBlendAndAlpha_4337D0(1, 5);
+                mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 17);
+                mpOwnSprite->SetBlendAndAlpha(1, 5);
                 zpos += kFpPoint04;
             }
         }
@@ -1326,8 +1326,8 @@ bool Particle_4C::UpdateAttachedEmitter_state_9_10()
         {
             Fix16 radius = kFpOne1024th * kFpThree_6FD4A8;
             Ang16::PolarToCartesian_41FC20(mpSprite->mRotation, radius, offset.x, offset.y);
-            mpOwnSprite->SetBlendAndAlpha_4337D0(1, 20);
-            mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + 17);
+            mpOwnSprite->SetBlendAndAlpha(1, 20);
+            mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 17);
         }
         gParticlePosX += offset.x;
         gParticlePosY += offset.y;
@@ -1382,10 +1382,10 @@ bool Particle_4C::UpdateBurstAnimation_state_29_30()
         idx = 3;
     }
 
-    mpOwnSprite->set_id_4206E0(idx + gObjectDefinitions->mDef112BaseSpriteIdx + 37);
+    mpOwnSprite->set_id(idx + gObjectDefinitions->mDef112BaseSpriteIdx + 37);
     gSpriteGrid_3->AddToSingleBucket_477AE0(mpOwnSprite);
-    mpOwnSprite->SetBlendAndAlpha_4337D0(2, 10);
-    mpOwnSprite->SetNoLighting_4337F0();
+    mpOwnSprite->SetBlendAndAlpha(2, 10);
+    mpOwnSprite->SetNoLighting();
     mpOwnSprite->ApplyScaleToDimensions(kFP16One_6FD4A0 + scale_related * Fix16(mSubState), 0);
     return false;
 }
@@ -1438,7 +1438,7 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34()
 
         case sprite_types_enum::ped_3:
             pChar = pTarget->mCharB4Ptr;
-            if (!pChar || !pChar->mpPed || !pChar->mpPed->IsActive_433B40())
+            if (!pChar || !pChar->mpPed || !pChar->mpPed->IsActive())
             {
                 return true;
             }
@@ -1484,7 +1484,7 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34()
             attach.x = 0;
             attach.y = kFpSevenThirtySeconds_6FD2D4;
             attach.RotateByAngle_40F6B0(car_angle);
-            offset.SetXY_432860(Fix16(0), kFP16Eighth_6FD2D0);
+            offset.SetXY(Fix16(0), kFP16Eighth_6FD2D0);
         }
         else
         {
@@ -1492,7 +1492,7 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34()
             attach.x = 0;
             attach.y = kFpThreeThirtySeconds_6FD48C;
             attach.RotateByAngle_40F6B0(car_angle);
-            offset.SetXY_432860(Fix16(0), kFpMinusNineThirtySeconds_6FD4CC);
+            offset.SetXY(Fix16(0), kFpMinusNineThirtySeconds_6FD4CC);
         }
         offset.RotateByAngle_40F6B0(pCar->mCarSprite->mRotation);
         attach += offset.Add(pCar->mCarSprite->get_x_y());
@@ -1516,12 +1516,12 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34()
     u8 max_sub_state;
     if (mState == 31)
     {
-        mpOwnSprite->set_id_lazy_4206C0(mSubState + gObjectDefinitions->mDef112BaseSpriteIdx + 73);
+        mpOwnSprite->set_id_lazy(mSubState + gObjectDefinitions->mDef112BaseSpriteIdx + 73);
         max_sub_state = 14;
     }
     else
     {
-        mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx + mSubState + 111);
+        mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + mSubState + 111);
         max_sub_state = 12;
     }
     mpOwnSprite->mFlags = 0xA2;
@@ -1544,13 +1544,13 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34()
                     gParticle_8->mFireHitObj->mSprite->set_xyz_lazy_420600(xpos, ypos, zpos);
                     if (pChar)
                     {
-                        gParticle_8->mFireHitObj->SetDamageOwner(pChar->mpPed->get_ped_ref_idx_420B50());
+                        gParticle_8->mFireHitObj->SetDamageOwner(pChar->mpPed->get_ped_ref_idx());
                     }
                     else if (pCar)
                     {
-                        gParticle_8->mFireHitObj->SetDamageOwner(pCar->mDriver->get_ped_ref_idx_420B50());
+                        gParticle_8->mFireHitObj->SetDamageOwner(pCar->mDriver->get_ped_ref_idx());
                     }
-                    if (!pHit->IsObject2CType_40FE80())
+                    if (!pHit->IsObject2CType())
                     {
                         gParticle_8->mFireHitObj->HandleObjectHit(pHit);
                     }
@@ -1559,24 +1559,24 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34()
                 {
                     mSubState = max_sub_state;
                     mpOwnSprite->set_xyz_lazy_420600(xpos, ypos, zpos + kFpPoint01_6FD45C);
-                    if (!(gpRng->get_cur_rng_41CFE0() & 1))
+                    if (!(gpRng->get_cur_rng() & 1))
                     {
                         gParticle_8->EmitWaterSplash(xpos, ypos, zpos, angle, false);
                     }
                     gParticle_8->mWaterHitObj->mSprite->set_xyz_lazy_420600(xpos, ypos, zpos);
                     if (pChar)
                     {
-                        gParticle_8->mWaterHitObj->SetDamageOwner(pChar->mpPed->get_ped_ref_idx_420B50());
+                        gParticle_8->mWaterHitObj->SetDamageOwner(pChar->mpPed->get_ped_ref_idx());
                     }
                     else if (pCar)
                     {
-                        gParticle_8->mWaterHitObj->SetDamageOwner(pCar->mDriver->get_ped_ref_idx_420B50());
+                        gParticle_8->mWaterHitObj->SetDamageOwner(pCar->mDriver->get_ped_ref_idx());
                     }
-                    if (!pHit->IsObject2CType_40FE80())
+                    if (!pHit->IsObject2CType())
                     {
                         gParticle_8->mWaterHitObj->HandleObjectHit(pHit);
                     }
-                    if (pHit->GetType_416B40() == sprite_types_enum::ped_3)
+                    if (pHit->GetType() == sprite_types_enum::ped_3)
                     {
                         pHit->mCharB4Ptr->HandleGenericImpact(angle, kFpPoint1_6FD2E8 + kFpPoint05_6FD46C, kFP16Zero_6FD49C, 0);
                         Ped* pHitPed = pHit->mCharB4Ptr->mpPed;
@@ -1643,7 +1643,7 @@ bool Particle_4C::PoolUpdate()
                     return true;
                 }
 
-                mpOwnSprite->set_id_lazy_4206C0(mSubState + gObjectDefinitions->mDef112BaseSpriteIdx + 20);
+                mpOwnSprite->set_id_lazy(mSubState + gObjectDefinitions->mDef112BaseSpriteIdx + 20);
                 if (mpOwnSprite->mZpos + kFpPoint2_6FD2F0 < kMaxZ)
                 {
                     mpOwnSprite->set_xyz_lazy_420600(mpOwnSprite->mXy.x,
@@ -1654,7 +1654,7 @@ bool Particle_4C::PoolUpdate()
                 gSpriteGrid_3->AddToSingleBucket_477AE0(this->mpOwnSprite);
                 if (this->mSubState == 2)
                 {
-                    this->mpOwnSprite->SetBlendAndAlpha_4337D0(2, 20);
+                    this->mpOwnSprite->SetBlendAndAlpha(2, 20);
                 }
                 this->mpOwnSprite->mBf2C.bNoLighting = true;
                 return false;
@@ -1686,7 +1686,7 @@ bool Particle_4C::PoolUpdate()
                     return true;
                 }
 
-                mpOwnSprite->set_id_lazy_4206C0(mSubState + gObjectDefinitions->mDef112BaseSpriteIdx + 20);
+                mpOwnSprite->set_id_lazy(mSubState + gObjectDefinitions->mDef112BaseSpriteIdx + 20);
 
                 if (mpOwnSprite->mZpos + kFpPoint2_6FD2F0 < kMaxZ)
                 {
@@ -1728,7 +1728,7 @@ bool Particle_4C::PoolUpdate()
                     return true;
                 }
 
-                mpOwnSprite->set_id_lazy_4206C0(mSubState + gObjectDefinitions->mDef112BaseSpriteIdx + 56);
+                mpOwnSprite->set_id_lazy(mSubState + gObjectDefinitions->mDef112BaseSpriteIdx + 56);
 
                 if (mpOwnSprite->mZpos + kFpPoint2_6FD2F0 < kMaxZ)
                 {
@@ -1740,7 +1740,7 @@ bool Particle_4C::PoolUpdate()
                 gSpriteGrid_3->AddToSingleBucket_477AE0(this->mpOwnSprite);
                 if (this->mSubState == 2)
                 {
-                    this->mpOwnSprite->SetBlendAndAlpha_4337D0(2, 20);
+                    this->mpOwnSprite->SetBlendAndAlpha(2, 20);
                 }
 
                 mpOwnSprite->mBf2C.bNoLighting = true;
@@ -1767,10 +1767,10 @@ bool Particle_4C::PoolUpdate()
                 return true;
             }
 
-            mpOwnSprite->set_id_lazy_4206C0(mSubState + gObjectDefinitions->mDef112BaseSpriteIdx + 147);
+            mpOwnSprite->set_id_lazy(mSubState + gObjectDefinitions->mDef112BaseSpriteIdx + 147);
 
-            gParticlePosX = this->mSpeed20 * Ang16::sine_40F500(this->mAngle);
-            gParticlePosY = this->mSpeed20 * Ang16::cosine_40F520(this->mAngle);
+            gParticlePosX = this->mSpeed20 * Ang16::sine(this->mAngle);
+            gParticlePosY = this->mSpeed20 * Ang16::cosine(this->mAngle);
 
             gParticlePosX = this->mpOwnSprite->mXy.x + gParticlePosX;
             gParticlePosY = this->mpOwnSprite->mXy.y + gParticlePosY;
@@ -1787,11 +1787,11 @@ bool Particle_4C::PoolUpdate()
 
             if (mpOwnSprite->mZpos > kMaxZ)
             {
-                mpOwnSprite->set_z_lazy_420660(kMaxZ);
+                mpOwnSprite->set_z_lazy(kMaxZ);
             }
 
             gSpriteGrid_3->AddToSingleBucket_477AE0(this->mpOwnSprite);
-            mpOwnSprite->SetBlendAndAlpha_4337D0(2, 10);
+            mpOwnSprite->SetBlendAndAlpha(2, 10);
             mpOwnSprite->mBf2C.bNoLighting = true;
             return false;
 
@@ -1841,7 +1841,7 @@ bool Particle_4C::PoolUpdate()
             {
                 return true;
             }
-            mpOwnSprite->set_id_lazy_4206C0(gObjectDefinitions->mDef112BaseSpriteIdx);
+            mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx);
             gSpriteGrid_3->AddToSingleBucket_477AE0(this->mpOwnSprite);
             mpOwnSprite->mBf2C.bNoLighting = true;
             return false;
@@ -1893,8 +1893,8 @@ void Particle_4C::PoolDeallocate()
 {
     if (mpOwnSprite)
     {
-        mpOwnSprite->ClearNoLighting_433800();
-        mpOwnSprite->SetBlendAndAlpha_4337D0(0, 0);
+        mpOwnSprite->ClearNoLighting();
+        mpOwnSprite->SetBlendAndAlpha(0, 0);
         gSpritePool->remove(mpOwnSprite);
         mpOwnSprite = NULL;
     }

@@ -31,7 +31,7 @@ bool Firefighter::CheckAbortConditions()
         return false;
     }
 
-    if (mCar->mPhysics->get_car_velocity_4211C0() == kFpZero_67D378)
+    if (mCar->mPhysics->get_car_velocity() == kFpZero_67D378)
     {
         if (++mNextStateTimer >= 1000)
         {
@@ -56,7 +56,7 @@ bool Firefighter::CheckAbortConditions()
     if (mTargetCar)
     {
         if (mTargetCar->mDespawnStatus == car_despawn_status::despawned_6 || mTargetCar->mDespawnStatus == car_despawn_status::deactivated_7 ||
-            mTargetCar->IsDespawning_4215B0() || mTargetCar->IsMarkedForDespawn_4214B0())
+            mTargetCar->IsDespawning() || mTargetCar->IsMarkedForDespawn())
         {
             if (mPed)
             {
@@ -88,17 +88,17 @@ bool Firefighter::CheckAbortConditions()
     {
         if (mTargetCar)
         {
-            if (mTargetCar->mDespawnStatus != car_despawn_status::despawned_6 && !mTargetCar->IsDespawning_4215B0())
+            if (mTargetCar->mDespawnStatus != car_despawn_status::despawned_6 && !mTargetCar->IsDespawning())
             {
                 if (mPed)
                 {
-                    if (mTargetCar->GetX_41E430().ToUInt8() != mPed->mObjectiveTargetX.ToUInt8() ||
-                        mTargetCar->GetY_41E440().ToUInt8() != mPed->mObjectiveTargetY.ToUInt8())
+                    if (mTargetCar->GetX().ToUInt8() != mPed->mObjectiveTargetX.ToUInt8() ||
+                        mTargetCar->GetY().ToUInt8() != mPed->mObjectiveTargetY.ToUInt8())
                     {
                         mPed->SetObjective(objectives_enum::goto_area_in_car_14);
-                        mPed->mObjectiveTargetX = Fix16(mTargetCar->GetX_41E430().ToUInt8());
-                        mPed->mObjectiveTargetY = Fix16(mTargetCar->GetY_41E440().ToUInt8());
-                        mPed->mObjectiveTargetZ = Fix16(mTargetCar->GetZ_41E450().ToUInt8());
+                        mPed->mObjectiveTargetX = Fix16(mTargetCar->GetX().ToUInt8());
+                        mPed->mObjectiveTargetY = Fix16(mTargetCar->GetY().ToUInt8());
+                        mPed->mObjectiveTargetZ = Fix16(mTargetCar->GetZ().ToUInt8());
                     }
                 }
             }
@@ -151,29 +151,29 @@ void Firefighter::Update()
     {
         case firefighter_state::spawn_truck_1:
             if (mTargetCar && mTargetCar->mDespawnStatus != car_despawn_status::despawned_6 &&
-                !mTargetCar->IsDespawning_4215B0() && gCarManager_6C->CanAllocateCarOfKind(car_kind::firefighter_5))
+                !mTargetCar->IsDespawning() && gCarManager_6C->CanAllocateCarOfKind(car_kind::firefighter_5))
             {
                 mCar = gCarManager_6C->SpawnCarAtRoadDirection(car_model_enum::FIRETRUK, mXpos, mYpos, mZpos);
                 if (mCar)
                 {
                     mCar->IncrementCarStats(car_kind::firefighter_5);
-                    mCar->SetDriverPedType_421560(ped_type::special_ped_4);
+                    mCar->SetDriverPedType(ped_type::special_ped_4);
                     Car* pCar = mCar;
                     pCar->AllocateAI_421510();
                     mCar->mAI->SetCar(mCar);
 
                     mPed = gPedManager->AllocatePed();
-                    mPed->SetPedType_403920(ped_type::special_ped_4);
-                    mPed->set_occupation_403970(ped_ocupation_enum::fireman);
+                    mPed->SetPedType(ped_type::special_ped_4);
+                    mPed->set_occupation(ped_ocupation_enum::fireman);
                     mPed->SpawnPedInCar(mCar);
                     mPed->SetObjective(objectives_enum::goto_area_in_car_14);
-                    mPed->mObjectiveTargetX = Fix16(mTargetCar->GetX_41E430().ToUInt8());
-                    mPed->mObjectiveTargetY = Fix16(mTargetCar->GetY_41E440().ToUInt8());
-                    mPed->mObjectiveTargetZ = Fix16(mTargetCar->GetZ_41E450().ToUInt8());
+                    mPed->mObjectiveTargetX = Fix16(mTargetCar->GetX().ToUInt8());
+                    mPed->mObjectiveTargetY = Fix16(mTargetCar->GetY().ToUInt8());
+                    mPed->mObjectiveTargetZ = Fix16(mTargetCar->GetZ().ToUInt8());
                     mPed->mBf21C.bUseCarWeapon = 1;
                     mCar->ActivateEmergencyLights();
                     mCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
-                    mPed = mCar->GetDriver_4118B0();
+                    mPed = mCar->GetDriver();
                     mNextStateTimer = 0;
                     mState = firefighter_state::drive_to_fire_2;
                     break;
@@ -195,10 +195,10 @@ void Firefighter::Update()
             }
             else if (CheckAbortConditions())
             {
-                if (Fix16::MaxAbsDistance_42A6B0(mCar->GetX_41E430(),
-                                          mCar->GetY_41E440(),
-                                          mTargetCar->GetX_41E430(),
-                                          mTargetCar->GetY_41E440()) < kFpThree_67D384 &&
+                if (Fix16::MaxAbsDistance(mCar->GetX(),
+                                          mCar->GetY(),
+                                          mTargetCar->GetX(),
+                                          mTargetCar->GetY()) < kFpThree_67D384 &&
                     mNextStateTimer > 100)
                 {
                     mState = firefighter_state::arrived_3;
@@ -206,7 +206,7 @@ void Firefighter::Update()
 
                 if (mPed)
                 {
-                    switch (mPed->GetObjectiveStatus_450CB0())
+                    switch (mPed->GetObjectiveStatus())
                     {
                         case objective_status::passed_1:
                             mState = firefighter_state::arrived_3;
@@ -235,7 +235,7 @@ void Firefighter::Update()
         case firefighter_state::put_out_fire_4:
             if (CheckAbortConditions())
             {
-                switch (mPed->GetObjectiveStatus_450CB0())
+                switch (mPed->GetObjectiveStatus())
                 {
                     case objective_status::passed_1:
                         mPed->SetObjective(objectives_enum::no_obj_0);
@@ -250,14 +250,14 @@ void Firefighter::Update()
             break;
 
         case firefighter_state::finished_5:
-            if (mCar && mCar->mDespawnStatus != car_despawn_status::despawned_6 && !mCar->IsDespawning_4215B0() &&
-                !mCar->IsMarkedForDespawn_4214B0())
+            if (mCar && mCar->mDespawnStatus != car_despawn_status::despawned_6 && !mCar->IsDespawning() &&
+                !mCar->IsMarkedForDespawn())
             {
                 if (mCar->mDriver)
                 {
                     mCar->mDriver->mBf21C.bDriveAggressively = 1;
                 }
-                mCar->SetDriverPedType_421560(ped_type::dummy_3);
+                mCar->SetDriverPedType(ped_type::dummy_3);
                 mCar->InitCarAIControl();
                 mCar->ResumeAIDriving();
                 mCar->DeactivateEmergencyLights();
@@ -281,7 +281,7 @@ void Firefighter::Update()
 MATCH_FUNC(0x4a85c0)
 void Firefighter::init()
 {
-    Clear_450C10();
+    Clear();
 }
 
 MATCH_FUNC(0x4a85e0)
@@ -386,7 +386,7 @@ bool FirefighterPool::TryDispatchFirefightersToCar(Car* pCar)
         return false;
     }
 
-    if (pCar->IsTrainModel_403BA0())
+    if (pCar->IsTrainModel())
     {
         return false;
     }

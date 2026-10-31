@@ -307,7 +307,7 @@ void force_link()
     CrimeReportQueue crime_report_queue_CC;
 
     Firefighter tango_28;
-    tango_28.Clear_450C10();
+    tango_28.Clear();
 
     FirefighterPool tango_54;
 
@@ -889,7 +889,7 @@ void __stdcall ClearDebugFlags()
 MATCH_FUNC(0x4DB070)
 EXPORT void __stdcall ShowPlayerLeftMessage(u8 idx)
 {
-    Player* pPlayer = gGame_0x40->GetPlayer_4219E0(idx);
+    Player* pPlayer = gGame_0x40->GetPlayer(idx);
     pPlayer->Disconnect();
     swprintf(tmpBuff, gText_0x14->Find("comms1"), pPlayer->mPlayerName);
     gHud_2B00->mMpMessage.ShowText(tmpBuff);
@@ -927,14 +927,14 @@ EXPORT void __stdcall InitializeGame()
 
         ClearDebugFlags();
 
-        gGame_0x40 = new Game(gNetPlay.CountActivePlayers(), gNetPlay.GetPlayerIdx_409C40());
+        gGame_0x40 = new Game(gNetPlay.CountActivePlayers(), gNetPlay.GetPlayerIdx());
         gNetPlay.SetExitGameCallBack(reinterpret_cast<int>(ExitGameCallback), gGame_0x40);
 
         memset(&sCurrentNetInputs, 0, sizeof(sCurrentNetInputs));
         memset(&sPrevNetInputs, 0, sizeof(sPrevNetInputs));
 
         memset(gNet_Unused_6F5AC8, 0, sizeof(gNet_Unused_6F5AC8));
-        sNetworkPlayerIdx = gNetPlay.GetPlayerIdx_409C40();
+        sNetworkPlayerIdx = gNetPlay.GetPlayerIdx();
         spInputBuffer = reinterpret_cast<ReceivedPacket*>(&sCurrentNetInputs.mInputs[0]);
         sCurrentInputsBufferSize = 48;
         gNet_Unused_6F5B00 = 0;
@@ -945,7 +945,7 @@ EXPORT void __stdcall InitializeGame()
         gNet_Unused_6F580C = 0;
         sTotalNetworkTime = 0;
         gNet_Unused_6F5AC0 = 0;
-        gNetTimeLimit = gGameSession.GetTimeLimit_461DC0();
+        gNetTimeLimit = gGameSession.GetTimeLimit();
         if (gNetTimeLimit > 60)
         {
             gNetTimeLimit = 60;
@@ -1120,7 +1120,7 @@ EXPORT void Net_Receive_Players_Inputs()
                     waiting_bits &= ~(1 << j);
                     sNetDisconnectPlayersBits |= 1 << j;
                     gNetPlay.SendGiveUp(j);
-                    gTagGame.SetQuit_461DD0(j);
+                    gTagGame.SetQuit(j);
                 }
             }
         }
@@ -1264,7 +1264,7 @@ EXPORT void __stdcall CompareRemotePlayers(u8* pLocalSyncData, u8* pRemoteSyncDa
 MATCH_FUNC(0x4DACB0)
 EXPORT void Net_Send_Our_Inputs()
 {
-    if (gNetPlay.GetPlayerCount_461DA0() > 1)
+    if (gNetPlay.GetPlayerCount() > 1)
     {
         if (bDo_sync_check)
         {
@@ -1288,8 +1288,8 @@ EXPORT void Net_Set_Local_Player_Inputs()
 {
     for (u32 player_idx = 0; player_idx < MAX_PLAYERS; player_idx++)
     {
-        Player* pPlayer = gGame_0x40->GetPlayer_4219E0(player_idx);
-        if (pPlayer && pPlayer->GetInUse_461DB0())
+        Player* pPlayer = gGame_0x40->GetPlayer(player_idx);
+        if (pPlayer && pPlayer->GetInUse())
         {
             pPlayer->SetInputs(sPrevNetInputs.mInputs[player_idx].mInputs);
             sPrevNetInputs.mInputs[player_idx].mInputs &= ~0x3FF000;
@@ -1326,8 +1326,8 @@ EXPORT void ManageNetworkTimeAndHudPager()
         s32 rem = minutes % 5;
         bool bShow = false;
         if (minutes == 0 || (rem == 4 && seconds >= 50) || (rem == 0 && seconds == 0) ||
-            (minutes == gGameSession.GetTimeLimit_461DC0() && seconds == 0) ||
-            (minutes == gGameSession.GetTimeLimit_461DC0() - 1 && seconds >= 50))
+            (minutes == gGameSession.GetTimeLimit() && seconds == 0) ||
+            (minutes == gGameSession.GetTimeLimit() - 1 && seconds >= 50))
         {
             // bShow is set in both arms (not once before the if): with a single store, VC6 sees bl == 1 at the
             // blink test and uses "test dl, bl" there instead of "test dl, 1"
@@ -1394,8 +1394,8 @@ EXPORT void __stdcall do_network_and_local_inputs()
                 {
                     if ((sNetDisconnectPlayersBits & 1) != 0)
                     {
-                        Player* pPlayer = gGame_0x40->GetPlayer_4219E0(player_idx);
-                        if (pPlayer && pPlayer->GetInUse_461DB0())
+                        Player* pPlayer = gGame_0x40->GetPlayer(player_idx);
+                        if (pPlayer && pPlayer->GetInUse())
                         {
                             gNetPlay.DeletePlayerFromGroup(player_idx);
                             ShowPlayerLeftMessage(player_idx);
@@ -2401,7 +2401,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                         {
                             if (bStartNetworkGame)
                             {
-                                switch (gGame_0x40->GetExitType_4D09C0())
+                                switch (gGame_0x40->GetExitType())
                                 {
                                     case GameExitType::CloseGameImmediately_1:
                                         DestroyWindow(gHwnd);
@@ -2417,7 +2417,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                             }
                             else
                             {
-                                switch (gGame_0x40->GetExitType_4D09C0())
+                                switch (gGame_0x40->GetExitType())
                                 {
                                     case GameExitType::CloseGameImmediately_1:
                                         DestroyWindow(gHwnd);
@@ -2579,7 +2579,7 @@ EXPORT bool __stdcall Start_NetworkGame(HINSTANCE hInstance)
 
         gGameSession.SetMultiplayerParams(gNetworkGameSettings.mGameType,
                                                            gNetworkGameSettings.mFragLimit,
-                                                           gNetPlay.GetPlayerIdx_409C40(),
+                                                           gNetPlay.GetPlayerIdx(),
                                                            gNetPlay.CountActivePlayers(),
                                                            gNetworkGameSettings.mGameTimeLimit);
     }

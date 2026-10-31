@@ -393,11 +393,11 @@ void __stdcall Frontend::destroy()
 }
 
 // 9.6f 0x453AB0: index of the tag game player with the longest time (that hasn't quit)
-inline s32 TagGame::GetLeaderIdx_453AB0()
+inline s32 TagGame::GetLeaderIdx()
 {
     s32 leader_idx = -1;
     s32 leader_time = -1;
-    if (IsTagGame_434B20())
+    if (IsTagGame())
     {
         for (s32 i = 0; i < MAX_PLAYERS; i++)
         {
@@ -456,7 +456,7 @@ void Frontend::ChangeMenuPage(u16 menu_page_idx)
         main_stage_idx = gGameSession.GetMainStageIdx();
         bonus_stage_idx = 0;
         bonus_count = gGameSession.GetLevelFinishBonusType();
-        if (gGameSession.get_secret_tokens_collected_453A80() == 50)
+        if (gGameSession.get_secret_tokens_collected() == 50)
         {
             bonus_count = 3;
         }
@@ -494,7 +494,7 @@ void Frontend::ChangeMenuPage(u16 menu_page_idx)
     }
     else if (menu_page_idx == MENUPAGE_BONUS_AREA)
     {
-        gGameSession.DecodeStage_453A60(gGameSession.GetStage(), &main_stage_idx, &bonus_stage_idx);
+        gGameSession.DecodeStage(gGameSession.GetStage(), &main_stage_idx, &bonus_stage_idx);
         swprintf(tmpBuff, L"%d", pStats->mPlyrStageStats[main_stage_idx][bonus_stage_idx].mStageLatestScore);
         wcsncpy(mMenuPagesArray[6].mElementsArray[2].mElementNameStr, tmpBuff, 50);
         if (gGameSession.IsStartedFromPlayBonusMenu() || main_stage_idx >= mNumMainStages - 1 ||
@@ -525,7 +525,7 @@ void Frontend::ChangeMenuPage(u16 menu_page_idx)
         }
         else
         {
-            gGameSession.DecodeStage_453A60(gGameSession.GetStage(), &main_stage_idx, &bonus_stage_idx);
+            gGameSession.DecodeStage(gGameSession.GetStage(), &main_stage_idx, &bonus_stage_idx);
         }
 
         if (!saved_is_bonus)
@@ -534,7 +534,7 @@ void Frontend::ChangeMenuPage(u16 menu_page_idx)
         }
         else
         {
-            gGameSession.DecodeStage_453A60(saved_bonus_code, &saved_main_stage, &saved_bonus_code);
+            gGameSession.DecodeStage(saved_bonus_code, &saved_main_stage, &saved_bonus_code);
         }
 
         MenuPage* pPage = &mMenuPagesArray[menu_page_idx];
@@ -562,7 +562,7 @@ void Frontend::ChangeMenuPage(u16 menu_page_idx)
     else if (menu_page_idx == MENUPAGE_MULTIPLAYER_RESULTS)
     {
         num_players = gGameSession.GetMaxPlayers();
-        gTagGame.GetLeaderIdx_453AB0();
+        gTagGame.GetLeaderIdx();
         user_idx = static_cast<u8>(gGameSession.GetUserPlayerIdx());
         u8 game_mode_2 = gGameSession.GetMultiplayerGamemode();
 
@@ -610,7 +610,7 @@ void Frontend::ChangeMenuPage(u16 menu_page_idx)
             if (player < num_players)
             {
                 mMenuPagesArray[7].mElementsArray[player + 1].mIsItDisplayed = true;
-                mMenuPagesArray[7].mElementsArray[player + 7].mIsItDisplayed = !IsTagGame_434B20();
+                mMenuPagesArray[7].mElementsArray[player + 7].mIsItDisplayed = !IsTagGame();
             }
             else
             {
@@ -622,7 +622,7 @@ void Frontend::ChangeMenuPage(u16 menu_page_idx)
         opponent_idx = 0;
         for (player = 0; player < num_players; player++)
         {
-            if (gTagGame.HasQuit_453A90(player))
+            if (gTagGame.HasQuit(player))
             {
                 swprintf(quit_name,
                          L"%s (%s)",
@@ -647,7 +647,7 @@ void Frontend::ChangeMenuPage(u16 menu_page_idx)
         // below are threaded away), which also keeps best_opponent in edi across the three loops
         s32 best_opponent = -1;
         s32 user_value = 0;
-        if (gTagGame.HasQuit_453A90(user_idx))
+        if (gTagGame.HasQuit(user_idx))
         {
             user_value = -1;
         }
@@ -655,7 +655,7 @@ void Frontend::ChangeMenuPage(u16 menu_page_idx)
         {
             for (i = 0; i < num_players; i++)
             {
-                if (i != user_idx && !gTagGame.HasQuit_453A90(i) &&
+                if (i != user_idx && !gTagGame.HasQuit(i) &&
                     static_cast<s16>(gGameSession.GetFragsForPlayerIdx(i)) > best_opponent)
                 {
                     best_opponent = static_cast<s16>(gGameSession.GetFragsForPlayerIdx(i));
@@ -667,7 +667,7 @@ void Frontend::ChangeMenuPage(u16 menu_page_idx)
         {
             for (i = 0; i < num_players; i++)
             {
-                if (i != user_idx && !gTagGame.HasQuit_453A90(i) &&
+                if (i != user_idx && !gTagGame.HasQuit(i) &&
                     gGameSession.GetPointsForPlayerIdx(i) > best_opponent)
                 {
                     best_opponent = gGameSession.GetPointsForPlayerIdx(i);
@@ -679,10 +679,10 @@ void Frontend::ChangeMenuPage(u16 menu_page_idx)
         {
             for (i = 0; i < num_players; i++)
             {
-                if (i != user_idx && !gTagGame.HasQuit_453A90(i))
+                if (i != user_idx && !gTagGame.HasQuit(i))
                 {
                     // A select (`cmp; jg; mov; mov`), not `best = time > best ? time : best` (spills best)
-                    s32 time = gTagGame.GetTime_453AA0(i);
+                    s32 time = gTagGame.GetTime(i);
                     if (time <= best_opponent)
                     {
                         time = best_opponent;
@@ -690,7 +690,7 @@ void Frontend::ChangeMenuPage(u16 menu_page_idx)
                     best_opponent = time;
                 }
             }
-            user_value = gTagGame.GetTime_453AA0(user_idx) - best_opponent;
+            user_value = gTagGame.GetTime(user_idx) - best_opponent;
         }
 
         if (user_value > 0)
@@ -956,7 +956,7 @@ void Frontend::DrawScoreTable(ScoreTableLine* pStrings,
         }
         swprintf(tmpBuff, L"%d", pIter->mScore);
 
-        if (gText_0x14->LangIsJapanese_452E60())
+        if (gText_0x14->LangIsJapanese())
         {
             Frontend::DrawTextFixedWidth(tmpBuff, new_xpos, text_ypos_to_use, arg_fontType, palette, 1, 16, true);
         }
@@ -973,7 +973,7 @@ void Frontend::DrawScoreTable(ScoreTableLine* pStrings,
 MATCH_FUNC(0x4AD140)
 void Frontend::DrawMenu()
 {
-    const s32 line_height = !gText_0x14->LangIsJapanese_452E60() ? 14 : 16;
+    const s32 line_height = !gText_0x14->LangIsJapanese() ? 14 : 16;
 
     MenuPage* pMenuPage = &mMenuPagesArray[mCurrentPageIdx];
 
@@ -1080,7 +1080,7 @@ void Frontend::DrawMenu()
         }
         else
         {
-            gGameSession.DecodeStage_453A60(gGameSession.GetStage(), &main_level_idx, &bonus_stage_idx);
+            gGameSession.DecodeStage(gGameSession.GetStage(), &main_level_idx, &bonus_stage_idx);
         }
         if (mCurrentPageIdx == MENUPAGE_BONUS_AREA)
         {
@@ -1283,7 +1283,7 @@ void Frontend::DrawMenu()
         }
         else if (chosen_option_idx == 4) // BONUS STAGE
         {
-            gGameSession.DecodeStage_453A60(gGameSession.GetStage(), &main_level_idx, &bonus_level_idx);
+            gGameSession.DecodeStage(gGameSession.GetStage(), &main_level_idx, &bonus_level_idx);
         }
         Frontend::DrawScoreTable(reinterpret_cast<ScoreTableLine*>(&gPlyDat->mStageScores[main_level_idx][bonus_level_idx]
                                  .mScoreTableLine),
@@ -1383,7 +1383,7 @@ void Frontend::DrawMenu()
         }
         wcscpy(tmpBuff, gText_0x14->Find("entrnam"));
         x_pos = 0x15Eu;
-        y_pos = !gText_0x14->LangIsJapanese_452E60() ? 12 : 16;
+        y_pos = !gText_0x14->LangIsJapanese() ? 12 : 16;
         DrawText_4B87A0(tmpBuff, x_pos, y_pos, mHeadingFont, 1);
     }
     if (mState == FrontendState::User_Typing_Password_5 && mCursorBlink)
@@ -1700,7 +1700,7 @@ void Frontend::UpdateMenuScreen()
                 {
                     u8 main_stage_idx;
                     u8 bonus_stage_idx;
-                    gGameSession.DecodeStage_453A60(gGameSession.GetStage(), &main_stage_idx, &bonus_stage_idx);
+                    gGameSession.DecodeStage(gGameSession.GetStage(), &main_stage_idx, &bonus_stage_idx);
                     mMenuScreen = main_stage_idx + 3;
                     break;
                 }
@@ -1895,7 +1895,7 @@ void Frontend::UpdatePageFromUserInput()
                     }
                     break;
                 case MENUPAGE_GET_READY_TO_PLAY_BONUS: // 265
-                    gGameSession.DecodeStage_453A60(gGameSession.GetStage(), &stage_main_idx, &stage_bonus_idx);
+                    gGameSession.DecodeStage(gGameSession.GetStage(), &stage_main_idx, &stage_bonus_idx);
                     if (FreeLoader::CheckCityInstalled(stage_main_idx))
                     {
                         LoadMapFilenames(stage_main_idx, stage_bonus_idx);
@@ -2930,7 +2930,7 @@ void Frontend::DrawDeletePlayerDialog()
     {
         case 1:
         {
-            u16 ypos = !gText_0x14->LangIsJapanese_452E60() ? 12 : 16;
+            u16 ypos = !gText_0x14->LangIsJapanese() ? 12 : 16;
             DrawText_4B87A0(gText_0x14->Find("clrchar"), static_cast<u16>(275), ypos, mHeadingFont, 1);
             break;
         }
@@ -3245,7 +3245,7 @@ void Frontend::Load_tga(u16 idx)
 MATCH_FUNC(0x4AF2A0)
 Frontend::Frontend()
 {
-    SetField10D_453A30(1);
+    SetField10D(1);
 
     gText_0x14 = new TextTable();
     if (!gText_0x14)
@@ -3265,7 +3265,7 @@ Frontend::Frontend()
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2292);
     }
 
-    if (gText_0x14->LangIsJapanese_452E60())
+    if (gText_0x14->LangIsJapanese())
     {
         gKanjiFont = new KanjiFont();
         if (!gKanjiFont)
@@ -3465,7 +3465,7 @@ void Frontend::InitKeyBoardDevice()
 MATCH_FUNC(0x4AF0E0)
 void Frontend::SetFontTypes()
 {
-    if (gText_0x14->LangIsJapanese_452E60())
+    if (gText_0x14->LangIsJapanese())
     {
         this->mNormalFont = 101;
         this->mTextFont = 101;
@@ -3501,7 +3501,7 @@ void Frontend::SetupMenuStringsOptionsElements()
     // Setup all menu pages, options and elements
 
     MenuPage* pPage;
-    s32 line_height = !gText_0x14->LangIsJapanese_452E60() ? 12 : 16;
+    s32 line_height = !gText_0x14->LangIsJapanese() ? 12 : 16;
     mUnused134 = 16;
 
     pPage = &mMenuPagesArray[0];
@@ -4335,7 +4335,7 @@ void Frontend::DrawSavedStage()
     }
     else
     {
-        gGameSession.DecodeStage_453A60(codified_stages, &main_stage, &bonus_stage);
+        gGameSession.DecodeStage(codified_stages, &main_stage, &bonus_stage);
     }
     swprintf(tmpBuff, L"%d", main_stage);
     DrawText_4B87A0(tmpBuff, static_cast<u16>(450), static_cast<u16>(90), mNormalFont, 1);
@@ -4538,7 +4538,7 @@ void Frontend::DrawMultiplayerScores()
         }
         else // tag game
         {
-            s32 player_time = gTagGame.GetTime_453AA0(curr_plyr_idx);
+            s32 player_time = gTagGame.GetTime(curr_plyr_idx);
             swprintf(Buffer, L"%2d:%02d", player_time / 60, player_time % 60);
             x_pos = 500;
             y_pos = 20 * curr_plyr_idx + 170;
@@ -4828,7 +4828,7 @@ char_type Frontend::GetPreviousUnlockedBonusStage(u8 stage)
 
     u8 main_stage_idx;
     u8 bonus_stage_idx;
-    gGameSession.DecodeStage_453A60(stage, &main_stage_idx, &bonus_stage_idx);
+    gGameSession.DecodeStage(stage, &main_stage_idx, &bonus_stage_idx);
 
     u8 main_og = main_stage_idx;
     u8 bonus_og = bonus_stage_idx;
@@ -4876,7 +4876,7 @@ void Frontend::UpdateBonusStageArrows()
     u8 stage = gGameSession.GetStage();
     u8 main_idx;
     u8 bonus_idx;
-    gGameSession.DecodeStage_453A60(stage, &main_idx, &bonus_idx);
+    gGameSession.DecodeStage(stage, &main_idx, &bonus_idx);
     if (stage == 0xFF)
     {
         pPage->mOptionsArray[4].mIsUnlocked = 0;
@@ -4950,7 +4950,7 @@ char_type Frontend::GetNextUnlockedBonusStage(u8 stage)
 
     u8 main_stage_idx;
     u8 bonus_stage_idx;
-    gGameSession.DecodeStage_453A60(stage, &main_stage_idx, &bonus_stage_idx);
+    gGameSession.DecodeStage(stage, &main_stage_idx, &bonus_stage_idx);
 
     u8 og_main_stage_idx = main_stage_idx;
     u8 og_bonus_stage_idx = bonus_stage_idx;
@@ -5072,7 +5072,7 @@ void Frontend::LoadMapFilenamesFromSvg()
     }
     else
     {
-        gGameSession.DecodeStage_453A60(codified_stages, &main_stage, &bonus_stage);
+        gGameSession.DecodeStage(codified_stages, &main_stage, &bonus_stage);
     }
 
     char_type path[256];

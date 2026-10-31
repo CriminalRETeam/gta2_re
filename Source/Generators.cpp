@@ -18,7 +18,7 @@ void Generator::Activate()
     }
     else
     {
-        mCycle = gpRng->get_cur_rng_41CFE0() + 1;
+        mCycle = gpRng->get_cur_rng() + 1;
         gGeneratorPool_14AC->mKillCount++;
     }
 }
@@ -35,7 +35,7 @@ s32 Generator::next_cycle() const
     {
         result = gRng.get_int(4 * (mMaxDelay - mMinDelay)) + 4 * mMinDelay;
     }
-    return result + gpRng->get_cur_rng_41CFE0();
+    return result + gpRng->get_cur_rng();
 }
 
 MATCH_FUNC(0x4C1B10)
@@ -68,7 +68,7 @@ void Generator::SpawnObject()
                     mSpawnsLeft--;
                 }
 
-                if (pObj->IsPickup_421060())
+                if (pObj->IsPickup())
                 {
                     if (mAmmo > 0)
                     {
@@ -91,7 +91,7 @@ void Generator::SpawnObject()
                 mSpawnsLeft--;
             }
 
-            if (pObj->IsPickup_421060())
+            if (pObj->IsPickup())
             {
                 if (mAmmo > 0)
                 {
@@ -113,7 +113,7 @@ void Generator::SpawnObject()
 MATCH_FUNC(0x4c1c50)
 void Generator::Service()
 {
-    if (static_cast<u32>(gpRng->get_cur_rng_41CFE0()) >= mCycle)
+    if (static_cast<u32>(gpRng->get_cur_rng()) >= mCycle)
     {
         if (mSpawnsLeft > 0)
         {
@@ -132,7 +132,7 @@ void Generator::Init(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generator_type, s
     mGenType = generator_type;
     mMinDelay = min_delay;
     mMaxDelay = max_delay;
-    mCycle = gpRng->get_cur_rng_41CFE0() + 1;
+    mCycle = gpRng->get_cur_rng() + 1;
     mUnused20 = 1;
     mSpawnsLeft = 0;
     mAmmo = 0;
@@ -176,7 +176,7 @@ void GeneratorPool::FinalizeAfterScriptLoad()
 MATCH_FUNC(0x4c1d70)
 void GeneratorPool::GeneratorsService()
 {
-    s32 start_idx = mCountD3 * (gpRng->get_cur_rng_41CFE0() & 3);
+    s32 start_idx = mCountD3 * (gpRng->get_cur_rng() & 3);
     s32 end_idx = start_idx + mCountD3;
     if (end_idx > mCount)
     {

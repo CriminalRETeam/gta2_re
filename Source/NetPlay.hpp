@@ -254,13 +254,13 @@ struct NetPlay
     EXPORT static void static_dtor();
 
     // 9.6f 0x461DA0
-    inline u32 GetPlayerCount_461DA0()
+    inline u32 GetPlayerCount()
     {
         return mN2.mPlayersCount;
     }
 
     // 9.6f 0x409C40
-    inline s32 GetPlayerIdx_409C40()
+    inline s32 GetPlayerIdx()
     {
         return mPlayerIdx;
     }

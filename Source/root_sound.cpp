@@ -10,7 +10,7 @@ DEFINE_GLOBAL(root_sound, gRoot_sound, 0x66B038);
 MATCH_FUNC(0x40EF40)
 SoundObject* root_sound::CreateSoundObject(void* pObject, s32 objectType)
 {
-    SoundObject* pCurrent = PopFree_410730();
+    SoundObject* pCurrent = PopFree();
     pCurrent->mpAny.pAny = pObject;
     pCurrent->mbStatus = false;
     pCurrent->mObjectType = objectType;

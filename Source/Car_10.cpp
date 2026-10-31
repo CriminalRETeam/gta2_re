@@ -95,7 +95,7 @@ void Car_Door::Service(u32* pDeltaMask)
     Ped* pPed = mpObj;
     if (pPed)
     {
-        if (pPed->isDead_403B60() || !pPed->mBf21C.bLeftVehicle)
+        if (pPed->isDead() || !pPed->mBf21C.bLeftVehicle)
         {
             mpObj = NULL;
         }

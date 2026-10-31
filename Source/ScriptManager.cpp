@@ -45,10 +45,10 @@ void MissionCleanupList::MissionCleanUp()
         if (gStoredCar->mCarId == gStoredCarId)
         {
             gGame_0x40->mLocalPlayer->RemoveCarFromHistory(gStoredCar);
-            gStoredCar->SetDriverPedType_421560(ped_type::dummy_3);
-            if (!gStoredCar->IsDeactivated_4214D0())
+            gStoredCar->SetDriverPedType(ped_type::dummy_3);
+            if (!gStoredCar->IsDeactivated())
             {
-                gStoredCar->MarkForDespawn_421470();
+                gStoredCar->MarkForDespawn();
             }
             gStoredCar = NULL;
             gStoredCarId = 0;
@@ -84,10 +84,10 @@ void MissionCleanupList::MissionCleanUp()
                     if (pIter->mCar->mCarId == pIter->mEntityId)
                     {
                         gGame_0x40->mLocalPlayer->RemoveCarFromHistory(pIter->mCar);
-                        pIter->mCar->SetDriverPedType_421560(ped_type::dummy_3);
-                        if (!pIter->mCar->IsDeactivated_4214D0())
+                        pIter->mCar->SetDriverPedType(ped_type::dummy_3);
+                        if (!pIter->mCar->IsDeactivated())
                         {
-                            pIter->mCar->MarkForDespawn_421470();
+                            pIter->mCar->MarkForDespawn();
                         }
                     }
                     break;
@@ -153,9 +153,9 @@ void ScriptThread::SCRCMD_STORE_CAR_INFO_509180()
 
     if (pChar != NULL)
     {
-        if (pChar->has_car_403B80())
+        if (pChar->has_car())
         {
-            pParam2->mCar = pChar->get_car_416B60();
+            pParam2->mCar = pChar->get_car();
 
             if (gStoredCar != NULL)
             {
@@ -167,27 +167,27 @@ void ScriptThread::SCRCMD_STORE_CAR_INFO_509180()
                         {
                             gStoredCar->ReassignAllocatedCarType(car_kind::recycled_1);
                             gGame_0x40->mLocalPlayer->RemoveCarFromHistory(gStoredCar);
-                            gStoredCar->SetDriverPedType_421560(ped_type::dummy_3);
+                            gStoredCar->SetDriverPedType(ped_type::dummy_3);
 
-                            if (!gStoredCar->IsDeactivated_4214D0())
+                            if (!gStoredCar->IsDeactivated())
                             {
-                                gStoredCar->MarkForDespawn_421470();
+                                gStoredCar->MarkForDespawn();
                             }
                         }
                         else if (gCarManager_6C->CanAllocateCarOfKindWithSpare(car_kind::mission_car_8))
                         {
                             gGame_0x40->mLocalPlayer->RemoveCarFromHistory(gStoredCar);
-                            gStoredCar->SetDriverPedType_421560(ped_type::dummy_3);
+                            gStoredCar->SetDriverPedType(ped_type::dummy_3);
 
-                            if (!gStoredCar->IsDeactivated_4214D0())
+                            if (!gStoredCar->IsDeactivated())
                             {
-                                gStoredCar->MarkForDespawn_421470();
+                                gStoredCar->MarkForDespawn();
                             }
                         }
                         else
                         {
                             gGame_0x40->mLocalPlayer->RemoveCarFromHistory(gStoredCar);
-                            gStoredCar->SetDriverPedType_421560(ped_type::dummy_3);
+                            gStoredCar->SetDriverPedType(ped_type::dummy_3);
 
                             gStoredCar->DespawnSoon_421490();
                         }
@@ -200,7 +200,7 @@ void ScriptThread::SCRCMD_STORE_CAR_INFO_509180()
 
                     if (!gPublicTransport_181C->is_bus(pParam2->mCar))
                     {
-                        pParam2->mCar->LockoutThiefUnlessPermanent_475C40();
+                        pParam2->mCar->LockoutThiefUnlessPermanent();
                     }
                 }
             }
@@ -354,7 +354,7 @@ void ScriptManager::SaveGame(const char_type* pFileName)
            &gObject_5C->mUncollectedTokens,
            50u);
 
-    gGameSave.mObjectData.mSecretTokensCollected = gGameSession.get_secret_tokens_collected_453A80();
+    gGameSave.mObjectData.mSecretTokensCollected = gGameSession.get_secret_tokens_collected();
 
     u16** pColData;
     u32 colBytes;
@@ -442,7 +442,7 @@ void ScriptManager::LoadSave(const char_type* pFileName)
            gGameSave.mObjectData.mObj5CBUnCollectedTokens,
            sizeof(gObject_5C->mUncollectedTokens));
 
-    gGameSession.set_secret_tokens_collected_476B10(gGameSave.mObjectData.mSecretTokensCollected);
+    gGameSession.set_secret_tokens_collected(gGameSave.mObjectData.mSecretTokensCollected);
     mbLoadedFromSave = true;
 }
 
@@ -863,14 +863,14 @@ bool ScriptManager::TestAndRecordWeaponHit(s32 id, char_type weapon_idx, bool bI
             {
                 if (bIsPed)
                 {
-                    if (IsPedCheck_4759C0(pTable))
+                    if (IsPedCheck(pTable))
                     {
                         return true;
                     }
                 }
                 else
                 {
-                    if (IsCarCheck_4759A0(pTable))
+                    if (IsCarCheck(pTable))
                     {
                         return true;
                     }
@@ -907,7 +907,7 @@ void ScriptManager::ClearWeaponHitFlag(s32 id, bool bIsPed)
         {
             if (bIsPed)
             {
-                if (IsPedCheck_4759C0(pTable))
+                if (IsPedCheck(pTable))
                 {
                     // je clear; jmp next in the original: the shared tail needs a goto (duplicated
                     // bodies, early continue/return and a combined condition all change the code)
@@ -915,7 +915,7 @@ void ScriptManager::ClearWeaponHitFlag(s32 id, bool bIsPed)
                 }
                 continue;
             }
-            if (!IsCarCheck_4759A0(pTable))
+            if (!IsCarCheck(pTable))
             {
                 continue;
             }
@@ -945,7 +945,7 @@ void ScriptManager::RecordWeaponHit(s32 entity_id, s32 projectile_model, bool bI
             {
                 if (bIsPed)
                 {
-                    if (IsPedCheck_4759C0(pTable))
+                    if (IsPedCheck(pTable))
                     {
                         // je set; jmp next in the original: the shared tail needs a goto (duplicated
                         // bodies, early continue/return and a combined condition all change the code)
@@ -953,7 +953,7 @@ void ScriptManager::RecordWeaponHit(s32 entity_id, s32 projectile_model, bool bI
                     }
                     return;
                 }
-                if (!IsCarCheck_4759A0(pTable))
+                if (!IsCarCheck(pTable))
                 {
                     return;
                 }
@@ -979,16 +979,16 @@ bool ScriptManager::IsWeaponHitRecorded(s32 id, char_type weapon_idx, bool bIsPe
             {
                 if (bIsPed)
                 {
-                    if (IsPedCheck_4759C0(pTable))
+                    if (IsPedCheck(pTable))
                     {
-                        return IsCheckHit_475980(pTable);
+                        return IsCheckHit(pTable);
                     }
                 }
                 else
                 {
-                    if (IsCarCheck_4759A0(pTable))
+                    if (IsCarCheck(pTable))
                     {
-                        return IsCheckHit_475980(pTable);
+                        return IsCheckHit(pTable);
                     }
                 }
             }
