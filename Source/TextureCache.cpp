@@ -8,8 +8,6 @@
 #include "memory.hpp"
 
 DEFINE_GLOBAL(TextureCache*, gTextureCache_15D8_705064, 0x705064);
-DEFINE_GLOBAL(u32, gRemappedSpriteCounter_704ED0, 0x704ED0);
-DEFINE_GLOBAL(u32, gRemappedTextureCounter_704F28, 0x704F28);
 
 MATCH_FUNC(0x5B8E90)
 void RemapTextureSet::Alloc_5B8E90(s16 sprite_count, s16 remaps_per_sprite, s32 sprite_type, s32 pal_type)
@@ -57,6 +55,8 @@ void RemapTextureSet::LoadTextures_5B8F00()
 MATCH_FUNC(0x5B8F70)
 void RemapTextureSet::LoadRemappedTextures_5B8F70()
 {
+    LOCAL_STATIC(u32, sRemappedSpriteCounter, 0x704ED0);
+    LOCAL_STATIC(u32, sRemappedTextureCounter, 0x704F28);
     if (field_10_bDoFree)
     {
         const u32 palTotal = field_4_texture_count / field_6_remaps_per_sprite;
@@ -65,7 +65,7 @@ void RemapTextureSet::LoadRemappedTextures_5B8F70()
             const u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_8_sprite_type, pal_idx);
             sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
 
-            gRemappedSpriteCounter_704ED0++;
+            sRemappedSpriteCounter++;
 
             for (u32 texture_idx = 0; texture_idx < field_6_remaps_per_sprite; texture_idx++)
             {
@@ -74,7 +74,7 @@ void RemapTextureSet::LoadRemappedTextures_5B8F70()
                 field_0_pTextures[texture_idx + (pal_idx * field_6_remaps_per_sprite)] =
                     pgbh_RegisterTexture(pSpriteIndex->field_4_width, pSpriteIndex->field_5_height, pSpriteIndex->field_0_pData, physPal, 1);
 
-                gRemappedTextureCounter_704F28++;
+                sRemappedTextureCounter++;
             }
         }
     }
