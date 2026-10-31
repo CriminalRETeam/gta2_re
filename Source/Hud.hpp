@@ -252,7 +252,7 @@ class Hud_TextEntry
     }
 
     // 9.6f 0x45AFD0
-    void SetDrawKind8_45AFD0(s16 palette)
+    void SetFontRemap_45AFD0(s16 palette)
     {
         field_B0_drawKind = 8;
         field_B4_palette = palette;

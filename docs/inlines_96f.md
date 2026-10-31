@@ -230,7 +230,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x554110 | `PathFinder::CanMoveToAdjacentTile_554110` | 0x49CB60 | ✓ `sub_466CF0` | matched | all 9.6f inlines used |
 | 0x554AB0 | `PathFinder::save_find_554AB0` | 0x49CF70 | ✓ `sub_466CF0` | done | all 9.6f inlines used |
 | 0x5552B0 | `PathFinder::maybe_find_5552B0` | 0x49D7A0 | ✓ `sub_466CF0`, ✓ `sub_420420` | done | all 9.6f inlines used |
-| 0x559430 | `CarPhysics::ShowPhysicsDebug_559430` | 0x4A1DA0 | ✓ `sub_49E240`, ✓ `Hud_TextEntry::sub_45AFD0` | inlines added | ThetaText_49E240 + Hud_TextEntry::SetDrawKind8_45AFD0 (no change); left: the lea of the DisplayText this is scheduled early in the theta call and late in the rear-skid call |
+| 0x559430 | `CarPhysics::ShowPhysicsDebug_559430` | 0x4A1DA0 | ✓ `sub_49E240`, ✓ `Hud_TextEntry::SetFontRemap_45AFD0` | inlines added | ThetaText_49E240 + Hud_TextEntry::SetFontRemap_45AFD0 (no change); left: the lea of the DisplayText this is scheduled early in the theta call and late in the rear-skid call |
 | 0x55A1D0 | `CarPhysics::SetVelocityTowardTarget_55A1D0` | 0x49F760 | ✓ `sub_40F6B0`, `sub_40F600`, `sub_40F580` | checked | 40F600 = Point - (40AC80 called), 40F580 = Ang16_to_Fix16 (already) |
 | 0x55AB50 | `CarPhysics::ComputeSlopeCorrection_55AB50` | 0x49FBE0 | ✓ `IsTrailerCar_421720`, `sub_40F600`, `sub_4634E0`, ✓ `sub_42A630` | matched | IsTrailerCar_421720 used; 4634E0 skipped (map globals, 10.5 uses CarPhysics copies); 40F600 = Point - ; diff 96->96 |
 | 0x55B7E0 | `EmitImpactParticles_55B7E0` | 0x49FF80 | ✓ `IsMaxDamage_40F890`, `sub_4102A0` (10.5 0x40BD10) | checked | 4102A0 pairs with CollisionTarget AddBlockCollision_40BD10; 10.5 calls AddFloorCollision_40BC40 (pairing noise) |
@@ -627,7 +627,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4B8C40 | `Game::LoadGameFiles_4B8C40` | 0x45B470 | `sub_410550`, ✓ `GameSession::sub_45B420`, `sub_4B5420` | checked | clear_secret_tokens_collected = 9.6f 0x45B420 (already used, comment added); sub_410550 is a thunk on an unknown 9.6f global (0x5DCBC8), sub_4B5420 a large callee |
 | 0x4B8EB0 | `Game::BootGame_4B8EB0` | 0x45B5F0 | `Game::sub_45ACE0`, `FatalError_450530` (10.5 0x4A38C0), `sub_4CAC30`, `Map_0x370::sub_46A4D0`, `Map_0x370::sub_4692B0` | checked | 9.6f has `if (!bStartNetworkGame && !Game::sub_45ACE0()) FatalError(0x48, ..., 0x283)` with sub_45ACE0 returning true; 10.5 drops it as dead code, so nothing to add; other callees are 10.5 calls |
 | 0x4B8FF0 | `Game::ShowCounters_4B8FF0` | 0x45B750 | ✓ `CarPool::get_cars_count_45AD30`, ✓ `PlayerScoreTracker::get_accuracy_count_45B0A0`, ✓ `PlayerScoreTracker::get_reverse_count_45B0B0`, ✓ `cool_nash_0x294::get_cam_x_403A00`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0) | done | CarPool::get_cars_count_45AD30 (new), get_cam_x/y; code unchanged |
-| 0x4B9270 | `Game::ShowDebugOverlay_4B9270` | 0x45BA10 | ✓ `Hud_TextEntry::sub_45AFD0` | done | Hud_TextEntry::SetDrawKind8_45AFD0; code unchanged |
+| 0x4B9270 | `Game::ShowDebugOverlay_4B9270` | 0x45BA10 | ✓ `Hud_TextEntry::SetFontRemap_45AFD0` | done | Hud_TextEntry::SetFontRemap_45AFD0; code unchanged |
 | 0x4B92D0 | `Game::Draw_4B92D0` | 0x45A5A0 | `SpriteRenderer::sub_44B890`, `SpriteGrid::sub_447390`, `Nanobotz::Draw_472110` | checked | SpriteRenderer::sub_44B890/SpriteGrid::sub_447390/Nanobotz::Draw_472110 correspond to the 10.5 calls the source already makes (ResetAll_4954F0, DrawSpritesClipped_477A40, ...) |
 | 0x4B9410 | `Game::UpdateGame_4B9410` | 0x45C1F0 | ✓ `LightPool::sub_45C1E0`, `Object_5C::sub_487F50`, `ScriptManager::sub_481900`, `ParticleManager::sub_491CE0`, `sub_4C3590`, `CokeZero_100::sub_4B9260` | checked | callees are global thunks (Light sub_45C1E0 already used, others map to the 10.5 service calls in the source) |
 | 0x4B9750 | `Game::GetFirstPlayerWithoutPed_4B9750` | 0x45BAB0 | ✓ `angry_lewin_0x85C::sub_45B0C0` | done | Player::has_player_ped_45B0C0; code unchanged |
@@ -1142,7 +1142,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x5CBC90 | `EmergencyCrew::ReplaceLeaderIfNeeded_5CBC90` | 0x4C5510 | ✓ `cool_nash_0x294::sub_403990`, ✓ `cool_nash_0x294::get_occupation_403980`, ✓ `cool_nash_0x294::set_occupation_403970` | done | all 9.6f inlines used |
 | 0x5CC1C0 | `EmergencyCrew::CleanupExpiredEntities_5CC1C0` | 0x4C5A00 | ✓ `sub_4215B0`, ✓ `IsMaxDamage_40F890`, ✓ `sub_4A9AD0`, ✓ `sub_421470`, ✓ `cool_nash_0x294::sub_4039F0`, ✓ `cool_nash_0x294::sub_403B60`, ✓ `cool_nash_0x294::set_occupation_403970`, ✓ `cool_nash_0x294::sub_403A30` | done | all 9.6f inlines used |
 | 0x5CF910 | `Hud_UnderRoofArrowMarker::Draw_5CF910` | 0x4C74A0 | ✓ `angry_lewin_0x85C::get_camera_434900` | done | Player::get_camera_434900; Still matches. |
-| 0x5CF970 | `Hud_ShowCoords::sub_5CF970` | 0x4CA680 | ✓ `sub_4A5150`, ✓ `angry_lewin_0x85C::sub_4766D0`, ✓ `cool_nash_0x294::sub_416B50`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `cool_nash_0x294::get_cam_x_403A00`, ✓ `Hud_TextEntry::sub_45AFD0` | done | Hud_TextEntry::SetDrawKind8_45AFD0; Still matches. |
+| 0x5CF970 | `Hud_ShowCoords::sub_5CF970` | 0x4CA680 | ✓ `sub_4A5150`, ✓ `angry_lewin_0x85C::sub_4766D0`, ✓ `cool_nash_0x294::sub_416B50`, ✓ `cool_nash_0x294::get_cam_y_403A10` (10.5 0x4086A0), ✓ `cool_nash_0x294::get_cam_x_403A00`, ✓ `Hud_TextEntry::SetFontRemap_45AFD0` | done | Hud_TextEntry::SetFontRemap_45AFD0; Still matches. |
 | 0x5D00B0 | `Hud_CopHead_C_Array::UpdateWantedLevel_5D00B0` | 0x4C79D0 | ✓ `sub_41D020` | done | all 9.6f inlines used |
 | 0x5D0260 | `Hud_Health::DrawHealth_5D0260` | 0x4C7B70 | ✓ `sub_41D020`, ✓ `sub_433B70` | done | all 9.6f inlines used |
 | 0x5D03C0 | `ArrowTrace::PointToInfoPhone_5D03C0` | 0x4C7CC0 | ✓ `sub_4767C0` | done | all 9.6f inlines used |
@@ -1584,7 +1584,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x453AA0 | `sub_453AA0` | 11 |  | Source/TagGame.hpp:42 | 1/1 | todo |  |
 | 0x453AB0 | `sub_453AB0` | 169 |  | Source/Frontend.cpp:375, Source/TagGame.hpp:48 | 1/0 | todo |  |
 | 0x453D40 | `sub_453D40` | 49 |  |  | 1/0 | todo |  |
-| 0x45AFD0 | `Hud_TextEntry::sub_45AFD0` | 25 |  | Source/Hud.hpp:246 | 1/2 | todo |  |
+| 0x45AFD0 | `Hud_TextEntry::SetFontRemap_45AFD0` | 25 |  | Source/Hud.hpp:246 | 1/2 | todo |  |
 | 0x45DD50 | `Zone_144::sub_45DD50` | 12 |  | Source/Gang.hpp:12 | 1/2 | todo |  |
 | 0x460CC0 | `sub_460CC0` | 105 |  |  | 1/0 | todo |  |
 | 0x460D30 | `sub_460D30` | 105 |  |  | 1/0 | todo |  |

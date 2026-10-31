@@ -266,7 +266,7 @@ void Hud_ShowCoords::ShowPlayerCoords_5CF970()
                  pZoneName);
 
         Hud_TextEntry* pTextEntry = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, -1, 16, gPickupTextFont_7064B8, 1);
-        pTextEntry->SetDrawKind8_45AFD0(0);
+        pTextEntry->SetFontRemap_45AFD0(0);
     }
 }
 
