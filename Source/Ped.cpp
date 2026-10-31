@@ -102,26 +102,26 @@ DEFINE_GLOBAL_INIT(Fix16, kFpZero_678660, Fix16(0), 0x678660);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_678438, kFpZero_678660, 0x678438);
 DEFINE_GLOBAL_INIT(Fix16, gDistanceToTarget_678750, kFpZero_678660, 0x678750);
 DEFINE_GLOBAL_INIT(Fix16, kFpSix_678678, Fix16(6), 0x678678);
-DEFINE_GLOBAL_INIT(Fix16, kFpSix_678520, kFpSix_678678, 0x678520);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpSix, kFpSix_678678, 0x678520);
 DEFINE_GLOBAL_INIT(Fix16, kFpFour_678670, Fix16(4), 0x678670);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6784C4, Fix16(256, 0), 0x6784C4);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneSixteenth_678448, kFpFour_678670* kFpOne64th_6784C4, 0x678448);
-DEFINE_GLOBAL_INIT(Fix16, kFpHalf_678790, kFpOne64th_6784C4 * 32, 0x678790);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpHalf, kFpOne64th_6784C4 * 32, 0x678790);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneEighth_6784E8, kFpOne64th_6784C4 * 8, 0x6784E8);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneThirtySecond_6784CC, kFpOne64th_6784C4 * 2, 0x6784CC);
-DEFINE_GLOBAL_INIT(Fix16, kFpOneThirtySecond_678434, kFpOneThirtySecond_6784CC, 0x678434);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpOneThirtySecond, kFpOneThirtySecond_6784CC, 0x678434);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne256th_678620, kFpOne64th_6784C4 / kFpFour_678670, 0x678620);
-DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_678788, kFpOne64th_6784C4 * 16, 0x678788);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpQuarter, kFpOne64th_6784C4 * 16, 0x678788);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_678664, Fix16(1), 0x678664);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_6785EC, kFpOne_678664, 0x6785EC);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint01_678624, Fix16(0xA3, 0), 0x678624);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_67853C, Fix16(0x2000, 0), 0x67853C);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint05_678634, Fix16(0x333, 0), 0x678634);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_678480, Fix16(0x666, 0), 0x678480);
-DEFINE_GLOBAL_INIT(Fix16, kFpPoint9_6784A4, Fix16(0x3999, 0), 0x6784A4);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint9, Fix16(0x3999, 0), 0x6784A4);
 DEFINE_GLOBAL_INIT(Ang16, kAng45_6784FC, Ang16(180), 0x6784FC);
-DEFINE_GLOBAL_INIT(Ang16, kAng180_678590, Ang16(720), 0x678590);
-DEFINE_GLOBAL_INIT(Fix16, kFpThreeThirtySeconds_6784DC, kFpOne64th_6784C4 * 6, 0x6784DC);
+DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng180, Ang16(720), 0x678590);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpThreeThirtySeconds, kFpOne64th_6784C4 * 6, 0x6784DC);
 DEFINE_GLOBAL_INIT(Fix16, kFpTwo_678668, Fix16(2), 0x678668);
 DEFINE_GLOBAL_INIT(Fix16, gSpawnJitterScale_678618, Fix16(256, 0), 0x678618);
 DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_678484, Fix16(0x1000, 0), 0x678484);
@@ -130,43 +130,43 @@ DEFINE_GLOBAL(Ped*, gLastProcessedPed_6787C0, 0x6787C0);
 DEFINE_GLOBAL_INIT(Fix16, gDummyW_678530, kFpPoint2_678488, 0x678530);
 DEFINE_GLOBAL_INIT(Fix16, gDummyZ_67841C, kFpQuarter_678484, 0x67841C);
 DEFINE_GLOBAL(char_type, gNumberBusCustomers_6787D3, 0x6787D3);
-DEFINE_GLOBAL_INIT(Fix16, kFpOneSixth_678504, Fix16(0xAAA, 0), 0x678504);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpOneSixth, Fix16(0xAAA, 0), 0x678504);
 DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_678574, kFpQuarter_678484, 0x678574);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneEighth_67845C, kFpQuarter_678574 / kFpTwo_678668, 0x67845C);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_678798, kFpOne64th_6784C4 * 64, 0x678798);
 DEFINE_GLOBAL_INIT(Fix16, kFpTwo_678658, kFpOne64th_6784C4 * 128, 0x678658);
-DEFINE_GLOBAL_INIT(Fix16, kFpFour_678680, kFpOne64th_6784C4 * 256, 0x678680);
-DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_678430, kFpOne64th_6784C4, 0x678430);
-DEFINE_GLOBAL_INIT(Fix16, kFp9999_678524, Fix16(9999), 0x678524);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpFour, kFpOne64th_6784C4 * 256, 0x678680);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpOne64th, kFpOne64th_6784C4, 0x678430);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFp9999, Fix16(9999), 0x678524);
 
 DEFINE_GLOBAL_INIT(s16, gPedOffscreenDespawnTime_678656, 40, 0x678656);
 DEFINE_GLOBAL(u8, gNumberArmedGangMembers_6787CE, 0x6787CE);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint8_6784A0, Fix16(0x3333, 0), 0x6784A0);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne128th_6784BC, kFpOne64th_6784C4 / kFpTwo_678668, 0x6784BC);
-DEFINE_GLOBAL_INIT(Fix16, kFpThreeSixtyFourths_678444, kFpThree_67866C * kFpOne64th_6784C4, 0x678444);
-DEFINE_GLOBAL_INIT(Fix16, kFpFiveSixteenths_678784, kFpOne64th_6784C4 * 20, 0x678784);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpThreeSixtyFourths, kFpThree_67866C * kFpOne64th_6784C4, 0x678444);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpFiveSixteenths, kFpOne64th_6784C4 * 20, 0x678784);
 
-DEFINE_GLOBAL_INIT(Ang16, kAng10_6784C8, Ang16(40), 0x6784C8);
+DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng10, Ang16(40), 0x6784C8);
 DEFINE_GLOBAL_INIT(Ang16, kAng16_6784E4, Ang16(64), 0x6784E4);
 DEFINE_GLOBAL_INIT(Ang16, gSearchConeHalfAngle_6784F0, Ang16(0), 0x6784F0);
 
-DEFINE_GLOBAL_INIT(Ang16, kAng90_678502, Ang16(360), 0x678502);
+DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng90, Ang16(360), 0x678502);
 DEFINE_GLOBAL_INIT(Ang16, kAng270_6785D0, Ang16(1080), 0x6785D0);
 DEFINE_GLOBAL_INIT(Ang16, kAng225_6786B8, Ang16(900), 0x6786B8);
-DEFINE_GLOBAL_INIT(Ang16, kAng45_6784E2, Ang16(180), 0x6784E2);
+DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng45, Ang16(180), 0x6784E2);
 DEFINE_GLOBAL_INIT(Ang16, kAng315_6785A8, Ang16(1260), 0x6785A8);
-DEFINE_GLOBAL_INIT(Ang16, kAng135_67844C, Ang16(540), 0x67844C);
+DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng135, Ang16(540), 0x67844C);
 
-DEFINE_GLOBAL_INIT(Fix16, kFpPoint2_67856C, kFpPoint2_678488, 0x67856C);
-DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_678428, kFpPoint1_678480, 0x678428);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint2, kFpPoint2_678488, 0x67856C);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint1, kFpPoint1_678480, 0x678428);
 
-DEFINE_GLOBAL_INIT(Fix16, kFpFiveThirtySeconds_678778, kFpOne64th_6784C4 * 10, 0x678778);
-DEFINE_GLOBAL_INIT(Fix16, kFpThreeQuarters_678794, kFpOne64th_6784C4 * 48, 0x678794);
-DEFINE_GLOBAL_INIT(Fix16, kFpPoint02_678630, Fix16(0x147, 0), 0x678630);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpFiveThirtySeconds, kFpOne64th_6784C4 * 10, 0x678778);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpThreeQuarters, kFpOne64th_6784C4 * 48, 0x678794);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint02, Fix16(0x147, 0), 0x678630);
 
 EXTERN_GLOBAL(Ang16, kAng180_6785A6);
-DEFINE_GLOBAL_INIT(Fix16, kFpThreeSixteenths_678780, kFpOne64th_6784C4 * 12, 0x678780);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpThreeSixteenths, kFpOne64th_6784C4 * 12, 0x678780);
 DEFINE_GLOBAL_INIT(Ang16, kAng90_6784B0, Ang16(360), 0x6784B0); // TODO: Init via 0x45FAA0 func
 
 EXTERN_GLOBAL(u8, bHaveThreateningPeds_6787DA);
@@ -174,16 +174,16 @@ EXTERN_GLOBAL(u8, gPathStepSlotFree_61A8A1);
 
 EXTERN_GLOBAL(PixelsToFix16Table, gPixelsToFix16_6F6850);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_6FD824, Fix16(0x666, 0), 0x6FD824);
-DEFINE_GLOBAL_INIT(Fix16, kFpPoint06_6FD9C8, Fix16(0x3D7, 0), 0x6FD9C8);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint06, Fix16(0x3D7, 0), 0x6FD9C8);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint02_6FD9AC, Fix16(0x147, 0), 0x6FD9AC);
-DEFINE_GLOBAL_INIT(Fix16, kFpPoint08_6FD9D4, Fix16(0x51E, 0), 0x6FD9D4);
-DEFINE_GLOBAL_INIT(Fix16, kFpPoint04_6FD9B8, Fix16(0x28F, 0), 0x6FD9B8);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint08, Fix16(0x51E, 0), 0x6FD9D4);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint04, Fix16(0x28F, 0), 0x6FD9B8);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint3_6FD830, Fix16(0x1333, 0), 0x6FD830);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpFive_678674, Fix16(5), 0x678674);
-DEFINE_GLOBAL_INIT(Fix16, kFpThreeEighths_67878C, kFpOne64th_6784C4 * 24, 0x67878C);
-DEFINE_GLOBAL_INIT(Fix16, kFpEight_6786C0, kFpOne64th_6784C4 * 512, 0x6786C0);
-DEFINE_GLOBAL_INIT(Fix16, kFpFiveSixtyFourths_67843C, kFpFive_678674 * kFpOne64th_6784C4, 0x67843C);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpThreeEighths, kFpOne64th_6784C4 * 24, 0x67878C);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpEight, kFpOne64th_6784C4 * 512, 0x6786C0);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpFiveSixtyFourths, kFpFive_678674 * kFpOne64th_6784C4, 0x67843C);
 
 EXTERN_GLOBAL(Fix16, gCharB4_WorldCollisionOffset_6FD8D8);
 EXTERN_GLOBAL(Fix16, kFpOne_6FDB20);
@@ -259,22 +259,22 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
                             x_pos -= kFpPoint2_6FD82C;
                             break;
                         case 1:
-                            x_pos -= kFpPoint1_6FD824 + kFpPoint06_6FD9C8;
+                            x_pos -= kFpPoint1_6FD824 + kFpPoint06;
                             break;
                         case 2:
                             x_pos -= kFpPoint1_6FD824 + kFpPoint02_6FD9AC;
                             break;
                         case 3:
-                            x_pos -= kFpPoint08_6FD9D4;
+                            x_pos -= kFpPoint08;
                             break;
                         case 4:
-                            x_pos -= kFpPoint04_6FD9B8;
+                            x_pos -= kFpPoint04;
                             break;
                         case 6:
-                            x_pos += kFpPoint04_6FD9B8;
+                            x_pos += kFpPoint04;
                             break;
                         case 7:
-                            x_pos += kFpPoint08_6FD9D4;
+                            x_pos += kFpPoint08;
                             break;
                         default:
                             break;
@@ -290,22 +290,22 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
                         y_pos += kFpPoint2_6FD82C;
                         break;
                     case 1:
-                        y_pos += kFpPoint1_6FD824 + kFpPoint06_6FD9C8;
+                        y_pos += kFpPoint1_6FD824 + kFpPoint06;
                         break;
                     case 2:
                         y_pos += kFpPoint1_6FD824 + kFpPoint02_6FD9AC;
                         break;
                     case 3:
-                        y_pos += kFpPoint08_6FD9D4;
+                        y_pos += kFpPoint08;
                         break;
                     case 4:
-                        y_pos += kFpPoint04_6FD9B8;
+                        y_pos += kFpPoint04;
                         break;
                     case 6:
-                        y_pos -= kFpPoint04_6FD9B8;
+                        y_pos -= kFpPoint04;
                         break;
                     case 7:
-                        y_pos -= kFpPoint06_6FD9C8;
+                        y_pos -= kFpPoint06;
                         break;
                     default:
                         break;
@@ -361,22 +361,22 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
                         break;
                     case 9:
                         y_pos -= kFpPoint02_6FD9AC + kFpPoint1_6FD824;
-                        x_pos -= kFpPoint04_6FD9B8;
+                        x_pos -= kFpPoint04;
                         outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 10:
                         y_pos -= kFpPoint02_6FD9AC + kFpPoint1_6FD824;
-                        x_pos -= kFpPoint04_6FD9B8;
+                        x_pos -= kFpPoint04;
                         outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 11:
                         y_pos -= kFpPoint02_6FD9AC + kFpPoint1_6FD824;
-                        x_pos -= kFpPoint04_6FD9B8;
+                        x_pos -= kFpPoint04;
                         outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 12:
                         y_pos -= kFpPoint02_6FD9AC + kFpPoint1_6FD824;
-                        x_pos -= kFpPoint04_6FD9B8;
+                        x_pos -= kFpPoint04;
                         outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 99:
@@ -407,22 +407,22 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
                         x_pos += kFpPoint2_6FD82C;
                         break;
                     case 1:
-                        x_pos += kFpPoint1_6FD824 + kFpPoint06_6FD9C8;
+                        x_pos += kFpPoint1_6FD824 + kFpPoint06;
                         break;
                     case 2:
                         x_pos += kFpPoint1_6FD824 + kFpPoint02_6FD9AC;
                         break;
                     case 3:
-                        x_pos += kFpPoint08_6FD9D4;
+                        x_pos += kFpPoint08;
                         break;
                     case 4:
-                        x_pos += kFpPoint04_6FD9B8;
+                        x_pos += kFpPoint04;
                         break;
                     case 6:
-                        x_pos -= kFpPoint04_6FD9B8;
+                        x_pos -= kFpPoint04;
                         break;
                     case 7:
-                        x_pos -= kFpPoint08_6FD9D4;
+                        x_pos -= kFpPoint08;
                         break;
                     default:
                         break;
@@ -477,7 +477,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
                     case 11:
                     case 12:
                         y_pos -= kFpPoint1_6FD824;
-                        x_pos += kFpPoint04_6FD9B8;
+                        x_pos += kFpPoint04;
                         outAng = pCar->field_50_car_sprite->field_0_rotation + kAng90_6FD854;
                         break;
                     case 99:
@@ -507,7 +507,7 @@ EXPORT bool __stdcall abs_sub_less_than_epislon_45AE40(Fix16 lhs, Fix16 rhs)
         return true;
     }
 
-    if (Fix16::Abs(lhs - rhs) < kFpPoint9_6784A4)
+    if (Fix16::Abs(lhs - rhs) < kFpPoint9)
     {
         return true;
     }
@@ -661,7 +661,7 @@ void Ped::Reset_45AFC0()
     field_21C_bf.bLeftVehicle = false;
     field_210_shock_counter = 0;
     field_212_electrocution_threshold = 100;
-    field_1F4_walk_speed = kFpOneThirtySecond_678434;
+    field_1F4_walk_speed = kFpOneThirtySecond;
     field_1F0_max_speed = kFpOneSixteenth_678448;
     field_268_electrocution_timer = 0;
     field_198_hit_target_ped = NULL;
@@ -2875,7 +2875,7 @@ void Ped::Mugger_AI_45F360()
             break;
 
         case objectives_enum::wait_on_foot_26:
-            field_12C_facing_angle + kAng180_678590; // non used
+            field_12C_facing_angle + kAng180; // non used
             field_21C_bf.bAttacking = true;
             Ped::SetObjective(objectives_enum::flee_on_foot_till_safe_1);
             field_1DC_objective_target_x = field_1AC_cam.x;
@@ -3014,7 +3014,7 @@ void Ped::CarThief_AI_45FF60()
             xd = Fix16::Abs(xd);
             yd = Fix16::Abs(yd);
             // The larger of the two, picked through a pointer
-            if (*(xd > yd ? &xd : &yd) > kFpFour_678680)
+            if (*(xd > yd ? &xd : &yd) > kFpFour)
             {
                 SetObjective(objectives_enum::no_obj_0);
                 SetObjective2_463830(objectives_enum::no_obj_0);
@@ -3621,12 +3621,12 @@ void Ped::UpdateFacingAngle_461A60()
             {
                 this->field_130_target_facing_angle = Fix16::atan2_fixed_405320(this->field_1C8_move_target_y - this->field_1AC_cam.y, this->field_1C4_move_target_x - this->field_1AC_cam.x);
 
-                if (gKeepPaceWithTarget_6787C4 && this->field_14C_internal_target_ped && gDistanceToTarget_678750 < kFpThreeSixteenths_678780 &&
+                if (gKeepPaceWithTarget_6787C4 && this->field_14C_internal_target_ped && gDistanceToTarget_678750 < kFpThreeSixteenths &&
                     ComputeShortestAngleDelta_4056C0(field_130_target_facing_angle, field_12C_facing_angle) > kAng90_6784B0)
                 {
                     field_130_target_facing_angle = this->field_12C_facing_angle;
                     this->field_168_game_object->SetVelocity_433920(field_14C_internal_target_ped->GetPedVelocity_45C920() -
-                                                                     kFpOne64th_678430);
+                                                                     kFpOne64th);
                     return;
                 }
 
@@ -5281,12 +5281,12 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
     {
         angle = field_14C_internal_target_ped->field_168_game_object->get_rotation_433A40();
         angle += kAng180_6785A6;
-        radius = kFpThreeEighths_67878C;
+        radius = kFpThreeEighths;
     }
     else
     {
         angle = gDummyPedAng_6787A8;
-        radius = kFpHalf_678790;
+        radius = kFpHalf;
     }
 
     // Comma form here and in the switch: braces would grow the caller size the inline budget is computed from
@@ -5299,9 +5299,9 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
         switch (field_23C_group_idx)
         {
             case 0:
-                angle += kAng90_678502;
+                angle += kAng90;
                 if (bHurtByAttackingLeader)
-                    angle += kAng180_6785A6, radius = kFpThreeQuarters_678794;
+                    angle += kAng180_6785A6, radius = kFpThreeQuarters;
                 Ang16::PolarToCartesian_41FC20(angle, radius, vec_x, vec_y);
                 field_1C4_move_target_x += vec_x;
                 field_1C8_move_target_y += vec_y;
@@ -5309,7 +5309,7 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
             case 1:
                 angle += kAng270_6785D0;
                 if (bHurtByAttackingLeader)
-                    angle += kAng180_6785A6, radius = kFpThreeQuarters_678794;
+                    angle += kAng180_6785A6, radius = kFpThreeQuarters;
                 Ang16::PolarToCartesian_41FC20(angle, radius, vec_x, vec_y);
                 field_1C4_move_target_x += vec_x;
                 field_1C8_move_target_y += vec_y;
@@ -5317,7 +5317,7 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
             case 2:
                 angle = angle + kAng180_6785A6;
                 if (bHurtByAttackingLeader)
-                    angle += kAng180_6785A6, radius = kFpThreeQuarters_678794;
+                    angle += kAng180_6785A6, radius = kFpThreeQuarters;
                 Ang16::PolarToCartesian_41FC20(angle, radius, vec_x, vec_y);
                 field_1C4_move_target_x += vec_x;
                 field_1C8_move_target_y += vec_y;
@@ -5325,26 +5325,26 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
             case 3:
                 Ang16::PolarToCartesian_41FC20(angle, radius, vec_x, vec_y);
                 if (bHurtByAttackingLeader)
-                    angle += kAng180_6785A6, radius = kFpThreeQuarters_678794;
+                    angle += kAng180_6785A6, radius = kFpThreeQuarters;
                 field_1C4_move_target_x += vec_x;
                 field_1C8_move_target_y += vec_y;
                 break;
             case 4:
                 angle += kAng225_6786B8;
                 if (bHurtByAttackingLeader)
-                    angle += kAng180_6785A6, radius = kFpThreeQuarters_678794;
+                    angle += kAng180_6785A6, radius = kFpThreeQuarters;
                 else
-                    radius = kFpThreeEighths_67878C;
+                    radius = kFpThreeEighths;
                 Ang16::PolarToCartesian_41FC20(angle, radius, vec_x, vec_y);
                 field_1C4_move_target_x += vec_x;
                 field_1C8_move_target_y += vec_y;
                 break;
             case 5:
-                angle += kAng45_6784E2;
+                angle += kAng45;
                 if (bHurtByAttackingLeader)
-                    angle += kAng180_6785A6, radius = kFpThreeQuarters_678794;
+                    angle += kAng180_6785A6, radius = kFpThreeQuarters;
                 else
-                    radius = kFpThreeEighths_67878C;
+                    radius = kFpThreeEighths;
                 Ang16::PolarToCartesian_41FC20(angle, radius, vec_x, vec_y);
                 field_1C4_move_target_x += vec_x;
                 field_1C8_move_target_y += vec_y;
@@ -5352,19 +5352,19 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
             case 6:
                 angle += kAng315_6785A8;
                 if (bHurtByAttackingLeader)
-                    angle += kAng180_6785A6, radius = kFpThreeQuarters_678794;
+                    angle += kAng180_6785A6, radius = kFpThreeQuarters;
                 else
-                    radius = kFpThreeEighths_67878C;
+                    radius = kFpThreeEighths;
                 Ang16::PolarToCartesian_41FC20(angle, radius, vec_x, vec_y);
                 field_1C4_move_target_x += vec_x;
                 field_1C8_move_target_y += vec_y;
                 break;
             case 7:
-                angle += kAng135_67844C;
+                angle += kAng135;
                 if (bHurtByAttackingLeader)
-                    angle += kAng180_6785A6, radius = kFpThreeQuarters_678794;
+                    angle += kAng180_6785A6, radius = kFpThreeQuarters;
                 else
-                    radius = kFpThreeEighths_67878C;
+                    radius = kFpThreeEighths;
                 Ang16::PolarToCartesian_41FC20(angle, radius, vec_x, vec_y);
                 field_1C4_move_target_x += vec_x;
                 field_1C8_move_target_y += vec_y;
@@ -5372,9 +5372,9 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
             default:
                 angle += kAng225_6786B8;
                 if (bHurtByAttackingLeader)
-                    angle += kAng180_6785A6, radius = kFpThreeQuarters_678794;
+                    angle += kAng180_6785A6, radius = kFpThreeQuarters;
                 else
-                    radius = kFpThreeEighths_67878C;
+                    radius = kFpThreeEighths;
                 Ang16::PolarToCartesian_41FC20(angle, radius, vec_x, vec_y);
                 // Raw add: one inline site fewer than Fix16::operator+=, required by the inline budget (docs/match_attempts.md)
                 field_1C4_move_target_x.mValue += vec_x.mValue;
@@ -5388,7 +5388,7 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
     }
     else
     {
-        radius = kFpFiveSixteenths_678784;
+        radius = kFpFiveSixteenths;
         switch (field_23C_group_idx)
         {
             case 0:
@@ -5401,14 +5401,14 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
                 break;
             case 6:
                 angle -= kAng45_6784FC;
-                radius = kFpHalf_678790;
+                radius = kFpHalf;
                 break;
             case 7:
                 angle += kAng45_6784FC;
-                radius = kFpHalf_678790;
+                radius = kFpHalf;
                 break;
             default:
-                radius = kFpFiveSixteenths_678784;
+                radius = kFpFiveSixteenths;
                 break;
         }
         Ang16::PolarToCartesian_41FC20(angle, radius, vec_x, vec_y);
@@ -5459,7 +5459,7 @@ void Ped::Threat_Reaction_AI_465270()
                     {
                         abs_x = Fix16::Abs(pDangerousPed->get_cam_x() - field_1AC_cam.x);
                         abs_y = Fix16::Abs(pDangerousPed->get_cam_y() - field_1AC_cam.y);
-                        if (Fix16::Max(abs_x, abs_y) < kFpFour_678680)
+                        if (Fix16::Max(abs_x, abs_y) < kFpFour)
                         {
                             if (pDangerousPed->field_16C_car)
                             {
@@ -5595,7 +5595,7 @@ void Ped::Threat_Reaction_AI_465270()
                     }
                 }
 
-                if (dist <= kFpSix_678520)
+                if (dist <= kFpSix)
                 {
                     if (field_288_threat_search != threat_search_enum::line_of_sight_1 &&
                         field_288_threat_search != threat_search_enum::line_of_sight_player_only_6 &&
@@ -6329,7 +6329,7 @@ bool Ped::IsThreatToSearchingPed_4661F0()
                     return false;
                 }
 
-                if (Fix16::MaxAbsDistance_42A6B0(this->field_1AC_cam.x, this->field_1AC_cam.y, pSearcher->get_cam_x(), pSearcher->get_cam_y()) <= kFpQuarter_678788)
+                if (Fix16::MaxAbsDistance_42A6B0(this->field_1AC_cam.x, this->field_1AC_cam.y, pSearcher->get_cam_x(), pSearcher->get_cam_y()) <= kFpQuarter)
                 {
                     return true;
                 }
@@ -6669,7 +6669,7 @@ Ped* Ped::FindNearbyPed_466FB0()
     if (pNearest)
     {
         if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pNearest->field_14_xy.x, pNearest->field_14_xy.y) <
-            kFpQuarter_678788)
+            kFpQuarter)
         {
             // @OG_BUG: Null de-ref
             return pNearest->AsCharB4_40FEA0()->field_7C_pPed;
@@ -6695,10 +6695,10 @@ bool Ped::FindUsableCarDoor_467090()
             this->field_168_game_object && (pTargetToEnter = this->field_168_game_object->field_84_target_car) != NULL)
     {
         bool bIsLawEnforcement = IsLawEnforcement_45B4E0();
-        Fix16 vel_to_check = kFpPoint2_67856C;
+        Fix16 vel_to_check = kFpPoint2;
         if (bIsLawEnforcement)
         {
-            vel_to_check = kFpPoint1_678428;
+            vel_to_check = kFpPoint1;
         }
         if ((pTargetToEnter->GetVelocity_43A4C0() <= vel_to_check // car going slow enough?
              || this->field_25C_internal_objective == objectives_enum::leave_car_36 || this->field_27C_ped_state_2 == ped_state_2::ped2_at_car_door_17) &&
@@ -6986,7 +6986,7 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                         abs_dx = Fix16::Abs(dist_1);
                         abs_dy = Fix16::Abs(dist_2);
 
-                        if (Fix16::Max(abs_dx, abs_dy) < kFpHalf_678790 || (field_168_game_object->field_58_flags_bf.bJumpedOffEdge))
+                        if (Fix16::Max(abs_dx, abs_dy) < kFpHalf || (field_168_game_object->field_58_flags_bf.bJumpedOffEdge))
                         {
                             field_18C_current_path_point++;
                             field_1C4_move_target_x = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_0_x);
@@ -7052,7 +7052,7 @@ void Ped::FleeOnFootTillSafe_4678E0()
 {
     if (gObjectiveMayAct_61A8A3)
     {
-        if (gDistanceToTarget_678750 > kFpSix_678520)
+        if (gDistanceToTarget_678750 > kFpSix)
         {
             if (field_168_game_object)
             {
@@ -7097,7 +7097,7 @@ void Ped::FleeCharOnFootTillSafe_467960()
 
     if (gObjectiveMayAct_61A8A3)
     {
-        if (gDistanceToTarget_678750 > kFpSix_678520)
+        if (gDistanceToTarget_678750 > kFpSix)
         {
             if (this->field_168_game_object->field_44_block_type == 2)
             {
@@ -7319,7 +7319,7 @@ void Ped::KillCharAnyMeans_467E20()
         }
         else if (field_168_game_object)
         {
-            if (gDistanceToTarget_678750 > kFpFour_678680)
+            if (gDistanceToTarget_678750 > kFpFour)
             {
                 field_1DC_objective_target_x = field_148_objective_target_ped->get_cam_x();
                 field_1E0_objective_target_y = field_148_objective_target_ped->get_cam_y();
@@ -7411,7 +7411,7 @@ void Ped::WaitOnFootAtTarget_468040()
     if (bUpdateMovement)
     {
         if (this->field_224_bf.bWaitingOnTarget ||
-            gDistanceToTarget_678750 <= kFpThreeSixteenths_678780 &&
+            gDistanceToTarget_678750 <= kFpThreeSixteenths &&
                 abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, this->field_1E4_objective_target_z))
         {
             if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
@@ -7433,7 +7433,7 @@ void Ped::WaitOnFootAtTarget_468040()
         {
             if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
             {
-                if (gDistanceToTarget_678750 > kFpThreeEighths_67878C)
+                if (gDistanceToTarget_678750 > kFpThreeEighths)
                 {
                     field_168_game_object->SetVelocity_433920(this->field_1F0_max_speed);
                     UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, ped_move_target_type::objective_target_pos_4);
@@ -7872,11 +7872,11 @@ void Ped::GotoAreaOnFoot_468DE0()
 {
     if (field_240_occupation == ped_ocupation_enum::drone)
     {
-        field_1F0_max_speed = kFpOneThirtySecond_678434;
+        field_1F0_max_speed = kFpOneThirtySecond;
     }
     if (gObjectiveMayAct_61A8A3)
     {
-        if (gDistanceToTarget_678750 < kFpQuarter_678788)
+        if (gDistanceToTarget_678750 < kFpQuarter)
         {
             if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
             {
@@ -7932,7 +7932,7 @@ void Ped::UpdateFollowPedObjective_468E80()
         if (bUpdateMovement)
         {
             if (this->field_224_bf.bWaitingOnTarget ||
-                gDistanceToTarget_678750 <= kFpThreeSixteenths_678780 &&
+                gDistanceToTarget_678750 <= kFpThreeSixteenths &&
                     abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, pTargetPed->get_cam_z()))
             {
                 if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
@@ -7960,7 +7960,7 @@ void Ped::UpdateFollowPedObjective_468E80()
                         this->field_225_objective_status = objective_status::passed_1;
                     }
 
-                    if (gDistanceToTarget_678750 < kFpHalf_678790)
+                    if (gDistanceToTarget_678750 < kFpHalf)
                     {
                         field_168_game_object->SetVelocity_433920(this->field_1F4_walk_speed);
                     }
@@ -8010,7 +8010,7 @@ void Ped::GotoAreaByAnyMeans_469060()
     u8 target_y;
     u8 target_z;
 
-    if (gDistanceToTarget_678750 > kFpFour_678680 && !field_21C_bf.bPanicking)
+    if (gDistanceToTarget_678750 > kFpFour && !field_21C_bf.bPanicking)
     {
         if (!field_16C_car)
         {
@@ -8083,7 +8083,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                     {
                         Sprite* pSprite = field_158_escape_car->field_50_car_sprite;
                         if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y) <
-                                kFpFour_678680 ||
+                                kFpFour ||
                             field_226_internal_objective_status == objective_status::passed_1)
                         {
                             Ped::SetObjective2_463830(objectives_enum::enter_car_as_driver_35);
@@ -8146,7 +8146,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                         {
                             Sprite* pSprite = pCar->field_50_car_sprite;
                             if (Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y) >
-                                kFpFour_678680)
+                                kFpFour)
                             {
                                 pCar = NULL;
                             }
@@ -8191,7 +8191,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                             }
                             else
                             {
-                                if (gDistanceToTarget_678750 < kFpFour_678680)
+                                if (gDistanceToTarget_678750 < kFpFour)
                                 {
                                     Ped::SetObjective2_463830(objectives_enum::goto_area_on_foot_12);
                                     field_1D0_internal_target_x = field_1DC_objective_target_x;
@@ -8258,7 +8258,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                         field_158_escape_car = pCar;
                         field_168_game_object->Set_F84_433900(pCar);
                     }
-                    else if (gDistanceToTarget_678750 < kFpFour_678680)
+                    else if (gDistanceToTarget_678750 < kFpFour)
                     {
                         Ped::SetObjective2_463830(objectives_enum::goto_area_on_foot_12, 128);
                         field_1D0_internal_target_x = field_1DC_objective_target_x;
@@ -8352,7 +8352,7 @@ void Ped::GotoAreaByAnyMeans_469060()
         {
             if (field_16C_car)
             {
-                if (field_16C_car->GetVelocity_43A4C0() < kFpPoint02_678630 && !field_21C_bf.bStayInCar)
+                if (field_16C_car->GetVelocity_43A4C0() < kFpPoint02 && !field_21C_bf.bStayInCar)
                 {
                     Ped::SetObjective2_463830(objectives_enum::leave_car_36);
                     field_218_objective_timer = 0;
@@ -8368,7 +8368,7 @@ void Ped::GotoAreaByAnyMeans_469060()
             }
             else if (field_148_objective_target_ped->field_16C_car)
             {
-                if (gDistanceToTarget_678750 > kFpFour_678680 && field_158_escape_car)
+                if (gDistanceToTarget_678750 > kFpFour && field_158_escape_car)
                 {
                     Ped::SetObjective2_463830(objectives_enum::enter_car_as_driver_35);
                     field_154_target_to_enter = field_158_escape_car;
@@ -8437,7 +8437,7 @@ void Ped::GuardSpot_469BF0()
     if (bUpdateMovement)
     {
         if (this->field_224_bf.bWaitingOnTarget ||
-            gDistanceToTarget_678750 <= kFpThreeSixteenths_678780 &&
+            gDistanceToTarget_678750 <= kFpThreeSixteenths &&
                 abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, this->field_1E4_objective_target_z))
         {
             if (this->field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
@@ -8478,7 +8478,7 @@ void Ped::GuardArea_469D60()
 {
     if (gObjectiveMayAct_61A8A3)
     {
-        if (gDistanceToTarget_678750 <= kFpThreeThirtySeconds_6784DC && field_1AC_cam.z.ToUInt8() == field_1E4_objective_target_z.ToUInt8())
+        if (gDistanceToTarget_678750 <= kFpThreeThirtySeconds && field_1AC_cam.z.ToUInt8() == field_1E4_objective_target_z.ToUInt8())
         {
             if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
             {
@@ -8941,7 +8941,7 @@ void Ped::DestroyTargetCar_46A850()
 MATCH_FUNC(0x46a8f0)
 void Ped::FleeOnFootTillSafe_46A8F0()
 {
-    if (gDistanceToTarget_678750 > kFpSix_678520)
+    if (gDistanceToTarget_678750 > kFpSix)
     {
         Char* pChar = field_168_game_object;
         if (pChar)
@@ -8981,7 +8981,7 @@ void Ped::FleeFromPedTillSafe_46A9C0()
     }
     else if (field_278_ped_state_1 != ped_state_1::immobilized_8)
     {
-        if (gDistanceToTarget_678750 > kFpSix_678520)
+        if (gDistanceToTarget_678750 > kFpSix)
         {
             if (field_168_game_object->Get_F44_433A90() == 2)
             {
@@ -9106,41 +9106,41 @@ void Ped::FollowTargetStateMachine_46AC20()
             field_21C_bf.bPanicking = false;
         }
 
-        if (gDistanceToTarget_678750 >= kFpThreeSixteenths_678780 && !field_224_bf.bWaitingOnTarget)
+        if (gDistanceToTarget_678750 >= kFpThreeSixteenths && !field_224_bf.bWaitingOnTarget)
         {
-            if (gDistanceToTarget_678750 > kFpHalf_678790)
+            if (gDistanceToTarget_678750 > kFpHalf)
             {
                 field_168_game_object->IncreaseSpeedIfAllowed_433940();
             }
-            else if (gDistanceToTarget_678750 > kFpThreeEighths_67878C)
+            else if (gDistanceToTarget_678750 > kFpThreeEighths)
             {
-                field_168_game_object->RegulateVelocityByRef_433970(kFpThreeSixtyFourths_678444);
+                field_168_game_object->RegulateVelocityByRef_433970(kFpThreeSixtyFourths);
             }
-            else if (gDistanceToTarget_678750 > kFpFiveSixteenths_678784)
+            else if (gDistanceToTarget_678750 > kFpFiveSixteenths)
             {
-                field_168_game_object->RegulateVelocityByRef_433970(kFpOneThirtySecond_678434);
+                field_168_game_object->RegulateVelocityByRef_433970(kFpOneThirtySecond);
             }
             else
             {
-                field_168_game_object->RegulateVelocityByRef_433970(kFpOne64th_678430);
+                field_168_game_object->RegulateVelocityByRef_433970(kFpOne64th);
             }
 
             if (gKeepPaceWithTarget_6787C4)
             {
-                if (gDistanceToTarget_678750 < kFpHalf_678790)
+                if (gDistanceToTarget_678750 < kFpHalf)
                 {
                     if (field_14C_internal_target_ped->GetPedVelocity_45C920() == kFpZero_678660)
                     {
-                        field_168_game_object->RegulateVelocityByRef_433970(kFpOne64th_678430);
+                        field_168_game_object->RegulateVelocityByRef_433970(kFpOne64th);
                     }
                     else
                     {
-                        field_168_game_object->RegulateVelocityByRef_433970(kFpOne64th_678430 + field_14C_internal_target_ped->GetPedVelocity_45C920());
+                        field_168_game_object->RegulateVelocityByRef_433970(kFpOne64th + field_14C_internal_target_ped->GetPedVelocity_45C920());
                     }
                 }
                 else
                 {
-                    field_168_game_object->RegulateVelocityByRef_433970(kFpFiveSixtyFourths_67843C);
+                    field_168_game_object->RegulateVelocityByRef_433970(kFpFiveSixtyFourths);
                 }
             }
             Ped::UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, ped_move_target_type::internal_target_ped_0);
@@ -9161,11 +9161,11 @@ void Ped::FollowTargetStateMachine_46AC20()
                     {
                         if (field_14C_internal_target_ped->GetPedVelocity_45C920() == kFpZero_678660)
                         {
-                            field_168_game_object->RegulateVelocityByRef_433970(kFpOne64th_678430);
+                            field_168_game_object->RegulateVelocityByRef_433970(kFpOne64th);
                         }
-                        else if (gDistanceToTarget_678750 > kFpThreeSixteenths_678780)
+                        else if (gDistanceToTarget_678750 > kFpThreeSixteenths)
                         {
-                            field_168_game_object->RegulateVelocityByRef_433970(kFpFiveSixtyFourths_67843C);
+                            field_168_game_object->RegulateVelocityByRef_433970(kFpFiveSixtyFourths);
                         }
                         else
                         {
@@ -9220,21 +9220,21 @@ void Ped::StayCloseToTargetPed_46B170()
             }
             else
             {
-                if (gDistanceToTarget_678750 > kFpHalf_678790)
+                if (gDistanceToTarget_678750 > kFpHalf)
                 {
                     field_168_game_object->IncreaseSpeedIfAllowed_433940();
                 }
-                else if (gDistanceToTarget_678750 > kFpThreeEighths_67878C)
+                else if (gDistanceToTarget_678750 > kFpThreeEighths)
                 {
-                    field_168_game_object->RegulateVelocityByRef_433970(kFpThreeSixtyFourths_678444);
+                    field_168_game_object->RegulateVelocityByRef_433970(kFpThreeSixtyFourths);
                 }
-                else if (gDistanceToTarget_678750 > kFpFiveSixteenths_678784)
+                else if (gDistanceToTarget_678750 > kFpFiveSixteenths)
                 {
-                    field_168_game_object->RegulateVelocityByRef_433970(kFpOneThirtySecond_678434);
+                    field_168_game_object->RegulateVelocityByRef_433970(kFpOneThirtySecond);
                 }
                 else
                 {
-                    field_168_game_object->RegulateVelocityByRef_433970(kFpOne64th_678430);
+                    field_168_game_object->RegulateVelocityByRef_433970(kFpOne64th);
                 }
 
                 if (field_168_game_object->GetCharState_433A80() == Char_B4_state::Avoiding_Ped_10)
@@ -9294,14 +9294,14 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
             Fix16 max_speed;
             if (!Ped::IsLawEnforcement_45B4E0())
             {
-                max_speed = kFpPoint2_67856C;
+                max_speed = kFpPoint2;
             }
             else
             {
-                max_speed = kFpPoint1_678428;
+                max_speed = kFpPoint1;
             }
             if (field_27C_ped_state_2 != ped_state_2::carjack_pulling_out_9 &&
-                (gDistanceToTarget_678750 >= kFpThreeSixteenths_678780 ||
+                (gDistanceToTarget_678750 >= kFpThreeSixteenths ||
                  !abs_sub_less_than_epislon_45AE40(field_1AC_cam.z, field_14C_internal_target_ped->field_1AC_cam.z) ||
                  field_278_ped_state_1 == ped_state_1::immobilized_8))
             {
@@ -9414,7 +9414,7 @@ void Ped::MeleeAttackStateMachine_46B670()
     gDistanceToTarget_678750 =
         Fix16::MaxAbsDistance_42A6B0(field_1AC_cam.x, field_1AC_cam.y, field_14C_internal_target_ped->get_cam_x(), field_14C_internal_target_ped->get_cam_y());
 
-    if (gDistanceToTarget_678750 <= kFpQuarter_678788)
+    if (gDistanceToTarget_678750 <= kFpQuarter)
     {
         // Ped is close
         field_21C_bf.bNoWeapon = true;
@@ -9591,7 +9591,7 @@ void Ped::MeleeAttackStateMachine_46B670()
         // Ped is too far
         if (field_14C_internal_target_ped->GetPedVelocity_45C920() == kFpZero_678660)
         {
-            if (gDistanceToTarget_678750 < kFpThreeEighths_67878C)
+            if (gDistanceToTarget_678750 < kFpThreeEighths)
             {
                 field_168_game_object->SetVelocity_433920(field_1F4_walk_speed);
             }
@@ -9683,7 +9683,7 @@ void Ped::EnterCarStateMachine_46BDC0()
         return;
     }
 
-    if (gDistanceToTarget_678750 > kFpFour_678680 && this->field_238_ped_type != ped_type::script_created_5 &&
+    if (gDistanceToTarget_678750 > kFpFour && this->field_238_ped_type != ped_type::script_created_5 &&
         this->field_28C_threat_reaction != threat_reaction_enum::react_as_emergency_1)
     {
         this->field_226_internal_objective_status = objective_status::failed_2;
@@ -9707,14 +9707,14 @@ void Ped::EnterCarStateMachine_46BDC0()
 
     this->field_168_game_object->Set_F84_433900(this->field_154_target_to_enter);
     const bool bIsLawEnforcement = IsLawEnforcement_45B4E0();
-    Fix16 vel_to_check = kFpPoint2_67856C;
+    Fix16 vel_to_check = kFpPoint2;
     if (bIsLawEnforcement)
     {
-        vel_to_check = kFpPoint1_678428;
+        vel_to_check = kFpPoint1;
     }
 
     if (field_154_target_to_enter->GetVelocity_43A4C0() < vel_to_check &&
-        (gDistanceToTarget_678750 < kFpFiveThirtySeconds_678778 || this->field_27C_ped_state_2 == ped_state_2::ped2_entering_a_car_6) &&
+        (gDistanceToTarget_678750 < kFpFiveThirtySeconds || this->field_27C_ped_state_2 == ped_state_2::ped2_entering_a_car_6) &&
         field_168_game_object->field_80_sprite_ptr->field_C_pCollisionShape->field_30_boundingBox.OverlapsZ_433560(
             &field_154_target_to_enter->field_50_car_sprite->field_C_pCollisionShape->field_30_boundingBox))
     {
@@ -9747,7 +9747,7 @@ void Ped::EnterCarStateMachine_46BDC0()
             {
                 UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, ped_move_target_type::move_target_pos_2);
             }
-            else if (gDistanceToTarget_678750 > kFpThreeQuarters_678794 && field_168_game_object->field_58_flags_bf.bOnSlope == 1)
+            else if (gDistanceToTarget_678750 > kFpThreeQuarters && field_168_game_object->field_58_flags_bf.bOnSlope == 1)
             {
                 UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, ped_move_target_type::move_target_pos_2);
             }
@@ -9984,7 +9984,7 @@ void Ped::WalkToTargetPoint_46C770()
     if (field_278_ped_state_1 != ped_state_1::immobilized_8)
     {
         if (field_168_game_object->Get_F44_433A90() == 2 || field_258_objective == objectives_enum::enter_car_as_driver_35 ||
-            gDistanceToTarget_678750 < kFpHalf_678790)
+            gDistanceToTarget_678750 < kFpHalf)
         {
             Ped::SetObjective2_463830(objectives_enum::no_obj_0);
             field_21C_bf.bPanicking = false;
@@ -10036,7 +10036,7 @@ void Ped::WalkToTargetThenStop_46C8A0()
     if (field_278_ped_state_1 != ped_state_1::immobilized_8)
     {
         field_168_game_object->SetVelocityByRef_433920(kFpOneSixteenth_678448);
-        if (gDistanceToTarget_678750 < kFpHalf_678790)
+        if (gDistanceToTarget_678750 < kFpHalf)
         {
             Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
             Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
@@ -10100,7 +10100,7 @@ void Ped::CrossRoad_46C9B0()
             }
             if (gTrafficLights_194_705958->ArePedsCrossing_434960())
             {
-                field_168_game_object->SetVelocityByRef_433920(kFpOneThirtySecond_678434);
+                field_168_game_object->SetVelocityByRef_433920(kFpOneThirtySecond);
             }
             else
             {
@@ -10110,7 +10110,7 @@ void Ped::CrossRoad_46C9B0()
                 }
                 else
                 {
-                    field_168_game_object->SetVelocityByRef_433920(kFpOneThirtySecond_678434);
+                    field_168_game_object->SetVelocityByRef_433920(kFpOneThirtySecond);
                 }
             }
         }
@@ -10305,7 +10305,7 @@ void Ped::EnterTrainStateMachine_46D0D0()
     field_21C_bf.bLeftVehicle = true;
     if (state1 != ped_state_1::immobilized_8)
     {
-        if (gDistanceToTarget_678750 > kFpFour_678680)
+        if (gDistanceToTarget_678750 > kFpFour)
         {
             SetObjective2_463830(objectives_enum::no_obj_0);
             field_226_internal_objective_status = objective_status::failed_2;
@@ -10320,7 +10320,7 @@ void Ped::EnterTrainStateMachine_46D0D0()
             {
                 field_248_enter_car_as_passenger = 1;
             }
-            best_dist = kFp9999_678524;
+            best_dist = kFp9999;
             best_door = 0;
             new_door_idx = 0;
             door_idx = new_door_idx;
@@ -10411,7 +10411,7 @@ void Ped::FollowCarOnFoot_46D300()
 {
     if (this->field_278_ped_state_1 != ped_state_1::immobilized_8)
     {
-        if (gDistanceToTarget_678750 <= kFpQuarter_678788)
+        if (gDistanceToTarget_678750 <= kFpQuarter)
         {
             if (this->field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
             {
@@ -10424,13 +10424,13 @@ void Ped::FollowCarOnFoot_46D300()
                 }
                 else
                 {
-                    this->field_168_game_object->RegulateVelocity_433970(field_150_target_objective_car->GetVelocity_43A4C0() + kFpOne64th_678430);
+                    this->field_168_game_object->RegulateVelocity_433970(field_150_target_objective_car->GetVelocity_43A4C0() + kFpOne64th);
                 }
             }
         }
-        else if (gDistanceToTarget_678750 < kFpHalf_678790)
+        else if (gDistanceToTarget_678750 < kFpHalf)
         {
-            this->field_168_game_object->RegulateVelocity_433970(field_150_target_objective_car->GetVelocity_43A4C0() + kFpOne64th_678430);
+            this->field_168_game_object->RegulateVelocity_433970(field_150_target_objective_car->GetVelocity_43A4C0() + kFpOne64th);
         }
         else
         {
@@ -10455,7 +10455,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
     field_21C_bf.bWeaponChosen = false;
     Weapon* pWeapon = Ped::ChooseAttackWeapon_46F490();
     Fix16 close_range = kFpOne_678664;
-    Fix16 explosive_range = kFpOne_678798 + kFpQuarter_678788;
+    Fix16 explosive_range = kFpOne_678798 + kFpQuarter;
     if (field_168_game_object)
     {
         if (pWeapon)
@@ -10469,12 +10469,12 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
 
                 case weapon_type::molotov:
                     attack_range = kFpTwo_678658 * 2;
-                    explosive_range = kFpOne_678798 + kFpHalf_678790;
+                    explosive_range = kFpOne_678798 + kFpHalf;
                     bThrownWeapon = true;
                     break;
 
                 case weapon_type::grenade:
-                    attack_range = kFpHalf_678790 + kFpTwo_678658;
+                    attack_range = kFpHalf + kFpTwo_678658;
                     explosive_range = kFpTwo_678658;
                     bThrownWeapon = true;
                     break;
@@ -10492,7 +10492,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                     break;
 
                 default:
-                    attack_range = kFpFour_678680;
+                    attack_range = kFpFour;
                     break;
             }
         }
@@ -10503,7 +10503,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
     }
     else
     {
-        attack_range = kFpFour_678680; // probably in a car
+        attack_range = kFpFour; // probably in a car
     }
 
     field_21C_bf.bFindingPath = false;
@@ -10519,7 +10519,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
             }
             if (field_14C_internal_target_ped->get_car_416B60())
             {
-                if (field_14C_internal_target_ped->field_16C_car->GetVelocity_43A4C0() <= kFpPoint02_678630)
+                if (field_14C_internal_target_ped->field_16C_car->GetVelocity_43A4C0() <= kFpPoint02)
                 {
                     attack_range = kFpTwo_678668;
                     close_range = kFpTwo_678668 + kFpHalf_67853C;
@@ -10732,7 +10732,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                     break;
             }
 
-            if (gDistanceToTarget_678750 > kFpEight_6786C0)
+            if (gDistanceToTarget_678750 > kFpEight)
             {
                 field_21C_bf.bAttacking = false;
             }
@@ -10896,7 +10896,7 @@ void Ped::SpawnPedGroupFollowers_46E200(u8 total)
             pNewPed->set_remap_433B90(this->field_244_remap);
             pNewPed->field_26C_graphic_type = this->field_26C_graphic_type;
             pNewPed->SetPedType_403920(this->field_238_ped_type);
-            Fix16 xy_off = kFpOneSixth_678504 * Fix16(i);
+            Fix16 xy_off = kFpOneSixth * Fix16(i);
             pNewPed->AllocCharB4_45C830(xy_off + this->field_1AC_cam.x, xy_off + this->field_1AC_cam.y, this->field_1AC_cam.z);
             pNewPed->SetRemap_433C10(this->get_remap_433BA0());
             pNewPed->set_health_4039A0(this->field_216_health);
@@ -11183,10 +11183,10 @@ void Ped::ApplyAimJitter_46F1E0(Weapon* pWeapon)
         switch (rng_val)
         {
             case 1:
-                field_12E_aim_angle = field_12E_aim_angle - kAng10_6784C8;
+                field_12E_aim_angle = field_12E_aim_angle - kAng10;
                 break;
             case 2:
-                field_12E_aim_angle = field_12E_aim_angle + kAng10_6784C8;
+                field_12E_aim_angle = field_12E_aim_angle + kAng10;
                 break;
             case 3:
                 field_12E_aim_angle = field_12E_aim_angle - kAng16_6784E4;
@@ -11696,8 +11696,8 @@ void Ped::HandleShootingAtCar_46FC90(Car* pCar, s32 model)
         else
         {
             Fix16 max_range;
-            max_range = kFpHalf_678790 + kFpOne_678798;
-            if (dist_to_cam < max_range && pCar->GetVelocity_43A4C0() < kFpPoint02_678630)
+            max_range = kFpHalf + kFpOne_678798;
+            if (dist_to_cam < max_range && pCar->GetVelocity_43A4C0() < kFpPoint02)
             {
                 pWeapon->SetTargetHit_433810(1);
                 return;
@@ -11844,7 +11844,7 @@ void Ped::AimRoofGun_470050()
                 this->field_21C_bf.bAttacking = true;
             }
         }
-        else if (gDistanceToTarget_678750 < kFpFour_678680)
+        else if (gDistanceToTarget_678750 < kFpFour)
         {
             this->field_21C_bf.bAttacking = true;
         }
