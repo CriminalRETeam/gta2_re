@@ -729,7 +729,7 @@ static const char* ObjectIdToString(s32 id)
         case objects::car_shop_busy_131: return "car_shop_busy_131";
         case objects::car_bomb_132: return "car_bomb_132";
         case objects::object_133: return "object_133";
-        case objects::crane_unknown_134: return "crane_unknown_134";
+        case objects::crane_cables_134: return "crane_unknown_134";
         case objects::crane_rotor_135: return "crane_rotor_135";
         case objects::crane_hook_136: return "crane_hook_136";
         case objects::crane_base_137: return "crane_base_137";
@@ -2576,7 +2576,7 @@ void CC ImGuiDebugDraw()
                         {
                             DisplayTextAtSprite("Obj 10", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
-                        else if (pPedIter->field_258_objective == objectives_enum::objective_11) 
+                        else if (pPedIter->field_258_objective == objectives_enum::stay_close_to_char_11) 
                         {
                             DisplayTextAtSprite("Obj 11", pPedIter->GetSprite_46DF50(), 0, 0);
                         }

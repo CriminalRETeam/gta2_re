@@ -1638,7 +1638,7 @@ MATCH_FUNC(0x55ca70)
 void CarPhysics::DispatchCollision_55CA70(Fix16_Point& point, Ang16 angle)
 {
     Fix16_Point unusedPoint; // never read, but needed to match
-    u8 hitType;
+    u8 overlap_count;
     switch (gCollisionTarget_679188.field_0_type)
     {
         case collision_target_type::horizontal_edge_1:
@@ -1653,7 +1653,7 @@ void CarPhysics::DispatchCollision_55CA70(Fix16_Point& point, Ang16 angle)
                                                                                                      angle,
                                                                                                      gCollisionArea_6FDFC4,
                                                                                                      gOtherCollisionArea_6FDFCC,
-                                                                                                     hitType);
+                                                                                                     overlap_count);
 
             Car* pCar = gCollisionTarget_679188.field_20_pHitSprite->AsCar_40FEB0();
             if (pCar)
@@ -1665,7 +1665,7 @@ void CarPhysics::DispatchCollision_55CA70(Fix16_Point& point, Ang16 angle)
                 Char* pChar = gCollisionTarget_679188.field_20_pHitSprite->AsCharB4_40FEA0();
                 if (pChar)
                 {
-                    ProcessPedImpact_560B40(pChar, hitType);
+                    ProcessPedImpact_560B40(pChar, overlap_count);
                 }
                 else
                 {
@@ -2767,7 +2767,7 @@ void CarPhysics::HandleObjectCollision_5606C0(Object* pObject, char_type damage_
 }
 
 MATCH_FUNC(0x560b40)
-void CarPhysics::ProcessPedImpact_560B40(Char* pChar, u8 hitType)
+void CarPhysics::ProcessPedImpact_560B40(Char* pChar, u8 overlap_count)
 {
     Fix16_Point impact_dir; // a local with a destructor: the original constructs 4 points up front (EH state 3)
     Fix16_Point impulse;
@@ -2790,15 +2790,15 @@ void CarPhysics::ProcessPedImpact_560B40(Char* pChar, u8 hitType)
                                                        kFP16One_6FE070,
                                                        kFP16One_6FE3DC);
 
-    u8 bUnknown;
+    u8 bAirborneOrNoOverlap;
     if (field_98_surface_type == car_surface_type::air_surface_6 && pChar->get_sprite_zpos() != field_5C_pCar->field_50_car_sprite->field_1C_zpos ||
-        hitType == 0)
+        overlap_count == 0)
     {
-        bUnknown = 1;
+        bAirborneOrNoOverlap = 1;
     }
     else
     {
-        bUnknown = 0;
+        bAirborneOrNoOverlap = 0;
     }
 
     gCollisionDamage_6FE33C = impulse.GetLength_41E260();
@@ -2861,7 +2861,7 @@ void CarPhysics::ProcessPedImpact_560B40(Char* pChar, u8 hitType)
         }
     }
 
-    pChar->HandleCarImpact_5538A0(pCar, bUnknown, impact_dir.x, impact_dir.y);
+    pChar->HandleCarImpact_5538A0(pCar, bAirborneOrNoOverlap, impact_dir.x, impact_dir.y);
 }
 
 MATCH_FUNC(0x560eb0)

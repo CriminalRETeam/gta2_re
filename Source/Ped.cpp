@@ -4604,7 +4604,7 @@ void Ped::SetStatesForObjective_4633E0(bool bMainObj)
             break;
         case objectives_enum::run_to_char_7:
         case objectives_enum::follow_char_9:
-        case objectives_enum::objective_11:
+        case objectives_enum::stay_close_to_char_11:
         case objectives_enum::goto_area_on_foot_12:
         case objectives_enum::goto_char_on_foot_16:
         case objectives_enum::walk_to_point_17:
@@ -4807,7 +4807,7 @@ void Ped::SetObjective2_463830(s32 internal_objective, s16 internal_objective_ti
                 break;
             case objectives_enum::run_to_char_7:
             case objectives_enum::follow_char_9:
-            case objectives_enum::objective_11:
+            case objectives_enum::stay_close_to_char_11:
             case objectives_enum::goto_area_on_foot_12:
             case objectives_enum::walk_to_car_door_18:
             case objectives_enum::kill_char_on_foot_20:
@@ -5086,7 +5086,7 @@ void Ped::ProcessInternalObjective_463FB0()
             this->field_1CC_move_target_z = pTargetPed->get_cam_z();
             switch (field_25C_internal_objective)
             {
-                case objectives_enum::objective_11:
+                case objectives_enum::stay_close_to_char_11:
                 case objectives_enum::walk_to_car_door_18:
                 case objectives_enum::kill_char_on_foot_20:
                 case objectives_enum::punch_char_23:
@@ -5182,7 +5182,7 @@ void Ped::ProcessInternalObjective_463FB0()
             case objectives_enum::follow_char_9:
                 Ped::FollowTargetStateMachine_46AC20();
                 break;
-            case objectives_enum::objective_11:
+            case objectives_enum::stay_close_to_char_11:
                 Ped::ChaseTargetStateMachine_46B170();
                 break;
             case objectives_enum::pull_driver_out_32:

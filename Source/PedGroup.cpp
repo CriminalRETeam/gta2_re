@@ -1081,7 +1081,7 @@ void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
     }
 
     Ped* pFollow = pMember->field_14C_internal_target_ped;
-    if (pFollow && pMember->field_25C_internal_objective == objectives_enum::objective_11 && !pFollow->field_168_game_object)
+    if (pFollow && pMember->field_25C_internal_objective == objectives_enum::stay_close_to_char_11 && !pFollow->field_168_game_object)
     {
         pMember->SetObjective2_463830(objectives_enum::no_obj_0);
     }

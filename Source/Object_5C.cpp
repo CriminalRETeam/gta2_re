@@ -591,8 +591,8 @@ void Object::HandleCollision_522E10(Fix16_Point* pPoint)
         {
             u8 side_self;
             u8 side_other;
-            u8 hit_type;
-            hit_point = field_4_sprite->FindCollisionIntersectionPoint_5A2710(gCollisionTarget_679188.field_20_pHitSprite, *pPoint, field_4_sprite->field_0_rotation, side_self, side_other, hit_type);
+            u8 overlap_count;
+            hit_point = field_4_sprite->FindCollisionIntersectionPoint_5A2710(gCollisionTarget_679188.field_20_pHitSprite, *pPoint, field_4_sprite->field_0_rotation, side_self, side_other, overlap_count);
             Car* pCar = gCollisionTarget_679188.field_20_pHitSprite->AsCar_40FEB0();
             if (pCar)
             {
@@ -604,7 +604,7 @@ void Object::HandleCollision_522E10(Fix16_Point* pPoint)
                 Char* pChar = gCollisionTarget_679188.field_20_pHitSprite->AsCharB4_40FEA0();
                 if (pChar)
                 {
-                    ResolveCollisionWithPed_5229B0(pChar, &hit_point, hit_type);
+                    ResolveCollisionWithPed_5229B0(pChar, &hit_point, overlap_count);
                     HandleImpact_528E50(gCollisionTarget_679188.field_20_pHitSprite);
                 }
                 else

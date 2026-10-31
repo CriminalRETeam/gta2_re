@@ -1975,7 +1975,7 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
                     {
                         if (field_8_ped_state_1 != ped_state_1::entering_car_3)
                         {
-                            if (field_7C_pPed->GetInternalObjective_403A90() != objectives_enum::objective_11)
+                            if (field_7C_pPed->GetInternalObjective_403A90() != objectives_enum::stay_close_to_char_11)
                             {
                                 compound_add_41FA70(field_40_rotation, kAng16_6FD888);
                                 field_10_char_state = Char_B4_state::Avoiding_Ped_10;
@@ -2020,7 +2020,7 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
                     {
                         if (field_8_ped_state_1 != ped_state_1::entering_car_3)
                         {
-                            if (field_7C_pPed->GetInternalObjective_403A90() != objectives_enum::objective_11)
+                            if (field_7C_pPed->GetInternalObjective_403A90() != objectives_enum::stay_close_to_char_11)
                             {
                                 compound_add_41FA70(field_40_rotation, kAng16_6FD888);
                                 field_10_char_state = Char_B4_state::Avoiding_Ped_10;
@@ -6571,7 +6571,7 @@ MATCH_FUNC(0x5538A0)
                                            speed,                                       \
                                            -kFpPoint1_6FD824,                           \
                                            kFP16Zero_6FD9E4)
-void Char::HandleCarImpact_5538A0(Car* pCar, u8 bUnknown, Fix16 x, Fix16 y)
+void Char::HandleCarImpact_5538A0(Car* pCar, u8 not_used, Fix16 x, Fix16 y)
 {
     Fix16_Point p(x, y);
     Fix16 vecLen = GetLength_inline_5538A0(p);
