@@ -823,10 +823,10 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x511F80 | `ScriptManager::LoadSave_511F80` | 0x47F0B0 | `sub_47EF10`, ✓ `sub_476B10` | done | GameSession::set_secret_tokens_collected_476B10 (new); sub_47EF10 = LoadScriptCounters_511C30 (still called); code unchanged |
 | 0x5120C0 | `sub_5120C0` | 0x47F200 | ✓ `ScriptThreadPool::sub_4767A0` | done | all 9.6f inlines used |
 | 0x512160 | `ScriptManager::StartLevelThread_512160` | 0x481890 | ✓ `ScriptThreadPool::sub_4767A0` | done | all 9.6f inlines used |
-| 0x512AF0 | `ScriptManager::TestAndRecordWeaponHit_512AF0` | 0x476400 | ✓ `sub_4759C0`, ✓ `sub_4759A0` | done | HasCheckFlag4_4759C0/HasCheckFlag2_4759A0 (+HasCheckFlag1_475980 in 512C70) (new); code unchanged; the 9.6f ternary form breaks the match |
-| 0x512BA0 | `ScriptManager::ClearWeaponHitFlag_512BA0` | 0x4764D0 | ✓ `sub_4759C0`, ✓ `sub_4759A0` | done | HasCheckFlag4_4759C0/HasCheckFlag2_4759A0 (+HasCheckFlag1_475980 in 512C70) (new); code unchanged; the 9.6f ternary form breaks the match |
-| 0x512C00 | `ScriptManager::sub_512C00` | 0x476530 | ✓ `sub_4759C0`, ✓ `sub_4759A0` | done | HasCheckFlag4_4759C0/HasCheckFlag2_4759A0 (+HasCheckFlag1_475980 in 512C70) (new); code unchanged; the 9.6f ternary form breaks the match |
-| 0x512C70 | `ScriptManager::sub_512C70` | 0x4765A0 | ✓ `sub_4759C0`, ✓ `sub_4759A0`, ✓ `sub_475980` | done | HasCheckFlag4_4759C0/HasCheckFlag2_4759A0 (+HasCheckFlag1_475980 in 512C70) (new); code unchanged; the 9.6f ternary form breaks the match |
+| 0x512AF0 | `ScriptManager::TestAndRecordWeaponHit_512AF0` | 0x476400 | ✓ `sub_4759C0`, ✓ `sub_4759A0` | done | IsPedCheck_4759C0/IsCarCheck_4759A0 (+IsCheckHit_475980 in 512C70) (new); code unchanged; the 9.6f ternary form breaks the match |
+| 0x512BA0 | `ScriptManager::ClearWeaponHitFlag_512BA0` | 0x4764D0 | ✓ `sub_4759C0`, ✓ `sub_4759A0` | done | IsPedCheck_4759C0/IsCarCheck_4759A0 (+IsCheckHit_475980 in 512C70) (new); code unchanged; the 9.6f ternary form breaks the match |
+| 0x512C00 | `ScriptManager::sub_512C00` | 0x476530 | ✓ `sub_4759C0`, ✓ `sub_4759A0` | done | IsPedCheck_4759C0/IsCarCheck_4759A0 (+IsCheckHit_475980 in 512C70) (new); code unchanged; the 9.6f ternary form breaks the match |
+| 0x512C70 | `ScriptManager::sub_512C70` | 0x4765A0 | ✓ `sub_4759C0`, ✓ `sub_4759A0`, ✓ `sub_475980` | done | IsPedCheck_4759C0/IsCarCheck_4759A0 (+IsCheckHit_475980 in 512C70) (new); code unchanged; the 9.6f ternary form breaks the match |
 | 0x512CE0 | `ScriptManager::ctor_512CE0` | 0x481960 | ✓ `ScriptThreadPool::ctor_481310` | matched | all 9.6f inlines used |
 | 0x512FD0 | `ScriptThread::dtor_512FD0` | 0x47F9C0 | `ScriptGosubStack::gdtor_47BF60` | checked | ScriptGosubStack::gdtor_47BF60 is a compiler-generated deleting dtor |
 | 0x5130E0 | `ScriptManager::dtor_5130E0` | 0x481C30 | `ScriptThreadPool::gdtor_481C10` | checked | ScriptThreadPool::gdtor_481C10 is a scalar deleting dtor, compiler generated |

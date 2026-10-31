@@ -628,19 +628,19 @@ class ScriptManager
     }
 
     // 9.6f 0x475980
-    inline bool HasCheckFlag1_475980(const WeaponCheckTable* pTable) const
+    inline bool IsCheckHit_475980(const WeaponCheckTable* pTable) const
     {
         return (pTable->field_6_flags & weapon_check_flag::hit_1) == weapon_check_flag::hit_1;
     }
 
     // 9.6f 0x4759A0
-    inline bool HasCheckFlag2_4759A0(const WeaponCheckTable* pTable) const
+    inline bool IsCarCheck_4759A0(const WeaponCheckTable* pTable) const
     {
         return (pTable->field_6_flags & weapon_check_flag::car_2) == weapon_check_flag::car_2;
     }
 
     // 9.6f 0x4759C0
-    inline bool HasCheckFlag4_4759C0(const WeaponCheckTable* pTable) const
+    inline bool IsPedCheck_4759C0(const WeaponCheckTable* pTable) const
     {
         return (pTable->field_6_flags & weapon_check_flag::ped_4) == weapon_check_flag::ped_4;
     }
