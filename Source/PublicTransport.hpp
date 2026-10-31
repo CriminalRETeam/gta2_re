@@ -97,6 +97,9 @@ class PublicTransport
     EXPORT TrainStation* AllocateTrainStation_5787E0();
 
   public:
+    STATIC_MEMBER(u8, sStationCount);
+    STATIC_MEMBER(bool, sBusSpawned);
+    STATIC_MEMBER(s32, sBusSpawnDelay);
     EXPORT void SpawnTrainsFromStations_578860();
 
   private:
