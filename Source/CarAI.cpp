@@ -43,11 +43,11 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint05_677B60, Fix16(0x333, 0), 0x677B60);
 
 DEFINE_GLOBAL(bool, gCurrCarAI_IsChasing_677BBC, 0x677BBC);
 DEFINE_GLOBAL(u8, gCurrCarAI_PedalsFree_677B3C, 0x677B3C);
-DEFINE_GLOBAL(u8, byte_677A78, 0x677A78);
+DEFINE_GLOBAL(u8, gCurrCarAI_Unused_677A78, 0x677A78);
 DEFINE_GLOBAL(bool, bOnGradientSlope_677C90, 0x677C90);
 DEFINE_GLOBAL(bool, gCurrCarAI_AllowTrafficSteering_677A5D, 0x677A5D);
 DEFINE_GLOBAL(u8, gIgnoreTargetCarAhead_677A6C, 0x677A6C);
-DEFINE_GLOBAL(u8, byte_677A94, 0x677A94);
+DEFINE_GLOBAL(u8, gCurrCarAI_TargetToSide_677A94, 0x677A94);
 DEFINE_GLOBAL(u8, gCurrCarAI_WentStraight_677A5C, 0x677A5C);
 DEFINE_GLOBAL(u8, gCurrCarAI_DoSpeedControl_677B8C, 0x677B8C);
 DEFINE_GLOBAL(u8, gCurrCarAI_HasChaseUpdate_677CA8, 0x677CA8);
@@ -60,7 +60,7 @@ DEFINE_GLOBAL(Fix16, gCurrCarAI_DesiredSpeed_677A8C, 0x677A8C);
 DEFINE_GLOBAL(Fix16, gCurrCarAI_TargetX_6779F0, 0x6779F0);
 DEFINE_GLOBAL(Fix16, gCurrCarAI_TargetY_6779F4, 0x6779F4);
 
-DEFINE_GLOBAL(s32, dword_677C88, 0x677C88);
+DEFINE_GLOBAL(s32, gCurrCarAI_Unused_677C88, 0x677C88);
 DEFINE_GLOBAL(Car*, gCurrCarAI_TargetCar_6779B0, 0x6779B0);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint6_6779D0, Fix16(0x2666, 0), 0x6779D0);
@@ -110,13 +110,13 @@ EXTERN_GLOBAL(u8, gCarAIProbingAhead_6771DC);
 MATCH_FUNC(0x447650)
 void __stdcall InitAIvars_447650()
 {
-    byte_677A78 = 0;
+    gCurrCarAI_Unused_677A78 = 0;
     bOnGradientSlope_677C90 = false;
     gCurrCarAI_AllowTrafficSteering_677A5D = true;
     gCurrCarAI_PedalsFree_677B3C = 1;
     gCurrCarAI_IsChasing_677BBC = false;
     gIgnoreTargetCarAhead_677A6C = 1;
-    byte_677A94 = 0;
+    gCurrCarAI_TargetToSide_677A94 = 0;
     gCurrCarAI_WentStraight_677A5C = 0;
     gCurrCarAI_DoSpeedControl_677B8C = 1;
     gCurrCarAI_HasChaseUpdate_677CA8 = 0;
@@ -132,7 +132,7 @@ void __stdcall InitAIvars_447650()
     gCurrCarAI_TargetX_6779F0 = kF16Zero_677B90;
     gCurrCarAI_TargetY_6779F4 = kF16Zero_677B90;
     gCurrCarAI_TargetZ_6779F8 = kF16Zero_677B90;
-    dword_677C88 = 1;
+    gCurrCarAI_Unused_677C88 = 1;
     gCurrCarAI_TargetCar_6779B0 = NULL;
 }
 
@@ -2406,7 +2406,7 @@ void CarAI::DetectCarAhead_44D1D0()
     char_type arrow_idx;
     bool bSlowerThanTarget = false;
 
-    byte_677A94 = 0;
+    gCurrCarAI_TargetToSide_677A94 = 0;
     if (this->field_0_car->field_84_car_info_idx == car_model_enum::BUS)
     {
         return;
@@ -2439,7 +2439,7 @@ void CarAI::DetectCarAhead_44D1D0()
 
     if ((field_24_flags & 0x40000) == 0x40000 || (field_24_flags & 0x80000) == 0x80000)
     {
-        byte_677A94 = 1;
+        gCurrCarAI_TargetToSide_677A94 = 1;
         this->field_70_nearest_entity = this->field_0_car->field_50_car_sprite;
     }
     else
@@ -2471,7 +2471,7 @@ void CarAI::DetectCarAhead_44D1D0()
         return;
     }
 
-    if (!byte_677A94)
+    if (!gCurrCarAI_TargetToSide_677A94)
     {
         if (field_70_nearest_entity->field_8_car_bc_ptr->GetCarLinearSpeed_43A240() < gCurrCarAI_DesiredSpeed_677A8C)
         {
@@ -2539,14 +2539,14 @@ void CarAI::DetectCarAhead_44D1D0()
         return;
     }
 
-    if ((byte_677A94 && (field_24_bf.bFlag19)) || (!byte_677A94 && arrow_idx > 0))
+    if ((gCurrCarAI_TargetToSide_677A94 && (field_24_bf.bFlag19)) || (!gCurrCarAI_TargetToSide_677A94 && arrow_idx > 0))
     {
         if (arrow_idx != arrow_count - 1)
         {
             return;
         }
 
-        if (!byte_677A94 && !(gCurrCarAI_DesiredSpeed_677A8C > kFpPoint2_6779C0) &&
+        if (!gCurrCarAI_TargetToSide_677A94 && !(gCurrCarAI_DesiredSpeed_677A8C > kFpPoint2_6779C0) &&
             !(field_70_nearest_entity->field_8_car_bc_ptr->GetCarLinearSpeed_43A240() == kF16Zero_677B90))
         {
             gCurrCarAI_DesiredSpeed_677A8C = field_70_nearest_entity->field_8_car_bc_ptr->GetCarLinearSpeed_43A240();
@@ -2668,7 +2668,7 @@ void CarAI::DetectCarAhead_44D1D0()
 
 probe_sides:
 
-    if (gCurrCarAI_Velocity_677B00 < kFpPoint05_677B60 || byte_677A94)
+    if (gCurrCarAI_Velocity_677B00 < kFpPoint05_677B60 || gCurrCarAI_TargetToSide_677A94)
     {
         field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_xpos_677C38, gCurrCarAI_ypos_677C30, gCurrCarAI_zpos_677C48);
 

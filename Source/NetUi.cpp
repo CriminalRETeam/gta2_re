@@ -1533,7 +1533,7 @@ void NetUi::CreateMainUi_51AA90(HWND hWndParent)
             }
             else
             {
-                pNewWindowStr = ""; // byte_67DC88
+                pNewWindowStr = ""; // the original's empty string literal at 0x67DC88
             }
 
             field_201A8_ui_control_hwnds[i][j] = CreateWindowExA(gUiControlDefinitions_621430.data[i][j].field_0_windowParams.field_18_exStyle,

@@ -149,7 +149,7 @@ class RouteFinder
     EXPORT RouteFinder();
 
     u16 field_0_route_count;
-    u8 field_2;
+    u8 field_2_no_junction_direction;
     char_type field_3_unused;
     s16 field_4_unused;
     s16 field_6_unused;
