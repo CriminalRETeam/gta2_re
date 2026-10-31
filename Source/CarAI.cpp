@@ -43,7 +43,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint05_677B60, Fix16(0x333, 0), 0x677B60);
 
 DEFINE_GLOBAL(bool, gCurrCarAI_IsChasing_677BBC, 0x677BBC);
 DEFINE_GLOBAL(u8, gCurrCarAI_PedalsFree_677B3C, 0x677B3C);
-DEFINE_GLOBAL(u8, byte_677A78, 0x677A78);
+DEFINE_GLOBAL(u8, gCurrCarAI_Unused_677A78, 0x677A78);
 DEFINE_GLOBAL(bool, bOnGradientSlope_677C90, 0x677C90);
 DEFINE_GLOBAL(bool, gCurrCarAI_AllowTrafficSteering_677A5D, 0x677A5D);
 DEFINE_GLOBAL(u8, gIgnoreTargetCarAhead_677A6C, 0x677A6C);
@@ -60,7 +60,7 @@ DEFINE_GLOBAL(Fix16, gCurrCarAI_DesiredSpeed_677A8C, 0x677A8C);
 DEFINE_GLOBAL(Fix16, gCurrCarAI_TargetX_6779F0, 0x6779F0);
 DEFINE_GLOBAL(Fix16, gCurrCarAI_TargetY_6779F4, 0x6779F4);
 
-DEFINE_GLOBAL(s32, dword_677C88, 0x677C88);
+DEFINE_GLOBAL(s32, gCurrCarAI_Unused_677C88, 0x677C88);
 DEFINE_GLOBAL(Car*, gCurrCarAI_TargetCar_6779B0, 0x6779B0);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint6_6779D0, Fix16(0x2666, 0), 0x6779D0);
@@ -110,7 +110,7 @@ EXTERN_GLOBAL(u8, gCarAIProbingAhead_6771DC);
 MATCH_FUNC(0x447650)
 void __stdcall InitAIvars_447650()
 {
-    byte_677A78 = 0;
+    gCurrCarAI_Unused_677A78 = 0;
     bOnGradientSlope_677C90 = false;
     gCurrCarAI_AllowTrafficSteering_677A5D = true;
     gCurrCarAI_PedalsFree_677B3C = 1;
@@ -132,7 +132,7 @@ void __stdcall InitAIvars_447650()
     gCurrCarAI_TargetX_6779F0 = kF16Zero_677B90;
     gCurrCarAI_TargetY_6779F4 = kF16Zero_677B90;
     gCurrCarAI_TargetZ_6779F8 = kF16Zero_677B90;
-    dword_677C88 = 1;
+    gCurrCarAI_Unused_677C88 = 1;
     gCurrCarAI_TargetCar_6779B0 = NULL;
 }
 
