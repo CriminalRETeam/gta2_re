@@ -61,7 +61,6 @@ DEFINE_GLOBAL_INIT(Fix16, kArrowMaxRepositionSpeed_706298, Fix16(0xC00, 0), 0x70
 DEFINE_GLOBAL_INIT(Fix16, kArrowRepositionAccel_7065A8, Fix16(0x100, 0), 0x7065A8);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, gTmpWideStr_67C7D8, 640);
-DEFINE_GLOBAL_INIT(s32, MaxLineWidth_62689C, 576, 0x62689C);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
@@ -2146,6 +2145,7 @@ Hud_BriefEntry* Hud_Brief::AllocBrief_5D33F0()
 MATCH_FUNC(0x5d3470)
 size_t Hud_Brief::FormatCurrentBrief_5D3470()
 {
+    LOCAL_STATIC_INIT(s32, sMaxLineWidth, 576, 0x62689C);
     size_t num_chars;
     char_type brief_face_idx;
 
@@ -2170,7 +2170,7 @@ size_t Hud_Brief::FormatCurrentBrief_5D3470()
                 field_502_face_idx = 8; // neutral face
             }
 
-            field_508_num_lines = gText_0x14_704DFC->InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, pStartStr, MaxLineWidth_62689C, gBriefFont_7065C4);
+            field_508_num_lines = gText_0x14_704DFC->InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, pStartStr, sMaxLineWidth, gBriefFont_7065C4);
             num_chars = wcslen(field_0_str);
             if (bShow_brief_number_67D504)
             {
@@ -2191,7 +2191,7 @@ size_t Hud_Brief::FormatCurrentBrief_5D3470()
                     pStartStr_2 = tmpBuff_67BD9C;
                 }
                 swprintf(gTmpWideStr_67C7D8, L"(%s)%s", TextTable::Ascii2Wide_5B5DF0(field_6F8_curr_briefs->field_0_brief_id_str), pStartStr_2);
-                field_508_num_lines = TextTable::InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, gTmpWideStr_67C7D8, MaxLineWidth_62689C, gBriefFont_7065C4);
+                field_508_num_lines = TextTable::InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, gTmpWideStr_67C7D8, sMaxLineWidth, gBriefFont_7065C4);
             }
         }
         else
@@ -2208,7 +2208,7 @@ size_t Hud_Brief::FormatCurrentBrief_5D3470()
             {
                 field_502_face_idx = 8; // neutral face
             }
-            field_508_num_lines = gText_0x14_704DFC->InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, static_cast<const wchar_t*>(pBriefText), MaxLineWidth_62689C, gBriefFont_7065C4);
+            field_508_num_lines = gText_0x14_704DFC->InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, static_cast<const wchar_t*>(pBriefText), sMaxLineWidth, gBriefFont_7065C4);
             num_chars = wcslen(field_0_str);
 
             if (bShow_brief_number_67D504)
@@ -2226,7 +2226,7 @@ size_t Hud_Brief::FormatCurrentBrief_5D3470()
                     field_502_face_idx = 8; // neutral face
                 }
                 swprintf(gTmpWideStr_67C7D8, L"(%s)%s", TextTable::Ascii2Wide_5B5DF0(field_6F8_curr_briefs->field_0_brief_id_str), pString);
-                field_508_num_lines = TextTable::InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, gTmpWideStr_67C7D8, MaxLineWidth_62689C, gBriefFont_7065C4);
+                field_508_num_lines = TextTable::InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str, gTmpWideStr_67C7D8, sMaxLineWidth, gBriefFont_7065C4);
             }
         }
     }
