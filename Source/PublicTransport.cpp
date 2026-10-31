@@ -19,7 +19,7 @@ DEFINE_GLOBAL(TrainStopCount, gTrainStopCount_6FEFFC, 0x6FEFFC); // name sets a 
 DEFINE_STATIC_MEMBER(u8, PublicTransport, sStationCount, 0x6FF1CC);
 DEFINE_GLOBAL(u8, gTargetCarDoor_6FF1D8, 0x6FF1D8);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_6FF078, 0, 0x6FF078);
-DEFINE_GLOBAL_INIT(Fix16_Point, kZeroPoint_6FF150, Fix16_Point(Fix16(0), Fix16(0)), 0x6FF150);
+DEFINE_STATIC_GLOBAL_INIT(Fix16_Point, kZeroPoint, Fix16_Point(Fix16(0), Fix16(0)), 0x6FF150);
 DEFINE_GLOBAL(u8, gNameCompareLen_6FF158, 0x6FF158);
 DEFINE_STATIC_MEMBER(bool, PublicTransport, sBusSpawned, 0x6FF1CD);
 DEFINE_STATIC_MEMBER(s32, PublicTransport, sBusSpawnDelay, 0x6FF1D0);
@@ -37,10 +37,10 @@ DEFINE_GLOBAL_INIT(Ang16, kAng270_6FEFFE, Ang16(1080), 0x6FEFFE);
 DEFINE_GLOBAL_INIT(Ang16, kAng90_6FEF04, Ang16(360), 0x6FEF04);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_6FEFD6, Ang16(720), 0x6FEFD6);
 
-DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState0_6FEEE0, Fix16(0x1333, 0), 0x6FEEE0);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kTrainSpeedState0, Fix16(0x1333, 0), 0x6FEEE0);
 DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState1And3_6FEED4, Fix16(0x666, 0), 0x6FEED4);
 DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState4_6FEEDC, Fix16(0xCCC, 0), 0x6FEEDC);
-DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState5_6FEEE4, Fix16(0x1999, 0), 0x6FEEE4);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kTrainSpeedState5, Fix16(0x1999, 0), 0x6FEEE4);
 
 MATCH_FUNC(0x577E20)
 bool __stdcall HasBlockGreenArrowAtDirection_577E20(s32 direction, const gmp_block_info* pBlock)
@@ -501,11 +501,11 @@ void Train::ProcessTrainExplosionChain_578670()
             {
                 if (pFirst->field_74_damage >= 32000)
                 {
-                    pWagon->AccumulateDamage_43DA90(32000, &kZeroPoint_6FF150);
+                    pWagon->AccumulateDamage_43DA90(32000, &kZeroPoint);
                 }
                 else
                 {
-                    pFirst->AccumulateDamage_43DA90(32000, &kZeroPoint_6FF150);
+                    pFirst->AccumulateDamage_43DA90(32000, &kZeroPoint);
                 }
             }
         }
@@ -533,7 +533,7 @@ void Train::ProcessTrainExplosionChain_578670()
                 --field_38_explosion_timers[car_idx];
                 if (!field_38_explosion_timers[car_idx])
                 {
-                    field_C_carriages[car_idx + 1]->AccumulateDamage_43DA90(32000, &kZeroPoint_6FF150);
+                    field_C_carriages[car_idx + 1]->AccumulateDamage_43DA90(32000, &kZeroPoint);
                     if (car_idx > 0)
                     {
                         field_38_explosion_timers[car_idx - 1] = 10;
@@ -1174,7 +1174,7 @@ bool PublicTransport::GetTrainSpeed_579B90(Car* pToFind, Fix16* pOutSpeed)
                 switch (pTrain->field_50_state)
                 {
                     case 0:
-                        *pOutSpeed = kTrainSpeedState0_6FEEE0;
+                        *pOutSpeed = kTrainSpeedState0;
                         return false;
                     case 1:
                         *pOutSpeed = kTrainSpeedState1And3_6FEED4;
@@ -1189,7 +1189,7 @@ bool PublicTransport::GetTrainSpeed_579B90(Car* pToFind, Fix16* pOutSpeed)
                         *pOutSpeed = kTrainSpeedState4_6FEEDC;
                         return true;
                     case 5:
-                        *pOutSpeed = kTrainSpeedState5_6FEEE4;
+                        *pOutSpeed = kTrainSpeedState5;
                         return true;
                     default:
                         break;
