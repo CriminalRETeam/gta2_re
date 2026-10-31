@@ -95,8 +95,6 @@ enum
 };
 } // namespace script_operation
 
-DEFINE_GLOBAL_INIT(s16, gNextThreadId_6212EE, 1, 0x6212EE);
-
 DEFINE_GLOBAL_ARRAY_INIT(
     u8,
     kDecidePowerupGenTypes_6212F0,
@@ -256,8 +254,9 @@ u8 ScriptThread::GetEntityTypeOfCommand_503410(u32 opcode)
 MATCH_FUNC(0x5035b0)
 void ScriptThread::PoolAllocate()
 {
+    LOCAL_STATIC_INIT(s16, sNextThreadId, 1, 0x6212EE);
     field_118_in_level_start = false;
-    field_11A_thread_id = gNextThreadId_6212EE++;
+    field_11A_thread_id = sNextThreadId++;
 }
 
 MATCH_FUNC(0x5035d0)
@@ -270,8 +269,6 @@ void ScriptThread::Log_5035D0()
     }
 }
 
-DEFINE_GLOBAL(s32, gPrevCmdIdx_6F806C, 0x6F806C);
-
 MATCH_FUNC(0x503610)
 void ScriptThread::StopThread_503610()
 {
@@ -281,9 +278,10 @@ void ScriptThread::StopThread_503610()
 MATCH_FUNC(0x503620)
 void ScriptThread::Next_503620(SCR_CMD_HEADER* pCmd)
 {
+    LOCAL_STATIC(s32, sPrevCmdIdx, 0x6F806C);
     if (static_cast<u16>(pCmd->field_4_cmd_next) != 0xFFFF)
     { // FF FF (low endian) is the script terminator
-        gPrevCmdIdx_6F806C = field_4_next_cmd;
+        sPrevCmdIdx = field_4_next_cmd;
         field_4_next_cmd = pCmd->field_4_cmd_next;
         field_C_cmd_initialised = 0;
     }
