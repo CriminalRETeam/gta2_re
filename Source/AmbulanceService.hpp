@@ -19,6 +19,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(PatientSlot, 0x8);
 class AmbulanceTask
 {
   public:
+    STATIC_MEMBER(class Ped*, sParamedicCrewPed);
     EXPORT AmbulanceTask();
     EXPORT ~AmbulanceTask();
     EXPORT void ClearTask_4FA7D0();
