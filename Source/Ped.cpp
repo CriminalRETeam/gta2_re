@@ -5213,7 +5213,7 @@ void Ped::ProcessInternalObjective_463FB0()
                 Ped::WalkToTargetPoint_46C770();
                 break;
             case objectives_enum::goto_area_in_car_14:
-                Ped::EmptyState14_46CA60();
+                Ped::GotoAreaInCar_46CA60();
                 break;
             case objectives_enum::walk_to_car_door_18:
                 Ped::WalkToTargetThenStop_46C8A0();
@@ -10119,7 +10119,7 @@ void Ped::CrossRoad_46C9B0()
 }
 
 MATCH_FUNC(0x46ca60)
-void Ped::EmptyState14_46CA60()
+void Ped::GotoAreaInCar_46CA60()
 {
 }
 

@@ -322,7 +322,7 @@ class Ped
     EXPORT void WalkToTargetThenStop_46C8A0();
     EXPORT void FollowPathPoints_46C910();
     EXPORT void CrossRoad_46C9B0();
-    EXPORT void EmptyState14_46CA60();
+    EXPORT void GotoAreaInCar_46CA60();
     EXPORT void FollowPedInCar_46CA70();
     EXPORT void StartPedCrossingAtTrafficLight_Y_Backward_46CB30();
     EXPORT void StartPedCrossingAtTrafficLight_X_Forwards_46CC70();
