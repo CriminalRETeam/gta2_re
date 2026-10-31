@@ -41,7 +41,7 @@ EXTERN_GLOBAL(Fix16, kFpPoint02_6FD9AC);
 EXTERN_GLOBAL(Fix16, kFpPoint3_6FD830);
 
 DEFINE_GLOBAL(s8, gCharB4_UpdateCounter_6FDB48, 0x6FDB48);
-DEFINE_GLOBAL(s8, byte_6FDB49, 0x6FDB49);
+DEFINE_GLOBAL(s8, gCharB4_Unused_6FDB49, 0x6FDB49);
 DEFINE_GLOBAL(u32, gB4_id_6FDB4C, 0x6FDB4C);
 
 DEFINE_GLOBAL_INIT(s32, gCharB4_PathDirection_623F44, path_direction::up_1, 0x623F44);
@@ -50,7 +50,7 @@ DEFINE_GLOBAL(Fix16, gCharB4_DistanceToTarget_6FD80C, 0x6FD80C);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_6FD936, Ang16(720), 0x6FD936);
 DEFINE_GLOBAL_INIT(Ang16, kAng315_6FD938, Ang16(1260), 0x6FD938);
 
-DEFINE_GLOBAL(u8, byte_6FDB55, 0x6FDB55);
+DEFINE_GLOBAL(u8, gCharB4_Unused_6FDB55, 0x6FDB55);
 DEFINE_GLOBAL_INIT(Ang16, kAng4_6FDB2E, Ang16(16), 0x6FDB2E);
 
 DEFINE_GLOBAL(u8, gCharCollisionNoJump_6FDB58, 0x6FDB58);
@@ -64,11 +64,11 @@ DEFINE_GLOBAL_INIT(Fix16, kFP16Four_6FD9F4, Fix16(4), 0x6FD9F4);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Quarter_6FD7A4, Fix16(0x1000, 0), 0x6FD7A4);
 DEFINE_GLOBAL_INIT(Fix16, gCharB4_Saved_SlopeGradDir_6FD7B0, kFP16Zero_6FD9E4, 0x6FD7B0);
 DEFINE_GLOBAL_INIT(Fix16, kZeroVelocity_6FD7C0, kFP16Zero_6FD9E4, 0x6FD7C0);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD7DC, kFP16Zero_6FD9E4, 0x6FD7DC);
+DEFINE_GLOBAL_INIT(Fix16, gCharB4_Unused_6FD7DC, kFP16Zero_6FD9E4, 0x6FD7DC);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD868, Fix16(256, 0), 0x6FD868);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Half_6FD9B4, Fix16(0x2000, 0), 0x6FD9B4);
 DEFINE_GLOBAL_INIT(Fix16, gRunOrJumpSpeed_6FD7D0, kFP16Four_6FD9F4* kFpOne64th_6FD868, 0x6FD7D0);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD8B4, kFP16Zero_6FD9E4, 0x6FD8B4);
+DEFINE_GLOBAL_INIT(Fix16, gCharB4_Unused_6FD8B4, kFP16Zero_6FD9E4, 0x6FD8B4);
 DEFINE_GLOBAL_INIT(Fix16, gCharB4_StepXpos_6FD8B8, kFP16Zero_6FD9E4, 0x6FD8B8);
 DEFINE_GLOBAL_INIT(Fix16, gCharB4_StepYpos_6FD8BC, kFP16Zero_6FD9E4, 0x6FD8BC);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint2_6FD82C, Fix16(0xCCC, 0), 0x6FD82C);
@@ -110,7 +110,7 @@ DEFINE_GLOBAL(u16, gNumPedsOnScreen_6787EC, 0x6787EC);
 
 DEFINE_GLOBAL(u8, gCharB4_TurnToFreeFace_6FDB51, 0x6FDB51);
 DEFINE_GLOBAL(u8, gCharB4_VeerFromWalls_6FDB52, 0x6FDB52);
-DEFINE_GLOBAL(u8, byte_6FDB53, 0x6FDB53);
+DEFINE_GLOBAL(u8, gCharB4_Unused_6FDB53, 0x6FDB53);
 DEFINE_GLOBAL(u8, gCharB4_GradientSlopeBelow_6FDB54, 0x6FDB54);
 
 DEFINE_GLOBAL(u8, gCharB4_MoveIgnorePeds_6FDB56, 0x6FDB56);
@@ -215,16 +215,16 @@ void __stdcall ResetCharUpdateGlobals_544F70()
     gCharB4_Saved_Xpos_6FD7F8 = kFP16Zero_6FD9E4;
     gCharB4_Saved_Ypos_6FD800 = kFP16Zero_6FD9E4;
     gCharB4_Saved_Zpos_6FD7FC = kFP16Zero_6FD9E4;
-    dword_6FD7DC = kFP16Zero_6FD9E4;
+    gCharB4_Unused_6FD7DC = kFP16Zero_6FD9E4;
     gCharB4_Saved_SlopeGradDir_6FD7B0 = kFP16Zero_6FD9E4;
     gCharB4_StepXpos_6FD8B8 = kFP16Zero_6FD9E4;
     gCharB4_StepYpos_6FD8BC = kFP16Zero_6FD9E4;
-    dword_6FD8B4 = kFP16Zero_6FD9E4;
+    gCharB4_Unused_6FD8B4 = kFP16Zero_6FD9E4;
     gCharB4_TurnToFreeFace_6FDB51 = 0;
     gCharB4_VeerFromWalls_6FDB52 = 0;
-    byte_6FDB53 = 0;
+    gCharB4_Unused_6FDB53 = 0;
     gCharB4_GradientSlopeBelow_6FDB54 = 0;
-    byte_6FDB55 = 0;
+    gCharB4_Unused_6FDB55 = 0;
     gCharB4_PathDirection_623F44 = path_direction::up_1;
     gCharB4_MoveIgnorePeds_6FDB56 = 0;
     gCharB4_IgnorePeds_623F48 = 1;
@@ -540,7 +540,7 @@ void Char::Update_545720(Fix16 distance_to_target)
     gCharB4_Saved_Ypos_6FD800 = field_80_sprite_ptr->field_14_xy.y;
     gCharB4_Saved_Zpos_6FD7FC = field_80_sprite_ptr->field_1C_zpos;
     gCharB4_Saved_SlopeGradDir_6FD7B0 = Fix16(field_45_slope_gradient_direction);
-    byte_6FDB55 = 0;
+    gCharB4_Unused_6FDB55 = 0;
     gCharCollisionNoJump_6FDB58 = 0;
 
     gSpriteGrid_1_679208->RemoveFromRegionBuckets_477B60(field_80_sprite_ptr);
@@ -2936,7 +2936,7 @@ void Char::TickMovementStateMachine_54C900()
             this->field_38_velocity = kFpOne64th_6FD7B8;
             gCharB4_TurnToFreeFace_6FDB51 = 1;
             gCharB4_VeerFromWalls_6FDB52 = 1;
-            byte_6FDB53 = 0;
+            gCharB4_Unused_6FDB53 = 0;
             break;
 
         case Char_B4_state::Walking_Fast_3:
@@ -2951,7 +2951,7 @@ void Char::TickMovementStateMachine_54C900()
                 this->field_10_char_state = Char_B4_state::Walking_1;
                 this->field_6C_animation_state = Char_Anim_state::Walking_0;
             }
-            byte_6FDB53 = 0;
+            gCharB4_Unused_6FDB53 = 0;
             gCharB4_TurnToFreeFace_6FDB51 = 1;
             gCharB4_VeerFromWalls_6FDB52 = 1;
             break;
@@ -2968,7 +2968,7 @@ void Char::TickMovementStateMachine_54C900()
                 this->field_10_char_state = Char_B4_state::Walking_1;
                 this->field_6C_animation_state = Char_Anim_state::Walking_0;
             }
-            byte_6FDB53 = 0;
+            gCharB4_Unused_6FDB53 = 0;
             gCharB4_TurnToFreeFace_6FDB51 = 1;
             gCharB4_VeerFromWalls_6FDB52 = 1;
             break;
@@ -2987,7 +2987,7 @@ void Char::TickMovementStateMachine_54C900()
                 this->field_10_char_state = Char_B4_state::Walking_1;
                 this->field_38_velocity = kFpOne64th_6FD7B8;
             }
-            byte_6FDB53 = 0;
+            gCharB4_Unused_6FDB53 = 0;
             gCharB4_TurnToFreeFace_6FDB51 = 1;
             gCharB4_VeerFromWalls_6FDB52 = 1;
             break;
@@ -3002,7 +3002,7 @@ void Char::TickMovementStateMachine_54C900()
                 this->field_6C_animation_state = Char_Anim_state::Walking_0;
             }
             gCharB4_VeerFromWalls_6FDB52 = 0;
-            byte_6FDB53 = 0;
+            gCharB4_Unused_6FDB53 = 0;
             gCharB4_TurnToFreeFace_6FDB51 = 1;
             break;
 
@@ -3017,7 +3017,7 @@ void Char::TickMovementStateMachine_54C900()
             }
             gCharB4_TurnToFreeFace_6FDB51 = 0;
             gCharB4_VeerFromWalls_6FDB52 = 0;
-            byte_6FDB53 = 0;
+            gCharB4_Unused_6FDB53 = 0;
             break;
 
         case Char_B4_state::Interacting_Car_Door_36:
@@ -3344,7 +3344,7 @@ void Char::UpdateWalking_54DDF0()
 
     gCharB4_TurnToFreeFace_6FDB51 = 1;
     gCharB4_VeerFromWalls_6FDB52 = 1;
-    byte_6FDB53 = 0;
+    gCharB4_Unused_6FDB53 = 0;
     gCharB4_GradientSlopeBelow_6FDB54 = 0;
     this->field_4A_timeout = 500;
     bAllowStateChange = 1;
@@ -6815,7 +6815,7 @@ MATCH_FUNC(0x553F90)
 void __stdcall ResetCharStatics_553F90()
 {
     gCharB4_UpdateCounter_6FDB48 = 0;
-    byte_6FDB49 = 0;
+    gCharB4_Unused_6FDB49 = 0;
     gB4_id_6FDB4C = 0;
 }
 
