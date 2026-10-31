@@ -27,6 +27,34 @@ GTA2_ASSERT_SIZEOF_ALWAYS(PathNode, 0x8);
 class PathFinder
 {
   public:
+    STATIC_MEMBER(u8, sPathFinderEdge4Z);
+    STATIC_MEMBER(u8, sPathFinderEdge4Y);
+    STATIC_MEMBER(u8, sPathFinderEdge4X);
+    STATIC_MEMBER(u8, sPathFinderEdge4GridY);
+    STATIC_MEMBER(u8, sPathFinderEdge4GridX);
+    STATIC_MEMBER(u8, sPathFinderEdge3Z);
+    STATIC_MEMBER(u8, sPathFinderEdge3Y);
+    STATIC_MEMBER(u8, sPathFinderEdge3X);
+    STATIC_MEMBER(u8, sPathFinderEdge3GridY);
+    STATIC_MEMBER(u8, sPathFinderEdge3GridX);
+    STATIC_MEMBER(u8, sPathFinderEdge2Z);
+    STATIC_MEMBER(u8, sPathFinderEdge2Y);
+    STATIC_MEMBER(u8, sPathFinderEdge2X);
+    STATIC_MEMBER(u8, sPathFinderEdge2GridY);
+    STATIC_MEMBER(u8, sPathFinderEdge2GridX);
+    STATIC_MEMBER(u8, sPathFinderEdge1Z);
+    STATIC_MEMBER(u8, sPathFinderEdge1Y);
+    STATIC_MEMBER(u8, sPathFinderEdge1X);
+    STATIC_MEMBER(u8, sPathFinderEdge1GridY);
+    STATIC_MEMBER(u8, sPathFinderEdge1GridX);
+    STATIC_MEMBER(u8, sPathFinderBestZ);
+    STATIC_MEMBER(u8, sPathFinderBestY);
+    STATIC_MEMBER(u8, sPathFinderBestX);
+    STATIC_MEMBER(u8, sPathFinderBestGridY);
+    STATIC_MEMBER(u8, sPathFinderBestGridX);
+    STATIC_MEMBER(s16, sPathFinderBestCost);
+    STATIC_MEMBER(s32, sPathFinderAngleFace);
+    STATIC_MEMBER(u8, sPathFinderSlopeZDelta);
     PathFinder()
     {
         Init_5545E0();
