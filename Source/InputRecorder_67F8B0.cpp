@@ -37,10 +37,8 @@ DEFINE_GLOBAL(InputDevices*, gInputDevices_67B990, 0x67B990);
 DEFINE_GLOBAL(DWORD, gDeviceDataCount_67B624, 0x67B624);
 DEFINE_GLOBAL(u8, gAltKeyDown_67B80C, 0x67B80C);
 DEFINE_GLOBAL(bool, gNeedKbAcquire_67B66C, 0x67B66C);
-DEFINE_GLOBAL(DIDEVICEOBJECTDATA, gKeyboardDeviceData_67B610, 0x67B610);
 DEFINE_GLOBAL(mini_device_obj_data, gGamePadDeviceData_67B5B0, 0x67B5B0);
 
-DEFINE_GLOBAL_ARRAY_INIT(s32, gDefaultControls_61A9E4, 12, 0x61A9E4, DIK_UP COMMA DIK_DOWN COMMA DIK_LEFT COMMA DIK_RIGHT COMMA DIK_LCONTROL COMMA DIK_RETURN COMMA DIK_SPACE COMMA DIK_Z COMMA DIK_X COMMA DIK_TAB COMMA DIK_LMENU COMMA DIK_RSHIFT);
 DEFINE_GLOBAL_ARRAY(s32, gControlDeviceType_67B91C, 12, 0x67B91C);
 DEFINE_GLOBAL_ARRAY(s32, gPlayerControlsBinding_67B6E8, 12, 0x67B6E8);
 
@@ -286,9 +284,10 @@ bool InputDevices::game_pads_init_498BA0()
 MATCH_FUNC(0x498C00)
 void InputDevices::get_registry_controls_498C00()
 {
+    LOCAL_STATIC_ARRAY_INIT(s32, sDefaultControls, 12, 0x61A9E4, DIK_UP COMMA DIK_DOWN COMMA DIK_LEFT COMMA DIK_RIGHT COMMA DIK_LCONTROL COMMA DIK_RETURN COMMA DIK_SPACE COMMA DIK_Z COMMA DIK_X COMMA DIK_TAB COMMA DIK_LMENU COMMA DIK_RSHIFT);
     for (u32 i = 0; i < 12; ++i)
     {
-        const u32 setting = gRegistry_6FF968.Get_Control_Setting_587010(i, gDefaultControls_61A9E4[i]);
+        const u32 setting = gRegistry_6FF968.Get_Control_Setting_587010(i, sDefaultControls[i]);
         gControlDeviceType_67B91C[i] = setting >> 15;
         gPlayerControlsBinding_67B6E8[i] = static_cast<u8>(setting);
     }
@@ -373,12 +372,13 @@ bool InputDevices::game_pad_read_498D20()
 MATCH_FUNC(0x498DA0)
 void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboardControls)
 {
+    LOCAL_STATIC(DIDEVICEOBJECTDATA, sKeyboardDeviceData, 0x67B610);
     bool bFirstPass = true;
     s32 bReleased = 0;
     DWORD padItems = 1;
     if (acquire_input_device_498730(gKeyboardDevice_67B5C0) || acquire_input_device_498730(gGamePadDevice_67B6C0))
     {
-        memset(&gKeyboardDeviceData_67B610, 0, sizeof(mini_device_obj_data));
+        memset(&sKeyboardDeviceData, 0, sizeof(mini_device_obj_data));
         memset(&gGamePadDeviceData_67B5B0, 0, sizeof(mini_device_obj_data));
         if (acquire_input_device_498730(gGamePadDevice_67B6C0))
         {
@@ -395,7 +395,7 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
             if (gKeyboardDevice_67B5C0)
             {
                 gDeviceDataCount_67B624 = 1;
-                kbResult = gKeyboardDevice_67B5C0->GetDeviceData(16, &gKeyboardDeviceData_67B610, &gDeviceDataCount_67B624, 0);
+                kbResult = gKeyboardDevice_67B5C0->GetDeviceData(16, &sKeyboardDeviceData, &gDeviceDataCount_67B624, 0);
             }
             else
             {
@@ -432,18 +432,18 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
                 return;
             }
 
-            if (gKeyboardDeviceData_67B610.dwOfs == DIK_LMENU)
+            if (sKeyboardDeviceData.dwOfs == DIK_LMENU)
             {
-                SetAltKeyState_498CB0(gKeyboardDeviceData_67B610.dwData);
+                SetAltKeyState_498CB0(sKeyboardDeviceData.dwData);
             }
-            else if ((gKeyboardDeviceData_67B610.dwOfs == DIK_SPACE || gKeyboardDeviceData_67B610.dwOfs == DIK_TAB ||
-                      gKeyboardDeviceData_67B610.dwOfs == DIK_RETURN) &&
+            else if ((sKeyboardDeviceData.dwOfs == DIK_SPACE || sKeyboardDeviceData.dwOfs == DIK_TAB ||
+                      sKeyboardDeviceData.dwOfs == DIK_RETURN) &&
                      gAltKeyDown_67B80C == 1)
             {
                 return;
             }
 
-            if (!gHud_2B00_706620->IsInputKeyConsumed_5D6C70(gKeyboardDeviceData_67B610.dwOfs))
+            if (!gHud_2B00_706620->IsInputKeyConsumed_5D6C70(sKeyboardDeviceData.dwOfs))
             {
                 // The pad fields are read directly: VC6 keeps them in edi/edx across the loop and
                 // reloads them after each set/clear call, as the original does
@@ -453,11 +453,11 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
                     // Reset for every input, so only the last binding (input 11) counts
                     bHandled = false;
                     if (kbResult == 0 && gControlDeviceType_67B91C[input] == 0 &&
-                        static_cast<u32>(gPlayerControlsBinding_67B6E8[input]) == gKeyboardDeviceData_67B610.dwOfs)
+                        static_cast<u32>(gPlayerControlsBinding_67B6E8[input]) == sKeyboardDeviceData.dwOfs)
                     {
                         // Keyboard binding
                         bHandled = true;
-                        if (gKeyboardDeviceData_67B610.dwData & 0x80)
+                        if (sKeyboardDeviceData.dwData & 0x80)
                         {
                             if (bApplyKeyboardControls)
                             {
@@ -582,17 +582,17 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
             }
             else
             {
-                AddKeyToInputBits_498C80(input_bits, &gKeyboardDeviceData_67B610);
+                AddKeyToInputBits_498C80(input_bits, &sKeyboardDeviceData);
                 bFirstPass = false;
                 if (bLog_directinput_67D6C0)
                 {
-                    if (gKeyboardDeviceData_67B610.dwData & 0x80)
+                    if (sKeyboardDeviceData.dwData & 0x80)
                     {
-                        sprintf(gTmpBuffer_67C598, "%d: KEY ON : %d", gpRng_67AB34->get_cur_rng_41CFE0(), gKeyboardDeviceData_67B610.dwOfs);
+                        sprintf(gTmpBuffer_67C598, "%d: KEY ON : %d", gpRng_67AB34->get_cur_rng_41CFE0(), sKeyboardDeviceData.dwOfs);
                     }
                     else
                     {
-                        sprintf(gTmpBuffer_67C598, "%d: KEY OFF: %d", gpRng_67AB34->get_cur_rng_41CFE0(), gKeyboardDeviceData_67B610.dwOfs);
+                        sprintf(gTmpBuffer_67C598, "%d: KEY OFF: %d", gpRng_67AB34->get_cur_rng_41CFE0(), sKeyboardDeviceData.dwOfs);
                     }
                 }
             }
