@@ -108,7 +108,7 @@ DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint03, Fix16(0x1EB, 0), 0x6FF6A4);
 
 // This is not used outside this file.
 // In fact, it's only allocated and deallocated, it's never used.
-DEFINE_GLOBAL(Sprite*, gSprite_Unused_677938, 0x677938);
+DEFINE_STATIC_MEMBER(Sprite*, CarManager, sSpriteUnused, 0x677938);
 
 DEFINE_GLOBAL_INIT(Fix16, gFix16_6777CC, Fix16(0), 0x6777CC);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kTvAntennaOffsetY, Fix16(0x100, 0), 0x6778A0);
@@ -204,9 +204,9 @@ DEFINE_STATIC_GLOBAL_INIT(Ang16, kGunJeepTurretRotSpeed, Ang16(0x14), 0x677810);
 DEFINE_GLOBAL_INIT(Fix16, kFp255_676D98, Fix16(255), 0x676D98);
 DEFINE_GLOBAL_INIT(Fix16, kDrowningMaxSpeed_677794, kFpPoint05_6777A0, 0x677794);
 
-DEFINE_GLOBAL(s32, gAverageCarModelsCount_6772DC, 0x6772DC);
-DEFINE_GLOBAL(s32, gBadCarModelsCount_6772EC, 0x6772EC);
-DEFINE_GLOBAL(s32, gGoodCarModelsCount_677294, 0x677294);
+DEFINE_STATIC_MEMBER(s32, CarManager, sAverageCarModelsCount, 0x6772DC);
+DEFINE_STATIC_MEMBER(s32, CarManager, sBadCarModelsCount, 0x6772EC);
+DEFINE_STATIC_MEMBER(s32, CarManager, sGoodCarModelsCount, 0x677294);
 
 DEFINE_GLOBAL_INIT(car_rng_list, gGoodCarModels_677384, car_rng_list(Fix16(256, 0)), 0x677384);
 DEFINE_GLOBAL_INIT(car_rng_list, gAverageCarModels_676DB4, car_rng_list(Fix16(512, 0)), 0x676DB4);
@@ -553,9 +553,9 @@ MATCH_FUNC(0x444980)
 void CarManager::DistributeCarsByRating_444980()
 {
     u16 i = 0;
-    gBadCarModelsCount_6772EC = 0;
-    gAverageCarModelsCount_6772DC = 0;
-    gGoodCarModelsCount_677294 = 0;
+    sBadCarModelsCount = 0;
+    sAverageCarModelsCount = 0;
+    sGoodCarModelsCount = 0;
 
     for (; i < 256; i++)
     {
@@ -587,21 +587,21 @@ void CarManager::DistributeCarsByRating_444980()
                     {
                         for (; r_mod_10 > 0; r_mod_10--)
                         {
-                            gBadCarModels_676988.values[gBadCarModelsCount_6772EC++] = pInfo->model;
+                            gBadCarModels_676988.values[sBadCarModelsCount++] = pInfo->model;
                         }
                     }
                     else if (idx_type == k_rating_average)
                     {
                         for (; r_mod_10 > 0; r_mod_10--)
                         {
-                            gAverageCarModels_676DB4.values[gAverageCarModelsCount_6772DC++] = pInfo->model;
+                            gAverageCarModels_676DB4.values[sAverageCarModelsCount++] = pInfo->model;
                         }
                     }
                     else if (idx_type == k_rating_good)
                     {
                         for (; r_mod_10 > 0; r_mod_10--)
                         {
-                            gGoodCarModels_677384.values[gGoodCarModelsCount_677294++] = pInfo->model;
+                            gGoodCarModels_677384.values[sGoodCarModelsCount++] = pInfo->model;
                         }
                     }
                 }
@@ -665,7 +665,7 @@ u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZo
                 do
                 {
                     result = gGoodCarModels_677384.values[field_9_good_car_idx++];
-                    if (field_9_good_car_idx == gGoodCarModelsCount_677294)
+                    if (field_9_good_car_idx == sGoodCarModelsCount)
                     {
                         field_9_good_car_idx = 0;
                     }
@@ -679,7 +679,7 @@ u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZo
                     do
                     {
                         result = gBadCarModels_676988.values[field_A_bad_car_idx++];
-                        if (field_A_bad_car_idx == gBadCarModelsCount_6772EC)
+                        if (field_A_bad_car_idx == sBadCarModelsCount)
                         {
                             field_A_bad_car_idx = 0;
                         }
@@ -705,7 +705,7 @@ u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZo
                             do
                             {
                                 result = gAverageCarModels_676DB4.values[field_B_average_car_idx++];
-                                if (field_B_average_car_idx == gAverageCarModelsCount_6772DC)
+                                if (field_B_average_car_idx == sAverageCarModelsCount)
                                 {
                                     field_B_average_car_idx = 0;
                                 }
@@ -1766,10 +1766,10 @@ CarManager::CarManager()
     field_20_light_state_a = 4;
     field_24_light_state_b = 1;
 
-    if (!gSprite_Unused_677938)
+    if (!sSpriteUnused)
     {
-        gSprite_Unused_677938 = new Sprite(kAngZero_67791C, gFix16_6777CC);
-        if (!gSprite_Unused_677938)
+        sSpriteUnused = new Sprite(kAngZero_67791C, gFix16_6777CC);
+        if (!sSpriteUnused)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8375);
         }
@@ -1817,12 +1817,12 @@ CarManager::~CarManager()
 
     // An explicit dtor call through the global plus operator delete on a saved copy gives the original's
     // test in ecx with the copy moved to esi inside the if (as in SpriteTree::~SpriteTree)
-    if (gSprite_Unused_677938 != NULL)
+    if (sSpriteUnused != NULL)
     {
-        Sprite* p = gSprite_Unused_677938;
-        gSprite_Unused_677938->~Sprite();
+        Sprite* p = sSpriteUnused;
+        sSpriteUnused->~Sprite();
         operator delete(p);
-        gSprite_Unused_677938 = NULL;
+        sSpriteUnused = NULL;
     }
 
     field_4_spare_driver = NULL;

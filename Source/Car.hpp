@@ -150,6 +150,10 @@ EXTERN_GLOBAL(Fix16, kFpOne_679E74);
 class CarManager
 {
   public:
+    STATIC_MEMBER(Sprite*, sSpriteUnused);
+    STATIC_MEMBER(s32, sGoodCarModelsCount);
+    STATIC_MEMBER(s32, sBadCarModelsCount);
+    STATIC_MEMBER(s32, sAverageCarModelsCount);
     // 9.6f 0x421960
     inline Ped* GetSpareDriver_421960() const
     {
