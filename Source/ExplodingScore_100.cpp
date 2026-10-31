@@ -9,9 +9,9 @@ DEFINE_GLOBAL(ExplodingScorePool*, gExplodingScorePool, 0x702F34);
 
 DEFINE_GLOBAL_INIT(Fix16, kFp160_702C6C, Fix16(160), 0x702C6C); // Fix16(640) / Fix16(4) (the global 0x702DF0)
 DEFINE_GLOBAL_INIT(Fix16, kFp255_702BC4, Fix16(255), 0x702BC4);
-DEFINE_GLOBAL_INIT(Fix16, kFp480_702F10, Fix16(480), 0x702F10); // 0xA00000 - kFp160_702C6C
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFp480, Fix16(480), 0x702F10); // 0xA00000 - kFp160_702C6C
 DEFINE_GLOBAL_INIT(Fix16, kFp120_702C74, Fix16(120), 0x702C74); // Fix16(480) / Fix16(4) (the global 0x702DF0)
-DEFINE_GLOBAL_INIT(Fix16, kFp360_702C08, Fix16(360), 0x702C08); // 0x780000 - kFp120_702C74
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFp360, Fix16(360), 0x702C08); // 0x780000 - kFp120_702C74
 
 DEFINE_GLOBAL(Fix16, kFpZero_702DE0, 0x702DE0);
 DEFINE_GLOBAL(Ang16, kAng0_702F24, 0x702F24);
@@ -260,9 +260,9 @@ void ExplodingScore::DrawNumbers_596C90()
         x_delta = screen_x / kFp255_702BC4;
         field_28_x += x_delta;
     }
-    else if (screen_x > kFp480_702F10)
+    else if (screen_x > kFp480)
     {
-        screen_x = kFp480_702F10 - screen_x;
+        screen_x = kFp480 - screen_x;
         x_delta = screen_x / kFp255_702BC4;
         field_28_x += x_delta;
     }
@@ -273,9 +273,9 @@ void ExplodingScore::DrawNumbers_596C90()
         y_delta = screen_y / kFp255_702BC4;
         field_2C_y += y_delta;
     }
-    else if (screen_y > kFp360_702C08)
+    else if (screen_y > kFp360)
     {
-        screen_y = kFp360_702C08 - screen_y;
+        screen_y = kFp360 - screen_y;
         y_delta = screen_y / kFp255_702BC4;
         field_2C_y += y_delta;
     }
