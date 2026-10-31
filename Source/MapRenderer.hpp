@@ -15,8 +15,8 @@ class DrawListBlock
     {
         return field_0_x == other->field_0_x && field_4_y == other->field_4_y;
     }
-    s32 field_0_x;
-    s32 field_4_y;
+    s32 field_0_x; // 0x0
+    s32 field_4_y; // 0x4
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(DrawListBlock, 0x8);
 
@@ -174,28 +174,28 @@ class MapRenderer
         field_2EFC_curr_draw_layer_size = 0;
     }
 
-    Fix16 field_0_ambient;
-    Fix16 field_4_target_ambient;
-    Fix16 field_8_ambient_step;
-    u8 field_C_colour_t1;
-    u8 field_D_right_colour;
-    u8 field_E_colour_t2;
-    u8 field_F_colour_t3;
-    u8 field_10_diag_up_left_colour;
-    u8 field_11_diag_up_right_colour;
-    u8 field_12_diag_down_left_colour;
-    u8 field_13_diag_down_right_colour;
-    u8 field_14_dcolour;
-    u8 field_15_slope_south_colour;
-    u8 field_16_slope_west_colour;
-    u8 field_17_slope_east_colour;
-    u8 field_18_color;
-    u8 field_19_tri_diag_up_right_colour;
-    u8 field_1A_tri_diag_down_left_colour;
-    u8 field_1B_tri_diag_down_right_colour;
-    DrawListBlock field_1C_draw_list[1500];
-    s32 field_2EFC_curr_draw_layer_size;
-    s32 field_2F00_drawn_tile_count;
+    Fix16 field_0_ambient; // 0x0
+    Fix16 field_4_target_ambient; // 0x4
+    Fix16 field_8_ambient_step; // 0x8
+    u8 field_C_colour_t1; // 0xC
+    u8 field_D_right_colour; // 0xD
+    u8 field_E_colour_t2; // 0xE
+    u8 field_F_colour_t3; // 0xF
+    u8 field_10_diag_up_left_colour; // 0x10
+    u8 field_11_diag_up_right_colour; // 0x11
+    u8 field_12_diag_down_left_colour; // 0x12
+    u8 field_13_diag_down_right_colour; // 0x13
+    u8 field_14_dcolour; // 0x14
+    u8 field_15_slope_south_colour; // 0x15
+    u8 field_16_slope_west_colour; // 0x16
+    u8 field_17_slope_east_colour; // 0x17
+    u8 field_18_color; // 0x18
+    u8 field_19_tri_diag_up_right_colour; // 0x19
+    u8 field_1A_tri_diag_down_left_colour; // 0x1A
+    u8 field_1B_tri_diag_down_right_colour; // 0x1B
+    DrawListBlock field_1C_draw_list[1500]; // 0x1C
+    s32 field_2EFC_curr_draw_layer_size; // 0x2EFC
+    s32 field_2F00_drawn_tile_count; // 0x2F00
 };
 
 EXPORT void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts);

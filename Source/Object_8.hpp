@@ -27,7 +27,7 @@ class Object_8
     }
 
     Object_8* mpNext;
-    s16 field_4_timer;
-    u8 field_6_frame_counter;
-    u8 field_7_frame_idx;
+    s16 field_4_timer; // 0x4
+    u8 field_6_frame_counter; // 0x6
+    u8 field_7_frame_idx; // 0x7
 };

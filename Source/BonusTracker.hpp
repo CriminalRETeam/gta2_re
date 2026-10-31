@@ -15,22 +15,22 @@ class BonusRule
     EXPORT void Reset_431DA0();
     EXPORT void Deactivate_431DB0();
 
-    gmp_map_zone* field_0_pZone;
-    s16 field_4_event_type;
-    s32 field_8_car_model;
-    s32 field_C_occupation;
-    s16 field_10_gang_idx;
-    s16 field_12_remap;
-    s32 field_14_death_cause;
-    s32 field_18_alt_car_model;
-    s32 field_1C_time_limit; // -1: no limit
-    s32 field_20_start_time;
-    char_type field_24_check_mode; // 1: a non matching event cancels the rule, otherwise it is ignored
-    u8 field_25_target_count;
-    u8 field_26_progress_count;
-    u16 field_28_reward;
-    bool field_2A_bUsed;
-    bool field_2B_bActive;
+    gmp_map_zone* field_0_pZone; // 0x0
+    s16 field_4_event_type; // 0x4
+    s32 field_8_car_model; // 0x8
+    s32 field_C_occupation; // 0xC
+    s16 field_10_gang_idx; // 0x10
+    s16 field_12_remap; // 0x12
+    s32 field_14_death_cause; // 0x14
+    s32 field_18_alt_car_model; // 0x18
+    s32 field_1C_time_limit; // 0x1C: -1: no limit
+    s32 field_20_start_time; // 0x20
+    char_type field_24_check_mode; // 0x24: 1: a non matching event cancels the rule, otherwise it is ignored
+    u8 field_25_target_count; // 0x25
+    u8 field_26_progress_count; // 0x26
+    u16 field_28_reward; // 0x28
+    bool field_2A_bUsed; // 0x2A
+    bool field_2B_bActive; // 0x2B
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(BonusRule, 0x2C);
 
@@ -85,8 +85,8 @@ class BonusTracker
     EXPORT bool IsOccupationInGroup_432240(s32 occupation, s32 rule_occupation) const;
     EXPORT bool AreCarModelsEquivalent_432300(s32 car_model_1, s32 car_model_2) const;
 
-    BonusRule field_0_bonuses[k_max_rules];
-    class PlayerScoreTracker* field_1B8_pScores;
-    s32 field_1BC_cur_time;
+    BonusRule field_0_bonuses[k_max_rules]; // 0x0
+    class PlayerScoreTracker* field_1B8_pScores; // 0x1B8
+    s32 field_1BC_cur_time; // 0x1BC
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(BonusTracker, 0x1C0);

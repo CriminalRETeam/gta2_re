@@ -6,7 +6,7 @@
 
 struct chunk_base
 {
-    char_type field_0_type[4];
+    char_type field_0_type[4]; // 0x0
 
     // inline 0x460EE0
     void verify_type(const char_type* pExpected)
@@ -20,7 +20,7 @@ struct chunk_base
 
 struct file_header : public chunk_base
 {
-    u16 field_4_version;
+    u16 field_4_version; // 0x4
 
     // inline 460EC0
     void verify_version(u32 expectedVersion)
@@ -34,5 +34,5 @@ struct file_header : public chunk_base
 
 struct chunk_header : public chunk_base
 {
-    s32 field_4_size;
+    s32 field_4_size; // 0x4
 };

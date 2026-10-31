@@ -48,10 +48,10 @@ class TagGame
     // 9.6f 0x453AB0, defined in Frontend.cpp
     inline s32 GetLeaderIdx_453AB0();
 
-    Player* field_0_fugitive;  //  the player who is "IT"
-    s32 field_4_it_time_secs[MAX_PLAYERS]; //  seconds each player has spent as "IT" (counted while the net time limit is enabled)
-    s32 field_1C_tick_timer;
-    bool field_20_bHasQuit[MAX_PLAYERS];
+    Player* field_0_fugitive;  // 0x0:  the player who is "IT"
+    s32 field_4_it_time_secs[MAX_PLAYERS]; // 0x4:  seconds each player has spent as "IT" (counted while the net time limit is enabled)
+    s32 field_1C_tick_timer; // 0x1C
+    bool field_20_bHasQuit[MAX_PLAYERS]; // 0x20
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TagGame, 0x28);
 

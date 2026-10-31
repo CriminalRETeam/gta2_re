@@ -8,9 +8,9 @@ class Sprite;
 class SpriteTreeNode
 {
   public:
-    Sprite* field_0_pSprite;
-    SpriteTreeNode* field_4_pLeft;
-    SpriteTreeNode* field_8_pRight;
+    Sprite* field_0_pSprite; // 0x0
+    SpriteTreeNode* field_4_pLeft; // 0x4
+    SpriteTreeNode* field_8_pRight; // 0x8
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpriteTreeNode, 0xC);
 
@@ -56,8 +56,8 @@ class SpriteTreeStack
         return *this->field_FA0_pTop;
     }
 
-    SpriteTreeNode* field_0_stack[k_max_nodes];
-    SpriteTreeNode** field_FA0_pTop;
+    SpriteTreeNode* field_0_stack[k_max_nodes]; // 0x0
+    SpriteTreeNode** field_FA0_pTop; // 0xFA0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpriteTreeStack, 0xFA4);
 
@@ -88,8 +88,8 @@ class SpriteTreeNodePool
 
     EXPORT SpriteTreeNodePool();
     EXPORT ~SpriteTreeNodePool();
-    SpriteTreeNode field_0_entries[SpriteTreeStack::k_max_nodes];
-    u32 field_2EE0_next_free_idx;
+    SpriteTreeNode field_0_entries[SpriteTreeStack::k_max_nodes]; // 0x0
+    u32 field_2EE0_next_free_idx; // 0x2EE0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpriteTreeNodePool, 0x2EE4);
 
@@ -102,7 +102,7 @@ class SpriteTree
     EXPORT void Reset_5C5E50();
     EXPORT SpriteTree();
     EXPORT ~SpriteTree();
-    SpriteTreeNode* field_0_pRoot;
+    SpriteTreeNode* field_0_pRoot; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpriteTree, 0x4);
 
@@ -121,7 +121,7 @@ class SpriteRenderer
     EXPORT void Draw_495560(s32 layer);
     EXPORT SpriteRenderer();
     EXPORT ~SpriteRenderer();
-    SpriteTree* field_0_layers[k_num_layers];
+    SpriteTree* field_0_layers[k_num_layers]; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpriteRenderer, 0x1C);
 

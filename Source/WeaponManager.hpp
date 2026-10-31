@@ -27,9 +27,9 @@ class WeaponManager
     EXPORT u8 get_defalt_ammo_5E3E80(s32 weapon_kind) const;
     EXPORT WeaponManager();
     EXPORT ~WeaponManager();
-    SpriteList field_0_hit_sprites;
-    s16 field_4_ref_count;
-    s16 field_6_unused;
+    SpriteList field_0_hit_sprites; // 0x0
+    s16 field_4_ref_count; // 0x4
+    s16 field_6_unused; // 0x6
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(WeaponManager, 0x8);
 
@@ -95,7 +95,7 @@ class WeaponPool
 
     EXPORT ~WeaponPool();
 
-    Pool<Weapon, 255> field_0_pool;
+    Pool<Weapon, 255> field_0_pool; // 0x0
 };
 
 EXTERN_GLOBAL(WeaponPool*, gWeapon_30_Pool_707014);

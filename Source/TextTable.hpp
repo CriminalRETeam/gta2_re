@@ -5,10 +5,10 @@
 
 struct TextKeyEntry
 {
-    wchar_t* field_0_pwstr;
+    wchar_t* field_0_pwstr; // 0x0
     // The TKEY record's 8 char key is stored inline in field_4_key and field_8_key_tail, not through a pointer
-    const char_type* field_4_key;
-    s32 field_8_key_tail;
+    const char_type* field_4_key; // 0x4
+    s32 field_8_key_tail; // 0x8
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TextKeyEntry, 0xC);
 
@@ -29,8 +29,8 @@ class text_tdat
         }
         field_0_data = NULL;
     }
-    u8* field_0_data;
-    s32 field_4_len;
+    u8* field_0_data; // 0x0
+    s32 field_4_len; // 0x4
     EXPORT void TDAT_Load_5B5A80(u32 size);
 };
 
@@ -51,8 +51,8 @@ public:
         }
         field_0_tKey = NULL;
     }
-    TextKeyEntry* field_0_tKey;
-    s32 field_4_tKey_count;
+    TextKeyEntry* field_0_tKey; // 0x0
+    s32 field_4_tKey_count; // 0x4
 };
 
 
@@ -65,9 +65,9 @@ class TextTable
         return field_10_lang_code == 'j';
     }
 
-    text_tkey field_0_tKey;
-    text_tdat field_8_tDat;
-    char_type field_10_lang_code;
+    text_tkey field_0_tKey; // 0x0
+    text_tdat field_8_tDat; // 0x8
+    char_type field_10_lang_code; // 0x10
 
     EXPORT u16 RemapExtendedChar_5B58D0(u16 ch) const;
 

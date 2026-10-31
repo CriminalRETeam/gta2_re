@@ -75,25 +75,25 @@ class Police
     EXPORT void TryCreateRoadblockAt_577370(u8 tileX, u8 tileY, s32 roadblock_type);
 
   private:
-    u8 field_0_unused; // set to 1 in Init, never read
+    u8 field_0_unused; // 0x0: set to 1 in Init, never read
 
   public:
-    PoliceCrew field_4_cop_crew[MAX_POLICE_CREWS];
-    PolicePursuitTarget field_464_pursuit_targets[MAX_PURSUIT_TARGETS]; // one per wanted criminal
-    s32 field_654_max_wanted_level;
-    u8 field_658_police_car_count;
-    char_type field_659_max_police_cars;
-    s32 field_65C_highest_crew_type_in_pursuit;
-    u8 field_660_max_wanted_stars;
+    PoliceCrew field_4_cop_crew[MAX_POLICE_CREWS]; // 0x4
+    PolicePursuitTarget field_464_pursuit_targets[MAX_PURSUIT_TARGETS]; // 0x464: one per wanted criminal
+    s32 field_654_max_wanted_level; // 0x654
+    u8 field_658_police_car_count; // 0x658
+    char_type field_659_max_police_cars; // 0x659
+    s32 field_65C_highest_crew_type_in_pursuit; // 0x65C
+    u8 field_660_max_wanted_stars; // 0x660
 
   private:
-    PoliceRoadblock field_664_roadblock_1;
-    PoliceRoadblock field_708_roadblock_2;
-    u8 field_7AC_roadblock_cooldown;
+    PoliceRoadblock field_664_roadblock_1; // 0x664
+    PoliceRoadblock field_708_roadblock_2; // 0x708
+    u8 field_7AC_roadblock_cooldown; // 0x7AC
 
   public:
-    char_type field_7AD_police_peds_in_range_screen;
-    Ped* field_7B0_last_firing_emergency_ped;
-    bool field_7B4_crew_ped_onscreen;
+    char_type field_7AD_police_peds_in_range_screen; // 0x7AD
+    Ped* field_7B0_last_firing_emergency_ped; // 0x7B0
+    bool field_7B4_crew_ped_onscreen; // 0x7B4
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Police, 0x7B8);

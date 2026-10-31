@@ -31,8 +31,8 @@ class ParticleManager
     EXPORT void EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16_Point dir);
     EXPORT void EmitFlameStreamSegment_53F4C0(Sprite* pSprite);
 
-    Object* field_0_fire_hit_obj;
-    Object* field_4_water_hit_obj;
+    Object* field_0_fire_hit_obj; // 0x0
+    Object* field_4_water_hit_obj; // 0x4
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ParticleManager, 0x8);
 

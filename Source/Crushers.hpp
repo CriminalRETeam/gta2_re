@@ -51,25 +51,25 @@ class Crusher
 
   private:
     // Each side of the crusher walls and some unknown object
-    Object* field_0_piston_top;
-    Object* field_4_piston_right;
-    Object* field_8_piston_bottom;
-    Object* field_C_piston_left;
-    Object* field_10_central_spot;
+    Object* field_0_piston_top; // 0x0
+    Object* field_4_piston_right; // 0x4
+    Object* field_8_piston_bottom; // 0x8
+    Object* field_C_piston_left; // 0xC
+    Object* field_10_central_spot; // 0x10
 
-    Car* field_14_pCarBeingCrushed;
+    Car* field_14_pCarBeingCrushed; // 0x14
 
-    SoundObject* field_18_sound;
+    SoundObject* field_18_sound; // 0x18
 
     // Target of crusher walls
-    Fix16 field_1C_w;
-    Fix16 field_20_h;
+    Fix16 field_1C_w; // 0x1C
+    Fix16 field_20_h; // 0x20
 public:
     // Location of the crusher
-    Fix16 field_24_xpos;
-    Fix16 field_28_ypos;
+    Fix16 field_24_xpos; // 0x24
+    Fix16 field_28_ypos; // 0x28
 
-    s32 field_2C_state;
+    s32 field_2C_state; // 0x2C
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Crusher, 0x30);
 
@@ -84,8 +84,8 @@ class CrusherPool
     EXPORT ~CrusherPool();
 
   private:
-    Crusher field_0_crushers[3];
-    s32 field_90_count;
+    Crusher field_0_crushers[3]; // 0x0
+    s32 field_90_count; // 0x90
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CrusherPool, 0x94);
 EXTERN_GLOBAL(CrusherPool*, gCrusherPool_94_67A830);

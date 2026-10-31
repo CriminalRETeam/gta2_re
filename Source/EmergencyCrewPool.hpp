@@ -45,20 +45,20 @@ class EmergencyCrew
     EXPORT void UpdateStateMachine_5CBD50();
     EXPORT void CleanupExpiredEntities_5CC1C0();
     EXPORT bool Service_5CC480();
-    Car* field_0_car;
-    Ped* field_4_ped;
-    PedGroup* field_8_group;
-    Fix16 field_C_spawn_x;
-    Fix16 field_10_spawn_y;
-    Fix16 field_14_spawn_z;
-    s16 field_18_spawn_delay; // counts down to 0 before the crew is serviced, then to -80
-    s16 field_1A_idle_limit; // car unseen / ped idle limit before the crew is cleaned up
-    s16 field_1C_spawn_wait_ticks; // frames spent waiting for the car to spawn (spawn_car_3); the paramedics give up after 500
-    bool field_1E_is_used;
-    s32 field_20_crew_type; // crew_type
-    s32 field_24_phase; // crew_phase
-    s32 field_28_state; // crew_state
-    bool field_2C_ready; // set once the car is spawned or the crew was cleaned up
+    Car* field_0_car; // 0x0
+    Ped* field_4_ped; // 0x4
+    PedGroup* field_8_group; // 0x8
+    Fix16 field_C_spawn_x; // 0xC
+    Fix16 field_10_spawn_y; // 0x10
+    Fix16 field_14_spawn_z; // 0x14
+    s16 field_18_spawn_delay; // 0x18: counts down to 0 before the crew is serviced, then to -80
+    s16 field_1A_idle_limit; // 0x1A: car unseen / ped idle limit before the crew is cleaned up
+    s16 field_1C_spawn_wait_ticks; // 0x1C: frames spent waiting for the car to spawn (spawn_car_3); the paramedics give up after 500
+    bool field_1E_is_used; // 0x1E
+    s32 field_20_crew_type; // 0x20: crew_type
+    s32 field_24_phase; // 0x24: crew_phase
+    s32 field_28_state; // 0x28: crew_state
+    bool field_2C_ready; // 0x2C: set once the car is spawned or the crew was cleaned up
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(EmergencyCrew, 0x30);
 
@@ -73,7 +73,7 @@ class EmergencyCrewPool
     EXPORT void init_5CBB70();
     EXPORT EmergencyCrew* AllocateSlot_5CBB80();
     EXPORT void ServiceAll_5CBBD0();
-    EmergencyCrew field_0_slots[10];
+    EmergencyCrew field_0_slots[10]; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(EmergencyCrewPool, 0x1E0);
 

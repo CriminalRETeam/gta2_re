@@ -488,53 +488,53 @@ class CarPhysics
     EXPORT void ForceForwardAcceleration_453F70();
 
 
-    Fix16_Point field_0_vel_read_only;
-    u32 field_8_damaged_until_cycle; // the tick (gpRng_67AB34's cycle) plus the damage of the last impact: IsDamageWindowOpen_421130
+    Fix16_Point field_0_vel_read_only; // 0x0
+    u32 field_8_damaged_until_cycle; // 0x8: the tick (gpRng_67AB34's cycle) plus the damage of the last impact: IsDamageWindowOpen_421130
     CarPhysics* mpNext;
-    Fix16_Point field_10_last_skid_pos[4];
-    Fix16_Point field_30_cm1;
-    Fix16_Point field_38_cp1;
-    Fix16_Point field_40_linvel_1;
-    Fix16_Point field_48_force_accum;
-    Fix16_Point field_50_linear_accel;
-    Ang16 field_58_theta;
-    s16 field_5A_unused;
-    Car* field_5C_pCar;
-    Fix16 field_60_gas_pedal;
-    Fix16 field_64_brake_pressure;
-    Fix16 field_68_air_z_vel;
-    Fix16 field_6C_cp3;
-    Fix16 field_70_z_vel;
-    Fix16 field_74_ang_vel_rad;
-    Fix16 field_78_pointing_ang_rad;
-    Fix16 field_7C_torque_accum;
-    Fix16 field_80_angular_accel;
-    Fix16 field_84_front_skid;
-    Fix16 field_88_rear_skid;
-    s32 field_8C_state;
-    u8 field_90_timer_since_last_move;
-    char_type field_91_is_foot_brake_on;
-    char_type field_92_is_hand_brake_on;
-    char_type field_93_is_forward_gas_on;
-    char_type field_94_is_backward_gas_on;
-    bool field_95_is_coasting;
-    char_type field_96_unused;
-    char_type field_97_unused;
-    s32 field_98_surface_type;
-    s32 field_9C_block_spec;
-    s32 field_A0_oil_spin_dir;
-    char_type field_A4_oil_spin_timer;
-    u8 field_A5_current_slope_length;
-    char_type field_A6_current_slope_left_tiles;
-    u8 field_A7_current_tile_z;
-    char_type field_A8_hand_brake_force;
-    char_type field_A9_car_model;
-    char_type field_AA_sbw;
-    char_type field_AB_tpa;
-    u8 field_AC_drive_wheels_locked_q;
-    char_type field_AD_turn_direction;
-    char_type field_AE_unused;
-    char_type field_AF_unused;
+    Fix16_Point field_10_last_skid_pos[4]; // 0x10
+    Fix16_Point field_30_cm1; // 0x30
+    Fix16_Point field_38_cp1; // 0x38
+    Fix16_Point field_40_linvel_1; // 0x40
+    Fix16_Point field_48_force_accum; // 0x48
+    Fix16_Point field_50_linear_accel; // 0x50
+    Ang16 field_58_theta; // 0x58
+    s16 field_5A_unused; // 0x5A
+    Car* field_5C_pCar; // 0x5C
+    Fix16 field_60_gas_pedal; // 0x60
+    Fix16 field_64_brake_pressure; // 0x64
+    Fix16 field_68_air_z_vel; // 0x68
+    Fix16 field_6C_cp3; // 0x6C
+    Fix16 field_70_z_vel; // 0x70
+    Fix16 field_74_ang_vel_rad; // 0x74
+    Fix16 field_78_pointing_ang_rad; // 0x78
+    Fix16 field_7C_torque_accum; // 0x7C
+    Fix16 field_80_angular_accel; // 0x80
+    Fix16 field_84_front_skid; // 0x84
+    Fix16 field_88_rear_skid; // 0x88
+    s32 field_8C_state; // 0x8C
+    u8 field_90_timer_since_last_move; // 0x90
+    char_type field_91_is_foot_brake_on; // 0x91
+    char_type field_92_is_hand_brake_on; // 0x92
+    char_type field_93_is_forward_gas_on; // 0x93
+    char_type field_94_is_backward_gas_on; // 0x94
+    bool field_95_is_coasting; // 0x95
+    char_type field_96_unused; // 0x96
+    char_type field_97_unused; // 0x97
+    s32 field_98_surface_type; // 0x98
+    s32 field_9C_block_spec; // 0x9C
+    s32 field_A0_oil_spin_dir; // 0xA0
+    char_type field_A4_oil_spin_timer; // 0xA4
+    u8 field_A5_current_slope_length; // 0xA5
+    char_type field_A6_current_slope_left_tiles; // 0xA6
+    u8 field_A7_current_tile_z; // 0xA7
+    char_type field_A8_hand_brake_force; // 0xA8
+    char_type field_A9_car_model; // 0xA9
+    char_type field_AA_sbw; // 0xAA
+    char_type field_AB_tpa; // 0xAB
+    u8 field_AC_drive_wheels_locked_q; // 0xAC
+    char_type field_AD_turn_direction; // 0xAD
+    char_type field_AE_unused; // 0xAE
+    char_type field_AF_unused; // 0xAF
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarPhysics, 0xB0);
 

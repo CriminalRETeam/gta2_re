@@ -29,18 +29,18 @@ enum
 
 struct CameraPos
 {
-    Fix16 field_0_x;
-    Fix16 field_4_y;
-    Fix16 field_8_z;
-    Fix16 field_C_zoom;
+    Fix16 field_0_x; // 0x0
+    Fix16 field_4_y; // 0x4
+    Fix16 field_8_z; // 0x8
+    Fix16 field_C_zoom; // 0xC
 };
 
 struct WorldRect
 {
-    Fix16 field_0_left;
-    Fix16 field_4_right;
-    Fix16 field_8_top;
-    Fix16 field_C_bottom;
+    Fix16 field_0_left; // 0x0
+    Fix16 field_4_right; // 0x4
+    Fix16 field_8_top; // 0x8
+    Fix16 field_C_bottom; // 0xC
 };
 
 class Camera
@@ -185,34 +185,34 @@ class Camera
         return field_20_padded_view_bounds.field_C_bottom - field_20_padded_view_bounds.field_8_top;
     }
 
-    CameraPos field_0_target_pos;
-    CameraPos field_10_pending_target_pos;
-    WorldRect field_20_padded_view_bounds;
-    Fix16 field_30_shake_amount;
-    Ped* field_34_target_ped;
-    Car* field_38_target_car;
-    s32 field_3C_follow_mode;
-    Fix16 field_40_target_elevation;
-    u8 field_44_suspicion;
-    char_type field_45_unused;
-    char_type field_46_unused;
-    char_type field_47_unused;
-    Fix16 field_48_pan_x;
-    Fix16 field_4C_pan_y;
-    Fix16 field_50_pan_speed_up;
-    Fix16 field_54_pan_speed_down;
-    Fix16 field_58_pan_speed_left;
-    Fix16 field_5C_pan_speed_right;
-    Fix16_Point field_60_screen_scale; // x: screen width * zoom, y: 640 * zoom
-    s32 field_68_screen_px_width;
-    s32 field_6C_screen_px_height;
-    s32 field_70_screen_px_center_x;
-    s32 field_74_screen_px_center_y;
-    WorldRect field_78_view_bounds;
-    CameraPos field_88_prev_pos;
-    CameraPos field_98_cur_pos;
-    Fix16 field_A8_ui_scale;
-    CameraPos field_AC_cam_velocity;
+    CameraPos field_0_target_pos; // 0x0
+    CameraPos field_10_pending_target_pos; // 0x10
+    WorldRect field_20_padded_view_bounds; // 0x20
+    Fix16 field_30_shake_amount; // 0x30
+    Ped* field_34_target_ped; // 0x34
+    Car* field_38_target_car; // 0x38
+    s32 field_3C_follow_mode; // 0x3C
+    Fix16 field_40_target_elevation; // 0x40
+    u8 field_44_suspicion; // 0x44
+    char_type field_45_unused; // 0x45
+    char_type field_46_unused; // 0x46
+    char_type field_47_unused; // 0x47
+    Fix16 field_48_pan_x; // 0x48
+    Fix16 field_4C_pan_y; // 0x4C
+    Fix16 field_50_pan_speed_up; // 0x50
+    Fix16 field_54_pan_speed_down; // 0x54
+    Fix16 field_58_pan_speed_left; // 0x58
+    Fix16 field_5C_pan_speed_right; // 0x5C
+    Fix16_Point field_60_screen_scale; // 0x60: x: screen width * zoom, y: 640 * zoom
+    s32 field_68_screen_px_width; // 0x68
+    s32 field_6C_screen_px_height; // 0x6C
+    s32 field_70_screen_px_center_x; // 0x70
+    s32 field_74_screen_px_center_y; // 0x74
+    WorldRect field_78_view_bounds; // 0x78
+    CameraPos field_88_prev_pos; // 0x88
+    CameraPos field_98_cur_pos; // 0x98
+    Fix16 field_A8_ui_scale; // 0xA8
+    CameraPos field_AC_cam_velocity; // 0xAC
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Camera, 0xBC)
 

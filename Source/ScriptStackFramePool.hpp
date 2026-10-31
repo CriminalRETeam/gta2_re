@@ -15,8 +15,8 @@ class ScriptStackFrame
     {
     }
 
-    s32 field_0_cond_result;
-    s16 field_4_return_cmd;
+    s32 field_0_cond_result; // 0x0
+    s16 field_4_return_cmd; // 0x4
     ScriptStackFrame* mpNext;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ScriptStackFrame, 0xC)

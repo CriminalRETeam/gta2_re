@@ -48,8 +48,8 @@ class File
 // Copy protection: a file of the game CD with its expected size
 struct CdCheckFile
 {
-    char_type field_0_name[128];
-    u32 field_80_size;
+    char_type field_0_name[128]; // 0x0
+    u32 field_80_size; // 0x80
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CdCheckFile, 0x84);
 

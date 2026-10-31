@@ -58,7 +58,7 @@ class SpriteList
     EXPORT bool AnySpriteHasSlopeTopInFootprint_5A7310() const;
 
   public:
-    AttachedSprite* field_0_p18;
+    AttachedSprite* field_0_p18; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpriteList, 0x4);
 
@@ -109,30 +109,30 @@ class Object_3C
 
     EXPORT void GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle);
 
-    SpriteList field_0_attached_sprites;
-    Ang16 field_4_angle;
-    s16 field_6_unused;
+    SpriteList field_0_attached_sprites; // 0x0
+    Ang16 field_4_angle; // 0x4
+    s16 field_6_unused; // 0x6
     Object_3C* mpNext;
-    Fix16 field_C_speed;
-    Fix16 field_10_z_speed;
-    Fix16 field_14_saved_speed;
-    Fix16 field_18_friction;
-    Fix16 field_1C_z_accel;
-    s32 field_20_obj2c_id;
-    s32 field_24_unused;
-    s16 field_28_next_definition_timer;
-    s16 field_2A_bAirborne;
-    s16 field_2C_unused;
-    char_type field_2E_unused;
-    char_type field_2F_bOnSlope;
-    bool field_30_bSkipAnim;
-    u8 field_31_unused;
-    u16 field_32_unused;
-    s32 field_34_sprite_collide_mode; // 2 collides with sprites, 1 passes over them (draw layer 29), 0 under (layer 6)
-    char_type field_38_conveyor_speed;
-    char_type field_39_unused;
-    char_type field_3A_unused;
-    char_type field_3B_unused;
+    Fix16 field_C_speed; // 0xC
+    Fix16 field_10_z_speed; // 0x10
+    Fix16 field_14_saved_speed; // 0x14
+    Fix16 field_18_friction; // 0x18
+    Fix16 field_1C_z_accel; // 0x1C
+    s32 field_20_obj2c_id; // 0x20
+    s32 field_24_unused; // 0x24
+    s16 field_28_next_definition_timer; // 0x28
+    s16 field_2A_bAirborne; // 0x2A
+    s16 field_2C_unused; // 0x2C
+    char_type field_2E_unused; // 0x2E
+    char_type field_2F_bOnSlope; // 0x2F
+    bool field_30_bSkipAnim; // 0x30
+    u8 field_31_unused; // 0x31
+    u16 field_32_unused; // 0x32
+    s32 field_34_sprite_collide_mode; // 0x34: 2 collides with sprites, 1 passes over them (draw layer 29), 0 under (layer 6)
+    char_type field_38_conveyor_speed; // 0x38
+    char_type field_39_unused; // 0x39
+    char_type field_3A_unused; // 0x3A
+    char_type field_3B_unused; // 0x3B
 };
 
 EXTERN_GLOBAL(SpriteList, gTrailerHitchCandidates_67727C);

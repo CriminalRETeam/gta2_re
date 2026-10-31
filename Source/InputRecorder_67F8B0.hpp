@@ -7,7 +7,7 @@ struct DIDEVICEOBJECTDATA;
 
 struct AttractFile
 {
-    char_type field_0_path[256];
+    char_type field_0_path[256]; // 0x0
 };
 
 // InputRecorder_67F8B0::field_38_replay_state
@@ -45,7 +45,7 @@ class InputDevices
     EXPORT void AddKeyToInputBits_498C80(s32* pInputBits, DIDEVICEOBJECTDATA* device_data_keys);
     EXPORT void read_input_device_498DA0(s32* input_bits, bool bApplyKeyboardControls);
 
-    u8 field_0_unused;
+    u8 field_0_unused; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(InputDevices, 0x1);
 #pragma pack(pop)
@@ -53,23 +53,23 @@ GTA2_ASSERT_SIZEOF_ALWAYS(InputDevices, 0x1);
 // One recorded input change: the rng index it happened at, the input bits and the random number
 struct InputRecord
 {
-    s32 field_0_rng_idx;
-    s32 field_4_inputs;
-    s32 field_8_rng_rnd;
+    s32 field_0_rng_idx; // 0x0
+    s32 field_4_inputs; // 0x4
+    s32 field_8_rng_rnd; // 0x8
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(InputRecord, 0xC);
 
 // The text header at the start of a replay file
 struct ReplayHeader
 {
-    char_type field_0_version[8];
-    char_type field_8_date[30];
-    char_type field_26_computer_name[30];
-    char_type field_44_map_name[40];
-    char_type field_6C_style_name[40];
-    char_type field_94_script_name[40];
-    char_type field_BC_debug_str[40];
-    char_type field_E4_flags[40];
+    char_type field_0_version[8]; // 0x0
+    char_type field_8_date[30]; // 0x8
+    char_type field_26_computer_name[30]; // 0x26
+    char_type field_44_map_name[40]; // 0x44
+    char_type field_6C_style_name[40]; // 0x6C
+    char_type field_94_script_name[40]; // 0x94
+    char_type field_BC_debug_str[40]; // 0xBC
+    char_type field_E4_flags[40]; // 0xE4
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ReplayHeader, 0x10C);
 
@@ -134,15 +134,15 @@ class InputRecorder_67F8B0
         return field_3C_rec_buff[field_7533C_used_recs_count - 1].field_0_rng_idx;
     }
 
-    bool field_0_bShutDown;
-    s32 field_4_input_bits;
-    s32 field_8_input_masks[12];
-    s32 field_38_replay_state;
-    InputRecord field_3C_rec_buff[k_max_records];
-    s32 field_7533C_used_recs_count;
-    u32 field_75340_rec_buf_idx;
-    char_type field_75344_bInputEnabled;
-    u8 field_75345_attract_idx;
+    bool field_0_bShutDown; // 0x0
+    s32 field_4_input_bits; // 0x4
+    s32 field_8_input_masks[12]; // 0x8
+    s32 field_38_replay_state; // 0x38
+    InputRecord field_3C_rec_buff[k_max_records]; // 0x3C
+    s32 field_7533C_used_recs_count; // 0x7533C
+    u32 field_75340_rec_buf_idx; // 0x75340
+    char_type field_75344_bInputEnabled; // 0x75344
+    u8 field_75345_attract_idx; // 0x75345
 };
 
 EXTERN_GLOBAL(InputRecorder_67F8B0, gInputRecorder_67F8B0);

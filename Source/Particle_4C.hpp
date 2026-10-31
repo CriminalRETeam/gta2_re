@@ -33,30 +33,30 @@ class Particle_4C
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
     
-    s32 field_0_id;
+    s32 field_0_id; // 0x0
     union
     {
-        s32 field_4_flags;
-        ParticleFlags32 field_4_bf;
+        s32 field_4_flags; // 0x4
+        ParticleFlags32 field_4_bf; // 0x4
     };
-    Fix16_Vec field_8_speed;
-    Fix16_Vec field_14_additional_speed;
-    Fix16 field_20_speed;
-    Ang16 field_24_angle;
-    s16 field_26_unused;
-    Sprite* field_28_pSprite;
-    u16 field_2C_counter;
-    u16 field_2E_initial_counter;
-    Sprite* field_30_pOwnSprite;
-    s32 field_34_unused;
-    s32 field_38_state;
+    Fix16_Vec field_8_speed; // 0x8
+    Fix16_Vec field_14_additional_speed; // 0x14
+    Fix16 field_20_speed; // 0x20
+    Ang16 field_24_angle; // 0x24
+    s16 field_26_unused; // 0x26
+    Sprite* field_28_pSprite; // 0x28
+    u16 field_2C_counter; // 0x2C
+    u16 field_2E_initial_counter; // 0x2E
+    Sprite* field_30_pOwnSprite; // 0x30
+    s32 field_34_unused; // 0x34
+    s32 field_38_state; // 0x38
     Particle_4C* mpNext; // 0x3C
-    Explosion* field_40_pExplosion;
-    s16 field_44_explosion_id;
-    u8 field_46_sub_state;
-    char_type field_47_unused;
-    u8 field_48_timer;
-    char_type field_49_unused;
-    char_type field_4A_unused;
-    char_type field_4B_unused;
+    Explosion* field_40_pExplosion; // 0x40
+    s16 field_44_explosion_id; // 0x44
+    u8 field_46_sub_state; // 0x46
+    char_type field_47_unused; // 0x47
+    u8 field_48_timer; // 0x48
+    char_type field_49_unused; // 0x49
+    char_type field_4A_unused; // 0x4A
+    char_type field_4B_unused; // 0x4B
 };

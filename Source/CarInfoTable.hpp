@@ -39,27 +39,27 @@ EXTERN_GLOBAL(PixelsToFix16Table, gPixelsToFix16_6F6850);
 class ModelPhysics
 {
   public:
-    u8 field_0_model;
-    s8 field_1_turbo;
-    u8 field_2_value;
-    s8 field_3_padding;
-    Fix16 field_4_mass;
-    Fix16 field_8_front_drive_bias;
-    Fix16 field_C_front_mass_bias;
-    Fix16 field_10_brake_friction;
-    Fix16 field_14_turn_in;
-    Fix16 field_18_turn_ratio;
-    Fix16 field_1C_rear_end_stability;
-    Fix16 field_20_handbrake_slide_value;
-    Fix16 field_24_thrust;
-    Fix16 field_28_max_speed;
-    Fix16 field_2C_anti_strngth;
-    Fix16 field_30_sked_threshold;
-    Fix16 field_34_gear1_multiplier;
-    Fix16 field_38_gear2_multiplier;
-    Fix16 field_3C_gear3_multiplier;
-    Fix16 field_40_gear2_speed;
-    Fix16 field_44_gear3_speed;
+    u8 field_0_model; // 0x0
+    s8 field_1_turbo; // 0x1
+    u8 field_2_value; // 0x2
+    s8 field_3_padding; // 0x3
+    Fix16 field_4_mass; // 0x4
+    Fix16 field_8_front_drive_bias; // 0x8
+    Fix16 field_C_front_mass_bias; // 0xC
+    Fix16 field_10_brake_friction; // 0x10
+    Fix16 field_14_turn_in; // 0x14
+    Fix16 field_18_turn_ratio; // 0x18
+    Fix16 field_1C_rear_end_stability; // 0x1C
+    Fix16 field_20_handbrake_slide_value; // 0x20
+    Fix16 field_24_thrust; // 0x24
+    Fix16 field_28_max_speed; // 0x28
+    Fix16 field_2C_anti_strngth; // 0x2C
+    Fix16 field_30_sked_threshold; // 0x30
+    Fix16 field_34_gear1_multiplier; // 0x34
+    Fix16 field_38_gear2_multiplier; // 0x38
+    Fix16 field_3C_gear3_multiplier; // 0x3C
+    Fix16 field_40_gear2_speed; // 0x40
+    Fix16 field_44_gear3_speed; // 0x44
 
     Fix16 get_anti_strngth() const
     {
@@ -77,16 +77,16 @@ class CarInfo_2C
     EXPORT ~CarInfo_2C();
     EXPORT void CalculateCarInfo_4542A0(s32 idx);
 
-    Fix16 field_0_moment_of_inertia;
-    Fix16 field_4_front_wheel_offset;
-    Fix16 field_8_rear_wheel_offset;
-    Fix16_Point field_C_center_of_mass_offset;
-    Fix16 field_14_half_thrust;
-    Fix16 field_18_fith_thrust;
-    Fix16 field_1C_max_thrust_with_turbo;
-    Fix16 field_20_rear_drive_bias;
-    Fix16 field_24_skid_threshhold_1;
-    Fix16 field_28_skid_threshhold_2;
+    Fix16 field_0_moment_of_inertia; // 0x0
+    Fix16 field_4_front_wheel_offset; // 0x4
+    Fix16 field_8_rear_wheel_offset; // 0x8
+    Fix16_Point field_C_center_of_mass_offset; // 0xC
+    Fix16 field_14_half_thrust; // 0x14
+    Fix16 field_18_fith_thrust; // 0x18
+    Fix16 field_1C_max_thrust_with_turbo; // 0x1C
+    Fix16 field_20_rear_drive_bias; // 0x20
+    Fix16 field_24_skid_threshhold_1; // 0x24
+    Fix16 field_28_skid_threshhold_2; // 0x28
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarInfo_2C, 0x2C);
 
@@ -127,10 +127,10 @@ class CarInfoTable
     EXPORT static s32 __stdcall FloatStrToFix16_431000(char* pStr, Fix16& out);
     EXPORT static s32 __stdcall StrToInt_431080(const char* pStr, s16* pOut);
 
-    CarInfo_2C* field_0_ptr_array[256];
-    CarInfo_2C* field_400_raw_data;
-    ModelPhysics* field_404_model_physics_array[256];
-    ModelPhysics* field_804_raw_data;
+    CarInfo_2C* field_0_ptr_array[256]; // 0x0
+    CarInfo_2C* field_400_raw_data; // 0x400
+    ModelPhysics* field_404_model_physics_array[256]; // 0x404
+    ModelPhysics* field_804_raw_data; // 0x804
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarInfoTable, 0x808);
 

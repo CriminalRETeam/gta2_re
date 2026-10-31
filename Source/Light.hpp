@@ -104,19 +104,19 @@ class Light
         AddToGrid_4D6D70();
     }
 
-    LightIntensityRadius field_0_intensity_radius; // low byte: current intensity, second byte: radius
-    Fix16 field_4_x;
-    Fix16 field_8_y;
-    Fix16 field_C_z;
-    s32 field_10_argb;
-    char_type field_14_on_time;
-    char_type field_15_off_time;
-    u8 field_16_flicker_range;
-    char_type field_17_timer;
-    char_type field_18_intensity;
+    LightIntensityRadius field_0_intensity_radius; // 0x0: low byte: current intensity, second byte: radius
+    Fix16 field_4_x; // 0x4
+    Fix16 field_8_y; // 0x8
+    Fix16 field_C_z; // 0xC
+    s32 field_10_argb; // 0x10
+    char_type field_14_on_time; // 0x14
+    char_type field_15_off_time; // 0x15
+    u8 field_16_flicker_range; // 0x16
+    char_type field_17_timer; // 0x17
+    char_type field_18_intensity; // 0x18
     Light* mpNext;
-    Light* field_20_pGridNext;
-    Light* field_24_pGridPrev;
+    Light* field_20_pGridNext; // 0x20
+    Light* field_24_pGridPrev; // 0x24
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Light, 0x28);
 

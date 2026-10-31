@@ -166,16 +166,16 @@ class SpriteShape
     EXPORT SpriteShape();
     EXPORT ~SpriteShape();
 
-    Fix16 field_0_width;
-    Fix16 field_4_height;
-    Fix16 field_8_depth;
-    Fix16_Point field_C_corners[4];
+    Fix16 field_0_width; // 0x0
+    Fix16 field_4_height; // 0x4
+    Fix16 field_8_depth; // 0x8
+    Fix16_Point field_C_corners[4]; // 0xC
     SpriteShape* mpNext;
-    Fix16_Rect field_30_boundingBox;
-    bool field_48_bbox_up_to_date;
-    char_type field_49_unused;
-    char_type field_4A_unused;
-    char_type field_4B_unused;
+    Fix16_Rect field_30_boundingBox; // 0x30
+    bool field_48_bbox_up_to_date; // 0x48
+    char_type field_49_unused; // 0x49
+    char_type field_4A_unused; // 0x4A
+    char_type field_4B_unused; // 0x4B
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpriteShape, 0x4C);
 
@@ -434,19 +434,19 @@ class Sprite
         }
     }
 
-    Ang16 field_0_rotation;
-    SpriteShape* field_4_pVisualShape;
+    Ang16 field_0_rotation; // 0x0
+    SpriteShape* field_4_pVisualShape; // 0x4
     // Only one field is enable at the same time.
     // The field that is enabled is decided by field_30_sprite_type_enum
     // The following list may not be complete.
     // At this moment, it comes from the functions(version 9.6f) at 4b9a10, 4b9a30, 4b9d50
     union
     {
-        Car* field_8_car_bc_ptr; // field_30_sprite_type_enum == sprite_types_enum::car
-        Char* field_8_char_b4_ptr; // field_30_sprite_type_enum == sprite_types_enum::ped
-        Object* field_8_object_2C_ptr; // field_30_sprite_type_enum == sprite_types_enum::map_obj or code_obj1 or object_1
-        Sprite* field_8_pSprite;
-        class Object_5C* field_8_o5C;
+        Car* field_8_car_bc_ptr; // 0x8: field_30_sprite_type_enum == sprite_types_enum::car
+        Char* field_8_char_b4_ptr; // 0x8: field_30_sprite_type_enum == sprite_types_enum::ped
+        Object* field_8_object_2C_ptr; // 0x8: field_30_sprite_type_enum == sprite_types_enum::map_obj or code_obj1 or object_1
+        Sprite* field_8_pSprite; // 0x8
+        class Object_5C* field_8_o5C; // 0x8
     };
     // Only one field is enable at the same time.
     // As far as I understand, the mpNext is only enabled while the instance is being handled by SpritePool.
@@ -454,10 +454,10 @@ class Sprite
     union
     {
         Sprite* mpNext;
-        SpriteShape* field_C_pCollisionShape;
-        class Object_5C* field_C_o5c;
+        SpriteShape* field_C_pCollisionShape; // 0xC
+        class Object_5C* field_C_o5c; // 0xC
     };
-    SoundObject* field_10_sound;
+    SoundObject* field_10_sound; // 0x10
 
     void SetType_4206F0(s32 sprite_type)
     {
@@ -595,23 +595,23 @@ class Sprite
         field_28_draw_layer = new_layer;
     }
 
-    Fix16_Point_POD field_14_xy;
-    Fix16 field_1C_zpos;
-    s16 field_20_instance_id; // unique per live sprite (SpriteManager id_base counter)
-    s16 field_22_type_sprite_idx; // sprite number within its sprite type, looked up with GetSpriteTrueIndex_5AA460
-    s16 field_24_remap;
-    s32 field_28_draw_layer; // draw order tie-break among sprites at the same z (SpriteTree::AddSprite_5C5CF0); > 9 sorts by z
+    Fix16_Point_POD field_14_xy; // 0x14
+    Fix16 field_1C_zpos; // 0x1C
+    s16 field_20_instance_id; // 0x20: unique per live sprite (SpriteManager id_base counter)
+    s16 field_22_type_sprite_idx; // 0x22: sprite number within its sprite type, looked up with GetSpriteTrueIndex_5AA460
+    s16 field_24_remap; // 0x24
+    s32 field_28_draw_layer; // 0x28: draw order tie-break among sprites at the same z (SpriteTree::AddSprite_5C5CF0); > 9 sorts by z
     union
     {
-        u8 field_2C_flags;
-        SpriteFlags8 field_2C_bf;
+        u8 field_2C_flags; // 0x2C
+        SpriteFlags8 field_2C_bf; // 0x2C
     };
-    s32 field_30_sprite_type_enum; // Uses the enum defined in the namespace sprite_types_enum
-    s32 field_34_palette_type; // remap type?
-    char_type field_38_zoom;
-    char_type field_39_z_col;
-    char_type field_3A_unused;
-    char_type field_3B_unused;
+    s32 field_30_sprite_type_enum; // 0x30: Uses the enum defined in the namespace sprite_types_enum
+    s32 field_34_palette_type; // 0x34: remap type?
+    char_type field_38_zoom; // 0x38
+    char_type field_39_z_col; // 0x39
+    char_type field_3A_unused; // 0x3A
+    char_type field_3B_unused; // 0x3B
 };
 
 class SpriteMask
@@ -643,14 +643,14 @@ class SpriteMask
         field_12_palette = palette;
     }
 
-    u8* field_0_pixels;
-    s16 field_4_sprite_idx;
-    char_type field_6_unused;
-    char_type field_7_unused;
-    s32 field_8_delta_mask;
-    s32 field_C_last_used;
-    u16 field_10_mask_idx;
-    u16 field_12_palette;
+    u8* field_0_pixels; // 0x0
+    s16 field_4_sprite_idx; // 0x4
+    char_type field_6_unused; // 0x6
+    char_type field_7_unused; // 0x7
+    s32 field_8_delta_mask; // 0x8
+    s32 field_C_last_used; // 0xC
+    u16 field_10_mask_idx; // 0x10
+    u16 field_12_palette; // 0x12
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpriteMask, 0x14);
 
@@ -669,10 +669,10 @@ class SpriteMaskCache
         return field_0_masks[idx].field_0_pixels;
     }
 
-    SpriteMask field_0_masks[48];
-    s32 field_3C0_use_counter;
-    u8* field_3C4_aligned_buffer;
-    s32* field_3C8_unaligned_alloc;
+    SpriteMask field_0_masks[48]; // 0x0
+    s32 field_3C0_use_counter; // 0x3C0
+    u8* field_3C4_aligned_buffer; // 0x3C4
+    s32* field_3C8_unaligned_alloc; // 0x3C8
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpriteMaskCache, 0x3CC);
 
@@ -683,9 +683,9 @@ class SpriteManager_8
     EXPORT void AllocScratchSprite_5A5870();
     EXPORT SpriteManager_8();
     EXPORT ~SpriteManager_8();
-    s32 field_0_drawn_sprite_count;
-    s16 field_4_id_base;
-    s16 field_6_unused;
+    s32 field_0_drawn_sprite_count; // 0x0
+    s16 field_4_id_base; // 0x4
+    s16 field_6_unused; // 0x6
 };
 
 class AttachedSprite
@@ -708,13 +708,13 @@ class AttachedSprite
 
     EXPORT bool UpdateAttached_5A6910(Sprite* pSprite);
 
-    Sprite* field_0_pSprite;
+    Sprite* field_0_pSprite; // 0x0
     AttachedSprite* mpNext;
-    Fix16 field_8_offset_x; // NOTE: Fix16_Point here breaks match of UpdateAttached_5A6910
-    Fix16 field_C_offset_y;
-    Ang16 field_10_offset_rot;
-    s16 field_12_unused;
-    s32 field_14_rng;
+    Fix16 field_8_offset_x; // 0x8: NOTE: Fix16_Point here breaks match of UpdateAttached_5A6910
+    Fix16 field_C_offset_y; // 0xC
+    Ang16 field_10_offset_rot; // 0x10
+    s16 field_12_unused; // 0x12
+    s32 field_14_rng; // 0x14
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(AttachedSprite, 0x18);
 
@@ -738,7 +738,7 @@ class AttachedSpritePool
         field_0_pool.DeAllocate(pItem);
     }
 
-    PoolBasic<AttachedSprite, 300> field_0_pool;
+    PoolBasic<AttachedSprite, 300> field_0_pool; // 0x0
 };
 
 class SpriteShapePool
@@ -763,7 +763,7 @@ class SpriteShapePool
         return field_0_pool.Allocate();
     }
 
-    PoolBasic<SpriteShape, 5031> field_0_pool;
+    PoolBasic<SpriteShape, 5031> field_0_pool; // 0x0
 };
 
 class SpritePool
@@ -794,7 +794,7 @@ class SpritePool
         return field_0_pool.field_0_pHead != NULL;
     }
 
-    PoolBasic<Sprite, 5031> field_0_pool;
+    PoolBasic<Sprite, 5031> field_0_pool; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpritePool, 0x49B28)
 

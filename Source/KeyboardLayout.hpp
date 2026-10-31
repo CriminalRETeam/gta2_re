@@ -24,8 +24,8 @@ class KeyboardLayout
 
     EXPORT static s32 __stdcall GetLayout_4D6000();
 
-    s16 field_0_keys[256];
-    s32 field_200_keyBoardLayout;
+    s16 field_0_keys[256]; // 0x0
+    s32 field_200_keyBoardLayout; // 0x200
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(KeyboardLayout, 0x204);
 

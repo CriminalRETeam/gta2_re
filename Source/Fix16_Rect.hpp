@@ -184,11 +184,11 @@ class Fix16_Rect
         return field_10_low_z;
     }
 
-    Fix16 field_0_left;
-    Fix16 field_4_right;
-    Fix16 field_8_top;
-    Fix16 field_C_bottom;
+    Fix16 field_0_left; // 0x0
+    Fix16 field_4_right; // 0x4
+    Fix16 field_8_top; // 0x8
+    Fix16 field_C_bottom; // 0xC
 
-    Fix16 field_10_low_z;
-    Fix16 field_14_high_z;
+    Fix16 field_10_low_z; // 0x10
+    Fix16 field_14_high_z; // 0x14
 };

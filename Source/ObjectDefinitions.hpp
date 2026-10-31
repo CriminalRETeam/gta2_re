@@ -33,27 +33,27 @@ class MapObjectOverride
                   s32 instance_limit_kind,
                   s8 makes_collision_sound);
 
-    s32 field_0_definition_idx;
-    s32 field_4_behavior_type;
-    s32 field_8_next_definition_idx;
-    s8 field_C_in_pool_list;
-    s32 field_10_touch_behavior;
-    s32 field_14_projectile_hit_type;
-    s32 field_18_collision_bucket_category;
-    Fix16 field_1C_speed;
-    Fix16 field_20_friction;
-    s8 field_24_next_definition_timer;
-    s32 field_28_collision_response;
-    s32 field_2C_z_collision_response;
-    s8 field_30_next_frame_max;
-    s32 field_34_uses_3d_movement;
-    Fix16 field_38_mass;
-    s32 field_3C_draw_layer;
-    s8 field_40_sprite_flags;
-    s32 field_44_has_sound;
-    s8 field_48_has_shadows;
-    s32 field_4C_instance_limit_kind;
-    s8 field_50_makes_collision_sound;
+    s32 field_0_definition_idx; // 0x0
+    s32 field_4_behavior_type; // 0x4
+    s32 field_8_next_definition_idx; // 0x8
+    s8 field_C_in_pool_list; // 0xC
+    s32 field_10_touch_behavior; // 0x10
+    s32 field_14_projectile_hit_type; // 0x14
+    s32 field_18_collision_bucket_category; // 0x18
+    Fix16 field_1C_speed; // 0x1C
+    Fix16 field_20_friction; // 0x20
+    s8 field_24_next_definition_timer; // 0x24
+    s32 field_28_collision_response; // 0x28
+    s32 field_2C_z_collision_response; // 0x2C
+    s8 field_30_next_frame_max; // 0x30
+    s32 field_34_uses_3d_movement; // 0x34
+    Fix16 field_38_mass; // 0x38
+    s32 field_3C_draw_layer; // 0x3C
+    s8 field_40_sprite_flags; // 0x40
+    s32 field_44_has_sound; // 0x44
+    s8 field_48_has_shadows; // 0x48
+    s32 field_4C_instance_limit_kind; // 0x4C
+    s8 field_50_makes_collision_sound; // 0x50
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(MapObjectOverride, 0x54);
 
@@ -92,35 +92,35 @@ class CodeObjectTemplate
                   u8 has_shadows,
                   u8 makes_collision_sound);
 
-    s32 field_0_definition_idx;
-    u8 field_4_num_sprites;
-    s32 field_8_behavior_type;
-    s32 field_C_impact_definition_idx;
-    s32 field_10_next_definition_idx;
-    s8 field_14_in_pool_list;
-    s32 field_18_touch_behavior;
-    s32 field_1C_projectile_hit_type;
-    s32 field_20_collision_bucket_category;
-    Fix16 field_24_speed;
-    Fix16 field_28_friction;
-    s8 field_2C_next_definition_timer;
-    s32 field_30_collision_response;
-    s32 field_34_z_collision_response;
-    s32 field_38_sprite_type;
-    s8 field_3C_next_frame_max;
-    s32 field_40_uses_3d_movement;
-    Fix16 field_44_mass;
-    Fix16 field_48_width;
-    Fix16 field_4C_height;
-    Fix16 field_50_depth;
-    s32 field_54_draw_layer;
-    s8 field_58_sprite_flags;
-    s8 field_59_destroyed_by_destructor;
-    s32 field_5C_instance_limit_kind;
-    s32 field_60_uses_bullet_walls;
-    s32 field_64_has_sound;
-    s8 field_68_has_shadows;
-    s8 field_69_makes_collision_sound;
+    s32 field_0_definition_idx; // 0x0
+    u8 field_4_num_sprites; // 0x4
+    s32 field_8_behavior_type; // 0x8
+    s32 field_C_impact_definition_idx; // 0xC
+    s32 field_10_next_definition_idx; // 0x10
+    s8 field_14_in_pool_list; // 0x14
+    s32 field_18_touch_behavior; // 0x18
+    s32 field_1C_projectile_hit_type; // 0x1C
+    s32 field_20_collision_bucket_category; // 0x20
+    Fix16 field_24_speed; // 0x24
+    Fix16 field_28_friction; // 0x28
+    s8 field_2C_next_definition_timer; // 0x2C
+    s32 field_30_collision_response; // 0x30
+    s32 field_34_z_collision_response; // 0x34
+    s32 field_38_sprite_type; // 0x38
+    s8 field_3C_next_frame_max; // 0x3C
+    s32 field_40_uses_3d_movement; // 0x40
+    Fix16 field_44_mass; // 0x44
+    Fix16 field_48_width; // 0x48
+    Fix16 field_4C_height; // 0x4C
+    Fix16 field_50_depth; // 0x50
+    s32 field_54_draw_layer; // 0x54
+    s8 field_58_sprite_flags; // 0x58
+    s8 field_59_destroyed_by_destructor; // 0x59
+    s32 field_5C_instance_limit_kind; // 0x5C
+    s32 field_60_uses_bullet_walls; // 0x60
+    s32 field_64_has_sound; // 0x64
+    s8 field_68_has_shadows; // 0x68
+    s8 field_69_makes_collision_sound; // 0x69
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CodeObjectTemplate, 0x6C);
 
@@ -184,40 +184,40 @@ class ObjectDefinition
     EXPORT ObjectDefinition();
 
 
-    Fix16 field_0_width;
-    Fix16 field_4_height;
-    Fix16 field_8_depth;
-    Fix16 field_C_min_size;
-    Fix16 field_10_speed;
-    Fix16 field_14_friction;
-    Fix16 field_18_mass;
-    s16 field_1C_remap;
-    s16 field_1E_base_sprite_idx;
-    char_type field_20_sprite_flags;
-    s32 field_24_object_idx;
-    s32 field_28_sprite_type;
-    s32 field_2C_draw_layer;
-    s32 field_30_palette_type;
-    s32 field_34_behavior_type; // One of object_behavior_type
-    s32 field_38_impact_definition_idx;
-    s32 field_3C_next_definition_idx;
-    s32 field_40_collision_bucket_category; // One of collision_bucket_category
-    s32 field_44_touch_behavior;
-    s32 field_48_projectile_hit_type;
-    s32 field_4C_collision_response;
-    s32 field_50_z_collision_response;
-    s32 field_54_react_to_collisions_with; // One of CollisionReaction
-    s32 field_58_uses_3d_movement;
-    s32 field_5C_instance_limit_kind; // One of instance_limit_kind
-    char_type field_60_destroyed_by_destructor;
-    char_type field_61_in_pool_list;
-    char_type field_62_has_shadows;
-    char_type field_63_makes_collision_sound;
-    char_type field_64_next_frame_max;
-    char_type field_65_next_definition_timer;
-    s32 field_68_uses_bullet_walls;
-    u8 field_6C_num_frames;
-    s32 field_70_has_sound;
+    Fix16 field_0_width; // 0x0
+    Fix16 field_4_height; // 0x4
+    Fix16 field_8_depth; // 0x8
+    Fix16 field_C_min_size; // 0xC
+    Fix16 field_10_speed; // 0x10
+    Fix16 field_14_friction; // 0x14
+    Fix16 field_18_mass; // 0x18
+    s16 field_1C_remap; // 0x1C
+    s16 field_1E_base_sprite_idx; // 0x1E
+    char_type field_20_sprite_flags; // 0x20
+    s32 field_24_object_idx; // 0x24
+    s32 field_28_sprite_type; // 0x28
+    s32 field_2C_draw_layer; // 0x2C
+    s32 field_30_palette_type; // 0x30
+    s32 field_34_behavior_type; // 0x34: One of object_behavior_type
+    s32 field_38_impact_definition_idx; // 0x38
+    s32 field_3C_next_definition_idx; // 0x3C
+    s32 field_40_collision_bucket_category; // 0x40: One of collision_bucket_category
+    s32 field_44_touch_behavior; // 0x44
+    s32 field_48_projectile_hit_type; // 0x48
+    s32 field_4C_collision_response; // 0x4C
+    s32 field_50_z_collision_response; // 0x50
+    s32 field_54_react_to_collisions_with; // 0x54: One of CollisionReaction
+    s32 field_58_uses_3d_movement; // 0x58
+    s32 field_5C_instance_limit_kind; // 0x5C: One of instance_limit_kind
+    char_type field_60_destroyed_by_destructor; // 0x60
+    char_type field_61_in_pool_list; // 0x61
+    char_type field_62_has_shadows; // 0x62
+    char_type field_63_makes_collision_sound; // 0x63
+    char_type field_64_next_frame_max; // 0x64
+    char_type field_65_next_definition_timer; // 0x65
+    s32 field_68_uses_bullet_walls; // 0x68
+    u8 field_6C_num_frames; // 0x6C
+    s32 field_70_has_sound; // 0x70
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ObjectDefinition, 0x74);
 
@@ -252,12 +252,12 @@ class ObjectDefinitions
     EXPORT ObjectDefinition* AllocDefinition_5343C0(s32 idx);
     EXPORT ObjectDefinitions();
 
-    u16 field_0_next_idx;
-    s16 field_2_unused;
-    ObjectDefinition field_4_definitions[k_max_definitions];
-    ObjectDefinition* field_87F4_definition_by_idx[k_max_definitions];
-    s16 field_8CA4_def112_base_sprite_idx;
-    s16 field_8CA6_unused;
+    u16 field_0_next_idx; // 0x0
+    s16 field_2_unused; // 0x2
+    ObjectDefinition field_4_definitions[k_max_definitions]; // 0x4
+    ObjectDefinition* field_87F4_definition_by_idx[k_max_definitions]; // 0x87F4
+    s16 field_8CA4_def112_base_sprite_idx; // 0x8CA4
+    s16 field_8CA6_unused; // 0x8CA6
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ObjectDefinitions, 0x8CA8);
 

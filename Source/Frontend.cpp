@@ -271,9 +271,9 @@ DIDATAFORMAT stru_601A84 = {24u, 16u, DIDF_RELAXIS, 16u, 7u, gMouseObjectDataFor
 
 struct TgaInfo
 {
-    char_type field_0_tga_name[128];
-    s32 field_80_len;
-    s32 field_84_img;
+    char_type field_0_tga_name[128]; // 0x0
+    s32 field_80_len; // 0x80
+    s32 field_84_img; // 0x84
 };
 
 DEFINE_GLOBAL_ARRAY_INIT(
@@ -4086,9 +4086,9 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
 // arrays) because its field order fixes the stack layout: STY, GMP, SCR (same in 9.6f).
 struct SeqStageFiles
 {
-    char field_0_sty[256];
-    char field_100_gmp[256];
-    char field_200_scr[256];
+    char field_0_sty[256]; // 0x0
+    char field_100_gmp[256]; // 0x100
+    char field_200_scr[256]; // 0x200
 };
 
 MATCH_FUNC(0x4B4440)

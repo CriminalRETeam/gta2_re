@@ -18,29 +18,29 @@ class CarChaseTask
     EXPORT CarChaseTask();
     EXPORT ~CarChaseTask();
 
-    char_type field_0_in_use;
-    Ped* field_4_pDriver;
-    s32 field_8_task_type; // car_task_type
-    s32 field_C_chase_state; // car_chase_state
-    bool field_10_ram_target; // set when overtaking: touching the target car then damages it (CarAI)
-    Fix16 field_14_target_x;
-    Fix16 field_18_target_y;
-    Fix16 field_1C_target_z;
-    bool field_20_can_snap_to_target; // chase tasks only: may be teleported to the target when off screen (see field_34_snap_timer)
-    char_type field_21_unused;
-    bool field_22_following_route; // driving along a route (junction shortcuts), cleared when the route is cancelled
-    char_type field_23_unused;
-    char_type field_24_unused;
-    char_type field_25_unused;
-    bool field_26_route_finished;  // the route ended, Ped completes the goto_position objective
-    char_type field_27_pad[3];
-    s16 field_2A_settle_counter;
-    u16 field_2C_side_counter;
-    s16 field_2E_wait_counter; // ticks spent waiting next to the target before pulling ahead
-    Ped* field_30_pTargetPed;
-    s16 field_34_snap_timer;
-    s32 field_38_unused;
-    char_type field_3C_block_counter;
+    char_type field_0_in_use; // 0x0
+    Ped* field_4_pDriver; // 0x4
+    s32 field_8_task_type; // 0x8: car_task_type
+    s32 field_C_chase_state; // 0xC: car_chase_state
+    bool field_10_ram_target; // 0x10: set when overtaking: touching the target car then damages it (CarAI)
+    Fix16 field_14_target_x; // 0x14
+    Fix16 field_18_target_y; // 0x18
+    Fix16 field_1C_target_z; // 0x1C
+    bool field_20_can_snap_to_target; // 0x20: chase tasks only: may be teleported to the target when off screen (see field_34_snap_timer)
+    char_type field_21_unused; // 0x21
+    bool field_22_following_route; // 0x22: driving along a route (junction shortcuts), cleared when the route is cancelled
+    char_type field_23_unused; // 0x23
+    char_type field_24_unused; // 0x24
+    char_type field_25_unused; // 0x25
+    bool field_26_route_finished;  // 0x26: the route ended, Ped completes the goto_position objective
+    char_type field_27_pad[3]; // 0x27
+    s16 field_2A_settle_counter; // 0x2A
+    u16 field_2C_side_counter; // 0x2C
+    s16 field_2E_wait_counter; // 0x2E: ticks spent waiting next to the target before pulling ahead
+    Ped* field_30_pTargetPed; // 0x30
+    s16 field_34_snap_timer; // 0x34
+    s32 field_38_unused; // 0x38
+    char_type field_3C_block_counter; // 0x3C
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarChaseTask, 0x40);
 
@@ -69,7 +69,7 @@ class CarChaseTaskTable
     EXPORT CarChaseTaskTable();
     EXPORT ~CarChaseTaskTable();
 
-    CarChaseTask field_0_entries[k_max_entries];
+    CarChaseTask field_0_entries[k_max_entries]; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarChaseTaskTable, 0x500);
 

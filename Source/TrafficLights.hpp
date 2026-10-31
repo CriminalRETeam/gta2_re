@@ -26,14 +26,14 @@ class TrafficLight
     EXPORT void Init_5C1D00(u8 x, u8 y, u8 w, u8 h);
     EXPORT void UpdateLightsFromPhase_5C27A0(u8 phase);
 
-    Object* field_0_north_headlight_obj;
-    Object* field_4_south_headlight_obj;
-    Object* field_8_west_headlight_obj;
-    Object* field_C_east_headlight_obj;
-    Light* field_10_north_light;
-    Light* field_14_south_light;
-    Light* field_18_west_light;
-    Light* field_1C_east_light;
+    Object* field_0_north_headlight_obj; // 0x0
+    Object* field_4_south_headlight_obj; // 0x4
+    Object* field_8_west_headlight_obj; // 0x8
+    Object* field_C_east_headlight_obj; // 0xC
+    Light* field_10_north_light; // 0x10
+    Light* field_14_south_light; // 0x14
+    Light* field_18_west_light; // 0x18
+    Light* field_1C_east_light; // 0x1C
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TrafficLight, 0x20);
 
@@ -56,10 +56,10 @@ class TrafficLights
     {
       return field_192_phase == traffic_light_phase::peds_crossing_7;
     }
-    TrafficLight* field_0_traffic_lights[100];
-    u16 field_190_array_used_count;
-    u8 field_192_phase;
-    u8 field_193_timer;
+    TrafficLight* field_0_traffic_lights[100]; // 0x0
+    u16 field_190_array_used_count; // 0x190
+    u8 field_192_phase; // 0x192
+    u8 field_193_timer; // 0x193
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TrafficLights, 0x194);
 

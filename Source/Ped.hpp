@@ -849,117 +849,117 @@ class Ped
         ++field_262_attackers_count;
     }
 
-    PatrolPoint field_0_patrol_points[100];
-    Ang16 field_12C_facing_angle;
-    Ang16 field_12E_aim_angle;
-    Ang16 field_130_target_facing_angle;
-    Ang16 field_132_follow_car_offset_angle;
-    Ang16 field_134_rotation;
-    s16 field_136_unused;
-    s32 field_138_collided_char_b4;
-    TrainStation* field_13C_pTrainStation;
-    Car* field_140_stolen_car;
-    Ped* field_144_attacker;
-    Ped* field_148_objective_target_ped;
-    Ped* field_14C_internal_target_ped;
-    Car* field_150_target_objective_car;
-    Car* field_154_target_to_enter;
-    Car* field_158_escape_car;
-    Player* field_15C_player;
+    PatrolPoint field_0_patrol_points[100]; // 0x0
+    Ang16 field_12C_facing_angle; // 0x12C
+    Ang16 field_12E_aim_angle; // 0x12E
+    Ang16 field_130_target_facing_angle; // 0x130
+    Ang16 field_132_follow_car_offset_angle; // 0x132
+    Ang16 field_134_rotation; // 0x134
+    s16 field_136_unused; // 0x136
+    s32 field_138_collided_char_b4; // 0x138
+    TrainStation* field_13C_pTrainStation; // 0x13C
+    Car* field_140_stolen_car; // 0x140
+    Ped* field_144_attacker; // 0x144
+    Ped* field_148_objective_target_ped; // 0x148
+    Ped* field_14C_internal_target_ped; // 0x14C
+    Car* field_150_target_objective_car; // 0x150
+    Car* field_154_target_to_enter; // 0x154
+    Car* field_158_escape_car; // 0x158
+    Player* field_15C_player; // 0x15C
     Ped* mpNext;
-    PedGroup* field_164_ped_group;
-    Char* field_168_game_object;
-    Car* field_16C_car;
-    Weapon* field_170_selected_weapon;
-    Weapon* field_174_pWeapon;
-    Weapon* field_178_car_weapon;
-    Gang* field_17C_pGang;
-    Ped* field_180_car_thief;
-    Object* field_184_pObj2C;
-    Ped* field_188_last_char_punched;
-    PatrolPoint* field_18C_current_path_point;
-    PatrolRoute* field_190_patrol_route;
-    PatrolPoint* field_194_current_patrol_point;
-    Ped* field_198_hit_target_ped; // ped last hit by this ped's weapon / electrobaton
-    Gang* field_19C_dummy_gang; // gang of a dummy ped
-    Object* field_1A0_objective_target_object;
-    Object* field_1A4_internal_target_object;
-    Ped* field_1A8_ped_killer;
-    Fix16_Vec field_1AC_cam;
-    Fix16 field_1B8_target_x;
-    Fix16 field_1BC_target_y;
-    Fix16 field_1C0_target_z;
-    Fix16 field_1C4_move_target_x;
-    Fix16 field_1C8_move_target_y;
-    Fix16 field_1CC_move_target_z;
-    Fix16 field_1D0_internal_target_x;
-    Fix16 field_1D4_internal_target_y;
-    Fix16 field_1D8_internal_target_z;
-    Fix16 field_1DC_objective_target_x;
-    Fix16 field_1E0_objective_target_y;
-    Fix16 field_1E4_objective_target_z;
-    Fix16 field_1E8_target_distance_limit;
-    s32 field_1EC_unused;
-    Fix16 field_1F0_max_speed;
-    Fix16 field_1F4_walk_speed;
-    Fix16 field_1F8_run_speed;
-    Fix16 field_1FC_follow_car_offset_distance;
-    u32 field_200_id;
-    s32 field_204_killer_id;
-    u16 field_208_invulnerability;
-    s16 field_20A_wanted_points;
-    u16 field_20C_target_unseen_counter; // frames the target was not seen; gives up after 15
-    s16 field_20E_offscreen_counter;
-    u16 field_210_shock_counter;
-    u16 field_212_electrocution_threshold;
-    s16 field_214_unused;
-    s16 field_216_health;
-    u16 field_218_objective_timer;
-    u16 field_21A_internal_objective_timer;
+    PedGroup* field_164_ped_group; // 0x164
+    Char* field_168_game_object; // 0x168
+    Car* field_16C_car; // 0x16C
+    Weapon* field_170_selected_weapon; // 0x170
+    Weapon* field_174_pWeapon; // 0x174
+    Weapon* field_178_car_weapon; // 0x178
+    Gang* field_17C_pGang; // 0x17C
+    Ped* field_180_car_thief; // 0x180
+    Object* field_184_pObj2C; // 0x184
+    Ped* field_188_last_char_punched; // 0x188
+    PatrolPoint* field_18C_current_path_point; // 0x18C
+    PatrolRoute* field_190_patrol_route; // 0x190
+    PatrolPoint* field_194_current_patrol_point; // 0x194
+    Ped* field_198_hit_target_ped; // 0x198: ped last hit by this ped's weapon / electrobaton
+    Gang* field_19C_dummy_gang; // 0x19C: gang of a dummy ped
+    Object* field_1A0_objective_target_object; // 0x1A0
+    Object* field_1A4_internal_target_object; // 0x1A4
+    Ped* field_1A8_ped_killer; // 0x1A8
+    Fix16_Vec field_1AC_cam; // 0x1AC
+    Fix16 field_1B8_target_x; // 0x1B8
+    Fix16 field_1BC_target_y; // 0x1BC
+    Fix16 field_1C0_target_z; // 0x1C0
+    Fix16 field_1C4_move_target_x; // 0x1C4
+    Fix16 field_1C8_move_target_y; // 0x1C8
+    Fix16 field_1CC_move_target_z; // 0x1CC
+    Fix16 field_1D0_internal_target_x; // 0x1D0
+    Fix16 field_1D4_internal_target_y; // 0x1D4
+    Fix16 field_1D8_internal_target_z; // 0x1D8
+    Fix16 field_1DC_objective_target_x; // 0x1DC
+    Fix16 field_1E0_objective_target_y; // 0x1E0
+    Fix16 field_1E4_objective_target_z; // 0x1E4
+    Fix16 field_1E8_target_distance_limit; // 0x1E8
+    s32 field_1EC_unused; // 0x1EC
+    Fix16 field_1F0_max_speed; // 0x1F0
+    Fix16 field_1F4_walk_speed; // 0x1F4
+    Fix16 field_1F8_run_speed; // 0x1F8
+    Fix16 field_1FC_follow_car_offset_distance; // 0x1FC
+    u32 field_200_id; // 0x200
+    s32 field_204_killer_id; // 0x204
+    u16 field_208_invulnerability; // 0x208
+    s16 field_20A_wanted_points; // 0x20A
+    u16 field_20C_target_unseen_counter; // 0x20C: frames the target was not seen; gives up after 15
+    s16 field_20E_offscreen_counter; // 0x20E
+    u16 field_210_shock_counter; // 0x210
+    u16 field_212_electrocution_threshold; // 0x212
+    s16 field_214_unused; // 0x214
+    s16 field_216_health; // 0x216
+    u16 field_218_objective_timer; // 0x218
+    u16 field_21A_internal_objective_timer; // 0x21A
 
-    PedFlags32 field_21C_bf;
+    PedFlags32 field_21C_bf; // 0x21C
 
-    s32 field_220_last_voice_rng;
-    PedFlags8 field_224_bf;
-    u8 field_225_objective_status; // it uses objective_status enum
-    u8 field_226_internal_objective_status;
-    char_type field_227_unused;
-    u8 field_228_hit_count; // times hit by the attacker
-    u8 field_229_mug_count; // times mugged while mugging a player
-    s32 field_22C_ped_class; // ped_class
-    s32 field_230_jump_over_mode; // ped_jump_over_mode
-    char_type field_234_lifetime_timer; // ped_lifetime
-    s32 field_238_ped_type;
-    u8 field_23C_group_idx;
-    s32 field_240_occupation;
-    char_type field_244_remap;
-    s32 field_248_enter_car_as_passenger;
-    u8 field_24C_target_car_door;
-    s32 field_250_voice_event;
-    s32 field_254_block_spec;
-    s32 field_258_objective;
-    s32 field_25C_internal_objective;
-    char_type field_260_wait_counter; // frames waited on the target (field_224_bf.bWaitingOnTarget)
-    char_type field_261_unused;
-    u8 field_262_attackers_count;
-    u8 field_263_prev_attackers_count;
-    u8 field_264_killer_id_timer;
-    u8 field_265_patrol_list_idx;
-    u8 field_266_path_point_count;
-    u8 field_267_ped_ref_idx;
-    char_type field_268_electrocution_timer;
-    char_type field_269_unused;
-    u8 field_26A_recent_crime_timer;
-    s32 field_26C_graphic_type;
-    s32 field_270_fire_mode; // ped_fire_mode
-    s32 field_274_gang_car_model;
-    s32 field_278_ped_state_1;
-    s32 field_27C_ped_state_2;
-    s32 field_280_stored_ped_state_1;
-    s32 field_284_stored_ped_state_2;
-    s32 field_288_threat_search;
-    s32 field_28C_threat_reaction;
-    s32 field_290_death_cause; // ped_death_cause
+    s32 field_220_last_voice_rng; // 0x220
+    PedFlags8 field_224_bf; // 0x224
+    u8 field_225_objective_status; // 0x225: it uses objective_status enum
+    u8 field_226_internal_objective_status; // 0x226
+    char_type field_227_unused; // 0x227
+    u8 field_228_hit_count; // 0x228: times hit by the attacker
+    u8 field_229_mug_count; // 0x229: times mugged while mugging a player
+    s32 field_22C_ped_class; // 0x22C: ped_class
+    s32 field_230_jump_over_mode; // 0x230: ped_jump_over_mode
+    char_type field_234_lifetime_timer; // 0x234: ped_lifetime
+    s32 field_238_ped_type; // 0x238
+    u8 field_23C_group_idx; // 0x23C
+    s32 field_240_occupation; // 0x240
+    char_type field_244_remap; // 0x244
+    s32 field_248_enter_car_as_passenger; // 0x248
+    u8 field_24C_target_car_door; // 0x24C
+    s32 field_250_voice_event; // 0x250
+    s32 field_254_block_spec; // 0x254
+    s32 field_258_objective; // 0x258
+    s32 field_25C_internal_objective; // 0x25C
+    char_type field_260_wait_counter; // 0x260: frames waited on the target (field_224_bf.bWaitingOnTarget)
+    char_type field_261_unused; // 0x261
+    u8 field_262_attackers_count; // 0x262
+    u8 field_263_prev_attackers_count; // 0x263
+    u8 field_264_killer_id_timer; // 0x264
+    u8 field_265_patrol_list_idx; // 0x265
+    u8 field_266_path_point_count; // 0x266
+    u8 field_267_ped_ref_idx; // 0x267
+    char_type field_268_electrocution_timer; // 0x268
+    char_type field_269_unused; // 0x269
+    u8 field_26A_recent_crime_timer; // 0x26A
+    s32 field_26C_graphic_type; // 0x26C
+    s32 field_270_fire_mode; // 0x270: ped_fire_mode
+    s32 field_274_gang_car_model; // 0x274
+    s32 field_278_ped_state_1; // 0x278
+    s32 field_27C_ped_state_2; // 0x27C
+    s32 field_280_stored_ped_state_1; // 0x280
+    s32 field_284_stored_ped_state_2; // 0x284
+    s32 field_288_threat_search; // 0x288
+    s32 field_28C_threat_reaction; // 0x28C
+    s32 field_290_death_cause; // 0x290: ped_death_cause
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Ped, 0x294)
 

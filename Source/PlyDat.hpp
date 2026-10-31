@@ -8,17 +8,17 @@ class Player;
 // Progress of a player slot in one stage
 struct StageStats
 {
-    char_type field_0_is_stage_unlocked;
-    u32 field_4_stage_best_score;
-    s32 field_8_stage_latest_score;
+    char_type field_0_is_stage_unlocked; // 0x0
+    u32 field_4_stage_best_score; // 0x4
+    s32 field_8_stage_latest_score; // 0x8
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(StageStats, 0xC);
 
 // One player slot: name and the stats of the 3 main stages x 4 (main + 3 bonus) stages
 struct PlySlot
 {
-    StageStats field_0_plyr_stage_stats[3][4];
-    wchar_t field_90_strPlayerName[9];
+    StageStats field_0_plyr_stage_stats[3][4]; // 0x0
+    wchar_t field_90_strPlayerName[9]; // 0x90
 
     EXPORT PlySlot();
     EXPORT ~PlySlot();
@@ -32,8 +32,8 @@ GTA2_ASSERT_SIZEOF_ALWAYS(PlySlot, 0xA4);
 // One line (name, score) of a high score table
 struct ScoreTableLine
 {
-    wchar_t field_0_player_name[10];
-    u32 field_14_score;
+    wchar_t field_0_player_name[10]; // 0x0
+    u32 field_14_score; // 0x14
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ScoreTableLine, 0x18);
 
@@ -47,14 +47,14 @@ struct HighScoreTable
 
     EXPORT bool InsertScore_56B550(const wchar_t* pFindStr, s32 findScore);
 
-    ScoreTableLine field_0_score_table_line[10];
+    ScoreTableLine field_0_score_table_line[10]; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(HighScoreTable, 0xF0);
 
 // The best of each of the 10 statistics (GameSession statistics) in a main stage
 struct BestStageStats
 {
-    BYTE field_0_best_statistics[40];
+    BYTE field_0_best_statistics[40]; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(BestStageStats, 0x28);
 
@@ -62,15 +62,15 @@ GTA2_ASSERT_SIZEOF_ALWAYS(BestStageStats, 0x28);
 // (player\hiscores.hsc)
 struct PlyDat
 {
-    u8 field_0_file_buffer[0x1800]; // the start of the object is reused as the buffer when saving the files
-    BestStageStats field_1800_best_stats[3];
-    s32 field_1878_best_car_damage_cost[3];
-    s32 field_1884_best_evasion_rating[3];
-    HighScoreTable field_1890_stage_scores[3][4];
-    HighScoreTable field_23D0_total_scores;
-    HighScoreTable field_24C0_alt_scores;
-    HighScoreTable field_25B0_merged_scores;
-    PlySlot field_26A0_plyr_stats[8];
+    u8 field_0_file_buffer[0x1800]; // 0x0: the start of the object is reused as the buffer when saving the files
+    BestStageStats field_1800_best_stats[3]; // 0x1800
+    s32 field_1878_best_car_damage_cost[3]; // 0x1878
+    s32 field_1884_best_evasion_rating[3]; // 0x1884
+    HighScoreTable field_1890_stage_scores[3][4]; // 0x1890
+    HighScoreTable field_23D0_total_scores; // 0x23D0
+    HighScoreTable field_24C0_alt_scores; // 0x24C0
+    HighScoreTable field_25B0_merged_scores; // 0x25B0
+    PlySlot field_26A0_plyr_stats[8]; // 0x26A0
 
     EXPORT PlyDat();
     EXPORT ~PlyDat();

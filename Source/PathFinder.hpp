@@ -11,13 +11,13 @@ class Ped;
 class PathNode
 {
   public:
-    char_type field_0_idx1;
-    char_type field_1_idx2;
-    u8 field_2_xpos;
-    u8 field_3_ypos;
-    u8 field_4_zpos;
-    char_type field_5_unused;
-    s16 field_6_cost;
+    char_type field_0_idx1; // 0x0
+    char_type field_1_idx2; // 0x1
+    u8 field_2_xpos; // 0x2
+    u8 field_3_ypos; // 0x3
+    u8 field_4_zpos; // 0x4
+    char_type field_5_unused; // 0x5
+    s16 field_6_cost; // 0x6
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PathNode, 0x8);
 #pragma pack(pop)
@@ -93,52 +93,52 @@ class PathFinder
                                         u8* pOutPathPointCount);
     EXPORT bool FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, u8* ypos, u8* zpos, bool bAllowDuringPathCompute);
 
-    s32 field_0_ped_id;
-    bool field_4_bFindTileMode; // FindNearbyTileMatchingSlopeType_5552B0, not ComputePath_554AB0
-    PathNode * field_8_pNode;
-    u16 field_C_node_count;
-    u8 field_E_xStart;
-    u8 field_F_yStart;
-    u8 field_10_zStart;
-    u8 field_11_xEnd;
-    u8 field_12_yEnd;
-    u8 field_13_zEnd;
-    bool field_14_bExpanding;
-    u16 field_16_start_cost;
-    bool field_18_bSearching;
-    char_type field_19_unused;
-    char_type field_1A_unused;
-    u8 field_1B_direction;
-    u16 field_1C_grid_idx;
-    s16 field_1E_current_cost;
-    u8 field_20_xpos;
-    u8 field_21_ypos;
-    u8 field_22_zpos;
-    u8 field_23_grid_x;
-    u8 field_24_grid_y;
-    u8 field_25_xpos;
-    u8 field_26_ypos;
-    u8 field_27_zpos;
-    char_type field_28_grid_origin_x;
-    char_type field_29_grid_origin_y;
-    char_type field_2A_unused;
-    char_type field_2B_unused;
-    s16 field_2C_unused;
-    u16 field_2E_iteration_budget;
-    s32 field_30_unused;
-    s16 field_34_unused;
-    s16 field_36_unused;
-    bool field_38_bComputePathInProgress;
-    s16 field_3A_unused;
-    Ped_List field_3C_ped_list;
-    PathNode field_40_grid[1122];
-    PathNode field_2350_nodes[398];
-    s32 field_2FC0_unused;
-    s32 field_2FC4_unused;
-    s32 field_2FC8_unused;
-    s32 field_2FCC_unused;
-    bool field_2FD0_bTimedOut;
-    u8 field_2FD1_time_out_counter;
+    s32 field_0_ped_id; // 0x0
+    bool field_4_bFindTileMode; // 0x4: FindNearbyTileMatchingSlopeType_5552B0, not ComputePath_554AB0
+    PathNode * field_8_pNode; // 0x8
+    u16 field_C_node_count; // 0xC
+    u8 field_E_xStart; // 0xE
+    u8 field_F_yStart; // 0xF
+    u8 field_10_zStart; // 0x10
+    u8 field_11_xEnd; // 0x11
+    u8 field_12_yEnd; // 0x12
+    u8 field_13_zEnd; // 0x13
+    bool field_14_bExpanding; // 0x14
+    u16 field_16_start_cost; // 0x16
+    bool field_18_bSearching; // 0x18
+    char_type field_19_unused; // 0x19
+    char_type field_1A_unused; // 0x1A
+    u8 field_1B_direction; // 0x1B
+    u16 field_1C_grid_idx; // 0x1C
+    s16 field_1E_current_cost; // 0x1E
+    u8 field_20_xpos; // 0x20
+    u8 field_21_ypos; // 0x21
+    u8 field_22_zpos; // 0x22
+    u8 field_23_grid_x; // 0x23
+    u8 field_24_grid_y; // 0x24
+    u8 field_25_xpos; // 0x25
+    u8 field_26_ypos; // 0x26
+    u8 field_27_zpos; // 0x27
+    char_type field_28_grid_origin_x; // 0x28
+    char_type field_29_grid_origin_y; // 0x29
+    char_type field_2A_unused; // 0x2A
+    char_type field_2B_unused; // 0x2B
+    s16 field_2C_unused; // 0x2C
+    u16 field_2E_iteration_budget; // 0x2E
+    s32 field_30_unused; // 0x30
+    s16 field_34_unused; // 0x34
+    s16 field_36_unused; // 0x36
+    bool field_38_bComputePathInProgress; // 0x38
+    s16 field_3A_unused; // 0x3A
+    Ped_List field_3C_ped_list; // 0x3C
+    PathNode field_40_grid[1122]; // 0x40
+    PathNode field_2350_nodes[398]; // 0x2350
+    s32 field_2FC0_unused; // 0x2FC0
+    s32 field_2FC4_unused; // 0x2FC4
+    s32 field_2FC8_unused; // 0x2FC8
+    s32 field_2FCC_unused; // 0x2FCC
+    bool field_2FD0_bTimedOut; // 0x2FD0
+    u8 field_2FD1_time_out_counter; // 0x2FD1
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PathFinder, 0x2FD4);
 

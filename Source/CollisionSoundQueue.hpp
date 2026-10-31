@@ -76,16 +76,16 @@ class CollisionTarget
         field_20_pHitSprite = pSprite;
     }
 
-    s32 field_0_type; // collision_target_type
-    Fix16 field_4_hseg_x_min;
-    Fix16 field_8_hseg_x_max;
-    Fix16 field_C_vseg_y_min;
-    Fix16 field_10_vseg_y_max;
-    Fix16 field_14_vseg_x;
-    Fix16 field_18_hseg_y;
-    Fix16 field_1C_z;
-    Sprite* field_20_pHitSprite;
-    Sprite* field_24_pSourceSprite; // the car sprite that is being moved, set by CarPhysics
+    s32 field_0_type; // 0x0: collision_target_type
+    Fix16 field_4_hseg_x_min; // 0x4
+    Fix16 field_8_hseg_x_max; // 0x8
+    Fix16 field_C_vseg_y_min; // 0xC
+    Fix16 field_10_vseg_y_max; // 0x10
+    Fix16 field_14_vseg_x; // 0x14
+    Fix16 field_18_hseg_y; // 0x18
+    Fix16 field_1C_z; // 0x1C
+    Sprite* field_20_pHitSprite; // 0x20
+    Sprite* field_24_pSourceSprite; // 0x24: the car sprite that is being moved, set by CarPhysics
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CollisionTarget, 0x28);
 
@@ -103,16 +103,16 @@ class CollisionEvent
         this->field_24_impact_strength = strength;
     }
 
-    s32 field_0_type; // collision_event_type
-    Fix16 field_4_x;
-    Fix16 field_8_y;
-    Fix16 field_C_z;
-    Car* field_10_car;
-    Car* field_14_other_car;
-    s32 field_18_object_model; // model of the object involved
-    s32 field_1C_other_object_model; // model of the other object collided with
-    s32 field_20_map_block_spec;
-    Fix16 field_24_impact_strength;
+    s32 field_0_type; // 0x0: collision_event_type
+    Fix16 field_4_x; // 0x4
+    Fix16 field_8_y; // 0x8
+    Fix16 field_C_z; // 0xC
+    Car* field_10_car; // 0x10
+    Car* field_14_other_car; // 0x14
+    s32 field_18_object_model; // 0x18: model of the object involved
+    s32 field_1C_other_object_model; // 0x1C: model of the other object collided with
+    s32 field_20_map_block_spec; // 0x20
+    Fix16 field_24_impact_strength; // 0x24
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CollisionEvent, 0x28);
 
@@ -133,9 +133,9 @@ class CollisionSoundQueue
     EXPORT CollisionSoundQueue();
     EXPORT ~CollisionSoundQueue();
 
-    SoundObject* field_0_pSoundObj;
-    CollisionEvent field_4_events[k_max_events];
-    s32 field_C84_count;
+    SoundObject* field_0_pSoundObj; // 0x0
+    CollisionEvent field_4_events[k_max_events]; // 0x4
+    s32 field_C84_count; // 0xC84
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CollisionSoundQueue, 0xC88);
 

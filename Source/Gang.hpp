@@ -102,36 +102,36 @@ class Gang
     EXPORT void SetName_4BF090(const char_type* pName, u8 nameLen);
     EXPORT wchar_t* GetArrowColourText_4BF340() const;
 
-    bool field_0_used;
-    u8 field_1_gang_idx;
-    char_type field_2_name[4];
-    char_type field_6_unused;
-    char_type field_7_unused;
-    u32 field_8_unused[62];
-    char_type field_100_unused;
-    char_type field_101_remap;
-    char_type field_102_unused;
-    char_type field_103_unused;
-    u32 field_104_basic_weapon;
-    u32 field_108_angry_weapon;
-    u32 field_10C_hate_weapon;
-    bool field_110_has_high_respect;
-    bool field_111_kill_affects_respect;
-    bool field_112_hostile_to_gang[10];
-    s8 field_11C_respect[MAX_PLAYERS];
-    char_type field_122_gang_kill_reaction[10];
-    Fix16 field_12C_info_phone_x;
-    Fix16 field_130_info_phone_y;
-    Fix16 field_134_info_phone_z;
-    u8 field_138_arrow_colour;
-    u8 field_139_kill_respect_change;
-    char_type field_13A_unused;
-    char_type field_13B_unused;
-    u32 field_13C_gang_car_model;
-    char_type field_140_gang_car_remap;
-    bool field_141_always_basic_weapon;
-    char_type field_142_unused;
-    char_type field_143_unused;
+    bool field_0_used; // 0x0
+    u8 field_1_gang_idx; // 0x1
+    char_type field_2_name[4]; // 0x2
+    char_type field_6_unused; // 0x6
+    char_type field_7_unused; // 0x7
+    u32 field_8_unused[62]; // 0x8
+    char_type field_100_unused; // 0x100
+    char_type field_101_remap; // 0x101
+    char_type field_102_unused; // 0x102
+    char_type field_103_unused; // 0x103
+    u32 field_104_basic_weapon; // 0x104
+    u32 field_108_angry_weapon; // 0x108
+    u32 field_10C_hate_weapon; // 0x10C
+    bool field_110_has_high_respect; // 0x110
+    bool field_111_kill_affects_respect; // 0x111
+    bool field_112_hostile_to_gang[10]; // 0x112
+    s8 field_11C_respect[MAX_PLAYERS]; // 0x11C
+    char_type field_122_gang_kill_reaction[10]; // 0x122
+    Fix16 field_12C_info_phone_x; // 0x12C
+    Fix16 field_130_info_phone_y; // 0x130
+    Fix16 field_134_info_phone_z; // 0x134
+    u8 field_138_arrow_colour; // 0x138
+    u8 field_139_kill_respect_change; // 0x139
+    char_type field_13A_unused; // 0x13A
+    char_type field_13B_unused; // 0x13B
+    u32 field_13C_gang_car_model; // 0x13C
+    char_type field_140_gang_car_remap; // 0x140
+    bool field_141_always_basic_weapon; // 0x141
+    char_type field_142_unused; // 0x142
+    char_type field_143_unused; // 0x143
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Gang, 0x144);
 
@@ -154,7 +154,7 @@ class GangPool
     EXPORT void SwapGangSlots_4BF230(Gang* pGang, u8 gang_idx);
     EXPORT s8 FindGangByCarModel_4BF2F0(s32 car_model);
 
-    Gang field_0_gang_list[10];
+    Gang field_0_gang_list[10]; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(GangPool, 0xCA8);
 

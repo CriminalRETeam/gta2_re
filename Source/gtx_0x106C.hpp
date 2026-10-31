@@ -7,30 +7,30 @@
 
 struct palette_base
 {
-    u16 field_0_tile;
-    u16 field_2_sprite;
-    u16 field_4_car_remap;
-    u16 field_6_ped_remap;
-    u16 field_8_code_obj_remap;
-    u16 field_A_map_obj_remap;
-    u16 field_C_user_remap;
-    u16 field_E_font_remap;
+    u16 field_0_tile; // 0x0
+    u16 field_2_sprite; // 0x2
+    u16 field_4_car_remap; // 0x4
+    u16 field_6_ped_remap; // 0x6
+    u16 field_8_code_obj_remap; // 0x8
+    u16 field_A_map_obj_remap; // 0xA
+    u16 field_C_user_remap; // 0xC
+    u16 field_E_font_remap; // 0xE
 };
 
 struct sprite_base
 {
-    u16 field_0_car;
-    u16 field_2_ped;
-    u16 field_4_code_obj;
-    u16 field_6_map_obj;
-    u16 field_8_user;
-    u16 field_A_font;
+    u16 field_0_car; // 0x0
+    u16 field_2_ped; // 0x2
+    u16 field_4_code_obj; // 0x4
+    u16 field_6_map_obj; // 0x6
+    u16 field_8_user; // 0x8
+    u16 field_A_font; // 0xA
 };
 
 struct font_base
 {
-    u16 field_0_font_count;
-    u16 field_2_base[1]; // variable, see font_count
+    u16 field_0_font_count; // 0x0
+    u16 field_2_base[1]; // 0x2: variable, see font_count
 };
 
 struct sprite_index
@@ -38,34 +38,34 @@ struct sprite_index
     EXPORT void ClearPixelsOfColour_5ABAA0(u8 clear_target);
     EXPORT void CopyPixels_5ABB00(u8* pDst);
 
-    u8* field_0_pData;
-    u8 field_4_width;
-    u8 field_5_height;
-    s16 field_6_pad;
+    u8* field_0_pData; // 0x0
+    u8 field_4_width; // 0x4
+    u8 field_5_height; // 0x5
+    s16 field_6_pad; // 0x6
 };
 
 struct object_info
 {
-    u8 field_0_model;
-    u8 field_1_sprites;
+    u8 field_0_model; // 0x0
+    u8 field_1_sprites; // 0x1
 };
 
 struct palette_index
 {
-    u16 field_0_phys_palette[16384];
+    u16 field_0_phys_palette[16384]; // 0x0
 };
 
 struct tile_array
 {
-    u16 field_0_tile_mapping[1024];
+    u16 field_0_tile_mapping[1024]; // 0x0
 };
 
 struct delta_entry
 {
-    s16 field_0_which_sprite;
-    u8 field_2_delta_count;
-    u8 field_3_pad;
-    s16 field_4_delta[2];
+    s16 field_0_which_sprite; // 0x0
+    u8 field_2_delta_count; // 0x2
+    u8 field_3_pad; // 0x3
+    s16 field_4_delta[2]; // 0x4
 };
 
 struct door_info
@@ -149,8 +149,8 @@ struct car_info_container
         field_400_count = 0;
         memset(field_0_car_info, 0, sizeof(field_0_car_info));
     }
-    car_info* field_0_car_info[256];
-    u8 field_400_count;
+    car_info* field_0_car_info[256]; // 0x0
+    u8 field_400_count; // 0x400
     //char_type field_401;// pad
     //char_type field_402;// pad
     //char_type field_403;// pad
@@ -158,9 +158,9 @@ struct car_info_container
 
 struct delta_store_entry
 {
-    u16 field_0_offset;
-    u8 field_2_len;
-    u8 field_3_data[1]; // variable, see field_2_len
+    u16 field_0_offset; // 0x0
+    u8 field_2_len; // 0x2
+    u8 field_3_data[1]; // 0x3: variable, see field_2_len
 };
 
 struct sprite_delta
@@ -168,24 +168,24 @@ struct sprite_delta
     EXPORT void Delta_5ABA00(u8* pArray);
     EXPORT void Delta_5ABA40(u8* pArray, u32 width);
 
-    delta_store_entry* field_0_pData;
-    u16 field_4_len;
-    u16 field_6_pad;
+    delta_store_entry* field_0_pData; // 0x0
+    u16 field_4_len; // 0x4
+    u16 field_6_pad; // 0x6
 };
 
 struct sprite_deltas
 {
-    u16 field_0_which_sprite;
-    u8 field_2_count;
-    u8 field_3_pad;
-    sprite_delta field_4_deltas[1];
+    u16 field_0_which_sprite; // 0x0
+    u8 field_2_count; // 0x2
+    u8 field_3_pad; // 0x3
+    sprite_delta field_4_deltas[1]; // 0x4
 };
 
 struct delta_container
 {
-    u16 field_0_count;
-    u16 field_2_pad;
-    sprite_deltas* field_4_entries[1];
+    u16 field_0_count; // 0x0
+    u16 field_2_pad; // 0x2
+    sprite_deltas* field_4_entries[1]; // 0x4
 };
 
 namespace tile_spec
@@ -411,39 +411,39 @@ class gtx_0x106C
         return field_5C_cari->field_0_car_info[model_idx];
     }
 
-    s16 field_0_totalPalBase;
-    u16 field_2_font_base_total;
-    s16 field_4_sprite_index_count;
-    u16 field_6_map_object_info_len;
-    s16 field_8_physical_palettes_len;
-    s16 field_A_unused;
-    palette_base* field_C_palette_base2;
-    palette_base* field_10_palette_base1;
-    sprite_base* field_14_sprite_base2;
-    sprite_base* field_18_sprite_base1;
-    font_base* field_1C_font_base;
-    sprite_index* field_20_sprite_index;
-    object_info* field_24_map_object_info;
-    palette_index* field_28_palette_index;
-    void* field_2C_physical_palettes;
-    void* field_30_physical_palettes_unaligned;
-    BYTE* field_34_sprite_graphics;
-    void* field_38_sprite_graphics_unaligned;
-    u8* field_3C_tiles;
-    tile_array* field_40_tile;
-    void* field_44_tiles_unaligned;
-    delta_store_entry* field_48_delta_store;
-    delta_entry* field_4C_delta_index;
-    void* field_50_delta_buffer;
-    delta_container* field_54_del;
-    car_info** field_58_car_info;
-    car_info_container* field_5C_cari;
-    s32 field_60_delta_len;
-    u8* field_64_car_recycling_info;
-    s16 field_68_recy_chunk_size;
-    bool field_6A_palettes_converted;
-    char_type field_6B_unused;
-    s32 field_6C_spec[1024];
+    s16 field_0_totalPalBase; // 0x0
+    u16 field_2_font_base_total; // 0x2
+    s16 field_4_sprite_index_count; // 0x4
+    u16 field_6_map_object_info_len; // 0x6
+    s16 field_8_physical_palettes_len; // 0x8
+    s16 field_A_unused; // 0xA
+    palette_base* field_C_palette_base2; // 0xC
+    palette_base* field_10_palette_base1; // 0x10
+    sprite_base* field_14_sprite_base2; // 0x14
+    sprite_base* field_18_sprite_base1; // 0x18
+    font_base* field_1C_font_base; // 0x1C
+    sprite_index* field_20_sprite_index; // 0x20
+    object_info* field_24_map_object_info; // 0x24
+    palette_index* field_28_palette_index; // 0x28
+    void* field_2C_physical_palettes; // 0x2C
+    void* field_30_physical_palettes_unaligned; // 0x30
+    BYTE* field_34_sprite_graphics; // 0x34
+    void* field_38_sprite_graphics_unaligned; // 0x38
+    u8* field_3C_tiles; // 0x3C
+    tile_array* field_40_tile; // 0x40
+    void* field_44_tiles_unaligned; // 0x44
+    delta_store_entry* field_48_delta_store; // 0x48
+    delta_entry* field_4C_delta_index; // 0x4C
+    void* field_50_delta_buffer; // 0x50
+    delta_container* field_54_del; // 0x54
+    car_info** field_58_car_info; // 0x58
+    car_info_container* field_5C_cari; // 0x5C
+    s32 field_60_delta_len; // 0x60
+    u8* field_64_car_recycling_info; // 0x64
+    s16 field_68_recy_chunk_size; // 0x68
+    bool field_6A_palettes_converted; // 0x6A
+    char_type field_6B_unused; // 0x6B
+    s32 field_6C_spec[1024]; // 0x6C
 };
 
 EXTERN_GLOBAL(gtx_0x106C*, gGtx_0x106C_703DD4);

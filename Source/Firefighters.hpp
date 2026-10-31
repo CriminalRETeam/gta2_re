@@ -41,18 +41,18 @@ class Firefighter
     EXPORT void init_4A85C0();
     EXPORT void Reset_4A85E0();
 
-    s16 field_0_id;
-    s16 field_2_unused;
-    s32 field_4_bActive;
-    s32 field_8_state; // firefighter_state
-    Car* field_C_target_car;
-    Fix16 field_10_xpos;
-    Fix16 field_14_ypos;
-    Fix16 field_18_zpos;
-    Car* field_1C_car;
-    Ped* field_20_ped;
-    u16 field_24_next_state_timer;
-    s16 field_26_unused;
+    s16 field_0_id; // 0x0
+    s16 field_2_unused; // 0x2
+    s32 field_4_bActive; // 0x4
+    s32 field_8_state; // 0x8: firefighter_state
+    Car* field_C_target_car; // 0xC
+    Fix16 field_10_xpos; // 0x10
+    Fix16 field_14_ypos; // 0x14
+    Fix16 field_18_zpos; // 0x18
+    Car* field_1C_car; // 0x1C
+    Ped* field_20_ped; // 0x20
+    u16 field_24_next_state_timer; // 0x24
+    s16 field_26_unused; // 0x26
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Firefighter, 0x28);
 
@@ -79,9 +79,9 @@ class FirefighterPool
     EXPORT bool IsFireEngineSentToCar_4A8890(Car* pFireEngine, Car* pTargetCar) const;
     EXPORT void ResetCount_4A88D0();
 
-    Firefighter field_0_firefighters[2];
-    s16 field_50_count;
-    s16 field_52_unused;
+    Firefighter field_0_firefighters[2]; // 0x0
+    s16 field_50_count; // 0x50
+    s16 field_52_unused; // 0x52
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(FirefighterPool, 0x54);
 

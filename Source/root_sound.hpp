@@ -8,8 +8,8 @@
 class root_sound
 {
   public:
-    SoundObject* field_0_pFreeList;
-    SoundObject field_4_pool[999 + 1];
+    SoundObject* field_0_pFreeList; // 0x0
+    SoundObject field_4_pool[999 + 1]; // 0x4
 
     SoundObject* DestroySoundObj_40FE60(SoundObject* pSoundObj) // inline
     {

@@ -45,12 +45,12 @@ class DoorData // Contains only position, face and DoorInfo id
         return field_4_x;
     }
 
-    s32 field_0_state;
-    u8 field_4_x;
-    u8 field_5_y;
-    u8 field_6_z;
-    u8 field_7_gr_id;
-    s32 field_8_face;
+    s32 field_0_state; // 0x0
+    u8 field_4_x; // 0x4
+    u8 field_5_y; // 0x5
+    u8 field_6_z; // 0x6
+    u8 field_7_gr_id; // 0x7
+    s32 field_8_face; // 0x8
     DoorData* mpNext;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(DoorData, 0x10);
@@ -98,7 +98,7 @@ class DoorDataPool
         field_0_pool.field_0_pHead = NULL;
     }
 
-    PoolBasic<DoorData, 44> field_0_pool;
+    PoolBasic<DoorData, 44> field_0_pool; // 0x0
 };
 
 class DoorPool
@@ -141,9 +141,9 @@ class DoorPool
     EXPORT DoorPool();
     EXPORT ~DoorPool();
 
-    Door field_0_doors[22];
-    u16 field_4D0_count;
-    s16 field_4D2_unused;
+    Door field_0_doors[22]; // 0x0
+    u16 field_4D0_count; // 0x4D0
+    s16 field_4D2_unused; // 0x4D2
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(DoorPool, 0x4D4);
 

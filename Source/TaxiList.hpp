@@ -17,7 +17,7 @@ struct TaxiListNode
     {
     }
 
-    Car* field_0_pCar;
+    Car* field_0_pCar; // 0x0
     TaxiListNode* mpNext;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TaxiListNode, 0x8);
@@ -68,7 +68,7 @@ class TaxiList
     EXPORT ~TaxiList();
 
   private:
-    TaxiListNode* field_0_pFirst;
+    TaxiListNode* field_0_pFirst; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TaxiList, 0x4);
 

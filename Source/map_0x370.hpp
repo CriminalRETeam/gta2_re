@@ -12,10 +12,10 @@ class Fix16_Rect;
 
 struct gmp_col_info
 {
-    u8 field_0_height;
-    u8 field_1_offset;
-    s16 field_2_pad;
-    s32 field_4_blockd[2];
+    u8 field_0_height; // 0x0
+    u8 field_1_offset; // 0x1
+    s16 field_2_pad; // 0x2
+    s32 field_4_blockd[2]; // 0x4
 };
 
 // gmp_block_info::field_A_arrows bits: the low nibble is the green arrows, the high nibble the red ones
@@ -54,13 +54,13 @@ struct gmp_block_info
         field_B_slope_type = 0;
     }
 
-    u16 field_0_left;
-    u16 field_2_right;
-    u16 field_4_top;
-    u16 field_6_bottom;
-    u16 field_8_lid;
-    u8 field_A_arrows;
-    u8 field_B_slope_type;
+    u16 field_0_left; // 0x0
+    u16 field_2_right; // 0x2
+    u16 field_4_top; // 0x4
+    u16 field_6_bottom; // 0x6
+    u16 field_8_lid; // 0x8
+    u8 field_A_arrows; // 0xA
+    u8 field_B_slope_type; // 0xB
 };
 
 enum gmp_slope_type
@@ -119,8 +119,8 @@ enum MapSlopes
 
 struct gmp_header
 {
-    char_type field_0_file_type[4];
-    s16 field_4_version;
+    char_type field_0_file_type[4]; // 0x0
+    s16 field_4_version; // 0x4
 };
 
 struct DmapInfoList;
@@ -138,11 +138,11 @@ struct gmp_compressed_map_32
         field_40000_column_words = 0;
     }
 
-    u32 field_0_base[256][256];
-    s32 field_40000_column_words;
-    s32 field_40004_num_blocks;
-    u16** field_40008_pColumn;
-    gmp_block_info* field_4000C_block;
+    u32 field_0_base[256][256]; // 0x0
+    s32 field_40000_column_words; // 0x40000
+    s32 field_40004_num_blocks; // 0x40004
+    u16** field_40008_pColumn; // 0x40008
+    gmp_block_info* field_4000C_block; // 0x4000C
 
     gmp_block_info* get_block(u32 block)
     {
@@ -164,10 +164,10 @@ struct gmp_dmap_info
         field_0_column_idx = column_idx;
     }
 
-    u32 field_0_column_idx;
-    u8 field_4_x;
-    u8 field_5_y;
-    u16 field_6_unused;
+    u32 field_0_column_idx; // 0x0
+    u8 field_4_x; // 0x4
+    u8 field_5_y; // 0x5
+    u16 field_6_unused; // 0x6
 };
 
 struct DmapInfoList
@@ -180,20 +180,20 @@ struct DmapInfoList
 
     EXPORT void AddOrUpdateDmapInfo_4E80E0(u8 x, u8 y, u32 column_idx);
 
-    gmp_dmap_info field_0_dmap_infos[100];
-    s32 field_320_max_idx;
+    gmp_dmap_info field_0_dmap_infos[100]; // 0x0
+    s32 field_320_max_idx; // 0x320
 };
 
 class gmp_map_zone
 {
   public:
-    u8 field_0_zone_type;
-    u8 field_1_x;
-    u8 field_2_y;
-    u8 field_3_w;
-    u8 field_4_h;
-    u8 field_5_name_length;
-    char_type field_6_name[2];
+    u8 field_0_zone_type; // 0x0
+    u8 field_1_x; // 0x1
+    u8 field_2_y; // 0x2
+    u8 field_3_w; // 0x3
+    u8 field_4_h; // 0x4
+    u8 field_5_name_length; // 0x5
+    char_type field_6_name[2]; // 0x6
 
     EXPORT bool IsZoneVisibleToAnyPlayer_4DEF40() const;
     EXPORT wchar_t* get_zone_str_4DEF00();
@@ -207,49 +207,49 @@ class gmp_map_zone
 
 struct gmp_zone_info
 {
-    u16 field_0_car_density;
-    s16 field_2_goodcar_ratio;
-    s16 field_4_badcar_ratio;
-    s16 field_6_policecar_ratio;
-    s16 field_8_gangcar_ratio;
-    s16 field_A_ped_density;
-    s16 field_C_mugger_ratio;
-    s16 field_E_carthief_ratio;
-    s16 field_10_elvis_ratio;
-    s16 field_12_gangchar_ratio;
-    s16 field_14_policeped_ratio;
+    u16 field_0_car_density; // 0x0
+    s16 field_2_goodcar_ratio; // 0x2
+    s16 field_4_badcar_ratio; // 0x4
+    s16 field_6_policecar_ratio; // 0x6
+    s16 field_8_gangcar_ratio; // 0x8
+    s16 field_A_ped_density; // 0xA
+    s16 field_C_mugger_ratio; // 0xC
+    s16 field_E_carthief_ratio; // 0xE
+    s16 field_10_elvis_ratio; // 0x10
+    s16 field_12_gangchar_ratio; // 0x12
+    s16 field_14_policeped_ratio; // 0x14
 };
 
 struct gmp_map_object
 {
-    u16 field_0_x;
-    u16 field_2_y;
-    Ang8 field_4_rotation;
-    u8 field_5_object_type;
+    u16 field_0_x; // 0x0
+    u16 field_2_y; // 0x2
+    Ang8 field_4_rotation; // 0x4
+    u8 field_5_object_type; // 0x5
 };
 
 struct gmp_map_light
 {
-    s32 field_0_argb;
-    s16 field_4_x;
-    s16 field_6_y;
-    s16 field_8_z;
-    s16 field_A_radius;
-    u8 field_C_intensity;
-    u8 field_D_shape;
-    u8 field_E_on_time;
-    u8 field_F_off_time;
+    s32 field_0_argb; // 0x0
+    s16 field_4_x; // 0x4
+    s16 field_6_y; // 0x6
+    s16 field_8_z; // 0x8
+    s16 field_A_radius; // 0xA
+    u8 field_C_intensity; // 0xC
+    u8 field_D_shape; // 0xD
+    u8 field_E_on_time; // 0xE
+    u8 field_F_off_time; // 0xF
 };
 
 struct gmp_tile_animation
 {
-    u16 field_0_base; // The base tile of the animation. This marks the tile as an animating tile.
-    u8 field_2_frame_rate; // The number of game frames that each frame of the animation is displayed for.
-    u8 field_3_repeat; // The number of times the animation will be played. 0 means play forever.
-    u8 field_4_anim_length; // The number of tiles in the animation
-    u8 field_5_unused;
+    u16 field_0_base; // 0x0: The base tile of the animation. This marks the tile as an animating tile.
+    u8 field_2_frame_rate; // 0x2: The number of game frames that each frame of the animation is displayed for.
+    u8 field_3_repeat; // 0x3: The number of times the animation will be played. 0 means play forever.
+    u8 field_4_anim_length; // 0x4: The number of tiles in the animation
+    u8 field_5_unused; // 0x5
     // NOTE: Size set to 1 to shutup a warning
-    u16 field_6_tiles[1]; // Size given by field_4_anim_length
+    u16 field_6_tiles[1]; // 0x6: Size given by field_4_anim_length
 };
 
 struct gmp_map_slope
@@ -260,12 +260,12 @@ struct gmp_map_slope
     {
     }
 
-    u8 field_0_gradient_direction; // the direction the slope level increases. E.g. "direction north" means it increases the level from south to north
-    u8 field_1_gradient_size; // 1 = 45 degree; 2 = 26 degree; 8 = 7 degree slope
-    u8 field_2_gradient_level; // 0 = highest slope of the gradient, it increases as going lower
-    u8 field_3_padding;
-    Fix16 field_4_zpos_lower; // relative z coordinate from the lowest point of the slope
-    Fix16 field_8_zpos_higher; // relative z coordinate from the highest point of the slope
+    u8 field_0_gradient_direction; // 0x0: the direction the slope level increases. E.g. "direction north" means it increases the level from south to north
+    u8 field_1_gradient_size; // 0x1: 1 = 45 degree; 2 = 26 degree; 8 = 7 degree slope
+    u8 field_2_gradient_level; // 0x2: 0 = highest slope of the gradient, it increases as going lower
+    u8 field_3_padding; // 0x3
+    Fix16 field_4_zpos_lower; // 0x4: relative z coordinate from the lowest point of the slope
+    Fix16 field_8_zpos_higher; // 0x8: relative z coordinate from the highest point of the slope
 };
 
 enum gmp_gradient_slope_direction // direction: low to high
@@ -347,9 +347,9 @@ EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32& road_direction);
 
 struct gmp_zone_list
 {
-    u16 field_0_num_zones;
-    u16 field_2_pad;
-    gmp_map_zone* field_4_zone_array[2];
+    u16 field_0_num_zones; // 0x0
+    u16 field_2_pad; // 0x2
+    gmp_map_zone* field_4_zone_array[2]; // 0x4
 };
 
 class Map_0x370
@@ -802,33 +802,33 @@ class Map_0x370
     }
 
   public:
-    gmp_compressed_map_32* field_0_pDmap;
-    DmapInfoList field_4_obj;
-    gmp_map_zone* field_328_pZoneData;
-    gmp_zone_list* field_32C_pZones;
-    u8* field_330_pZoneArray;
-    gmp_zone_info* field_334_pZoneInfo;
-    gmp_map_object* field_338_pMapObjects;
-    gmp_map_light* field_33C_pLightData;
-    gmp_tile_animation* field_340_pTileAnimData;
-    s32 field_344_map_object_count;
-    s32 field_348_num_lights;
-    s32 field_34C_num_blocks;
-    s32 field_350_num_blocks_extra;
-    u32 field_354_num_blocks; // u32: OnModifiedMapDataLoaded_4E8C00 matches only with these two unsigned
-    s32 field_358_column_words;
-    s32 field_35C_column_word_extra;
-    u32 field_360_column_words;
-    u16 field_364_cur_zone_idx;
-    s16 field_366_unused;
-    u8 field_368_zone_type;
-    u8 field_369_unused;
-    u8 field_36A_zone_x;
-    u8 field_36B_zone_y;
-    bool field_36C_bMatchPos;
-    char_type field_36D_unused;
-    bool field_36E_bBlockedByTerrain;
-    bool field_36F_bLowerBlockHasArrows;
+    gmp_compressed_map_32* field_0_pDmap; // 0x0
+    DmapInfoList field_4_obj; // 0x4
+    gmp_map_zone* field_328_pZoneData; // 0x328
+    gmp_zone_list* field_32C_pZones; // 0x32C
+    u8* field_330_pZoneArray; // 0x330
+    gmp_zone_info* field_334_pZoneInfo; // 0x334
+    gmp_map_object* field_338_pMapObjects; // 0x338
+    gmp_map_light* field_33C_pLightData; // 0x33C
+    gmp_tile_animation* field_340_pTileAnimData; // 0x340
+    s32 field_344_map_object_count; // 0x344
+    s32 field_348_num_lights; // 0x348
+    s32 field_34C_num_blocks; // 0x34C
+    s32 field_350_num_blocks_extra; // 0x350
+    u32 field_354_num_blocks; // 0x354: u32: OnModifiedMapDataLoaded_4E8C00 matches only with these two unsigned
+    s32 field_358_column_words; // 0x358
+    s32 field_35C_column_word_extra; // 0x35C
+    u32 field_360_column_words; // 0x360
+    u16 field_364_cur_zone_idx; // 0x364
+    s16 field_366_unused; // 0x366
+    u8 field_368_zone_type; // 0x368
+    u8 field_369_unused; // 0x369
+    u8 field_36A_zone_x; // 0x36A
+    u8 field_36B_zone_y; // 0x36B
+    bool field_36C_bMatchPos; // 0x36C
+    char_type field_36D_unused; // 0x36D
+    bool field_36E_bBlockedByTerrain; // 0x36E
+    bool field_36F_bLowerBlockHasArrows; // 0x36F
 };
 
 EXTERN_GLOBAL(Map_0x370*, gMap_0x370_6F6268);

@@ -50,7 +50,7 @@ class Ped_List
         return field_0_pFirstPed == NULL;
     }
 
-    PedListNode* field_0_pFirstPed;
+    PedListNode* field_0_pFirstPed; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Ped_List, 0x4)
 

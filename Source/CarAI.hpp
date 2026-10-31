@@ -88,52 +88,52 @@ class CarAI
         field_0_car = NULL;
     }
 
-    Car* field_0_car;
-    s32 field_4_unused;
-    char_type field_8_maneuver_active;
-    char_type field_9_probe_x;
-    char_type field_A_probe_y;
+    Car* field_0_car; // 0x0
+    s32 field_4_unused; // 0x4
+    char_type field_8_maneuver_active; // 0x8
+    char_type field_9_probe_x; // 0x9
+    char_type field_A_probe_y; // 0xA
     CarAI* mpNext;
-    Ang16 field_10_angle;
-    Fix16 field_14_speed;
-    Fix16 field_18_target_speed;
-    Fix16 field_1C_acceleration;
-    s32 field_20_unused;
+    Ang16 field_10_angle; // 0x10
+    Fix16 field_14_speed; // 0x14
+    Fix16 field_18_target_speed; // 0x18
+    Fix16 field_1C_acceleration; // 0x1C
+    s32 field_20_unused; // 0x20
 
     union
     {
-        u32 field_24_flags;
-        CarAIFlags32 field_24_bf;
+        u32 field_24_flags; // 0x24
+        CarAIFlags32 field_24_bf; // 0x24
     };
 
-    char_type field_28_route_idx;
-    char_type field_29_pad;
-    u8 field_2A_stopped_timer;
-    u8 field_2B_ticks_since_alloc;
-    u8 field_2C_yield_timer;
-    char_type field_2D_arrow_start;
-    char_type field_2E_arrow_cur;
-    char_type field_2F_arrow_end;
-    u8 field_30_forced_stop_timer;
-    s32 field_34_unused;
-    s32 field_38_junction_turn_direction;
-    s32 field_3C_seeking_road;
-    s32 field_40_prev_target_direction;
-    s32 field_44_target_direction;
-    s32 field_48_probe_direction;
-    s32 field_4C_curr_direction;
-    s32 field_50_seek_road_turn;
-    u16 field_54_accel_cooldown;
-    s16 field_56_route_pos;
-    u16 field_58_off_road_timer;
-    s16 field_5A_obstacle_timer;
-    Fix16 field_5C_unused;
-    Fix16 field_60_unused;
-    Fix16 field_64_unused;
-    Car* field_68_car_in_collision;
-    Car* field_6C_yield_to_car;
-    Sprite* field_70_nearest_entity;
-    Fix16 field_74_max_speed;
+    char_type field_28_route_idx; // 0x28
+    char_type field_29_pad; // 0x29
+    u8 field_2A_stopped_timer; // 0x2A
+    u8 field_2B_ticks_since_alloc; // 0x2B
+    u8 field_2C_yield_timer; // 0x2C
+    char_type field_2D_arrow_start; // 0x2D
+    char_type field_2E_arrow_cur; // 0x2E
+    char_type field_2F_arrow_end; // 0x2F
+    u8 field_30_forced_stop_timer; // 0x30
+    s32 field_34_unused; // 0x34
+    s32 field_38_junction_turn_direction; // 0x38
+    s32 field_3C_seeking_road; // 0x3C
+    s32 field_40_prev_target_direction; // 0x40
+    s32 field_44_target_direction; // 0x44
+    s32 field_48_probe_direction; // 0x48
+    s32 field_4C_curr_direction; // 0x4C
+    s32 field_50_seek_road_turn; // 0x50
+    u16 field_54_accel_cooldown; // 0x54
+    s16 field_56_route_pos; // 0x56
+    u16 field_58_off_road_timer; // 0x58
+    s16 field_5A_obstacle_timer; // 0x5A
+    Fix16 field_5C_unused; // 0x5C
+    Fix16 field_60_unused; // 0x60
+    Fix16 field_64_unused; // 0x64
+    Car* field_68_car_in_collision; // 0x68
+    Car* field_6C_yield_to_car; // 0x6C
+    Sprite* field_70_nearest_entity; // 0x70
+    Fix16 field_74_max_speed; // 0x74
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarAI, 0x78);
 
@@ -161,7 +161,7 @@ class CarAIPool
         field_0_pool.DeAllocate(pCarAI);
     }
 
-    PoolBasic<CarAI, 306> field_0_pool;
+    PoolBasic<CarAI, 306> field_0_pool; // 0x0
 };
 
 EXTERN_GLOBAL(CarAIPool*, gCarAI_78_Pool_677CF8);

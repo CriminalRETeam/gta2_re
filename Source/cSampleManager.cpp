@@ -7,7 +7,7 @@ DEFINE_GLOBAL(cSampleManager, gSampManager_6FFF00, 0x6FFF00);
 
 struct voc_name
 {
-    char_type field_0_str[30];
+    char_type field_0_str[30]; // 0x0
 };
 
 const voc_name gVocNames_5FEA5C[98] = {{"accuracyb.wav"},

@@ -8,7 +8,7 @@
 
 struct QuadVerts // same layout as Verts in GTA2Hax d3ddll.hpp
 {
-    Vert field_0_verts[4];
+    Vert field_0_verts[4]; // 0x0
 };
 
 EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 fontType, Fix16 scale);

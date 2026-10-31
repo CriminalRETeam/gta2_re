@@ -34,8 +34,8 @@ class rng
     // Two uses, one per instance: on gpRng_67AB34 the game's tick counter (AdvanceCycle_48B900 adds one per tick, ShowCycle_48B920
     // shows it), which timers are stamped with (CarPhysics::field_8_damaged_until_cycle, Ped::field_220_last_voice_rng); on
     // gRng_6F6784 the last number get_int_4F7AE0 / get_uint8_4F7B70 drew while bLog_random_67D5FC is set
-    s32 field_0_rng;
-    s32 field_4_rnd;
+    s32 field_0_rng; // 0x0
+    s32 field_4_rnd; // 0x4
 };
 
 EXTERN_GLOBAL(rng*, gpRng_67AB34);

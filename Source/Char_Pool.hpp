@@ -22,7 +22,7 @@ class CharPool
         field_0_pool.DeAllocate(pChar);
     }
 
-    PoolBasic<Char, 400> field_0_pool;
+    PoolBasic<Char, 400> field_0_pool; // 0x0
 };
 
 class PedListNode
@@ -42,7 +42,7 @@ class PedListNode
     {
     }
 
-    Ped* field_0_char_ped;
+    Ped* field_0_char_ped; // 0x0
     PedListNode* mpNext;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PedListNode, 0x8);
@@ -50,7 +50,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(PedListNode, 0x8);
 class PedListNodePool
 {
   public:
-    PoolBasic<PedListNode, 100> field_0_pool;
+    PoolBasic<PedListNode, 100> field_0_pool; // 0x0
 
     ~PedListNodePool()
     {
@@ -103,14 +103,14 @@ class PedManager
     EXPORT void Dummies_470330();
 
   public:
-    s16 field_0_max_dummy_chars;
-    char_type field_2_num_dummy_chars;
-    char_type field_3_num_peds_updated;
-    char_type field_4_num_script_created_peds;
-    u8 field_5_fbi_army_count;
-    char_type field_6_num_peds_on_screen;
-    char_type field_7_make_all_muggers;
-    Sprite* field_8_spawn_probe_sprite;
+    s16 field_0_max_dummy_chars; // 0x0
+    char_type field_2_num_dummy_chars; // 0x2
+    char_type field_3_num_peds_updated; // 0x3
+    char_type field_4_num_script_created_peds; // 0x4
+    u8 field_5_fbi_army_count; // 0x5
+    char_type field_6_num_peds_on_screen; // 0x6
+    char_type field_7_make_all_muggers; // 0x7
+    Sprite* field_8_spawn_probe_sprite; // 0x8
 };
 
 class PedPool
@@ -193,7 +193,7 @@ class PedPool
         return field_0_pool.field_4_pPrev;
     }
 
-    Pool<Ped, 200> field_0_pool;
+    Pool<Ped, 200> field_0_pool; // 0x0
 };
 
 EXTERN_GLOBAL(PedManager*, gPedManager_6787BC);

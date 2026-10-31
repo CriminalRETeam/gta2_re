@@ -5,12 +5,12 @@
 
 struct SdtEntry
 {
-    s32 field_0_offset;
-    s32 field_4_sample_length;
-    s32 field_8_playBackRate;
-    s32 field_C_random_displacement;
-    s32 field_10_loop_start;
-    s32 field_14_loop_end; // -1 = end of sample
+    s32 field_0_offset; // 0x0
+    s32 field_4_sample_length; // 0x4
+    s32 field_8_playBackRate; // 0x8
+    s32 field_C_random_displacement; // 0xC
+    s32 field_10_loop_start; // 0x10
+    s32 field_14_loop_end; // 0x14: -1 = end of sample
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SdtEntry, 0x18);
 
@@ -153,34 +153,34 @@ class cSampleManager
 
     EXPORT void Release_58E290();
 
-    HDIGDRIVER field_0_hDriver;
-    char_type field_4_gtaAudioDriveLetter;
+    HDIGDRIVER field_0_hDriver; // 0x0
+    char_type field_4_gtaAudioDriveLetter; // 0x4
 
   private:
-    char_type field_5_str[80];
-    bool field_55_bMusicFound;
-    HSAMPLE field_58_hSamples[16];
-    HSAMPLE field_98_hSample;
-    HSTREAM field_9C_hStreams[2];
-    bool field_A4_bLoaded;
-    SdtEntry field_A8_sdt_entries[320];
-    void* field_1EA8_pAudioBuffer1;
-    void* field_1EAC_pAudioBuffer2;
-    u8 field_1EB0_count_samples;
-    u8 field_1EB1_bytes_per_sample;
-    u8 field_1EB2_3d_samp_count;
-    HPROVIDER field_1EB4_h3dProvider[256];
-    char_type* field_22B4_str[256];
-    s32 field_26B4_3d_provider_idx;
-    s32 field_26B8_bEaxSupported;
-    s32 field_26BC_eax_environment;
-    s32 field_26C0_3d_provider;
-    H3DSAMPLE field_26C4_3d_sample[16];
-    f32 field_2704_float;
-    f32 field_2708_float;
-    f32 field_270C_float;
-    s32 field_2710_3d_provider_count;
-    bool field_2714_is_stereo;
+    char_type field_5_str[80]; // 0x5
+    bool field_55_bMusicFound; // 0x55
+    HSAMPLE field_58_hSamples[16]; // 0x58
+    HSAMPLE field_98_hSample; // 0x98
+    HSTREAM field_9C_hStreams[2]; // 0x9C
+    bool field_A4_bLoaded; // 0xA4
+    SdtEntry field_A8_sdt_entries[320]; // 0xA8
+    void* field_1EA8_pAudioBuffer1; // 0x1EA8
+    void* field_1EAC_pAudioBuffer2; // 0x1EAC
+    u8 field_1EB0_count_samples; // 0x1EB0
+    u8 field_1EB1_bytes_per_sample; // 0x1EB1
+    u8 field_1EB2_3d_samp_count; // 0x1EB2
+    HPROVIDER field_1EB4_h3dProvider[256]; // 0x1EB4
+    char_type* field_22B4_str[256]; // 0x22B4
+    s32 field_26B4_3d_provider_idx; // 0x26B4
+    s32 field_26B8_bEaxSupported; // 0x26B8
+    s32 field_26BC_eax_environment; // 0x26BC
+    s32 field_26C0_3d_provider; // 0x26C0
+    H3DSAMPLE field_26C4_3d_sample[16]; // 0x26C4
+    f32 field_2704_float; // 0x2704
+    f32 field_2708_float; // 0x2708
+    f32 field_270C_float; // 0x270C
+    s32 field_2710_3d_provider_count; // 0x2710
+    bool field_2714_is_stereo; // 0x2714
 };
 
 EXTERN_GLOBAL(cSampleManager, gSampManager_6FFF00);

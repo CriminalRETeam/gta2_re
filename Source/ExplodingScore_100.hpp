@@ -17,22 +17,22 @@ class ExplodingScore
     EXPORT bool PoolUpdate();
     EXPORT void DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub);
 
-    s32 field_0_highest_digit_idx;
-    s32 field_4_digits[9]; // Number components
-    Fix16 field_28_x;
-    Fix16 field_2C_y;
-    Fix16 field_30_z;
-    s16 field_34_palette;
-    char_type field_36_alpha; // draw figure param
-    char_type field_37_unused;
-    s32 field_38_explode_counter;
-    s32 field_3C_x_offset_mult;
-    s32 field_40_y_offset_mult;
+    s32 field_0_highest_digit_idx; // 0x0
+    s32 field_4_digits[9]; // 0x4: Number components
+    Fix16 field_28_x; // 0x28
+    Fix16 field_2C_y; // 0x2C
+    Fix16 field_30_z; // 0x30
+    s16 field_34_palette; // 0x34
+    char_type field_36_alpha; // 0x36: draw figure param
+    char_type field_37_unused; // 0x37
+    s32 field_38_explode_counter; // 0x38
+    s32 field_3C_x_offset_mult; // 0x3C
+    s32 field_40_y_offset_mult; // 0x40
     // Pool<> reaches the next item by this name
     ExplodingScore* mpNext;
-    s16 field_48_unused; // set to 0, never read
-    s16 field_4A_unused;
-    s32 field_4C_score;
+    s16 field_48_unused; // 0x48: set to 0, never read
+    s16 field_4A_unused; // 0x4A
+    s32 field_4C_score; // 0x4C
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ExplodingScore, 0x50);
 
@@ -47,9 +47,9 @@ class ExplodingScorePool
     EXPORT void Update_596940();
     EXPORT void DrawExplodingScores_5969E0();
 
-    s16 field_0_last_palette;
-    u16 field_2_free_scores;
-    Pool<ExplodingScore, 3> field_4_pool;
+    s16 field_0_last_palette; // 0x0
+    u16 field_2_free_scores; // 0x2
+    Pool<ExplodingScore, 3> field_4_pool; // 0x4
 };
 
 EXTERN_GLOBAL(ExplodingScorePool*, gExplodingScorePool);

@@ -23,7 +23,7 @@ class LightBase
         UpdatePool_45BF50();
     }
 
-    Pool<Light, 3000> field_0_pool;
+    Pool<Light, 3000> field_0_pool; // 0x0
 };
 
 class LightPool : public LightBase

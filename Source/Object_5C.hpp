@@ -352,31 +352,31 @@ class Object
     }
 
     Object* mpNext;
-    Sprite* field_4_sprite;
-    ObjectDefinition* field_8_definition;
+    Sprite* field_4_sprite; // 0x4
+    ObjectDefinition* field_8_definition; // 0x8
     union TAny
     {
         Explosion* pExplosion;
         Object_8* o8;
         Light* pLight;
     };
-    TAny field_C_pAny;
-    Object_3C* field_10_obj_3c;
-    s32 field_14_id;
-    s32 field_18_model;
-    bool field_1C_has_explosion;
-    char_type field_1D_unused;
-    char_type field_1E_unused;
-    char_type field_1F_unused;
-    s32 field_20_pool_list_state;
-    u8 field_24_touched_result;
-    u8 field_25_removal_state;
-    u8 field_26_ped_ref_idx; // Seems to be a generic index. Sometimes it's the current idx of its object type. For many objects, it's unused (equal to 99).
-    char_type field_27_thread_trigger_idx;
-    char_type field_28_unused;
-    char_type field_29_unused;
-    char_type field_2A_unused;
-    char_type field_2B_unused;
+    TAny field_C_pAny; // 0xC
+    Object_3C* field_10_obj_3c; // 0x10
+    s32 field_14_id; // 0x14
+    s32 field_18_model; // 0x18
+    bool field_1C_has_explosion; // 0x1C
+    char_type field_1D_unused; // 0x1D
+    char_type field_1E_unused; // 0x1E
+    char_type field_1F_unused; // 0x1F
+    s32 field_20_pool_list_state; // 0x20
+    u8 field_24_touched_result; // 0x24
+    u8 field_25_removal_state; // 0x25
+    u8 field_26_ped_ref_idx; // 0x26: Seems to be a generic index. Sometimes it's the current idx of its object type. For many objects, it's unused (equal to 99).
+    char_type field_27_thread_trigger_idx; // 0x27
+    char_type field_28_unused; // 0x28
+    char_type field_29_unused; // 0x29
+    char_type field_2A_unused; // 0x2A
+    char_type field_2B_unused; // 0x2B
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Object, 0x2C);
 
@@ -434,20 +434,20 @@ class Object_5C
     EXPORT void RestoreObjects_52A590(SavedObjectData* pData);
     EXPORT void RemoveAndFree_52A610(Object* pObject);
 
-    Object* field_0_diagonal_wall_ang315;
-    Object* field_4_diagonal_wall_ang135;
-    Object* field_8_diagonal_wall_ang225;
-    Object* field_C_diagonal_wall_ang45;
-    s32 field_10_limited_object_count;
-    s32 field_14_listed_sprite_count;
-    u8 field_18_pending_damage_owner;
-    u8 field_19_unused;
-    u16 field_1A_unused;
-    SpriteList field_1C_sprite_list;
-    bool field_20_uncollected_tokens[50];
-    u16 field_52_unused; // pad?
-    s32 field_54_uncollected_token_index;
-    Sprite* field_58_collision_probe_sprite;
+    Object* field_0_diagonal_wall_ang315; // 0x0
+    Object* field_4_diagonal_wall_ang135; // 0x4
+    Object* field_8_diagonal_wall_ang225; // 0x8
+    Object* field_C_diagonal_wall_ang45; // 0xC
+    s32 field_10_limited_object_count; // 0x10
+    s32 field_14_listed_sprite_count; // 0x14
+    u8 field_18_pending_damage_owner; // 0x18
+    u8 field_19_unused; // 0x19
+    u16 field_1A_unused; // 0x1A
+    SpriteList field_1C_sprite_list; // 0x1C
+    bool field_20_uncollected_tokens[50]; // 0x20
+    u16 field_52_unused; // 0x52: pad?
+    s32 field_54_uncollected_token_index; // 0x54
+    Sprite* field_58_collision_probe_sprite; // 0x58
 };
 
 EXTERN_GLOBAL(Object_5C*, gObject_5C_6F8F84);

@@ -53,27 +53,27 @@ class PlayerScoreTracker
     EXPORT s32 GetFrags_5935C0() const;
     EXPORT void ChangeFragsByAmount_5935D0(s32 amount);
 
-    RollingDigitCounter field_0_money;
-    RollingDigitCounter field_38_multiplayer_frags;
-    s32 field_70_last_car_kill_time;
-    u8 field_74_car_kill_combo;
-    u8 field_75_score_mult;
-    s32 field_78_last_kill_time;
-    s16 field_7C_execution_count;
-    s32 field_80_last_elvis_kill_time;
-    s16 field_84_num_elvis_killed;
-    u16 field_86_total_kills;
-    s16 field_88_cop_cars_destroyed;
-    u16 field_8A_cars_stolen_count;
-    u8 field_8C_car_model_flags[256]; // car_model_flag bits (car_model_flag.hpp)
-    u32 field_18C_one_second_timer_ms;
-    u32 field_190_fly_car_time_ms;
-    s32 field_194_last_accuracy_event; // accuracy_event (accuracy_event.hpp)
-    u8 field_198_accuracy_count;
-    s32 field_19C_reverse_time_ms;
-    s32 field_1A0_last_emergency_car_kill_time;
-    char_type field_1A4_killed_cars_flags; // emergency_car_kill_flag bits (emergency_car_kill_flag.hpp)
-    BonusTracker field_1A8_bonuses;
-    Player* field_368_player;
+    RollingDigitCounter field_0_money; // 0x0
+    RollingDigitCounter field_38_multiplayer_frags; // 0x38
+    s32 field_70_last_car_kill_time; // 0x70
+    u8 field_74_car_kill_combo; // 0x74
+    u8 field_75_score_mult; // 0x75
+    s32 field_78_last_kill_time; // 0x78
+    s16 field_7C_execution_count; // 0x7C
+    s32 field_80_last_elvis_kill_time; // 0x80
+    s16 field_84_num_elvis_killed; // 0x84
+    u16 field_86_total_kills; // 0x86
+    s16 field_88_cop_cars_destroyed; // 0x88
+    u16 field_8A_cars_stolen_count; // 0x8A
+    u8 field_8C_car_model_flags[256]; // 0x8C: car_model_flag bits (car_model_flag.hpp)
+    u32 field_18C_one_second_timer_ms; // 0x18C
+    u32 field_190_fly_car_time_ms; // 0x190
+    s32 field_194_last_accuracy_event; // 0x194: accuracy_event (accuracy_event.hpp)
+    u8 field_198_accuracy_count; // 0x198
+    s32 field_19C_reverse_time_ms; // 0x19C
+    s32 field_1A0_last_emergency_car_kill_time; // 0x1A0
+    char_type field_1A4_killed_cars_flags; // 0x1A4: emergency_car_kill_flag bits (emergency_car_kill_flag.hpp)
+    BonusTracker field_1A8_bonuses; // 0x1A8
+    Player* field_368_player; // 0x368
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PlayerScoreTracker, 0x36C);

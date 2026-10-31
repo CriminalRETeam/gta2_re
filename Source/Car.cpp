@@ -299,14 +299,14 @@ struct CarThreadTriggerCmd : SCR_CMD_HEADER
 {
     union
     {
-        u16 field_8_idx;
-        ScriptThread* field_8_thread;
+        u16 field_8_idx; // 0x8
+        ScriptThread* field_8_thread; // 0x8
     };
-    u16 field_C_thread_id;
-    s16 field_E_thread_start_cmd;
-    u16 field_10_char_idx;
-    u8 field_12_pad[0x12];
-    u16 field_24_char_idx;
+    u16 field_C_thread_id; // 0xC
+    s16 field_E_thread_start_cmd; // 0xE
+    u16 field_10_char_idx; // 0x10
+    u8 field_12_pad[0x12]; // 0x12
+    u16 field_24_char_idx; // 0x24
 };
 
 MATCH_FUNC(0x5c8780)

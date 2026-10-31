@@ -93,22 +93,22 @@ class PedGroup
         return field_3C_is_leader_waiting;
     }
 
-    bool field_0_remove_dead_members;
-    bool field_1_wait_for_members; // while set, UpdateFormation makes the leader wait (objective 9) for a member who has fallen too far behind
-    char_type field_2_unused; // padding
-    char_type field_3_unused; // padding
-    Ped* field_4_ped_list[9]; // the members, without gaps up to field_34_count: the loops over them don't check for NULL
-    s32 field_28_unused;
-    Ped* field_2C_ped_leader;
-    s32 field_30_panicking; // UpdateFormation recomputes it as "the leader or a member is panicking"; GroupAttackPed_4C9B60, a leader in state 3/5/10 and the paramedics' revive step also set it. A dword in the original, so not a bool
-    u8 field_34_count;
-    char_type field_35_unused;
-    char_type field_36_count;
-    char_type field_37_unused;
-    s32 field_38_group_type;
-    s32 field_3C_is_leader_waiting;
-    bool field_40_in_use;
-    char_type field_41_unused;
-    char_type field_42_unused;
-    char_type field_43_unused;
+    bool field_0_remove_dead_members; // 0x0
+    bool field_1_wait_for_members; // 0x1: while set, UpdateFormation makes the leader wait (objective 9) for a member who has fallen too far behind
+    char_type field_2_unused; // 0x2: padding
+    char_type field_3_unused; // 0x3: padding
+    Ped* field_4_ped_list[9]; // 0x4: the members, without gaps up to field_34_count: the loops over them don't check for NULL
+    s32 field_28_unused; // 0x28
+    Ped* field_2C_ped_leader; // 0x2C
+    s32 field_30_panicking; // 0x30: UpdateFormation recomputes it as "the leader or a member is panicking"; GroupAttackPed_4C9B60, a leader in state 3/5/10 and the paramedics' revive step also set it. A dword in the original, so not a bool
+    u8 field_34_count; // 0x34
+    char_type field_35_unused; // 0x35
+    char_type field_36_count; // 0x36
+    char_type field_37_unused; // 0x37
+    s32 field_38_group_type; // 0x38
+    s32 field_3C_is_leader_waiting; // 0x3C
+    bool field_40_in_use; // 0x40
+    char_type field_41_unused; // 0x41
+    char_type field_42_unused; // 0x42
+    char_type field_43_unused; // 0x43
 };

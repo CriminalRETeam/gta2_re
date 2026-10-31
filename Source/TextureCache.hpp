@@ -18,10 +18,10 @@ class DigitTexture
         field_A_row_offset = 0;
     }
 
-    u8* field_0_pPixelData;
-    STexture* field_4_pTexture;
-    u16 field_8_height;
-    u16 field_A_row_offset; // first pixel row of the digit strip that the texture shows
+    u8* field_0_pPixelData; // 0x0
+    STexture* field_4_pTexture; // 0x4
+    u16 field_8_height; // 0x8
+    u16 field_A_row_offset; // 0xA: first pixel row of the digit strip that the texture shows
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(DigitTexture, 0xC);
 
@@ -29,12 +29,12 @@ GTA2_ASSERT_SIZEOF_ALWAYS(DigitTexture, 0xC);
 class RemapTextureSet
 {
   public:
-    STexture** field_0_pTextures;
-    u16 field_4_texture_count;
-    u16 field_6_remaps_per_sprite;
-    s32 field_8_sprite_type;
-    s32 field_C_pal_type;
-    bool field_10_bDoFree;
+    STexture** field_0_pTextures; // 0x0
+    u16 field_4_texture_count; // 0x4
+    u16 field_6_remaps_per_sprite; // 0x6
+    s32 field_8_sprite_type; // 0x8
+    s32 field_C_pal_type; // 0xC
+    bool field_10_bDoFree; // 0x10
 
     // inlined 0x4C2F10
     RemapTextureSet()
@@ -66,21 +66,21 @@ GTA2_ASSERT_SIZEOF_ALWAYS(RemapTextureSet, 0x14);
 
 struct TextureCache
 {
-    STexture* field_0_tile_textures[1024];
-    bool field_1000_bFreeCarDamageTextures;
-    bool field_1001_bFreeTileTextures;
-    STexture* field_1004_car_damage_textures[48];
-    DigitTexture field_10C4_digit_textures[96];
-    STexture* field_1544_pShared_texture; // 128x128, re-pointed at different pixel data on demand
-    RemapTextureSet field_1548_sprite_textures;
-    RemapTextureSet field_155C_car_remap_textures;
-    RemapTextureSet field_1570_ped_remap_textures;
-    RemapTextureSet field_1584_code_obj_remap_textures;
-    RemapTextureSet field_1598_map_obj_remap_textures;
-    RemapTextureSet field_15AC_font_remap_textures;
-    RemapTextureSet field_15C0_user_remap_textures;
-    s16 field_15D4_next_digit_idx;
-    u16 field_15D6_pal_count;
+    STexture* field_0_tile_textures[1024]; // 0x0
+    bool field_1000_bFreeCarDamageTextures; // 0x1000
+    bool field_1001_bFreeTileTextures; // 0x1001
+    STexture* field_1004_car_damage_textures[48]; // 0x1004
+    DigitTexture field_10C4_digit_textures[96]; // 0x10C4
+    STexture* field_1544_pShared_texture; // 0x1544: 128x128, re-pointed at different pixel data on demand
+    RemapTextureSet field_1548_sprite_textures; // 0x1548
+    RemapTextureSet field_155C_car_remap_textures; // 0x155C
+    RemapTextureSet field_1570_ped_remap_textures; // 0x1570
+    RemapTextureSet field_1584_code_obj_remap_textures; // 0x1584
+    RemapTextureSet field_1598_map_obj_remap_textures; // 0x1598
+    RemapTextureSet field_15AC_font_remap_textures; // 0x15AC
+    RemapTextureSet field_15C0_user_remap_textures; // 0x15C0
+    s16 field_15D4_next_digit_idx; // 0x15D4
+    u16 field_15D6_pal_count; // 0x15D6
 
     inline STexture* GetTexture_46BB50(const u16& tile_idx) const
     {

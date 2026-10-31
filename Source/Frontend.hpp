@@ -21,24 +21,24 @@ struct ScoreTableLine;
 #pragma pack(1)
 struct SaveSlotInfo
 {
-    char_type field_0_map_name[25];
-    char_type field_19_style_name[25];
-    char_type field_32_script_name[25];
-    char_type field_4B_last_saved_stage;
-    char_type field_4C_last_saved_bonus_stage_code;
-    char_type field_4D_last_saved_is_bonus;
-    s16 field_4E_unused;
-    s16 field_50_unused;
+    char_type field_0_map_name[25]; // 0x0
+    char_type field_19_style_name[25]; // 0x19
+    char_type field_32_script_name[25]; // 0x32
+    char_type field_4B_last_saved_stage; // 0x4B
+    char_type field_4C_last_saved_bonus_stage_code; // 0x4C
+    char_type field_4D_last_saved_is_bonus; // 0x4D
+    s16 field_4E_unused; // 0x4E
+    s16 field_50_unused; // 0x50
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SaveSlotInfo, 0x52);
 #pragma pack(pop)
 
 struct SaveSlotSummary
 {
-    char_type field_0_save_exists;
-    char_type field_1_last_saved_stage;
-    char_type field_2_last_saved_bonus_stage_code;
-    char_type field_3_last_saved_is_bonus;
+    char_type field_0_save_exists; // 0x0
+    char_type field_1_last_saved_stage; // 0x1
+    char_type field_2_last_saved_bonus_stage_code; // 0x2
+    char_type field_3_last_saved_is_bonus; // 0x3
 
     EXPORT SaveSlotSummary();
 
@@ -54,19 +54,19 @@ struct MenuElement
 
     EXPORT ~MenuElement();
 
-    u8 field_0_element_type;
-    char_type field_1_is_it_displayed;
-    s16 field_2_xpos;
-    s16 field_4_ypos;
+    u8 field_0_element_type; // 0x0
+    char_type field_1_is_it_displayed; // 0x1
+    s16 field_2_xpos; // 0x2
+    s16 field_4_ypos; // 0x4
     union 
     {
         struct  // if field_0_element_type == STRING_TEXT_1 or STRING_TEXT_2
         {
-            wchar_t field_6_element_name_str[50];
-            u16 field_6A_font_type;
-            u16 field_6C_font_palette;
+            wchar_t field_6_element_name_str[50]; // 0x6
+            u16 field_6A_font_type; // 0x6A
+            u16 field_6C_font_palette; // 0x6C
         };
-        u16 field_6_geometric_shape_type; // if field_0_element_type == GEOMETRIC_SHAPE_3
+        u16 field_6_geometric_shape_type; // 0x6: if field_0_element_type == GEOMETRIC_SHAPE_3
     };
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(MenuElement, 0x6E);
@@ -84,18 +84,18 @@ struct MenuItem
 
     EXPORT bool SelectPrevHorizontalIdx_4B6390();
 
-    char_type field_0_option_type;
-    char_type field_1_is_unlocked;
-    s16 field_2_x_pos;
-    s16 field_4_y_pos;
-    wchar_t field_6_option_name_str[50];
-    u16 field_6A_font_type;
-    u16 field_6C_palette;
-    u16 field_6E_horizontal_selected_idx;
-    s16 field_70_unused;
-    char_type field_72_horizontal_idx_enabled[12];
-    u16 field_7E_horizontal_max_idx;
-    s16 field_80_menu_page_target;
+    char_type field_0_option_type; // 0x0
+    char_type field_1_is_unlocked; // 0x1
+    s16 field_2_x_pos; // 0x2
+    s16 field_4_y_pos; // 0x4
+    wchar_t field_6_option_name_str[50]; // 0x6
+    u16 field_6A_font_type; // 0x6A
+    u16 field_6C_palette; // 0x6C
+    u16 field_6E_horizontal_selected_idx; // 0x6E
+    s16 field_70_unused; // 0x70
+    char_type field_72_horizontal_idx_enabled[12]; // 0x72
+    u16 field_7E_horizontal_max_idx; // 0x7E
+    s16 field_80_menu_page_target; // 0x80
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(MenuItem, 0x82);
 #pragma pack(pop)
@@ -107,10 +107,10 @@ struct MenuOption
 
     EXPORT ~MenuOption();
 
-    s16 field_0_unused;
-    s16 field_2_unused;
-    char_type field_4_is_option_unlocked;   // this control if the menu selection will skip a option or not
-    char_type field_5_unused;
+    s16 field_0_unused; // 0x0
+    s16 field_2_unused; // 0x2
+    char_type field_4_is_option_unlocked;   // 0x4: this control if the menu selection will skip a option or not
+    char_type field_5_unused; // 0x5
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(MenuOption, 0x6);
 
@@ -124,13 +124,13 @@ struct MenuPage
 
     EXPORT bool SelectNextOption_4B6200();
 
-    u16 field_0_number_of_options;
-    u16 field_2_number_of_elements;
-    MenuItem field_4_options_array[10];
-    MenuElement field_518_elements_array[15];
-    MenuOption field_B8A_option_states[10];
-    u16 field_BC6_current_option_idx;
-    s16 field_BC8_default_option_idx;
+    u16 field_0_number_of_options; // 0x0
+    u16 field_2_number_of_elements; // 0x2
+    MenuItem field_4_options_array[10]; // 0x4
+    MenuElement field_518_elements_array[15]; // 0x518
+    MenuOption field_B8A_option_states[10]; // 0xB8A
+    u16 field_BC6_current_option_idx; // 0xBC6
+    s16 field_BC8_default_option_idx; // 0xBC8
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(MenuPage, 0xBCA);
 
@@ -227,89 +227,89 @@ enum MenuOptionType
 
 struct MainBlockStrings
 {
-    char field_0_gmp_name[256];
-    char field_100_sty_name[256];
-    char field_200_scr_name[256];
+    char field_0_gmp_name[256]; // 0x0
+    char field_100_sty_name[256]; // 0x100
+    char field_200_scr_name[256]; // 0x200
 };
 
 struct Frontend
 {
     STATIC_MEMBER_ARRAY(char_type, sBikDataDir, 8);
-    LPDIRECTINPUTA field_0_pDInput;
-    LPDIRECTINPUTDEVICEA field_4_pKeyboardDevice;
-    char_type field_8_keys[256];
-    s32 field_108_winmain_next_state;
-    bool field_10C_bKeyboardAcquireFailed;
-    char_type field_10D_bInputEnabled;
-    s32 field_110_state;
-    s32 field_114_cursor_blink;
-    s32 field_118_cursor_blink_timer;
-    u16 field_11C_normal_font;
-    s16 field_11E_text_font;
-    s16 field_120_selected_font;
-    s16 field_122_unused;
-    u16 field_124_font_type;
-    s16 field_126_heading_font;
-    s16 field_128_play_menu_score_font;
-    s16 field_12A_score_font;
-    s16 field_12C_area_complete_font;
-    s16 field_12E_unused;
-    s16 field_130_title_font;
-    u16 field_132_current_page_idx;
-    s16 field_134_unused;
-    MenuPage field_136_menu_pages_array[17];
-    wchar_t field_C9A0_curr_plyr_name[9];
-    u8 field_C9B2_curr_plyr_name_length;
-    bool field_C9B3_key_held;
-    s16 field_C9B4_last_key;
-    s16 field_C9B6_key_repeat_timer;
-    wchar_t field_C9B8_password[9];
-    u8 field_C9CA_password_length;
-    bool field_C9CB_wrong_password_shown;
-    bool field_C9CC_left_pressed;
-    bool field_C9CD_right_pressed;
-    bool field_C9CE_up_pressed;
-    bool field_C9CF_down_pressed;
-    bool field_C9D0_return_pressed;
-    bool field_C9D1_escape_pressed;
-    bool field_C9D2_delete_pressed;
-    char_type field_C9D3_left_key_down;
-    char_type field_C9D4_right_key_down;
-    char_type field_C9D5_up_key_down;
-    char_type field_C9D6_down_key_down;
-    char_type field_C9D7_return_key_down;
-    char_type field_C9D8_escape_key_down;
-    char_type field_C9D9_delete_key_down;
-    char_type field_C9DA_unused;
-    char_type field_C9DB_unused;
-    s32 field_C9DC_next_frame_time;
-    char_type field_C9E0_updates_since_render;
-    bool field_C9E1_bCheatsEnabled;
-    char_type field_C9E2_unused;
-    char_type field_C9E3_unused;
-    s32 field_C9E4_last_input_time;
-    MainBlockStrings field_C9E8_blocks[3][4];
-    SaveSlotSummary field_EDE8_plySlots[8];
-    char_type field_EE08_menu_screen;
-    char_type field_EE09_unused;
-    u16 field_EE0A_dialog_cursor_ypos;
-    u8 field_EE0C_dialog_type;
-    u8 field_EE0D_hiscore_table_idx;
-    CreditsText field_EE0E_credits;
-    u16 field_1EB30_credits_scroll_timer;
-    s16 field_1EB32_unused;
-    Fix16 field_1EB34_credits_ypos;
-    u16 field_1EB38_credits_line_idx;
-    u8 field_1EB3A_selected_main_stage[8];
-    u8 field_1EB42_selected_bonus_stage[8];
-    bool field_1EB4A_has_prev_player_slot;
-    bool field_1EB4B_has_next_player_slot;
-    bool field_1EB4C_has_prev_main_stage;
-    bool field_1EB4D_has_next_main_stage;
-    bool field_1EB4E_has_prev_bonus_stage;
-    bool field_1EB4F_has_next_bonus_stage;
-    u8 field_1EB50_num_main_stages;
-    u8 field_1EB51_num_bonus_stages[3];
+    LPDIRECTINPUTA field_0_pDInput; // 0x0
+    LPDIRECTINPUTDEVICEA field_4_pKeyboardDevice; // 0x4
+    char_type field_8_keys[256]; // 0x8
+    s32 field_108_winmain_next_state; // 0x108
+    bool field_10C_bKeyboardAcquireFailed; // 0x10C
+    char_type field_10D_bInputEnabled; // 0x10D
+    s32 field_110_state; // 0x110
+    s32 field_114_cursor_blink; // 0x114
+    s32 field_118_cursor_blink_timer; // 0x118
+    u16 field_11C_normal_font; // 0x11C
+    s16 field_11E_text_font; // 0x11E
+    s16 field_120_selected_font; // 0x120
+    s16 field_122_unused; // 0x122
+    u16 field_124_font_type; // 0x124
+    s16 field_126_heading_font; // 0x126
+    s16 field_128_play_menu_score_font; // 0x128
+    s16 field_12A_score_font; // 0x12A
+    s16 field_12C_area_complete_font; // 0x12C
+    s16 field_12E_unused; // 0x12E
+    s16 field_130_title_font; // 0x130
+    u16 field_132_current_page_idx; // 0x132
+    s16 field_134_unused; // 0x134
+    MenuPage field_136_menu_pages_array[17]; // 0x136
+    wchar_t field_C9A0_curr_plyr_name[9]; // 0xC9A0
+    u8 field_C9B2_curr_plyr_name_length; // 0xC9B2
+    bool field_C9B3_key_held; // 0xC9B3
+    s16 field_C9B4_last_key; // 0xC9B4
+    s16 field_C9B6_key_repeat_timer; // 0xC9B6
+    wchar_t field_C9B8_password[9]; // 0xC9B8
+    u8 field_C9CA_password_length; // 0xC9CA
+    bool field_C9CB_wrong_password_shown; // 0xC9CB
+    bool field_C9CC_left_pressed; // 0xC9CC
+    bool field_C9CD_right_pressed; // 0xC9CD
+    bool field_C9CE_up_pressed; // 0xC9CE
+    bool field_C9CF_down_pressed; // 0xC9CF
+    bool field_C9D0_return_pressed; // 0xC9D0
+    bool field_C9D1_escape_pressed; // 0xC9D1
+    bool field_C9D2_delete_pressed; // 0xC9D2
+    char_type field_C9D3_left_key_down; // 0xC9D3
+    char_type field_C9D4_right_key_down; // 0xC9D4
+    char_type field_C9D5_up_key_down; // 0xC9D5
+    char_type field_C9D6_down_key_down; // 0xC9D6
+    char_type field_C9D7_return_key_down; // 0xC9D7
+    char_type field_C9D8_escape_key_down; // 0xC9D8
+    char_type field_C9D9_delete_key_down; // 0xC9D9
+    char_type field_C9DA_unused; // 0xC9DA
+    char_type field_C9DB_unused; // 0xC9DB
+    s32 field_C9DC_next_frame_time; // 0xC9DC
+    char_type field_C9E0_updates_since_render; // 0xC9E0
+    bool field_C9E1_bCheatsEnabled; // 0xC9E1
+    char_type field_C9E2_unused; // 0xC9E2
+    char_type field_C9E3_unused; // 0xC9E3
+    s32 field_C9E4_last_input_time; // 0xC9E4
+    MainBlockStrings field_C9E8_blocks[3][4]; // 0xC9E8
+    SaveSlotSummary field_EDE8_plySlots[8]; // 0xEDE8
+    char_type field_EE08_menu_screen; // 0xEE08
+    char_type field_EE09_unused; // 0xEE09
+    u16 field_EE0A_dialog_cursor_ypos; // 0xEE0A
+    u8 field_EE0C_dialog_type; // 0xEE0C
+    u8 field_EE0D_hiscore_table_idx; // 0xEE0D
+    CreditsText field_EE0E_credits; // 0xEE0E
+    u16 field_1EB30_credits_scroll_timer; // 0x1EB30
+    s16 field_1EB32_unused; // 0x1EB32
+    Fix16 field_1EB34_credits_ypos; // 0x1EB34
+    u16 field_1EB38_credits_line_idx; // 0x1EB38
+    u8 field_1EB3A_selected_main_stage[8]; // 0x1EB3A
+    u8 field_1EB42_selected_bonus_stage[8]; // 0x1EB42
+    bool field_1EB4A_has_prev_player_slot; // 0x1EB4A
+    bool field_1EB4B_has_next_player_slot; // 0x1EB4B
+    bool field_1EB4C_has_prev_main_stage; // 0x1EB4C
+    bool field_1EB4D_has_next_main_stage; // 0x1EB4D
+    bool field_1EB4E_has_prev_bonus_stage; // 0x1EB4E
+    bool field_1EB4F_has_next_bonus_stage; // 0x1EB4F
+    u8 field_1EB50_num_main_stages; // 0x1EB50
+    u8 field_1EB51_num_bonus_stages[3]; // 0x1EB51
 
     // 9.6f 0x453A30
     inline void SetField10D_453A30(const char_type& value)

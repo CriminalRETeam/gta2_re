@@ -20,8 +20,8 @@ struct GridCell
     {
     }
 
-    u8 field_0_x;
-    GridSpriteLink* field_4_pSpriteLinks;
+    u8 field_0_x; // 0x0
+    GridSpriteLink* field_4_pSpriteLinks; // 0x4
     GridCell* mpNext;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(GridCell, 0xC);
@@ -113,7 +113,7 @@ class SpriteGrid
     EXPORT void DebugLog_478950(s32 x_pos, s32 y_pos) const;
     EXPORT GridCell** Clear_4789F0();
 
-    GridCell* field_0_rows[256]; // rows of Y; each is a sparse X-linked list of GridCell
+    GridCell* field_0_rows[256]; // 0x0: rows of Y; each is a sparse X-linked list of GridCell
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpriteGrid, 0x400);
 

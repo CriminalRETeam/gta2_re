@@ -164,26 +164,26 @@ class Weapon
         return field_4_bTargetHit;
     }
 
-    u16 field_0_ammo;
-    u8 field_2_reload_timer;
-    s8 field_3_unused;
-    s32 field_4_bTargetHit;
-    s32 field_8_unused;
-    s32 field_C_unused;
-    s16 field_10_unused;
-    s16 field_12_unused;
-    Car* field_14_car;
+    u16 field_0_ammo; // 0x0
+    u8 field_2_reload_timer; // 0x2
+    s8 field_3_unused; // 0x3
+    s32 field_4_bTargetHit; // 0x4
+    s32 field_8_unused; // 0x8
+    s32 field_C_unused; // 0xC
+    s16 field_10_unused; // 0x10
+    s16 field_12_unused; // 0x12
+    Car* field_14_car; // 0x14
     Weapon* mpNext;
-    s32 field_1C_weapon_type;
-    s8 field_20_bAiTestShotFired; // AI fired the invisible_rocket_159 test shot, the next shot is real
-    s8 field_21_bThrown;
-    s8 field_22_unused;
-    s8 field_23_unused;
-    Ped* field_24_pPed;
-    SoundObject* field_28_pSound;
-    bool field_2C_shot_fired;
-    s8 field_2D_unused;
-    s8 field_2E_unused;
-    s8 field_2F_unused;
+    s32 field_1C_weapon_type; // 0x1C
+    s8 field_20_bAiTestShotFired; // 0x20: AI fired the invisible_rocket_159 test shot, the next shot is real
+    s8 field_21_bThrown; // 0x21
+    s8 field_22_unused; // 0x22
+    s8 field_23_unused; // 0x23
+    Ped* field_24_pPed; // 0x24
+    SoundObject* field_28_pSound; // 0x28
+    bool field_2C_shot_fired; // 0x2C
+    s8 field_2D_unused; // 0x2D
+    s8 field_2E_unused; // 0x2E
+    s8 field_2F_unused; // 0x2F
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Weapon, 0x30);

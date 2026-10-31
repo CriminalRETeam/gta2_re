@@ -47,8 +47,8 @@ class PoolBasic
         return pNewItem;
     }
 
-    PoolType* field_0_pHead;
-    PoolType field_4_pool[PoolSize];
+    PoolType* field_0_pHead; // 0x0
+    PoolType field_4_pool[PoolSize]; // 0x4
 };
 
 template<typename PoolType, s32 PoolSize>
@@ -311,9 +311,9 @@ class Pool
         }
     }
 
-    PoolType* field_0_pStart;
-    PoolType* field_4_pPrev;
-    PoolType field_8_pool[PoolSize];
+    PoolType* field_0_pStart; // 0x0
+    PoolType* field_4_pPrev; // 0x4
+    PoolType field_8_pool[PoolSize]; // 0x8
 
     // Unknown offsets due to sizeof(PoolType) varying per template
     s16 field_X_count;

@@ -7,8 +7,8 @@
 class PedRef
 {
   public:
-    s32 field_0_ped_id;
-    u8 field_4_ref_count;
+    s32 field_0_ped_id; // 0x0
+    u8 field_4_ref_count; // 0x4
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PedRef, 0x8);
 
@@ -32,7 +32,7 @@ class PedRefTable
         return field_0_entries[idx].field_0_ped_id;
     }
 
-    PedRef field_0_entries[255];
+    PedRef field_0_entries[255]; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PedRefTable, 0x7F8);
 

@@ -22,56 +22,56 @@ class AttachedSprite;
 
 struct SCR_CMD_HEADER
 {
-    s16 field_0_cmd_this;
-    u16 field_2_type;
-    s16 field_4_cmd_next;
-    s16 field_6_return_value;
+    s16 field_0_cmd_this; // 0x0
+    u16 field_2_type; // 0x2
+    s16 field_4_cmd_next; // 0x4
+    s16 field_6_return_value; // 0x6
 };
 
 struct SCR_ONEVAR_RECT : SCR_CMD_HEADER
 {
-    u16 field_8_varname;
-    u16 field_A_unused;
-    SCR_Rect_f field_C_rect;
+    u16 field_8_varname; // 0x8
+    u16 field_A_unused; // 0xA
+    SCR_Rect_f field_C_rect; // 0xC
 };
 
 struct SCR_PLAYER_PED
 {
-    SCR_CMD_HEADER field_0_header;
-    Ped* field_8_ped;
-    Fix16_Vec field_C_pos;
-    Ang16 field_18_rot;
-    s16 field_1A_remap;
+    SCR_CMD_HEADER field_0_header; // 0x0
+    Ped* field_8_ped; // 0x8
+    Fix16_Vec field_C_pos; // 0xC
+    Ang16 field_18_rot; // 0x18
+    s16 field_1A_remap; // 0x1A
 };
 
 struct SCR_CAR_DATA_DEC : SCR_CMD_HEADER
 {
-    u16 field_8_car_idx;
-    u16 field_A_unused;
-    Fix16_Vec field_C_pos;
-    Ang16 field_18_rot;
-    s16 field_1A_remap;
-    s16 field_1C_car_id;
-    s16 field_1E_trailer_id;
+    u16 field_8_car_idx; // 0x8
+    u16 field_A_unused; // 0xA
+    Fix16_Vec field_C_pos; // 0xC
+    Ang16 field_18_rot; // 0x18
+    s16 field_1A_remap; // 0x1A
+    s16 field_1C_car_id; // 0x1C
+    s16 field_1E_trailer_id; // 0x1E
 };
 
 struct SCR_CHAR_DATA_DEC : SCR_CMD_HEADER
 {
-    Ped* field_8_char;
-    Fix16_Vec field_C_pos;
-    Ang16 field_18_rot;
-    s16 field_1A_remap;
-    s16 field_1C_occupation;
-    u16 field_1E_padding;
+    Ped* field_8_char; // 0x8
+    Fix16_Vec field_C_pos; // 0xC
+    Ang16 field_18_rot; // 0x18
+    s16 field_1A_remap; // 0x1A
+    s16 field_1C_occupation; // 0x1C
+    u16 field_1E_padding; // 0x1E
 };
 
 struct SCR_OBJ_DATA : SCR_CMD_HEADER
 {
-    Object* field_8_obj;
-    Fix16_Vec field_C_pos;
-    u16 field_18_obj_id;
-    Ang16 field_1A_rot;
-    u8 field_1C_value_shop_type;
+    Object* field_8_obj; // 0x8
+    Fix16_Vec field_C_pos; // 0xC
+    u16 field_18_obj_id; // 0x18
+    Ang16 field_1A_rot; // 0x1A
+    u8 field_1C_value_shop_type; // 0x1C
 };
 
 struct SCR_TWO_PARAMS : SCR_CMD_HEADER
@@ -80,16 +80,16 @@ struct SCR_TWO_PARAMS : SCR_CMD_HEADER
     {
         struct
         {
-            u16 field_8_unsigned_1;
-            u16 field_A_unsigned_2;
+            u16 field_8_unsigned_1; // 0x8
+            u16 field_A_unsigned_2; // 0xA
         };
         struct
         {
-            s16 field_8_signed_1;
-            s16 field_A_signed_2;
+            s16 field_8_signed_1; // 0x8
+            s16 field_A_signed_2; // 0xA
         };
-        u32 field_8_u32;
-        s32 field_8_s32;
+        u32 field_8_u32; // 0x8
+        s32 field_8_s32; // 0x8
     };
 };
 
@@ -99,29 +99,29 @@ struct SCR_FOUR_PARAMS : SCR_CMD_HEADER
     {
         struct
         {
-            u16 field_8_unsigned_1;
-            u16 field_A_unsigned_2;
+            u16 field_8_unsigned_1; // 0x8
+            u16 field_A_unsigned_2; // 0xA
         };
         struct
         {
-            s16 field_8_signed_1;
-            s16 field_A_signed_2;
+            s16 field_8_signed_1; // 0x8
+            s16 field_A_signed_2; // 0xA
         };
     };
     union
     {
         struct
         {
-            u16 field_C_unsigned_3;
-            u16 field_E_unsigned_4;
+            u16 field_C_unsigned_3; // 0xC
+            u16 field_E_unsigned_4; // 0xE
         };
         struct
         {
-            s16 field_C_signed_3;
-            s16 field_E_signed_4;
+            s16 field_C_signed_3; // 0xC
+            s16 field_E_signed_4; // 0xE
         };
-        u32 field_C_u32;
-        s32 field_C_s32;
+        u32 field_C_u32; // 0xC
+        s32 field_C_s32; // 0xC
     };
 };
 
@@ -129,23 +129,23 @@ struct SCR_POINTER : SCR_CMD_HEADER
 {
     union
     {
-        Ped* field_8_char;
-        Car* field_8_car;
-        Object* field_8_obj;
-        Crane* field_8_crane;
-        Light* field_8_light;
-        Door* field_8_door;
-        Crusher* field_8_crusher;
-        s32 field_8_counter;
-        u16 field_8_index;
+        Ped* field_8_char; // 0x8
+        Car* field_8_car; // 0x8
+        Object* field_8_obj; // 0x8
+        Crane* field_8_crane; // 0x8
+        Light* field_8_light; // 0x8
+        Door* field_8_door; // 0x8
+        Crusher* field_8_crusher; // 0x8
+        s32 field_8_counter; // 0x8
+        u16 field_8_index; // 0x8
         union
         {
-            u16 field_8_unused1;
-            u16 field_8_unused2;
+            u16 field_8_unused1; // 0x8
+            u16 field_8_unused2; // 0x8
         } words;
-        Generator* field_8_generator;
-        Hud_Arrow* field_8_arrow;
-        AttachedSprite* field_8_sprite;
+        Generator* field_8_generator; // 0x8
+        Hud_Arrow* field_8_arrow; // 0x8
+        AttachedSprite* field_8_sprite; // 0x8
     };
 };
 
@@ -153,291 +153,291 @@ struct SCR_CMD_ALTER_WANTED_LEVEL : SCR_CMD_HEADER
 {
     u8 pad1;
     u8 pad2;
-    u8 field_C_wanted_level;
+    u8 field_C_wanted_level; // 0xC
 };
 
 struct SCR_LOC_SEC_CHAR : SCR_CMD_HEADER
 {
-    u16 field_8_char1_idx;
-    u16 field_A_char2_idx;
-    Fix16 field_C_x_range;
-    Fix16 field_10_y_range;
+    u16 field_8_char1_idx; // 0x8
+    u16 field_A_char2_idx; // 0xA
+    Fix16 field_C_x_range; // 0xC
+    Fix16 field_10_y_range; // 0x10
 };
 
 struct SCR_THREAD : SCR_CMD_HEADER
 {
-    ScriptThread* field_8_script_thread;
-    s16 field_C_thread_id;
-    u16 field_E_thread_start_cmd;
+    ScriptThread* field_8_script_thread; // 0x8
+    s16 field_C_thread_id; // 0xC
+    u16 field_E_thread_start_cmd; // 0xE
     union
     {
         struct
         {
-            u16 field_10_char_var_idx;
-            u16 field_12_car_or_phone_idx;
+            u16 field_10_char_var_idx; // 0x10
+            u16 field_12_car_or_phone_idx; // 0x12
         };
         struct
         {
-            u16 field_10_char_idx;
-            u8 field_12_x;
-            u8 field_13_y;
-            u8 field_14_z;
-            char_type field_15_trigger_idx;
-            u8 field_16_trigger_added;
+            u16 field_10_char_idx; // 0x10
+            u8 field_12_x; // 0x12
+            u8 field_13_y; // 0x13
+            u8 field_14_z; // 0x14
+            char_type field_15_trigger_idx; // 0x15
+            u8 field_16_trigger_added; // 0x16
         };
     };
 };
 
 struct SCR_CHAR_AREA_ANY : SCR_CMD_HEADER
 {
-    ScriptThread* field_8_script_thread;
-    s16 field_C_unused;
-    u16 field_E_unused;
-    Fix16 field_10_x;
-    Fix16 field_14_y;
-    Fix16 field_18_z;
-    Fix16 field_1C_w;
-    Fix16 field_20_h;
-    u16 field_24_char_idx;
-    char_type field_26_trigger_idx;
-    u8 field_27_trigger_added;
+    ScriptThread* field_8_script_thread; // 0x8
+    s16 field_C_unused; // 0xC
+    u16 field_E_unused; // 0xE
+    Fix16 field_10_x; // 0x10
+    Fix16 field_14_y; // 0x14
+    Fix16 field_18_z; // 0x18
+    Fix16 field_1C_w; // 0x1C
+    Fix16 field_20_h; // 0x20
+    u16 field_24_char_idx; // 0x24
+    char_type field_26_trigger_idx; // 0x26
+    u8 field_27_trigger_added; // 0x27
 };
 
 struct SCR_CHAR_OBJECTIVE : SCR_CMD_HEADER
 {
-    u16 field_8_char_idx; //  SCR_SET_CHAR_OBJ1
-    s16 field_A_objective;
+    u16 field_8_char_idx; // 0x8:  SCR_SET_CHAR_OBJ1
+    s16 field_A_objective; // 0xA
     union
     {
         struct
         {
-            u16 field_C_second_item_idx; //  SCR_SET_CHAR_OBJ2
-            u16 field_E_variant;
+            u16 field_C_second_item_idx; // 0xC:  SCR_SET_CHAR_OBJ2
+            u16 field_E_variant; // 0xE
         };
         struct
         {
-            u16 field_C_car_idx; //  SET_CHAR_OBJ_FOLLOW
-            u16 field_E_rotation;
-            s32 field_12_offset;
+            u16 field_C_car_idx; // 0xC:  SET_CHAR_OBJ_FOLLOW
+            u16 field_E_rotation; // 0xE
+            s32 field_12_offset; // 0x12
         };
     };
 };
 
 struct SCR_CHAR_OBJ3 : SCR_CMD_HEADER
 {
-    u16 field_8_char_idx;
-    s16 field_A_objective;
-    Fix16_Vec field_C_pos; //  SCR_SET_CHAR_OBJ3
+    u16 field_8_char_idx; // 0x8
+    s16 field_A_objective; // 0xA
+    Fix16_Vec field_C_pos; // 0xC:  SCR_SET_CHAR_OBJ3
 };
 
 struct SCR_EXPLODE : SCR_CMD_HEADER
 {
-    Fix16_Vec field_8_pos;
+    Fix16_Vec field_8_pos; // 0x8
 };
 
 struct SCR_EXPLODE_WALL : SCR_CMD_HEADER
 {
-    Fix16_Vec field_8_pos;
-    u8 field_14_face;
-    u8 field_15_padding1;
-    u16 field_16_padding2;
+    Fix16_Vec field_8_pos; // 0x8
+    u8 field_14_face; // 0x14
+    u8 field_15_padding1; // 0x15
+    u16 field_16_padding2; // 0x16
 };
 
 struct SCR_SOUND_DECSET : SCR_CMD_HEADER
 {
-    u16 field_8_varname;
-    u16 field_A_unused;
-    Fix16_Vec field_C_pos;
-    u8 field_18_sound_id;
-    u8 field_19_play_type;
-    u16 field_1B_padding;
+    u16 field_8_varname; // 0x8
+    u16 field_A_unused; // 0xA
+    Fix16_Vec field_C_pos; // 0xC
+    u8 field_18_sound_id; // 0x18
+    u8 field_19_play_type; // 0x19
+    u16 field_1B_padding; // 0x1B
 };
 
 struct SCR_SET_STATION : SCR_CMD_HEADER
 {
-    u16 field_8_platform;
-    u8 field_A_num_passenger;
-    u8 field_B_num_freight;
-    u8 field_C_num_boxcar;
-    u8 field_D_padding1;
-    u16 field_E_padding2;
+    u16 field_8_platform; // 0x8
+    u8 field_A_num_passenger; // 0xA
+    u8 field_B_num_freight; // 0xB
+    u8 field_C_num_boxcar; // 0xC
+    u8 field_D_padding1; // 0xD
+    u16 field_E_padding2; // 0xE
 };
 
 struct SCR_RADIOSTATION_DEC : SCR_CMD_HEADER
 {
-    SCR_XY_f field_8_pos;
-    u8 field_10_station_type;
-    u8 field_11_padding;
-    u16 field_12_padding;
+    SCR_XY_f field_8_pos; // 0x8
+    u8 field_10_station_type; // 0x10
+    u8 field_11_padding; // 0x11
+    u16 field_12_padding; // 0x12
 };
 
 struct SCR_CRANE_TARGET_DEC : SCR_CMD_HEADER
 {
-    Crane* field_8_crane;
-    u32 field_C_homecrane;
-    SCR_XY_f field_10_pos;
-    u16 field_18_home_rotation;
-    u16 field_1A_home_cranetype; // crane_home_target
-    SCR_XY_f field_1C_target_pos;
-    u16 field_24_target_rotation;
-    u16 field_26_unused;
+    Crane* field_8_crane; // 0x8
+    u32 field_C_homecrane; // 0xC
+    SCR_XY_f field_10_pos; // 0x10
+    u16 field_18_home_rotation; // 0x18
+    u16 field_1A_home_cranetype; // 0x1A: crane_home_target
+    SCR_XY_f field_1C_target_pos; // 0x1C
+    u16 field_24_target_rotation; // 0x24
+    u16 field_26_unused; // 0x26
 };
 
 struct SCR_CRANE_BASIC_DEC : SCR_CMD_HEADER
 {
-    Crane* field_8_crane;
-    u32 field_C_homecrane;
-    SCR_XY_f field_10_pos;
-    u16 field_18_home_rotation;
-    u16 field_1A_home_cranetype; // crane_home_target
-    SCR_XY_f field_1C_target_pos;
-    u16 field_24_target_rotation;
-    u16 field_26_second_rotation;
-    SCR_XY_f field_28_second_pos;
+    Crane* field_8_crane; // 0x8
+    u32 field_C_homecrane; // 0xC
+    SCR_XY_f field_10_pos; // 0x10
+    u16 field_18_home_rotation; // 0x18
+    u16 field_1A_home_cranetype; // 0x1A: crane_home_target
+    SCR_XY_f field_1C_target_pos; // 0x1C
+    u16 field_24_target_rotation; // 0x24
+    u16 field_26_second_rotation; // 0x26
+    SCR_XY_f field_28_second_pos; // 0x28
 };
 
 struct SCR_DECLARE_CRANE_POWERUP : SCR_CMD_HEADER
 {
-    u16 field_8_crane_idx;
-    u16 field_A_generator;
-    SCR_XYZ_uc field_C_pos;
-    u8 field_18_padding;
+    u16 field_8_crane_idx; // 0x8
+    u16 field_A_generator; // 0xA
+    SCR_XYZ_uc field_C_pos; // 0xC
+    u8 field_18_padding; // 0x18
 };
 
 struct SCR_MAP_ZONE_SET : SCR_CMD_HEADER
 {
-    u16 field_8_car_density;
-    u16 field_A_goodcar_ratio;
-    u16 field_C_badcar_ratio;
-    u16 field_E_policecar_ratio;
-    u16 field_10_ped_density;
-    u16 field_12_mugger_ratio;
-    u16 field_14_carthief_ratio;
-    u16 field_16_elvis_ratio;
-    u16 field_18_gangchar_ratio;
-    u16 field_1A_policeped_ratio;
-    u16 field_1C_gangcar_ratio;
-    u16 field_1E_padding;
+    u16 field_8_car_density; // 0x8
+    u16 field_A_goodcar_ratio; // 0xA
+    u16 field_C_badcar_ratio; // 0xC
+    u16 field_E_policecar_ratio; // 0xE
+    u16 field_10_ped_density; // 0x10
+    u16 field_12_mugger_ratio; // 0x12
+    u16 field_14_carthief_ratio; // 0x14
+    u16 field_16_elvis_ratio; // 0x16
+    u16 field_18_gangchar_ratio; // 0x18
+    u16 field_1A_policeped_ratio; // 0x1A
+    u16 field_1C_gangcar_ratio; // 0x1C
+    u16 field_1E_padding; // 0x1E
 };
 
 struct SCR_SET_GANG_INFO : SCR_CMD_HEADER
 {
-    u16 field_8_gangname;
-    s8 field_A_remap;
-    u8 field_B_weapon1;
-    u8 field_C_weapon2;
-    u8 field_D_weapon3;
-    u8 field_E_arrow_id;
-    u8 field_F_kill_respect_change;
-    Fix16_Vec field_10_pos;
-    u16 field_1C_car_model;
-    s16 field_1E_car_remap;
+    u16 field_8_gangname; // 0x8
+    s8 field_A_remap; // 0xA
+    u8 field_B_weapon1; // 0xB
+    u8 field_C_weapon2; // 0xC
+    u8 field_D_weapon3; // 0xD
+    u8 field_E_arrow_id; // 0xE
+    u8 field_F_kill_respect_change; // 0xF
+    Fix16_Vec field_10_pos; // 0x10
+    u16 field_1C_car_model; // 0x1C
+    s16 field_1E_car_remap; // 0x1E
 };
 
 struct SCR_GENERATOR : SCR_CMD_HEADER
 {
-    u16 field_8_pointer_lo;
-    u16 field_A_pointer_hi;
-    Fix16_Vec field_C_pos;
-    Ang16 field_18_rot;
-    u16 field_1A_obj_id;
-    u16 field_1C_mindelay;
-    u16 field_1E_maxdelay;
-    u8 field_20_ammo;
-    u8 field_21_padding;
-    u16 field_22_padding;
+    u16 field_8_pointer_lo; // 0x8
+    u16 field_A_pointer_hi; // 0xA
+    Fix16_Vec field_C_pos; // 0xC
+    Ang16 field_18_rot; // 0x18
+    u16 field_1A_obj_id; // 0x1A
+    u16 field_1C_mindelay; // 0x1C
+    u16 field_1E_maxdelay; // 0x1E
+    u8 field_20_ammo; // 0x20
+    u8 field_21_padding; // 0x21
+    u16 field_22_padding; // 0x22
 };
 
 struct SCR_PHONE_TEMPLATE : SCR_CMD_HEADER
 {
-    u16 field_8_brief_id;
-    u16 field_A_counter1;
-    u16 field_C_counter3b;
-    u16 field_E_mission2;
-    u16 field_10_counter2;
-    u16 field_12_counter3;
-    u16 field_14_counter4;
-    u16 field_16_counter5;
-    u16 field_18_gangname;
-    u16 field_1A_respect;
-    u16 field_1C_mission1;
-    u16 field_1E_padding;
+    u16 field_8_brief_id; // 0x8
+    u16 field_A_counter1; // 0xA
+    u16 field_C_counter3b; // 0xC
+    u16 field_E_mission2; // 0xE
+    u16 field_10_counter2; // 0x10
+    u16 field_12_counter3; // 0x12
+    u16 field_14_counter4; // 0x14
+    u16 field_16_counter5; // 0x16
+    u16 field_18_gangname; // 0x18
+    u16 field_1A_respect; // 0x1A
+    u16 field_1C_mission1; // 0x1C
+    u16 field_1E_padding; // 0x1E
 };
 
 struct SCR_START_BONUS : SCR_CMD_HEADER
 {
-    u16 field_8_zone_str_id;
-    u8 field_A_subtype;
-    s8 field_B_remap;
-    s8 field_C_target_count;
-    u8 field_D_bExclusive;
-    u16 field_E_id;
-    u16 field_10_time_limit;
-    s16 field_12_alt_car_model;
-    u16 field_14_reward;
-    u16 field_16_unused;
-    u16 field_18_ptr;
-    u8 field_1A_death_cause;
-    u8 field_1B_unused;
+    u16 field_8_zone_str_id; // 0x8
+    u8 field_A_subtype; // 0xA
+    s8 field_B_remap; // 0xB
+    s8 field_C_target_count; // 0xC
+    u8 field_D_bExclusive; // 0xD
+    u16 field_E_id; // 0xE
+    u16 field_10_time_limit; // 0x10
+    s16 field_12_alt_car_model; // 0x12
+    u16 field_14_reward; // 0x14
+    u16 field_16_unused; // 0x16
+    u16 field_18_ptr; // 0x18
+    u8 field_1A_death_cause; // 0x1A
+    u8 field_1B_unused; // 0x1B
 };
 
 struct SCR_LOWER_LEVEL : SCR_CMD_HEADER
 {
-    SCR_XY_uc field_8_min_pos;
-    SCR_XY_uc field_A_max_pos;
+    SCR_XY_uc field_8_min_pos; // 0x8
+    SCR_XY_uc field_A_max_pos; // 0xA
 };
 
 struct SCR_CHAR_INTO_CAR : SCR_CMD_HEADER
 {
-    u16 field_8_char_idx;
-    u16 field_A_unused;
-    u8 field_C_remap;
-    u8 field_D_unused;
-    s16 field_E_occupation;
-    u16 field_10_car_idx;
+    u16 field_8_char_idx; // 0x8
+    u16 field_A_unused; // 0xA
+    u8 field_C_remap; // 0xC
+    u8 field_D_unused; // 0xD
+    s16 field_E_occupation; // 0xE
+    u16 field_10_car_idx; // 0x10
 };
 
 struct SCR_ADD_BLOCK : SCR_CMD_HEADER
 {
-    u8 field_8_xpos;
-    u8 field_9_ypos;
-    u8 field_A_zpos;
+    u8 field_8_xpos; // 0x8
+    u8 field_9_ypos; // 0x9
+    u8 field_A_zpos; // 0xA
 };
 
 struct SCR_REMOVE_BLOCK : SCR_CMD_HEADER
 {
-    SCR_XYZ_uc field_8_pos;
-    u8 field_B_do_drop;
+    SCR_XYZ_uc field_8_pos; // 0x8
+    u8 field_B_do_drop; // 0xB
 };
 
 struct SCR_CONVEYOR : SCR_CMD_HEADER
 {
-    u16 field_8_pointer_lo;
-    u16 field_A_pointer_hi;
-    SCR_Rect_f field_C_rect;
-    SCR_XY_uc field_18_speed;
-    u16 field_1A_padding;
+    u16 field_8_pointer_lo; // 0x8
+    u16 field_A_pointer_hi; // 0xA
+    SCR_Rect_f field_C_rect; // 0xC
+    SCR_XY_uc field_18_speed; // 0x18
+    u16 field_1A_padding; // 0x1A
 };
 
 struct SCR_DESTRUCTOR : SCR_CMD_HEADER
 {
-    u16 field_8_pointer_lo;
-    u16 field_A_pointer_hi;
-    SCR_Rect_f field_C_rect;
+    u16 field_8_pointer_lo; // 0x8
+    u16 field_A_pointer_hi; // 0xA
+    SCR_Rect_f field_C_rect; // 0xC
 };
 
 struct SCR_CRUSHER_BASIC : SCR_CMD_HEADER
 {
-    u16 field_8_pointer_lo;
-    u16 field_A_pointer_hi;
-    SCR_XY_f field_C_pos;
+    u16 field_8_pointer_lo; // 0x8
+    u16 field_A_pointer_hi; // 0xA
+    SCR_XY_f field_C_pos; // 0xC
 };
 
 struct SCR_SET_AMBIENT : SCR_CMD_HEADER
 {
-    s32 field_8_level;
-    u16 field_C_time;
-    u16 field_E_padding;
+    s32 field_8_level; // 0x8
+    u16 field_C_time; // 0xC
+    u16 field_E_padding; // 0xE
 };
 
 struct SCR_IF_JUMP : SCR_CMD_HEADER
@@ -449,394 +449,394 @@ struct SCR_IF_JUMP : SCR_CMD_HEADER
 
 struct SCR_DOOR_DATA_DEC : SCR_CMD_HEADER
 {
-    Door* field_8_door;
-    SCR_XYZ_uc field_C_block;
-    u8 field_F_face;
-    u8 field_10_gr_id;
-    u8 field_11_open_type; // SCR_DOOR_OPENTYPES
-    u8 field_12_close_type; // SCR_DOOR_CLOSETYPES
-    u8 field_13_delay;
-    SCR_Rect_f field_14_check;
-    u8 field_28_flip;
-    u8 field_29_reversed;
-    u16 field_2A_open_target; // ONE_CAR/ONE_CHAR_ON_FOOT: script car/char index, ONE_MODEL: car model
+    Door* field_8_door; // 0x8
+    SCR_XYZ_uc field_C_block; // 0xC
+    u8 field_F_face; // 0xF
+    u8 field_10_gr_id; // 0x10
+    u8 field_11_open_type; // 0x11: SCR_DOOR_OPENTYPES
+    u8 field_12_close_type; // 0x12: SCR_DOOR_CLOSETYPES
+    u8 field_13_delay; // 0x13
+    SCR_Rect_f field_14_check; // 0x14
+    u8 field_28_flip; // 0x28
+    u8 field_29_reversed; // 0x29
+    u16 field_2A_open_target; // 0x2A: ONE_CAR/ONE_CHAR_ON_FOOT: script car/char index, ONE_MODEL: car model
 };
 
 struct SCR_UPDATE_DOOR : SCR_CMD_HEADER
 {
-    u16 field_8_door_idx;
-    u16 field_A_target_idx;
+    u16 field_8_door_idx; // 0x8
+    u16 field_A_target_idx; // 0xA
 };
 
 struct SCR_SET_CHAR_GRAPHIC_TYPE : SCR_CMD_HEADER
 {
-    u16 field_8_varname;
-    s16 field_A_remap;
-    u16 field_C_graphic_type;
-    u16 field_E_padding;
+    u16 field_8_varname; // 0x8
+    s16 field_A_remap; // 0xA
+    u16 field_C_graphic_type; // 0xC
+    u16 field_E_padding; // 0xE
 };
 
 struct SCR_LEVEL_END_ARROW2 : SCR_CMD_HEADER
 {
-    Fix16_Vec field_8_pos;
-    u16 field_14_arrowname;
-    u16 field_16_padding;
+    Fix16_Vec field_8_pos; // 0x8
+    u16 field_14_arrowname; // 0x14
+    u16 field_16_padding; // 0x16
 };
 
 struct SCR_IS_CAR_IN_BLOCK : SCR_CMD_HEADER
 {
-    u16 field_8_varname;
-    u16 field_A_unused;
-    Fix16_Vec field_C_pos;
+    u16 field_8_varname; // 0x8
+    u16 field_A_unused; // 0xA
+    Fix16_Vec field_C_pos; // 0xC
 };
 
 struct SCR_CHECK_SCORE_GREATER : SCR_CMD_HEADER
 {
-    u32 field_8_char_idx;
-    s32 field_C_target_score;
+    u32 field_8_char_idx; // 0x8
+    s32 field_C_target_score; // 0xC
 };
 
 struct SCR_WARP_FROM_CAR : SCR_CMD_HEADER
 {
-    u16 field_8_char_idx;
-    Ang16 field_A_rotation;
-    Fix16_Vec field_C_pos;
+    u16 field_8_char_idx; // 0x8
+    Ang16 field_A_rotation; // 0xA
+    Fix16_Vec field_C_pos; // 0xC
 };
 
 struct SCR_SET_GROUP_TYPE : SCR_CMD_HEADER
 {
-    u32 field_8_char_idx;
-    u32 field_C_group_type;
+    u32 field_8_char_idx; // 0x8
+    u32 field_C_group_type; // 0xC
 };
 
 struct SCR_CHECK_CURRENT_WEAPON : SCR_CMD_HEADER
 {
-    u16 field_8_ped_idx;
-    u16 field_A_padding;
-    u32 field_C_weapon_idx;
+    u16 field_8_ped_idx; // 0x8
+    u16 field_A_padding; // 0xA
+    u32 field_C_weapon_idx; // 0xC
 };
 
 struct SCR_DECLARE_POLICELEVEL : SCR_CMD_HEADER
 {
-    u16 field_8_unused;
-    u16 field_A_wanted_level;
+    u16 field_8_unused; // 0x8
+    u16 field_A_wanted_level; // 0xA
 };
 
 struct SCR_ADD_ONSCREEN_COUNTER : SCR_CMD_HEADER
 {
-    u16 field_8_onscreen_counter_idx;
-    u16 field_A_counter_idx;
+    u16 field_8_onscreen_counter_idx; // 0x8
+    u16 field_A_counter_idx; // 0xA
 };
 
 struct SCR_SET_KF_WEAPON : SCR_CMD_HEADER
 {
-    u16 field_8_ped_idx;
-    u16 field_A_unused;
-    u32 field_C_weapon_idx;
+    u16 field_8_ped_idx; // 0x8
+    u16 field_A_unused; // 0xA
+    u32 field_C_weapon_idx; // 0xC
 };
 
 struct SCR_SET_FAV_CAR : SCR_CMD_HEADER
 {
-    u16 field_8_ped_idx;
-    u16 field_A_unused;
-    u32 field_C_favourite_car;
+    u16 field_8_ped_idx; // 0x8
+    u16 field_A_unused; // 0xA
+    u32 field_C_favourite_car; // 0xC
 };
 
 struct SCR_SET_PLAYER_CONTROLS : SCR_CMD_HEADER
 {
-    u16 field_8_ped_idx;
-    u8 field_A_new_state;
+    u16 field_8_ped_idx; // 0x8
+    u8 field_A_new_state; // 0xA
 };
 
 struct SCR_STORE_BONUS_COUNT : SCR_CMD_HEADER
 {
-    u16 field_8_bonus;
-    u16 field_A_counter_idx;
+    u16 field_8_bonus; // 0x8
+    u16 field_A_counter_idx; // 0xA
 };
 
 struct SCR_SET_STATE : SCR_CMD_HEADER
 {
-    u16 field_8_varname;
-    u8 field_A_status;
+    u16 field_8_varname; // 0x8
+    u8 field_A_status; // 0xA
 };
 
 struct SCR_SET_DIR_OF_TVVAN : SCR_CMD_HEADER
 {
-    SCR_XY_f field_8_pos;
+    SCR_XY_f field_8_pos; // 0x8
 };
 
 struct SCR_CHECK_WEAPONHIT : SCR_CMD_HEADER
 {
     union
     {
-        u16 field_8_car_idx;
-        u16 field_8_ped_idx;
+        u16 field_8_car_idx; // 0x8
+        u16 field_8_ped_idx; // 0x8
     };
-    u16 field_A_status;
-    u16 field_C_weapon;
+    u16 field_A_status; // 0xA
+    u16 field_C_weapon; // 0xC
 };
 
 struct SCR_FINISH_LEVEL : SCR_CMD_HEADER
 {
-    u16 field_8_unused;
-    s16 field_A_bonus_type;
+    u16 field_8_unused; // 0x8
+    s16 field_A_bonus_type; // 0xA
 };
 
 struct SCR_CHECK_HEADS_GREATER : SCR_CMD_HEADER
 {
-    u16 field_8_ped_idx;
-    s16 field_A_wanted_level;
+    u16 field_8_ped_idx; // 0x8
+    s16 field_A_wanted_level; // 0xA
 };
 
 struct SCR_SET_CAR_GRAPHIC : SCR_CMD_HEADER
 {
-    u16 field_8_car_idx;
-    u16 field_A_unused;
-    u16 field_C_number;
+    u16 field_8_car_idx; // 0x8
+    u16 field_A_unused; // 0xA
+    u16 field_C_number; // 0xC
 };
 
 struct SCR_CHANGE_BLOCK : SCR_CMD_HEADER
 {
-    u8 field_8_x;
-    u8 field_9_y;
-    u8 field_A_z;
-    u8 field_B_change_type;
-    u16 field_C_info_word;
+    u8 field_8_x; // 0x8
+    u8 field_9_y; // 0x9
+    u8 field_A_z; // 0xA
+    u8 field_B_change_type; // 0xB
+    u16 field_C_info_word; // 0xC
 };
 
 struct SCR_CHECK_CAR_SPEED : SCR_CMD_HEADER
 {
-    u16 field_8_car_idx;
-    s32 field_A_value;
+    u16 field_8_car_idx; // 0x8
+    s32 field_A_value; // 0xA
 };
 
 struct SCR_MAP_SET_ZONE_INFO : SCR_CMD_HEADER
 {
-    u16 field_8_zone_idx;
-    u16 field_A_unused;
-    u16 field_C_value;
+    u16 field_8_zone_idx; // 0x8
+    u16 field_A_unused; // 0xA
+    u16 field_C_value; // 0xC
 };
 
 struct SCR_START_BASIC_KF_TEMPLATE : SCR_CMD_HEADER
 {
-    u16 field_8_triggername;
-    u16 field_A_brief_id;
-    u16 field_C_objname;
-    u16 field_E_playername;
-    u16 field_10_weapon;
-    u16 field_12_unused;
+    u16 field_8_triggername; // 0x8
+    u16 field_A_brief_id; // 0xA
+    u16 field_C_objname; // 0xC
+    u16 field_E_playername; // 0xE
+    u16 field_10_weapon; // 0x10
+    u16 field_12_unused; // 0x12
 };
 
 struct SCR_DO_BASIC_KF_TEMPLATE : SCR_CMD_HEADER
 {
-    u16 field_8_bonusname;
-    u16 field_A_timername;
-    u32 field_C_time_limit;
-    u16 field_10_onscreenname;
-    u16 field_12_countername;
-    u16 field_14_target_total;
-    u16 field_16_brief_id;
-    u16 field_18_playername;
-    u16 field_1A_rewardtype;
-    u32 field_1C_rewardvalue;
+    u16 field_8_bonusname; // 0x8
+    u16 field_A_timername; // 0xA
+    u32 field_C_time_limit; // 0xC
+    u16 field_10_onscreenname; // 0x10
+    u16 field_12_countername; // 0x12
+    u16 field_14_target_total; // 0x14
+    u16 field_16_brief_id; // 0x16
+    u16 field_18_playername; // 0x18
+    u16 field_1A_rewardtype; // 0x1A
+    u32 field_1C_rewardvalue; // 0x1C
 };
 
 struct SCR_SET_CAR_JAMMED : SCR_CMD_HEADER
 {
-    u16 field_8_car_idx;
-    u8 field_A_status;
+    u16 field_8_car_idx; // 0x8
+    u8 field_A_status; // 0xA
 };
 
 struct SCR_SET_CAR_DAMAGE_PROOF : SCR_CMD_HEADER
 {
-    u16 field_8_car_idx;
-    u8 field_A_status;
+    u16 field_8_car_idx; // 0x8
+    u8 field_A_status; // 0xA
 };
 
 struct SCR_SET_RUN_SPEED : SCR_CMD_HEADER
 {
-    u16 field_8_ped_idx;
-    Fix16 field_A_value;
+    u16 field_8_ped_idx; // 0x8
+    Fix16 field_A_value; // 0xA
 };
 
 struct SCR_SET_CHAR_DRIVE_AGGR : SCR_CMD_HEADER
 {
-    u16 field_8_ped_idx;
-    u8 field_A_status;
+    u16 field_8_ped_idx; // 0x8
+    u8 field_A_status; // 0xA
 };
 
 struct SCR_OPERATE_COUNTER_AND_OPERAND_INT : SCR_CMD_HEADER
 {
-    u16 field_8_destination_counter_idx;
-    u16 field_A_operand_counter_idx;
-    s16 field_C_value;
+    u16 field_8_destination_counter_idx; // 0x8
+    u16 field_A_operand_counter_idx; // 0xA
+    s16 field_C_value; // 0xC
 };
 
 struct SCR_OPERATE_COUNTER_AND_COUNTER : SCR_CMD_HEADER
 {
-    u16 field_8_destination_counter_idx;
-    u16 field_A_first_operand_counter_idx;
-    u16 field_C_second_operand_counter_idx;
+    u16 field_8_destination_counter_idx; // 0x8
+    u16 field_A_first_operand_counter_idx; // 0xA
+    u16 field_C_second_operand_counter_idx; // 0xC
 };
 
 struct SCR_PUT_CAR_ON_TRAILER : SCR_CMD_HEADER
 {
-    u16 field_8_car_idx;
-    u16 field_A_trailer_car_idx;
+    u16 field_8_car_idx; // 0x8
+    u16 field_A_trailer_car_idx; // 0xA
 };
 
 struct SCR_CREATE_LIGHT : SCR_CMD_HEADER
 {
-    u16 field_8_light_idx;
-    u16 field_A_unused;
-    Fix16 field_C_xpos;
-    Fix16 field_10_ypos;
-    Fix16 field_14_zpos;
-    s32 field_18_argb;
-    Fix16 field_1C_radius;
-    u8 field_20_intensity;
-    u8 field_21_on_time;
-    u8 field_22_off_time;
-    u8 field_23_shape;
+    u16 field_8_light_idx; // 0x8
+    u16 field_A_unused; // 0xA
+    Fix16 field_C_xpos; // 0xC
+    Fix16 field_10_ypos; // 0x10
+    Fix16 field_14_zpos; // 0x14
+    s32 field_18_argb; // 0x18
+    Fix16 field_1C_radius; // 0x1C
+    u8 field_20_intensity; // 0x20
+    u8 field_21_on_time; // 0x21
+    u8 field_22_off_time; // 0x22
+    u8 field_23_shape; // 0x23
 };
 
 struct SCR_ANSWER_PHONE : SCR_CMD_HEADER
 {
-    u16 field_8_obj_idx;
-    u16 field_A_unused;
-    u16 field_C_ped_idx;
-    u16 field_E_unused;
-    s16 field_10_timer;
-    u8 field_12_answered;
+    u16 field_8_obj_idx; // 0x8
+    u16 field_A_unused; // 0xA
+    u16 field_C_ped_idx; // 0xC
+    u16 field_E_unused; // 0xE
+    s16 field_10_timer; // 0x10
+    u8 field_12_answered; // 0x12
 };
 
 struct SCR_ADD_PATROL_POINT : SCR_CMD_HEADER
 {
-    u16 field_8_varname;
-    u16 field_A_unused;
-    Fix16_Vec field_C_pos;
+    u16 field_8_varname; // 0x8
+    u16 field_A_unused; // 0xA
+    Fix16_Vec field_C_pos; // 0xC
 };
 
 struct SCR_CHAR_ENTER_CAR : SCR_CMD_HEADER
 {
-    u16 field_8_ped_idx;
-    u16 field_A_car_idx;
-    Fix16_Vec field_C_pos;
+    u16 field_8_ped_idx; // 0x8
+    u16 field_A_car_idx; // 0xA
+    Fix16_Vec field_C_pos; // 0xC
 };
 
 struct SCR_GET_SCORE : SCR_CMD_HEADER
 {
-    u16 field_8_ped_idx;
-    u16 field_A_counter_idx;
+    u16 field_8_ped_idx; // 0x8
+    u16 field_A_counter_idx; // 0xA
 };
 
 struct SCR_IS_CHAR_IN_GANG_ZONE : SCR_CMD_HEADER
 {
-    u16 field_8_ped_idx;
-    u16 field_A_gang_idx;
+    u16 field_8_ped_idx; // 0x8
+    u16 field_A_gang_idx; // 0xA
 };
 
 struct SCR_CHANGE_CAR_LOCK : SCR_CMD_HEADER
 {
-    u16 field_8_car_idx;
-    s16 field_A_lock_type;
+    u16 field_8_car_idx; // 0x8
+    s16 field_A_lock_type; // 0xA
 };
 
 struct SCR_IS_POINT_ON_SCREEN : SCR_CMD_HEADER
 {
-    Fix16 field_8_xpos;
-    Fix16 field_C_ypos;
+    Fix16 field_8_xpos; // 0x8
+    Fix16 field_C_ypos; // 0xC
 };
 
 struct SCR_GET_NUM_LIVES_MULTIPLIERS : SCR_CMD_HEADER
 {
-    u16 field_8_player_ped_idx;
-    s16 field_A_counter_idx;
+    u16 field_8_player_ped_idx; // 0x8
+    s16 field_A_counter_idx; // 0xA
 };
 
 struct SCR_REMOTE_CONTROL : SCR_CMD_HEADER
 {
-    u16 field_8_player_ped_idx;
-    u16 field_A_car_idx;
+    u16 field_8_player_ped_idx; // 0x8
+    u16 field_A_car_idx; // 0xA
 };
 
 struct SCR_SWITCH_ROAD_ON_OFF : SCR_CMD_HEADER
 {
-    u8 field_8_xpos;
-    u8 field_9_ypos;
-    u8 field_A_zpos;
-    u8 field_B_status;
+    u8 field_8_xpos; // 0x8
+    u8 field_9_ypos; // 0x9
+    u8 field_A_zpos; // 0xA
+    u8 field_B_status; // 0xB
 };
 
 struct SCR_CHANGE_LIGHT_INTENSITY : SCR_CMD_HEADER
 {
-    u16 field_8_light_idx;
-    u16 field_A_intensity;
+    u16 field_8_light_idx; // 0x8
+    u16 field_A_intensity; // 0xA
 };
 
 struct SCR_CHANGE_LIGHT_RADIUS : SCR_CMD_HEADER
 {
-    u16 field_8_light_idx;
-    Fix16 field_A_radius;
+    u16 field_8_light_idx; // 0x8
+    Fix16 field_A_radius; // 0xA
 };
 
 struct SCR_DO_SAVE_GAME : SCR_CMD_HEADER
 {
-    u16 field_8_triggername;
-    u16 field_A_unused;
-    SCR_Rect_f field_C_rect;
+    u16 field_8_triggername; // 0x8
+    u16 field_A_unused; // 0xA
+    SCR_Rect_f field_C_rect; // 0xC
 };
 
 struct SCR_DELETE_SOUND : SCR_CMD_HEADER
 {
-    Fix16 field_8_xpos;
-    Fix16 field_C_ypos;
+    Fix16 field_8_xpos; // 0x8
+    Fix16 field_C_ypos; // 0xC
 };
 
 struct SCR_OPERATE_COUNTER_AND_COUNTER_2 : SCR_CMD_HEADER
 {
-    u16 field_8_left_counter_idx;
-    u16 field_A_right_counter_idx;
+    u16 field_8_left_counter_idx; // 0x8
+    u16 field_A_right_counter_idx; // 0xA
 };
 
 struct SCR_OPERATE_COUNTER_AND_INT : SCR_CMD_HEADER
 {
-    u16 field_8_counter_idx;
-    s16 field_A_value;
+    u16 field_8_counter_idx; // 0x8
+    s16 field_A_value; // 0xA
 };
 
 struct SCR_OPERATE_INT_AND_COUNTER : SCR_CMD_HEADER
 {
-    s16 field_8_value;
-    u16 field_A_counter_idx;
+    s16 field_8_value; // 0x8
+    u16 field_A_counter_idx; // 0xA
 };
 
 struct SCR_POINT_ARROW_AT : SCR_CMD_HEADER
 {
-    u16 field_8_target_entity_idx;
-    u16 field_A_unused;
-    u16 field_C_arrow_idx;
+    u16 field_8_target_entity_idx; // 0x8
+    u16 field_A_unused; // 0xA
+    u16 field_C_arrow_idx; // 0xC
 };
 
 struct SCR_ARROW_ENTITY : SCR_CMD_HEADER
 {
     union
     {
-        Car* field_8_car;
-        Ped* field_8_char;
-        Object* field_8_obj;
+        Car* field_8_car; // 0x8
+        Ped* field_8_char; // 0x8
+        Object* field_8_obj; // 0x8
     };
 };
 
 struct SCR_ARROW_XYZ : SCR_CMD_HEADER
 {
-    Fix16_Vec field_8_coord;
+    Fix16_Vec field_8_coord; // 0x8
 };
 
 struct SCR_SET_COUNTER : SCR_CMD_HEADER
 {
-    u16 field_8_counter_idx;
-    s16 field_A_value;
+    u16 field_8_counter_idx; // 0x8
+    s16 field_A_value; // 0xA
 };
 
 namespace SCR_DOOR_OPENTYPES
@@ -1148,22 +1148,22 @@ class ScriptThread
     EXPORT ~ScriptThread();
 
     ScriptThread* mpNext;
-    u16 field_4_next_cmd;
-    char_type field_6_flags;
-    char_type field_7_unused;
-    s32 field_8_cond_result;
-    char_type field_C_cmd_initialised;
-    char_type field_D_unused;
-    s16 field_E_phone_timer;
-    char_type field_10_stopped;
-    char_type field_11_unused;
-    s16 field_12_exec_flag;
-    char_type field_14_str[255];
-    char_type field_113_unused;
-    ScriptGosubStack* field_114_gosub_stack;
-    bool field_118_in_level_start;
-    char_type field_119_unused;
-    s16 field_11A_thread_id;
+    u16 field_4_next_cmd; // 0x4
+    char_type field_6_flags; // 0x6
+    char_type field_7_unused; // 0x7
+    s32 field_8_cond_result; // 0x8
+    char_type field_C_cmd_initialised; // 0xC
+    char_type field_D_unused; // 0xD
+    s16 field_E_phone_timer; // 0xE
+    char_type field_10_stopped; // 0x10
+    char_type field_11_unused; // 0x11
+    s16 field_12_exec_flag; // 0x12
+    char_type field_14_str[255]; // 0x14
+    char_type field_113_unused; // 0x113
+    ScriptGosubStack* field_114_gosub_stack; // 0x114
+    bool field_118_in_level_start; // 0x118
+    char_type field_119_unused; // 0x119
+    s16 field_11A_thread_id; // 0x11A
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ScriptThread, 0x11C)
 

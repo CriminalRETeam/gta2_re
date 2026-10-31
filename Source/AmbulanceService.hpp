@@ -11,8 +11,8 @@ class EmergencyCrew;
 class PatientSlot
 {
   public:
-    s32 field_0_unused;
-    s32 field_4_unused;
+    s32 field_0_unused; // 0x0
+    s32 field_4_unused; // 0x4
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PatientSlot, 0x8);
 
@@ -29,18 +29,18 @@ class AmbulanceTask
     EXPORT void HandleObjectiveState_4FAAC0();
     EXPORT void UpdateState_4FB330();
 
-    u8 field_0_target_x; // pickup tile
-    u8 field_1_target_y;
-    u8 field_2_target_z;
-    EmergencyCrew* field_4_paramedics_crew;
-    Ped* field_8_leader_patient; // the patient the leader is heading for or carrying
-    Ped* field_C_member_patient; // same for the second paramedic
-    Ped_List field_10_patients; // patients still to be picked up
-    u8 field_14_patient_count;
-    s16 field_16_unused;
-    s32 field_18_in_use;
-    bool field_1C_done; // set when no paramedic had anything left to do
-    char_type field_1D_revive_ticks; // counts to 50 while the paramedic stands at the patient
+    u8 field_0_target_x; // 0x0: pickup tile
+    u8 field_1_target_y; // 0x1
+    u8 field_2_target_z; // 0x2
+    EmergencyCrew* field_4_paramedics_crew; // 0x4
+    Ped* field_8_leader_patient; // 0x8: the patient the leader is heading for or carrying
+    Ped* field_C_member_patient; // 0xC: same for the second paramedic
+    Ped_List field_10_patients; // 0x10: patients still to be picked up
+    u8 field_14_patient_count; // 0x14
+    s16 field_16_unused; // 0x16
+    s32 field_18_in_use; // 0x18
+    bool field_1C_done; // 0x1C: set when no paramedic had anything left to do
+    char_type field_1D_revive_ticks; // 0x1D: counts to 50 while the paramedic stands at the patient
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(AmbulanceTask, 0x20);
 
@@ -60,11 +60,11 @@ class AmbulanceService
     EXPORT void ProcessPatientQueue_4FA500();
     EXPORT void AmbulancesService_4FA790();
 
-    char_type field_0_unused; // set to 1 by init_4FA310, never read
-    u8 field_1_corpse_count;   // bodies waiting in field_4_patient_queue (an index into the slots below, once)
-    Ped_List field_4_patient_queue;
-    PatientSlot field_8_unused_slots[25];
-    AmbulanceTask field_D0_tasks[2];
+    char_type field_0_unused; // 0x0: set to 1 by init_4FA310, never read
+    u8 field_1_corpse_count;   // 0x1: bodies waiting in field_4_patient_queue (an index into the slots below, once)
+    Ped_List field_4_patient_queue; // 0x4
+    PatientSlot field_8_unused_slots[25]; // 0x8
+    AmbulanceTask field_D0_tasks[2]; // 0xD0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(AmbulanceService, 0x110);
 

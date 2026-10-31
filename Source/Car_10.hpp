@@ -52,15 +52,15 @@ class Car_Door
         field_8_pObj = pPed;
     }
 
-    s8 field_0_animation_frame;
-    s8 field_1_frame_delay;
-    s8 field_2_first_delta_idx;
-    s8 field_3_unused;
-    s32 field_4_state;
-    Ped* field_8_pObj;
-    u8 field_C_stay_open_timer;
-    s8 field_D_unused;
-    s8 field_E_unused;
-    s8 field_F_unused;
+    s8 field_0_animation_frame; // 0x0
+    s8 field_1_frame_delay; // 0x1
+    s8 field_2_first_delta_idx; // 0x2
+    s8 field_3_unused; // 0x3
+    s32 field_4_state; // 0x4
+    Ped* field_8_pObj; // 0x8
+    u8 field_C_stay_open_timer; // 0xC
+    s8 field_D_unused; // 0xD
+    s8 field_E_unused; // 0xE
+    s8 field_F_unused; // 0xF
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Car_Door, 0x10)

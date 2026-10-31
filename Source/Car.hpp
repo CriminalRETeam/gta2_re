@@ -87,12 +87,12 @@ struct car_rng_list
 class CarThreadTrigger
 {
   public:
-    s32 field_0_pScriptCmd;
-    Object* field_4_O2C;
-    s32 field_8_type;
-    s32 field_C_action;
-    u8 field_10_remap_rng;
-    s32 field_14_enable_state;
+    s32 field_0_pScriptCmd; // 0x0
+    Object* field_4_O2C; // 0x4
+    s32 field_8_type; // 0x8
+    s32 field_C_action; // 0xC
+    u8 field_10_remap_rng; // 0x10
+    s32 field_14_enable_state; // 0x14
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarThreadTrigger, 0x18);
 
@@ -110,9 +110,9 @@ class CarThreadTriggers
         field_0_triggers[idx].field_14_enable_state = state;
     }
 
-    CarThreadTrigger field_0_triggers[22];
-    s16 field_210_count;
-    s16 field_212_unused;
+    CarThreadTrigger field_0_triggers[22]; // 0x0
+    s16 field_210_count; // 0x210
+    s16 field_212_unused; // 0x212
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarThreadTriggers, 0x214);
 
@@ -131,7 +131,7 @@ class CarRemapRng
         return gRngRemapTable_679320[this->field_0_table_idx];
     }
 
-    u16 field_0_table_idx;
+    u16 field_0_table_idx; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarRemapRng, 0x2);
 
@@ -286,49 +286,49 @@ class CarManager
         }
     }
 
-    CarRemapRng field_0_model_rng;
-    s16 field_2_unused;
-    Ped* field_4_spare_driver;
-    char_type field_8_unused;
-    u8 field_9_good_car_idx;
-    u8 field_A_bad_car_idx;
-    u8 field_B_average_car_idx;
-    s32 field_C_suppressed_model;
-    CarRemapRng field_10_remap_rng;
-    CarRemapRng field_12_unused;
-    s32 field_14_next_car_id;
-    char_type field_18_unused;
-    char_type field_19_unused;
-    char_type field_1A_fire_effect_cycle;
-    char_type field_1B_unused;
-    s32 field_1C_explosion_offset_cycle;
-    s32 field_20_light_state_a;
-    s32 field_24_light_state_b;
-    s32 field_28_recycled_cars;
-    s32 field_2C_paramedic_cars;
-    s32 field_30_firefighter_cars;
-    s32 field_34_unit_cars;
-    s32 field_38_roadblock_cars;
-    s32 field_3C_mission_cars;
-    s32 field_40_proto_recycled_cars;
-    s32 field_44_parked_cars;
-    s32 field_48_kind10_cars;
-    Fix16_Point field_4C_tv_van_dir;
-    u8 field_54_spawn_block;
-    char_type field_55_visible_cars_count;
-    char_type field_56_unused;
-    char_type field_57_unused;
-    s32 field_58_model_to_check_destroy;
-    bool field_5C_model_check_destroyed;
-    char_type field_5D_unused;
-    char_type field_5E_unused;
-    char_type field_5F_unused;
-    s32 field_60_impact_mode;
-    Fix16 field_64_zpos;
-    bool field_68_object_hit_active;
-    bool field_69_do_free_shopping;
-    char_type field_6A_unused;
-    char_type field_6B_unused;
+    CarRemapRng field_0_model_rng; // 0x0
+    s16 field_2_unused; // 0x2
+    Ped* field_4_spare_driver; // 0x4
+    char_type field_8_unused; // 0x8
+    u8 field_9_good_car_idx; // 0x9
+    u8 field_A_bad_car_idx; // 0xA
+    u8 field_B_average_car_idx; // 0xB
+    s32 field_C_suppressed_model; // 0xC
+    CarRemapRng field_10_remap_rng; // 0x10
+    CarRemapRng field_12_unused; // 0x12
+    s32 field_14_next_car_id; // 0x14
+    char_type field_18_unused; // 0x18
+    char_type field_19_unused; // 0x19
+    char_type field_1A_fire_effect_cycle; // 0x1A
+    char_type field_1B_unused; // 0x1B
+    s32 field_1C_explosion_offset_cycle; // 0x1C
+    s32 field_20_light_state_a; // 0x20
+    s32 field_24_light_state_b; // 0x24
+    s32 field_28_recycled_cars; // 0x28
+    s32 field_2C_paramedic_cars; // 0x2C
+    s32 field_30_firefighter_cars; // 0x30
+    s32 field_34_unit_cars; // 0x34
+    s32 field_38_roadblock_cars; // 0x38
+    s32 field_3C_mission_cars; // 0x3C
+    s32 field_40_proto_recycled_cars; // 0x40
+    s32 field_44_parked_cars; // 0x44
+    s32 field_48_kind10_cars; // 0x48
+    Fix16_Point field_4C_tv_van_dir; // 0x4C
+    u8 field_54_spawn_block; // 0x54
+    char_type field_55_visible_cars_count; // 0x55
+    char_type field_56_unused; // 0x56
+    char_type field_57_unused; // 0x57
+    s32 field_58_model_to_check_destroy; // 0x58
+    bool field_5C_model_check_destroyed; // 0x5C
+    char_type field_5D_unused; // 0x5D
+    char_type field_5E_unused; // 0x5E
+    char_type field_5F_unused; // 0x5F
+    s32 field_60_impact_mode; // 0x60
+    Fix16 field_64_zpos; // 0x64
+    bool field_68_object_hit_active; // 0x68
+    bool field_69_do_free_shopping; // 0x69
+    char_type field_6A_unused; // 0x6A
+    char_type field_6B_unused; // 0x6B
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarManager, 0x6C);
 
@@ -371,13 +371,13 @@ class Trailer
         field_0_hitch_angle_clamped = 0;
     }
 
-    char_type field_0_hitch_angle_clamped; // set by UpdateTrailerAlignment_407CE0 when the trailer angle hits its window, cleared on hitching
-    char_type field_1_unused;
-    char_type field_2_unused;
-    char_type field_3_unused;
+    char_type field_0_hitch_angle_clamped; // 0x0: set by UpdateTrailerAlignment_407CE0 when the trailer angle hits its window, cleared on hitching
+    char_type field_1_unused; // 0x1
+    char_type field_2_unused; // 0x2
+    char_type field_3_unused; // 0x3
     Trailer* mpNext;
-    Car* field_8_truck_cab;
-    Car* field_C_trailer_car;
+    Car* field_8_truck_cab; // 0x8
+    Car* field_C_trailer_car; // 0xC
 };
 
 static inline bool IsArmyModel(s32 car_model)
@@ -1353,54 +1353,54 @@ class Car
     EXPORT bool SnapCarToGreenArrow_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT bool TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, Fix16 ypos, s32 direction);
 
-    SpriteList field_0_attachments;
-    Ped_List field_4_passengers_list;
-    DamageAreaFlags field_8_damaged_areas;
-    Car_Door field_C_doors[4];
+    SpriteList field_0_attachments; // 0x0
+    Ped_List field_4_passengers_list; // 0x4
+    DamageAreaFlags field_8_damaged_areas; // 0x8
+    Car_Door field_C_doors[4]; // 0xC
     Car* mpNext;
-    Sprite* field_50_car_sprite;
-    Ped* field_54_driver;
-    CarPhysics* field_58_physics;
-    CarAI* field_5C_AI;
-    CarChaseTask* field_60_pChaseTask;
-    Trailer* field_64_pTrailer;
-    Fix16 field_68_scale;
-    s32 field_6C_car_id;
-    s32 field_70_exploder_ped_id;
-    s16 field_74_damage;
-    s16 field_76_last_seen_timer;
-    u16 field_78_flags; // car_flag masks
-    s32 field_7C_ped_type;
-    bool field_80_abandoned;
-    s32 field_84_car_info_idx;
-    s32 field_88_despawn_status; // car_despawn_status
-    u8 field_8C_damage_level;
-    char_type field_8D_car_thread_flags;
-    char_type field_8E_flash_count;
-    s32 field_90_death_cause;
-    u8 field_94_exploder_timer;
-    u8 field_95_player_ped_id;
-    s32 field_98_door_lock;
-    s32 field_9C_engine_status;
-    s32 field_A0_car_kind; // police car, fire engine, mission car etc
+    Sprite* field_50_car_sprite; // 0x50
+    Ped* field_54_driver; // 0x54
+    CarPhysics* field_58_physics; // 0x58
+    CarAI* field_5C_AI; // 0x5C
+    CarChaseTask* field_60_pChaseTask; // 0x60
+    Trailer* field_64_pTrailer; // 0x64
+    Fix16 field_68_scale; // 0x68
+    s32 field_6C_car_id; // 0x6C
+    s32 field_70_exploder_ped_id; // 0x70
+    s16 field_74_damage; // 0x74
+    s16 field_76_last_seen_timer; // 0x76
+    u16 field_78_flags; // 0x78: car_flag masks
+    s32 field_7C_ped_type; // 0x7C
+    bool field_80_abandoned; // 0x80
+    s32 field_84_car_info_idx; // 0x84
+    s32 field_88_despawn_status; // 0x88: car_despawn_status
+    u8 field_8C_damage_level; // 0x8C
+    char_type field_8D_car_thread_flags; // 0x8D
+    char_type field_8E_flash_count; // 0x8E
+    s32 field_90_death_cause; // 0x90
+    u8 field_94_exploder_timer; // 0x94
+    u8 field_95_player_ped_id; // 0x95
+    s32 field_98_door_lock; // 0x98
+    s32 field_9C_engine_status; // 0x9C
+    s32 field_A0_car_kind; // 0xA0: police car, fire engine, mission car etc
     union
     {
-        char_type field_A4_light_flags;
-        CarLightFlags8 field_A4_bf;
+        char_type field_A4_light_flags; // 0xA4
+        CarLightFlags8 field_A4_bf; // 0xA4
     };
-    char_type field_A5_flash_phase_counter;
+    char_type field_A5_flash_phase_counter; // 0xA5
     union
     {
-        char_type field_A6_turn_flags;
-        CarTurnFlags8 field_A6_bf;
+        char_type field_A6_turn_flags; // 0xA6
+        CarTurnFlags8 field_A6_bf; // 0xA6
     };
-    u8 field_A7_horn;
-    u8 field_A8_horn_cooldown;
-    char_type field_A9_wreck_countdown;
-    s32 field_AC_sound_event;
-    s32 field_B0_emitter_status;
-    s32 field_B4_shop_event;
-    bool field_B8_turret_rotated;
+    u8 field_A7_horn; // 0xA7
+    u8 field_A8_horn_cooldown; // 0xA8
+    char_type field_A9_wreck_countdown; // 0xA9
+    s32 field_AC_sound_event; // 0xAC
+    s32 field_B0_emitter_status; // 0xB0
+    s32 field_B4_shop_event; // 0xB4
+    bool field_B8_turret_rotated; // 0xB8
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Car, 0xBC)
 
@@ -1462,7 +1462,7 @@ class TrailerPool
         field_0_pool.DeAllocate(pTrailer);
     }
 
-    PoolBasic<Trailer, 10> field_0_pool;
+    PoolBasic<Trailer, 10> field_0_pool; // 0x0
 };
 
 struct TrafficSpawner
@@ -1484,14 +1484,14 @@ struct TrafficSpawner
     EXPORT s32 GetLaneOffset_5838E0(u8 lane_idx);
     EXPORT char_type ResolveSpawnDirection_583930(char_type spawn_pos_idx, char_type road_len);
 
-    Camera* field_0_cam;
-    Fix16_Rect* field_4_rect;
-    s8 field_8_spawn_side;
-    s8 field_9_traffic_car_model;
-    s8 field_A_unused;
-    s8 field_B_unused;
-    Player* field_C_player;
-    gmp_zone_info* field_10_zone;
+    Camera* field_0_cam; // 0x0
+    Fix16_Rect* field_4_rect; // 0x4
+    s8 field_8_spawn_side; // 0x8
+    s8 field_9_traffic_car_model; // 0x9
+    s8 field_A_unused; // 0xA
+    s8 field_B_unused; // 0xB
+    Player* field_C_player; // 0xC
+    gmp_zone_info* field_10_zone; // 0x10
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TrafficSpawner, 0x14);
 

@@ -40,21 +40,21 @@ class Explosion
         field_10_type = type_or_state;
     }
 
-    s32 field_0_bIn20Pool;
-    u8 field_4_pool_slot_idx;
-    s16 field_6_id;
-    Fix16 field_8_speed;
-    Ang16 field_C_angle;
-    s32 field_10_type;
-    Object* field_14_pObj2C;
-    s16 field_18_particle_cooldown;
-    u16 field_1A_timer;
-    Sprite* field_1C_pAttachedSprite;
-    Ang16 field_20_unused;
-    Ang16 field_22_spawn_angle;
-    Fix16 field_24_particle_spread;
-    Fix16 field_28_blast_radius;
-    s32 field_2C_owner_ped_id;
+    s32 field_0_bIn20Pool; // 0x0
+    u8 field_4_pool_slot_idx; // 0x4
+    s16 field_6_id; // 0x6
+    Fix16 field_8_speed; // 0x8
+    Ang16 field_C_angle; // 0xC
+    s32 field_10_type; // 0x10
+    Object* field_14_pObj2C; // 0x14
+    s16 field_18_particle_cooldown; // 0x18
+    u16 field_1A_timer; // 0x1A
+    Sprite* field_1C_pAttachedSprite; // 0x1C
+    Ang16 field_20_unused; // 0x20
+    Ang16 field_22_spawn_angle; // 0x22
+    Fix16 field_24_particle_spread; // 0x24
+    Fix16 field_28_blast_radius; // 0x28
+    s32 field_2C_owner_ped_id; // 0x2C
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Explosion, 0x30);
 
@@ -65,8 +65,8 @@ class ExplosionPool
     EXPORT Explosion* Allocate_543800();
     EXPORT ExplosionPool();
     EXPORT ~ExplosionPool();
-    Explosion field_0_explosions[40];
-    bool field_780_bUsed[40];
+    Explosion field_0_explosions[40]; // 0x0
+    bool field_780_bUsed[40]; // 0x780
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ExplosionPool, 0x7A8);
 
@@ -76,8 +76,8 @@ class ExplosionPool_3D4
     EXPORT Explosion* Allocate_543900();
     EXPORT ExplosionPool_3D4();
     EXPORT ~ExplosionPool_3D4();
-    Explosion field_0_explosions[20];
-    bool field_3C0_bUsed[20];
+    Explosion field_0_explosions[20]; // 0x0
+    bool field_3C0_bUsed[20]; // 0x3C0
 };
 
 EXTERN_GLOBAL(ExplosionPool*, gExplosionPool_7A8_6FD5F0);

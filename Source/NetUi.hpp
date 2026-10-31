@@ -56,24 +56,24 @@ enum Network_UI_Control_Ids
 
 struct Network_Enumerated_Map
 {
-    char field_0_map_name[260];
-    char field_104_style_name[260];
-    char field_208_script_name[260];
-    char field_30C_description[260];
-    char field_410_mmp_name[260];
-    u32 field_514_player_count;
+    char field_0_map_name[260]; // 0x0
+    char field_104_style_name[260]; // 0x104
+    char field_208_script_name[260]; // 0x208
+    char field_30C_description[260]; // 0x30C
+    char field_410_mmp_name[260]; // 0x410
+    u32 field_514_player_count; // 0x514
 };
 
 struct NetworkGameSettings
 {
-    char field_20088_default_map[260];
-    u32 field_2018C_map_idx;
-    u32 field_20190_game_speed;
-    u32 field_20194_frag_limit;
-    u32 field_20198_game_type;
-    u32 field_2019C_tick_count;
-    u32 field_201A0_police_on;
-    u32 field_201A4_game_time_limit;
+    char field_20088_default_map[260]; // 0x20088
+    u32 field_2018C_map_idx; // 0x2018C
+    u32 field_20190_game_speed; // 0x20190
+    u32 field_20194_frag_limit; // 0x20194
+    u32 field_20198_game_type; // 0x20198
+    u32 field_2019C_tick_count; // 0x2019C
+    u32 field_201A0_police_on; // 0x201A0
+    u32 field_201A4_game_time_limit; // 0x201A4
 };
 
 class NetUi
@@ -138,40 +138,40 @@ class NetUi
     EXPORT void SetGameTimeLimitTextBox_51D3B0(s32 timeLimitMins, HWND hDlg);
 
     //s32 field_0_vTable; // added by the compiler
-    Network_Enumerated_Map field_4_maps[100];
-    s32 field_1FD64_total_map_count;
-    s32 field_1FD68_bEndDialog;
-    s32 field_1FD6C_count;
-    WNDPROC field_1FD70_old_proc;
-    WNDPROC field_1FD74_old_proc;
-    wchar_t field_1FD78_player_name_2[260];
-    char_type field_1FF80_player_name[260];
-    s32 field_20084_unused;
-    NetworkGameSettings field_20088_game_settings;
-    HWND field_201A8_ui_control_hwnds[3][30];
-    s32 field_20310_showing_specific_window_idx;
-    s32 field_20314_last_showing_specific_window_idx;
-    s16 field_20318_unused;
-    s16 field_2031A_unused;
-    HWND field_2031C_dlg_hwnd;
-    HINSTANCE field_20320_hInstance;
+    Network_Enumerated_Map field_4_maps[100]; // 0x4
+    s32 field_1FD64_total_map_count; // 0x1FD64
+    s32 field_1FD68_bEndDialog; // 0x1FD68
+    s32 field_1FD6C_count; // 0x1FD6C
+    WNDPROC field_1FD70_old_proc; // 0x1FD70
+    WNDPROC field_1FD74_old_proc; // 0x1FD74
+    wchar_t field_1FD78_player_name_2[260]; // 0x1FD78
+    char_type field_1FF80_player_name[260]; // 0x1FF80
+    s32 field_20084_unused; // 0x20084
+    NetworkGameSettings field_20088_game_settings; // 0x20088
+    HWND field_201A8_ui_control_hwnds[3][30]; // 0x201A8
+    s32 field_20310_showing_specific_window_idx; // 0x20310
+    s32 field_20314_last_showing_specific_window_idx; // 0x20314
+    s16 field_20318_unused; // 0x20318
+    s16 field_2031A_unused; // 0x2031A
+    HWND field_2031C_dlg_hwnd; // 0x2031C
+    HINSTANCE field_20320_hInstance; // 0x20320
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(NetUi, 0x20324);
 
 struct Network_WindowCreateParams
 {
-    s32 field_0_x;
-    s32 field_4_y;
-    u32 field_8_w;
-    s32 field_C_h;
-    HMENU field_10_hMenu;
-    s32 field_14_style;
-    s32 field_18_exStyle;
+    s32 field_0_x; // 0x0
+    s32 field_4_y; // 0x4
+    u32 field_8_w; // 0x8
+    s32 field_C_h; // 0xC
+    HMENU field_10_hMenu; // 0x10
+    s32 field_14_style; // 0x14
+    s32 field_18_exStyle; // 0x18
 };
 
 struct Network_UI_Control_Data
 {
-    Network_WindowCreateParams field_0_windowParams;
-    char field_1C_window_class_name[80];
-    char field_6C_gtx_string_name[8];
+    Network_WindowCreateParams field_0_windowParams; // 0x0
+    char field_1C_window_class_name[80]; // 0x1C
+    char field_6C_gtx_string_name[8]; // 0x6C
 };

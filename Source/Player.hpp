@@ -332,109 +332,109 @@ class Player
         }
     }
 
-    bool field_0_is_user;
-    char_type field_1_unused;
-    char_type field_2_unused;
-    u32 field_4_inputs; // this tick's input bits (SetInputs_565740); zeroed once the tick has used them
-    Ang16 field_8_turn_speed;
-    Ang16 field_A_turn_accel;
-    Fix16 field_C_move_direction;
-    s32 field_10_unused;
-    s16 field_14_saved_ped_weapon_idx;
-    s16 field_16_saved_car_weapon_idx;
+    bool field_0_is_user; // 0x0
+    char_type field_1_unused; // 0x1
+    char_type field_2_unused; // 0x2
+    u32 field_4_inputs; // 0x4: this tick's input bits (SetInputs_565740); zeroed once the tick has used them
+    Ang16 field_8_turn_speed; // 0x8
+    Ang16 field_A_turn_accel; // 0xA
+    Fix16 field_C_move_direction; // 0xC
+    s32 field_10_unused; // 0x10
+    s16 field_14_saved_ped_weapon_idx; // 0x14
+    s16 field_16_saved_car_weapon_idx; // 0x16
 
-    s16 field_18_pre_kf_weapon_kind;
-    s16 field_1A_pre_kf_ammo;
-    s32 field_1C_kf_weapon_kind;
-    Car* field_20_kf_car;
-    s32 field_24_kf_car_id;
+    s16 field_18_pre_kf_weapon_kind; // 0x18
+    s16 field_1A_pre_kf_ammo; // 0x1A
+    s32 field_1C_kf_weapon_kind; // 0x1C
+    Car* field_20_kf_car; // 0x20
+    s32 field_24_kf_car_id; // 0x24
 
-    bool field_28_wasted_or_busted;
-    bool field_29_aux_ped_dying;
-    char_type field_2A_pad;
-    char_type field_2B_pad;
-    s16 field_2C_death_countdown;
-    u8 field_2E_player_idx;
-    bool field_2F_disable_all_controls;
-    bool field_30_disable_enter_vehicles;
-    bool field_31_kf_weapon_mode;
-    Gang* field_34_gang_curr_location;
-    gmp_map_zone* field_38_local_navigation_zone;
-    gmp_map_zone* field_3C_navigation_zone;
-    gmp_map_zone* field_40_arrow_blocker_zone;
-    s32 field_44_death_type;
-    bool field_48_dbg_cam_follow_player;
-    SoundObject* field_4C_sound_obj;
-    s32 field_50_throw_charge;
-    Car* field_54_car_history[3];
-    s32 field_60_finish_score_reached;
-    bool field_64_jumping;
-    s32 field_68_camera_mode;
-    s32 field_6C_in_debug_cam_mode;
-    bool field_70_dbg_cam_north;
-    bool field_71_dbg_cam_south;
-    bool field_72_dbg_cam_west;
-    bool field_73_dbg_cam_east;
-    bool field_74_dbg_cam_zooming_out;
-    bool field_75_dbg_cam_zooming_in;
-    bool field_76_dbg_zoom_in;
-    bool field_77_dbg_zoom_out;
+    bool field_28_wasted_or_busted; // 0x28
+    bool field_29_aux_ped_dying; // 0x29
+    char_type field_2A_pad; // 0x2A
+    char_type field_2B_pad; // 0x2B
+    s16 field_2C_death_countdown; // 0x2C
+    u8 field_2E_player_idx; // 0x2E
+    bool field_2F_disable_all_controls; // 0x2F
+    bool field_30_disable_enter_vehicles; // 0x30
+    bool field_31_kf_weapon_mode; // 0x31
+    Gang* field_34_gang_curr_location; // 0x34
+    gmp_map_zone* field_38_local_navigation_zone; // 0x38
+    gmp_map_zone* field_3C_navigation_zone; // 0x3C
+    gmp_map_zone* field_40_arrow_blocker_zone; // 0x40
+    s32 field_44_death_type; // 0x44
+    bool field_48_dbg_cam_follow_player; // 0x48
+    SoundObject* field_4C_sound_obj; // 0x4C
+    s32 field_50_throw_charge; // 0x50
+    Car* field_54_car_history[3]; // 0x54
+    s32 field_60_finish_score_reached; // 0x60
+    bool field_64_jumping; // 0x64
+    s32 field_68_camera_mode; // 0x68
+    s32 field_6C_in_debug_cam_mode; // 0x6C
+    bool field_70_dbg_cam_north; // 0x70
+    bool field_71_dbg_cam_south; // 0x71
+    bool field_72_dbg_cam_west; // 0x72
+    bool field_73_dbg_cam_east; // 0x73
+    bool field_74_dbg_cam_zooming_out; // 0x74
+    bool field_75_dbg_cam_zooming_in; // 0x75
+    bool field_76_dbg_zoom_in; // 0x76
+    bool field_77_dbg_zoom_out; // 0x77
 
     // Current inputs state
-    bool field_78_now_forward_pressed;
-    bool field_79_now_down_pressed;
-    bool field_7A_now_left_pressed;
-    bool field_7B_now_right_pressed;
-    bool field_7C_now_attack_pressed;
-    bool field_7D_now_enter_exit_pressed;
-    bool field_7E_now_hand_brake_or_jump_pressed;
-    bool field_7F_now_prev_weapon_pressed;
-    bool field_80_now_next_weapon_pressed;
-    bool field_81_now_special_1_pressed;
-    bool field_82_now_special_2_pressed;
-    bool field_83_now_special_3_pressed;
+    bool field_78_now_forward_pressed; // 0x78
+    bool field_79_now_down_pressed; // 0x79
+    bool field_7A_now_left_pressed; // 0x7A
+    bool field_7B_now_right_pressed; // 0x7B
+    bool field_7C_now_attack_pressed; // 0x7C
+    bool field_7D_now_enter_exit_pressed; // 0x7D
+    bool field_7E_now_hand_brake_or_jump_pressed; // 0x7E
+    bool field_7F_now_prev_weapon_pressed; // 0x7F
+    bool field_80_now_next_weapon_pressed; // 0x80
+    bool field_81_now_special_1_pressed; // 0x81
+    bool field_82_now_special_2_pressed; // 0x82
+    bool field_83_now_special_3_pressed; // 0x83
 
     // Previous inputs state
-    bool field_84_special_1_changed;
-    bool field_85_special_2_changed;
-    bool field_86_special_3_changed;
-    bool field_87_next_weapon_changed;
-    bool field_88_prev_weapon_changed;
-    bool field_89_enter_exit_changed;
-    bool field_8A_hand_brake_or_jump_changed;
-    bool field_8B_forward_changed;
-    bool field_8C_down_changed;
-    bool field_8D_attack_changed;
+    bool field_84_special_1_changed; // 0x84
+    bool field_85_special_2_changed; // 0x85
+    bool field_86_special_3_changed; // 0x86
+    bool field_87_next_weapon_changed; // 0x87
+    bool field_88_prev_weapon_changed; // 0x88
+    bool field_89_enter_exit_changed; // 0x89
+    bool field_8A_hand_brake_or_jump_changed; // 0x8A
+    bool field_8B_forward_changed; // 0x8B
+    bool field_8C_down_changed; // 0x8C
+    bool field_8D_attack_changed; // 0x8D
 
-    bool field_8E_in_use;
-    bool field_8F_block_attack;
-    Camera field_90_game_camera;
-    Camera field_14C_view_camera;
-    Camera field_208_aux_game_camera;
-    Ped* field_2C4_player_ped;
-    Ped* field_2C8_aux_ped;
-    Car* field_2CC_watched_car;
-    bool field_2D0_aux_cam_active;
-    PlayerScoreTracker field_2D4_scores;
-    bool field_640_busted;
-    PlayerCrimeStats field_644_crime_stats;
-    u16 field_680_traffic_spawn_counter;
-    u16 field_682_traffic_spawn_threshold;
-    RollingDigitCounter field_684_lives;
-    RollingDigitCounter field_6BC_multipliers;
-    u16 field_6F4_power_up_timers[17];
-    s16 field_716_unused;
-    Weapon* field_718_weapons[28];
-    s16 field_788_curr_weapon_idx;
-    bool field_78A_show_quit_message;
-    s32 field_78C_hud_palette_type; // Usage: 2 = default, 7 = multiplayer if using gang remap
-    u16 field_790_hud_palette;
-    s16 field_792_unused;
-    bool field_794_is_chatting;
-    s16 field_796_chat_text[79];
-    s32 field_834_unused;
-    s32 field_838_chat_text_idx;
-    wchar_t field_83C_player_name[16];
+    bool field_8E_in_use; // 0x8E
+    bool field_8F_block_attack; // 0x8F
+    Camera field_90_game_camera; // 0x90
+    Camera field_14C_view_camera; // 0x14C
+    Camera field_208_aux_game_camera; // 0x208
+    Ped* field_2C4_player_ped; // 0x2C4
+    Ped* field_2C8_aux_ped; // 0x2C8
+    Car* field_2CC_watched_car; // 0x2CC
+    bool field_2D0_aux_cam_active; // 0x2D0
+    PlayerScoreTracker field_2D4_scores; // 0x2D4
+    bool field_640_busted; // 0x640
+    PlayerCrimeStats field_644_crime_stats; // 0x644
+    u16 field_680_traffic_spawn_counter; // 0x680
+    u16 field_682_traffic_spawn_threshold; // 0x682
+    RollingDigitCounter field_684_lives; // 0x684
+    RollingDigitCounter field_6BC_multipliers; // 0x6BC
+    u16 field_6F4_power_up_timers[17]; // 0x6F4
+    s16 field_716_unused; // 0x716
+    Weapon* field_718_weapons[28]; // 0x718
+    s16 field_788_curr_weapon_idx; // 0x788
+    bool field_78A_show_quit_message; // 0x78A
+    s32 field_78C_hud_palette_type; // 0x78C: Usage: 2 = default, 7 = multiplayer if using gang remap
+    u16 field_790_hud_palette; // 0x790
+    s16 field_792_unused; // 0x792
+    bool field_794_is_chatting; // 0x794
+    s16 field_796_chat_text[79]; // 0x796
+    s32 field_834_unused; // 0x834
+    s32 field_838_chat_text_idx; // 0x838
+    wchar_t field_83C_player_name[16]; // 0x83C
 };
 
 // 9.6f 0x434B60

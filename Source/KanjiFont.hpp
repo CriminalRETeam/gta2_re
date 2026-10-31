@@ -9,12 +9,12 @@ struct sprite_index;
 // A cached glyph texture: the character it currently shows, drawn with colour/outline_colour
 struct KanjiGlyph
 {
-    u8 field_0_colour;
-    u8 field_1_outline_colour;
-    wchar_t field_2_text_char;
-    STexture* field_4_pTexture;
-    sprite_index* field_8_sprt_index;
-    u32 field_C_last_used;
+    u8 field_0_colour; // 0x0
+    u8 field_1_outline_colour; // 0x1
+    wchar_t field_2_text_char; // 0x2
+    STexture* field_4_pTexture; // 0x4
+    sprite_index* field_8_sprt_index; // 0x8
+    u32 field_C_last_used; // 0xC
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(KanjiGlyph, 0x10);
 
@@ -29,20 +29,20 @@ class KanjiFont
         k_num_large_glyphs = 20
     };
 
-    KanjiGlyph field_0_small_glyphs[k_num_small_glyphs];
-    KanjiGlyph field_780_large_glyphs[k_num_large_glyphs];
-    s32 field_8C0_use_counter;
-    u16* field_8C4_pKidX;
-    u8* field_8C8_pKBIT;
-    s32 field_8CC_kidx_size_words;
-    u8* field_8D0_pSprtData;
-    sprite_index* field_8D4_sprite_index;
-    STexture* field_8D8_pTexture;
-    u8* field_8DC_pSprtData;
-    sprite_index* field_8E0_sprite_index;
-    STexture* field_8E4_pTexture;
-    u8 field_8E8_colour;
-    u8 field_8E9_outline_colour;
+    KanjiGlyph field_0_small_glyphs[k_num_small_glyphs]; // 0x0
+    KanjiGlyph field_780_large_glyphs[k_num_large_glyphs]; // 0x780
+    s32 field_8C0_use_counter; // 0x8C0
+    u16* field_8C4_pKidX; // 0x8C4
+    u8* field_8C8_pKBIT; // 0x8C8
+    s32 field_8CC_kidx_size_words; // 0x8CC
+    u8* field_8D0_pSprtData; // 0x8D0
+    sprite_index* field_8D4_sprite_index; // 0x8D4
+    STexture* field_8D8_pTexture; // 0x8D8
+    u8* field_8DC_pSprtData; // 0x8DC
+    sprite_index* field_8E0_sprite_index; // 0x8E0
+    STexture* field_8E4_pTexture; // 0x8E4
+    u8 field_8E8_colour; // 0x8E8
+    u8 field_8E9_outline_colour; // 0x8E9
 
     EXPORT void LoadChunks_4D1FC0(const char_type* pChunkId, u32 chunk_len);
     EXPORT void Load_kanji_dat_4D2090();

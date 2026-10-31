@@ -25,9 +25,9 @@ enum
 class SoundObject
 {
   public:
-    s32 field_0_object_type; // SoundObjectTypeEnum
-    bool field_4_bStatus;
-    s32 field_8_sound_entry;
+    s32 field_0_object_type; // 0x0: SoundObjectTypeEnum
+    bool field_4_bStatus; // 0x4
+    s32 field_8_sound_entry; // 0x8
 
     union SoundObjectType
     {
@@ -43,7 +43,7 @@ class SoundObject
     };
 
     // Type depends on what field_0_object_type is
-    SoundObjectType field_C_pAny;
+    SoundObjectType field_C_pAny; // 0xC
 
     EXPORT void Release_40EF20();
 };

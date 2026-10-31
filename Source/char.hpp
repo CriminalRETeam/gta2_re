@@ -76,86 +76,86 @@ class Char
         field_7C_pPed = v;
     }
 
-    s32 field_0_id;
-    s8 field_4_unused;
-    u8 field_5_remap;
-    s8 field_6_unused;
-    s8 field_7_unused;
-    s32 field_8_ped_state_1;
-    s32 field_C_ped_state_2;
-    s32 field_10_char_state;
-    Ang16 field_14_target_rotation;
-    bool field_16_state_init_pending;
-    s8 field_17_unused;
-    void* field_18_collided_entity;
-    void* field_1C_prev_collided_entity;
-    s32 field_20_collided_entity_type;
-    s32 field_24_slide_state;
-    Ang16 field_28_slide_rotation;
-    Ang16 field_2A_slide_turn;
-    Ang16 field_2C_ang;
-    s8 field_2E_unused;
-    s8 field_2F_unused;
-    s32 field_30_unused;
-    s16 field_34_unused;
-    s8 field_36_unused;
-    s8 field_37_unused;
-    Fix16 field_38_velocity;
-    Fix16 field_3C_run_or_jump_speed;
-    Ang16 field_40_rotation;
-    Ang16 field_42_rotation_jitter;
-    s8 field_44_block_type;
-    u8 field_45_slope_gradient_direction;
-    u16 field_46_timer;
-    s8 field_48_lying_on_floor_timer;
-    s8 field_49_unused;
-    u16 field_4A_timeout;
-    Fix16 field_4C_conveyor_dx;
-    Fix16 field_50_conveyor_dy;
-    s8 field_54_jump_scale_counter;
-    u8 field_55_next_tile_timer;
-    s8 field_56_unused;
-    s8 field_57_unused;
+    s32 field_0_id; // 0x0
+    s8 field_4_unused; // 0x4
+    u8 field_5_remap; // 0x5
+    s8 field_6_unused; // 0x6
+    s8 field_7_unused; // 0x7
+    s32 field_8_ped_state_1; // 0x8
+    s32 field_C_ped_state_2; // 0xC
+    s32 field_10_char_state; // 0x10
+    Ang16 field_14_target_rotation; // 0x14
+    bool field_16_state_init_pending; // 0x16
+    s8 field_17_unused; // 0x17
+    void* field_18_collided_entity; // 0x18
+    void* field_1C_prev_collided_entity; // 0x1C
+    s32 field_20_collided_entity_type; // 0x20
+    s32 field_24_slide_state; // 0x24
+    Ang16 field_28_slide_rotation; // 0x28
+    Ang16 field_2A_slide_turn; // 0x2A
+    Ang16 field_2C_ang; // 0x2C
+    s8 field_2E_unused; // 0x2E
+    s8 field_2F_unused; // 0x2F
+    s32 field_30_unused; // 0x30
+    s16 field_34_unused; // 0x34
+    s8 field_36_unused; // 0x36
+    s8 field_37_unused; // 0x37
+    Fix16 field_38_velocity; // 0x38
+    Fix16 field_3C_run_or_jump_speed; // 0x3C
+    Ang16 field_40_rotation; // 0x40
+    Ang16 field_42_rotation_jitter; // 0x42
+    s8 field_44_block_type; // 0x44
+    u8 field_45_slope_gradient_direction; // 0x45
+    u16 field_46_timer; // 0x46
+    s8 field_48_lying_on_floor_timer; // 0x48
+    s8 field_49_unused; // 0x49
+    u16 field_4A_timeout; // 0x4A
+    Fix16 field_4C_conveyor_dx; // 0x4C
+    Fix16 field_50_conveyor_dy; // 0x50
+    s8 field_54_jump_scale_counter; // 0x54
+    u8 field_55_next_tile_timer; // 0x55
+    s8 field_56_unused; // 0x56
+    s8 field_57_unused; // 0x57
     union
     {
-        u32 field_58_flags;
-        CharB4Flags32 field_58_flags_bf;
+        u32 field_58_flags; // 0x58
+        CharB4Flags32 field_58_flags_bf; // 0x58
     };
-    u8 field_5C_jump_over_timer;
-    s8 field_5D_unused;
-    s8 field_5E_unused;
-    s8 field_5F_unused;
-    s32 field_60_unused;
-    s32 field_64_unused;
-    u8 field_68_animation_frame;
-    s8 field_69_is_colliding_with_sprite;
-    u8 field_6A_repulsion_timer;
-    s8 field_6b_unused;
-    s32 field_6C_animation_state;
-    s8 field_70_frame_timer;
-    s8 field_71_frame_delay;
-    u8 field_72_next_tile_x;
-    u8 field_73_next_tile_y;
-    Ang16 field_74_repulsion_rotation;
-    s8 field_76_unused;
-    s8 field_77_unused;
+    u8 field_5C_jump_over_timer; // 0x5C
+    s8 field_5D_unused; // 0x5D
+    s8 field_5E_unused; // 0x5E
+    s8 field_5F_unused; // 0x5F
+    s32 field_60_unused; // 0x60
+    s32 field_64_unused; // 0x64
+    u8 field_68_animation_frame; // 0x68
+    s8 field_69_is_colliding_with_sprite; // 0x69
+    u8 field_6A_repulsion_timer; // 0x6A
+    s8 field_6b_unused; // 0x6B
+    s32 field_6C_animation_state; // 0x6C
+    s8 field_70_frame_timer; // 0x70
+    s8 field_71_frame_delay; // 0x71
+    u8 field_72_next_tile_x; // 0x72
+    u8 field_73_next_tile_y; // 0x73
+    Ang16 field_74_repulsion_rotation; // 0x74
+    s8 field_76_unused; // 0x76
+    s8 field_77_unused; // 0x77
     Char* mpNext;
-    Ped* field_7C_pPed;
-    Sprite* field_80_sprite_ptr;
-    Car* field_84_target_car;
-    SpriteList_4_dtor field_88_obj_2c;
-    Fix16 field_8C_jump_base_z;
-    Fix16 field_90_fall_speed;
-    Fix16 field_94_fall_z_speed;
-    Fix16_Point_POD field_98_velocity_vector;
-    bool field_A0_force_top_layer;
-    s8 field_A1_unused;
-    s8 field_A2_unused;
-    s8 field_A3_unused;
-    Fix16 field_A4_xpos;
-    Fix16 field_A8_ypos;
-    Fix16 field_AC_zpos;
-    s32 field_B0_scream_timer;
+    Ped* field_7C_pPed; // 0x7C
+    Sprite* field_80_sprite_ptr; // 0x80
+    Car* field_84_target_car; // 0x84
+    SpriteList_4_dtor field_88_obj_2c; // 0x88
+    Fix16 field_8C_jump_base_z; // 0x8C
+    Fix16 field_90_fall_speed; // 0x90
+    Fix16 field_94_fall_z_speed; // 0x94
+    Fix16_Point_POD field_98_velocity_vector; // 0x98
+    bool field_A0_force_top_layer; // 0xA0
+    s8 field_A1_unused; // 0xA1
+    s8 field_A2_unused; // 0xA2
+    s8 field_A3_unused; // 0xA3
+    Fix16 field_A4_xpos; // 0xA4
+    Fix16 field_A8_ypos; // 0xA8
+    Fix16 field_AC_zpos; // 0xAC
+    s32 field_B0_scream_timer; // 0xB0
 
     // 9.6f 0x48A4C0
     inline s32 get_ped_state_1_48A4C0() const
