@@ -9,10 +9,10 @@ DEFINE_GLOBAL_ARRAY(Fix16, gCos_table_669260, 1440, 0x669260);
 
 DEFINE_GLOBAL_ARRAY(Fix16, gTanTable_6663C8, 1440, 0x6663C8);
 DEFINE_GLOBAL_INIT(Fix16, kFPZero_6691B0, Fix16(0), 0x6691B0);
-DEFINE_GLOBAL_INIT(Ang16, kAngZero_66A920, Ang16(0), 0x66A920);
+DEFINE_STATIC_GLOBAL_INIT(Ang16, kAngZero, Ang16(0), 0x66A920);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_669156, Ang16(720), 0x669156);
-DEFINE_GLOBAL_INIT(Ang16, kAng90_667A7C, Ang16(360), 0x667A7C);
-DEFINE_GLOBAL_INIT(Ang16, kAng270_66916C, Ang16(1080), 0x66916C);
+DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng90, Ang16(360), 0x667A7C);
+DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng270, Ang16(1080), 0x66916C);
 
 MATCH_FUNC(0x408660)
 Fix16 Fix16::Add_408660(const Fix16& rhs) const throw()
@@ -133,7 +133,7 @@ Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& y, Fix16& x)
     {
         if (y >= kFPZero_6691B0)
         {
-            return kAngZero_66A920;
+            return kAngZero;
         }
         else
         {
@@ -144,11 +144,11 @@ Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& y, Fix16& x)
     {
         if (x > kFPZero_6691B0)
         {
-            return kAng90_667A7C;
+            return kAng90;
         }
         else
         {
-            return kAng270_66916C;
+            return kAng270;
         }
     }
     else
@@ -159,17 +159,17 @@ Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& y, Fix16& x)
         {
             if (x > kFPZero_6691B0)
             {
-                return kAng90_667A7C - table_angle;
+                return kAng90 - table_angle;
             }
             else
             {
-                if (table_angle == kAng90_667A7C)
+                if (table_angle == kAng90)
                 {
-                    return kAngZero_66A920;
+                    return kAngZero;
                 }
                 else
                 {
-                    return kAng270_66916C + table_angle;
+                    return kAng270 + table_angle;
                 }
             }
         }
@@ -177,11 +177,11 @@ Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& y, Fix16& x)
         {
             if (x > kFPZero_6691B0)
             {
-                return kAng90_667A7C + table_angle;
+                return kAng90 + table_angle;
             }
             else
             {
-                return kAng270_66916C - table_angle;
+                return kAng270 - table_angle;
             }
         }
     }
@@ -249,24 +249,24 @@ EXPORT Fix16 __stdcall TurnAngleToward_405DA0(Fix16 cur, const Fix16* pTarget, c
     return result;
 }
 
-DEFINE_GLOBAL_INIT(Fix16, kAngFix16OneDegree_66A924, Fix16(0x11C, 0), 0x66A924);
-DEFINE_GLOBAL_INIT(Fix16, kAngFix16QuarterCircle_669140, Fix16(0x63D8, 0), 0x669140);
-DEFINE_GLOBAL_INIT(Fix16, kAngFix16ThreeQuarterCircle_6691FC, Fix16(0x12B88, 0), 0x6691FC);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kAngFix16OneDegree, Fix16(0x11C, 0), 0x66A924);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kAngFix16QuarterCircle, Fix16(0x63D8, 0), 0x669140);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kAngFix16ThreeQuarterCircle, Fix16(0x12B88, 0), 0x6691FC);
 
-// Is `*a` within kAngFix16OneDegree_66A924 of `*b`, directly or one turn (kAngFix16FullCircle_66A8E4) either way.
+// Is `*a` within kAngFix16OneDegree of `*b`, directly or one turn (kAngFix16FullCircle_66A8E4) either way.
 MATCH_FUNC(0x405E20)
 EXPORT s32 __stdcall IsAngleWithinTolerance_405E20(const Fix16* a, const Fix16* b)
 {
-    if ((*a > *b - kAngFix16OneDegree_66A924 && *a < *b + kAngFix16OneDegree_66A924) ||
-        (*a > *b - kAngFix16FullCircle_66A8E4 - kAngFix16OneDegree_66A924 && *a < *b - kAngFix16FullCircle_66A8E4 + kAngFix16OneDegree_66A924) ||
-        (*a > *b - kAngFix16OneDegree_66A924 + kAngFix16FullCircle_66A8E4 && *a < *b + kAngFix16FullCircle_66A8E4 + kAngFix16OneDegree_66A924))
+    if ((*a > *b - kAngFix16OneDegree && *a < *b + kAngFix16OneDegree) ||
+        (*a > *b - kAngFix16FullCircle_66A8E4 - kAngFix16OneDegree && *a < *b - kAngFix16FullCircle_66A8E4 + kAngFix16OneDegree) ||
+        (*a > *b - kAngFix16OneDegree + kAngFix16FullCircle_66A8E4 && *a < *b + kAngFix16FullCircle_66A8E4 + kAngFix16OneDegree))
     {
         return 1;
     }
     return 0;
 }
 
-// Clamps the angle `*pCur` into the window of +-kAngFix16QuarterCircle_669140 around `*pTarget`, allowing for the
+// Clamps the angle `*pCur` into the window of +-kAngFix16QuarterCircle around `*pTarget`, allowing for the
 // wrap at 0 / 2pi, and returns whether it ends up on either edge. Called by
 // Trailer::UpdateTrailerAlignment_407CE0.
 MATCH_FUNC(0x405E80)
@@ -274,11 +274,11 @@ EXPORT s32 __stdcall ClampAngleAroundTarget_405E80(const Fix16* pTarget, Fix16* 
 {
     Fix16 lo;
     Fix16 hi;
-    if (*pTarget < kAngFix16QuarterCircle_669140)
+    if (*pTarget < kAngFix16QuarterCircle)
     {
-        lo = kAngFix16ThreeQuarterCircle_6691FC + *pTarget;
-        hi = *pTarget + kAngFix16QuarterCircle_669140;
-        if (*pCur > lo - kAngFix16QuarterCircle_669140 && *pCur < lo)
+        lo = kAngFix16ThreeQuarterCircle + *pTarget;
+        hi = *pTarget + kAngFix16QuarterCircle;
+        if (*pCur > lo - kAngFix16QuarterCircle && *pCur < lo)
         {
             *pCur = lo;
         }
@@ -289,9 +289,9 @@ EXPORT s32 __stdcall ClampAngleAroundTarget_405E80(const Fix16* pTarget, Fix16* 
     }
     else if (*pTarget < kAngFix16HalfCircle_6691EC)
     {
-        lo = *pTarget - kAngFix16QuarterCircle_669140;
-        hi = *pTarget + kAngFix16QuarterCircle_669140;
-        if (*pCur < lo || *pCur > hi + kAngFix16QuarterCircle_669140)
+        lo = *pTarget - kAngFix16QuarterCircle;
+        hi = *pTarget + kAngFix16QuarterCircle;
+        if (*pCur < lo || *pCur > hi + kAngFix16QuarterCircle)
         {
             *pCur = lo;
         }
@@ -300,11 +300,11 @@ EXPORT s32 __stdcall ClampAngleAroundTarget_405E80(const Fix16* pTarget, Fix16* 
             *pCur = hi;
         }
     }
-    else if (*pTarget < kAngFix16ThreeQuarterCircle_6691FC)
+    else if (*pTarget < kAngFix16ThreeQuarterCircle)
     {
-        lo = *pTarget - kAngFix16QuarterCircle_669140;
-        hi = *pTarget + kAngFix16QuarterCircle_669140;
-        if (*pCur < hi - kAngFix16ThreeQuarterCircle_6691FC || *pCur > hi)
+        lo = *pTarget - kAngFix16QuarterCircle;
+        hi = *pTarget + kAngFix16QuarterCircle;
+        if (*pCur < hi - kAngFix16ThreeQuarterCircle || *pCur > hi)
         {
             *pCur = hi;
         }
@@ -315,9 +315,9 @@ EXPORT s32 __stdcall ClampAngleAroundTarget_405E80(const Fix16* pTarget, Fix16* 
     }
     else
     {
-        lo = *pTarget - kAngFix16QuarterCircle_669140;
-        hi = *pTarget - kAngFix16ThreeQuarterCircle_6691FC;
-        if (*pCur > hi && *pCur < hi + kAngFix16QuarterCircle_669140)
+        lo = *pTarget - kAngFix16QuarterCircle;
+        hi = *pTarget - kAngFix16ThreeQuarterCircle;
+        if (*pCur > hi && *pCur < hi + kAngFix16QuarterCircle)
         {
             *pCur = hi;
         }
