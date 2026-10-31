@@ -43,13 +43,12 @@ EXTERN_GLOBAL(s32, gDisplayDraw_67B57C);
 EXTERN_GLOBAL(s32, gDisplayAdd_67B578);
 EXPORT s32 __stdcall ConvertCycleCount_5BEED0(s32 cycles);
 
-DEFINE_GLOBAL(u32, gMemTotal_6F7360, 0x6F7360);
-DEFINE_GLOBAL(s32, gMemTotalCounter_6F7550, 0x6F7550);
-DEFINE_GLOBAL(s32, gLargeFrameTimer_6F754C, 0x6F754C);
-
 MATCH_FUNC(0x4ff250)
 void FrameProfiler::DebugDrawProfiling_4FF250()
 {
+    LOCAL_STATIC(s32, sLargeFrameTimer, 0x6F754C);
+    LOCAL_STATIC(s32, sMemTotalCounter, 0x6F7550);
+    LOCAL_STATIC(u32, sMemTotal, 0x6F7360);
     s32 total_textures_used = 0;
     s32 total_texture_bytes = 0;
     s32 tex_counts[12];
@@ -117,12 +116,12 @@ void FrameProfiler::DebugDrawProfiling_4FF250()
     swprintf(tmpBuff_67BD9C, L"%d", texture_swaps);
     DrawText_4B87A0(tmpBuff_67BD9C, 180, 360, gStyleTextFont_703BAA, 1);
 
-    if (++gMemTotalCounter_6F7550 > 100)
+    if (++sMemTotalCounter > 100)
     {
-        GetMemTotal_4FF970(&gMemTotal_6F7360);
-        gMemTotalCounter_6F7550 = 0;
+        GetMemTotal_4FF970(&sMemTotal);
+        sMemTotalCounter = 0;
     }
-    sDrawString_4FF910(0, 380, L"Mem Total %5d", gMemTotal_6F7360);
+    sDrawString_4FF910(0, 380, L"Mem Total %5d", sMemTotal);
 
     s32 total = field_28_process_avg.Average() + field_A8_draw_avg.Average() + field_128_render_avg.Average() +
         field_228_audio_avg.Average() + field_1A8_input_avg.Average();
@@ -133,10 +132,10 @@ void FrameProfiler::DebugDrawProfiling_4FF250()
     sDrawString_4FF910(280, 100, L"Input   %3d", field_1A8_input_avg.Average());
     sDrawString_4FF910(280, 120, L"Total   %3d", total);
 
-    s32 large_timer = total > 30 ? 15 : gLargeFrameTimer_6F754C;
+    s32 large_timer = total > 30 ? 15 : sLargeFrameTimer;
     if (large_timer)
     {
-        gLargeFrameTimer_6F754C = large_timer - 1;
+        sLargeFrameTimer = large_timer - 1;
         sDrawString_4FF910(280, 140, L"LARGE");
     }
 
