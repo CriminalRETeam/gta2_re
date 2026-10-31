@@ -2882,7 +2882,7 @@ changed for one variant only (used for the `ofstream` member and for `operator+=
   priority as `base_xpos` (tie 13), so `width` is coloured first and gets `ebx` like the original.
 - **Commutative operand order: declare the local before the global's first use** (`DrawRightSide_4EAF40`,
   `draw_bottom_4ED290`). VC6 puts the later-numbered operand first (numbering is first use in IL order). With
-  `Fix16 z = ...` in the last gradient case, `z` is numbered after `gZCoordFp_6F6518` and the sum became
+  `Fix16 z = ...` in the last gradient case, `z` is numbered after `sZCoordFp` and the sum became
   `lea (%esi,%ecx)`; `Fix16 z;` at the top of the function and `z = ...` there gives `add %esi,%ecx` and the
   later `mov kTileTexSize,%eax; imul %esi`. In draw_bottom the declaration also raised the inline budget by
   28 (one more out-of-line operator+ got inlined); `if (texture_idx)` for `!= 0` took back enough size.
@@ -3250,7 +3250,7 @@ change matched code, so check every conversion with an object-level compare, not
   (`gCurrCarAI_xpos_677C38`, `gElectroChainDepth_706C94`, ...).
 - A local static whose type has a constructor (`Fix16`, `Fix16_Point`) gets an init guard: use a file static.
 - A class static declared in a header that `ImGuiDebug.cpp` includes changes `ImGuiDebugDraw` (one name more in the
-  TU), so most classes keep their globals.
+  TU). That is accepted, since ImGuiDebug is unmarked debug UI; nothing else changes.
 
 In the hook build, local and file statics are private to each DLL: gta2_dll_imports doesn't redirect them to
 10.5.exe and HookLoader doesn't compare their initial values. They are not in new_data.json either, so

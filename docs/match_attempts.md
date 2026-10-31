@@ -111,7 +111,7 @@ flow but the wrong prologue (86).
 
 ## InputDevices::SetAltKeyState_498CB0 (WIP, was STUB)
 
-Target: `mov 4(%esp),%eax; shr $7,%al; mov %al,gAltKeyDown_67B80C; ret $4`. It loads the whole
+Target: `mov 4(%esp),%eax; shr $7,%al; mov %al,sAltKeyDown; ret $4`. It loads the whole
 dword, then shifts only `al`. Every spelling below compiles to a byte load
 (`mov 4(%esp),%al; shr $7,%al`), or to a dword shift plus `and $1,%al`. Tested in a scratch
 TU with `build.py --single_cpp ../build_vc6/scratch_t.cpp`:
@@ -305,7 +305,7 @@ the list pointer in `edi` (122).
 ## PedGroup::CoordinateGroupCarEntry_4C9F00 (WIP)
 
 When the leader is getting into a car, sends up to passenger-count members to the car
-doors, picking a door with an inlined search over `gGroupMemberCarDoor_620838` (one variant for
+doors, picking a door with an inlined search over `sGroupMemberCarDoor` (one variant for
 `SWATVAN`/`bank_van`, which starts one door further on and also tries door 1). The rest
 get `left_behind_by_leader_8`. Otherwise, handles the leader waiting for the farthest
 member and updates `field_30`. The rest of the code matches instruction for instruction.
@@ -351,7 +351,7 @@ declared before the loop (0.855); `yd` or both passed as temporaries (0.975 / 0.
 
 Returns false if any block in a `Fix16_Rect` (rounded with `Round_To_Int_410BF0`, z from
 `field_10_low_z.ToInt()`) has a slope type (`field_B & 3`) other than `slope_type`. Also
-stores each block in `gBlockInfo0_6F5EB0`. The code is the same as the original's
+stores each block in `sBlockInfo0`. The code is the same as the original's
 apart from registers.
 
 Ratio 0.614, almost all of it register rotation: the original keeps `pRect` in `edi` and
@@ -413,7 +413,7 @@ Tried: `text_xpos` as `s32` with a `(u16)` cast at the calls (no change).
 
 ## Map_0x370::FindNearbyBlockOfType_4E4930 (WIP, was sub_4E4930)
 
-Spirals out from (x, y) through the search globals `gSearchX_6F6164`/`6F6148`/`6F613C` until
+Spirals out from (x, y) through the search globals `sSearchX`/`6F6148`/`6F613C` until
 `IsSearchBlockOfType_4E4AC0` finds a block of the type, then writes the position back.
 Both are static `__stdcall` in the original (no `ecx` is set up for the call, and this
 function takes 4 stack args). The switch cases are in source order 3, 2, 4, 1.
@@ -671,7 +671,7 @@ into its car (group members flagged `field_238 = 3`) or, once everyone is ready,
 and despawns; otherwise like `TryDespawnOffscreenCrew_571350`, with `field_7C_ped_type == 2` cars kept. Now
 `void`. Ratio 0.748.
 
-- `gCurrentCrewPed_6FEDDC == pCar->field_54_driver` (the global on the left) gives the original's
+- `sCurrentCrewPed == pCar->field_54_driver` (the global on the left) gives the original's
   `cmp 0x54(%eax),%ecx`.
 
 Still different:
@@ -1198,7 +1198,7 @@ Matched (116 -> 0) with two changes:
   iterations: nothing.
 
 ### AmbulanceTask::HandleObjectiveState_4FAAC0 (0x4FAAC0): WIP 0.961
-- The paramedic crew loop. Each ped of the crew, through `gParamedicCrewPed_6F6D60`, walks to a patient in
+- The paramedic crew loop. Each ped of the crew, through `sParamedicCrewPed`, walks to a patient in
   `field_10`, revives them (cops come back as cops), then gets back in and leaves.
 - 0.485 -> 0.724: case order 14, 0, 28, 36, 16, 35. 0.835: the `field_225 == 1` branch of
   case 14 first, with an explicit `else` for the no-car path. 0.892: one `field_8 = pPatient`
@@ -1329,7 +1329,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 
 - `Camera::UpdateBoundaries_435B90` (0x435b90): no change. only diff: reg alloc in final field_20 = field_78 +/- kFpThreeQuarters_67691C block (right: field in eax/dword in edi swapped); operand order swaps have no effect; 9.6f-style rewrite (one v, checks on fields, v*=) much worse
 - `Car::HandleUserInput_4418D0` (0x4418d0): no change. only diff: 'cmp %bl,%al' (bl=0) vs our 'test %al,%al' after HandleRoofTurretRotation call; tried !=0, !=(char)0, ==true, !=field_B8, local zero var, combined condition; same in 9.6f
-- `CarManager::dtor_446DC0` (0x446dc0): no change. only diff: last delete (gSprite_Unused_677938) loads ptr into ecx then mov ecx->esi, ours esi then esi->ecx (TrafficSpawner delete just above uses esi in both). Dropping the if made it worse
+- `CarManager::dtor_446DC0` (0x446dc0): no change. only diff: last delete (sSpriteUnused) loads ptr into ecx then mov ecx->esi, ours esi then esi->ecx (TrafficSpawner delete just above uses esi in both). Dropping the if made it worse
 - `Ped::ComputeAimAngle_45C9D0` (0x45c9d0): no change. VC6 duplicates the return tail into the atan2 branch (forwarding the stored angle) where orig jmps to the shared reload tail; tried branch inversion, rValue stores, named temp, getter, 500 permuter iters
 - `Ped::Deallocate_45EB60` (0x45eb60): no change. bitfield b0 clear: orig dword load, and $0xFE,%al, dword store, scheduled after the timer store; ours and $-2 on edx with field_16C load hoisted. Tried &= masks, u8 cast, reorder, inline setter (bool/u8/s32)
 - `MenuItem::SelectPrevHorizontalIdx_4B6390` (0x4b6390): no change. original reloads field_6E in the loop compare (cmp 0x6E(%ecx),%ax), VC6 CSEs it to si in ours; same in 9.6f and in sibling 4B6330. Tried s16 old, swapping old/new init
@@ -2512,7 +2512,7 @@ Scores are `quick_score.sh` lines. `DrawGradientSlopeNorthwards_4F0420` 399 -> 0
 Scores are `quick_score.sh` lines (10.5) and `permuter_score.py --96f` lines (VC7 vs 9.6f).
 - `CarPhysics::UpdateZPhysics_55AD90` 84 -> 0 (**MATCH**), 9.6f 258 -> 24 first. 9.6f 0x4A2240 settled:
   `field_6C_cp3` read directly everywhere (no `cp3` copies, no reference: a function-scope `Fix16&` hoists the
-  `lea` in VC7), `g_air_z_vel_6FE0AC * a2` (global as left operand), `pCar->IsFlagSet_411930(0x2000)`, the slope test
+  `lea` in VC7), `sAirZVel * a2` (global as left operand), `pCar->IsFlagSet_411930(0x2000)`, the slope test
   as `!(slope && frac != 0 && zpos <= cp3 + k)` (9.6f calls `not_equals` then `<=`), `GetFracValue` as the 9.6f
   static `Fix16::GetFracValue_42A630(const Fix16&)` (a file-local static with the same body changed VC7's register
   allocation: it has to be a class member), and `ComputeSlopeCorrection_55AB50` with two real outputs: the old
@@ -2532,7 +2532,7 @@ Scores are `quick_score.sh` lines (10.5) and `permuter_score.py --96f` lines (VC
   the original inlines Abs(dx) with its negate, calls `Negate_4086A0` for Abs(dy) and `Max_44E540`; ours sends
   both negates out of line. `inlsim --scan`: +144 caller size, or exactly one top-level inline site fewer after
   the MaxAbs call (nested budget 5166/18 = 287 vs 271). All 18 later sites are 9.6f calls, so none can be a
-  field access. `pPed = gCurrentCrewPed_6FEDDC` reassignments (folded, no change), `pPed->SetObjective2` in the
+  field access. `pPed = sCurrentCrewPed` reassignments (folded, no change), `pPed->SetObjective2` in the
   pair (198/446), inverted `if (!criminal)` or a ternary for `field_8` (292/290, 9.6f worse).
 - `ComputeCollisionImpulse_55F3B0` (68, 9.6f 520): the natural 9.6f form (operators, `DotProductInlined`,
   `Square_49E0E0`, `Dir * (vel / mass)`) scores 470 against 9.6f and 348 against 10.5: 9.6f's `IsNull` returns
@@ -3711,7 +3711,7 @@ byte at the top of its dword, the original's at the bottom), so the use reads it
 masks where the original loads the dword and masks, plus two register choices.
 
 Later pass (34 by then -> 4, not matched): `u8 i;` uninitialised, `*(volatile u8*)&i = 0;` right after
-the `gCurrentCrewPed_6FEDDC` store, plain reads. Only the `movb $0` is one load late (the original
+the `sCurrentCrewPed` store, plain reads. Only the `movb $0` is one load late (the original
 has it between the `field_10` and `field_4` loads; a volatile store is a scheduling barrier, so a
 `pSub` local with the store between the two loads puts it before the `field_10` load: 6). Why a
 plain top definition gives `ebp` (found with a pop logger hooked at `0x1071AF86`, the colour loop's
@@ -3796,7 +3796,7 @@ Levers that did it, beyond what this file already lists:
 Near misses, new findings (not matched):
 
 - `PoliceCrew::State6_ShutDown_574720` (2 lines): `u8 i;` with no initialiser, accessed through
-  a `const u8&` inline, and `*(volatile u8*)&i = 0;` after the `gCurrentCrewPed_6FEDDC` store.
+  a `const u8&` inline, and `*(volatile u8*)&i = 0;` after the `sCurrentCrewPed` store.
   A volatile store isn't counted as a use of constant 0, so there's no `xor ebp,ebp`. Left: the
   original places `movb $0,8(%esp)` between the `field_10` and `field_4` loads; volatile stores keep
   their order relative to other stores, so it can't be moved there.
@@ -3860,7 +3860,7 @@ property of how the original's expressions nest, not of a local declaration.
 
 Round 5 findings from the other agents (not matched):
 
-- `PoliceCrew::State6_ShutDown_574720`: a plain `i = 0;` between the `gPoliceCrew_Unused_6FEB48 = 1` and `gCurrentCrewPed_6FEDDC` stores (with `i` read through the `const u8&` inline) puts `movb $0` exactly where the original has it, but the zero then takes `ebp`. priolog: zero at -41 (plain) / -85 (volatile), w=2, ebp in both. Making the other zero stores volatile doesn't help.
+- `PoliceCrew::State6_ShutDown_574720`: a plain `i = 0;` between the `gPoliceCrew_Unused_6FEB48 = 1` and `sCurrentCrewPed` stores (with `i` read through the `const u8&` inline) puts `movb $0` exactly where the original has it, but the zero then takes `ebp`. priolog: zero at -41 (plain) / -85 (volatile), w=2, ebp in both. Making the other zero stores volatile doesn't help.
 - `Map_0x370::CloneColumnWithoutBlock_4E8370` (8 at head): hoisting `new_idx`/`pNew` fixes the head; `column_idx` then goes to prio 9 / `ecx` instead of -7 / `eax`.
 - `Char::HandlePedCollision_548BD0`: `Ang16 res;` declared at the function top with `res = atan2(...)` at the `kAng180 + atan2` site gives the original's operand order but loads instead of `add (%eax),%cx`.
 - `TagGameHudUpdate_4DADA0`, `FreeLowestPriority_543690`, `GetLayout_4D6000`, `ProcessPoliceRadioWordsPlayback_427220`, `UpdateImmobilized_5520A0`: pointer-param inlines and more spellings tried, no change.
@@ -4764,7 +4764,7 @@ Analysis (9.6f 0x472110 disassembled from 9.6f.exe, VC7, not inlined, for shape 
 - priolog (scratch copy of the toolchain, not build_vc6) on the current source: the `zLayer << 14` CSE temp
   has prio 202 and takes ebp, so the column width (`layer_column_width`, ebp in the original) is spilled to
   0x28 in ours. The original's CSE temp is spilled, which means its web is live through the gZCoordFp block
-  without a reference there: in the original, `gZCoordFp_6F6518 = Fix16(zLayer)` does not reuse the top's
+  without a reference there: in the original, `sZCoordFp = Fix16(zLayer)` does not reuse the top's
   shl (it reloads zLayer and shifts again), and only `depth_bottom` reads the slot. Ours CSEs gZCoordFp with
   the top value. Every spelling of gZCoordFp tried still CSEs (see below), so this is the open point.
 
