@@ -862,7 +862,7 @@ void __stdcall ClearDebugFlags_4DB170()
     bSkip_fire_engines_67D53A = false;
     bSkip_window_check_67D54E = false;
     gDo_miss_logging_67D6BC = false;
-    byte_67D654 = false;
+    gDebugFlag_Unused_67D654 = false;
     bDo_police_1_67D568 = false;
     bDo_police_2_67D569 = false;
     bDo_police_3_67D56A = false;
