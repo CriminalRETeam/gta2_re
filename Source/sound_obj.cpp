@@ -54,8 +54,8 @@ DEFINE_GLOBAL(Fix16, kFpZero_674CD8, 0x674CD8);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_66F3F0, Fix16(0), 0x66F3F0);
 DEFINE_GLOBAL_INIT(Ang16, kMinCorneringAngle_66F274, Ang16(360), 0x66F274);
 DEFINE_GLOBAL_INIT(Ang16, kMaxCorneringAngle_66F370, Ang16(1080), 0x66F370);
-DEFINE_GLOBAL_INIT(Fix16, kMinCorneringSpeed_66F378, Fix16(0x40, 0), 0x66F378);
-DEFINE_GLOBAL_INIT(Fix16, kFp64_674DA8, Fix16(64), 0x674DA8);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kMinCorneringSpeed, Fix16(0x40, 0), 0x66F378);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFp64, Fix16(64), 0x674DA8);
 DEFINE_GLOBAL(u8, gSoundSwitchRadioCoolDown_6FF539, 0x6FF539);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_6FF3F4, Fix16(1), 0x6FF3F4);
 DEFINE_GLOBAL(bool, gSoundVocalsInited_6FF538, 0x6FF538);
@@ -63,23 +63,23 @@ DEFINE_GLOBAL_INIT(Fix16, kFpOne_66F3F4, Fix16(1), 0x66F3F4);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpFive_675414, Fix16(5), 0x675414);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_675400, Fix16(0), 0x675400);
-DEFINE_GLOBAL_INIT(Fix16, kFpZero_675220, kFpZero_675400, 0x675220);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpZero, kFpZero_675400, 0x675220);
 DEFINE_GLOBAL_INIT(Fix16, kFpSix_675418, Fix16(6), 0x675418);
-DEFINE_GLOBAL_INIT(Fix16, kFp400_6751F4, Fix16(400), 0x6751F4);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFp400, Fix16(400), 0x6751F4);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint01_66F3B4, Fix16(0xA3, 0), 0x66F3B4);
 DEFINE_GLOBAL_INIT(Fix16, kFpTwo_66F3F8, Fix16(2), 0x66F3F8);
-DEFINE_GLOBAL_INIT(Fix16, kFpPoint02_66F3C0, Fix16(0x147, 0), 0x66F3C0);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint02, Fix16(0x147, 0), 0x66F3C0);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint2_66F24C, Fix16(0xCCC, 0), 0x66F24C);
-DEFINE_GLOBAL_INIT(Fix16, kFpPoint004_66F490, Fix16(0x41, 0), 0x66F490);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint004, Fix16(0x41, 0), 0x66F490);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_66F2FC, Fix16(0x2000, 0), 0x66F2FC);
 DEFINE_GLOBAL_INIT(Fix16, kFpThree_66F3FC, Fix16(3), 0x66F3FC);
-DEFINE_GLOBAL_INIT(Fix16, kFp127_66F1CC, Fix16(127), 0x66F1CC);
-DEFINE_GLOBAL_INIT(Fix16, kFp100_674E18, Fix16(100), 0x674E18);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFp127, Fix16(127), 0x66F1CC);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFp100, Fix16(100), 0x674E18);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpFive_66F404, Fix16(5), 0x66F404);
 DEFINE_GLOBAL_INIT(Fix16, kFpFive_66F1D0, kFpFive_66F404, 0x66F1D0);
-DEFINE_GLOBAL_INIT(Fix16, kFpFive_66F220, kFpFive_66F1D0, 0x66F220);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpFive, kFpFive_66F1D0, 0x66F220);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_66F258, Fix16(0x2000, 0), 0x66F258);
 
 const char_type kHornPatterns_5FE434[8][44] = {
@@ -1320,7 +1320,7 @@ u8 sound_obj::GetCollisionVolume_413A10(CollisionEvent* pEvent)
                 goto return_zero;
             }
             pEvent->field_24_impact_strength = pEvent->field_10_car->GetCarLinearSpeed_43A240();
-            if (pEvent->field_24_impact_strength < kFpPoint02_66F3C0)
+            if (pEvent->field_24_impact_strength < kFpPoint02)
             {
                 return 0;
             }
@@ -1332,7 +1332,7 @@ u8 sound_obj::GetCollisionVolume_413A10(CollisionEvent* pEvent)
             break;
 
         case collision_event_type::car_ped_4:
-            if (pEvent->field_24_impact_strength < kFpPoint004_66F490)
+            if (pEvent->field_24_impact_strength < kFpPoint004)
             {
                 return 0;
             }
@@ -1359,7 +1359,7 @@ u8 sound_obj::GetCollisionVolume_413A10(CollisionEvent* pEvent)
         default:
             return this->field_1454_anRandomTable[static_cast<u8>(++sCollisionVolumeRngIndex) % 5] % 0xAu + 5;
     }
-    return Fix16::Round_To_Int_410BF0(ratio * kFp127_66F1CC);
+    return Fix16::Round_To_Int_410BF0(ratio * kFp127);
 }
 
 MATCH_FUNC(0x413B90)
@@ -2016,7 +2016,7 @@ void sound_obj::HandleCarEngineSound_4157C0(Sound_Params* pParams)
                     return;
                 }
 
-                max_speed = kFpFive_66F220;
+                max_speed = kFpFive;
                 if (!pCar->field_58_physics->field_94_is_backward_gas_on)
                 {
                     max_speed = kFpFive_66F1D0;
@@ -2113,7 +2113,7 @@ bool sound_obj::Type_1_6_InitCarEngineOrDamageSound_416260(sound_0x68* pSound)
             {
                 if (speed == kFpZero_66F3F0)
                 {
-                    max_speed = kFpFive_66F220;
+                    max_speed = kFpFive;
                     if (!pCar->field_58_physics->is_backward_gas_on_411810())
                     {
                         max_speed = kFpFive_66F1D0;
@@ -2720,7 +2720,7 @@ void sound_obj::HandleTruckCorneringAudio_417FD0(Sound_Params* pParams)
     Ang16 slide_angle = pPhysics->field_40_linvel_1.atan2_40F790().SubtractNormalized_409340(pPhysics->field_58_theta);
     if (slide_angle > kMinCorneringAngle_66F274 && slide_angle < kMaxCorneringAngle_66F370)
     {
-        if (pCar->GetCarLinearSpeed_43A240() > kMinCorneringSpeed_66F378)
+        if (pCar->GetCarLinearSpeed_43A240() > kMinCorneringSpeed)
         {
             switch (pParams->field_0_pObj->field_8_car_bc_ptr->field_84_car_info_idx)
             {
@@ -3905,7 +3905,7 @@ MATCH_FUNC(0x41A4A0)
 u8 sound_obj::ComputePan_41A4A0(Fix16 intensity, Fix16 x_offset) const
 {
     LOCAL_STATIC_ARRAY_INIT(u8, sPanTable, 64, 0x61A688, 0 COMMA 3 COMMA 8 COMMA 12 COMMA 16 COMMA 19 COMMA 22 COMMA 24 COMMA 26 COMMA 28 COMMA 30 COMMA 31 COMMA 33 COMMA 34 COMMA 36 COMMA 37 COMMA 39 COMMA 40 COMMA 41 COMMA 42 COMMA 44 COMMA 45 COMMA 46 COMMA 47 COMMA 48 COMMA 49 COMMA 49 COMMA 50 COMMA 51 COMMA 52 COMMA 53 COMMA 53 COMMA 54 COMMA 55 COMMA 55 COMMA 56 COMMA 56 COMMA 57 COMMA 57 COMMA 58 COMMA 58 COMMA 58 COMMA 59 COMMA 59 COMMA 59 COMMA 60 COMMA 60 COMMA 61 COMMA 61 COMMA 61 COMMA 61 COMMA 62 COMMA 62 COMMA 62 COMMA 62 COMMA 62 COMMA 63 COMMA 63 COMMA 63 COMMA 63 COMMA 63 COMMA 63 COMMA 63 COMMA 63);
-    Fix16 half_width = intensity / kFp64_674DA8;
+    Fix16 half_width = intensity / kFp64;
     if (half_width == kFpZero_674CD8)
     {
         return 63;
@@ -3958,7 +3958,7 @@ s32 sound_obj::AdjustPlaybackRate_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, F
         // q and rate are assigned, not initialised: that keeps them as register locals
         // (q moved to ecx before the imul, snd_rate << 14 held in esi across the divide)
         Fix16 q;
-        q = Fix16(zpos.mValue) / kFp100_674E18;
+        q = Fix16(zpos.mValue) / kFp100;
         s32 relative_speed = (((ypos - xpos) * q) / Fix16(field_C_doppler_divisor, 0)).mValue;
         s32 a = relative_speed > 0 ? relative_speed : -relative_speed;
         if (a >= field_4_speed_of_sound)
@@ -5525,7 +5525,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params* pParams)
     Char* pChar = pParams->field_0_pObj->field_8_char_b4_ptr;
     if (pChar->field_7C_pPed)
     {
-        if (!gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0() && pChar->get_velocity_41B080() > kFpZero_675220)
+        if (!gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0() && pChar->get_velocity_41B080() > kFpZero)
         {
             const u32 animation_state = pChar->field_6C_animation_state;
             if (animation_state == 4 || animation_state == 1 || animation_state == 0)
@@ -5684,7 +5684,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params* pParams)
                     rate = gSampManager_6FFF00.GetPlayBackRate_58DBF0(193);
                     this->field_30_sQueueSample.field_20_rate = rate;
                     this->field_30_sQueueSample.field_20_rate =
-                        rate + Fix16::Round_To_Int_410BF0(pParams->field_0_pObj->field_1C_zpos * kFp400_6751F4);
+                        rate + Fix16::Round_To_Int_410BF0(pParams->field_0_pObj->field_1C_zpos * kFp400);
                     break;
                 }
                 // fall through: zpos too low, play the ped voice instead
