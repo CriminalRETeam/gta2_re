@@ -26,9 +26,6 @@ EXTERN_GLOBAL(u32, gLightingDrawFlag_7068F4);
 EXTERN_GLOBAL(s32, window_width_706630);
 EXTERN_GLOBAL(s32, window_height_706B50);
 
-DEFINE_GLOBAL(DWORD, gWindowRight_70675C, 0x70675C);
-DEFINE_GLOBAL(DWORD, gWindowBottom_70679C, 0x70679C);
-
 MATCH_FUNC(0x495470)
 void __stdcall DrawTextureScaled_495470(STexture* pTexture, Fix16 x_pos, Fix16 y_pos, u8 width, u8 height, Ang16 rotation, s32 alpha_value, u8 alpha_flag)
 {
@@ -131,6 +128,8 @@ void __stdcall ConvertColourBanks_5D7CC0()
 MATCH_FUNC(0x5D7D30)
 void __stdcall MakeScreenTableAndSetWindow_5D7D30()
 {
+    LOCAL_STATIC(DWORD, sWindowBottom, 0x70679C);
+    LOCAL_STATIC(DWORD, sWindowRight, 0x70675C);
     pVid_GetSurface(gVidSys_7071D0);
     pMakeScreenTable(reinterpret_cast<s32>(gVidSys_7071D0->field_50_surface_pixels_ptr),
                      gVidSys_7071D0->field_54_surface_pixels_pitch,
@@ -138,16 +137,16 @@ void __stdcall MakeScreenTableAndSetWindow_5D7D30()
 
     if (gVidSys_7071D0->field_40_full_screen == -2)
     {
-        gWindowRight_70675C = window_width_706630 - 1;
-        gWindowBottom_70679C = window_height_706B50 - 1;
+        sWindowRight = window_width_706630 - 1;
+        sWindowBottom = window_height_706B50 - 1;
     }
     else
     {
-        gWindowRight_70675C = gVidSys_7071D0->field_48_rect_right - 1;
-        gWindowBottom_70679C = gVidSys_7071D0->field_4C_rect_bottom - 1;
+        sWindowRight = gVidSys_7071D0->field_48_rect_right - 1;
+        sWindowBottom = gVidSys_7071D0->field_4C_rect_bottom - 1;
     }
 
-    pgbh_SetWindow(0, 0, static_cast<f32>(gWindowRight_70675C), static_cast<f32>(gWindowBottom_70679C));
+    pgbh_SetWindow(0, 0, static_cast<f32>(sWindowRight), static_cast<f32>(sWindowBottom));
 }
 
 // https://decomp.me/scratch/Zmms7
