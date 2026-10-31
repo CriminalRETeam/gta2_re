@@ -138,6 +138,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Gang, 0x144);
 class GangPool
 {
   public:
+    STATIC_MEMBER(s32, sGangIdx);
     GangPool()
     {
     }

@@ -7,7 +7,7 @@
 #include <string.h>
 
 DEFINE_GLOBAL(GangPool*, gGangPool_CA8_67E274, 0x67E274);
-DEFINE_GLOBAL_INIT(s32, gGangIdx_6206B8, -1, 0x6206B8);
+DEFINE_STATIC_MEMBER_INIT(s32, GangPool, sGangIdx, -1, 0x6206B8);
 
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
@@ -30,11 +30,11 @@ GangPool::~GangPool()
 MATCH_FUNC(0x4beca0)
 Gang* GangPool::FirstGang_4BECA0()
 {
-    for (gGangIdx_6206B8 = 0; gGangIdx_6206B8 < GTA2_COUNTOF_S(field_0_gang_list); gGangIdx_6206B8++)
+    for (sGangIdx = 0; sGangIdx < GTA2_COUNTOF_S(field_0_gang_list); sGangIdx++)
     {
-        if (field_0_gang_list[gGangIdx_6206B8].field_0_used && field_0_gang_list[gGangIdx_6206B8].HasKillRespectChange_45DD50())
+        if (field_0_gang_list[sGangIdx].field_0_used && field_0_gang_list[sGangIdx].HasKillRespectChange_45DD50())
         {
-            return &field_0_gang_list[gGangIdx_6206B8];
+            return &field_0_gang_list[sGangIdx];
         }
     }
     return NULL;
@@ -43,11 +43,11 @@ Gang* GangPool::FirstGang_4BECA0()
 MATCH_FUNC(0x4bece0)
 Gang* GangPool::NextGang_4BECE0()
 {
-    while (++gGangIdx_6206B8 < GTA2_COUNTOF_S(field_0_gang_list))
+    while (++sGangIdx < GTA2_COUNTOF_S(field_0_gang_list))
     {
-        if (field_0_gang_list[gGangIdx_6206B8].field_0_used && field_0_gang_list[gGangIdx_6206B8].HasKillRespectChange_45DD50())
+        if (field_0_gang_list[sGangIdx].field_0_used && field_0_gang_list[sGangIdx].HasKillRespectChange_45DD50())
         {
-            return &field_0_gang_list[gGangIdx_6206B8];
+            return &field_0_gang_list[sGangIdx];
         }
     }
     return NULL;
