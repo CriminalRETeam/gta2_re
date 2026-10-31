@@ -17,7 +17,7 @@
 DEFINE_GLOBAL(AmbulanceService*, gAmbulance_110_6F70A8, 0x6F70A8);
 
 DEFINE_GLOBAL(class Ped*, gParamedicCrewPed_6F6D60, 0x6F6D60);
-DEFINE_GLOBAL_INIT(Fix16, gParamedicRunSpeed_6F6DD4, Fix16(0x1999, 0), 0x6F6DD4);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, sParamedicRunSpeed, Fix16(0x1999, 0), 0x6F6DD4);
 
 MATCH_FUNC(0x4beab0)
 AmbulanceTask::AmbulanceTask()
@@ -306,7 +306,7 @@ bool AmbulanceTask::SpawnParamedicCrew_4FA820()
     pPed1->field_288_threat_search = threat_search_enum::no_threats_0;
     pPed1->set_remap_433B90(ped_remap_enum::ped_remap_medic);
     pPed1->field_26C_graphic_type = ped_graphic_type::civilian_0;
-    pPed1->field_1F8_run_speed = gParamedicRunSpeed_6F6DD4;
+    pPed1->field_1F8_run_speed = sParamedicRunSpeed;
 
     Ped* pPed2 = gPedManager_6787BC->AllocatePed_470F30();
     if (!pPed2)
