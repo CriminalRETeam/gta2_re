@@ -34,13 +34,13 @@ struct mini_device_obj_data
 
 DEFINE_GLOBAL(InputRecorder_67F8B0, gInputRecorder_67F8B0, 0x67F8B0);
 DEFINE_GLOBAL(InputDevices*, gInputDevices_67B990, 0x67B990);
-DEFINE_GLOBAL(DWORD, gDeviceDataCount_67B624, 0x67B624);
-DEFINE_GLOBAL(u8, gAltKeyDown_67B80C, 0x67B80C);
-DEFINE_GLOBAL(bool, gNeedKbAcquire_67B66C, 0x67B66C);
+DEFINE_STATIC_MEMBER(DWORD, InputDevices, sDeviceDataCount, 0x67B624);
+DEFINE_STATIC_MEMBER(u8, InputDevices, sAltKeyDown, 0x67B80C);
+DEFINE_STATIC_MEMBER(bool, InputDevices, sNeedKbAcquire, 0x67B66C);
 DEFINE_STATIC_GLOBAL(mini_device_obj_data, sGamePadDeviceData, 0x67B5B0);
 
-DEFINE_GLOBAL_ARRAY(s32, gControlDeviceType_67B91C, 12, 0x67B91C);
-DEFINE_GLOBAL_ARRAY(s32, gPlayerControlsBinding_67B6E8, 12, 0x67B6E8);
+DEFINE_STATIC_MEMBER_ARRAY(s32, InputDevices, sControlDeviceType, 12, 0x67B91C);
+DEFINE_STATIC_MEMBER_ARRAY(s32, InputDevices, sPlayerControlsBinding, 12, 0x67B6E8);
 
 EXTERN_GLOBAL(DIDATAFORMAT, gKeyboardDataFormat_601A54);
 EXTERN_GLOBAL(HINSTANCE, gHInstance_708220);
@@ -59,14 +59,14 @@ bool InputDevices::acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDevi
         return false;
     }
 
-    if (gNeedKbAcquire_67B66C && FAILED(gKeyboardDevice_67B5C0->Acquire()))
+    if (sNeedKbAcquire && FAILED(gKeyboardDevice_67B5C0->Acquire()))
     {
         return false;
     }
 
-    gDeviceDataCount_67B624 = -1;
+    sDeviceDataCount = -1;
 
-    const HRESULT hr = pGamePadDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), NULL, &gDeviceDataCount_67B624, DIGDD_PEEK);
+    const HRESULT hr = pGamePadDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), NULL, &sDeviceDataCount, DIGDD_PEEK);
     if (hr == DIERR_INPUTLOST || hr == DIERR_NOTACQUIRED)
     {
         return SUCCEEDED(pGamePadDevice->Acquire()) ? true : false;
@@ -100,7 +100,7 @@ BOOL __stdcall InputDevices::make_input_devices_498800(HINSTANCE hInstance)
 {
     DIPROPDWORD prop;
 
-    gNeedKbAcquire_67B66C = false;
+    sNeedKbAcquire = false;
 
     if (FAILED(gpDInput_67B804->CreateDevice(GUID_SysKeyboard, &gKeyboardDevice_67B5C0, NULL)))
     {
@@ -288,8 +288,8 @@ void InputDevices::get_registry_controls_498C00()
     for (u32 i = 0; i < 12; ++i)
     {
         const u32 setting = gRegistry_6FF968.Get_Control_Setting_587010(i, sDefaultControls[i]);
-        gControlDeviceType_67B91C[i] = setting >> 15;
-        gPlayerControlsBinding_67B6E8[i] = static_cast<u8>(setting);
+        sControlDeviceType[i] = setting >> 15;
+        sPlayerControlsBinding[i] = static_cast<u8>(setting);
     }
 }
 
@@ -298,11 +298,11 @@ void __stdcall InputDevices::input_devices_init_498C40(HINSTANCE hInstance)
 {
     get_registry_controls_498C00();
 
-    gAltKeyDown_67B80C = 0;
+    sAltKeyDown = 0;
 
     if (!make_input_devices_498800(hInstance))
     {
-        gNeedKbAcquire_67B66C = true;
+        sNeedKbAcquire = true;
     }
     game_pads_init_498BA0();
 }
@@ -325,27 +325,27 @@ void InputDevices::SetAltKeyState_498CB0(u32 alt_down)
     // the expression forms all give a byte load or `and $1`
     if (alt_down & 0x80)
     {
-        gAltKeyDown_67B80C = 1;
+        sAltKeyDown = 1;
     }
     else
     {
-        gAltKeyDown_67B80C = 0;
+        sAltKeyDown = 0;
     }
 }
 
 MATCH_FUNC(0x498CC0)
 void InputDevices::flush_keyboard_and_gamepad_498CC0()
 {
-    gDeviceDataCount_67B624 = -1;
+    sDeviceDataCount = -1;
     if (gKeyboardDevice_67B5C0)
     {
-        gKeyboardDevice_67B5C0->GetDeviceData(16, NULL, &gDeviceDataCount_67B624, 0);
+        gKeyboardDevice_67B5C0->GetDeviceData(16, NULL, &sDeviceDataCount, 0);
     }
 
-    gDeviceDataCount_67B624 = -1;
+    sDeviceDataCount = -1;
     if (gGamePadDevice_67B6C0)
     {
-        gGamePadDevice_67B6C0->GetDeviceData(16, NULL, &gDeviceDataCount_67B624, 0);
+        gGamePadDevice_67B6C0->GetDeviceData(16, NULL, &sDeviceDataCount, 0);
     }
 }
 
@@ -391,26 +391,26 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
             HRESULT padResult;
             bool bHandled = false;
 
-            gDeviceDataCount_67B624 = 0;
+            sDeviceDataCount = 0;
             if (gKeyboardDevice_67B5C0)
             {
-                gDeviceDataCount_67B624 = 1;
-                kbResult = gKeyboardDevice_67B5C0->GetDeviceData(16, &sKeyboardDeviceData, &gDeviceDataCount_67B624, 0);
+                sDeviceDataCount = 1;
+                kbResult = gKeyboardDevice_67B5C0->GetDeviceData(16, &sKeyboardDeviceData, &sDeviceDataCount, 0);
             }
             else
             {
                 kbResult = -1;
             }
 
-            if (gGamePadDevice_67B6C0 && !gDeviceDataCount_67B624)
+            if (gGamePadDevice_67B6C0 && !sDeviceDataCount)
             {
-                gDeviceDataCount_67B624 = 1;
+                sDeviceDataCount = 1;
                 gGamePadDevice_67B6C0->GetDeviceData(16, NULL, &padItems, DIGDD_PEEK);
                 padResult = gGamePadDevice_67B6C0->GetDeviceData(16,
                                                                  reinterpret_cast<DIDEVICEOBJECTDATA*>(&sGamePadDeviceData),
-                                                                 &gDeviceDataCount_67B624,
+                                                                 &sDeviceDataCount,
                                                                  0);
-                if (bLog_directinput_67D6C0 && gDeviceDataCount_67B624 > 0)
+                if (bLog_directinput_67D6C0 && sDeviceDataCount > 0)
                 {
                     sprintf(gTmpBuffer_67C598,
                             "%d: input num_items = %d dwOfs = %d; data = %d",
@@ -427,7 +427,7 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
                 padItems = 0;
             }
 
-            if ((kbResult < 0 && padResult < 0) || gDeviceDataCount_67B624 <= 0)
+            if ((kbResult < 0 && padResult < 0) || sDeviceDataCount <= 0)
             {
                 return;
             }
@@ -438,7 +438,7 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
             }
             else if ((sKeyboardDeviceData.dwOfs == DIK_SPACE || sKeyboardDeviceData.dwOfs == DIK_TAB ||
                       sKeyboardDeviceData.dwOfs == DIK_RETURN) &&
-                     gAltKeyDown_67B80C == 1)
+                     sAltKeyDown == 1)
             {
                 return;
             }
@@ -452,8 +452,8 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
                 {
                     // Reset for every input, so only the last binding (input 11) counts
                     bHandled = false;
-                    if (kbResult == 0 && gControlDeviceType_67B91C[input] == 0 &&
-                        static_cast<u32>(gPlayerControlsBinding_67B6E8[input]) == sKeyboardDeviceData.dwOfs)
+                    if (kbResult == 0 && sControlDeviceType[input] == 0 &&
+                        static_cast<u32>(sPlayerControlsBinding[input]) == sKeyboardDeviceData.dwOfs)
                     {
                         // Keyboard binding
                         bHandled = true;
@@ -472,10 +472,10 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
                             }
                         }
                     }
-                    else if (padResult == 0 && gControlDeviceType_67B91C[input] == 1)
+                    else if (padResult == 0 && sControlDeviceType[input] == 1)
                     {
                         // Gamepad binding
-                        s32 binding = gPlayerControlsBinding_67B6E8[input];
+                        s32 binding = sPlayerControlsBinding[input];
                         bool bPressed = false;
                         bool bRelease = false;
                         bReleased = 0;

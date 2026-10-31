@@ -25,6 +25,11 @@ enum ReplayState
 class InputDevices
 {
   public:
+    STATIC_MEMBER_ARRAY(s32, sPlayerControlsBinding, 12);
+    STATIC_MEMBER(bool, sNeedKbAcquire);
+    STATIC_MEMBER(DWORD, sDeviceDataCount);
+    STATIC_MEMBER_ARRAY(s32, sControlDeviceType, 12);
+    STATIC_MEMBER(u8, sAltKeyDown);
     EXPORT void __stdcall free_input_devices_4987A0();
 
     EXPORT void flush_keyboard_and_gamepad_498CC0();
