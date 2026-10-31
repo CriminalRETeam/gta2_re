@@ -17,10 +17,10 @@
 EXPORT void __stdcall SmoothApproachAngle_405CE0(Fix16& target_angle, Fix16& angle_speed, Fix16& angle, Fix16& accel, Fix16& max_speed);
 EXPORT void __stdcall SmoothApproach_4F7540(Fix16& Coord_1, Fix16& Velocity_1, Fix16& Coord_2, Fix16& Velocity_2, Fix16& Velocity_3);
 
-DEFINE_GLOBAL_INIT(Fix16, kHomeHookRadius_679E58, Fix16(0x2000, 0), 0x679E58);
+DEFINE_STATIC_MEMBER_INIT(Fix16, Crane, kHomeHookRadius, Fix16(0x2000, 0), 0x679E58);
 DEFINE_GLOBAL_INIT(Fix16, kZero_679E70, Fix16(0), 0x679E70);
 DEFINE_GLOBAL_INIT(Fix16, kFpTwo_679E78, Fix16(2), 0x679E78);
-DEFINE_GLOBAL_INIT(Fix16, kFpTwo_679C78, kFpTwo_679E78, 0x679C78);
+DEFINE_STATIC_MEMBER_INIT(Fix16, Crane, kFpTwo, kFpTwo_679E78, 0x679C78);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_679FC4, Ang16(0), 0x679FC4);
 DEFINE_GLOBAL(CranePool*, gCranePool_D9C_679FD4, 0x679FD4);
 DEFINE_GLOBAL_INIT(Fix16, kHomeHookAxialAngle_679D50, kZero_679E70, 0x679D50);
@@ -242,7 +242,7 @@ void Crane::HookTransporterCargo_47EDF0()
         this->field_110_drop_angle = WrapAngle_40E790(field_8C_crane_angle + kAngFix16HalfCircle_679EB8);
         this->field_118_drop_rot = field_A0_hook_axial_angle;
         this->field_8_drop_offset = this->field_10_hooked_sprite_offset;
-        this->field_11C_drop_hook_depth = kFpTwo_679C78;
+        this->field_11C_drop_hook_depth = kFpTwo;
     }
 }
 
@@ -313,7 +313,7 @@ void Crane::DropInPlaceOrReturnHome_47F170()
         field_114_drop_radius = field_90_hook_radius;
         field_110_drop_angle = field_8C_crane_angle;
         field_118_drop_rot = field_A0_hook_axial_angle;
-        field_11C_drop_hook_depth = kFpTwo_679C78;
+        field_11C_drop_hook_depth = kFpTwo;
         field_B0_hook_radius_target = field_90_hook_radius;
         field_AC_crane_angle_target = field_8C_crane_angle;
         field_B4_hook_angle_target = field_A0_hook_axial_angle;
@@ -321,7 +321,7 @@ void Crane::DropInPlaceOrReturnHome_47F170()
     }
     else
     {
-        field_B0_hook_radius_target = kHomeHookRadius_679E58;
+        field_B0_hook_radius_target = kHomeHookRadius;
         field_AC_crane_angle_target = field_A8_home_angle;
         field_B4_hook_angle_target = kHomeHookAxialAngle_679D50;
         field_B8_hook_depth_target = kZero_679E70;
@@ -845,7 +845,7 @@ void Crane::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type obj_id)
     field_5C_counterweight_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_counterweight_140, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
     field_54_hook_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_hook_136, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
 
-    field_58_crane_base_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_base_137, x_pos, y_pos, field_80_ground_z - kFpTwo_679C78, kAngZero_679FC4);
+    field_58_crane_base_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_base_137, x_pos, y_pos, field_80_ground_z - kFpTwo, kAngZero_679FC4);
     field_58_crane_base_obj->SetParam_447E90(obj_id);
     field_78_home_crane = NULL;
     field_94_hook_radius_speed = kZero_679E70;
@@ -853,7 +853,7 @@ void Crane::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type obj_id)
     field_9C_unused = kZero_679E70;
     field_A8_home_angle = kZero_679E70;
     field_8C_crane_angle = kZero_679E70;
-    field_90_hook_radius = kHomeHookRadius_679E58;
+    field_90_hook_radius = kHomeHookRadius;
     field_84_hook_depth = kZero_679E70;
     field_88_hook_depth_speed = kZero_679E70;
     field_A0_hook_axial_angle = kZero_679E70;

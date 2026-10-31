@@ -12,6 +12,8 @@ class Car;
 class Crane
 {
   public:
+    STATIC_MEMBER(Fix16, kHomeHookRadius);
+    STATIC_MEMBER(Fix16, kFpTwo);
     // 9.6f 0x447F60
     inline void SetDisabled_447F60(s32 v)
     {
