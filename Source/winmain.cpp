@@ -87,8 +87,6 @@ DEFINE_GLOBAL(u32, gNet_Unused_6F5B00, 0x6F5B00);
 DEFINE_GLOBAL(u32, gNet_Unused_6F580C, 0x6F580C);
 DEFINE_GLOBAL(u32, gNet_Unused_6F5AC0, 0x6F5AC0);
 DEFINE_GLOBAL(s32, gFramesOfCurrSecond_6F5858, 0x6F5858);
-DEFINE_GLOBAL(s32, gNetTimerBlinkCounter_6F5B74, 0x6F5B74);
-DEFINE_GLOBAL(s32, gNetTimerSeconds_6F5944, 0x6F5944);
 DEFINE_GLOBAL(u8, gNetTimerFlashing_6F59C0, 0x6F59C0);
 DEFINE_GLOBAL(NetworkGameSettings, gNetworkGameSettings_707098, 0x707098);
 
@@ -350,7 +348,6 @@ DEFINE_GLOBAL(u32, gBufferMode_706B34, 0x706B34);
 DEFINE_GLOBAL_ARRAY(char_type, gRenderDllName_7067F0, 256, 0x7067F0);
 DEFINE_GLOBAL_ARRAY(char_type, gVideoDllName_706654, 256, 0x706654);
 DEFINE_GLOBAL(s32, gVideodevice_70694C, 0x70694C);
-DEFINE_GLOBAL(s32, gRenderdevice_706998, 0x706998);
 DEFINE_GLOBAL(u16, gDMusicVer_67BD32, 0x67BD32);
 
 DEFINE_GLOBAL_INIT(char_type, gLighting_626A09, 1, 0x626A09);
@@ -1015,9 +1012,6 @@ void __stdcall Draw_4DA7B0()
     }
 }
 
-DEFINE_GLOBAL(Network_PlayerInputs, gNetInputsHistory1_6F56E0, 0x6F56E0);
-DEFINE_GLOBAL(Network_PlayerInputs, gNetInputsHistory2_6F5798, 0x6F5798);
-
 // Re-sends our inputs of a previous frame to one player.
 MATCH_FUNC(0x4DA9B0)
 EXPORT void __stdcall NetSendOldInputs_4DA9B0(Network_InputData* pInputs, s32 delayed_ticks, u8 player_idx)
@@ -1030,12 +1024,14 @@ EXPORT void __stdcall NetSendOldInputs_4DA9B0(Network_InputData* pInputs, s32 de
 MATCH_FUNC(0x4DA9F0)
 EXPORT void Net_Receive_Players_Inputs_4DA9F0()
 {
+    LOCAL_STATIC(Network_PlayerInputs, sNetInputsHistory1, 0x6F56E0);
+    LOCAL_STATIC(Network_PlayerInputs, sNetInputsHistory2, 0x6F5798);
     s32 retries = 0;
     s32 max_retries = bRecordStartTime_6F593C ? 25 : 6;
 
     // Update previous stored inputs
-    memcpy(&gNetInputsHistory2_6F5798, &gNetInputsHistory1_6F56E0, sizeof(gNetInputsHistory2_6F5798));
-    memcpy(&gNetInputsHistory1_6F56E0, &gCurrentNetInputs_6F57D8, sizeof(gNetInputsHistory1_6F56E0));
+    memcpy(&sNetInputsHistory2, &sNetInputsHistory1, sizeof(sNetInputsHistory2));
+    memcpy(&sNetInputsHistory1, &gCurrentNetInputs_6F57D8, sizeof(sNetInputsHistory1));
 
     // Check which players we are waiting for
     u32 waiting_bits = 0;
@@ -1137,8 +1133,8 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
             {
                 if (waiting_bits & (1 << k))
                 {
-                    NetSendOldInputs_4DA9B0(&gNetInputsHistory1_6F56E0.field_0_inputs[gNetworkPlayerIdx_6F56C8], 1, k);
-                    NetSendOldInputs_4DA9B0(&gNetInputsHistory2_6F5798.field_0_inputs[gNetworkPlayerIdx_6F56C8], 2, k);
+                    NetSendOldInputs_4DA9B0(&sNetInputsHistory1.field_0_inputs[gNetworkPlayerIdx_6F56C8], 1, k);
+                    NetSendOldInputs_4DA9B0(&sNetInputsHistory2.field_0_inputs[gNetworkPlayerIdx_6F56C8], 2, k);
                 }
             }
         }
@@ -1304,6 +1300,8 @@ EXPORT void Net_Set_Local_Player_Inputs_4DAD50()
 MATCH_FUNC(0x4DADA0)
 EXPORT void ManageNetworkTimeAndHudPager_4DADA0()
 {
+    LOCAL_STATIC(s32, sNetTimerBlinkCounter, 0x6F5B74);
+    LOCAL_STATIC(s32, sNetTimerSeconds, 0x6F5944);
     if (gNetTimeLimitEnabled_6F58A4)
     {
         if (++gFramesOfCurrSecond_6F5858 >= 30) // If a second has passed
@@ -1336,7 +1334,7 @@ EXPORT void ManageNetworkTimeAndHudPager_4DADA0()
             if (!gNetTimerFlashing_6F59C0)
             {
                 bShow = true;
-                gNetTimerBlinkCounter_6F5B74 = 59;
+                sNetTimerBlinkCounter = 59;
                 gNetTimerFlashing_6F59C0 = 1;
             }
             else
@@ -1347,25 +1345,25 @@ EXPORT void ManageNetworkTimeAndHudPager_4DADA0()
         if (!bShow)
         {
             gNetTimerFlashing_6F59C0 = 0;
-            gNetTimerBlinkCounter_6F5B74 = 0;
+            sNetTimerBlinkCounter = 0;
         }
         else
         {
-            if (gNetTimerBlinkCounter_6F5B74 > 0)
+            if (sNetTimerBlinkCounter > 0)
             {
-                if (((gNetTimerBlinkCounter_6F5B74 / 5) & 1) == 0)
+                if (((sNetTimerBlinkCounter / 5) & 1) == 0)
                 {
                     bShow = false;
                 }
-                gNetTimerBlinkCounter_6F5B74--;
+                sNetTimerBlinkCounter--;
             }
 
             if (bShow)
             {
-                gNetTimerSeconds_6F5944 = minutes * 60 + seconds;
+                sNetTimerSeconds = minutes * 60 + seconds;
                 if (gHudTimerIdx_6F5860 == -1)
                 {
-                    gHudTimerIdx_6F5860 = gHud_2B00_706620->field_620_pagers.CreateTimer_5D31F0(gNetTimerSeconds_6F5944);
+                    gHudTimerIdx_6F5860 = gHud_2B00_706620->field_620_pagers.CreateTimer_5D31F0(sNetTimerSeconds);
                 }
                 return;
             }
@@ -1718,7 +1716,8 @@ const char_type* kDefaultDllNames_626A00[2] = {"d3ddll.dll", "dmavideo.dll"};
 MATCH_FUNC(0x5D90E0)
 EXPORT void __stdcall Video_Render_Inits_5D90E0()
 {
-    gRenderdevice_706998 = gRegistry_6FF968.Get_Screen_Setting_5870D0("renderdevice", 1);
+    LOCAL_STATIC(s32, sRenderdevice, 0x706998);
+    sRenderdevice = gRegistry_6FF968.Get_Screen_Setting_5870D0("renderdevice", 1);
     gVideodevice_70694C = gRegistry_6FF968.Get_Screen_Setting_5870D0("videodevice", 1);
     strcpy(gRenderDllName_7067F0, kDefaultDllNames_626A00[0]);
     strcpy(gVideoDllName_706654, kDefaultDllNames_626A00[1]);
