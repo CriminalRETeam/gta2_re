@@ -5879,7 +5879,7 @@ bool Car::PoolUpdate()
                 }
             }
             field_5C_AI->field_68_car_in_collision = NULL;
-            field_5C_AI->field_24_bf.bFlag12 = false;
+            field_5C_AI->field_24_bf.bCollidedWithCar = false;
         }
         ServicePhysics_442190();
     }

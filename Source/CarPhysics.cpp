@@ -2665,13 +2665,13 @@ void CarPhysics::HandleCarCollision_55FF20(Car* pOtherCar)
 
     if (field_5C_pCar->field_5C_AI)
     {
-        field_5C_pCar->field_5C_AI->field_24_bf.bFlag12 = true;
+        field_5C_pCar->field_5C_AI->field_24_bf.bCollidedWithCar = true;
         field_5C_pCar->field_5C_AI->field_68_car_in_collision = pOtherCar;
     }
 
     if (pOtherCar->field_5C_AI)
     {
-        pOtherCar->field_5C_AI->field_24_bf.bFlag12 = true;
+        pOtherCar->field_5C_AI->field_24_bf.bCollidedWithCar = true;
         pOtherCar->field_5C_AI->field_68_car_in_collision = field_5C_pCar;
     }
 }
@@ -3406,7 +3406,7 @@ void CarPhysics::ApplyArrowSteerAssist_5626F0()
     Fix16 theta_fp = Ang16::Ang16_to_Fix16(field_58_theta);
     gArrowSteerAngVel_6FE0B0 = kFP16Zero_6FE20C;
     CarAI* pAi = this->field_5C_pCar->field_5C_AI;
-    if ((!pAi || pAi->field_24_bf.bFlag13) && this->field_78_pointing_ang_rad == kFP16Zero_6FE20C)
+    if ((!pAi || pAi->field_24_bf.bArrowSteerAssist) && this->field_78_pointing_ang_rad == kFP16Zero_6FE20C)
     {
         if (IsGasPedalPressedEnough_5626A0())
         {
