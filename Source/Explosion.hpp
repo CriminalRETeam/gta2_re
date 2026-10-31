@@ -10,6 +10,8 @@ class Sprite;
 class Explosion
 {
   public:
+    STATIC_MEMBER(Fix16, kFpPoint09);
+    STATIC_MEMBER(u8, sExplosionWantsFlash);
     EXPORT Explosion();
     EXPORT ~Explosion();
     EXPORT void EmitRandomDiagonalParticle_540A40();
