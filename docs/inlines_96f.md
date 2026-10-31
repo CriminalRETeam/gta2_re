@@ -861,7 +861,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x522BE0 | `Object::ResolveCollisionWithHorizontalEdge_522BE0` | 0x4869E0 | `sub_4BCD00`, ✓ `sub_432860`, `sub_4828C0`, `sub_40F640` (10.5 0x43D5D0) | done | SetXY_432860 + operator-= (4828C0) like 522D00, point decl order fixed; 4BCD00=GetNearestHorizontalEdge (called); diff 50->0 CANDIDATE MATCH |
 | 0x522D00 | `Object::ResolveCollisionWithVerticalEdge_522D00` | 0x486B20 | `sub_4BCFA0`, ✓ `sub_432860`, `sub_4828C0`, `sub_40F640` (10.5 0x43D5D0) | done | already used SetXY/-=; point decl order + t2.x restore fixed; 4BCFA0=GetNearestVerticalEdge (called); diff 63->0 CANDIDATE MATCH |
 | 0x5233A0 | `Object::TryStartSlide_5233A0` | 0x483460 | ✓ `SetTopDrawLayer_482BF0`, ✓ `sub_40F7B0` | done | SetTopDrawLayer_482BF0 added+used; code unchanged |
-| 0x523440 | `Object::HandleCollisionOutcome_523440` | 0x486D70 | ✓ `sub_420660`, ✓ `sub_482A70`, ✓ `sub_482A80` | done | CollisionTarget::SetType4_482A70/SetType5_482A80 added+used; code unchanged |
+| 0x523440 | `Object::HandleCollisionOutcome_523440` | 0x486D70 | ✓ `sub_420660`, ✓ `SetFloorBelow_482A70`, ✓ `SetBlockAtZ_482A80` | done | CollisionTarget::SetFloorBelow_482A70/SetBlockAtZ_482A80 added+used; code unchanged |
 | 0x5235B0 | `Object::HandleSpriteGroundAndCollision_5235B0` | 0x484090 | ✓ `sub_466CF0`, `sub_4699A0` (10.5 0x4E4F40), `sub_483100`, ✓ `sub_420420`, `sub_4BD670`, `sub_4207B0`, `sub_483500` | checked | 4699A0/483100/4BD670/4207B0/483500 are calls in 10.5 |
 | 0x525190 | `Object::OnExplosionNearby_525190` | 0x4856E0 | ✓ `sub_482400`, ✓ `sub_420F10`, `sub_482790` | matched | IsExplosiveItemDefinition_482400 added, GetPedId_420F10 used; 482790=SetDamageOwner_529080 (called); diff 32->31 (PoolGiveAndQueueObjectType_5291E0 arg looks s32 in orig) |
 | 0x5257D0 | `Object::UpdateAnimation_5257D0` | 0x485FD0 | ✓ `sub_4206C0`, ✓ `sub_482C10` | done | set_id_lazy_4206C0 + IsAnimFinished_482C10 (added) used; code unchanged |
@@ -2322,8 +2322,8 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4829A0 | `ObjectPool::sub_4829A0` | 26 |  |  | 0/1 | todo |  |
 | 0x4829C0 | `ObjectPool::sub_4829C0` | 24 |  |  | 0/1 | todo |  |
 | 0x482A40 | `sub_482A40` | 37 |  | Source/sprite.hpp:478 | 0/1 | todo |  |
-| 0x482A70 | `sub_482A70` | 14 |  | Source/CollisionSoundQueue.hpp:29 | 0/1 | todo |  |
-| 0x482A80 | `sub_482A80` | 14 |  | Source/CollisionSoundQueue.hpp:36 | 0/1 | todo |  |
+| 0x482A70 | `SetFloorBelow_482A70` | 14 |  | Source/CollisionSoundQueue.hpp:29 | 0/1 | todo |  |
+| 0x482A80 | `SetBlockAtZ_482A80` | 14 |  | Source/CollisionSoundQueue.hpp:36 | 0/1 | todo |  |
 | 0x482A90 | `sub_482A90` | 10 |  | Source/Explosion.hpp:34 | 0/1 | todo |  |
 | 0x482BF0 | `SetTopDrawLayer_482BF0` | 11 |  | Source/Object_5C.hpp:302 | 0/1 | todo |  |
 | 0x482C00 | `sub_482C00` | 10 |  | Source/Object_5C.hpp:182 | 0/1 | todo |  |
