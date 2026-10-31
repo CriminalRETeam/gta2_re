@@ -3,17 +3,17 @@
 #include "types.hpp"
 
 // Char::field_58_flags_bf. Same layout as CompilerBitField32 (the bit field form is needed to match). Bits named
-// bFlagN are used but their meaning is not understood yet.
+// bFlagN are never read: bits 1 and 2 are only cleared, the others are not used.
 struct CharB4Flags32
 {
     u32 bOnSlope : 1; // bit 0
     u32 bFlag1 : 1; // bit 1
     u32 bFlag2 : 1; // bit 2
     u32 bReverseVelocity : 1; // bit 3
-    u32 bFlag4 : 1; // bit 4
+    u32 bDoorOffsetLarge : 1; // bit 4
     u32 bTeleported : 1; // bit 5
-    u32 bFlag6 : 1; // bit 6
-    u32 bFlag7 : 1; // bit 7
+    u32 bJumpedOffEdge : 1; // bit 6
+    u32 bDetouring : 1; // bit 7
     u32 bFlag8 : 1; // bit 8
     u32 bFlag9 : 1; // bit 9
     u32 bFlag10 : 1; // bit 10

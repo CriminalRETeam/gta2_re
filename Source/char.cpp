@@ -377,13 +377,13 @@ void Char::PoolAllocate()
     field_A4_xpos = kFP16Zero_6FD9E4;
     field_A8_ypos = kFP16Zero_6FD9E4;
     field_AC_zpos = kFP16Zero_6FD9E4;
-    field_58_flags_bf.bFlag4 = false;
+    field_58_flags_bf.bDoorOffsetLarge = false;
     field_4C_conveyor_dx = kFP16Zero_6FD9E4;
     field_50_conveyor_dy = kFP16Zero_6FD9E4;
     field_72_next_tile_x = kFP16Zero_6FD9E4.ToInt();
     field_73_next_tile_y = kFP16Zero_6FD9E4.ToInt();
-    field_58_flags_bf.bFlag6 = false;
-    field_58_flags_bf.bFlag7 = false;
+    field_58_flags_bf.bJumpedOffEdge = false;
+    field_58_flags_bf.bDetouring = false;
     field_60_unused = 0;
     field_64_unused = 0;
     field_55_next_tile_timer = 0;
@@ -919,7 +919,7 @@ void Char::UpdateAnimState_546360()
                 case 0:
                 {
                     Car_Door* pDoor = field_84_target_car->GetDoor(field_7C_pPed->get_target_car_door_403A60());
-                    if (field_58_flags_bf.bFlag4)
+                    if (field_58_flags_bf.bDoorOffsetLarge)
                     {
                         frame_limit = 1;
                         pDoor->Open_439E60();
@@ -948,7 +948,7 @@ void Char::UpdateAnimState_546360()
                 case 1:
                 case 2:
                 case 3:
-                    if (field_58_flags_bf.bFlag4)
+                    if (field_58_flags_bf.bDoorOffsetLarge)
                     {
                         frame_limit = 1;
                         CarDoorAlignmentSolver_545AF0(7 - field_68_animation_frame,
@@ -977,7 +977,7 @@ void Char::UpdateAnimState_546360()
                 case 5:
                 case 6:
                 case 7:
-                    if (field_58_flags_bf.bFlag4)
+                    if (field_58_flags_bf.bDoorOffsetLarge)
                     {
                         frame_limit = 1;
                         CarDoorAlignmentSolver_545AF0(7 - field_68_animation_frame,
@@ -1124,7 +1124,7 @@ void Char::UpdateAnimState_546360()
                 newy,
                 gMap_0x370_6F6268->FindGroundZAboveCoord_4E4E50(newx, newy, pCar->field_50_car_sprite->field_1C_zpos));
 
-            if (field_58_flags_bf.bFlag4)
+            if (field_58_flags_bf.bDoorOffsetLarge)
             {
                 field_40_rotation = TurnBy180Deg_546360(field_40_rotation);
             }
@@ -1141,7 +1141,7 @@ void Char::UpdateAnimState_546360()
             else if (field_70_frame_timer == 5 && field_68_animation_frame == 0)
             {
                 Car_Door* pDoor = field_84_target_car->GetDoor(field_7C_pPed->get_target_car_door_403A60());
-                if (!field_58_flags_bf.bFlag4)
+                if (!field_58_flags_bf.bDoorOffsetLarge)
                 {
                     pDoor->Open_439E60();
                     pDoor->set_ped_421380(field_7C_pPed);
@@ -1189,7 +1189,7 @@ void Char::UpdateAnimState_546360()
             switch (field_68_animation_frame)
             {
                 case 0:
-                    if (field_58_flags_bf.bFlag4)
+                    if (field_58_flags_bf.bDoorOffsetLarge)
                     {
                         field_84_target_car->GetDoor(field_7C_pPed->get_target_car_door_403A60())->Open_439E60();
                         newId = baseId + field_68_animation_frame;
@@ -1206,7 +1206,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 1:
-                    if (field_58_flags_bf.bFlag4)
+                    if (field_58_flags_bf.bDoorOffsetLarge)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1222,7 +1222,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 2:
-                    if (field_58_flags_bf.bFlag4)
+                    if (field_58_flags_bf.bDoorOffsetLarge)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1238,7 +1238,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 3:
-                    if (field_58_flags_bf.bFlag4)
+                    if (field_58_flags_bf.bDoorOffsetLarge)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1254,7 +1254,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 4:
-                    if (field_58_flags_bf.bFlag4)
+                    if (field_58_flags_bf.bDoorOffsetLarge)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1270,7 +1270,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 5:
-                    if (field_58_flags_bf.bFlag4)
+                    if (field_58_flags_bf.bDoorOffsetLarge)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1286,7 +1286,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 6:
-                    if (field_58_flags_bf.bFlag4)
+                    if (field_58_flags_bf.bDoorOffsetLarge)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1302,7 +1302,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 7:
-                    if (field_58_flags_bf.bFlag4)
+                    if (field_58_flags_bf.bDoorOffsetLarge)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1325,7 +1325,7 @@ void Char::UpdateAnimState_546360()
                     field_C_ped_state_2 = ped_state_2::ped2_walking_0;
                     field_8_ped_state_1 = ped_state_1::walking_0;
                     Car_Door* pDoor = field_84_target_car->GetDoor(field_7C_pPed->get_target_car_door_403A60());
-                    if (!field_58_flags_bf.bFlag4)
+                    if (!field_58_flags_bf.bDoorOffsetLarge)
                     {
                         pDoor->Close_439EA0();
                     }
@@ -1364,7 +1364,7 @@ void Char::UpdateAnimState_546360()
             else if (field_70_frame_timer == 1 && field_68_animation_frame == 0)
             {
                 Car_Door* pDoor = field_84_target_car->GetDoor(field_7C_pPed->get_target_car_door_403A60());
-                if (!field_58_flags_bf.bFlag4)
+                if (!field_58_flags_bf.bDoorOffsetLarge)
                 {
                     pDoor->Open_439E60();
                     pDoor->set_ped_421380(field_7C_pPed);
@@ -1903,7 +1903,7 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
 {
     s32 my_type = field_7C_pPed->GetPedType_420B70();
     s32 other_type = pOther->field_7C_pPed->GetPedType_420B70();
-    if (pOther->get_ped_state_1_48A4C0() == ped_state_1::dead_9 || pOther->get_ped_state_1_48A4C0() == ped_state_1::immobilized_8 || field_58_flags_bf.bFlag7 || field_10_char_state == Char_B4_state::Jumping_15)
+    if (pOther->get_ped_state_1_48A4C0() == ped_state_1::dead_9 || pOther->get_ped_state_1_48A4C0() == ped_state_1::immobilized_8 || field_58_flags_bf.bDetouring || field_10_char_state == Char_B4_state::Jumping_15)
     {
         return;
     }
@@ -4617,7 +4617,7 @@ void Char::UpdateFleeOrRunning_5504F0()
     field_4A_timeout = 500;
     Ang16 angle = 0;
     field_58_flags_bf.bReverseVelocity = false;
-    field_58_flags_bf.bFlag6 = false;
+    field_58_flags_bf.bJumpedOffEdge = false;
     bMoved = 0;
     saved_rotation = 0;
     bSnapRotation = 0;
@@ -4686,7 +4686,7 @@ void Char::UpdateFleeOrRunning_5504F0()
             {
                 Char::DoJump_5454D0();
                 field_38_velocity = kZeroVelocity_6FD7C0;
-                field_58_flags_bf.bFlag6 = true;
+                field_58_flags_bf.bJumpedOffEdge = true;
                 field_40_rotation.SnapToAng4_405640();
             }
             else
@@ -4704,7 +4704,7 @@ void Char::UpdateFleeOrRunning_5504F0()
                                                             (gCharB4_Saved_Zpos_6FD7FC.mValue - kFP16One_6FD9E8.mValue) >> 14))
             {
                 Char::DoJump_5454D0();
-                field_58_flags_bf.bFlag6 = true;
+                field_58_flags_bf.bJumpedOffEdge = true;
                 field_40_rotation.SnapToAng4_405640();
             }
         }
@@ -4719,7 +4719,7 @@ void Char::UpdateFleeOrRunning_5504F0()
     }
     field_44_block_type = block_type;
 
-    if (field_58_flags_bf.bFlag6)
+    if (field_58_flags_bf.bJumpedOffEdge)
     {
         desired_angle = field_40_rotation;
     }
@@ -4738,7 +4738,7 @@ void Char::UpdateFleeOrRunning_5504F0()
                 field_68_animation_frame = 0;
                 field_71_frame_delay = 4;
             }
-            else if (!field_58_flags_bf.bFlag6)
+            else if (!field_58_flags_bf.bJumpedOffEdge)
             {
                 if (!field_7C_pPed->field_224_bf.bWaitingOnTarget)
                 {
@@ -4751,7 +4751,7 @@ void Char::UpdateFleeOrRunning_5504F0()
                 target_rotation = desired_angle;
             }
 
-            if (!field_58_flags_bf.bFlag6)
+            if (!field_58_flags_bf.bJumpedOffEdge)
             {
                 if (field_7C_pPed->field_224_bf.bWaitingOnTarget)
                 {
@@ -4799,19 +4799,19 @@ void Char::UpdateFleeOrRunning_5504F0()
             field_38_velocity = gRunOrJumpSpeed_6FD7D0;
         }
 
-        if (field_58_flags_bf.bFlag6 || field_7C_pPed->IsPedGoingToEnterCar_492FD0())
+        if (field_58_flags_bf.bJumpedOffEdge || field_7C_pPed->IsPedGoingToEnterCar_492FD0())
         {
             bSnapRotation = 1;
         }
         angle = desired_angle;
-        if (field_58_flags_bf.bFlag7)
+        if (field_58_flags_bf.bDetouring)
         {
             if (MaxAbsDistance_5504F0(gCharB4_Saved_Xpos_6FD7F8,
                                       gCharB4_Saved_Ypos_6FD800,
                                       kFP16Half_6FD8E4 + Fix16(field_72_next_tile_x),
                                       kFP16Half_6FD8E4 + Fix16(field_73_next_tile_y)) < kFP16Quarter_6FD828)
             {
-                field_58_flags_bf.bFlag7 = false;
+                field_58_flags_bf.bDetouring = false;
             }
             else
             {
@@ -4836,7 +4836,7 @@ void Char::UpdateFleeOrRunning_5504F0()
         {
             if (field_55_next_tile_timer > 0)
             {
-                if (!field_58_flags_bf.bFlag7)
+                if (!field_58_flags_bf.bDetouring)
                 {
                     target_rotation = field_80_sprite_ptr->field_0_rotation;
                     angle = target_rotation;
@@ -4858,7 +4858,7 @@ void Char::UpdateFleeOrRunning_5504F0()
 
             if (!Char::CanReachTile_550090(x_u8, y_u8))
             {
-                field_58_flags_bf.bFlag7 = true;
+                field_58_flags_bf.bDetouring = true;
                 if (field_C_ped_state_2 == ped_state_2::running_away_3)
                 {
                     Char::ChooseNextMovementTile_551400();
@@ -4895,7 +4895,7 @@ void Char::UpdateFleeOrRunning_5504F0()
         }
     }
 
-    if (field_58_flags_bf.bFlag6)
+    if (field_58_flags_bf.bJumpedOffEdge)
     {
         field_38_velocity = gRunOrJumpSpeed_6FD7D0;
     }
@@ -5417,7 +5417,7 @@ void Char::UpdateEnteringCar_551A00()
 {
     if (field_C_ped_state_2 == ped_state_2::ped2_following_a_car_4)
     {
-        field_58_flags_bf.bFlag7 = false;
+        field_58_flags_bf.bDetouring = false;
         Char::UpdateFleeOrRunning_5504F0();
         if (!field_7C_pPed->GetAttacking_433CA0() && field_10_char_state != Char_B4_state::Jumping_15)
         {
@@ -5457,11 +5457,11 @@ void Char::UpdateEnteringCar_551A00()
                 field_68_animation_frame = 0;
                 if (field_84_target_car->IsDoorOffsetLarge_43B540(field_7C_pPed->get_target_car_door_403A60()))
                 {
-                    field_58_flags_bf.bFlag4 = true;
+                    field_58_flags_bf.bDoorOffsetLarge = true;
                 }
                 else
                 {
-                    field_58_flags_bf.bFlag4 = false;
+                    field_58_flags_bf.bDoorOffsetLarge = false;
                 }
                 field_70_frame_timer = 0;
             }
@@ -5479,11 +5479,11 @@ void Char::UpdateExitingCar_551B30()
         s8 target_door = field_7C_pPed->get_target_car_door_403A60();
         if (field_84_target_car->IsDoorOffsetLarge_43B540(target_door))
         {
-            field_58_flags_bf.bFlag4 = true;
+            field_58_flags_bf.bDoorOffsetLarge = true;
         }
         else
         {
-            field_58_flags_bf.bFlag4 = false;
+            field_58_flags_bf.bDoorOffsetLarge = false;
         }
         field_70_frame_timer = 0;
     }
@@ -5504,7 +5504,7 @@ void Char::UpdateEnteringTrain_551BB0()
 {
     if (field_C_ped_state_2 == ped_state_2::ped2_following_a_car_4)
     {
-        this->field_58_flags_bf.bFlag7 = false;
+        this->field_58_flags_bf.bDetouring = false;
 
         UpdateFleeOrRunning_5504F0();
 
