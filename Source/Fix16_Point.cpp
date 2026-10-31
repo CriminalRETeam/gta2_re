@@ -16,7 +16,7 @@ Fix16_Point Fix16_Point::Sub(const Fix16_Point& rhs) const
 }
 
 MATCH_FUNC(0x40ACB0)
-Fix16_Point Fix16_Point::Negate_40ACB0() const
+Fix16_Point Fix16_Point::Negated() const
 {
     return Fix16_Point(-x, -y);
 }

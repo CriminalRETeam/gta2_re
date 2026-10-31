@@ -150,7 +150,7 @@ WeaponManager::WeaponManager()
         gWeapon_30_Pool = new WeaponPool();
         if (!gWeapon_30_Pool)
         {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\weapon.cpp", 2428);
+            FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\weapon.cpp", 2428);
         }
     }
     mRefCount = 0;

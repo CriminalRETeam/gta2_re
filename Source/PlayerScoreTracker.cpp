@@ -68,7 +68,7 @@ MATCH_FUNC(0x591c70)
 void PlayerScoreTracker::Service()
 {
     mBonuses.Service();
-    Ped* player_ped = mPlayer->GetPlayerPed_41D020();
+    Ped* player_ped = mPlayer->GetPlayerPed();
     mOneSecondTimerMs += gGame_0x40->GetFrameDurationMs();
 
     if (mOneSecondTimerMs >= 1000)

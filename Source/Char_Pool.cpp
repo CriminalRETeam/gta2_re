@@ -686,7 +686,7 @@ PedManager::PedManager()
         gPedPool = new PedPool();
         if (!gPedPool)
         {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\char.cpp", 15827);
+            FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\char.cpp", 15827);
         }
     }
 
@@ -695,7 +695,7 @@ PedManager::PedManager()
         gChar_B4_Pool = new CharPool();
         if (!gChar_B4_Pool)
         {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\char.cpp", 15834);
+            FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\char.cpp", 15834);
         }
     }
 
@@ -704,7 +704,7 @@ PedManager::PedManager()
         gChar_8_Pool = new PedListNodePool();
         if (!gChar_8_Pool)
         {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\char.cpp", 15841);
+            FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\char.cpp", 15841);
         }
     }
 

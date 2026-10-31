@@ -160,7 +160,7 @@ bool Particle_4C::UpdateFloatingParticle_state_6_15_16_17()
             Fix16 cos = Ang16::cosine(mAngle);
             Fix16 old_x = vector.x;
             vector.x = (vector.x * cos).Add(vector.y * sin);
-            vector.y = old_x.Negate_4086A0().Multiply(sin).Add(vector.y.Multiply(cos));
+            vector.y = old_x.Negated().Multiply(sin).Add(vector.y.Multiply(cos));
         }
 
         mAdditionalSpeed.x = vector.x;
@@ -870,13 +870,13 @@ bool Particle_4C::UpdateCircularBurst_state_5()
     }
 
     // 9.6f: Fix16_Point::RotateByAngle (inlined). The original calls the out-of-line
-    // Add/Multiply/Negate_4086A0 copies for all but x * cos and y * sin
+    // Add/Multiply/Negated copies for all but x * cos and y * sin
     {
         Fix16 sin = Ang16::sine(mAngle);
         Fix16 cos = Ang16::cosine(mAngle);
         Fix16 old_x = dir.x;
         dir.x = (dir.x * cos).Add(dir.y * sin);
-        dir.y = old_x.Negate_4086A0().Multiply(sin).Add(dir.y.Multiply(cos));
+        dir.y = old_x.Negated().Multiply(sin).Add(dir.y.Multiply(cos));
     }
     mAdditionalSpeed.x = dir.x;
     mAdditionalSpeed.y = dir.y;

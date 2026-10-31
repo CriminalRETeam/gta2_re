@@ -29,7 +29,7 @@ void test_file()
     File::WriteBufferToFile(0, 0, 0);
     File::Write(0, 0, 0, 0);
     File::AppendBufferToFile(0, 0, 0);
-    File::CreateFile_4A7000(0);
+    File::CreateEmptyFile(0);
     File::Global_Open("lol.txt");
     File::Global_Close();
     File::Global_Close_UnChecked();
@@ -189,7 +189,7 @@ s32 APIENTRY WinMain(HINSTANCE hInstance,
     LoadBeginSceneCBPtr();
     EnableBoot2MapDebugOptions();
 
-    WinMain_5E53F0(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
+    GameWinMain(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
 
     return 0;
 }

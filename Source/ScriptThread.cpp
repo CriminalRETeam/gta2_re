@@ -1465,7 +1465,7 @@ void ScriptThread::SCRCMD_DISPLAY_MESSAGES(SCR_TWO_PARAMS* pCmd)
         sprintf(gTmpBuffer, "%d", pCmd->mUnsigned1);
         if (!gText_0x14->Find(gTmpBuffer))
         {
-            FatalError_4A38C0(Gta2Error::MissionScriptIsReferringToTextIdThatDoesNotExist,
+            FatalError(Gta2Error::MissionScriptIsReferringToTextIdThatDoesNotExist,
                               "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
                               2460,
                               pCmd->mUnsigned1); // Mission script is referring to a 'text id' that doesn't exist. ID
@@ -1783,7 +1783,7 @@ void ScriptThread::Handle_GOSUB()
     ScriptStackFrame* pFrame = mGosubStack->AllocFrame();
     pFrame->mCondResult = mCondResult;
     pFrame->mReturnCmd = gBasePtr->mCmdNext;
-    mGosubStack->add_503160(pFrame);
+    mGosubStack->PushFrame(pFrame);
     ScriptThread::JumpToCmd(pCmd->mUnsigned1);
 }
 
@@ -2953,7 +2953,7 @@ void ScriptThread::Locate()
                     mCondResult = true;
                     break;
                 case SCRCMD_LOCATE_CHAR_ONFOOT:
-                    if (pPointer->mChar->bHasGameObject_403B70())
+                    if (pPointer->mChar->HasGameObject())
                     {
                         mCondResult = true;
                     }
@@ -2967,7 +2967,7 @@ void ScriptThread::Locate()
 
                     break;
                 case SCRCMD_STOP_LOCATE_CHAR_ANY:
-                    if (pPointer->mChar->bHasGameObject_403B70() &&
+                    if (pPointer->mChar->HasGameObject() &&
                         pPointer->mChar->GetGameObjectVelocity() == kFpZero_6F77C0)
                     {
                         mCondResult = true;
@@ -2979,7 +2979,7 @@ void ScriptThread::Locate()
 
                     break;
                 case SCRCMD_STOP_LOCATE_CHAR_FOOT:
-                    if (pPointer->mChar->bHasGameObject_403B70())
+                    if (pPointer->mChar->HasGameObject())
                     {
                         if (pPointer->mChar->GetGameObjectVelocity() == kFpZero_6F77C0)
                         {
@@ -2996,7 +2996,7 @@ void ScriptThread::Locate()
 
                     break;
                 default:
-                    FatalError_4A38C0(Gta2Error::InvalidCase,
+                    FatalError(Gta2Error::InvalidCase,
                                       "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
                                       4622,
                                       gBasePtr->mType);
@@ -3218,7 +3218,7 @@ void ScriptThread::IsOnScreen()
         {
             if (!pPointer->mCar)
             {
-                FatalError_4A38C0(Gta2Error::LineAccessingCarThatHasntBeenCreated, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x1376, static_cast<u16>(gBasePtr->mCmdThis));
+                FatalError(Gta2Error::LineAccessingCarThatHasntBeenCreated, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x1376, static_cast<u16>(gBasePtr->mCmdThis));
             }
 
             Car* pCar = pPointer->mCar;
@@ -3243,7 +3243,7 @@ void ScriptThread::IsOnScreen()
         case script_entity_type::char_1:
             if (!pPointer->mChar)
             {
-                FatalError_4A38C0(Gta2Error::LineAccessingCharacterThatHasntBeenCreated, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x1383, static_cast<u16>(gBasePtr->mCmdThis));
+                FatalError(Gta2Error::LineAccessingCharacterThatHasntBeenCreated, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x1383, static_cast<u16>(gBasePtr->mCmdThis));
             }
 
             if (gBasePtr->mType == SCRCMD_IS_ITEM_ONSCREEN)
@@ -3259,7 +3259,7 @@ void ScriptThread::IsOnScreen()
         case script_entity_type::object_3:
             if (!pPointer->mObj)
             {
-                FatalError_4A38C0(Gta2Error::LineAccessingObjectThatHasntBeenCreated, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x138E, static_cast<u16>(gBasePtr->mCmdThis));
+                FatalError(Gta2Error::LineAccessingObjectThatHasntBeenCreated, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x138E, static_cast<u16>(gBasePtr->mCmdThis));
             }
 
             if (gBasePtr->mType == SCRCMD_IS_ITEM_ONSCREEN)
@@ -3275,7 +3275,7 @@ void ScriptThread::IsOnScreen()
         case script_entity_type::crane_4:
             if (!pPointer->mCrane)
             {
-                FatalError_4A38C0(Gta2Error::LineAccessingCraneThatHasntBeenCreated, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x1399, static_cast<u16>(gBasePtr->mCmdThis));
+                FatalError(Gta2Error::LineAccessingCraneThatHasntBeenCreated, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x1399, static_cast<u16>(gBasePtr->mCmdThis));
             }
 
             if (gBasePtr->mType == SCRCMD_IS_ITEM_ONSCREEN)
@@ -3424,7 +3424,7 @@ void ScriptThread::SCRCMD_SET_GANG_KILL_REACTION()
     str_table_entry* gang_1_str = gScriptManager->FindStringById(gBasePtr->mIndex);
     if (gang_1_str == NULL)
     {
-        FatalError_4A38C0(Gta2Error::UnableToFindGangMatchingNameInSetGangRespect,
+        FatalError(Gta2Error::UnableToFindGangMatchingNameInSetGangRespect,
                           "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
                           5217,
                           static_cast<u16>(gBasePtr->mCmdThis));
@@ -3433,7 +3433,7 @@ void ScriptThread::SCRCMD_SET_GANG_KILL_REACTION()
     str_table_entry* gang_2_str = gScriptManager->FindStringById(pCmd->mUnsigned3);
     if (gang_2_str == NULL)
     {
-        FatalError_4A38C0(Gta2Error::UnableToFindGangMatchingNameInSetGangRespect2,
+        FatalError(Gta2Error::UnableToFindGangMatchingNameInSetGangRespect2,
                           "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
                           5223,
                           static_cast<u16>(gBasePtr->mCmdThis));
@@ -4830,7 +4830,7 @@ void ScriptThread::Gosub(SCR_CMD_HEADER* pCmd, u16 cmd_idx)
     ScriptStackFrame* pFrame = mGosubStack->AllocFrame();
     pFrame->mCondResult = mCondResult;
     pFrame->mReturnCmd = pCmd->mCmdNext;
-    mGosubStack->add_503160(pFrame);
+    mGosubStack->PushFrame(pFrame);
     ScriptThread::JumpToCmd(cmd_idx);
 }
 
@@ -5016,7 +5016,7 @@ void ScriptThread::Handle_LAUNCH_MISSION()
 MATCH_FUNC(0x50d340)
 void ScriptThread::Handle_SAVE_GAME()
 {
-    char_type* pSaveFileName = gGameSession.GetSaveFileName_4C5970();
+    char_type* pSaveFileName = gGameSession.GetSaveName();
     gScriptManager->SaveGame(pSaveFileName);
     Next(gBasePtr);
 }
@@ -5046,7 +5046,7 @@ void ScriptThread::Handle_DO_SAVE_GAME()
                     // Hallelluya! Another soul saved!
                     gRoot_sound.PlayVoice(voice_line::hallelujah_61);
                     gGame_0x40->mLocalPlayer->AddCash(-50000);
-                    gScriptManager->SaveGame(gGameSession.GetSaveFileName_4C5970());
+                    gScriptManager->SaveGame(gGameSession.GetSaveName());
                     sprintf(gTmpBuffer, "svdone");
                 }
                 else
@@ -6286,7 +6286,7 @@ void ScriptThread::LocSecChar()
         switch (gBasePtr->mType)
         {
             case SCRCMD_LOC_SECOND_CHAR:
-                if (pChar1->mChar->bHasGameObject_403B70())
+                if (pChar1->mChar->HasGameObject())
                 {
                     mCondResult = true;
                 }

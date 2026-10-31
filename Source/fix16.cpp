@@ -84,7 +84,7 @@ Fix16& Fix16::MultiplyAssign(const Fix16& rhs)
 }
 
 MATCH_FUNC(0x4086A0)
-Fix16 Fix16::Negate_4086A0() const throw()
+Fix16 Fix16::Negated() const throw()
 {
     return Fix16(-mValue, 0);
 }

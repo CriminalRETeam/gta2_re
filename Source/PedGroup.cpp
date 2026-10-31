@@ -852,7 +852,7 @@ void PedGroup::CoordinateGroupCarEntry()
         return;
     }
 
-    if (pLeader->bHasGameObject_403B70())
+    if (pLeader->HasGameObject())
     {
         bool bWaiting = false;
         if (mWaitForMembers)
@@ -1033,9 +1033,9 @@ void PedGroup::UpdateMemberAIState(u8 idx)
     }
 
     Ped* pLeader = mPedLeader;
-    if (pLeader->bHasGameObject_403B70())
+    if (pLeader->HasGameObject())
     {
-        if (pMember->bHasGameObject_403B70())
+        if (pMember->HasGameObject())
         {
             if (!pLeader->mBf21C.bLeftVehicle)
             {

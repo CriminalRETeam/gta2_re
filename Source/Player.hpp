@@ -179,7 +179,7 @@ class Player
     }
 
     // 9.6f inline 0x41D020
-    inline Ped* GetPlayerPed_41D020() const
+    inline Ped* GetPlayerPed() const
     {
         return mPlayerPed;
     }
@@ -447,5 +447,5 @@ class Player
 // 9.6f 0x434B60
 inline bool TagGame::IsFugitivePed(Ped* pPed)
 {
-    return mFugitive && mFugitive->GetPlayerPed_41D020() == pPed;
+    return mFugitive && mFugitive->GetPlayerPed() == pPed;
 }

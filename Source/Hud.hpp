@@ -107,7 +107,7 @@ class Hud_Message
 {
   public:
     EXPORT void ClearTimeToShow();
-    EXPORT void FormatMessage_5D1860();
+    EXPORT void LayoutMessage();
     EXPORT void DrawMessage();
     EXPORT void ShowMessage(const wchar_t* pStr, s32 priority);
     EXPORT void DecrementTimeToShow();
@@ -302,7 +302,7 @@ class Hud_Pager
     }
 
     // 9.6f 0x4C7120
-    inline void SetTimer_4C7120(s32 timer)
+    inline void set_timer(s32 timer)
     {
         mTimer = timer;
     }
@@ -350,13 +350,15 @@ class Hud_Pager_C_Array
     Hud_Pager mPagersArray[4]; // 0x0
 };
 
-inline u8 __stdcall get_sprite_width_4C7220(s16 user_sprite_idx)
+// 9.6f 0x4C7220
+inline u8 __stdcall get_user_sprite_width(s16 user_sprite_idx)
 {
     s16 sprite_idx = gGtx_0x106C->GetSpriteTrueIndex(sprite_types_enum::user_6, user_sprite_idx);
     return gGtx_0x106C->get_sprite_width(sprite_idx);
 }
 
-inline u8 __stdcall get_sprite_height_4C7250(s16 user_sprite_idx)
+// 9.6f 0x4C7250
+inline u8 __stdcall get_user_sprite_height(s16 user_sprite_idx)
 {
     s16 sprite_idx = gGtx_0x106C->GetSpriteTrueIndex(sprite_types_enum::user_6, user_sprite_idx);
     return gGtx_0x106C->get_sprite_height(sprite_idx);

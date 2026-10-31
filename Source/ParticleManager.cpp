@@ -85,16 +85,16 @@ static inline Ang16 SubAng16_ool(const Ang16& a, const Ang16& b)
     return Ang16(&value, 0);
 }
 
-// RotateByAngle with the x_old negate as the named out-of-line Negate_4086A0: the rotations and the
+// RotateByAngle with the x_old negate as the named out-of-line Negated: the rotations and the
 // -(v / 15) New arguments have to reach the same function (the COMDAT copy of operator- and
-// Negate_4086A0 are not folded in our build). The other operators stay the plain inlines.
+// Negated are not folded in our build). The other operators stay the plain inlines.
 static inline void RotateNegExport_(Fix16_Point& v, const Ang16& angle)
 {
     Fix16 sin = Ang16::sine(angle);
     Fix16 cos = Ang16::cosine(angle);
     Fix16 x_old = v.x;
     v.x = (v.x * cos) + (v.y * sin);
-    v.y = (x_old.Negate_4086A0() * sin) + (v.y * cos);
+    v.y = (x_old.Negated() * sin) + (v.y * cos);
 }
 
 // 9.6f 0x48C9C0: plain members and operators. The do-while count-down loop (smaller than the for form) and
@@ -272,7 +272,7 @@ void ParticleManager::GunMuzzelFlash(Sprite* pSprite)
 
 // https://decomp.me/scratch/2Kz9I
 // 9.6f 0x48D1F0 (unpaired before): plain members (MultiplyByFix16, +, -, RotateByAngle as
-// RotateNegExport_), a count-down loop, -(v / 15) through Negate_4086A0.
+// RotateNegExport_), a count-down loop, -(v / 15) through Negated.
 MATCH_FUNC(0x53f060)
 void ParticleManager::EmitWaterSplash(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, bool bRandomRot)
 {
@@ -306,8 +306,8 @@ void ParticleManager::EmitWaterSplash(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 
             Particle_4C* pWaterSplashParticle = gParticle_8->New(velocity.x,
                                                                                velocity.y,
                                                                                kFpOneThirtySecond_6FD330,
-                                                                               velocity.x.DivideInt(15).Negate_4086A0(),
-                                                                               velocity.y.DivideInt(15).Negate_4086A0(),
+                                                                               velocity.x.DivideInt(15).Negated(),
+                                                                               velocity.y.DivideInt(15).Negated(),
                                                                                0);
 
             if (pWaterSplashParticle)
@@ -523,7 +523,7 @@ void ParticleManager::EmitImpactParticles(Fix16 x, Fix16 y, Fix16 z, Fix16_Point
             t.RotateByAngle_40F6B0_all_out_of_line(SubAng16_ool(AddAng16_ool(ang1, tanAng), kAng1_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(180))));
         }
 
-        Particle_4C* pNewParticle = gParticle_8->New(t.x, t.y, kFpOneThirtySecond_6FD330, t.x.DivideInt(15).Negate_4086A0(), t.y.DivideInt(15).Negate_4086A0(), 0);
+        Particle_4C* pNewParticle = gParticle_8->New(t.x, t.y, kFpOneThirtySecond_6FD330, t.x.DivideInt(15).Negated(), t.y.DivideInt(15).Negated(), 0);
         if (pNewParticle)
         {
             pNewParticle->mUnused34 = 1;
@@ -561,7 +561,7 @@ void ParticleManager::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos
             Fix16 cos = Ang16::cosine(angle);
             Fix16 x_old = vector.x;
             vector.x = vector.x.Multiply(cos).Add(vector.y * sin);
-            vector.y = x_old.Negate_4086A0().Multiply(sin).Add(vector.y.Multiply(cos));
+            vector.y = x_old.Negated().Multiply(sin).Add(vector.y.Multiply(cos));
         }
 
         Particle_4C* pNewParticle = gParticle_8->New(vector.x, vector.y, kFpOneThirtySecond_6FD330, 0, 0, 0);
@@ -685,7 +685,7 @@ ParticleManager::ParticleManager()
         gParticle_4C_Pool = new T_Particle_4C_Pool();
         if (!gParticle_4C_Pool)
         {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\particle.cpp", 4167);
+            FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\particle.cpp", 4167);
         }
     }
     mFireHitObj = NULL;

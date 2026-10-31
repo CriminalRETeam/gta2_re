@@ -6012,7 +6012,7 @@ MATCH_FUNC(0x426790)
 void sound_obj::PoliceRadioMessageGeneration_426790()
 {
     LOCAL_STATIC(u16, sCrimeCalloutCooldown, 0x6758A8);
-    Ped* pPed = gGame_0x40->mLocalPlayer->GetPlayerPed_41D020();
+    Ped* pPed = gGame_0x40->mLocalPlayer->GetPlayerPed();
     s32 crime_type;
     Fix16 crime_x;
     Fix16 crime_y;

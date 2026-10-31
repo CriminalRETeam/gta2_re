@@ -64,7 +64,7 @@ TaxiList::TaxiList()
         sTaxi4Pool = new TaxiListPool();
         if (!sTaxi4Pool)
         {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\taxi.cpp", 29);
+            FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\taxi.cpp", 29);
         }
     }
 }

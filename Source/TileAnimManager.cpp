@@ -113,7 +113,7 @@ TileAnimManager::TileAnimManager()
         gTileAnimPool = new TileAnimPool();
         if (gTileAnimPool == NULL)
         {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\tileanim.cpp", 220);
+            FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\tileanim.cpp", 220);
         }
     }
     mCount = 1;

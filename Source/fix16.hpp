@@ -378,7 +378,7 @@ class Fix16
     EXPORT Fix16 MultiplyInt(const s32& in) const;
     EXPORT Fix16 DivideInt(const s32& in) const;
     EXPORT Fix16& MultiplyAssign(const Fix16& rhs);
-    EXPORT Fix16 Negate_4086A0() const throw();
+    EXPORT Fix16 Negated() const throw();
 
     // Needed this for a GetLength variant used by ScriptThread::GetSpeed.
     inline static Fix16 __stdcall Abs_negate_out_of_line(Fix16& input)
@@ -388,7 +388,7 @@ class Fix16
             return input;
         }
 
-        return input.Negate_4086A0();
+        return input.Negated();
     }
 
     //MATCH_FUNC(0x436A20)

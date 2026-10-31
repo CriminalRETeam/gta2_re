@@ -26,10 +26,10 @@ class rng
     EXPORT void AdvanceCycle();
     EXPORT void ShowCycle();
 
-    EXPORT void srand_4F7A40();
+    EXPORT void reset_seed();
     EXPORT s16 get_int(const s16& max_rnd);
     EXPORT u8 get_uint8(const u8& max_rnd);
-    EXPORT s32 rand_4F7C00();
+    EXPORT s32 get_raw_rand();
 
     // Two uses, one per instance: on gpRng the game's tick counter (AdvanceCycle adds one per tick, ShowCycle
     // shows it), which timers are stamped with (CarPhysics::mDamagedUntilCycle, Ped::mLastVoiceRng); on

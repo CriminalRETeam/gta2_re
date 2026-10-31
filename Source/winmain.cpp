@@ -122,7 +122,7 @@ class DllRaii
     HMODULE mDll;
 };
 
-// Not in the original: hooks the ImGui debug draw into d3ddll. Called by our entry points before WinMain_5E53F0
+// Not in the original: hooks the ImGui debug draw into d3ddll. Called by our entry points before GameWinMain
 void LoadBeginSceneCBPtr()
 {
     static DllRaii hD3Ddll("d3ddll.dll"); // freed after WinMain return, only if this func is called
@@ -264,7 +264,7 @@ void force_link()
     cn.IsEmergencyOccupation();
 
     ScriptGosubStack miss2;
-    miss2.add_503160(NULL);
+    miss2.PushFrame(NULL);
     miss2.PopFrame();
     miss2.PopToDepth(0);
 
@@ -491,7 +491,7 @@ EXPORT void __stdcall SetFullScreenMode()
              sFullHeight = 480,
              (bcheckModeRet = pVid_CheckMode(gVidSys, 640, 480, 16)) == 0))
         {
-            FatalError_4A38C0(Gta2Error::VideomodeNotAvailable,
+            FatalError(Gta2Error::VideomodeNotAvailable,
                               "C:\\Splitting\\Gta2\\Source\\video.cpp",
                               1359,
                               sFullWidth,
@@ -507,7 +507,7 @@ EXPORT void __stdcall SetFullScreenMode()
 
     if (pVid_SetMode(gVidSys, gHwnd, bcheckModeRet))
     {
-        FatalError_4A38C0(Gta2Error::FailedToSetFullscreenVideomode, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1365, bcheckModeRet);
+        FatalError(Gta2Error::FailedToSetFullscreenVideomode, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1365, bcheckModeRet);
     }
 
     HideCursor();
@@ -533,7 +533,7 @@ EXPORT char_type IsWindowedModeAvailable()
 }
 
 MATCH_FUNC(0x5D9660)
-EXPORT void __stdcall ShowCursor_5D9660()
+EXPORT void __stdcall UnhideCursor()
 {
     s32 refCount;
     do
@@ -588,7 +588,7 @@ EXPORT bool __stdcall SetWindowedMode()
     }
     else
     {
-        ShowCursor_5D9660();
+        UnhideCursor();
         return true;
     }
 }
@@ -714,7 +714,7 @@ EXPORT void __stdcall GBH_Graphis_DMA_Video_Free()
         DMA_Video_Unload(gVidSys);
         gVidSys = NULL;
     }
-    ShowCursor_5D9660();
+    UnhideCursor();
 }
 
 MATCH_FUNC(0x5D9290)
@@ -738,7 +738,7 @@ EXPORT void __stdcall GBH_GraphicsInit()
 {
     if (GBH_GraphicsLoad(sRenderDllName, gVidSys))
     {
-        FatalError_4A38C0(Gta2Error::DllLoadError, "C:\\Splitting\\Gta2\\Source\\video.cpp", 206, gTmpBuffer);
+        FatalError(Gta2Error::DllLoadError, "C:\\Splitting\\Gta2\\Source\\video.cpp", 206, gTmpBuffer);
     }
 }
 
@@ -748,7 +748,7 @@ EXPORT void InitVideo()
     s32 ddraw_flags = 0;
     if (DMA_Video_LoadDll(sVideoDllName))
     {
-        FatalError_4A38C0(Gta2Error::DllLoadError, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1647, sVideoDllName);
+        FatalError(Gta2Error::DllLoadError, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1647, sVideoDllName);
     }
 
     gVidSys = pVid_Init_SYS(gHInstance, 0);
@@ -757,7 +757,7 @@ EXPORT void InitVideo()
 
     if (!gVidSys)
     {
-        FatalError_4A38C0(Gta2Error::DMAVideoInitFail, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1656);
+        FatalError(Gta2Error::DMAVideoInitFail, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1656);
     }
 
     if (gBufferMode == 1)
@@ -973,7 +973,7 @@ EXPORT void __stdcall InitializeGame()
 MATCH_FUNC(0x5D9680)
 EXPORT void OnVideoModeChanged()
 {
-    ConvertColourBanks_5D7CB0();
+    SetColourDepthAndConvertBanks();
     UpdateGameScreenSize();
 }
 
@@ -991,7 +991,7 @@ EXPORT void __stdcall ApplyChangedScreenSettings()
 }
 
 MATCH_FUNC(0x4DA780)
-EXPORT bool ExecuteGame_4DA780()
+EXPORT bool ExecuteGameTimed()
 {
     bool exit_requested = gGame_0x40->ExecuteGame();
     if (gFpsCounter)
@@ -1002,7 +1002,7 @@ EXPORT bool ExecuteGame_4DA780()
 }
 
 MATCH_FUNC(0x4DA7B0)
-void __stdcall Draw_4DA7B0()
+void __stdcall DrawAndFlip()
 {
     gGame_0x40->Draw();
     pVid_FlipBuffers(gVidSys);
@@ -1079,7 +1079,7 @@ EXPORT void Net_Receive_Players_Inputs()
                             sPlayerQuit = true;
                             break;
                         default:
-                            FatalError_4A38C0(Gta2Error::InvalidLine, "C:\\Splitting\\Gta2\\Source\\main.cpp", 853, 0);
+                            FatalError(Gta2Error::InvalidLine, "C:\\Splitting\\Gta2\\Source\\main.cpp", 853, 0);
                             break;
                     }
                     break;
@@ -1093,7 +1093,7 @@ EXPORT void Net_Receive_Players_Inputs()
                         sCurrentNetInputs.mInputs[player_idx].mRng !=
                             sCurrentNetInputs.mInputs[sNetworkPlayerIdx].mRng)
                     {
-                        FatalError_4A38C0(Gta2Error::SyncErrorRandom,
+                        FatalError(Gta2Error::SyncErrorRandom,
                                           "C:\\Splitting\\Gta2\\Source\\main.cpp",
                                           822,
                                           sCurrentNetInputs.mInputs[player_idx].mRng,
@@ -1101,7 +1101,7 @@ EXPORT void Net_Receive_Players_Inputs()
                     }
                     break;
                 default:
-                    FatalError_4A38C0(Gta2Error::InvalidLine, "C:\\Splitting\\Gta2\\Source\\main.cpp", 860, 0);
+                    FatalError(Gta2Error::InvalidLine, "C:\\Splitting\\Gta2\\Source\\main.cpp", 860, 0);
                     break;
             }
         }
@@ -1208,7 +1208,7 @@ EXPORT void __stdcall MakeInitialSyncData(u8* pSyncData)
 MATCH_FUNC(0x4DB410)
 EXPORT void __stdcall FatalErrorMsg(const char_type* pMsg)
 {
-    Shutdown_4DA740();
+    ShutdownGame();
     GBH_Graphis_DMA_Video_Free();
     ErrorMsgBox(pMsg);
     DestroyWindow(gHwnd);
@@ -1412,7 +1412,7 @@ EXPORT void __stdcall do_network_and_local_inputs()
 
             sCurrentNetInputs.mInputs[sNetworkPlayerIdx].mInputs = gInputRecorder.get_input_bits();
             Net_Send_Our_Inputs();
-            Draw_4DA7B0();
+            DrawAndFlip();
             Net_Receive_Players_Inputs();
             memcpy(&sPrevNetInputs, &sCurrentNetInputs, sizeof(sPrevNetInputs));
         }
@@ -1455,7 +1455,7 @@ EXPORT bool RunGameFrame()
     {
         if (Time >= sMatchStartTime)
         {
-            exit_requested = ExecuteGame_4DA780();
+            exit_requested = ExecuteGameTimed();
             do_network_and_local_inputs();
             sMatchStartTime = Time + gGame_0x40->GetFrameDurationMs();
         }
@@ -1487,7 +1487,7 @@ EXPORT bool RunGameFrame()
                 do_network_and_local_inputs();
                 sbInputsPending = false;
             }
-            exit_requested = ExecuteGame_4DA780();
+            exit_requested = ExecuteGameTimed();
             s32 frame_ms = gGame_0x40->GetFrameDurationMs();
             sbForceGameUpdate = false;
             sMatchStartTime += frame_ms;
@@ -1496,7 +1496,7 @@ EXPORT bool RunGameFrame()
         }
         else if (sFramesSinceDraw)
         {
-            Draw_4DA7B0();
+            DrawAndFlip();
             sFramesSinceDraw = 0;
             drew_frame = true;
         }
@@ -1742,7 +1742,7 @@ EXPORT void __stdcall Video_Render_Inits()
 }
 
 MATCH_FUNC(0x5D9280)
-EXPORT bool IsFullScreen_5D9280()
+EXPORT bool IsStartModeFullScreen()
 {
     return sStartMode == 1;
 }
@@ -1750,7 +1750,7 @@ EXPORT bool IsFullScreen_5D9280()
 MATCH_FUNC(0x5D8E70)
 EXPORT void __stdcall UpdateWinXY()
 {
-    if (!IsFullScreen_5D9280())
+    if (!IsStartModeFullScreen())
     {
         RECT winRec;
         GetWindowRect(gHwnd, &winRec);
@@ -1903,7 +1903,7 @@ EXPORT void Start_GTA2Manager()
     {
         if (!CloseHandle(hMutex))
         {
-            FatalError_4A38C0(Gta2Error::Gta2ManagerLaunchError, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 118);
+            FatalError(Gta2Error::Gta2ManagerLaunchError, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 118);
         }
 
         HWND hwndGta2Manager = FindWindowExA(NULL, NULL, NULL, "GTA2 Manager");
@@ -1912,7 +1912,7 @@ EXPORT void Start_GTA2Manager()
             PostMessageA(gHwnd, WM_ACTIVATE, 0, reinterpret_cast<LPARAM>(hwndGta2Manager));
             if (!SetForegroundWindow(hwndGta2Manager))
             {
-                FatalError_4A38C0(Gta2Error::Gta2ManagerLaunchError, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 125);
+                FatalError(Gta2Error::Gta2ManagerLaunchError, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 125);
             }
         }
     }
@@ -1922,7 +1922,7 @@ EXPORT void Start_GTA2Manager()
         PostMessageA(gHwnd, WM_ACTIVATE, 0, lParam);
         if (reinterpret_cast<u32>(ShellExecuteA(NULL, NULL, "GTA2 Manager.EXE", NULL, gWorkingDir, SW_SHOWNORMAL)) <= 0x20)
         {
-            FatalError_4A38C0(Gta2Error::Gta2ManagerLaunchError, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 136);
+            FatalError(Gta2Error::Gta2ManagerLaunchError, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 136);
         }
     }
 }
@@ -2099,7 +2099,7 @@ EXPORT LRESULT __stdcall WindowProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
             CloseHandle(sMutex);
             sMutex = NULL;
 
-            Shutdown_4DA740();
+            ShutdownGame();
             GBH_Graphis_DMA_Video_Free();
             PostQuitMessage(0);
             break;
@@ -2195,7 +2195,7 @@ EXPORT LRESULT __stdcall WindowProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 }
 
 MATCH_FUNC(0x5E53F0)
-s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
+s32 __stdcall GameWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     gHInstance = hInstance;
     if (CoInitialize(NULL) < 0)
@@ -2284,10 +2284,10 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
     if (!SetWindowPos(gHwnd, NULL, sWindowX, sWindowY, window_w, window_h, 0x314u))
     {
-        FatalError_4A38C0(Gta2Error::SetWindowPosFail, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 661);
+        FatalError(Gta2Error::SetWindowPosFail, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 661);
     }
 
-    Input::DirectInputCreate_4986D0(gHInstance);
+    Input::CreateDirectInput(gHInstance);
     InitVideo();
 
     ShowWindow(gHwnd, nShowCmd);
@@ -2479,7 +2479,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 }
 
 MATCH_FUNC(0x4DA740)
-EXPORT void __stdcall Shutdown_4DA740()
+EXPORT void __stdcall ShutdownGame()
 {
     if (!bDestroyed)
     {

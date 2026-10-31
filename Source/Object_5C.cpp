@@ -402,7 +402,7 @@ void Object::ResolveCollisionWithObject(Object* pObj, Fix16_Point* pPoint)
                                                  kFP16One_6F8D38,
                                                  kFP16One_6F8D24);
 
-        pObj->SetMovementVectorWithRandomState(impulse.Negate_40ACB0() / pObj->GetMass());
+        pObj->SetMovementVectorWithRandomState(impulse.Negated() / pObj->GetMass());
     }
     else
     {
@@ -472,7 +472,7 @@ void Object::ResolveCollisionWithPed(Char* pChar, Fix16_Point* pPoint, u8 not_us
                                                     kFP16One_6F8CE0,
                                                     kFP16One_6F8F74);
     SetMovementVectorWithRandomState(impulse.Divide(GetMass()));
-    ped_impulse = impulse.Negate_40ACB0().Divide(kFP16Half_6F8EE4);
+    ped_impulse = impulse.Negated().Divide(kFP16Half_6F8EE4);
     // The ped impact was compiled out: ped_impulse is overwritten with zero
     ped_impulse.x = kFpZero_6F8E10;
     ped_impulse.y = kFpZero_6F8E10;
@@ -3147,20 +3147,20 @@ Object_5C::Object_5C()
         gObject_2C_Pool = new TObjectPool();
         if (!gObject_2C_Pool)
         {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\object.cpp", 4239);
+            FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\object.cpp", 4239);
         }
     }
 
     gObject_8_Pool = new TObject_8_Pool();
     if (!gObject_8_Pool)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\object.cpp", 4243);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\object.cpp", 4243);
     }
 
     gObject_3C_Pool = new TObject_3C_Pool();
     if (!gObject_3C_Pool)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\object.cpp", 4245);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\object.cpp", 4245);
     }
 
     mCollisionProbeSprite = gSpritePool->get_new_sprite();

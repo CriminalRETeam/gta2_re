@@ -1449,7 +1449,7 @@ void Weapon::fire_truck_flamethrower()
 // out-of-line copy of the inline operator+ it knows the call can't throw and drops them. So only this
 // function uses operator+, and fire_truck_flamethrower above calls Add. The inline getters
 // (GetDriver, IsTargetHit) are free inline sites that set the inline budget split, so the
-// second rotation calls Negate_4086A0 out of line as in 10.5.
+// second rotation calls Negated out of line as in 10.5.
 MATCH_FUNC(0x5e0e70)
 void Weapon::fire_truck_gun()
 {
@@ -1509,7 +1509,7 @@ static inline void RotateByAngle_40F6B0_no_budget3(Fix16_Point& p, const Ang16& 
     Fix16 cos = Ang16::cosine(angle);
     Fix16 x_old = p.x;
     p.x = AddFree(p.x.Multiply(cos), p.y.Multiply(sin));
-    p.y = x_old.Negate_4086A0().Multiply(sin).Add(p.y.Multiply(cos));
+    p.y = x_old.Negated().Multiply(sin).Add(p.y.Multiply(cos));
 }
 
 // https://decomp.me/scratch/QliaE
@@ -1533,7 +1533,7 @@ void Weapon::tank_main_gun()
             Fix16 sin = Ang16::sine(cannon_angle);
             Fix16 cos = Ang16::cosine(cannon_angle);
             cannon_pos.x = cannon_pos.x.Multiply(cos).Add(MultiplyLeftWide(cannon_pos.y, sin));
-            cannon_pos.y = x_old.Negate_4086A0().Multiply(sin).Add(cannon_pos.y.Multiply(cos));
+            cannon_pos.y = x_old.Negated().Multiply(sin).Add(cannon_pos.y.Multiply(cos));
         }
 
         offset.SetXY(Fix16(0), kFpOneEighth_706D88);
@@ -1609,7 +1609,7 @@ void Weapon::army_gun_jeep()
             Fix16 sin = Ang16::sine(gun_ang);
             Fix16 cos = Ang16::cosine(gun_ang);
             bullet_pos.x = bullet_pos.x.Multiply(cos).Add(MultiplyLeftWide(bullet_pos.y, sin));
-            bullet_pos.y = x_old.Negate_4086A0().Multiply(sin).Add(bullet_pos.y.Multiply(cos));
+            bullet_pos.y = x_old.Negated().Multiply(sin).Add(bullet_pos.y.Multiply(cos));
         }
 
         muzzle_offset.SetXY(Fix16(0), kFpMinusNineThirtySeconds);

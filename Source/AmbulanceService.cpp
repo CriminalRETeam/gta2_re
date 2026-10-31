@@ -832,7 +832,7 @@ void AmbulanceTask::UpdateState()
             break;
         }
         default:
-            FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\Gta2\\Source\\medical.cpp", 1087);
+            FatalError(Gta2Error::InvalidCase, "C:\\Splitting\\Gta2\\Source\\medical.cpp", 1087);
             break;
     }
     if (bHandle)

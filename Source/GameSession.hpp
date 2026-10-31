@@ -128,7 +128,7 @@ struct GameSession
 
     EXPORT char_type* GetScriptName();
 
-    EXPORT char_type* GetSaveFileName_4C5970();
+    EXPORT char_type* GetSaveName();
 
     EXPORT char_type GetMainStageIdx() const;
 

@@ -431,7 +431,7 @@ void MapRenderer::ambient_light_tick()
 
 // this function matches, but some "fcomps" offsets are wrong
 MATCH_FUNC(0x4E9EE0)
-void MapRenderer::draw_4E9EE0(u16& word_side, const bool& bFourSided, u8 colour)
+void MapRenderer::draw_triangle(u16& word_side, const bool& bFourSided, u8 colour)
 {
     u16 texture_idx = gGtx_0x106C->GetTile(word_side & block_face::tile_idx_mask);
     if (texture_idx)
@@ -444,7 +444,7 @@ void MapRenderer::draw_4E9EE0(u16& word_side, const bool& bFourSided, u8 colour)
         else
         {
             u16 rotation_and_flip = word_side & block_face::flip_and_rotation_mask;
-            draw_4EA190(rotation_and_flip);
+            TransformTriangleUVsThreeSided(rotation_and_flip);
         }
         sTileDrawFlags = (word_side >> 5) & 0x80;
         pgbh_DrawTriangle(sTileDrawFlags | gLightingDrawFlag,
@@ -457,7 +457,7 @@ void MapRenderer::draw_4E9EE0(u16& word_side, const bool& bFourSided, u8 colour)
 
 // this function matches, but some "fcomps" offsets are wrong
 MATCH_FUNC(0x4EA190)
-void MapRenderer::draw_4EA190(u16& rotation_and_flip) 
+void MapRenderer::TransformTriangleUVsThreeSided(u16& rotation_and_flip) 
 {
     s32 vert_idx;
     
@@ -1529,7 +1529,7 @@ void MapRenderer::Draw3SidedDiagonalUpLeft()
         gVertProjector2.ProjectVertBottom(gXCoord + kZeroOnePoint.y, gYCoord, &gTileVerts_6F65A8[2]);
         gTileVerts_6F65A8[2].u = 0.0f;
         gTileVerts_6F65A8[2].v = 63.999901f;
-        draw_4E9EE0(gBlockLeft, false, mColor);
+        draw_triangle(gBlockLeft, false, mColor);
     }
 }
 
@@ -1561,7 +1561,7 @@ void MapRenderer::Draw3SidedDiagonalUpRight()
         gVertProjector2.ProjectVertBottom(gXCoord + kZeroOnePoint.y, gYCoord + kZeroOnePoint.y, &gTileVerts_6F65A8[2]);
         gTileVerts_6F65A8[2].u = 0.0f;
         gTileVerts_6F65A8[2].v = 63.999901f;
-        draw_4E9EE0(gBlockRight, false, mTriDiagUpRightColour);
+        draw_triangle(gBlockRight, false, mTriDiagUpRightColour);
     }
 }
 
@@ -1593,7 +1593,7 @@ void MapRenderer::Draw3SidedDiagonalDownLeft()
         gVertProjector2.ProjectVertBottom(gXCoord, gYCoord, &gTileVerts_6F65A8[2]);
         gTileVerts_6F65A8[2].u = 0.0f;
         gTileVerts_6F65A8[2].v = 63.999901f;
-        draw_4E9EE0(gBlockLeft, false, mTriDiagDownLeftColour);
+        draw_triangle(gBlockLeft, false, mTriDiagDownLeftColour);
     }
 }
 
@@ -1625,7 +1625,7 @@ void MapRenderer::Draw3SidedDiagonalDownRight()
         gVertProjector2.ProjectVertBottom(gXCoord, gYCoord + kZeroOnePoint.y, &gTileVerts_6F65A8[2]);
         gTileVerts_6F65A8[2].u = 0.0f;
         gTileVerts_6F65A8[2].v = 63.999901f;
-        draw_4E9EE0(gBlockRight, false, mTriDiagDownRightColour);
+        draw_triangle(gBlockRight, false, mTriDiagDownRightColour);
     }
 }
 
@@ -1648,7 +1648,7 @@ void MapRenderer::Draw4SidedDiagonalUpLeft()
         gVertProjector2.ProjectVertTop(gXCoord, gYCoord + kZeroOnePoint.y, &gTileVerts_6F65A8[2]);
         gTileVerts_6F65A8[2].u = 63.999901f;
         gTileVerts_6F65A8[2].v = 0.0f;
-        draw_4E9EE0(gBlockLeft, true, mColor);
+        draw_triangle(gBlockLeft, true, mColor);
     }
     if (sBlockBottom)
     {
@@ -1681,7 +1681,7 @@ void MapRenderer::Draw4SidedDiagonalUpRight()
         gVertProjector2.ProjectVertTop(gXCoord, gYCoord, &gTileVerts_6F65A8[2]);
         gTileVerts_6F65A8[2].u = 63.999901f;
         gTileVerts_6F65A8[2].v = 0.0f;
-        draw_4E9EE0(gBlockRight, true, mTriDiagUpRightColour);
+        draw_triangle(gBlockRight, true, mTriDiagUpRightColour);
     }
     if (sBlockBottom)
     {
@@ -1711,7 +1711,7 @@ void MapRenderer::Draw4SidedDiagonalDownLeft()
         gVertProjector2.ProjectVertTop(gXCoord + kZeroOnePoint.y, gYCoord + kZeroOnePoint.y, &gTileVerts_6F65A8[2]);
         gTileVerts_6F65A8[2].u = 63.999901f;
         gTileVerts_6F65A8[2].v = 0.0f;
-        draw_4E9EE0(gBlockLeft, true, mTriDiagDownLeftColour);
+        draw_triangle(gBlockLeft, true, mTriDiagDownLeftColour);
     }
     if (gBlockRight)
     {
@@ -1748,7 +1748,7 @@ void MapRenderer::Draw4SidedDiagonalDownRight()
         gVertProjector2.ProjectVertTop(gXCoord + kZeroOnePoint.y, gYCoord, &gTileVerts_6F65A8[2]);
         gTileVerts_6F65A8[2].u = 63.999901f;
         gTileVerts_6F65A8[2].v = 0.0f;
-        draw_4E9EE0(gBlockRight, true, mTriDiagDownRightColour);
+        draw_triangle(gBlockRight, true, mTriDiagDownRightColour);
     }
     if (sBlockTop)
     {
@@ -2380,7 +2380,7 @@ void MapRenderer::draw_left(u16& side_word, Fix16& x_off, Fix16& y_off_a, Fix16&
         gVertProjector2.ProjectVertBottom(gXCoord + x_off, gYCoord + y_off_b, &gTileVerts_6F65A8[3]);
         gVertProjector2.ProjectVertTop(gXCoord + x_off, gYCoord + y_off_b, &gTileVerts_6F65A8[2]);
 
-        draw_4F3FB0(kLeftSideFlags[side_word >> 13]);
+        SetUVCorners(kLeftSideFlags[side_word >> 13]);
 
         Set_UV(kZeroOnePoint.x, y_off_a, 0);
         Set_UV(kZeroOnePoint.y, y_off_a, 1);
@@ -2405,7 +2405,7 @@ void MapRenderer::draw_left(u16& side_word, Fix16& x_off, Fix16& y_off_a, Fix16&
 }
 
 MATCH_FUNC(0x4F3FB0)
-void __stdcall draw_4F3FB0(s32 uv_flags)
+void __stdcall SetUVCorners(s32 uv_flags)
 {
     Fix16_Point tmp;
     switch (uv_flags & 0x60)
@@ -2485,7 +2485,7 @@ void MapRenderer::draw_right(u16& side_word, Fix16& x_off, Fix16& y_off_a, Fix16
         gVertProjector2.ProjectVertBottom(gXCoord + x_off, gYCoord + y_off_b, &gTileVerts_6F65A8[2]);
         gVertProjector2.ProjectVertTop(gXCoord + x_off, gYCoord + y_off_b, &gTileVerts_6F65A8[3]);
 
-        draw_4F3FB0(kRightSideFlags[side_word >> 13]);
+        SetUVCorners(kRightSideFlags[side_word >> 13]);
 
         Set_UV(kZeroOnePoint.x, y_off_a, 0);
         Set_UV(kZeroOnePoint.y, y_off_a, 1);
@@ -2524,7 +2524,7 @@ void MapRenderer::draw_top(u16& side_word, Fix16& x_off_a, Fix16& x_off_b, Fix16
         gVertProjector2.ProjectVertBottom(gXCoord + x_off_b, gYCoord + y_off, &gTileVerts_6F65A8[1]);
         gVertProjector2.ProjectVertTop(gXCoord + x_off_b, gYCoord + y_off, &gTileVerts_6F65A8[2]);
 
-        draw_4F3FB0(kTopSideFlags[side_word >> 13]);
+        SetUVCorners(kTopSideFlags[side_word >> 13]);
 
         Set_UV(x_off_a, kZeroOnePoint.x, 0);
         Set_UV(x_off_b, kZeroOnePoint.x, 1);
@@ -2563,7 +2563,7 @@ void MapRenderer::draw_partial_bottom(u16& side_word, Fix16& x_off_a, Fix16& x_o
         gVertProjector2.ProjectVertBottom(gXCoord + x_off_b, gYCoord + y_off, &gTileVerts_6F65A8[2]);
         gVertProjector2.ProjectVertTop(gXCoord + x_off_b, gYCoord + y_off, &gTileVerts_6F65A8[1]);
 
-        draw_4F3FB0(kBottomSideFlags[side_word >> 13]);
+        SetUVCorners(kBottomSideFlags[side_word >> 13]);
 
         Set_UV(x_off_a, kZeroOnePoint.x, 0);
         Set_UV(x_off_b, kZeroOnePoint.x, 1);
@@ -2598,7 +2598,7 @@ void MapRenderer::draw_partial_lid(Fix16& x_min, Fix16& x_max, Fix16& y_min, Fix
         gVertProjector2.ProjectVertTop(gXCoord + x_max, gYCoord + y_max, &gTileVerts_6F65A8[2]);
         gVertProjector2.ProjectVertTop(gXCoord + x_min, gYCoord + y_max, &gTileVerts_6F65A8[3]);
 
-        draw_4F3FB0(kLidFlags[static_cast<u16>(sLidType) >> 13]);
+        SetUVCorners(kLidFlags[static_cast<u16>(sLidType) >> 13]);
 
         Set_UV(x_min, y_min, 0);
         Set_UV(x_max, y_min, 1);

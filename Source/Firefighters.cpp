@@ -66,7 +66,7 @@ bool Firefighter::CheckAbortConditions()
         }
     }
 
-    if (mPed && mPed->bHasGameObject_403B70())
+    if (mPed && mPed->HasGameObject())
     {
         mState = firefighter_state::abort_6;
     }

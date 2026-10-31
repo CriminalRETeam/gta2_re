@@ -403,6 +403,8 @@ ContinueMovementAfterCollision_54B8F0	ContinueMovementAfterCollision
 ContinueToNextStage_4B8020	ContinueToNextStage
 ControlInputs_566820	ControlInputs
 ConvertAllMass_4549C0	ConvertAllMass
+ConvertColourBanks_5D7CB0	SetColourDepthAndConvertBanks
+ConvertColourBanks_5D7CC0	ConvertColourBanks
 ConvertCycleCount_5BEED0	ConvertCycleCount
 ConvertMass_454680	ConvertMass
 ConvertToPlayBackRate_417C60	ConvertToPlayBackRate
@@ -429,6 +431,7 @@ CreateCrusher_488820	CreateCrusher
 CreateDiagonalWallObjects_5297F0	CreateDiagonalWallObjects
 CreateDummyDriver_470CC0	CreateDummyDriver
 CreateExplosion_52A3D0	CreateExplosion
+CreateFile_4A7000	CreateEmptyFile
 CreateFromMapZones_5C2AC0	CreateFromMapZones
 CreateGenerator_4C1DC0	CreateGenerator
 CreateLight_504EE0	CreateLight
@@ -514,6 +517,7 @@ DestroyWhileSinking_43DD60	DestroyWhileSinking
 Destroy_56C340	Destroy
 DetachTrailer_442760	DetachTrailer
 DetectCarAhead_44D1D0	DetectCarAhead
+DirectInputCreate_4986D0	CreateDirectInput
 DirectInputDeviceEnumCallBack_498910	DirectInputDeviceEnumCallBack
 DirectPlayCreate_51DCD0	CreateDirectPlayAndLobby
 DirectPlayCreate_51DED0	EnumModems
@@ -600,6 +604,7 @@ DrawDigitsRightAligned_492260	DrawDigitsRightAligned
 DrawDigits_5D2680	DrawDigits
 DrawElectricArc_5DE910	DrawElectricArc
 DrawExplodingScores_5969E0	DrawExplodingScores
+DrawFigureScaled_5D7670	DrawFigureScaled
 DrawFigure_5D7EC0	DrawFigure
 DrawFlamesAndStartScreamTimer_545430	DrawFlamesAndStartScreamTimer
 DrawGangRespectBars_5CFA70	DrawGangRespectBars
@@ -642,6 +647,10 @@ DrawScoreTable_4B5430	DrawScoreTable
 DrawSingleNumber_597100	DrawSingleNumber
 DrawSpritesClipped_477A40	DrawSpritesClipped
 DrawTextFixedWidth_4B78B0	DrawTextFixedWidth
+DrawTextScaled_5D77A0	DrawStringScaled
+DrawText_4B87A0	DrawStringDefaultPalette
+DrawText_5D7720	DrawStringScaledPalette
+DrawText_5D8A10	DrawString
 DrawTextureScaled_495470	DrawTextureScaled
 DrawTexture_5D8470	DrawTexture
 DrawTopSide_4EBA60	DrawTopSide
@@ -650,6 +659,7 @@ DrawWantedLevel_5D0110	DrawWantedLevel
 DrawZoneName_5D5900	DrawZoneName
 Draw_495560	Draw
 Draw_4B92D0	Draw
+Draw_4DA7B0	DrawAndFlip
 Draw_4F6A20	Draw
 Draw_59EFF0	Draw
 Draw_5C5DF0	Draw
@@ -719,6 +729,7 @@ EvaluatePickupState_4FA9D0	EvaluatePickupState
 EveryTileMatchesArrowType_59DFB0	EveryTileMatchesArrowType
 ExecOpCode_5061C0	ExecOpCode
 ExecuteGame_4B9640	ExecuteGame
+ExecuteGame_4DA780	ExecuteGameTimed
 ExecuteGamemodeTick_516660	ExecuteGamemodeTick
 ExecuteScriptThreads_5127A0	ExecuteScriptThreads
 ExistsNextBonusStage_4B7520	ExistsNextBonusStage
@@ -742,6 +753,8 @@ FadeOut_58E490	FadeOut
 FailWhenObjectiveTimerExpired_469E10	FailWhenObjectiveTimerExpired
 FatalDXError_4A3CF0	FatalDXError
 FatalErrorMsg_4DB410	FatalErrorMsg
+FatalError_4A07C0	ReportFatalError
+FatalError_4A38C0	FatalError
 FileByteSum_4DB120	FileByteSum
 File_Error_4A7190	File_Error
 FinalizeAfterScriptLoad_4C1CD0	FinalizeAfterScriptLoad
@@ -835,6 +848,7 @@ ForceTaxiPassengersToExit_471680	ForceTaxiPassengersToExit
 ForceWeapon_46F600	ForceWeapon
 FormatAndSetupText_5D1B10	FormatAndSetupText
 FormatCurrentBrief_5D3470	FormatCurrentBrief
+FormatMessage_5D1860	LayoutMessage
 FreeCurrentBrief_5D3350	FreeCurrentBrief
 FreeEntry_474CC0	FreeEntry
 FreeFrame_5031C0	FreeFrame
@@ -1067,6 +1081,7 @@ GetRemappedTexture_5B90D0	GetRemappedTexture
 GetRespectForPlayer_4BEEF0	GetRespectForPlayer
 GetRunVelocity_545580	GetRunVelocity
 GetSampleLength_58DC70	GetSampleLength
+GetSaveFileName_4C5970	GetSaveName
 GetScoreDigits_592360	GetScoreDigits
 GetScore_592370	GetScore
 GetScrFileName_5122D0	GetScrFileName
@@ -1087,6 +1102,7 @@ GetSprite_440840	GetSprite
 GetSprite_46DF50	GetSprite
 GetStage_4C5990	GetStage
 GetStatistic_4C59F0	GetStatistic
+GetString_519A00	GetNarrowText
 GetString_519A50	GetString
 GetStyleName_4C5950	GetStyleName
 GetSurfaceTypeBelowCoord_4E52A0	GetSurfaceTypeBelowCoord
@@ -1413,6 +1429,8 @@ IsFireType_5435D0	IsFireType
 IsFirstInPathQueue_554A90	IsFirstInPathQueue
 IsFlatRoadAt_583870	IsFlatRoadAt
 IsFootBrakeOn_55A150	IsFootBrakeOn
+IsFullScreen_5D9280	IsStartModeFullScreen
+IsFullScreen_5D98D0	IsVideoFullScreen
 IsGasPedalPressedEnough_5626A0	IsGasPedalPressedEnough
 IsGreater_451690	IsGreater
 IsHeavyTruckOrBus_417F40	IsHeavyTruckOrBus
@@ -1588,6 +1606,7 @@ MarkProtoRecycled_443E50	MarkProtoRecycled
 MarkRecycled_443E80	MarkRecycled
 MarkUsed_48F5A0	MarkUsed
 MeleeAttackStateMachine_46B670	MeleeAttackStateMachine
+MessageBox_4AE170	MessageBoxPrintf
 MidAngle_4057B0	MidAngle
 MinDistanceToAnySpriteBBoxCorner_5A22B0	MinDistanceToAnySpriteBBoxCorner
 MinGasPedalPressure_5626C0	MinGasPedalPressure
@@ -1606,6 +1625,8 @@ MultiplyInt_561DB0	MultiplyInt
 Multiply_408680	Multiply
 Multiply_438FE0	Multiply
 MusicFileExists_58E500	MusicFileExists
+Negate_4086A0	Negated
+Negate_40ACB0	Negated
 NetSendOldInputs_4DA9B0	NetSendOldInputs
 Net_Receive_Players_Inputs_4DA9F0	Net_Receive_Players_Inputs
 Net_Send_Our_Inputs_4DACB0	Net_Send_Our_Inputs
@@ -2262,6 +2283,7 @@ ShowCantAffordMessage_443AB0	ShowCantAffordMessage
 ShowCarName_4406B0	ShowCarName
 ShowCarName_5D5240	ShowCarName
 ShowCounters_4B8FF0	ShowCounters
+ShowCursor_5D9660	UnhideCursor
 ShowCycle_48B920	ShowCycle
 ShowDebugInfo_566EE0	ShowDebugInfo
 ShowDebugOverlay_4B9270	ShowDebugOverlay
@@ -2287,6 +2309,7 @@ ShowUnableToOpenFileError_51CAD0	ShowUnableToOpenFileError
 ShowZoneName_5D5AF0	ShowZoneName
 ShrinkSprite_59E390	ShrinkSprite
 Shutdown_4CEA00	Shutdown
+Shutdown_4DA740	ShutdownGame
 Shutdown_58DB30	Shutdown
 SinglePlayerStepFrame_4B9710	SinglePlayerStepFrame
 SinkAllAttachedCars_5A6BD0	SinkAllAttachedCars
@@ -2397,6 +2420,8 @@ StoreRouteReversed_589F70	StoreRouteReversed
 StoreRoute_589EB0	StoreRoute
 StoreStringsForStage_4B4BC0	StoreStringsForStage
 StrEntryByString_5030B0	StrEntryByString
+StrToInt_430FA0	StrToS32
+StrToInt_431080	StrToS16
 StrToUpper_5B5B80	StrToUpper
 StreamSetVolume_58E2F0	StreamSetVolume
 StreamStatus_58E2C0	StreamStatus
@@ -2682,6 +2707,7 @@ Wasted_567130	Wasted
 WatchCar_5696D0	WatchCar
 Wide2PesudoAscii_5B5D10	Wide2PesudoAscii
 WideToDbcs_519960	WideToDbcs
+WinMain_5E53F0	GameWinMain
 WindowProc_5E4EE0	WindowProc
 WriteBufferToFile_4A6E80	WriteBufferToFile
 Write_4A6F30	Write
@@ -2689,6 +2715,7 @@ Write_4D9620	Write
 Write_Log_4D9650	Write_Log
 abs_sub_less_than_epislon_45AE40	abs_sub_less_than_epislon
 acquire_input_device_498730	acquire_input_device
+add_503160	PushFrame
 add_ammo_capped_5DCE40	add_ammo_capped
 add_ped_leader_4C9B10	add_ped_leader
 add_ped_to_end_of_list_4C8F90	add_ped_to_end_of_list
@@ -2727,6 +2754,9 @@ destroy_4AD070	destroy
 destroy_4D5FA0	destroy
 do_network_and_local_inputs_4DAF30	do_network_and_local_inputs
 do_process_loaded_zone_data_4E8E30	do_process_loaded_zone_data
+draw_4E9EE0	draw_triangle
+draw_4EA190	TransformTriangleUVsThreeSided
+draw_4F3FB0	SetUVCorners
 draw_bottom_4ED290	draw_bottom
 draw_bottom_4F49B0	draw_partial_bottom
 draw_left_4F3C00	draw_left
@@ -2768,6 +2798,7 @@ get_texture_5B90A0	get_texture
 get_uint8_4F7B70	get_uint8
 get_wanted_star_count_46EF00	get_wanted_star_count
 get_zone_str_4DEF00	get_zone_str
+has_shadows_59EAE0	CastsShadow
 init_4A85C0	init
 init_4C5AF0	init
 init_4FA310	init
@@ -2812,6 +2843,7 @@ log_on_line_written_4D9670	log_on_line_written
 log_on_line_written_cb_4D9690	log_on_line_written_cb
 log_timestamp_4D9540	log_timestamp
 make_input_devices_498800	make_input_devices
+malloc_4FE4D0	Checked_malloc
 modify_inputs_4CDF30	modify_inputs
 next_cycle_4C1AB0	next_cycle
 oil_stain_5E1DC0	oil_stain
@@ -2827,6 +2859,7 @@ push_type_1_car_502F80	push_type_1_car
 push_type_2_non_pickup_object_502FF0	push_type_2_non_pickup_object
 push_type_2_object_503050	push_type_2_object
 push_type_3_ped_502FB0	push_type_3_ped
+rand_4F7C00	get_raw_rand
 read_input_device_498DA0	read_input_device
 read_menu_input_4AFEB0	read_menu_input
 read_spec_5AB3F0	read_spec
@@ -2861,6 +2894,7 @@ skip_ovly_5AAE20	skip_ovly
 skip_psxt_5AAE30	skip_psxt
 smg_5DDD20	smg
 spawn_bullet_5DCF60	spawn_bullet
+srand_4F7A40	reset_seed
 static_dtor_5E4DD0	static_dtor
 subclass_proc_51BDD0	subclass_proc
 tank_main_gun_5E10E0	tank_main_gun

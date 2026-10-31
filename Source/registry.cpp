@@ -28,7 +28,7 @@ bool Registry::Open_Sound_Root(PHKEY phkResult)
                               phkResult,
                               &dwDisposition) != ERROR_SUCCESS)
         {
-            FatalError_4A38C0(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 58);
+            FatalError(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 58);
         }
         return false;
     }
@@ -54,7 +54,7 @@ bool Registry::Sound_Setting_Exists(const char_type* lpValueName)
 
     if (::RegCloseKey(hKey) != ERROR_SUCCESS)
     {
-        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 109);
+        FatalError(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 109);
     }
     return settingReadOK;
 }
@@ -71,7 +71,7 @@ s32 Registry::Get_Sound_Setting(const char_type* lpValueName, s32 value)
     {
         if (::RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&value), sizeof(DWORD)) != ERROR_SUCCESS)
         {
-            FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 138);
+            FatalError(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 138);
         }
 
         data = value;
@@ -79,7 +79,7 @@ s32 Registry::Get_Sound_Setting(const char_type* lpValueName, s32 value)
 
     if (::RegCloseKey(hKey) != ERROR_SUCCESS)
     {
-        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 146);
+        FatalError(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 146);
     }
 
     return data;
@@ -93,13 +93,13 @@ void Registry::Set_Sound_Setting(const char_type* lpValueName, s32 Data)
     {
         if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&Data), sizeof(DWORD)) != ERROR_SUCCESS)
         {
-            FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 169);
+            FatalError(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 169);
         }
     }
 
     if (RegCloseKey(hKey) != ERROR_SUCCESS)
     {
-        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 175);
+        FatalError(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 175);
     }
 }
 
@@ -138,7 +138,7 @@ bool Registry::Open_Debug_Root(PHKEY phkResult)
                             phkResult,
                             &dwDisposition) != ERROR_SUCCESS)
         {
-            FatalError_4A38C0(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 232);
+            FatalError(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 232);
         }
         return false;
     }
@@ -161,7 +161,7 @@ bool Registry::Open_Options_Root(PHKEY phkResult)
                             phkResult,
                             &dwDisposition) != ERROR_SUCCESS)
         {
-            FatalError_4A38C0(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 265);
+            FatalError(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 265);
         }
         return false;
     }
@@ -184,7 +184,7 @@ bool Registry::Open_Control_Root(PHKEY phkResult)
                             phkResult,
                             &dwDisposition) != ERROR_SUCCESS)
         {
-            FatalError_4A38C0(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 298);
+            FatalError(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 298);
         }
         return false;
     }
@@ -207,7 +207,7 @@ bool Registry::Open_Screen_Root(PHKEY phkResult)
                             phkResult,
                             &dwDisposition))
         {
-            FatalError_4A38C0(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 331);
+            FatalError(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 331);
         }
         return false;
     }
@@ -231,7 +231,7 @@ bool Registry::Debug_Setting_Exists(const char_type* lpValueName)
 
     if (RegCloseKey(hKey) != ERROR_SUCCESS)
     {
-        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 424);
+        FatalError(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 424);
     }
 
     return bRead;
@@ -250,7 +250,7 @@ void Registry::Get_Debug_Setting(const char_type* lpValueName, LPBYTE lpData, s3
 
     if (RegCloseKey(hKey) != ERROR_SUCCESS)
     {
-        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 531);
+        FatalError(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 531);
     }
 }
 
@@ -270,7 +270,7 @@ void Registry::Get_Option(const char_type* lpValueName, BYTE* pBuffer, s32 buffe
     // bug: closing key even if not opened
     if (RegCloseKey(hKey) != ERROR_SUCCESS)
     {
-        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 586);
+        FatalError(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 586);
     }
 }
 
@@ -288,14 +288,14 @@ s32 Registry::Get_Option_Int(const char_type* lpValueName, s32 value)
     {
         if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&value), sizeof(DWORD)) != ERROR_SUCCESS)
         {
-            FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 622);
+            FatalError(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 622);
         }
         Data = value;
     }
 
     if (RegCloseKey(hKey) != ERROR_SUCCESS)
     {
-        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 629);
+        FatalError(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 629);
     }
 
     return Data;
@@ -316,14 +316,14 @@ s32 Registry::Get_Control_Setting(s32 control_idx, s32 value)
     {
         if (RegSetValueExA(hKey, ValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&value), sizeof(DWORD)) != ERROR_SUCCESS)
         {
-            FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 667);
+            FatalError(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 667);
         }
         Data = value;
     }
 
     if (RegCloseKey(hKey) != ERROR_SUCCESS)
     {
-        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 674);
+        FatalError(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 674);
     }
 
     return Data;
@@ -341,14 +341,14 @@ s32 Registry::Get_Screen_Setting(const char_type* lpValueName, s32 default_value
     {
         if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&default_value), sizeof(DWORD)) != ERROR_SUCCESS)
         {
-            FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 709);
+            FatalError(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 709);
         }
         Data = default_value;
     }
 
     if (RegCloseKey(hKey) != ERROR_SUCCESS)
     {
-        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 716);
+        FatalError(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 716);
     }
 
     return Data;
@@ -362,12 +362,12 @@ void Registry::Set_Screen_Setting(const char_type* lpValueName, s32 Data)
 
     if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<BYTE*>(&Data), sizeof(DWORD)) != ERROR_SUCCESS)
     {
-        FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 743);
+        FatalError(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 743);
     }
 
     if (RegCloseKey(hKey) != ERROR_SUCCESS)
     {
-        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 745);
+        FatalError(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 745);
     }
 }
 
@@ -383,12 +383,12 @@ void Registry::Get_Screen_String(const char_type* lpValueName, BYTE* lpData, u16
     if (RegQueryValueExA(hKey, lpValueName, NULL, NULL, lpData, &cbData) &&
         RegSetValueExA(hKey, lpValueName, 0, REG_SZ, lpData, strlen(reinterpret_cast<const char_type*>(lpData)) + 1))
     {
-        FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 781);
+        FatalError(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 781);
     }
 
     if (RegCloseKey(hKey))
     {
-        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 787);
+        FatalError(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 787);
     }
 }
 
@@ -450,7 +450,7 @@ bool Registry::CreateNetworkRoot(PHKEY phkResult)
 
     if (RegCreateKeyExA(kRegistryRootKey_625018, SubKey, 0, "", 0, KEY_ALL_ACCESS, NULL, phkResult, &dwDisposition) != ERROR_SUCCESS)
     {
-        FatalError_4A38C0(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 910);
+        FatalError(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 910);
     }
 
     return true;
@@ -515,7 +515,7 @@ bool Registry::Network_Setting_Exists(const char_type* lpValueName)
 
     if (RegCloseKey(hKey) != ERROR_SUCCESS)
     {
-        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1020);
+        FatalError(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1020);
     }
     return ret;
 }
@@ -532,14 +532,14 @@ s32 Registry::Get_Network_Setting(const char_type* lpValueName, s32 value)
     {
         if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&value), sizeof(DWORD)) != ERROR_SUCCESS)
         {
-            FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1051);
+            FatalError(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1051);
         }
         Data = value;
     }
 
     if (RegCloseKey(hKey) != ERROR_SUCCESS)
     {
-        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1058);
+        FatalError(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1058);
     }
 
     return Data;
@@ -553,13 +553,13 @@ void Registry::Set_Network_Setting(const char_type* lpValueName, BYTE Data)
     {
         if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, &Data, sizeof(DWORD)))
         {
-            FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1080);
+            FatalError(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1080);
         }
     }
 
     if (RegCloseKey(hKey) != ERROR_SUCCESS)
     {
-        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1086);
+        FatalError(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1086);
     }
 }
 
@@ -579,7 +579,7 @@ bool Registry::Open_Player_Root(PHKEY phkResult)
                             phkResult,
                             &dwDisposition) != ERROR_SUCCESS)
         {
-            FatalError_4A38C0(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1110);
+            FatalError(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1110);
         }
         return false;
     }
@@ -604,13 +604,13 @@ DWORD Registry::Get_Player_Setting(const char_type* lpValueName)
         Data = 0;
         if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<BYTE*>(&Data), sizeof(DWORD)) != ERROR_SUCCESS)
         {
-            FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1143);
+            FatalError(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1143);
         }
     }
 
     if (RegCloseKey(hKey) != ERROR_SUCCESS)
     {
-        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1149);
+        FatalError(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1149);
     }
 
     return Data;
@@ -624,12 +624,12 @@ void Registry::Set_Player_Setting(const char_type* lpValueName, DWORD Data)
     {
         if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<BYTE*>(&Data), sizeof(DWORD)) != ERROR_SUCCESS)
         {
-            FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1171);
+            FatalError(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1171);
         }
     }
 
     if (RegCloseKey(hKey) != ERROR_SUCCESS)
     {
-        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1177);
+        FatalError(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1177);
     }
 }

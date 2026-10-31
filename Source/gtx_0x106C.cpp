@@ -354,24 +354,24 @@ void gtx_0x106C::BuildCarInfoContainer(s32 chunk_size)
 
     if (mCari == NULL)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 821);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 821);
     }
 
     while (total_len < static_cast<u32>(chunk_size))
     {
         if (idx >= 256)
         {
-            FatalError_4A38C0(Gta2Error::FileOverflow, "C:\\Splitting\\Gta2\\Source\\style.cpp", 825);
+            FatalError(Gta2Error::FileOverflow, "C:\\Splitting\\Gta2\\Source\\style.cpp", 825);
         }
 
         if (pCarInfoIter->w > 0x80u || pCarInfoIter->h > 0x80u || pCarInfoIter->num_remaps > 0x40u)
         {
-            FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 826, pCarInfoIter->model);
+            FatalError(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 826, pCarInfoIter->model);
         }
 
         if (pCarInfoIter->sprite != 0 && pCarInfoIter->sprite != 1)
         {
-            FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 827, pCarInfoIter->model);
+            FatalError(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 827, pCarInfoIter->model);
         }
 
         mCari->mCarInfo[pCarInfoIter->model] = pCarInfoIter;
@@ -389,7 +389,7 @@ void gtx_0x106C::BuildCarInfoContainer(s32 chunk_size)
         u32 off = pCarInfoIter->num_remaps + 0xE;
         if (reinterpret_cast<u8*>(pCarInfoIter)[off] > 5u)
         {
-            FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 842, pCarInfoIter->model);
+            FatalError(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 842, pCarInfoIter->model);
         }
         u32 door_len = reinterpret_cast<u8*>(pCarInfoIter)[off] * sizeof(door_info) + 1;
         total_len += off + door_len;
@@ -414,7 +414,7 @@ void gtx_0x106C::load_delx(u32 delx_chunk_size)
         off += size;
     }
 
-    mDeltaBuffer = static_cast<sprite_deltas*>(Memory::malloc_4FE4D0(mDeltaLen));
+    mDeltaBuffer = static_cast<sprite_deltas*>(Memory::Checked_malloc(mDeltaLen));
     delta_entry* pSrc = mDeltaIndex;
     u32 off2 = 0;
     sprite_deltas* pDst = static_cast<sprite_deltas*>(mDeltaBuffer);
@@ -488,7 +488,7 @@ void gtx_0x106C::build_delta_container()
         pIter = reinterpret_cast<sprite_deltas*>(reinterpret_cast<u8*>(pIter) + size);
     }
 
-    mDel = static_cast<delta_container*>(Memory::malloc_4FE4D0(4 * maxSprite + 8));
+    mDel = static_cast<delta_container*>(Memory::Checked_malloc(4 * maxSprite + 8));
     mDel->mCount = maxSprite + 1;
 
     for (u32 i = 0; i < mDel->mCount; i++)
@@ -502,7 +502,7 @@ void gtx_0x106C::build_delta_container()
     {
         if (mDel->mEntries[pIter->mWhichSprite])
         {
-            FatalError_4A38C0(Gta2Error::MultipleSpriteDeltas, "C:\\Splitting\\Gta2\\Source\\style.cpp", 996, pIter->mWhichSprite);
+            FatalError(Gta2Error::MultipleSpriteDeltas, "C:\\Splitting\\Gta2\\Source\\style.cpp", 996, pIter->mWhichSprite);
         }
 
         mDel->mEntries[pIter->mWhichSprite] = pIter;
@@ -521,7 +521,7 @@ void gtx_0x106C::build_delta_container()
 MATCH_FUNC(0x5AAD50)
 void gtx_0x106C::load_car_info(u32 cari_chunk_size)
 {
-    mCarInfo = static_cast<car_info**>(Memory::malloc_4FE4D0(cari_chunk_size));
+    mCarInfo = static_cast<car_info**>(Memory::Checked_malloc(cari_chunk_size));
     File::Global_Read(mCarInfo, cari_chunk_size);
 
     BuildCarInfoContainer(cari_chunk_size);
@@ -530,7 +530,7 @@ void gtx_0x106C::load_car_info(u32 cari_chunk_size)
 MATCH_FUNC(0x5AAD80)
 void gtx_0x106C::load_delta_index(u32 delx_chunk_size)
 {
-    this->mDeltaIndex = static_cast<delta_entry*>(Memory::malloc_4FE4D0(delx_chunk_size));
+    this->mDeltaIndex = static_cast<delta_entry*>(Memory::Checked_malloc(delx_chunk_size));
     File::Global_Read(mDeltaIndex, delx_chunk_size);
 
     load_delx(delx_chunk_size);
@@ -543,7 +543,7 @@ void gtx_0x106C::load_delta_index(u32 delx_chunk_size)
 MATCH_FUNC(0x5AADD0)
 void gtx_0x106C::load_delta_store(u32 dels_chunk_size)
 {
-    mDeltaStore = static_cast<delta_store_entry*>(Memory::malloc_4FE4D0(dels_chunk_size));
+    mDeltaStore = static_cast<delta_store_entry*>(Memory::Checked_malloc(dels_chunk_size));
     File::Global_Read(mDeltaStore, dels_chunk_size);
 }
 
@@ -587,13 +587,13 @@ void gtx_0x106C::load_palette_index(u32 palx_chunk_len)
 {
     if (palx_chunk_len != sizeof(palette_index))
     {
-        FatalError_4A38C0(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1157, palx_chunk_len);
+        FatalError(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1157, palx_chunk_len);
     }
 
     mPaletteIndex = new palette_index();
     if (!mPaletteIndex)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1159);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1159);
     }
 
     File::Global_Read(mPaletteIndex, palx_chunk_len);
@@ -602,28 +602,28 @@ void gtx_0x106C::load_palette_index(u32 palx_chunk_len)
 MATCH_FUNC(0x5AAF00)
 void gtx_0x106C::load_map_object_info(u32 obji_chunk_len)
 {
-    mMapObjectInfo = static_cast<object_info*>(Memory::malloc_4FE4D0(obji_chunk_len));
+    mMapObjectInfo = static_cast<object_info*>(Memory::Checked_malloc(obji_chunk_len));
     File::Global_Read(mMapObjectInfo, obji_chunk_len);
     if (obji_chunk_len / 2 >= 0x10000)
     {
-        FatalError_4A38C0(Gta2Error::TooManyLoadedObjectInfos, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1177, obji_chunk_len / 2);
+        FatalError(Gta2Error::TooManyLoadedObjectInfos, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1177, obji_chunk_len / 2);
     }
 
     mMapObjectInfoLen = obji_chunk_len / 2;
     if (((obji_chunk_len / 2) & 0xffff) * 2 != obji_chunk_len)
     {
-        FatalError_4A38C0(Gta2Error::InvalidLoadedObjectInfoData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1179);
+        FatalError(Gta2Error::InvalidLoadedObjectInfoData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1179);
     }
 }
 
 MATCH_FUNC(0x5AAF80)
 void gtx_0x106C::load_sprite_index(u32 sprx_chunk_size)
 {
-    mSpriteIndex = static_cast<sprite_index*>(Memory::malloc_4FE4D0(sprx_chunk_size + 8));
+    mSpriteIndex = static_cast<sprite_index*>(Memory::Checked_malloc(sprx_chunk_size + 8));
     File::Global_Read(mSpriteIndex, sprx_chunk_size);
     if ((sprx_chunk_size & ~7u) > 524280)
     {
-        FatalError_4A38C0(Gta2Error::TooManySprites, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1198, sprx_chunk_size >> 3);
+        FatalError(Gta2Error::TooManySprites, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1198, sprx_chunk_size >> 3);
     }
     mSpriteIndexCount = (sprx_chunk_size >> 3) + 1;
 }
@@ -663,7 +663,7 @@ void gtx_0x106C::InitFontTypes(u16 fontCount)
     }
     else
     {
-        FatalError_4A38C0(Gta2Error::StyleFileContainsUnexpectedNumberOfFonts, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1251, fontCount);
+        FatalError(Gta2Error::StyleFileContainsUnexpectedNumberOfFonts, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1251, fontCount);
     }
 }
 
@@ -672,16 +672,16 @@ void gtx_0x106C::load_font_base(u32 fonb_chunk_size)
 {
     if (fonb_chunk_size < 2)
     {
-        FatalError_4A38C0(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1268, fonb_chunk_size);
+        FatalError(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1268, fonb_chunk_size);
     }
 
-    mFontBase = static_cast<font_base*>(Memory::malloc_4FE4D0(fonb_chunk_size));
+    mFontBase = static_cast<font_base*>(Memory::Checked_malloc(fonb_chunk_size));
     File::Global_Read(mFontBase, fonb_chunk_size);
 
     u32 font_count = mFontBase->mFontCount;
     if (fonb_chunk_size != (font_count * 2) + 2)
     {
-        FatalError_4A38C0(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1271, fonb_chunk_size);
+        FatalError(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1271, fonb_chunk_size);
     }
 
     mFontBaseTotal = SumCounts(mFontBase->mBase, mFontBase->mFontCount);
@@ -727,19 +727,19 @@ void gtx_0x106C::load_sprite_base(u32 sprite_base_chunk_size)
 {
     if (sprite_base_chunk_size != sizeof(sprite_base))
     {
-        FatalError_4A38C0(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1289, sprite_base_chunk_size);
+        FatalError(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1289, sprite_base_chunk_size);
     }
 
     mSpriteBase1 = new sprite_base();
     if (!mSpriteBase1)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1291);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1291);
     }
 
     mSpriteBase2 = new sprite_base();
     if (!mSpriteBase2)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1293);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1293);
     }
 
     File::Global_Read(mSpriteBase1, sprite_base_chunk_size);
@@ -754,19 +754,19 @@ void gtx_0x106C::load_palete_base(u32 palette_base_chunk_len)
 {
     if (palette_base_chunk_len != sizeof(palette_base))
     {
-        FatalError_4A38C0(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1311, palette_base_chunk_len);
+        FatalError(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1311, palette_base_chunk_len);
     }
 
     mPaletteBase1 = new palette_base();
     if (!mPaletteBase1)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1313);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1313);
     }
 
     mPaletteBase2 = new palette_base();
     if (!mPaletteBase2)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1315);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1315);
     }
 
     File::Global_Read(mPaletteBase1, palette_base_chunk_len);
@@ -799,7 +799,7 @@ bool gtx_0x106C::IsCarModelInRecycleList(u8 car_id) const
 MATCH_FUNC(0x5AB3C0)
 void gtx_0x106C::load_car_recycling_info(u32 recy_chunk_size)
 {
-    mCarRecyclingInfo = static_cast<u8*>(Memory::malloc_4FE4D0(recy_chunk_size));
+    mCarRecyclingInfo = static_cast<u8*>(Memory::Checked_malloc(recy_chunk_size));
     mRecyChunkSize = recy_chunk_size;
     File::Global_Read(mCarRecyclingInfo, recy_chunk_size);
 }

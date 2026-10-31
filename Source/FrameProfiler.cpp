@@ -79,15 +79,15 @@ void FrameProfiler::DebugDrawProfiling()
         s32 size = 8 << (ypos < 140 ? row : row - 6);
 
         swprintf(tmpBuff, L"%d", size);
-        DrawText_4B87A0(tmpBuff, 0, ypos, gStyleTextFont, 1);
+        DrawStringDefaultPalette(tmpBuff, 0, ypos, gStyleTextFont, 1);
         swprintf(tmpBuff, L"%d", pGlobals[4 + row]);
-        DrawText_4B87A0(tmpBuff, 50, ypos, gStyleTextFont, 1);
+        DrawStringDefaultPalette(tmpBuff, 50, ypos, gStyleTextFont, 1);
         swprintf(tmpBuff, L"%d", pGlobals[16 + row]);
-        DrawText_4B87A0(tmpBuff, 100, ypos, gStyleTextFont, 1);
+        DrawStringDefaultPalette(tmpBuff, 100, ypos, gStyleTextFont, 1);
         swprintf(tmpBuff, L"%d", tex_counts[row]);
-        DrawText_4B87A0(tmpBuff, 150, ypos, gStyleTextFont, 1);
+        DrawStringDefaultPalette(tmpBuff, 150, ypos, gStyleTextFont, 1);
         swprintf(tmpBuff, L"%d", cache_used[row]);
-        DrawText_4B87A0(tmpBuff, 200, ypos, gStyleTextFont, 1);
+        DrawStringDefaultPalette(tmpBuff, 200, ypos, gStyleTextFont, 1);
 
         total_textures_used += pGlobals[16 + row];
         total_texture_bytes += pGlobals[16 + row] * size * size * 2;
@@ -97,24 +97,24 @@ void FrameProfiler::DebugDrawProfiling()
     sDrawString(0, 280, L"Total Num Textures %d - %d bytes", total_textures_used, total_texture_bytes);
 
     swprintf(tmpBuff, L"Polys Drawn:");
-    DrawText_4B87A0(tmpBuff, 0, 300, gStyleTextFont, 1);
+    DrawStringDefaultPalette(tmpBuff, 0, 300, gStyleTextFont, 1);
     swprintf(tmpBuff, L"%d", polys_drawn);
-    DrawText_4B87A0(tmpBuff, 180, 300, gStyleTextFont, 1);
+    DrawStringDefaultPalette(tmpBuff, 180, 300, gStyleTextFont, 1);
 
     swprintf(tmpBuff, L"TextureUsed: ");
-    DrawText_4B87A0(tmpBuff, 0, 320, gStyleTextFont, 1);
+    DrawStringDefaultPalette(tmpBuff, 0, 320, gStyleTextFont, 1);
     swprintf(tmpBuff, L"%d", total_cache_used);
-    DrawText_4B87A0(tmpBuff, 180, 320, gStyleTextFont, 1);
+    DrawStringDefaultPalette(tmpBuff, 180, 320, gStyleTextFont, 1);
 
     swprintf(tmpBuff, L"Cache Misses:");
-    DrawText_4B87A0(tmpBuff, 0, 340, gStyleTextFont, 1);
+    DrawStringDefaultPalette(tmpBuff, 0, 340, gStyleTextFont, 1);
     swprintf(tmpBuff, L"%d", total_tex_count);
-    DrawText_4B87A0(tmpBuff, 180, 340, gStyleTextFont, 1);
+    DrawStringDefaultPalette(tmpBuff, 180, 340, gStyleTextFont, 1);
 
     swprintf(tmpBuff, L"TextureSwaps:");
-    DrawText_4B87A0(tmpBuff, 0, 360, gStyleTextFont, 1);
+    DrawStringDefaultPalette(tmpBuff, 0, 360, gStyleTextFont, 1);
     swprintf(tmpBuff, L"%d", texture_swaps);
-    DrawText_4B87A0(tmpBuff, 180, 360, gStyleTextFont, 1);
+    DrawStringDefaultPalette(tmpBuff, 180, 360, gStyleTextFont, 1);
 
     if (++sMemTotalCounter > 100)
     {
@@ -156,7 +156,7 @@ void FrameProfiler::sDrawString(s32 xpos, s32 ypos, const wchar_t* pFormat, ...)
     va_list args;
     va_start(args, pFormat);
     vswprintf(buffer, pFormat, args);
-    DrawText_4B87A0(buffer, xpos, ypos, gStyleTextFont, 1);
+    DrawStringDefaultPalette(buffer, xpos, ypos, gStyleTextFont, 1);
 }
 
 MATCH_FUNC(0x4ff970)

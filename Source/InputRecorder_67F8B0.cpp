@@ -104,17 +104,17 @@ BOOL __stdcall InputDevices::make_input_devices(HINSTANCE hInstance)
 
     if (FAILED(gpDInput->CreateDevice(GUID_SysKeyboard, &gKeyboardDevice, NULL)))
     {
-        FatalError_4A38C0(Gta2Error::DirectInputCreateFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 268);
+        FatalError(Gta2Error::DirectInputCreateFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 268);
     }
 
     if (FAILED(gKeyboardDevice->SetDataFormat(&gKeyboardDataFormat)))
     {
-        FatalError_4A38C0(Gta2Error::DirectInputSetDataFormatFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 279);
+        FatalError(Gta2Error::DirectInputSetDataFormatFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 279);
     }
 
     if (FAILED(gKeyboardDevice->SetCooperativeLevel(gHwnd, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND)))
     {
-        FatalError_4A38C0(Gta2Error::DirectInputSetCooperativeLevelFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 287);
+        FatalError(Gta2Error::DirectInputSetCooperativeLevelFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 287);
     }
 
     prop.dwData = 10000; // buffer size
@@ -742,7 +742,7 @@ void InputRecorder_67F8B0::AppendReplayHeader()
     strcpy(header.mMapName, gGameSession.GetMapName());
     strcpy(header.mStyleName, gGameSession.GetStyleName());
     strcpy(header.mScriptName, gGameSession.GetScriptName());
-    strcpy(header.mDebugStr, gGameSession.GetSaveFileName_4C5970());
+    strcpy(header.mDebugStr, gGameSession.GetSaveName());
 
     header.mVersion[7] = '\n';
     header.mDate[29] = '\n';
@@ -854,7 +854,7 @@ void InputRecorder_67F8B0::VerifyAttractFilesExist()
         if (hFind == -1)
         {
             strcpy(gErrStr, pAttractFile->mPath);
-            FatalError_4A38C0(Gta2Error::CouldntFindAttractModeFile, "C:\\Splitting\\Gta2\\Source\\input.cpp", 524);
+            FatalError(Gta2Error::CouldntFindAttractModeFile, "C:\\Splitting\\Gta2\\Source\\input.cpp", 524);
         }
         _findclose(hFind);
         ++pAttractFile;
@@ -906,12 +906,12 @@ void InputRecorder_67F8B0::input_init_replay(HINSTANCE hInstance)
     this->mUsedRecsCount = remainderSize / sizeof(InputRecord);
     if (sizeof(InputRecord) * (remainderSize / sizeof(InputRecord)) != remainderSize)
     {
-        FatalError_4A38C0(Gta2Error::ReplayFileTooLarge, "C:\\Splitting\\Gta2\\Source\\input.cpp", 616, remainderSize);
+        FatalError(Gta2Error::ReplayFileTooLarge, "C:\\Splitting\\Gta2\\Source\\input.cpp", 616, remainderSize);
     }
 
     if (this->mUsedRecsCount == 0)
     {
-        FatalError_4A38C0(Gta2Error::EmptyReplayFile, "C:\\Splitting\\Gta2\\Source\\input.cpp", 621);
+        FatalError(Gta2Error::EmptyReplayFile, "C:\\Splitting\\Gta2\\Source\\input.cpp", 621);
     }
 }
 
@@ -937,7 +937,7 @@ void InputRecorder_67F8B0::input_init_live(HINSTANCE hInstance)
     gInputDevices = new InputDevices();
     if (!gInputDevices)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\input.cpp", 675);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\input.cpp", 675);
     }
 
     gInputDevices->input_devices_init(hInstance);
@@ -956,7 +956,7 @@ void InputRecorder_67F8B0::input_init_live(HINSTANCE hInstance)
         mUsedRecsCount = remainderSize / sizeof(InputRecord);
         if (sizeof(InputRecord) * (remainderSize / sizeof(InputRecord)) != remainderSize)
         {
-            FatalError_4A38C0(Gta2Error::ReplayFileTooLarge, "C:\\Splitting\\Gta2\\Source\\input.cpp", 702, remainderSize);
+            FatalError(Gta2Error::ReplayFileTooLarge, "C:\\Splitting\\Gta2\\Source\\input.cpp", 702, remainderSize);
         }
         mReplayState = mUsedRecsCount != 0;
     }
@@ -964,7 +964,7 @@ void InputRecorder_67F8B0::input_init_live(HINSTANCE hInstance)
     {
         if (bDo_release_replay)
         {
-            File::CreateFile_4A7000("test\\replay.rep");
+            File::CreateEmptyFile("test\\replay.rep");
             InputRecorder_67F8B0::AppendReplayHeader();
         }
         mReplayState = Live_0;
@@ -975,7 +975,7 @@ void InputRecorder_67F8B0::input_init_live(HINSTANCE hInstance)
         {
             if (bDo_release_replay)
             {
-                File::CreateFile_4A7000("test\\replay.rep");
+                File::CreateEmptyFile("test\\replay.rep");
                 InputRecorder_67F8B0::AppendReplayHeader();
             }
         }
@@ -1003,7 +1003,7 @@ void InputRecorder_67F8B0::replay_save(u32* input_bits)
 
         if (bDo_release_replay)
         {
-            File::CreateFile_4A7000("test\\replay.rep");
+            File::CreateEmptyFile("test\\replay.rep");
             AppendReplayHeader();
         }
 
@@ -1049,7 +1049,7 @@ u32 InputRecorder_67F8B0::get_input_bits()
                     {
                         if (bDo_release_replay)
                         {
-                            File::CreateFile_4A7000("test\\replay.rep");
+                            File::CreateEmptyFile("test\\replay.rep");
                             InputRecorder_67F8B0::AppendReplayHeader();
                         }
                         mReplayState = Live_0;

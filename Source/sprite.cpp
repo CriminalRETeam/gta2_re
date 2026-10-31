@@ -136,7 +136,8 @@ static inline void __fastcall SetTileVertUVs(f32& u, f32& v)
 }
 
 // matched https://decomp.me/scratch/RhBO0
-static inline Fix16 __stdcall Sign_4B9C20(s32& value)
+// 9.6f 0x4B9C20
+static inline Fix16 __stdcall SignAsFix16(s32& value)
 {
     if (value > 0)
     {
@@ -749,7 +750,7 @@ static inline void __stdcall DrawTextScaled_4BA2C0(const wchar_t* pStr, Fix16 x,
 {
     s32 palette_type = palette_types_enum::sprites_2;
     Fix16 scale_y = y * gViewCamera->mUiScale;
-    DrawText_5D8A10(pStr, x * gViewCamera->mUiScale, scale_y, font, gViewCamera->mUiScale, palette_type, 0, 0, 0);
+    DrawString(pStr, x * gViewCamera->mUiScale, scale_y, font, gViewCamera->mUiScale, palette_type, 0, 0, 0);
 }
 
 MATCH_FUNC(0x59e7d0)
@@ -882,7 +883,7 @@ static inline void __stdcall RotateAndTranslatePoint_ool_42A720(Fix16& pInX,
 {
     pRotTransX = ((pInX - pTransX) * Ang16::cosine(pRotAng))
                      .Add((pInY - pTransY) * Ang16::sine(pRotAng));
-    pRotTransY = ((pInX - pTransX).Negate_4086A0() * Ang16::sine(pRotAng))
+    pRotTransY = ((pInX - pTransX).Negated() * Ang16::sine(pRotAng))
                      .Add((pInY - pTransY) * Ang16::cosine(pRotAng));
 }
 
@@ -951,7 +952,7 @@ s16 Sprite::GetTruePalette() const
 
 // https://decomp.me/scratch/5emc4
 // RotateAndTranslatePoint as RotatedRectCollisionSAT gets it once it has run out of
-// inline expansions: the unary minus is the out-of-line copy (Negate_4086A0)
+// inline expansions: the unary minus is the out-of-line copy (Negated)
 static inline void __stdcall RotateAndTranslatePoint_NegOOL_42A720(Fix16& pInX,
                                                                   Fix16& pInY,
                                                                   Ang16& pRotAng,
@@ -961,11 +962,11 @@ static inline void __stdcall RotateAndTranslatePoint_NegOOL_42A720(Fix16& pInX,
                                                                   Fix16& pRotTransY)
 {
     pRotTransX = (((pInX - pTransX) * Ang16::cosine(pRotAng)) + ((pInY - pTransY) * Ang16::sine(pRotAng)));
-    pRotTransY = (((pInX - pTransX).Negate_4086A0() * Ang16::sine(pRotAng)) + ((pInY - pTransY) * Ang16::cosine(pRotAng)));
+    pRotTransY = (((pInX - pTransX).Negated() * Ang16::sine(pRotAng)) + ((pInY - pTransY) * Ang16::cosine(pRotAng)));
 }
 
 MATCH_FUNC(0x59eae0)
-char_type Sprite::has_shadows_59EAE0()
+char_type Sprite::CastsShadow()
 {
     switch (mSpriteTypeEnum)
     {
@@ -1013,7 +1014,7 @@ void Sprite::ShowId(f32& x, f32& y)
                 ypos = Fix16(static_cast<s32>((y / static_cast<f32>(static_cast<u32>(window_height))) * 480.0f));
                 swprintf(tmpBuff, L"%d", pChar->mpPed->mId);
                 s32 palette_type = palette_types_enum::sprites_2;
-                DrawText_5D8A10(tmpBuff,
+                DrawString(tmpBuff,
                                 xpos * gViewCamera->mUiScale,
                                 ypos * gViewCamera->mUiScale,
                                 gStyleTextFont,
@@ -1037,7 +1038,7 @@ void Sprite::ShowId(f32& x, f32& y)
             ypos = Fix16(static_cast<s32>((y / static_cast<f32>(static_cast<u32>(window_height))) * 480.0f));
             swprintf(tmpBuff, L"%d:%d", pObj->mModel, pObj->mId);
             s32 palette_type = palette_types_enum::sprites_2;
-            DrawText_5D8A10(tmpBuff,
+            DrawString(tmpBuff,
                             xpos * gViewCamera->mUiScale,
                             ypos * gViewCamera->mUiScale,
                             gStyleTextFont,
@@ -1197,7 +1198,7 @@ void Sprite::Draw()
         }
     }
 
-    if (Sprite::has_shadows_59EAE0())
+    if (Sprite::CastsShadow())
     {
         Vert pShadowVerts[4];
 
@@ -1430,9 +1431,9 @@ bool Sprite::IntersectsRectSAT(Fix16_Rect* pOtherRect)
                            rot_x,
                            rot_y);
 
-    if (rot_x >= half_width.Negate_4086A0() && rot_x <= half_width)
+    if (rot_x >= half_width.Negated() && rot_x <= half_width)
     {
-        if (rot_y >= half_height.Negate_4086A0() && rot_y <= half_height)
+        if (rot_y >= half_height.Negated() && rot_y <= half_height)
         {
             return true;
         }
@@ -1613,9 +1614,9 @@ bool Sprite::RotatedRectCollisionSAT(Sprite* pOther)
                                    rot_x,
                                    rot_y);
 
-    if (rot_x >= half_width.Negate_4086A0() && rot_x <= half_width)
+    if (rot_x >= half_width.Negated() && rot_x <= half_width)
     {
-        if (rot_y >= half_height.Negate_4086A0() && rot_y <= half_height)
+        if (rot_y >= half_height.Negated() && rot_y <= half_height)
         {
             return true;
         }
@@ -1631,9 +1632,9 @@ bool Sprite::RotatedRectCollisionSAT(Sprite* pOther)
                            rot_x,
                            rot_y);
 
-    if (rot_x >= half_width.Negate_4086A0() && rot_x <= half_width)
+    if (rot_x >= half_width.Negated() && rot_x <= half_width)
     {
-        if (rot_y >= half_height.Negate_4086A0() && rot_y <= half_height)
+        if (rot_y >= half_height.Negated() && rot_y <= half_height)
         {
             return true;
         }
@@ -1670,7 +1671,7 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate(Fix16 line_y, Fix16_Point& poi
     Fix16_Point* pCorners = mpCollisionShape->mCorners;
 
     Fix16 diff = pCorners[0].y - line_y;
-    Fix16 sign = Sign_4B9C20(diff.mValue);
+    Fix16 sign = SignAsFix16(diff.mValue);
     Fix16 least_abs;
     least_abs = Fix16::Abs(diff);
 
@@ -1678,7 +1679,7 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate(Fix16 line_y, Fix16_Point& poi
     nearest_corner_idx = 0;
 
     diff = pCorners[1].y - line_y;
-    if (Sign_4B9C20(diff.mValue) != sign)
+    if (SignAsFix16(diff.mValue) != sign)
     {
         return false;
     }
@@ -1698,7 +1699,7 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate(Fix16 line_y, Fix16_Point& poi
     }
 
     diff = pCorners[2].y - line_y;
-    if (Sign_4B9C20(diff.mValue) != sign)
+    if (SignAsFix16(diff.mValue) != sign)
     {
         return false;
     }
@@ -1718,7 +1719,7 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate(Fix16 line_y, Fix16_Point& poi
     }
 
     diff = pCorners[3].y - line_y;
-    if (Sign_4B9C20(diff.mValue) != sign)
+    if (SignAsFix16(diff.mValue) != sign)
     {
         return false;
     }
@@ -1764,7 +1765,7 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate(Fix16 line_x, Fix16_Point& point
     UpdateCollisionBoundsIfNeeded();
 
     Fix16 diff = pCorners[0].x - line_x;
-    Fix16 sign = Sign_4B9C20(diff.mValue);
+    Fix16 sign = SignAsFix16(diff.mValue);
     Fix16 least_abs;
     least_abs = Fix16::Abs(diff);
 
@@ -1772,7 +1773,7 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate(Fix16 line_x, Fix16_Point& point
     nearest_corner_idx = 0;
 
     diff = pCorners[1].x - line_x;
-    if (Sign_4B9C20(diff.mValue) != sign)
+    if (SignAsFix16(diff.mValue) != sign)
     {
         return false;
     }
@@ -1792,7 +1793,7 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate(Fix16 line_x, Fix16_Point& point
     }
 
     diff = pCorners[2].x - line_x;
-    if (Sign_4B9C20(diff.mValue) != sign)
+    if (SignAsFix16(diff.mValue) != sign)
     {
         return false;
     }
@@ -1812,7 +1813,7 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate(Fix16 line_x, Fix16_Point& point
     }
 
     diff = pCorners[3].x - line_x;
-    if (Sign_4B9C20(diff.mValue) != sign)
+    if (SignAsFix16(diff.mValue) != sign)
     {
         return false;
     }
@@ -2454,28 +2455,28 @@ void SpriteShape::UpdateRotatedBoundingBox(Fix16 xpos, Fix16 ypos, Fix16 zpos, A
             Fix16 cos = Ang16::cosine(rotation);
             Fix16 x_old = corner0.x;
             corner0.x = corner0.x.Multiply(cos).Add(corner0.y.Multiply(sin));
-            corner0.y = x_old.Negate_4086A0().Multiply(sin).Add(corner0.y.Multiply(cos));
+            corner0.y = x_old.Negated().Multiply(sin).Add(corner0.y.Multiply(cos));
         }
         {
             Fix16 sin = Ang16::sine(rotation);
             Fix16 cos = Ang16::cosine(rotation);
             Fix16 x_old = corner1.x;
             corner1.x = corner1.x.Multiply(cos).Add(corner1.y.Multiply(sin));
-            corner1.y = x_old.Negate_4086A0().Multiply(sin).Add(corner1.y.Multiply(cos));
+            corner1.y = x_old.Negated().Multiply(sin).Add(corner1.y.Multiply(cos));
         }
         {
             Fix16 sin = Ang16::sine(rotation);
             Fix16 cos = Ang16::cosine(rotation);
             Fix16 x_old = corner2.x;
             corner2.x = corner2.x.Multiply(cos).Add(corner2.y.Multiply(sin));
-            corner2.y = x_old.Negate_4086A0().Multiply(sin).Add(corner2.y.Multiply(cos));
+            corner2.y = x_old.Negated().Multiply(sin).Add(corner2.y.Multiply(cos));
         }
         {
             Fix16 sin = Ang16::sine(rotation);
             Fix16 cos = Ang16::cosine(rotation);
             Fix16 x_old = corner3.x;
             corner3.x = corner3.x.Multiply(cos).Add(corner3.y.Multiply(sin));
-            corner3.y = x_old.Negate_4086A0().Multiply(sin).Add(corner3.y.Multiply(cos));
+            corner3.y = x_old.Negated().Multiply(sin).Add(corner3.y.Multiply(cos));
         }
 
         mCorners[0] = point + corner0;
@@ -2510,10 +2511,10 @@ void SpriteShape::UpdateRotatedBoundingBox(Fix16 xpos, Fix16 ypos, Fix16 zpos, A
     mBboxUpToDate = true;
 
     // Not in 9.6f: the corners are set and rotated again, and the results are never used.
-    corner0.SetXY(width_over_2.Negate_4086A0(), height_over_2.Negate_4086A0());
-    corner1.SetXY(width_over_2, height_over_2.Negate_4086A0());
+    corner0.SetXY(width_over_2.Negated(), height_over_2.Negated());
+    corner1.SetXY(width_over_2, height_over_2.Negated());
     corner2.SetXY(width_over_2, height_over_2);
-    corner3.SetXY(width_over_2.Negate_4086A0(), height_over_2);
+    corner3.SetXY(width_over_2.Negated(), height_over_2);
 
     corner0.RotateVelocity(rotation);
     corner1.RotateVelocity(rotation);
@@ -2632,25 +2633,25 @@ SpriteManager_8::SpriteManager_8()
     gSpritePool = new SpritePool();
     if (gSpritePool == NULL)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 3239);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 3239);
     }
 
     gSpriteShapePool = new SpriteShapePool();
     if (gSpriteShapePool == NULL)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 3241);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 3241);
     }
 
     gSpriteMaskCache = new SpriteMaskCache();
     if (gSpriteMaskCache == NULL)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 3243);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 3243);
     }
 
     gAttachedSpritePool = new AttachedSpritePool();
     if (gAttachedSpritePool == NULL)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 3246);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 3246);
     }
 
     mDrawnSpriteCount = 0;

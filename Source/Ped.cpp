@@ -2240,7 +2240,7 @@ bool Ped::AddWeaponWithAmmo(s32 weapon_kind, char_type ammo)
         ammo = gWeapon_8->get_defalt_ammo(weapon_kind);
     }
 
-    if (gWeapon_8->is_car_weapon_433820(weapon_kind))
+    if (gWeapon_8->is_car_weapon_kind(weapon_kind))
     {
         if (mCar)
         {
@@ -9868,7 +9868,7 @@ void Ped::ExitCarStateMachine()
                                                                        mTargetToEnter->mCarSprite->mXy.y,
                                                                        mTargetToEnter->mCarSprite->mZpos)))
                 {
-                    FatalError_4A38C0(1, "C:\\Splitting\\Gta2\\Source\\char.cpp", 11894);
+                    FatalError(1, "C:\\Splitting\\Gta2\\Source\\char.cpp", 11894);
                 }
             }
 
@@ -11085,7 +11085,7 @@ Weapon* Ped::GetWeaponFromPed()
 
         if (mCar)
         {
-            if (mSelectedWeapon && gWeapon_8->is_car_weapon_433820(mSelectedWeapon->mWeaponType))
+            if (mSelectedWeapon && gWeapon_8->is_car_weapon_kind(mSelectedWeapon->mWeaponType))
             {
                 mBf21C.bUseCarWeapon = true;
                 return mSelectedWeapon;

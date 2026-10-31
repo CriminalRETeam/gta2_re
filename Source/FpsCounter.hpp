@@ -20,7 +20,7 @@ class FpsCounter
     s32 mDrawCount; // 0xC
     s32 mDrawStartTime; // 0x10
     s32 mDrawFps; // 0x14
-    // Only field_18 is ever started/accumulated (ExecuteGame_4DA780); the others only get their percentage computed
+    // Only field_18 is ever started/accumulated (ExecuteGameTimed); the others only get their percentage computed
     ProfilerTimer mExecuteGameTimer; // 0x18
     ProfilerTimer mTimer1; // 0x24
     ProfilerTimer mTimer2; // 0x30

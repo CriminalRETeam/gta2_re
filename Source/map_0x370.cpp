@@ -3997,7 +3997,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
     *pY = y;
     *pZ = GetRailwayZBelowCoord(x, y, z);
 
-    // 9.6f: GetOppositeFace_42A660 reverses the direction (inlined, using it as a helper changes the code: 103 -> 301)
+    // 9.6f: GetOppositeDirection reverses the direction (inlined, using it as a helper changes the code: 103 -> 301)
     switch (direction)
     {
         case road_direction::up_1:
@@ -4470,7 +4470,7 @@ void Map_0x370::do_process_loaded_zone_data()
     u16 zonesSize = mpZoneData ? num_zones : 0;
     if (zonesSize)
     {
-        mpZoneArray = static_cast<u8*>(Memory::malloc_4FE4D0(zonesSize));
+        mpZoneArray = static_cast<u8*>(Memory::Checked_malloc(zonesSize));
     }
 
     for (u16 zoneIdx = 0; zoneIdx < zonesSize; zoneIdx++)
@@ -4507,7 +4507,7 @@ void Map_0x370::do_process_loaded_zone_data()
     }
 
     s32 zoneCount = zone_count + 1;
-    gmp_zone_info* pZoneInfo = static_cast<gmp_zone_info*>(Memory::malloc_4FE4D0(sizeof(gmp_zone_info) * zoneCount));
+    gmp_zone_info* pZoneInfo = static_cast<gmp_zone_info*>(Memory::Checked_malloc(sizeof(gmp_zone_info) * zoneCount));
     mpZoneInfo = pZoneInfo;
     s32 t = 0;
     do
@@ -4543,7 +4543,7 @@ void Map_0x370::build_zone_list(u32 chunk_size)
         in_use_size += zone_data_size;
         pZone = reinterpret_cast<gmp_map_zone*>(reinterpret_cast<u8*>(pZone) + zone_data_size);
     }
-    mpZones = static_cast<gmp_zone_list*>(Memory::malloc_4FE4D0(4 * num_zones + 4));
+    mpZones = static_cast<gmp_zone_list*>(Memory::Checked_malloc(4 * num_zones + 4));
 
     in_use_size = 0;
     mpZones->mNumZones = num_zones;
@@ -4575,33 +4575,33 @@ void Map_0x370::AddTileAnimations(s32 size)
 MATCH_FUNC(0x4E91A0)
 void Map_0x370::load_mobj(size_t len)
 {
-    gmp_map_object* pData = static_cast<gmp_map_object*>(Memory::malloc_4FE4D0(len));
+    gmp_map_object* pData = static_cast<gmp_map_object*>(Memory::Checked_malloc(len));
     mpMapObjects = pData;
     File::Global_Read(pData, len);
     mMapObjectCount = len / 6;
     if (static_cast<u32>(6 * mMapObjectCount) != len)
     {
-        FatalError_4A38C0(Gta2Error::InvalidMapObjectData, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6024);
+        FatalError(Gta2Error::InvalidMapObjectData, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6024);
     }
 }
 
 MATCH_FUNC(0x4E9200)
 void Map_0x370::load_lght(size_t size)
 {
-    gmp_map_light* pData = static_cast<gmp_map_light*>(Memory::malloc_4FE4D0(size));
+    gmp_map_light* pData = static_cast<gmp_map_light*>(Memory::Checked_malloc(size));
     mpLightData = pData;
     File::Global_Read(pData, size);
     mNumLights = size >> 4;
     if (static_cast<u32>(16 * mNumLights) != size)
     {
-        FatalError_4A38C0(Gta2Error::InvalidMapLightData, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6046);
+        FatalError(Gta2Error::InvalidMapLightData, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6046);
     }
 }
 
 MATCH_FUNC(0x4E9250)
 void Map_0x370::load_zone(size_t size)
 {
-    gmp_map_zone* pData = static_cast<gmp_map_zone*>(Memory::malloc_4FE4D0(size));
+    gmp_map_zone* pData = static_cast<gmp_map_zone*>(Memory::Checked_malloc(size));
     mpZoneData = pData;
     File::Global_Read(pData, size);
     build_zone_list(size);
@@ -4610,7 +4610,7 @@ void Map_0x370::load_zone(size_t size)
 MATCH_FUNC(0x4E9280)
 void Map_0x370::load_anim(size_t size)
 {
-    gmp_tile_animation* pAlloc = static_cast<gmp_tile_animation*>(Memory::malloc_4FE4D0(size));
+    gmp_tile_animation* pAlloc = static_cast<gmp_tile_animation*>(Memory::Checked_malloc(size));
     mpTileAnimData = pAlloc;
     File::Global_Read(pAlloc, size);
     AddTileAnimations(size);
@@ -4622,7 +4622,7 @@ void Map_0x370::load_dmap(u32 len)
     mpDmap = new gmp_compressed_map_32();
     if (mpDmap == NULL)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6147);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6147);
     }
 
     File::Global_Read(&mpDmap->mBase[0][0], 0x40000);
@@ -4630,7 +4630,7 @@ void Map_0x370::load_dmap(u32 len)
 
     if ((mpDmap->mColumnWords + 1024) > 0x20000u)
     {
-        FatalError_4A38C0(Gta2Error::MapHasTooManyColumns,
+        FatalError(Gta2Error::MapHasTooManyColumns,
                           "C:\\Splitting\\Gta2\\Source\\map.cpp",
                           6150,
                           mpDmap->mColumnWords - 0x1FC00);
@@ -4641,7 +4641,7 @@ void Map_0x370::load_dmap(u32 len)
     u32 m_size = mColumnWordExtra * sizeof(u32);
     u32 column_data_size = mpDmap->mColumnWords * sizeof(u32);
 
-    mpDmap->mpColumn = static_cast<u16**>(Memory::malloc_4FE4D0(m_size));
+    mpDmap->mpColumn = static_cast<u16**>(Memory::Checked_malloc(m_size));
 
     File::Global_Read(mpDmap->mpColumn, column_data_size);
 
@@ -4652,7 +4652,7 @@ void Map_0x370::load_dmap(u32 len)
 
     if ((mpDmap->mNumBlocks + 200) > 0x20000u)
     {
-        FatalError_4A38C0(Gta2Error::MapHasTooManyBlocks,
+        FatalError(Gta2Error::MapHasTooManyBlocks,
                           "C:\\Splitting\\Gta2\\Source\\map.cpp",
                           6161,
                           mpDmap->mNumBlocks - 130872);
@@ -4662,7 +4662,7 @@ void Map_0x370::load_dmap(u32 len)
     u32 m_size2 = mNumBlocksExtra * sizeof(gmp_block_info);
     u32 block_info_size = mpDmap->mNumBlocks * sizeof(gmp_block_info);
 
-    mpDmap->mBlock = static_cast<gmp_block_info*>(Memory::malloc_4FE4D0(m_size2));
+    mpDmap->mBlock = static_cast<gmp_block_info*>(Memory::Checked_malloc(m_size2));
 
     File::Global_Read(mpDmap->mBlock, block_info_size);
 
@@ -4671,7 +4671,7 @@ void Map_0x370::load_dmap(u32 len)
 
     if (len != block_info_size + column_data_size + 0x40008)
     {
-        FatalError_4A38C0(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6170, len);
+        FatalError(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6170, len);
     }
 }
 
@@ -4745,7 +4745,7 @@ void Map_0x370::LoadMap(const char_type* pGmpFileName)
 
     if (!mpDmap)
     {
-        FatalError_4A38C0(Gta2Error::MapNotCompressed, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6329);
+        FatalError(Gta2Error::MapNotCompressed, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6329);
     }
 }
 

@@ -25,7 +25,7 @@
 // Forward declarations: the functions below are in address order
 EXPORT s32 __stdcall get_skid_obj_type(s32 surface, Fix16 skid_len);
 static inline Fix16 __stdcall DotProductOOL_49E500(Fix16_Point& Vector1, Fix16_Point& Vector2);
-static inline Fix16 __stdcall Square_49E0E0(const Fix16& value);
+static inline Fix16 __stdcall SquareFix16(const Fix16& value);
 EXPORT Fix16 __stdcall DotProduct(const Fix16_Point& Vector1, const Fix16_Point& Vector2);
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool, 0x6FE3E0);
@@ -1723,7 +1723,7 @@ void CarPhysics::SpawnSkidSegment(s32 box_idx, Fix16_Point wheel_offset, s32 sur
     if (map_ret == car_surface_type::no_block_5 || surface == 3 && map_ret != car_surface_type::remapped_water_tile_7)
     {
         Fix16_Point* pBoxCorner_ = &this->mLastSkidPos[static_cast<u8>(box_idx)];
-        pBoxCorner_->clear_41E1E0();
+        pBoxCorner_->SetZero();
     }
     else
     {
@@ -1784,7 +1784,7 @@ EXPORT s32 __stdcall get_skid_obj_type(s32 surface, Fix16 skid_len)
             case 3:
                 return objects::medium_white_skid_125;
             default:
-                FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\Gta2\\Source\\physics.cpp", 2331, surface);
+                FatalError(Gta2Error::InvalidCase, "C:\\Splitting\\Gta2\\Source\\physics.cpp", 2331, surface);
         }
     }
     else if (skid_len <= kFpThreeEighths)
@@ -2239,7 +2239,7 @@ EXPORT Fix16_Point __stdcall ComputeCollisionImpulse(Fix16 OwnerMass,
     if (TargetMass == kFP16MinusOne) // infinite mass
     {
         MassFactor = DotProductOOL_49E500(DirectionFromCoM_to_Collision, DirectionFromCoM_to_Collision) * OwnerMassFactor
-            + Square_49E0E0(DotProductOOL_49E500(DistOrthogonalToCollision, DirectionFromCoM_to_Collision)) / OwnerMomOfInertia;
+            + SquareFix16(DotProductOOL_49E500(DistOrthogonalToCollision, DirectionFromCoM_to_Collision)) / OwnerMomOfInertia;
     }
     else
     {
@@ -2250,10 +2250,10 @@ EXPORT Fix16_Point __stdcall ComputeCollisionImpulse(Fix16 OwnerMass,
         MassFactor =
             (DotProduct(DirectionFromCoM_to_Collision, DirectionFromCoM_to_Collision)
                  .Multiply(OwnerMassFactor.Add(TargetMassFactor))
-                 .Add(Square_49E0E0(DotProduct(DistOrthogonalToCollision, DirectionFromCoM_to_Collision))
+                 .Add(SquareFix16(DotProduct(DistOrthogonalToCollision, DirectionFromCoM_to_Collision))
                                  .Divide(OwnerMomOfInertia)))
                 .Add(
-                    Square_49E0E0(DotProduct(TargetOrthogonal, DirectionFromCoM_to_Collision)).Divide(TargetMomOfInertia));
+                    SquareFix16(DotProduct(TargetOrthogonal, DirectionFromCoM_to_Collision)).Divide(TargetMomOfInertia));
     }
 
     // scale vector norm by factors, so direction is kept
@@ -2426,7 +2426,7 @@ static inline Fix16 __stdcall DotProductOOL_49E500(Fix16_Point& Vector1, Fix16_P
 }
 
 // 9.6f 0x49E0E0, inlined in 10.5
-static inline Fix16 __stdcall Square_49E0E0(const Fix16& value)
+static inline Fix16 __stdcall SquareFix16(const Fix16& value)
 {
     return value.Multiply(value);
 }
@@ -2568,7 +2568,7 @@ void CarPhysics::HandleCarCollision(Car* pOtherCar)
         else
         {
             ApplyImpulseAndDamage(DirectionBetweenCoMs_Scaled, 50);
-            OtherCarPhysics->ApplyImpulseAndDamage(DirectionBetweenCoMs_Scaled.Negate_40ACB0(), 50);
+            OtherCarPhysics->ApplyImpulseAndDamage(DirectionBetweenCoMs_Scaled.Negated(), 50);
         }
 
         sCollisionDamage = (ThisCarMass * Fix16::Abs(mZVel)) * 50;
@@ -2619,7 +2619,7 @@ void CarPhysics::HandleCarCollision(Car* pOtherCar)
     if (!bGreatCollision)
     {
         OtherCarPhysics->SetCurrentCarInfoAndModelPhysics();
-        OtherCarPhysics->ApplyImpactForcesAndDamage(CollisionIntersectionPoint, ImpulseForce.Negate_40ACB0(), 50);
+        OtherCarPhysics->ApplyImpactForcesAndDamage(CollisionIntersectionPoint, ImpulseForce.Negated(), 50);
 
         // A train explodes the car it hits
         s16 damage_2;
@@ -2647,7 +2647,7 @@ void CarPhysics::HandleCarCollision(Car* pOtherCar)
 
     if (mLinvel1.GetLength_all_out_of_line_abs_y_negate_2() > FastCarMinVelocity && !mpCar->IsMaxDamage())
     {
-        EmitImpactAtCollisionPoint(mCp3, RelativeVelocity.Negate_40ACB0());
+        EmitImpactAtCollisionPoint(mCp3, RelativeVelocity.Negated());
     }
 
     if (sCollisionDamage > kFpPoint3_6FDFE4)
@@ -2714,7 +2714,7 @@ void CarPhysics::HandleObjectCollision(Object* pObject, char_type damage_area)
                                                      kFP16One_6FE0D4);
 
         // Obj Reaction impulse
-        tmp = Impulse.Negate_40ACB0().DivideInl_442CB0(ObjMass);
+        tmp = Impulse.Negated().DivideInl_442CB0(ObjMass);
         pObject->SetMovementVectorWithRandomState(tmp);
     }
     else
@@ -2744,7 +2744,7 @@ void CarPhysics::HandleObjectCollision(Object* pObject, char_type damage_area)
         ApplyImpulseAndDamage(push_impulse, 50);
         if (pObject->CanBePushed())
         {
-            pObject->SetMovementVectorWithRandomState(push_impulse.Negate_40ACB0());
+            pObject->SetMovementVectorWithRandomState(push_impulse.Negated());
         }
         sCollisionDamage = (CarMass * Fix16::Abs_negate_out_of_line(mZVel)) * 50;
     }
@@ -2761,7 +2761,7 @@ void CarPhysics::HandleObjectCollision(Object* pObject, char_type damage_area)
     {
         if (!mpCar->IsMaxDamage())
         {
-            EmitImpactAtCollisionPoint(mCp3, RelativeVelocity.Negate_40ACB0());
+            EmitImpactAtCollisionPoint(mCp3, RelativeVelocity.Negated());
         }
         mpCar->TryDamageArea(damage_area, sCollisionDamage.mValue);
     }
@@ -2806,8 +2806,8 @@ void CarPhysics::ProcessPedImpact(Char* pChar, u8 overlap_count)
 
     Car* pCar = this->mpCar;
 
-    // Nothrow alias: no EH state around the Negate_40ACB0 temporary
-    impact_dir = impulse.Negate_40ACB0().DivideInl_442CB0(kFP16Half_6FE2F8);
+    // Nothrow alias: no EH state around the Negated temporary
+    impact_dir = impulse.Negated().DivideInl_442CB0(kFP16Half_6FE2F8);
 
     Ped* pCarDriver = mpCar->mDriver;
     if (pCarDriver)
@@ -3789,7 +3789,7 @@ void CarPhysics::UpdateCenterOfMassPoint()
     Fix16 cos = Ang16::cosine(mTheta);
     Fix16 x_old = point.x;
     point.x = (point.x * cos) + (point.y * sin);
-    point.y = x_old.Negate_4086A0().Multiply(sin).Add(point.y * cos);
+    point.y = x_old.Negated().Multiply(sin).Add(point.y * cos);
 
     mCm1 = mCp1 + point;
 }
@@ -3806,7 +3806,7 @@ void CarPhysics::UpdateReferencePoint()
     Fix16 cos = Ang16::cosine(mTheta);
     Fix16 x_old = point.x;
     point.x = (point.x * cos) + (point.y * sin);
-    point.y = x_old.Negate_4086A0().Multiply(sin).Add(point.y * cos);
+    point.y = x_old.Negated().Multiply(sin).Add(point.y * cos);
 
     mCm1 = mCp1 + point;
 }

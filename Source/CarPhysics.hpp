@@ -118,7 +118,7 @@ class CarPhysics
     inline void StopMoving()
     {
         mAngVelRad = kFpZero_6FD120;
-        mLinvel1.clear_41E1E0();
+        mLinvel1.SetZero();
     }
 
     // 9.6f 0x4211E0

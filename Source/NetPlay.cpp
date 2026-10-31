@@ -978,7 +978,7 @@ void NetPlay::OnPlayerMessage(void* pPacket, s32 packetLen, s32 recvId, s32 send
     }
 }
 
-// The csv size of the original stops at the FatalError_4A38C0 call, the epilogue after it isn't compared
+// The csv size of the original stops at the FatalError call, the epilogue after it isn't compared
 MATCH_FUNC(0x51f210)
 s32 NetPlay::DecodeReceivedPacket(s32 pPacket, u32 packetLen)
 {
@@ -1094,7 +1094,7 @@ s32 NetPlay::DecodeReceivedPacket(s32 pPacket, u32 packetLen)
             break;
 
         default:
-            FatalError_4A38C0(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\NetworkX.cpp", 2192, 0);
+            FatalError(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\NetworkX.cpp", 2192, 0);
             break;
     }
     return len;
@@ -1143,7 +1143,7 @@ void NetPlay::MakeSendData(Packet_SubType_3* pPacket, s32* pData, u32* pDataLen)
                                 *pDataLen = 1 + sizeof(SyncCheckData);
                                 break;
                             default:
-                                FatalError_4A38C0(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\NetworkX.cpp", 2277, 0);
+                                FatalError(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\NetworkX.cpp", 2277, 0);
                                 break;
                         }
                         break;
@@ -1185,7 +1185,7 @@ void NetPlay::MakeSendData(Packet_SubType_3* pPacket, s32* pData, u32* pDataLen)
                         break;
 
                     default:
-                        FatalError_4A38C0(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\NetworkX.cpp", 2338, 0);
+                        FatalError(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\NetworkX.cpp", 2338, 0);
                         break;
                 }
             }
@@ -1197,7 +1197,7 @@ void NetPlay::MakeSendData(Packet_SubType_3* pPacket, s32* pData, u32* pDataLen)
             break;
 
         default:
-            FatalError_4A38C0(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\NetworkX.cpp", 2356, 0);
+            FatalError(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\NetworkX.cpp", 2356, 0);
             break;
     }
     *pData = reinterpret_cast<s32>(pBuffer);

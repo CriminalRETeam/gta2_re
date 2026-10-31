@@ -12,7 +12,8 @@ class SoundObject;
 class WeaponManager
 {
   public:
-    bool is_car_weapon_433820(s32 weapon_kind) const
+    // 9.6f 0x433820
+    bool is_car_weapon_kind(s32 weapon_kind) const
     {
         return weapon_kind >= 15;
     }

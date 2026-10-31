@@ -484,7 +484,7 @@ void ScriptManager::StartLevelThread()
         SCR_CMD_HEADER* pLevelStart = FindCommandByType(59, 0);
         if (!pLevelStart)
         {
-            FatalError_4A38C0(Gta2Error::ScriptfileNo_LEVELSTART_Declaration,
+            FatalError(Gta2Error::ScriptfileNo_LEVELSTART_Declaration,
                               "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
                               12774); // No LEVELSTART declaration in scriptfile
             return;
@@ -519,7 +519,7 @@ void ScriptManager::LoadStringTbl(u16 tableSize)
         }
     }
 
-    mpStringTbl = reinterpret_cast<str_table_normalized*>(Memory::malloc_4FE4D0(sizeof(str_table_normalized)));
+    mpStringTbl = reinterpret_cast<str_table_normalized*>(Memory::Checked_malloc(sizeof(str_table_normalized)));
     memset(mpStringTbl, 0, sizeof(str_table_normalized));
 
     str_table_entry* pStringDataIter2 = mStrings;
@@ -1010,7 +1010,7 @@ ScriptManager::ScriptManager()
             miss2_0x11C_Pool = new ScriptThreadPool();
         }
     }
-    mStrings = static_cast<str_table_entry*>(Memory::malloc_4FE4D0(0x1400u));
+    mStrings = static_cast<str_table_entry*>(Memory::Checked_malloc(0x1400u));
     memset(mFullScrFileName, 0, sizeof(mFullScrFileName));
     memset(mScriptData, 0, sizeof(mScriptData));
     memset(mBasePointers, 0, sizeof(mBasePointers));
@@ -1027,7 +1027,7 @@ ScriptManager::ScriptManager()
     gMiss2_25C = pCleanupList;
     if (!pCleanupList)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 13630);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 13630);
     }
 
     memset(mMissionScriptData, 0, sizeof(mMissionScriptData));

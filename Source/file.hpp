@@ -24,7 +24,7 @@ class File
 
     EXPORT static void __stdcall AppendBufferToFile(const char_type* FileName, void* Buffer, size_t* pBufferSize);
 
-    EXPORT static void __stdcall CreateFile_4A7000(const char_type* FileName);
+    EXPORT static void __stdcall CreateEmptyFile(const char_type* FileName);
 
     EXPORT static void __stdcall Global_Open(const char_type* FileName);
 

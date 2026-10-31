@@ -498,11 +498,11 @@ class FreeLoader
   public:
     EXPORT static s32 __stdcall GetCityInstalled();
     EXPORT static bool __stdcall CheckCityInstalled(u8 city_idx);
-    EXPORT static void __cdecl MessageBox_4AE170(UINT uType, LPCSTR lpCaption, LPCSTR lpFormat, ...);
+    EXPORT static void __cdecl MessageBoxPrintf(UINT uType, LPCSTR lpCaption, LPCSTR lpFormat, ...);
     EXPORT static LPCSTR __stdcall GetRegDword(HKEY hKey, LPCSTR lpValueName, LPCSTR default_value);
 };
 
-EXPORT s32 IsFullScreen_5D98D0();
+EXPORT s32 IsVideoFullScreen();
 EXPORT s32 __stdcall SetGamma(s32 gamma);
 
 EXTERN_GLOBAL(Frontend*, gFrontend);
@@ -513,7 +513,7 @@ EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff, 640);
 EXPORT void __stdcall MakeScreenTableAndSetWindow();
 EXPORT void __cdecl FreeSurface();
 EXPORT void __stdcall DrawDebugLine(s32 x1, s32 y1, s32 x2, s32 y2, u16 colour);
-EXPORT void __stdcall ConvertColourBanks_5D7CB0();
+EXPORT void __stdcall SetColourDepthAndConvertBanks();
 
 EXTERN_GLOBAL(s16, font_type_703C14);
 

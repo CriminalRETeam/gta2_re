@@ -53,7 +53,7 @@ SpriteRenderer::SpriteRenderer()
         mLayers[i] = new SpriteTree();
         if (!mLayers[i])
         {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\display.cpp", 121);
+            FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\display.cpp", 121);
         }
     }
 }

@@ -144,6 +144,7 @@ GetMoveTargetY_492CF0	GetMoveTargetY
 GetObjectBaseSpriteIdx_4C6E30	GetObjectBaseSpriteIdx
 GetObjectiveStatus_450CB0	GetObjectiveStatus
 GetOffscreenCounter_4039F0	GetOffscreenCounter
+GetOppositeFace_42A660	GetOppositeDirection
 GetPaddedViewBoundsHeight_4B3130	GetPaddedViewBoundsHeight
 GetPaddedViewBoundsWidth_4B3110	GetPaddedViewBoundsWidth
 GetParam_421050	GetParam
@@ -154,6 +155,7 @@ GetPedState_403990	GetPedState
 GetPedType_420B70	GetPedType
 GetPlayerCount_461DA0	GetPlayerCount
 GetPlayerIdx_409C40	GetPlayerIdx
+GetPlayerPed_41D020	GetPlayerPed
 GetPlayerTime_4C7380	GetPlayerTime
 GetPlayer_4219E0	GetPlayer
 GetPosition_4117B0	GetPosition
@@ -512,6 +514,7 @@ SetTargetObject_476810	SetTargetObject
 SetTargetPed_4767E0	SetTargetPed
 SetTargetPlayer_4820A0	SetTargetPlayer
 SetThreadTriggerIdx_4C4F10	SetThreadTriggerIdx
+SetTimer_4C7120	set_timer
 SetTopDrawLayer_482BF0	SetTopDrawLayer
 SetTrainStation_4AF860	SetTrainStation
 SetTrain_4218B0	SetTrain
@@ -533,10 +536,12 @@ SetWidthHeight_4BA070	SetWidthHeight
 SetXY_432860	SetXY
 Set_F84_433900	Set_F84
 ShowGangArrows_4C70B0	ShowGangArrows
+Sign_4B9C20	SignAsFix16
 SignedPixelsToFix16_41FE70	SignedPixelsToFix16
 SpawnCarAtCorrectZ_426E40	SpawnCarAtCorrectZ
 SpawnCar_426E10	SpawnFullSizeCar
 SpawnCar_4764A0	SpawnCar
+Square_49E0E0	SquareFix16
 StartEngine_426E00	StartEngine
 StepFor_5D7DD0	GetLineStep
 StepOneBlock_4E6660	StepOneBlock
@@ -571,6 +576,8 @@ WrapAngle_40E790	WrapAngle
 ZeroIfNegligible_482730	ZeroIfNegligible
 add_one_491EF0	add_one
 atan2_40F790	GetAngle
+bHasGameObject_403B70	HasGameObject
+clear_41E1E0	SetZero
 clear_last_char_punched_475B40	clear_last_char_punched
 compound_add_41FA70	compound_add
 compound_subtract_41FA90	compound_subtract
@@ -623,8 +630,10 @@ get_rnd_45F9E0	get_rnd
 get_rotation_433A40	get_rotation
 get_secret_tokens_collected_453A80	get_secret_tokens_collected
 get_sprite_height_4C6C90	get_sprite_height
+get_sprite_height_4C7250	get_user_sprite_height
 get_sprite_ptr_4338D0	get_sprite_ptr
 get_sprite_width_420220	get_sprite_width
+get_sprite_width_4C7220	get_user_sprite_width
 get_state_411A10	get_state
 get_target_car_door_403A60	get_target_car_door
 get_target_objective_car_403AB0	get_target_objective_car
@@ -649,6 +658,7 @@ has_tiles_4C2EE0	has_tiles
 init_44C840	init
 isDead_403B60	isDead
 is_backward_gas_on_411810	is_backward_gas_on
+is_car_weapon_433820	is_car_weapon_kind
 is_infinite_ammo_4A4FA0	is_infinite_ammo
 is_player_41B0A0	is_player
 jIsAxisAligned_41E3C0	jIsAxisAligned

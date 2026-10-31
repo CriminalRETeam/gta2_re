@@ -104,7 +104,7 @@ void KeyboardLayout::LoadKbCfg()
     FILE* hConfigFile = fopen(FileName, "rt");
     if (!hConfigFile)
     {
-        FatalError_4A38C0(Gta2Error::KeyboardTypeFileOpenError, "C:\\Splitting\\Gta2\\Source\\keybrd.cpp", 187);
+        FatalError(Gta2Error::KeyboardTypeFileOpenError, "C:\\Splitting\\Gta2\\Source\\keybrd.cpp", 187);
     }
 
     for (s32 i = 0; i < 256; i++)
@@ -143,7 +143,7 @@ void __stdcall KeyboardLayout::create()
         gKeybrd_0x204 = new KeyboardLayout();
         if (!gKeybrd_0x204)
         {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\keybrd.cpp", 244);
+            FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\keybrd.cpp", 244);
         }
     }
     gKeybrd_0x204->LoadKbCfg();

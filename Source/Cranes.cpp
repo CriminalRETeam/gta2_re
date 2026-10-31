@@ -98,7 +98,7 @@ void Crane::ComputeHookPos(Fix16 radius, Ang16 ang, Fix16_Point* pOutPoint)
     Fix16 cos = Ang16::cosine(ang);
     Fix16 x_old = pOutPoint->x;
     pOutPoint->x = (pOutPoint->x * cos) + (pOutPoint->y * sin);
-    pOutPoint->y = x_old.Negate_4086A0().Multiply(sin).Add(pOutPoint->y * cos);
+    pOutPoint->y = x_old.Negated().Multiply(sin).Add(pOutPoint->y * cos);
 
     *pOutPoint += mRotorObj->mSprite->get_x_y();
 }
@@ -112,7 +112,7 @@ void Crane::ComputeHookPos_47E730(Ang16 radius, Fix16 ang, Fix16_Point* pOutPoin
     Fix16 cos = Ang16::cosine(radius);
     Fix16 x_old = pOutPoint->x;
     pOutPoint->x = (pOutPoint->x * cos) + (pOutPoint->y * sin);
-    pOutPoint->y = x_old.Negate_4086A0().Multiply(sin).Add(pOutPoint->y * cos);
+    pOutPoint->y = x_old.Negated().Multiply(sin).Add(pOutPoint->y * cos);
     *pOutPoint += mRotorObj->mSprite->get_x_y();
 }
 

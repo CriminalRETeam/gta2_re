@@ -199,7 +199,7 @@ void __stdcall Bink::OpenSlot2(const char_type* pFileName, HDIGDRIVER hDriver)
         if (gBinkBufferSlot2 == NULL)
         {
             gBinkDDState = BinkDD_Closed;
-            FatalError_4A38C0(Gta2Error::BinkBufferOpenError, "C:\\Splitting\\Gta2\\Source\\movie2.cpp", 360);
+            FatalError(Gta2Error::BinkBufferOpenError, "C:\\Splitting\\Gta2\\Source\\movie2.cpp", 360);
         }
         else
         {
@@ -208,7 +208,7 @@ void __stdcall Bink::OpenSlot2(const char_type* pFileName, HDIGDRIVER hDriver)
     }
     else
     {
-        FatalError_4A38C0(Gta2Error::BinkOpenError, "C:\\Splitting\\Gta2\\Source\\movie2.cpp", 376);
+        FatalError(Gta2Error::BinkOpenError, "C:\\Splitting\\Gta2\\Source\\movie2.cpp", 376);
     }
     gBinkActiveSlot = 2;
 }
@@ -269,7 +269,7 @@ void __stdcall Bink::OpenSlot1(const char_type* pFileName, HDIGDRIVER hDriver)
         if (gBinkBufferSlot1 == NULL)
         {
             gBinkDDState = BinkDD_Closed;
-            FatalError_4A38C0(Gta2Error::BinkBufferOpenError, "C:\\Splitting\\Gta2\\Source\\movie2.cpp", 450);
+            FatalError(Gta2Error::BinkBufferOpenError, "C:\\Splitting\\Gta2\\Source\\movie2.cpp", 450);
             gBinkActiveSlot = 1;
             return;
         }
@@ -279,7 +279,7 @@ void __stdcall Bink::OpenSlot1(const char_type* pFileName, HDIGDRIVER hDriver)
     }
     else
     {
-        FatalError_4A38C0(Gta2Error::BinkOpenError, "C:\\Splitting\\Gta2\\Source\\movie2.cpp", 460);
+        FatalError(Gta2Error::BinkOpenError, "C:\\Splitting\\Gta2\\Source\\movie2.cpp", 460);
     }
 }
 

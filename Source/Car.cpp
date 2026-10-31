@@ -1507,8 +1507,8 @@ EXPORT void __stdcall SpawnCabAndTrailerHelper(
 
     cab_offset.RotateByAngle_40F6B0_all_out_of_line(rot);
     // 9.6f 0x40F760: negate in place
-    cab_offset.x = cab_offset.x.Negate_4086A0();
-    cab_offset.y = cab_offset.y.Negate_4086A0();
+    cab_offset.x = cab_offset.x.Negated();
+    cab_offset.y = cab_offset.y.Negated();
     cab_offset.RotateByAngle_40F6B0_all_out_of_line(uknown_rot);
     trailer_pos = hitch_pos.Add(cab_offset);
 
@@ -1516,7 +1516,7 @@ EXPORT void __stdcall SpawnCabAndTrailerHelper(
     *pOutX = trailer_pos.x;
     *pOutY = trailer_pos.y;
     // 9.6f 0x40F640 (unary -) then 0x40F790 (angle of the vector)
-    *pOutRot = cab_offset.Negate_40ACB0().GetAngle();
+    *pOutRot = cab_offset.Negated().GetAngle();
 }
 
 // 9.6f 0x428EC0
@@ -1699,7 +1699,7 @@ CarManager::CarManager()
         gCar_BC_Pool = new CarPool();
         if (!gCar_BC_Pool)
         {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8318);
+            FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8318);
         }
     }
 
@@ -1708,7 +1708,7 @@ CarManager::CarManager()
         gCarPhysicsPool = new CarPhyisicsPool();
         if (!gCarPhysicsPool)
         {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8323);
+            FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8323);
         }
     }
 
@@ -1717,7 +1717,7 @@ CarManager::CarManager()
         gTrafficSpawner_14 = new TrafficSpawner();
         if (!gTrafficSpawner_14)
         {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8329);
+            FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8329);
         }
     }
 
@@ -1726,7 +1726,7 @@ CarManager::CarManager()
         gCarAI_78_Pool = new CarAIPool();
         if (!gCarAI_78_Pool)
         {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8335);
+            FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8335);
         }
     }
 
@@ -1735,7 +1735,7 @@ CarManager::CarManager()
         gTrailerPool = new TrailerPool();
         if (!gTrailerPool)
         {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8341);
+            FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8341);
         }
     }
 
@@ -1772,7 +1772,7 @@ CarManager::CarManager()
         sSpriteUnused = new Sprite(kAngZero_67791C, gFix16_6777CC);
         if (!sSpriteUnused)
         {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8375);
+            FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8375);
         }
     }
 
@@ -5741,7 +5741,7 @@ bool Car::TrainUpdate()
                 }
 
                 default:
-                    FatalError_4A38C0(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\car.cpp", 5458, 0);
+                    FatalError(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\car.cpp", 5458, 0);
             }
 
             if (gSpriteGrid_1->CheckRectForCollisions(&rect, false, sprite_types_enum::none_0, this->mCarSprite))
@@ -6172,7 +6172,7 @@ void Car::BuyCarWeapon(s32 weapon_kind)
                     this->SetShopEvent(car_shop_event::car_smg_7);
                     break;
                 default:
-                    FatalError_4A38C0(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\car.cpp", 6107, 0);
+                    FatalError(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\car.cpp", 6107, 0);
             }
         }
         else
@@ -6642,7 +6642,7 @@ Fix16_Point Trailer::GetHitchPosition()
         Fix16 cos = Ang16::cosine(angle);
         Fix16 x_old = offset.x;
         offset.x = (offset.x * cos) + (offset.y * sin);
-        offset.y = x_old.Negate_4086A0().Multiply(sin).Add(offset.y.Multiply(cos));
+        offset.y = x_old.Negated().Multiply(sin).Add(offset.y.Multiply(cos));
     }
     offset += mTruckCab->mPhysics->get_cp1();
     return offset;

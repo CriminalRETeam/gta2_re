@@ -21,7 +21,7 @@ void RemapTextureSet::Alloc(s16 sprite_count, s16 remaps_per_sprite, s32 sprite_
             mbDoFree = true;
             mSpriteType = sprite_type;
             mPalType = pal_type;
-            mpTextures = static_cast<STexture**>(Memory::malloc_4FE4D0(sizeof(STexture*) * mTextureCount));
+            mpTextures = static_cast<STexture**>(Memory::Checked_malloc(sizeof(STexture*) * mTextureCount));
 
             for (u32 i = 0; i < mTextureCount; i++)
             {

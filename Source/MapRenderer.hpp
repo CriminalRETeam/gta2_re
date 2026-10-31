@@ -65,9 +65,9 @@ class MapRenderer
 
     EXPORT void SetAmbientLevel(s32& target_level, u16& cycles);
     EXPORT void set_shading_lev(u8 shading_lev);
-    EXPORT void draw_4E9EE0(u16& word_side, const bool& bFourSided, u8 colour);
+    EXPORT void draw_triangle(u16& word_side, const bool& bFourSided, u8 colour);
     EXPORT void ambient_light_tick();
-    EXPORT void draw_4EA190(u16& rotation_and_flip);
+    EXPORT void TransformTriangleUVsThreeSided(u16& rotation_and_flip);
     EXPORT void DrawLeftSide(u16& left_word);
     EXPORT void ProjectVertTop(Fix16& xpos, Fix16& ypos, Vert* pVert);
     EXPORT void ProjectVertBottom(Fix16& xCoord, Fix16& yCoord, Vert* pVert);
@@ -204,7 +204,7 @@ class MapRenderer
 
 EXPORT void __stdcall set_vert_xyz_relative_to_cam(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts);
 
-EXPORT void __stdcall draw_4F3FB0(s32 uv_flags);
+EXPORT void __stdcall SetUVCorners(s32 uv_flags);
 
 EXPORT void __stdcall Set_UV(Fix16& edge01_frac, Fix16& edge03_frac, const u32& vert_idx);
 

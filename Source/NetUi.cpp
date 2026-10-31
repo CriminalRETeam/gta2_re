@@ -991,7 +991,7 @@ void NetUi::DbcsToWide(wchar_t* pDst, char_type* pSrc)
 }
 
 MATCH_FUNC(0x519a00)
-char_type* __stdcall GetString_519A00(const char_type* pKey)
+char_type* __stdcall GetNarrowText(const char_type* pKey)
 {
     LOCAL_STATIC_ARRAY(char_type, sDest, 256, 0x6F88A4);
     wchar_t* pText = gtext_0x14->Find(pKey);
@@ -1528,7 +1528,7 @@ void NetUi::CreateMainUi(HWND hWndParent)
             char* pNewWindowStr;
             if (gUiControlDefinitions_621430.data[i][j].mGtxStringName[0])
             {
-                pNewWindowStr = GetString_519A00(gUiControlDefinitions_621430.data[i][j].mGtxStringName);
+                pNewWindowStr = GetNarrowText(gUiControlDefinitions_621430.data[i][j].mGtxStringName);
             }
             else
             {
@@ -1550,7 +1550,7 @@ void NetUi::CreateMainUi(HWND hWndParent)
         }
     }
 
-    SetWindowTextA(hWndParent, GetString_519A00("netui08")); // "Network GTA2"
+    SetWindowTextA(hWndParent, GetNarrowText("netui08")); // "Network GTA2"
 
     // Subclass to handle enter key pressing
     mOldProc1FD70 = reinterpret_cast<WNDPROC>(GetWindowLongA(GetDlgItem(hWndParent, TEXTFIELD_CHAT_GUEST_1053), GWL_WNDPROC));
@@ -1561,8 +1561,8 @@ void NetUi::CreateMainUi(HWND hWndParent)
     // set range of game speed slider: 0 to 2 (that is, 3 options)
     SendDlgItemMessageA(hWndParent, TRACKBAR_GAME_SPEED_1031, TBM_SETRANGE, TRUE, MAKELONG(0, 2)); 
 
-    SetDlgItemTextA(hWndParent, LABEL_COPS_1028, GetString_519A00("netui14")); // "Cops"
-    SetDlgItemTextA(hWndParent, LABEL_TIME_LIMIT_MINUTES_1037, GetString_519A00("netui21")); // "Time Limit (Minutes)"
+    SetDlgItemTextA(hWndParent, LABEL_COPS_1028, GetNarrowText("netui14")); // "Cops"
+    SetDlgItemTextA(hWndParent, LABEL_TIME_LIMIT_MINUTES_1037, GetNarrowText("netui21")); // "Time Limit (Minutes)"
     NetUi::SetPlayerCountText(0, hWndParent);
     if (gNetPlay.mbModem)
     {
@@ -1757,11 +1757,11 @@ void NetUi::PopulateMainUI()
         SendDlgItemMessageA(mDlgHwnd, COMBO_MAP_LIST_1026, CB_SETITEMDATA, item_idx, map_idx);
     }
 
-    LRESULT item_a = SendDlgItemMessageA(mDlgHwnd, COMBO_GAME_TYPE_1036, 323u, 0, reinterpret_cast<LPARAM>(GetString_519A00("netui19")));
+    LRESULT item_a = SendDlgItemMessageA(mDlgHwnd, COMBO_GAME_TYPE_1036, 323u, 0, reinterpret_cast<LPARAM>(GetNarrowText("netui19")));
     SendDlgItemMessageA(mDlgHwnd, COMBO_GAME_TYPE_1036, CB_SETITEMDATA, item_a, 0);
-    LRESULT item_b = SendDlgItemMessageA(mDlgHwnd, COMBO_GAME_TYPE_1036, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(GetString_519A00("netui20")));
+    LRESULT item_b = SendDlgItemMessageA(mDlgHwnd, COMBO_GAME_TYPE_1036, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(GetNarrowText("netui20")));
     SendDlgItemMessageA(mDlgHwnd, COMBO_GAME_TYPE_1036, CB_SETITEMDATA, item_b, 1);
-    LRESULT item_c = SendDlgItemMessageA(mDlgHwnd, COMBO_GAME_TYPE_1036, 0x143u, 0, reinterpret_cast<LPARAM>(GetString_519A00("netui22")));
+    LRESULT item_c = SendDlgItemMessageA(mDlgHwnd, COMBO_GAME_TYPE_1036, 0x143u, 0, reinterpret_cast<LPARAM>(GetNarrowText("netui22")));
     SendDlgItemMessageA(mDlgHwnd, COMBO_GAME_TYPE_1036, CB_SETITEMDATA, item_c, 2);
     NetUi::LoadGameSettingsFromRegistry();
     SendDlgItemMessageA(mDlgHwnd, COMBO_MAP_LIST_1026, CB_SETCURSEL, mGameSettings.mMapIdx, 0);
@@ -1976,13 +1976,13 @@ void NetUi::ApplyHostGameSettings(const char_type* pData)
         switch (pSettings->mGameSpeed)
         {
             case 2:
-                pSpeedText = GetString_519A00("netui12");
+                pSpeedText = GetNarrowText("netui12");
                 break;
             case 1:
-                pSpeedText = GetString_519A00("netui11");
+                pSpeedText = GetNarrowText("netui11");
                 break;
             case 0:
-                pSpeedText = GetString_519A00("netui10");
+                pSpeedText = GetNarrowText("netui10");
                 break;
         }
         SetDlgItemTextA(mDlgHwnd, LABEL_GAME_SPEED_1055, pSpeedText);
@@ -2052,13 +2052,13 @@ void NetUi::SetSetting(s32 setting, s32 value)
             switch (value)
             {
                 case 2:
-                    pSpeedText = GetString_519A00("netui12");
+                    pSpeedText = GetNarrowText("netui12");
                     break;
                 case 1:
-                    pSpeedText = GetString_519A00("netui11");
+                    pSpeedText = GetNarrowText("netui11");
                     break;
                 case 0:
-                    pSpeedText = GetString_519A00("netui10");
+                    pSpeedText = GetNarrowText("netui10");
                     break;
             }
             SetDlgItemTextA(mDlgHwnd, LABEL_GAME_SPEED_TEXT_1032, pSpeedText);
@@ -2410,7 +2410,7 @@ MATCH_FUNC(0x51cb30)
 void NetUi::SetPlayerCountText(s32 count, HWND hDlg)
 {
     char String[260];
-    const char* pStr = GetString_519A00("netui13");
+    const char* pStr = GetNarrowText("netui13");
     sprintf(String, "%s %d", pStr, count);
     SetDlgItemTextA(hDlg, LABEL_PLAYERS_REQUIRED_1033, String);
 }
@@ -2455,11 +2455,11 @@ void NetUi::SetJoinedGamePoliceEnabledText(s32 bPoliceOn, HWND hDlg)
 {
     if (bPoliceOn == 1)
     {
-        SetDlgItemTextA(hDlg, LABEL_JOINED_GAME_POLICE_ENABLED_1056, GetString_519A00("netui15"));
+        SetDlgItemTextA(hDlg, LABEL_JOINED_GAME_POLICE_ENABLED_1056, GetNarrowText("netui15"));
     }
     else
     {
-        SetDlgItemTextA(hDlg, LABEL_JOINED_GAME_POLICE_ENABLED_1056, GetString_519A00("netui16"));
+        SetDlgItemTextA(hDlg, LABEL_JOINED_GAME_POLICE_ENABLED_1056, GetNarrowText("netui16"));
     }
 }
 
@@ -2473,12 +2473,12 @@ void NetUi::SetFragsNumberAndLabel(s32 gameType, s32 fragLimit, HWND hDlg)
 
     if (gameType == FRAG_GAME_1)
     {
-        fragLimitString = GetString_519A00("netui17");
+        fragLimitString = GetNarrowText("netui17");
         bHasFragLimit = true;
     }
     else if (gameType == POINTS_GAME_2)
     {
-        fragLimitString = GetString_519A00("netui18");
+        fragLimitString = GetNarrowText("netui18");
         bHasFragLimit = true;
     }
 
@@ -2518,13 +2518,13 @@ void NetUi::SetGameSpeedTextLabelAndSlider(LPARAM game_speed, HWND hDlg)
     switch (game_speed)
     {
         case 2:
-            pText = GetString_519A00("netui12");
+            pText = GetNarrowText("netui12");
             break;
         case 1:
-            pText = GetString_519A00("netui11");
+            pText = GetNarrowText("netui11");
             break;
         case 0:
-            pText = GetString_519A00("netui10");
+            pText = GetNarrowText("netui10");
             break;
     }
     SetDlgItemTextA(hDlg, LABEL_GAME_SPEED_TEXT_1032, pText);
@@ -2541,14 +2541,14 @@ void NetUi::SetJoinedGameTypeAndFragLimitText(s32 game_type, s32 frag_limit, HWN
 
     if (game_type == FRAG_GAME_1)
     {
-        strcpy(String, GetString_519A00("netui19"));
-        strcpy(Buffer, GetString_519A00("netui17"));
+        strcpy(String, GetNarrowText("netui19"));
+        strcpy(Buffer, GetNarrowText("netui17"));
         bIsFragOrPoints = true;
     }
     else if (game_type == POINTS_GAME_2)
     {
-        strcpy(String, GetString_519A00("netui20"));
-        strcpy(Buffer, GetString_519A00("netui18"));
+        strcpy(String, GetNarrowText("netui20"));
+        strcpy(Buffer, GetNarrowText("netui18"));
         bIsFragOrPoints = true;
     }
 
@@ -2560,7 +2560,7 @@ void NetUi::SetJoinedGameTypeAndFragLimitText(s32 game_type, s32 frag_limit, HWN
     }
     else
     {
-        strcpy(String, GetString_519A00("netui22"));
+        strcpy(String, GetNarrowText("netui22"));
         SetDlgItemTextA(hDlg, LABEL_JOINED_GAME_TYPE_1057, String);
         SetDlgItemTextA(hDlg, LABEL_JOINED_GAME_FRAG_LIMIT_1058, "");
     }
@@ -2571,7 +2571,7 @@ void NetUi::SetJoinedGameTimeLimitText(s32 gameTimeLimit, HWND hDlg)
 {
     char_type Buffer[260];
     char_type String[260];
-    strcpy(Buffer, GetString_519A00("netui21"));
+    strcpy(Buffer, GetNarrowText("netui21"));
     sprintf(String, "%s: %d", Buffer, gameTimeLimit);
     SetDlgItemTextA(hDlg, LABEL_JOINED_GAME_TIME_LIMIT_1060, String);
 }

@@ -11,7 +11,7 @@ class ScriptGosubStack
     EXPORT ScriptGosubStack() throw(); // 503120
     EXPORT ~ScriptGosubStack(); // 503130
 
-    EXPORT void add_503160(ScriptStackFrame* pFrame);
+    EXPORT void PushFrame(ScriptStackFrame* pFrame);
     EXPORT ScriptStackFrame* PopFrame();
 
     EXPORT ScriptStackFrame* AllocFrame();

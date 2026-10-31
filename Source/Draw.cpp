@@ -41,13 +41,13 @@ void __stdcall DrawTextureScaled(STexture* pTexture, Fix16 x_pos, Fix16 y_pos, u
 }
 
 MATCH_FUNC(0x4B87A0)
-void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 fontType, Fix16 scale)
+void __stdcall DrawStringDefaultPalette(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 fontType, Fix16 scale)
 {
-    DrawText_5D8A10(pBuffer, xpos_fp, ypos_fp, fontType, scale, palette_types_enum::sprites_2, 0, 0, 0);
+    DrawString(pBuffer, xpos_fp, ypos_fp, fontType, scale, palette_types_enum::sprites_2, 0, 0, 0);
 }
 
 MATCH_FUNC(0x5D7670)
-void __stdcall DrawFigureScaled_5D7670(s32 sprite_type, s16 sprite_idx, Fix16 x_pos, Fix16 y_pos, Ang16 rotation, const s32& palette_type, s16 palette, s32 alpha_value, u8 flags)
+void __stdcall DrawFigureScaled(s32 sprite_type, s16 sprite_idx, Fix16 x_pos, Fix16 y_pos, Ang16 rotation, const s32& palette_type, s16 palette, s32 alpha_value, u8 flags)
 {
     DrawFigure(sprite_type,
                sprite_idx,
@@ -69,9 +69,9 @@ s32 __stdcall GetLineSpacingFromFontType(u16 font_type)
 }
 
 MATCH_FUNC(0x5D7720)
-void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, const s32& palette_type, u16 palette, s32 alpha, u8 alpha_flag)
+void __stdcall DrawStringScaledPalette(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, const s32& palette_type, u16 palette, s32 alpha, u8 alpha_flag)
 {
-    DrawText_5D8A10(pStr,
+    DrawString(pStr,
                     xoff * gViewCamera->mUiScale,
                     yoff * gViewCamera->mUiScale,
                     fontType,
@@ -83,9 +83,9 @@ void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 
 }
 
 MATCH_FUNC(0x5D77A0)
-void __stdcall DrawTextScaled_5D77A0(const wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type)
+void __stdcall DrawStringScaled(const wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type)
 {
-    DrawText_5D8A10(pText,
+    DrawString(pText,
                     xpos * gViewCamera->mUiScale,
                     ypos * gViewCamera->mUiScale,
                     font_type,
@@ -98,15 +98,15 @@ void __stdcall DrawTextScaled_5D77A0(const wchar_t* pText, Fix16 xpos, Fix16 ypo
 
 // The original is a tail-call thunk into the body at 0x5D7CC0 (9.6f: 0x4CAEB0 -> 0x4CADE0)
 MATCH_FUNC(0x5D7CB0)
-void __stdcall ConvertColourBanks_5D7CB0()
+void __stdcall SetColourDepthAndConvertBanks()
 {
     pgbh_SetColourDepth();
-    ConvertColourBanks_5D7CC0();
+    ConvertColourBanks();
 }
 
 // https://decomp.me/scratch/zpWhI
 MATCH_FUNC(0x5D7CC0)
-void __stdcall ConvertColourBanks_5D7CC0()
+void __stdcall ConvertColourBanks()
 {
     if (gGtx_0x106C && !gGtx_0x106C->mPalettesConverted)
     {
@@ -153,7 +153,7 @@ void __stdcall MakeScreenTableAndSetWindow()
 // 9.6f 0x4CBA50: half_w/half_h are assigned after their declaration (the multiply result is copied into
 // them), the flags test is one equality condition and the widths go through the Fix16(u8) ctor.
 // The ternary, the field reads in u/v and `u32 flags` set the front-end size that gives the
-// original's inline cut-offs: the second rotation's Negate_4086A0 inline, the others out of line.
+// original's inline cut-offs: the second rotation's Negated inline, the others out of line.
 MATCH_FUNC(0x5D7EC0)
 void __stdcall DrawFigure(s32 sprite_type,
                           s16 sprite_idx,
@@ -353,7 +353,7 @@ s32 __stdcall CountLineSpacing(const wchar_t* pStr, u16 font_type)
 
 // https://decomp.me/scratch/HX0q9
 MATCH_FUNC(0x5D8A10)
-void __stdcall DrawText_5D8A10(const wchar_t* pText,
+void __stdcall DrawString(const wchar_t* pText,
                                Fix16 xpos_fp,
                                Fix16 ypos_fp,
                                u16 font_type,

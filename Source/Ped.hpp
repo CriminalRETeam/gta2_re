@@ -791,7 +791,8 @@ class Ped
         return false;
     }
 
-    bool bHasGameObject_403B70() const
+    // 9.6f 0x403B70
+    bool HasGameObject() const
     {
         return mGameObject != NULL;
     }

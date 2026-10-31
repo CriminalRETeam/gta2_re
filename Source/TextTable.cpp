@@ -88,7 +88,7 @@ void TextTable::TKEY_Load(u32 chunk_size)
     mTKey.mTKey = new TextKeyEntry[mTKey.mTKeyCount];
     if (!mTKey.mTKey)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\text.cpp", 218);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\text.cpp", 218);
     }
 
     File::Global_Read(mTKey.mTKey, chunk_size);
@@ -154,7 +154,7 @@ void text_tdat::TDAT_Load(u32 size)
 
     if (!mData)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\text.cpp", 378);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\text.cpp", 378);
     }
 
     File::Global_Read(mData, size);

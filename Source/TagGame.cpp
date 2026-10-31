@@ -37,11 +37,11 @@ void TagGame::SetNewFugitive(Player* pNewFugitive)
     mFugitive->RemovePlayerWeapons();
     mFugitive->ClearPowerUps();
 
-    if (mFugitive->GetPlayerPed_41D020() != NULL)
+    if (mFugitive->GetPlayerPed() != NULL)
     {
-        mFugitive->GetPlayerPed_41D020()->SetVisible();
-        mFugitive->GetPlayerPed_41D020()->ClearInvulnerable();
-        mFugitive->GetPlayerPed_41D020()->ClearElectrofingers();
+        mFugitive->GetPlayerPed()->SetVisible();
+        mFugitive->GetPlayerPed()->ClearInvulnerable();
+        mFugitive->GetPlayerPed()->ClearElectrofingers();
     }
 
     if (!mFugitive->IsUser())
@@ -66,7 +66,7 @@ void TagGame::ExecuteGamemodeTick()
     switch (gGameSession.GetMultiplayerGamemode())
     {
         case NO_GAME_0:
-            FatalError_4A38C0(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\multip.cpp", 108, 0);
+            FatalError(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\multip.cpp", 108, 0);
         case FRAG_GAME_1:
         case POINTS_GAME_2:
             return;
@@ -88,12 +88,12 @@ void TagGame::ExecuteGamemodeTick()
             if (mFugitive && mFugitive->mPlayerPed &&
                 mFugitive->mPlayerPed->mCar)
             {
-                mFugitive->GetPlayerPed_41D020()->get_car()->AccumulateDamage(17, &kZeroPoint);
+                mFugitive->GetPlayerPed()->get_car()->AccumulateDamage(17, &kZeroPoint);
             }
 
             break;
         default:
-            FatalError_4A38C0(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\multip.cpp", 144, 0);
+            FatalError(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\multip.cpp", 144, 0);
     }
 }
 

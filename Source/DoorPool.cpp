@@ -370,7 +370,7 @@ DoorPool::DoorPool()
         sDoor10Pool = new DoorDataPool();
         if (!sDoor10Pool)
         {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\door.cpp", 1194);
+            FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\door.cpp", 1194);
         }
     }
     memset(gDoorAnimInfo, 0, sizeof(gDoorAnimInfo));

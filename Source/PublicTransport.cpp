@@ -90,7 +90,7 @@ gmp_map_zone* __stdcall FindStationZoneByName(const char_type* pChar, u8 case_va
             zone_type = Railway_Station_Stop_Point_13;
             break;
         default:
-            FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp", 98);
+            FatalError(Gta2Error::InvalidCase, "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp", 98);
             break;
     }
 
@@ -623,11 +623,11 @@ void PublicTransport::SpawnTrainsFromStations()
                 {
                     if (!pStation->mpZone)
                     {
-                        FatalError_4A38C0(Gta2Error::IllegalTrainStationNoPlatformZone, "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp", 734);
+                        FatalError(Gta2Error::IllegalTrainStationNoPlatformZone, "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp", 734);
                     }
                     if (!pStation->mEntryPoint)
                     {
-                        FatalError_4A38C0(Gta2Error::IllegalTrainStationNoEntryZone,
+                        FatalError(Gta2Error::IllegalTrainStationNoEntryZone,
                                           "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
                                           738,
                                           pStation->mpZone->mX,
@@ -635,7 +635,7 @@ void PublicTransport::SpawnTrainsFromStations()
                     }
                     if (!pStation->mExitPoint)
                     {
-                        FatalError_4A38C0(Gta2Error::IllegalTrainStationNoExitZone,
+                        FatalError(Gta2Error::IllegalTrainStationNoExitZone,
                                           "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
                                           740,
                                           pStation->mpZone->mX,
@@ -643,7 +643,7 @@ void PublicTransport::SpawnTrainsFromStations()
                     }
                     if (!pStation->mStopPoint)
                     {
-                        FatalError_4A38C0(Gta2Error::IllegalTrainStationNoStopZone,
+                        FatalError(Gta2Error::IllegalTrainStationNoStopZone,
                                           "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
                                           742,
                                           pStation->mpZone->mX,
@@ -653,7 +653,7 @@ void PublicTransport::SpawnTrainsFromStations()
                     Train* pTrain = AllocateTrain();
                     if (!pTrain)
                     {
-                        FatalError_4A38C0(Gta2Error::NoMoreTrainSpace, "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp", 746);
+                        FatalError(Gta2Error::NoMoreTrainSpace, "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp", 746);
                     }
                     pTrain->mAllocState = 2;
 
@@ -674,7 +674,7 @@ void PublicTransport::SpawnTrainsFromStations()
                                 kFpOne_6FF07C);
                             if (!pTrain->mCarriages[j + 1])
                             {
-                                FatalError_4A38C0(Gta2Error::FailedToCreateCarriage,
+                                FatalError(Gta2Error::FailedToCreateCarriage,
                                                   "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
                                                   761,
                                                   (Fix16(pStation->mStopPoint->mX) + Fix16(j + 1) * kWagonSpacingX).ToInt(),
@@ -701,7 +701,7 @@ void PublicTransport::SpawnTrainsFromStations()
                                 kFpOne_6FF07C);
                             if (!pTrain->mCarriages[j + 1])
                             {
-                                FatalError_4A38C0(Gta2Error::FailedToCreateCarriage,
+                                FatalError(Gta2Error::FailedToCreateCarriage,
                                                   "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
                                                   773,
                                                   (Fix16(pStation->mStopPoint->mX) + kTrainStopBlockOffset).ToInt(),
@@ -728,7 +728,7 @@ void PublicTransport::SpawnTrainsFromStations()
                                 kFpOne_6FF07C);
                             if (!pTrain->mCarriages[j + 1])
                             {
-                                FatalError_4A38C0(Gta2Error::FailedToCreateCarriage,
+                                FatalError(Gta2Error::FailedToCreateCarriage,
                                                   "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
                                                   785,
                                                   (Fix16(pStation->mStopPoint->mX) - Fix16(j + 1) * kWagonSpacingX).ToInt(),
@@ -755,7 +755,7 @@ void PublicTransport::SpawnTrainsFromStations()
                                 kFpOne_6FF07C);
                             if (!pTrain->mCarriages[j + 1])
                             {
-                                FatalError_4A38C0(Gta2Error::FailedToCreateCarriage,
+                                FatalError(Gta2Error::FailedToCreateCarriage,
                                                   "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
                                                   796,
                                                   (Fix16(pStation->mStopPoint->mX) + kTrainStopBlockOffset).ToInt(),
@@ -772,7 +772,7 @@ void PublicTransport::SpawnTrainsFromStations()
                     }
                     else
                     {
-                        FatalError_4A38C0(Gta2Error::IllegalBlockForTrainCreation,
+                        FatalError(Gta2Error::IllegalBlockForTrainCreation,
                                           "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
                                           802,
                                           pStation->mStopPoint->mX,
@@ -855,7 +855,7 @@ void PublicTransport::InitTrainStations()
             case 1:
                 break;
             default:
-                FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp", 928);
+                FatalError(Gta2Error::InvalidCase, "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp", 928);
                 break;
         }
     }

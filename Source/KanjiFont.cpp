@@ -21,7 +21,7 @@ void KanjiFont::LoadChunks(const char_type* pChunkId, u32 chunk_len)
         mpKidX = new u16[mKidxSizeWords];
         if (!mpKidX)
         {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\kanji.cpp", 142);
+            FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\kanji.cpp", 142);
         }
         File::Global_Read(mpKidX, chunk_len);
     }
@@ -30,7 +30,7 @@ void KanjiFont::LoadChunks(const char_type* pChunkId, u32 chunk_len)
         mpKBIT = new u8[chunk_len];
         if (!mpKBIT)
         {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\kanji.cpp", 148);
+            FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\kanji.cpp", 148);
         }
         File::Global_Read(mpKBIT, chunk_len);
     }

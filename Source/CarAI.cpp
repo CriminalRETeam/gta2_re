@@ -2956,7 +2956,8 @@ static inline Fix16 __stdcall MaxAbsDistanceRawY_451980(Fix16& x1, Fix16& y1, Fi
 }
 
 // Inlined in UpdateStateMachine (9.6f UpdateStateMachine_42D820 calls it)
-static inline s32 __stdcall GetOppositeFace_42A660(const s32& face)
+// 9.6f 0x42A660
+static inline s32 __stdcall GetOppositeDirection(const s32& face)
 {
     switch (face)
     {
@@ -3497,7 +3498,7 @@ void CarAI::UpdateStateMachine()
     {
         if (target_dist.mValue < kFpFour_677BA0.mValue && !this->mSeekingRoad)
         {
-            if (this->mCurrDirection == GetOppositeFace_42A660(face) && target_dist.mValue < kFpThree_677B9C.mValue)
+            if (this->mCurrDirection == GetOppositeDirection(face) && target_dist.mValue < kFpThree_677B9C.mValue)
             {
                 assert(pPhysics != NULL);
                 pPhysics = this->mCar->mPhysics;

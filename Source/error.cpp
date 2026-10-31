@@ -189,7 +189,7 @@ EXPORT const char_type* __stdcall SourceFileNameFromPath(const char_type* pPath)
 #define err_a1_int(msg, arg) sprintf(gTmpBuffer, msg, arg);
 
 MATCH_FUNC(0x4A07C0)
-EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, ...)
+EXPORT void ReportFatalError(s32 code, const char_type* pFileName, s32 lineNo, ...)
 {
     va_list va;
 
@@ -2273,18 +2273,18 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
 }
 
 MATCH_FUNC(0x4A38C0)
-EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo, ...)
+EXPORT void FatalError(s32 Code, const char_type* pSourceFile, s32 lineNo, ...)
 {
     if (Code == Gta2Error::FileOpenError)
     {
         const char_type destroyed = bDestroyed;
         if (!destroyed)
         {
-            Shutdown_4DA740();
+            ShutdownGame();
             GBH_Graphis_DMA_Video_Free();
             // 16 was using esi instead of push 10h without the 0x6F5B70 bool
             // being cached in both branches of the if/else
-            FatalError_4A07C0(Gta2Error::FileOpenError, pSourceFile, lineNo);
+            ReportFatalError(Gta2Error::FileOpenError, pSourceFile, lineNo);
         }
         DestroyWindow(gHwnd);
         exit(16);
@@ -2294,7 +2294,7 @@ EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo
         const char_type destroyed = bDestroyed;
         if (!destroyed)
         {
-            Shutdown_4DA740();
+            ShutdownGame();
             GBH_Graphis_DMA_Video_Free();
 
             va_list va;
@@ -2302,25 +2302,25 @@ EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo
 
             if (Code < 1000)
             {
-                FatalError_4A07C0(Code, pSourceFile, lineNo);
+                ReportFatalError(Code, pSourceFile, lineNo);
             }
             else if (Code < 2000)
             {
                 s32 arg1 = va_arg(va, s32);
-                FatalError_4A07C0(Code, pSourceFile, lineNo, arg1);
+                ReportFatalError(Code, pSourceFile, lineNo, arg1);
             }
             else if (Code < 3000)
             {
                 s32 arg1 = va_arg(va, s32);
                 s32 arg2 = va_arg(va, s32);
-                FatalError_4A07C0(Code, pSourceFile, lineNo, arg2, arg2);
+                ReportFatalError(Code, pSourceFile, lineNo, arg2, arg2);
             }
             else if (Code < 4000)
             {
                 s32 arg1 = va_arg(va, s32);
                 s32 arg2 = va_arg(va, s32);
                 s32 arg3 = va_arg(va, s32);
-                FatalError_4A07C0(Code, pSourceFile, lineNo, arg3, arg3, arg3);
+                ReportFatalError(Code, pSourceFile, lineNo, arg3, arg3, arg3);
             }
             else if (Code < 5000)
             {
@@ -2328,12 +2328,12 @@ EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo
                 s32 arg2 = va_arg(va, s32);
                 s32 arg3 = va_arg(va, s32);
                 s32 arg4 = va_arg(va, s32);
-                FatalError_4A07C0(Code, pSourceFile, lineNo, arg1, arg2, arg3, arg4);
+                ReportFatalError(Code, pSourceFile, lineNo, arg1, arg2, arg3, arg4);
             }
             else if (Code < 6000)
             {
                 s32 arg1 = va_arg(va, s32);
-                FatalError_4A07C0(Code, pSourceFile, lineNo, arg1);
+                ReportFatalError(Code, pSourceFile, lineNo, arg1);
             }
             else if (Code < 7000)
             {
@@ -2345,24 +2345,24 @@ EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo
                 s32 arg6 = va_arg(va, s32);
                 s32 arg7 = va_arg(va, s32);
                 s32 arg8 = va_arg(va, s32);
-                FatalError_4A07C0(Code, pSourceFile, lineNo, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+                ReportFatalError(Code, pSourceFile, lineNo, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
             }
             else if (Code < 8000)
             {
-                FatalError_4A07C0(Code, pSourceFile, lineNo);
+                ReportFatalError(Code, pSourceFile, lineNo);
             }
             else if (Code < 9000)
             {
-                FatalError_4A07C0(Code, pSourceFile, lineNo);
+                ReportFatalError(Code, pSourceFile, lineNo);
             }
             else if (Code == 9011)
             {
                 s32 arg1 = va_arg(va, s32);
-                FatalError_4A07C0(Code, pSourceFile, lineNo, arg1);
+                ReportFatalError(Code, pSourceFile, lineNo, arg1);
             }
             else
             {
-                FatalError_4A07C0(Code, pSourceFile, lineNo);
+                ReportFatalError(Code, pSourceFile, lineNo);
             }
         }
         DestroyWindow(gHwnd);
@@ -2379,138 +2379,138 @@ EXPORT void __stdcall FatalDXError(HRESULT hr, const char_type* pSourceFile, s32
     switch (hr)
     {
         case 0x80004001: // E_NOTIMPL / DIERR_UNSUPPORTED
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "the interface is not implemented");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "the interface is not implemented");
             break;
 
         case 0x8000000A: // E_PENDING
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "pending");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "pending");
             break;
 
         case 0x80004002: // E_NOINTERFACE / DIERR_NOINTERFACE
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "the interface is not supported");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "the interface is not supported");
             break;
 
         case 0x80004005: // E_FAIL / DIERR_GENERIC
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "undetermined failure");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "undetermined failure");
             break;
 
         case 0x80040110: // CLASS_E_NOAGGREGATION
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "object does not support aggregation");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "object does not support aggregation");
             break;
 
         case 0x80040202: // DIERR_MOREDATA
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "not all requested information fitted into the buffer");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "not all requested information fitted into the buffer");
             break;
 
         case 0x80040201: // DIERR_DEVICEFULL
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "device is full");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "device is full");
             break;
 
         case 0x80040154: // REGDB_E_CLASSNOTREG
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "class is not registered");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "class is not registered");
             break;
 
         case 0x80040203: // DIERR_NOTDOWNLOADED
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "effect is not downloaded");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "effect is not downloaded");
             break;
 
         case 0x80040208: // DIERR_EFFECTPLAYING
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "effect is still playing");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "effect is still playing");
             break;
 
         case 0x80040204: // DIERR_HASEFFECTS
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "device still has effects attached");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "device still has effects attached");
             break;
 
         case 0x80040206: // DIERR_INCOMPLETEEFFECT
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "effect could not be downloaded because essential information is missing");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "effect could not be downloaded because essential information is missing");
             break;
 
         case 0x80040207: // DIERR_NOTBUFFERED
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "device is not buffered");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "device is not buffered");
             break;
 
         case 0x80040205: // DIERR_NOTEXCLUSIVEACQUIRED
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "device must be acquired in exclusive mode");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "device must be acquired in exclusive mode");
             break;
 
         case 0x80070002: // DIERR_OBJECTNOTFOUND
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "object does not exist");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "object does not exist");
             break;
 
         case 0x80070005: // E_ACCESSDENIED / DIERR_OTHERAPPHASPRIO
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "access denied");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "access denied");
             break;
 
         case 0x8007000C: // DIERR_NOTACQUIRED
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "device must be acquired");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "device must be acquired");
             break;
 
         case 0x80070057: // E_INVALIDARG
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "invalid argument");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "invalid argument");
             break;
 
         case 0x8007000E: // E_OUTOFMEMORY
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "out of memory");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "out of memory");
             break;
 
         case 0x8007001E: // DIERR_INPUTLOST
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "access to the input device has been lost");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "access to the input device has been lost");
             break;
 
         case 0x80070015: // DIERR_NOTINITIALIZED
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "object has not been initialized");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "object has not been initialized");
             break;
 
         case 0x80070077: // DIERR_BADDRIVERVER
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "incompatible driver version or mismatched or incomplete driver components");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "incompatible driver version or mismatched or incomplete driver components");
             break;
 
         case 0x80070481: // DIERR_BETADIRECTINPUTVERSION
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "application was written for an unsupported prerelease version of DirectInput");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "application was written for an unsupported prerelease version of DirectInput");
             break;
 
         case 0x8007047E: // DIERR_OLDDIRECTINPUTVERSION
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "requires a newer version of DirectInput");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "requires a newer version of DirectInput");
             break;
 
         case 0x800700AA: // DIERR_ACQUIRED
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "device is acquired");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "device is acquired");
             break;
 
         case 0x800704DF: // DIERR_ALREADYINITIALIZED
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "object is already initialized");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "object is already initialized");
             break;
 
         case 0: // DI_OK: returns without an error (the jump table entry goes to the ret)
             break;
 
         case 1: // S_FALSE / DI_NOEFFECT
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "the function had no effect");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "the function had no effect");
             break;
 
         case 3: // DI_DOWNLOADSKIPPED
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "effect could not be downloaded");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "effect could not be downloaded");
             break;
 
         case 4: // DI_EFFECTRESTARTED
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "effect has been restarted");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "effect has been restarted");
             break;
 
         case 2: // DI_POLLEDDEVICE
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "device is a polled device");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "device is a polled device");
             break;
 
         case 8: // DI_TRUNCATED
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "effect parameters have been truncated");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "effect parameters have been truncated");
             break;
 
         case 12: // DI_TRUNCATEDANDRESTARTED
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "effect parameters have been truncated and effect has been restarted");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "effect parameters have been truncated and effect has been restarted");
             break;
 
         default:
-            FatalError_4A38C0(Gta2Error::DirectXError, pSourceFile, lineNo, "unknown error");
+            FatalError(Gta2Error::DirectXError, pSourceFile, lineNo, "unknown error");
             break;
     }
 }

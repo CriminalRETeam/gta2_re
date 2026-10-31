@@ -241,7 +241,7 @@ class Sprite
     EXPORT void UpdateCollisionBoundsIfNeeded();
     EXPORT void SetRemap(s16 remap);
     EXPORT s16 GetTruePalette() const;
-    EXPORT char_type has_shadows_59EAE0();
+    EXPORT char_type CastsShadow();
     EXPORT void ShowId(f32& x, f32& y);
     EXPORT void ShowHorn(f32& x, f32& y);
     EXPORT void Draw();

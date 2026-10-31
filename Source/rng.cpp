@@ -18,7 +18,7 @@ MATCH_FUNC(0x48B900)
 void rng::AdvanceCycle()
 {
     ++mRng;
-    mRnd = gRng.rand_4F7C00();
+    mRnd = gRng.get_raw_rand();
 }
 
 MATCH_FUNC(0x48B920)
@@ -51,7 +51,7 @@ PixelsToFix16Table::PixelsToFix16Table()
 }
 
 MATCH_FUNC(0x4F7A40)
-void rng::srand_4F7A40()
+void rng::reset_seed()
 {
     srand(1);
 }
@@ -117,7 +117,7 @@ u8 rng::get_uint8(const u8& max_rnd)
 }
 
 MATCH_FUNC(0x4F7C00)
-s32 rng::rand_4F7C00()
+s32 rng::get_raw_rand()
 {
     return rand();
 }

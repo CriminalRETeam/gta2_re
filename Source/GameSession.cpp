@@ -172,7 +172,7 @@ char_type* GameSession::GetScriptName()
 }
 
 MATCH_FUNC(0x4C5970)
-char_type* GameSession::GetSaveFileName_4C5970()
+char_type* GameSession::GetSaveName()
 {
     return mSaveFileName;
 }

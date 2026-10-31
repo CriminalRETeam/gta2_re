@@ -78,7 +78,7 @@ void DebugTest::DoBrianTest(u16 action)
             gGame_0x40->ExitGameNoBonus(0, GameExitType::GameOverRIP_3);
             break;
         case 9:
-            gScriptManager->SaveGame(gGameSession.GetSaveFileName_4C5970());
+            gScriptManager->SaveGame(gGameSession.GetSaveName());
             break;
         case 6:
             gTestRouteIdx = gRouteFinder->DoStartRoute(3, 3, 1, 0xD5, 0xAB, 1, 1);
@@ -87,7 +87,7 @@ void DebugTest::DoBrianTest(u16 action)
             break;
         case 7:
         {
-            Ped* pPed = gGame_0x40->IterateFirstPlayer()->GetPlayerPed_41D020();
+            Ped* pPed = gGame_0x40->IterateFirstPlayer()->GetPlayerPed();
             if (pPed->mCar)
             {
                 pPed->mCar->GoToBlockTest(3, 3, 1, 1);
@@ -288,7 +288,7 @@ void Player::ClearKFWeapon()
 {
     if (this->mPreKfWeaponKind != -2)
     {
-        if (gWeapon_8->is_car_weapon_433820(mKfWeaponKind))
+        if (gWeapon_8->is_car_weapon_kind(mKfWeaponKind))
         {
             if (mKfCar->mCarId == this->mKfCarId)
             {
@@ -2514,7 +2514,7 @@ void Player::InitializePlayerState()
 {
     if (!gMap_0x370->GetFirstZoneOfType(Restart_16))
     {
-        FatalError_4A38C0(Gta2Error::NoRestartZone, "C:\\Splitting\\Gta2\\Source\\player.cpp",
+        FatalError(Gta2Error::NoRestartZone, "C:\\Splitting\\Gta2\\Source\\player.cpp",
                           2905); // No Restart Zone
     }
     mFinishScoreReached = 0;

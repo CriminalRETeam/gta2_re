@@ -13,7 +13,7 @@ struct chunk_base
     {
         if (strncmp(pExpected, mType, sizeof(mType)) != 0)
         {
-            FatalError_4A38C0(Gta2Error::InvalidFileType, "C:\\Splitting\\Gta2\\Source\\chunk.h", 37);
+            FatalError(Gta2Error::InvalidFileType, "C:\\Splitting\\Gta2\\Source\\chunk.h", 37);
         }
     }
 };
@@ -27,7 +27,7 @@ struct file_header : public chunk_base
     {
         if (mVersion != expectedVersion)
         {
-            FatalError_4A38C0(Gta2Error::InvalidFileVersion, "C:\\Splitting\\Gta2\\Source\\chunk.h", 33);
+            FatalError(Gta2Error::InvalidFileVersion, "C:\\Splitting\\Gta2\\Source\\chunk.h", 33);
         }
     }
 };

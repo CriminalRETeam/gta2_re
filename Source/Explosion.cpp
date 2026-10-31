@@ -108,27 +108,27 @@ void Explosion::EmitRandomDiagonalParticle()
                 pParticle = gParticle_8->New(kFpOne3200th, kFpOne3200th, kFpOneThirtySecond_6FD330, kFpOne6400th, kFpOne6400th, 0);
                 break;
             case 1:
-                pParticle = gParticle_8->New(kFpOne3200th.Negate_4086A0(),
+                pParticle = gParticle_8->New(kFpOne3200th.Negated(),
                                                            kFpOne3200th,
                                                            kFpOneThirtySecond_6FD330,
-                                                           kFpOne6400th.Negate_4086A0(),
+                                                           kFpOne6400th.Negated(),
                                                            kFpOne6400th,
                                                            0);
                 break;
             case 2:
                 pParticle = gParticle_8->New(kFpOne3200th,
-                                                           kFpOne3200th.Negate_4086A0(),
+                                                           kFpOne3200th.Negated(),
                                                            kFpOneThirtySecond_6FD330,
                                                            kFpOne6400th,
-                                                           kFpOne6400th.Negate_4086A0(),
+                                                           kFpOne6400th.Negated(),
                                                            0);
                 break;
             case 3:
-                pParticle = gParticle_8->New(kFpOne3200th.Negate_4086A0(),
-                                                           kFpOne3200th.Negate_4086A0(),
+                pParticle = gParticle_8->New(kFpOne3200th.Negated(),
+                                                           kFpOne3200th.Negated(),
                                                            kFpOneThirtySecond_6FD330,
-                                                           kFpOne6400th.Negate_4086A0(),
-                                                           kFpOne6400th.Negate_4086A0(),
+                                                           kFpOne6400th.Negated(),
+                                                           kFpOne6400th.Negated(),
                                                            0);
                 break;
             default:

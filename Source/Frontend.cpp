@@ -105,7 +105,7 @@ s32 __stdcall FreeLoader::GetCityInstalled()
 }
 
 MATCH_FUNC(0x4AE170)
-void __cdecl FreeLoader::MessageBox_4AE170(UINT uType, LPCSTR lpCaption, LPCSTR lpFormat, ...)
+void __cdecl FreeLoader::MessageBoxPrintf(UINT uType, LPCSTR lpCaption, LPCSTR lpFormat, ...)
 {
     char_type Buffer[1024];
     va_list args;
@@ -296,7 +296,7 @@ DEFINE_GLOBAL_ARRAY_INIT(
         "data\\frontend\\DemoInfo.tga" COMMA 614939 COMMA 0});
 
 MATCH_FUNC(0x5D98D0)
-EXPORT s32 IsFullScreen_5D98D0()
+EXPORT s32 IsVideoFullScreen()
 {
     return gVidSys->field_40_full_screen;
 }
@@ -599,7 +599,7 @@ void Frontend::ChangeMenuPage(u16 menu_page_idx)
                 break;
 
             default:
-                FatalError_4A38C0(Gta2Error::InvalidMultiplayerGameType,
+                FatalError(Gta2Error::InvalidMultiplayerGameType,
                                   "C:\\Splitting\\GTA2\\Source\\frontend2.cpp",
                                   4079); // Multiplayer game type should be frag, tag or score (but isn't)
                 break;
@@ -741,7 +741,7 @@ void Frontend::ChangeMenuPage(u16 menu_page_idx)
         pCurPage->SelectNextOption();
         if (!pCurPage->mOptionsArray[pCurPage->mCurrentOptionIdx].mIsUnlocked)
         {
-            FatalError_4A38C0(Gta2Error::NoValidMenuOptions,
+            FatalError(Gta2Error::NoValidMenuOptions,
                               "C:\\Splitting\\GTA2\\Source\\frontend2.cpp",
                               4269); // the menu contains no valid options
         }
@@ -939,11 +939,11 @@ void Frontend::DrawScoreTable(ScoreTableLine* pStrings,
         }
         if (static_cast<u16>(palette) == 0xFFFFu)
         {
-            DrawText_4B87A0(tmpBuff, text_xpos, text_ypos_to_use, arg_fontType, 1);
+            DrawStringDefaultPalette(tmpBuff, text_xpos, text_ypos_to_use, arg_fontType, 1);
         }
         else
         {
-            DrawText_5D8A10(tmpBuff, text_xpos, text_ypos_to_use, arg_fontType, 1, palette_types_enum::font_remaps_8, palette, 0, 0);
+            DrawString(tmpBuff, text_xpos, text_ypos_to_use, arg_fontType, 1, palette_types_enum::font_remaps_8, palette, 0, 0);
         }
         if (spacing_type == 0)
         {
@@ -983,7 +983,7 @@ void Frontend::DrawMenu()
     if (mCurrentPageIdx == MENUPAGE_START_MENU)
     {
         swprintf(tmpBuff, L"GTA2 V%d.%d", gGTA2VersionMajor, gGTA2VersionMinor);
-        DrawText_4B87A0(tmpBuff, 300, 460, font_type_703C14, 1);
+        DrawStringDefaultPalette(tmpBuff, 300, 460, font_type_703C14, 1);
     }
 
     if (mCurrentPageIdx == MENUPAGE_PLAY)
@@ -1139,7 +1139,7 @@ void Frontend::DrawMenu()
 
             if (option_idx == pMenuPage->mCurrentOptionIdx)
             {
-                DrawText_4B87A0(wstr_array, x_pos, y_pos, mSelectedFont, 1);
+                DrawStringDefaultPalette(wstr_array, x_pos, y_pos, mSelectedFont, 1);
 
                 if (mCurrentPageIdx == MENUPAGE_PLAY)
                 {
@@ -1214,22 +1214,22 @@ void Frontend::DrawMenu()
                 {
                     if (pMenuOption->mPalette == 0xFFFF)
                     {
-                        DrawText_4B87A0(wstr_array, x_pos, y_pos, pMenuOption->mFontType, 1);
+                        DrawStringDefaultPalette(wstr_array, x_pos, y_pos, pMenuOption->mFontType, 1);
                     }
                     else
                     {
-                        DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->mFontType, static_cast<s32>(1), palette_types_enum::font_remaps_8, pMenuOption->mPalette, 0, 0);
+                        DrawString(wstr_array, x_pos, y_pos, pMenuOption->mFontType, static_cast<s32>(1), palette_types_enum::font_remaps_8, pMenuOption->mPalette, 0, 0);
                     }
                 }
                 else
                 {
                     if (pMenuOption->mPalette == 0xFFFF)
                     {
-                        DrawText_4B87A0(wstr_array, x_pos, y_pos, mNormalFont, 1);
+                        DrawStringDefaultPalette(wstr_array, x_pos, y_pos, mNormalFont, 1);
                     }
                     else
                     {
-                        DrawText_5D8A10(wstr_array, x_pos, y_pos, mNormalFont, static_cast<s32>(1), palette_types_enum::font_remaps_8, pMenuOption->mPalette, 0, 0);
+                        DrawString(wstr_array, x_pos, y_pos, mNormalFont, static_cast<s32>(1), palette_types_enum::font_remaps_8, pMenuOption->mPalette, 0, 0);
                     }
                 }
             }
@@ -1260,11 +1260,11 @@ void Frontend::DrawMenu()
 
                 if (pMenuOption->mFontType != 0xFFFF)
                 {
-                    DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->mFontType, 1, palette_types_enum::font_remaps_8, 8, 0, 0);
+                    DrawString(wstr_array, x_pos, y_pos, pMenuOption->mFontType, 1, palette_types_enum::font_remaps_8, 8, 0, 0);
                 }
                 else
                 {
-                    DrawText_5D8A10(wstr_array, x_pos, y_pos, mNormalFont, 1, palette_types_enum::font_remaps_8, 8, 0, 0);
+                    DrawString(wstr_array, x_pos, y_pos, mNormalFont, 1, palette_types_enum::font_remaps_8, 8, 0, 0);
                 }
             }
 
@@ -1358,11 +1358,11 @@ void Frontend::DrawMenu()
                     {
                         if (pMenuElement->mFontPalette == 0xFFFF)
                         {
-                            DrawText_4B87A0(wstr_array, x_pos, y_pos, font_type, 1);
+                            DrawStringDefaultPalette(wstr_array, x_pos, y_pos, font_type, 1);
                         }
                         else
                         {
-                            DrawText_5D8A10(wstr_array, x_pos, y_pos, font_type, 1, palette_types_enum::font_remaps_8, pMenuElement->mFontPalette, 0, 0);
+                            DrawString(wstr_array, x_pos, y_pos, font_type, 1, palette_types_enum::font_remaps_8, pMenuElement->mFontPalette, 0, 0);
                         }
                     }
                     break;
@@ -1379,19 +1379,19 @@ void Frontend::DrawMenu()
             x_pos = pMenuPage->mOptionsArray[0].mXPos + Frontend::GetMaxTextWidth(mCurrPlyrName, mNormalFont);
             y_pos = pMenuPage->mOptionsArray[0].mYPos;
             swprintf(tmpBuff, L"_");
-            DrawText_4B87A0(tmpBuff, x_pos, y_pos, mNormalFont, 1);
+            DrawStringDefaultPalette(tmpBuff, x_pos, y_pos, mNormalFont, 1);
         }
         wcscpy(tmpBuff, gText_0x14->Find("entrnam"));
         x_pos = 0x15Eu;
         y_pos = !gText_0x14->LangIsJapanese() ? 12 : 16;
-        DrawText_4B87A0(tmpBuff, x_pos, y_pos, mHeadingFont, 1);
+        DrawStringDefaultPalette(tmpBuff, x_pos, y_pos, mHeadingFont, 1);
     }
     if (mState == FrontendState::User_Typing_Password_5 && mCursorBlink)
     {
         x_pos = pMenuPage->mElementsArray[4].mXpos + Frontend::GetMaxTextWidth(mPassword, mNormalFont);
         y_pos = pMenuPage->mElementsArray[4].mYpos;
         swprintf(tmpBuff, L"_");
-        DrawText_4B87A0(tmpBuff, x_pos, y_pos, mNormalFont, 1);
+        DrawStringDefaultPalette(tmpBuff, x_pos, y_pos, mNormalFont, 1);
     }
 }
 
@@ -1435,7 +1435,7 @@ void Frontend::DrawCredits()
                 palette = 15;
                 break;
             default:
-                FatalError_4A38C0(Gta2Error::InvalidCreditTextColor, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 7966);
+                FatalError(Gta2Error::InvalidCreditTextColor, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 7966);
         }
         wchar_t* pStrBuf = pLine->mText;
         if (wcscmp(pStrBuf, gEmptyWStr))
@@ -1453,7 +1453,7 @@ void Frontend::DrawCredits()
             {
                 s32 text_width = Frontend::GetMaxTextWidth(pStrBuf, font_type);
                 u16 draw_x = (640 - text_width) / 2;
-                DrawText_5D8A10(pStrBuf, draw_x, y, font_type, 1, palette_type, palette, 0, 0);
+                DrawString(pStrBuf, draw_x, y, font_type, 1, palette_type, palette, 0, 0);
             }
         }
     }
@@ -1597,7 +1597,7 @@ void Frontend::Update()
             break;
 
         default:
-            FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2059, mState);
+            FatalError(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2059, mState);
     }
 
     if (!bSkip_audio)
@@ -1849,12 +1849,12 @@ void Frontend::UpdatePageFromUserInput()
                         stage_main_idx = main_stage_idx + 1;
                         if (stage_main_idx >= mNumMainStages)
                         {
-                            FatalError_4A38C0(Gta2Error::InvalidLevelAdvancement, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1543);
+                            FatalError(Gta2Error::InvalidLevelAdvancement, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1543);
                         }
 
                         if (!pStats->mPlyrStageStats[stage_main_idx][0].mIsStageUnlocked)
                         {
-                            FatalError_4A38C0(Gta2Error::LevelNotOpened, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1548);
+                            FatalError(Gta2Error::LevelNotOpened, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1548);
                         }
                         LoadMapFilenames(stage_main_idx, 0);
                         mMenuScreen = RedBar_16;
@@ -2205,7 +2205,7 @@ void Frontend::HandleDeletePlayerDialog()
                     mState = FrontendState::Menu_Navigation_1;
                     break;
                 default:
-                    FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1934);
+                    FatalError(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1934);
             }
         }
         if (cursor_y == 230)
@@ -2232,7 +2232,7 @@ void Frontend::HandleDeletePlayerDialog()
                 mDialogCursorYpos = 210;
                 break;
             default:
-                FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1968);
+                FatalError(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1968);
                 break;
         }
         snd1.mObjectType = 1;
@@ -2252,7 +2252,7 @@ void Frontend::HandleDeletePlayerDialog()
                 mDialogCursorYpos = 210;
                 break;
             default:
-                FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1991);
+                FatalError(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1991);
                 break;
         }
         snd1.mObjectType = 2;
@@ -2796,7 +2796,7 @@ void Frontend::DrawBonusRating()
     {
         wchar_t* pRatingStr = gText_0x14->Find(text_id);
         TextTable::InsertLineBreaksAndGetNumLines(text, pRatingStr, 560, font_type);
-        DrawText_4B87A0(text, static_cast<u16>(40), static_cast<u16>(270), font_type, 1);
+        DrawStringDefaultPalette(text, static_cast<u16>(40), static_cast<u16>(270), font_type, 1);
     }
 }
 
@@ -2846,17 +2846,17 @@ s32 Frontend::DrawKeyHint(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontT
             swprintf(tmpBuff, L";  %s", gTmpWideStr);
             break;
         default:
-            FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 8148);
+            FatalError(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 8148);
             break;
     }
 
     if (static_cast<u16>(palette) == 0xFFFF)
     {
-        DrawText_4B87A0(tmpBuff, text_xpos, text_ypos, fontType, 1);
+        DrawStringDefaultPalette(tmpBuff, text_xpos, text_ypos, fontType, 1);
     }
     else
     {
-        DrawText_5D8A10(tmpBuff, text_xpos, text_ypos, fontType, 1, palette_types_enum::font_remaps_8, palette, 0, 0);
+        DrawString(tmpBuff, text_xpos, text_ypos, fontType, 1, palette_types_enum::font_remaps_8, palette, 0, 0);
     }
     return GetMaxTextWidth(tmpBuff, fontType);
 }
@@ -2919,7 +2919,7 @@ void Frontend::DrawLoading()
 {
     const u16 x = GetCenteredXPos(gText_0x14->Find("loading"), -1, 320);
 
-    DrawText_4B87A0(gText_0x14->Find("loading"), x, 260, mNormalFont, 1);
+    DrawStringDefaultPalette(gText_0x14->Find("loading"), x, 260, mNormalFont, 1);
 }
 
 MATCH_FUNC(0x4ADDE0)
@@ -2931,36 +2931,36 @@ void Frontend::DrawDeletePlayerDialog()
         case 1:
         {
             u16 ypos = !gText_0x14->LangIsJapanese() ? 12 : 16;
-            DrawText_4B87A0(gText_0x14->Find("clrchar"), static_cast<u16>(275), ypos, mHeadingFont, 1);
+            DrawStringDefaultPalette(gText_0x14->Find("clrchar"), static_cast<u16>(275), ypos, mHeadingFont, 1);
             break;
         }
     }
 
     if (mDialogCursorYpos == 190)
     {
-        DrawText_4B87A0(gText_0x14->Find("sure"), 300, 190, mSelectedFont, 1);
+        DrawStringDefaultPalette(gText_0x14->Find("sure"), 300, 190, mSelectedFont, 1);
     }
     else
     {
-        DrawText_4B87A0(gText_0x14->Find("sure"), 300, 190, mNormalFont, 1);
+        DrawStringDefaultPalette(gText_0x14->Find("sure"), 300, 190, mNormalFont, 1);
     }
 
     if (mDialogCursorYpos == 210)
     {
-        DrawText_4B87A0(gText_0x14->Find("yes"), 300, 210, mSelectedFont, 1);
+        DrawStringDefaultPalette(gText_0x14->Find("yes"), 300, 210, mSelectedFont, 1);
     }
     else
     {
-        DrawText_4B87A0(gText_0x14->Find("yes"), 300, 210, mNormalFont, 1);
+        DrawStringDefaultPalette(gText_0x14->Find("yes"), 300, 210, mNormalFont, 1);
     }
 
     if (mDialogCursorYpos == 230)
     {
-        DrawText_4B87A0(gText_0x14->Find("no"), 300, 230, mSelectedFont, 1);
+        DrawStringDefaultPalette(gText_0x14->Find("no"), 300, 230, mSelectedFont, 1);
     }
     else
     {
-        DrawText_4B87A0(gText_0x14->Find("no"), 300, 230, mNormalFont, 1);
+        DrawStringDefaultPalette(gText_0x14->Find("no"), 300, 230, mNormalFont, 1);
     }
 }
 
@@ -2991,7 +2991,7 @@ void Frontend::DrawCurrentState()
             break;
 
         default:
-            FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1217, mState);
+            FatalError(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1217, mState);
             break;
     }
 }
@@ -3221,18 +3221,18 @@ void Frontend::Load_tga(u16 idx)
     FILE* hFile = crt::fopen(tgaArray[idx].mTgaName, "rb");
     if (!hFile)
     {
-        FatalError_4A38C0(Gta2Error::FileOpenError, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6516);
+        FatalError(Gta2Error::FileOpenError, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6516);
     }
 
     void* pAlloc = malloc(tgaArray[idx].mLen);
     if (!pAlloc)
     {
-        FatalError_4A38C0(Gta2Error::TargaMemoryAllocationError, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6523);
+        FatalError(Gta2Error::TargaMemoryAllocationError, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6523);
     }
 
     if (crt::fread(pAlloc, 1u, tgaArray[idx].mLen, hFile) != static_cast<u32>(tgaArray[idx].mLen))
     {
-        FatalError_4A38C0(Gta2Error::InvalidBackgroundImageSize, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6529);
+        FatalError(Gta2Error::InvalidBackgroundImageSize, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6529);
     }
 
     tgaArray[idx].mImg = pgbh_LoadImage(static_cast<SImage*>(pAlloc));
@@ -3250,19 +3250,19 @@ Frontend::Frontend()
     gText_0x14 = new TextTable();
     if (!gText_0x14)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2288);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2288);
     }
 
     gGtx_0x106C = new gtx_0x106C();
     if (!gGtx_0x106C)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2290);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2290);
     }
 
     gTextureCache_15D8 = new TextureCache();
     if (!gTextureCache_15D8)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2292);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2292);
     }
 
     if (gText_0x14->LangIsJapanese())
@@ -3270,7 +3270,7 @@ Frontend::Frontend()
         gKanjiFont = new KanjiFont();
         if (!gKanjiFont)
         {
-            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2297);
+            FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2297);
         }
     }
     InitKeyBoardDevice();
@@ -3280,7 +3280,7 @@ Frontend::Frontend()
 
     gTextureCache_15D8->LoadStyleTextures();
 
-    ConvertColourBanks_5D7CB0();
+    SetColourDepthAndConvertBanks();
 
     pgbh_SetAmbient(1.0);
 
@@ -3446,17 +3446,17 @@ void Frontend::InitKeyBoardDevice()
 
     if (mpDInput->CreateDevice(GUID_SysKeyboard, &mpKeyboardDevice, NULL) < 0)
     {
-        FatalError_4A38C0(Gta2Error::DirectInputCreateFail, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2469);
+        FatalError(Gta2Error::DirectInputCreateFail, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2469);
     }
 
     if (mpKeyboardDevice->SetDataFormat(&gKeyboardDataFormat) < 0)
     {
-        FatalError_4A38C0(Gta2Error::DirectInputSetDataFormatFail, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2480);
+        FatalError(Gta2Error::DirectInputSetDataFormatFail, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2480);
     }
 
     if (mpKeyboardDevice->SetCooperativeLevel(gHwnd, 6) < 0)
     {
-        FatalError_4A38C0(Gta2Error::DirectInputSetCooperativeLevelFail, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2487);
+        FatalError(Gta2Error::DirectInputSetCooperativeLevelFail, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2487);
     }
 
     AcquireKeyBoard();
@@ -4102,13 +4102,13 @@ void Frontend::GetMainAndBonusStagesFromSeqFile()
     long hFind = _findfirst("data\\*.seq", &findInfo);
     if (hFind == -1)
     {
-        FatalError_4A38C0(Gta2Error::SeqFileNotFound, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4876);
+        FatalError(Gta2Error::SeqFileNotFound, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4876);
     }
     else
     {
         if (!_findnext(hFind, &findInfo))
         {
-            FatalError_4A38C0(Gta2Error::MultipleSeqFilesFound, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4883);
+            FatalError(Gta2Error::MultipleSeqFilesFound, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4883);
         }
 
         strcpy(seqFileName, "data\\");
@@ -4127,7 +4127,7 @@ void Frontend::GetMainAndBonusStagesFromSeqFile()
     FILE* hSeqFile = crt::fopen(seqFileName, "rt");
     if (!hSeqFile)
     {
-        FatalError_4A38C0(Gta2Error::SeqFileOpenError, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4906);
+        FatalError(Gta2Error::SeqFileOpenError, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4906);
         return;
     }
 
@@ -4143,7 +4143,7 @@ void Frontend::GetMainAndBonusStagesFromSeqFile()
             {
                 if (++main_block_counter > 2u)
                 {
-                    FatalError_4A38C0(Gta2Error::TooManyMainBlocks, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4922);
+                    FatalError(Gta2Error::TooManyMainBlocks, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4922);
                 }
             }
             mainBlockFound = true;
@@ -4161,12 +4161,12 @@ void Frontend::GetMainAndBonusStagesFromSeqFile()
         {
             if (!mainBlockFound)
             {
-                FatalError_4A38C0(Gta2Error::MainBlockMustPrecedeBonus, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4940);
+                FatalError(Gta2Error::MainBlockMustPrecedeBonus, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4940);
             }
             pBlock = &mNumBonusStages[main_block_counter];
             if (*pBlock > 3u)
             {
-                FatalError_4A38C0(Gta2Error::TooManyBonusBlocks, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4945);
+                FatalError(Gta2Error::TooManyBonusBlocks, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4945);
             }
 
             GetSeqItem(1, files.mGmp, hSeqFile);
@@ -4178,7 +4178,7 @@ void Frontend::GetMainAndBonusStagesFromSeqFile()
         }
         else
         {
-            FatalError_4A38C0(Gta2Error::InvalidBlockType, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4959);
+            FatalError(Gta2Error::InvalidBlockType, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4959);
         }
 
         GetSeqItem(0, mainOrBonus, hSeqFile);
@@ -4210,7 +4210,7 @@ void Frontend::GetSeqItem(u8 type, char_type* ppRet, FILE* hSeqFile)
     {
         if ((letter < 'a' || letter > 'z') && (letter < 'A' || letter > 'Z'))
         {
-            FatalError_4A38C0(Gta2Error::InvalidFirstLineCharacter, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5014);
+            FatalError(Gta2Error::InvalidFirstLineCharacter, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5014);
         }
 
         while (letter != '=')
@@ -4219,11 +4219,11 @@ void Frontend::GetSeqItem(u8 type, char_type* ppRet, FILE* hSeqFile)
             letter = File::SkipWhitespace(hSeqFile);
             if (!letter)
             {
-                FatalError_4A38C0(Gta2Error::LineInterruptedByNewline, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5026);
+                FatalError(Gta2Error::LineInterruptedByNewline, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5026);
             }
             if (pos > 0xFFu)
             {
-                FatalError_4A38C0(Gta2Error::LabelTooLong, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5031);
+                FatalError(Gta2Error::LabelTooLong, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5031);
             }
         } // 0x3d
         output_buf[pos] = 0;
@@ -4246,7 +4246,7 @@ void Frontend::GetSeqItem(u8 type, char_type* ppRet, FILE* hSeqFile)
                 strcpy(type_buf, "Description");
                 break;
             default:
-                FatalError_4A38C0(Gta2Error::UndefinedLabel, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5056);
+                FatalError(Gta2Error::UndefinedLabel, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5056);
                 break;
         }
 
@@ -4262,7 +4262,7 @@ void Frontend::GetSeqItem(u8 type, char_type* ppRet, FILE* hSeqFile)
                     letter = File::SkipWhitespace(hSeqFile);
                     if (pos > 255u)
                     {
-                        FatalError_4A38C0(Gta2Error::LineDataTooLong, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5074);
+                        FatalError(Gta2Error::LineDataTooLong, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5074);
                     }
                 } while (letter);
             }
@@ -4271,7 +4271,7 @@ void Frontend::GetSeqItem(u8 type, char_type* ppRet, FILE* hSeqFile)
         }
         else
         {
-            FatalError_4A38C0(Gta2Error::UnexpectedLabel, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5086);
+            FatalError(Gta2Error::UnexpectedLabel, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5086);
         }
     }
 }
@@ -4338,10 +4338,10 @@ void Frontend::DrawSavedStage()
         gGameSession.DecodeStage(codified_stages, &main_stage, &bonus_stage);
     }
     swprintf(tmpBuff, L"%d", main_stage);
-    DrawText_4B87A0(tmpBuff, static_cast<u16>(450), static_cast<u16>(90), mNormalFont, 1);
+    DrawStringDefaultPalette(tmpBuff, static_cast<u16>(450), static_cast<u16>(90), mNormalFont, 1);
 
     swprintf(tmpBuff, L"%d", bonus_stage);
-    DrawText_4B87A0(tmpBuff, static_cast<u16>(450), static_cast<u16>(110), mNormalFont, 1);
+    DrawStringDefaultPalette(tmpBuff, static_cast<u16>(450), static_cast<u16>(110), mNormalFont, 1);
 }
 
 MATCH_FUNC(0x4B5370)
@@ -4496,11 +4496,11 @@ void Frontend::DrawTextFixedWidth(wchar_t* pString, u16 text_xpos, u16 text_ypos
         u16 char_pad = (char_width - biggestLine) / 2;
         if (static_cast<u16>(palette) == 0xFFFF)
         {
-            DrawText_4B87A0(chr, text_xbase + char_pad, text_ypos, font_type, scale);
+            DrawStringDefaultPalette(chr, text_xbase + char_pad, text_ypos, font_type, scale);
         }
         else
         {
-            DrawText_5D8A10(chr, text_xbase + char_pad, text_ypos, font_type, scale, palette_types_enum::font_remaps_8, palette, 0, 0);
+            DrawString(chr, text_xbase + char_pad, text_ypos, font_type, scale, palette_types_enum::font_remaps_8, palette, 0, 0);
         }
         text_xbase += char_width;
     }
@@ -4544,7 +4544,7 @@ void Frontend::DrawMultiplayerScores()
             y_pos = 20 * curr_plyr_idx + 170;
         }
 
-        DrawText_4B87A0(Buffer, x_pos, y_pos, mNormalFont, 1);
+        DrawStringDefaultPalette(Buffer, x_pos, y_pos, mNormalFont, 1);
 
         s32 frags = gGameSession.GetFragsOnPlayer(user_idx, curr_plyr_idx);
         _itow(frags, Buffer, 10);
@@ -4553,7 +4553,7 @@ void Frontend::DrawMultiplayerScores()
         {
             x_pos = 550;
             y_pos = 20 * idx_2 + 320;
-            DrawText_4B87A0(Buffer, x_pos, y_pos, mNormalFont, 1);
+            DrawStringDefaultPalette(Buffer, x_pos, y_pos, mNormalFont, 1);
             ++idx_2;
         }
     }
@@ -4577,14 +4577,14 @@ void Frontend::DrawLastAndBestStats(u16 text_xpos, u16 text_ypos)
 
     u16 x_pos;
     u16 y_pos;
-    DrawText_4B87A0(tmpBuff, static_cast<u16>(text_xpos - x + 494), static_cast<u16>(text_ypos - 15), font_type, 1);
+    DrawStringDefaultPalette(tmpBuff, static_cast<u16>(text_xpos - x + 494), static_cast<u16>(text_ypos - 15), font_type, 1);
 
     swprintf(tmpBuff, gText_0x14->Find("best"));
 
     x = Frontend::GetMaxTextWidth(tmpBuff, font_type);
 
     y_pos = text_ypos - 15;
-    DrawText_4B87A0(tmpBuff, static_cast<u16>(text_xpos - x + 624), y_pos, font_type, 1);
+    DrawStringDefaultPalette(tmpBuff, static_cast<u16>(text_xpos - x + 624), y_pos, font_type, 1);
 
     if (gText_0x14->mLangCode == 106)
     {
@@ -4595,7 +4595,7 @@ void Frontend::DrawLastAndBestStats(u16 text_xpos, u16 text_ypos)
 
     x_pos = text_xpos;
     y_pos = text_ypos;
-    DrawText_4B87A0(gText_0x14->Find("carjack"), x_pos, y_pos, font_type, 1);
+    DrawStringDefaultPalette(gText_0x14->Find("carjack"), x_pos, y_pos, font_type, 1);
 
     swprintf(tmpBuff, L"%d", gGameSession.GetStatistic(5));
     u16 x_pos_last = text_xpos + 480;
@@ -4609,7 +4609,7 @@ void Frontend::DrawLastAndBestStats(u16 text_xpos, u16 text_ypos)
 
     x_pos = text_xpos;
     y_pos = text_ypos + 20;
-    DrawText_4B87A0(gText_0x14->Find("car_cst"), x_pos, y_pos, font_type, 1);
+    DrawStringDefaultPalette(gText_0x14->Find("car_cst"), x_pos, y_pos, font_type, 1);
 
     swprintf(tmpBuff, L"$%d", gGameSession.GetCarDamageCost());
     Frontend::DrawTextFixedWidth(tmpBuff, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
@@ -4621,7 +4621,7 @@ void Frontend::DrawLastAndBestStats(u16 text_xpos, u16 text_ypos)
 
     x_pos = text_xpos;
     y_pos = text_ypos + 40;
-    DrawText_4B87A0(gText_0x14->Find("run_ovr"), x_pos, y_pos, font_type, 1);
+    DrawStringDefaultPalette(gText_0x14->Find("run_ovr"), x_pos, y_pos, font_type, 1);
 
     swprintf(tmpBuff, L"%d", gGameSession.GetStatistic(6u));
     Frontend::DrawTextFixedWidth(tmpBuff, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
@@ -4633,7 +4633,7 @@ void Frontend::DrawLastAndBestStats(u16 text_xpos, u16 text_ypos)
 
     x_pos = text_xpos;
     y_pos = text_ypos + 60;
-    DrawText_4B87A0(gText_0x14->Find("murder"), x_pos, y_pos, font_type, 1);
+    DrawStringDefaultPalette(gText_0x14->Find("murder"), x_pos, y_pos, font_type, 1);
 
     swprintf(tmpBuff, L"%d", gGameSession.GetStatistic(7u));
     Frontend::DrawTextFixedWidth(tmpBuff, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
@@ -4647,7 +4647,7 @@ void Frontend::DrawLastAndBestStats(u16 text_xpos, u16 text_ypos)
     {
         x_pos = text_xpos;
         y_pos = text_ypos + 80;
-        DrawText_4B87A0(gText_0x14->Find("cop_kl"), x_pos, y_pos, font_type, 1);
+        DrawStringDefaultPalette(gText_0x14->Find("cop_kl"), x_pos, y_pos, font_type, 1);
 
         swprintf(tmpBuff, L"%d", gGameSession.GetStatistic(8u));
         Frontend::DrawTextFixedWidth(tmpBuff, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
@@ -4660,7 +4660,7 @@ void Frontend::DrawLastAndBestStats(u16 text_xpos, u16 text_ypos)
 
     x_pos = text_xpos;
     y_pos = text_ypos + 100;
-    DrawText_4B87A0(gText_0x14->Find("gng_kl"), x_pos, y_pos, font_type, 1);
+    DrawStringDefaultPalette(gText_0x14->Find("gng_kl"), x_pos, y_pos, font_type, 1);
 
     swprintf(tmpBuff, L"%d", gGameSession.GetStatistic(9u));
     Frontend::DrawTextFixedWidth(tmpBuff, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
@@ -4672,7 +4672,7 @@ void Frontend::DrawLastAndBestStats(u16 text_xpos, u16 text_ypos)
 
     x_pos = text_xpos;
     y_pos = text_ypos + 120;
-    DrawText_4B87A0(gText_0x14->Find("evsnrtg"), x_pos, y_pos, font_type, 1);
+    DrawStringDefaultPalette(gText_0x14->Find("evsnrtg"), x_pos, y_pos, font_type, 1);
 
     swprintf(tmpBuff, L"%d", gGameSession.GetEvasionRating());
     Frontend::DrawTextFixedWidth(tmpBuff, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
@@ -5080,21 +5080,21 @@ void Frontend::LoadMapFilenamesFromSvg()
     strcat(path, mBlocks[main_stage][bonus_stage].mGmpName);
     if (strcmp(svg.mMapName, path))
     {
-        FatalError_4A38C0(Gta2Error::GmpFilenameMismatch, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5254);
+        FatalError(Gta2Error::GmpFilenameMismatch, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5254);
     }
 
     strcpy(path, "data\\");
     strcat(path, mBlocks[main_stage][bonus_stage].mStyName);
     if (strcmp(svg.mStyleName, path))
     {
-        FatalError_4A38C0(Gta2Error::StyFilenameMismatch, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5262);
+        FatalError(Gta2Error::StyFilenameMismatch, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5262);
     }
 
     strcpy(path, "data\\");
     strcat(path, mBlocks[main_stage][bonus_stage].mScrName);
     if (strcmp(svg.mScriptName, path))
     {
-        FatalError_4A38C0(Gta2Error::ScrFilenameMismatch, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5270);
+        FatalError(Gta2Error::ScrFilenameMismatch, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5270);
     }
 
     gGameSession.SetSaveFileName(FileName);

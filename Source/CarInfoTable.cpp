@@ -279,7 +279,7 @@ s32 __stdcall ParseTokenAndPush(char_type* pStr)
                     }
                     else
                     {
-                        error_ret = CarInfoTable::StrToInt_431080(pCurr, &parsed_short);
+                        error_ret = CarInfoTable::StrToS16(pCurr, &parsed_short);
                     }
 
                     if (!error_ret)
@@ -315,7 +315,7 @@ s32 __stdcall ParseTokenAndPush(char_type* pStr)
                     }
                     else
                     {
-                        error_ret = CarInfoTable::StrToInt_431080(pCurr, &parsed_short);
+                        error_ret = CarInfoTable::StrToS16(pCurr, &parsed_short);
                     }
 
                     if (!error_ret)
@@ -344,7 +344,7 @@ s32 __stdcall ParseTokenAndPush(char_type* pStr)
                     }
                     else
                     {
-                        error_ret = CarInfoTable::StrToInt_430FA0(pCurr, &parsed_value);
+                        error_ret = CarInfoTable::StrToS32(pCurr, &parsed_value);
                     }
 
                     if (!error_ret)
@@ -472,7 +472,7 @@ s32 __stdcall CarInfoTable::HexStr2Short(const char* pStr, s16* pOut)
 }
 
 MATCH_FUNC(0x430fa0)
-s32 __stdcall CarInfoTable::StrToInt_430FA0(const char* pStr, s32* pOut)
+s32 __stdcall CarInfoTable::StrToS32(const char* pStr, s32* pOut)
 {
     *pOut = 0;
     s32 place_value = 1;
@@ -525,7 +525,7 @@ s32 __stdcall CarInfoTable::FloatStrToFix16(char* pStr, Fix16& out)
 }
 
 MATCH_FUNC(0x431080)
-s32 __stdcall CarInfoTable::StrToInt_431080(const char* pStr, s16* pOut)
+s32 __stdcall CarInfoTable::StrToS16(const char* pStr, s16* pOut)
 {
     *pOut = 0;
     s32 place_value = 1;
@@ -567,7 +567,7 @@ void CarInfo_2C::CalculateCarInfo(s32 idx)
     Fix16 max_speed;
     if (gear2_speed > gear3_speed || (max_speed = pModelPhysics->mMaxSpeed, gear3_speed > max_speed) || gear2_speed > max_speed)
     {
-        FatalError_4A38C0(Gta2Error::InvalidCarModelGearSpeeds, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 91, static_cast<u8>(idx));
+        FatalError(Gta2Error::InvalidCarModelGearSpeeds, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 91, static_cast<u8>(idx));
     }
 
     this->mFrontWheelOffset = gPixelsToFix16.SignedPixelsToFix16(pCarInfo->front_wheel_offset);
@@ -650,17 +650,17 @@ void CarInfoTable::LoadModelPhysics()
         strcpy(gErrStr, sFileName);
         strcpy(gErrStr2, pErrorMsg);
 
-        FatalError_4A38C0(Gta2Error::BinmakeError, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbc, gErrStr, gErrStr2);
+        FatalError(Gta2Error::BinmakeError, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbc, gErrStr, gErrStr2);
     }
 
     if (data_size % sizeof(ModelPhysics))
     {
-        FatalError_4A38C0(Gta2Error::InvalidSize, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbd, sFileName, data_size);
+        FatalError(Gta2Error::InvalidSize, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbd, sFileName, data_size);
     }
 
     if (data_size != number_of_cars * sizeof(ModelPhysics))
     {
-        FatalError_4A38C0(Gta2Error::ModelCountMismatchInStyleFile,
+        FatalError(Gta2Error::ModelCountMismatchInStyleFile,
                           "C:\\Splitting\\Gta2\\Source\\carinfo.cpp",
                           0xbe,
                           data_size / sizeof(ModelPhysics),

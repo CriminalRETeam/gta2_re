@@ -154,7 +154,7 @@ class Fix16_Point
     }
 
     // GetLength_41E260 as inlined twice into Car::GetCarLinearSpeed: the original inlines both
-    // multiplies, the add and SquareRoot but calls Negate_4086A0 for all four Abs. No helper/caller shape found
+    // multiplies, the add and SquareRoot but calls Negated for all four Abs. No helper/caller shape found
     // that gives that with the plain inline (unexplained, no 9.6f copy of the function).
     inline Fix16 GetLength_SqrtForced_43A240()
     {
@@ -189,7 +189,7 @@ class Fix16_Point
         Fix16 x_old = x;
 
         x = x.Multiply(cos) + y.Multiply(sin);
-        y = x_old.Negate_4086A0().Multiply(sin).Add(y.Multiply(cos));
+        y = x_old.Negated().Multiply(sin).Add(y.Multiply(cos));
     }
 
     // RotateByAngle in a function whose inline budget ran out after the first multiply
@@ -202,7 +202,7 @@ class Fix16_Point
         Fix16 x_old = x;
 
         x = x.Multiply(cos).Add(y * sin);
-        y = x_old.Negate_4086A0().Multiply(sin).Add(y.Multiply(cos));
+        y = x_old.Negated().Multiply(sin).Add(y.Multiply(cos));
     }
 
     // RotateByAngle with every operator called out of line (ParticleManager::EmitImpactParticles)
@@ -214,7 +214,7 @@ class Fix16_Point
         Fix16 x_old = x;
 
         x = x.Multiply(cos).Add(y.Multiply(sin));
-        y = x_old.Negate_4086A0().Multiply(sin).Add(y.Multiply(cos));
+        y = x_old.Negated().Multiply(sin).Add(y.Multiply(cos));
     }
 
     // Matching impl at RotateVelocity
@@ -250,7 +250,7 @@ class Fix16_Point
         Fix16 cos = Ang16::cosine(angle);
 
         x = x.Multiply(cos).Add(y.Multiply(sin));
-        y = x_old.Negate_4086A0().Multiply(sin).Add(y.Multiply(cos));
+        y = x_old.Negated().Multiply(sin).Add(y.Multiply(cos));
     }
 
     void FromPolar_41E210(const Fix16& radius, const Ang16& angle)
@@ -413,7 +413,7 @@ class Fix16_Point
     }
 
     // Out of line unary minus (Object::ResolveCollisionWithPed)
-    EXPORT Fix16_Point Negate_40ACB0() const;
+    EXPORT Fix16_Point Negated() const;
 
     // Unused (ComputeHookPolar calls GetLength_41E260 now). Kept: deleting any inline from this header
     // moves register tie-breaks in six matched MapRenderer functions (4EEE60..4F0030)
@@ -620,7 +620,8 @@ class Fix16_Point
 
     EXPORT Fix16_Point Rotate90CCW() const;
 
-    void clear_41E1E0()
+    // 9.6f 0x41E1E0
+    void SetZero()
     {
         x = 0;
         y = 0;

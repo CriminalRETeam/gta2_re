@@ -23,7 +23,7 @@ ScriptGosubStack::~ScriptGosubStack() // 503130
 }
 
 MATCH_FUNC(0x503160)
-void ScriptGosubStack::add_503160(ScriptStackFrame* pFrame)
+void ScriptGosubStack::PushFrame(ScriptStackFrame* pFrame)
 {
     pFrame->mpNext = mCurrent;
     mCurrent = pFrame;
