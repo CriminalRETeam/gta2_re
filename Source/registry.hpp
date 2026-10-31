@@ -36,7 +36,7 @@ class Registry
 
     EXPORT s32 Get_Screen_Setting_5870D0(const char_type* lpValueName, s32 default_value);
 
-    EXPORT void null_587290();
+    EXPORT void dtor_587290();
 
     EXPORT bool Set_Binary_5872A0(HKEY hKey, const char_type* base_name, const BYTE* lpData, u32 size);
 

@@ -393,7 +393,7 @@ void Registry::Get_Screen_String_5871E0(const char_type* lpValueName, BYTE* lpDa
 }
 
 MATCH_FUNC(0x587290)
-void Registry::null_587290()
+void Registry::dtor_587290()
 {
 }
 
