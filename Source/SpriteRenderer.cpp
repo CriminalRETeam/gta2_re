@@ -14,8 +14,8 @@ DEFINE_GLOBAL(SpriteTreeStack*, gSpriteTreeStack_705BC0, 0x705BC0);
 DEFINE_GLOBAL(s32, gDisplayDraw_67B57C, 0x67B57C);
 DEFINE_GLOBAL(s32, gDisplayAdd_67B578, 0x67B578);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_67B434, Fix16(1), 0x67B434);
-DEFINE_GLOBAL_INIT(Fix16, kFp96_705B80, Fix16(96), 0x705B80);
-DEFINE_GLOBAL_INIT(Fix16, kFpZero_705AC4, Fix16(0), 0x705AC4);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFp96, Fix16(96), 0x705B80);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpZero, Fix16(0), 0x705AC4);
 
 MATCH_FUNC(0x4954f0)
 void SpriteRenderer::ResetAll_4954F0()
@@ -107,7 +107,7 @@ void SpriteTree::AddSprite_5C5CF0(Sprite* pSprite)
     {
         if (pSprite->field_28_draw_layer == 34)
         {
-            z_pos = kFp96_705B80;
+            z_pos = kFp96;
         }
         else
         {
@@ -116,7 +116,7 @@ void SpriteTree::AddSprite_5C5CF0(Sprite* pSprite)
     }
     else
     {
-        z_pos = kFpZero_705AC4;
+        z_pos = kFpZero;
     }
 
     SpriteTreeNode* pParent; // set by the loop, read below only when the tree is not empty
@@ -131,7 +131,7 @@ void SpriteTree::AddSprite_5C5CF0(Sprite* pSprite)
         }
         else
         {
-            node_z = kFpZero_705AC4;
+            node_z = kFpZero;
         }
 
         if (z_pos < node_z)
