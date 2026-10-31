@@ -140,8 +140,8 @@ struct SCR_POINTER : SCR_CMD_HEADER
         u16 field_8_index;
         union
         {
-            u16 field_6;
-            u16 field_8;
+            u16 field_8_unused1;
+            u16 field_8_unused2;
         } words;
         Generator* field_8_generator;
         Hud_Arrow* field_8_arrow;
