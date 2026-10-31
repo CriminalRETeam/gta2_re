@@ -9,13 +9,13 @@
 #include "crt_stubs.hpp"
 
 DEFINE_GLOBAL_ARRAY(PedGroup, pedGroups_67EF20, 20, 0x67EF20);
-DEFINE_GLOBAL_INIT(Fix16, kNoNearestDistance_67F60C, Fix16(0x270F00, 0), 0x67F60C);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kNoNearestDistance, Fix16(0x270F00, 0), 0x67F60C);
 DEFINE_GLOBAL_INIT(Fix16, kFpTwo_67F608, Fix16(2), 0x67F608);
 DEFINE_GLOBAL(Fix16, kFpZero_67F610, 0x67F610);
-DEFINE_GLOBAL_INIT(Fix16, kFpEight_67F670, Fix16(8), 0x67F670);
-DEFINE_GLOBAL_INIT(Fix16, kFpFiveSixtyFourths_67EEE4, Fix16(0x500, 0), 0x67EEE4);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpEight, Fix16(8), 0x67F670);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpFiveSixtyFourths, Fix16(0x500, 0), 0x67EEE4);
 DEFINE_GLOBAL_INIT(char_type, gGroupMemberCarDoor_620838, 1, 0x620838);
-DEFINE_GLOBAL_INIT(Fix16, kFpFour_67F630, Fix16(4), 0x67F630);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpFour, Fix16(4), 0x67F630);
 
 // The original is the compiler generated static destructor of pedGroups_67EF20: a call to the
 // CRT's vector destructor iterator `??_M` (`__ehvec_dtor`, which VC6 maps to that name). The CRT's
@@ -355,7 +355,7 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
             this->field_2C_ped_leader->SetInternalTargetPed_403AE0(pAttacker);
             this->field_2C_ped_leader->SetPanicking_403950();
             this->field_2C_ped_leader->ClearHitCount_403A20();
-            this->field_2C_ped_leader->field_168_game_object->field_3C_run_or_jump_speed = kFpFiveSixtyFourths_67EEE4;
+            this->field_2C_ped_leader->field_168_game_object->field_3C_run_or_jump_speed = kFpFiveSixtyFourths;
         }
 
         this->field_2C_ped_leader->ClearGroupAndGroupIdx_403A30();
@@ -379,7 +379,7 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
                 this->field_4_ped_list[i]->SetInternalTargetPed_403AE0(pAttacker);
                 this->field_4_ped_list[i]->SetPanicking_403950();
                 this->field_4_ped_list[i]->ClearHitCount_403A20();
-                this->field_4_ped_list[i]->field_168_game_object->field_3C_run_or_jump_speed = kFpFiveSixtyFourths_67EEE4;
+                this->field_4_ped_list[i]->field_168_game_object->field_3C_run_or_jump_speed = kFpFiveSixtyFourths;
                 this->field_4_ped_list[i]->ClearGroupAndGroupIdx_403A30();
                 this->field_4_ped_list[i]->SetPedType_403920(ped_type::dummy_3);
             }
@@ -1097,7 +1097,7 @@ void PedGroup::UpdateMemberTightFollowState_4CA820(u8 idx)
         Fix16 y_diff = field_2C_ped_leader->field_1AC_cam.y - pMember->field_1AC_cam.y;
         Fix16 x_abs = Fix16::Abs(x_diff);
         Fix16 y_abs = Fix16::Abs(y_diff);
-        if (Fix16::Max(x_abs, y_abs) < kFpEight_67F670)
+        if (Fix16::Max(x_abs, y_abs) < kFpEight)
         {
             pMember->SetObjective2_463830(objectives_enum::follow_char_9);
             pMember->SetInternalTargetPed_403AE0(field_2C_ped_leader);
@@ -1172,7 +1172,7 @@ bool PedGroup::IsMemberTooFarFromLeader_4CAC20(u8 idx) const
 
     Fix16 max_distance = (x_abs > y_abs) ? x_abs : y_abs;
 
-    if (max_distance > kFpFour_67F630)
+    if (max_distance > kFpFour)
     {
         return true;
     }
@@ -1197,7 +1197,7 @@ bool PedGroup::IsLeaderCloseToTargetCar_4CAD40() const
 
     Fix16 max_distance = (x_abs > y_abs) ? x_abs : y_abs;
 
-    if (max_distance <= kFpFour_67F630)
+    if (max_distance <= kFpFour)
     {
         return true;
     }
@@ -1212,7 +1212,7 @@ Ped* PedGroup::FindNearestOtherMember_4CAE80(u8 idx) const
 {
     Fix16 x_abs;
     Fix16 y_abs;
-    Fix16 nearest_distance = kNoNearestDistance_67F60C;
+    Fix16 nearest_distance = kNoNearestDistance;
     u8 nearest_idx = 0;
     Ped* pMember = field_4_ped_list[idx];
     u8 i = 0;
@@ -1239,7 +1239,7 @@ Ped* PedGroup::FindNearestOtherMember_4CAE80(u8 idx) const
             i++;
         } while (i < field_34_count);
 
-        if (nearest_distance != kNoNearestDistance_67F60C)
+        if (nearest_distance != kNoNearestDistance)
         {
             return field_4_ped_list[nearest_idx];
         }
