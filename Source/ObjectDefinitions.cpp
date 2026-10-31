@@ -16,7 +16,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint2_6FC578, Fix16(3276, 0), 0x6fc578);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6FC584, Fix16(8192, 0), 0x6fc584);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_6FCE08, Fix16(0, 0), 0x6fce08);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FCEB0, Fix16(256, 0), 0x6fceb0);
-DEFINE_GLOBAL_INIT(Fix16, kFpPoint02_6FCDE0, Fix16(327, 0), 0x6fcde0);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint02, Fix16(327, 0), 0x6fcde0);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint01_6FCDD8, Fix16(163, 0), 0x6FCDD8);
 DEFINE_GLOBAL_INIT(Fix16, kFpTwo_6FCE10, Fix16(2), 0x6FCE10);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint6_6F8FF0, Fix16(9830, 0), 0x6F8FF0);
@@ -1082,7 +1082,7 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
         pDef->field_58_uses_3d_movement = 1;
         pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_2_region_3;
         pDef->field_18_mass = kFpPoint1_6F8FD8;
-        pDef->field_10_speed = kFpPoint02_6FCDE0;
+        pDef->field_10_speed = kFpPoint02;
     }
 
     ClearColour1PixelsOfDefinitions287To293_534270();
