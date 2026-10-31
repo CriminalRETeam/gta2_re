@@ -24,7 +24,7 @@ means a size in the decomp is wrong.
   0x6FF000, so the nine train globals in that range (and three next to it) were left unregistered. The original has 5 pointers at
   0x6FEE68 (`SetupTrainAndBusStops_5794B0` clears five) and a byte count at 0x6FEFFC (`gTrainStopCount_6FEFFC`).
   The train globals are `DEFINE_GLOBAL_INIT` again, with the values of their static initializers.
-- `gThetaText_66A8EC` was `wchar_t[32]`, running into `kAngZero_66A920` and `dword_66A924`. The next global the
+- `sThetaText` was `wchar_t[32]`, running into `kAngZero` and `dword_66A924`. The next global the
   original uses is at 0x66A90C, so it is `wchar_t[16]`.
 - Earlier ones of the same kind: `gNetPlayerDropped_6F8470` (really `gTagGame_6F8450.field_20_bHasQuit`) and
   `gNetworkGameSettings_707098`.

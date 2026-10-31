@@ -101,7 +101,7 @@ for `Scripts/quick_score.sh` (score one function without touching `build_vc6/`) 
 `Scripts/bin_comp/show_96f.py` (9.6f version of a function and its callees).
 
 A case found this way: in `ParticleManager::EmitFireTruckSprayParticle_53FAE0` the asm matched
-with `kFpTen_6FD508 * kFpOne64th_6FD554` while the original multiplies `kFpOne64th_6FD554 * kFpTen_6FD508`
+with `kFpTen * kFpOne64th_6FD554` while the original multiplies `kFpOne64th_6FD554 * kFpTen`
 (the two globals were swapped, the instructions identical). Comparing the referenced
 globals per instruction catches this.
 
@@ -1339,7 +1339,7 @@ leave the local uninitialised (`NetPlay::sub_521770`).
 **A dword read at an odd offset.** `mov 1(%ecx),%ecx` followed by a shift by `cl` is a 32-bit
 field at offset 1 of a packed message, not a byte (`Net_4DA9F0` reads the player index as
 `*(s32*)((u8*)p + 1)`). Reading it as `p[1]` gives `xor; mov 1(%eax),%cl`. In the same
-function, repeating the global (`*(u8*)gpInputBuffer_6F58C0`) instead of a `u8* pMsg` local
+function, repeating the global (`*(u8*)spInputBuffer`) instead of a `u8* pMsg` local
 put the pointer and the value in the original's registers.
 
 **Struct copies load through a pointer register.** `mov (%edx),%esi; mov (%esi),%ebp; ... mov 4(%esi),%esi`
@@ -3236,6 +3236,27 @@ split into more colour webs, which changes the priorities of everything live acr
 uses a global is a pure priority puzzle, try the global as a `static` in the TU (all its users then have to
 move into that TU). A hint in 9.6f: VC7 keeps a static in a register across stores through pointers and
 across calls to inline helpers that do not write it, where an extern global is reloaded.
+## Turning a global into a static
+
+`LOCAL_STATIC*` (inside the one function that uses it), `DEFINE_STATIC_GLOBAL*` (file static) and
+`STATIC_MEMBER` + `DEFINE_STATIC_MEMBER*` (class static) keep the original address in the macro. The move can still
+change matched code, so check every conversion with an object-level compare, not only the verifier:
+
+- Removing a `DEFINE_GLOBAL` also removes its `gRef_` object, which moves the TU's other `.bss` globals and can change
+  their alignment (`gTargetCarDoor_6FF1D8` as a local static changes `InitStationsLinkedList_5793E0` through
+  `gTrainStopCount_6FEFFC`, whose `.bss` slot its name picks).
+- A file static is a symbol of kind 8 (previous section) and a constant one is copy propagated, so some can't move:
+  16 globals of CarAI, char, Hud, Object_5C, Frontend, PublicTransport, Weapon and winmain stay globals for that
+  (`gCurrCarAI_xpos_677C38`, `gElectroChainDepth_706C94`, ...).
+- A local static whose type has a constructor (`Fix16`, `Fix16_Point`) gets an init guard: use a file static.
+- A class static declared in a header that `ImGuiDebug.cpp` includes changes `ImGuiDebugDraw` (one name more in the
+  TU), so most classes keep their globals.
+
+In the hook build, local and file statics are private to each DLL: gta2_dll_imports doesn't redirect them to
+10.5.exe and HookLoader doesn't compare their initial values. They are not in new_data.json either, so
+check_match_refs.py doesn't check which instruction reads them. Class statics are exported and imported like globals
+and keep all of that.
+
 ## A call result used right away and kept for later wants two variables (`Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130`)
 
 In region-walk mode (100+ blocks) a block that contains a call has no free register, so no successor can join its

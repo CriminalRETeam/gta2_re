@@ -466,7 +466,7 @@ dist) dist = |dx|` (0.644, best), the `x + w/2` grouping (same code).
 
 ## Trailer::GetHitchPosition_407BD0 (WIP, was STUB)
 
-Returns `gTrailerHitchOffset_66AAC8` rotated by the cab's `field_58_theta`, plus the
+Returns `sTrailerHitchOffset` rotated by the cab's `field_58_theta`, plus the
 cab's `get_cp1_40B560()`, as a `Fix16_Point` by value (hidden pointer, `ret $4`).
 `RotateByAngle_40F6B0` is right: the original inlines the x line (`imul`/`__allshr`, `add`)
 and calls `Multiply_408680`/`Negate_4086A0`/`Add_408660` for the y line.
@@ -505,7 +505,7 @@ What got it there:
   `Ang16(s32)` (no inline `Normalize`) and call `Normalize_406C20()` explicitly.
 - `kFpOne1024th_6FD540 * kFpThree_6FD4A8` (operand order picks the load order), and
   `kFP16One_6FD4A0 * kFpOne1024th_6FD540` in the `<= 40` case.
-- `zpos += kFpPoint04_6FD470` written in both the 41..59 and the `<= 40` blocks (0.695 -> 0.817);
+- `zpos += kFpPoint04` written in both the 41..59 and the `<= 40` blocks (0.695 -> 0.817);
   written once after them VC6 lays the tail out differently.
 
 Still different:
@@ -537,7 +537,7 @@ What helped:
   gives `setge` (0.612).
 - Negating the whole condition so the "not flashing" block comes first (0.647 -> 0.710).
 
-Still different: the original lays out the first-flash path (`if (!gNetTimerFlashing_6F59C0)`) right after
+Still different: the original lays out the first-flash path (`if (!sNetTimerFlashing)`) right after
 the condition, then the "not flashing" block and the shared pager-clear return, then the
 rest of the flash code. Ours puts the whole flash block after the not-flashing one. Also
 `test $1,%dl` vs ours `test %dl,%bl` (VC6 reuses the `bShow = 1` register). Tried: the
@@ -548,16 +548,16 @@ Oct 5 (54 lines): merging the clear and return tails into one form scored 209.
 
 Oct 9 (score 6, quick_score): the layout now matches. All that is left is `test $1,%dl` (ours
 `test %dl,%bl`). ralog shows an int constant-1 colour range (k=0x100D, prio 1) that coalesces with
-bShow in `ebx`. It exists only because of the `gNetTimerFlashing_6F59C0 = 1` store: storing 2 removes it and gives
+bShow in `ebx`. It exists only because of the `sNetTimerFlashing = 1` store: storing 2 removes it and gives
 `test $1`. Its priority doesn't matter (pushed to -6 with dummy blocks, still `ebx`). The original
-keeps `mov %bl,gNetTimerFlashing_6F59C0` but tests with an immediate, so its range covers the bShow def and the
+keeps `mov %bl,sNetTimerFlashing` but tests with an immediate, so its range covers the bShow def and the
 store but not the `& 1`. 9.6f (0x462530, VC7) has exactly the same code. Tried with no change
 (still 6): `!(..&1)`, `& 1u`, `(u8)`/`(bool)` casts on the test, `(u32)q % 2`, an inline
 `BlinkPhase()` returning bool/s32/u8, the store written as `= bShow`/`= true`/`++`/`= !byte`, the
 global as bool/char/s8, bShow as u8/char, `bool bShow = cond`, `else if (x > 0)` with an outer
 `if (bShow)`, `bShow && x > 0`. Worse: a separate bVisible (22), `& 1) != 1` (24), store before the
 59 store (10), bShow = true after the inner if (148), bShow = true initially with else false (59).
-Permuter 1500: only a bogus `(s16)gNetTimerBlinkCounter_6F5B74 > 0` (4). Next step: opdump the constant range's
+Permuter 1500: only a bogus `(s16)sNetTimerBlinkCounter > 0` (4). Next step: opdump the constant range's
 references (needs a private build of `Scripts/regalloc/opdump.py`).
 
 ## RouteFinder::ShowJunctionIds_588620 (WIP, was STUB)
@@ -700,7 +700,7 @@ and never stores `dist`), and the criminal's x/y go to the other registers. Writ
 ## Weapon::fire_truck_gun_5E0E70 (WIP, was STUB)
 
 Fire truck water cannon: gun sprite (model 114) angle plus `kAng180_706DFA`, muzzle offset
-`kFpSevenThirtySeconds_706CDC` rotated by it plus the car offset `kFpOneEighth_706CD8` rotated by the car angle,
+`kFpSevenThirtySeconds` rotated by it plus the car offset `kFpOneEighth_706CD8` rotated by the car angle,
 then the spray particle (`field_4 == 0`) or bullet 199. Ratio 0.375.
 
 The structure is right; the difference is inlining. In the original both
@@ -802,7 +802,7 @@ Matched (116 -> 0) with two changes:
 
 ## SpawnCabAndTrailerHelper_408370 (WIP, was STUB)
 
-- 0.226. Added global `gTrailerCabOffset_66AAE0` (Fix16_Point). The logic is three `RotateByAngle_40F6B0`
+- 0.226. Added global `sTrailerCabOffset` (Fix16_Point). The logic is three `RotateByAngle_40F6B0`
   rotations (hitch by rot, the cab offset by rot, negate it, then by uknown_rot), two `Fix16_Point +` and an
   `atan2_fixed_405320(-off.y, -off.x)`.
 - Our out-of-line call sequence matches the target except:
@@ -950,7 +950,7 @@ Matched (116 -> 0) with two changes:
 
 - 0.147, but the structure is right:
   - Draws a beam from this sprite to `field_28_pSprite` (it must be a `code_obj1_4` sprite).
-  - Splits the delta into `max(|dx|, |dy|) / kFpOneSixth_6FD364` steps and spawns a state-43 beam segment particle at each step's midpoint.
+  - Splits the delta into `max(|dx|, |dy|) / kFpOneSixth` steps and spawns a state-43 beam segment particle at each step's midpoint.
   - Then puts this sprite on a circle around the target. The angle is the target angle + `kAng180_6FD3EE`, plus rng jitter in sub-states 4/5.
 - **Shared returns:** all three `return true` paths share one block, so it uses the nested form.
 - **Point slots:** the original reuses the `src` slot for the circle offset and `dst` for the final position.
@@ -973,7 +973,7 @@ Matched (116 -> 0) with two changes:
 - 0.161. The spark sits on `field_28_pSprite`:
   - **Car:** the spark goes at a corner of the car's box (half width/height plus constants, sub-states 1–4), rotated by the car's angle. State 40 and 41 use mirrored corners. The id is base + sub_state + 200.
   - **Ped:** an offset rotated by the ped's angle plus `Char::field_98`. The id is base + sub_state + 197.
-- Needed `#include "Car.hpp"` (compare_builds is unchanged) and three new globals (`kFpMinusOneThirtySecond_6FD3C0`, `kFpPoint2PlusOne64th_6FD5A8`, `kFpPoint4_6FD2F8`).
+- Needed `#include "Car.hpp"` (compare_builds is unchanged) and three new globals (`kFpMinusOneThirtySecond_6FD3C0`, `kFpPoint2PlusOne64th_6FD5A8`, `kFpPoint4`).
 - **Open question:** our build calls `Fix16_Point_POD::Fix16_Point_POD()` out of line for the `Fix16_Point offset` local. The original constructs it inline, as it does for all five points in `538AC0` (where we call it twice). The ctor is empty and the struct isn't exported. Unexplained so far.
 - Oct 5: 160 lines. The original's two rotation branches put sin/cos in swapped stack slots and aren't
   tail-merged; ours are merged.
@@ -1031,7 +1031,7 @@ Matched (116 -> 0) with two changes:
 
 - 0.146. This is the shocker's chain lightning:
   - It collects the sprites in a box around `a3` (`gSpriteGrid_1_679208->CollectRectCollisions_477F30`). The box is `kFP16Two_706EC0` wide for the first link and `kFpOne_706EBC` after that.
-  - For each ped or car within the angle window (`kAng45_706D6C` / `kAng315_706E28` around `a4`), that has map line of sight (`IsProbePathClear_4E5640`) and isn't already hit (`gWeapon_8_707018` list), it does three things. It draws the arc (`DrawElectricArc_5DE910`), recurses once (`a2 < 1`), and shocks the ped or damages the car. The car damage is `AccumulateDamage_43DA90(300)`, with scoring for the player.
+  - For each ped or car within the angle window (`kAng45_706D6C` / `kAng315` around `a4`), that has map line of sight (`IsProbePathClear_4E5640`) and isn't already hit (`gWeapon_8_707018` list), it does three things. It draws the arc (`DrawElectricArc_5DE910`), recurses once (`a2 < 1`), and shocks the ped or damages the car. The car damage is `AccumulateDamage_43DA90(300)`, with scoring for the player.
   - At the end it takes one ammo with a 1/2 chance.
 - The ped branch normalises the angle difference out of line (`Normalize_406C20`). The car branch normalises it inline (the `Ang16 operator-` normalising ctor). Written to match.
 - Both branches compute `Max(Abs(back_x), Abs(back_y))` and never use it. In the ped branch the y subtraction is the out-of-line `Fix16::Subtract_436A00`.
@@ -1063,7 +1063,7 @@ Matched (116 -> 0) with two changes:
 ## Garage::GaragesService_5349D0 (WIP, was STUB)
 
 - 0.417. The park-in-garage state machine, driven by `field_C`:
-  - **1, drive in:** after the car-box collision test with the garage rect (`CollisionCheck_5A0320`), lock the car and the player's controls. Push the car toward the midpoint of the two touching box corners, normalised and scaled by `kFpPoint1_6FCF10`.
+  - **1, drive in:** after the car-box collision test with the garage rect (`CollisionCheck_5A0320`), lock the car and the player's controls. Push the car toward the midpoint of the two touching box corners, normalised and scaled by `kFpPoint1`.
   - **2, settle:** keep pushing until the box is fully inside, or until 300 ticks pass. Then zero the velocity for `field_3C` (30) ticks.
   - **3, parked:** close the doors, kill the passengers, walk the driver (or `field_14`) out to the target, and reset the garage.
 - `field_28` / `field_2C` were two `s32`s, but the code uses them as the push vector. They're now `Fix16_Point_POD field_28_push_dir`. The ctor (MATCH 0x534E80) still matches with `.x` / `.y`.
@@ -1077,7 +1077,7 @@ Matched (116 -> 0) with two changes:
 - Turns an angle toward a target by at most `*pSpeed`, the short way round, then wraps it into [0, 2pi). It's the same shape as `SmoothApproachAngle_405CE0`, written with the same `Fix16` globals and the same two wrap loops that `WrapAngle_40E790` uses.
 
 ### IsAngleWithinTolerance_405E20, ClampAngleAroundTarget_405E80 (0x405E20, 0x405E80): MATCH
-- `ClampAngleAroundTarget_405E80` clamps an angle into a +-`kAngFix16QuarterCircle_669140` window around a target, allowing for the wrap. It then returns whether the angle sits on either edge, tested with `IsAngleWithinTolerance_405E20`.
+- `ClampAngleAroundTarget_405E80` clamps an angle into a +-`kAngFix16QuarterCircle` window around a target, allowing for the wrap. It then returns whether the angle sits on either edge, tested with `IsAngleWithinTolerance_405E20`.
 - `IsAngleWithinTolerance_405E20` (unmarked until now) only matched with an `s32` return (`mov $1,%eax`). The caller still tests `%al`, so the calls are cast to `(u8)`. `ClampAngleAroundTarget_405E80` returns `s32` too.
 - The permuter did the rest of 405E80: assign `lo` before `hi` in every case so the shared `*pCur = lo` block tail-merges (0.63 to 0.93), and read `*pTarget` directly instead of through a local `t`, which fixes the `lea` operand order (to 1.0).
 
@@ -1087,7 +1087,7 @@ Matched (116 -> 0) with two changes:
 ## Round: remaining non-CRT stubs (Oct 2)
 
 ### Net_4DA9B0 (0x4DA9B0): MATCH, first try
-- Re-sends one earlier frame's inputs to one player: fills `gInputSendData_6F5B18` (length 8
+- Re-sends one earlier frame's inputs to one player: fills `sInputSendData` (length 8
   with the sync check, else 4) and calls `NetPlay::SendToPlayer_521630`.
 
 ### ScriptManager::SetGeneratorTypeForCar_511A70 (0x511A70): MATCH
@@ -1919,7 +1919,7 @@ Renames: `field_36E` -> `field_36E_bBlockedByTerrain` (no usable ground ahead, a
   before the timer store and gives the original's `and $0xFE,%al`.
 - `Char::UpdateImmobilized_5520A0` (6, unchanged score, real call fix): the two `-kFpOne64th_6FD868` arguments to
   `NewMovingObj_52A240` are `kFpOne64th_6FD868.Negate_4086A0()` in the original (out-of-line call; the
-  scorer masked the COMDAT `??GFix16` copy). The `-kFpOneSixteenth_6FD87C` jitter stays inline (`neg`). Tried for
+  scorer masked the COMDAT `??GFix16` copy). The `-kFpOneSixteenth` jitter stays inline (`neg`). Tried for
   the `ped->184` register rotation: a `Sprite*` local for `field_4` (16-27), no `field_184_pObj2C`
   reassignment (27), `field_40_rotation` set directly / via `Ang16 rot; rot = ...` (17): all worse.
 - `PathFinder::ComputePath_554AB0` (7 -> 4): else branch `t = ypos; dir = idx2; new_z = xpos;
@@ -2080,10 +2080,10 @@ in one expression"); the same form replaced the dead-store workaround in the mat
 - `AmbulanceTask::UpdateState_4FB330` (2): `HandleObjectiveState` once after the switch with `return` in the other
   paths (18: the join goes last), `<= 500` + break/return, `++` in the condition, `return` after the state store,
   no trailing `return`, `default` with break/return: all 2. Permuter 1500.
-- `TagGameHudUpdate_4DADA0` (54): the original never stores 59 to `gNetTimerBlinkCounter_6F5B74` on the first flash (jump-threaded
+- `TagGameHudUpdate_4DADA0` (54): the original never stores 59 to `sNetTimerBlinkCounter` on the first flash (jump-threaded
   into the `> 0` test with 59 in `ecx`), so the timer is likely a local (`timer = byte ? dword : 59`), but layout
-  is the gap: the original puts the `if (!gNetTimerFlashing_6F59C0)` block right after the condition, then the not-flashing
-  block + pager clear, then the rest. Tried: if/else with the rest after (B goes first, 56-211), a `gNetTimerFlashing_6F59C0`
+  is the gap: the original puts the `if (!sNetTimerFlashing)` block right after the condition, then the not-flashing
+  block + pager clear, then the rest. Tried: if/else with the rest after (B goes first, 56-211), a `sNetTimerFlashing`
   test after the if/else (threaded, 56), inline `IsTimerFlashTime` (54/142), goto (93/211). VC7 (`sc7.sh`, 9.6f has
   the same layout) puts the first-flash block after the first `||` term with the early-return form (58).
 - `gtx_0x106C::BuildCarInfoContainer_5AA9A0` (8): 9.6f has `mov %edx,%eax` before the `lea 1(%eax,%eax)`, a
@@ -2328,8 +2328,8 @@ Scores are `sc.sh` lines.
 
 ### Near-miss pass (ParticleManager / sound_obj / misc owners)
 Scores are `sc.sh` lines.
-- `Char::GetNextRotationToward_550F60` 452 -> 164: `kAng4_6FDB2E` is an `Ang16` and the unused step angle is
-  `kAng4_6FDB2E.MultiplyByFix16_401CB0_ctor_ool(field_38_velocity)`. Initialised from an inline's return value the
+- `Char::GetNextRotationToward_550F60` 452 -> 164: `kAng4` is an `Ang16` and the unused step angle is
+  `kAng4.MultiplyByFix16_401CB0_ctor_ool(field_38_velocity)`. Initialised from an inline's return value the
   local lands in the temporaries area like the original's `v12` at 0xE (frame 0x28 -> 0x24); a named
   `Fix16 unused_vel` + `Ang16 v12(&unused_vel, 0)` gives it a named slot above the `u8` locals. Left: the
   original rotates the scratch registers from case to case (Delta args edx/eax, ecx/edx, eax/ecx; the sum in
@@ -2697,7 +2697,7 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
     stores +22, the named `get_x_y_443580()` (no site, no 58 charge; then +40 is left). `__forceinline
     Fix16_Point()` leaves +7 (0 with the `vel` assignment) but breaks 21 matched functions in other TUs
     (fullexp), so the ctor is charged in 10.5. `SetNoLighting_4337F0()` adds a site after the rotations (worse);
-    the 9.6f operand orders (`vec_x + field`, `kFpPoint1_6FD2E8 + kFpPoint02_6FD468`) are neutral only once the budget is
+    the 9.6f operand orders (`vec_x + field`, `kFpPoint1_6FD2E8 + kFpPoint02`) are neutral only once the budget is
     right. Extra points copy-initialised from `vel`, or built from uninitialised locals, keep their stores.
 - `ParticleManager::GunMuzzelFlash_53E970` (428 / 933): 9.6f has no unused sin/cos multiplies in the car branch (ours
   needs them for the 10.5 Multiply count), `AsCharB4_40FEA0()` inline in the `offset + ...` expression (579 /
@@ -3483,7 +3483,7 @@ helpers under other names, or plain Fix16/Ang16 operators.
 - `check_global_inits.py`: kAngZero fixed (0x6FE3C0). Left as found (no code reads them differently):
   `gPedOffscreenDespawnTime_678656` (copied from 0x61A898 at startup), `kZero_67BBE0` (dynamic 0, probably `Fix16`),
   `gCharB4_Saved_TileX/Y` (`kFP16Zero.ToInt()`), `gCyclesPerMs_705334` (SpriteRenderer's rdtsc init),
-  `gCollisionDamage_6FE33C` (no original initialiser), the debug bools (one 79-store init at 0x4AB950).
+  `sCollisionDamage` (no original initialiser), the debug bools (one 79-store init at 0x4AB950).
 - Address order for whole files: 34 files reordered (pure moves), 3304/3304 and every WIP score unchanged.
 - PCH: `/Yc`/`/Yu` builds of Weapon.cpp change nothing. Defining `Fix16_Point::operator+` at the end of
   the TU does reproduce 10.5's EH stores in all Weapon callers (see matching_quirks.md).
@@ -3842,7 +3842,7 @@ property of how the original's expressions nest, not of a local declaration.
 ## Round 5 (Oct 9): cross-jump agent
 
 - **`CarAI::FollowRoadDirection_44A1F0` (122 -> 0, MATCH).** `return;` right after the first `SetGoStraight_42ABB0()`
-  of right_3/east_3 (the `v17 <= kFpPoint4_6779C8` arm). That jump no longer goes through the nested end-of-if labels that
+  of right_3/east_3 (the `v17 <= kFpPoint4` arm). That jump no longer goes through the nested end-of-if labels that
   are retargeted to the exit, so it is created in source order, the later copy (the `else` arm) becomes the cross-jump
   target, and the first copy jumps into it as in the original (122 -> 70). The second change, `return;` after
   left_4/south_2's `TurnClockwise_42ABA0()` (either arm works), fixes the one remaining jump (west_4's `je` into the
@@ -3912,7 +3912,7 @@ Round 6 findings (not matched):
   verifier): 139. Left is still a one-pick rotation (ours is one round-robin pick ahead from the MaxAbs compare
   on, which also stops the `5 * mult` TakeDamage tail from cross-jumping into the `lea (%eax,%eax,4),%edx` copy).
 - `Ped::UpdateMovementTowardsTarget_4672E0` 560 -> 206: the waypoint distance test is
-  `Fix16 a1 = Abs(dist_1); Fix16 a2 = Abs(dist_2); if (Max_41E130(a1, a2) < kFpHalf_678790 ...` (the original
+  `Fix16 a1 = Abs(dist_1); Fix16 a2 = Abs(dist_2); if (Max_41E130(a1, a2) < kFpHalf ...` (the original
   stores both Abs values and selects a pointer to one). Left: the layout of the path switch. The original has
   no gotos there: by reverse postorder its out-of-line blocks (dist, null path, LINE_54E) are copies that
   FlowOpts cross-jumped into the LINE_3A9 / LINE_3D9 code, but a version with every tail written out (310) and a
@@ -4233,7 +4233,7 @@ right structure (see `/tmp/claude-0/agents/misc7/pol_best188.cpp` while it exist
   ... } else { Kill; } EmitBloodBurst(..., tanVec);` with one blood burst after the if/else (the last
   else already had that shape), not a copy in each arm. The 3b piece then takes ebp (edi holds
   -kFpPoint1), pCar gets ebx and the zero constant has no register left.
-- `Char::UpdateFleeOrRunning_5504F0` 262 -> 86: `v71/v77/v70 = 0` before `gCharB4_GradientSlopeBelow_6FDB54 = 0` (store order, 252);
+- `Char::UpdateFleeOrRunning_5504F0` 262 -> 86: `v71/v77/v70 = 0` before `sCharB4GradientSlopeBelow = 0` (store order, 252);
   the permuter's `field_58_flags ^= (field_58_flags ^ (u8)(cond && cond)) & 1` without the `u8 v9`
   local (32-bit mov/xor, sizes match from 0x282 on, 88); the second `PolarToCartesian` takes `v73` like
   the first (logic fix, 86). Left: v77's slot, get_block's Y/X loads ahead of `push zpos`, the
@@ -4729,7 +4729,7 @@ function moved; no source change kept. Scores are `NO_PCH=1 quick_score.sh`.
 
 ## Agent cheap12: Ped::CalcApproachPointNearTargetPed_4645B0 (266 -> 257, not matched)
 
-Scores are `NO_PCH=1 quick_score.sh` (identical with PCH). Kept: `radius = kFpThreeEighths_67878C;` moved
+Scores are `NO_PCH=1 quick_score.sh` (identical with PCH). Kept: `radius = kFpThreeEighths;` moved
 above `angle = kAng180 + rotation;` in the first (target moving) branch (266 -> 257). No header edits.
 
 Tried and rejected (all scores worse than 257):
@@ -5154,7 +5154,7 @@ top-level site after `--rm`/`--free`/`--scan` edits, `try.sh`/`inl.sh` mirror sc
   its Normalize iff budget_after_charge / sites_left >= 111, so the window is B(side0) < 111*L and B(side1) >= 111*(L-2)
   with B(side1) = B(side0) - 98: about 124 budget = 62 front-end nodes wide.
 - Target block (`target_x/target_y` from field_40): 9.6f calls PolarToCartesian_41FC20 there too, and
-  `PolarToCartesian_41FC20(field_40_rotation, kFpFour_6FDA04, target_x, target_y)` gives the original's inline sine
+  `PolarToCartesian_41FC20(field_40_rotation, kFpFour, target_x, target_y)` gives the original's inline sine
   multiply + out-of-line cosine multiply through the nested budget, with ONE multiply symbol (the named
   `Multiply_408680` in v11 was a second call target). near21's 2131 for it was the frame: `Ang16 rot` (never
   referenced, copy-propagated) owned a slot; `Fix16 step_x; Fix16 step_y;` at function scope (used by BOTH
@@ -5500,7 +5500,7 @@ the other 30 MATCH_FUNCs of the TU compile to identical code (base vs new obj co
   function).
 - Diagnostics on the way (not kept): making the tail read a memory-resident copy of arrow_idx (address escape, or
   `s8 arrow_info[2]` with `&arrow_info[0]` passed) fixes the tail (next gets the load + inc, 5 refs, 60) but ends
-  arrow_idx's web before the second switch, which flips the ebx/ebp halves of two `sine * kFpPoint7_6779D4` pairs there
+  arrow_idx's web before the second switch, which flips the ebx/ebp halves of two `sine * kFpPoint7` pairs there
   (the byte web's only-ebx penalty is gone): the original keeps arrow_idx live into the tail. A diagnostic later use
   of arrow_idx (`gDiag = arrow_idx` at the end) gives the right tail too (the inc temp then can't merge into the
   dying reload piece). Permuter (800 compiles, default passes + --auto-method-aliases): only the known 12.
@@ -5619,7 +5619,7 @@ Base for all diagnostics: `pPrev = pBlock` after `SnapZToRailway_4E65A0(x, y, &z
 - VC7 13.00 `/O2 /Ob0 /G5 /GX` compiles the source to 9.6f 0x430CC0 with only 4 jump targets different, which pinned
   the shape (every inline call is visible there) before the VC6 work.
 - `kAng180/90/270` are `static` in CarAI.cpp: VC6 then propagates `target_angle = kAngX` into the first use of
-  each case head (`mov kAng180,%ax; mov %ax,%bx; sub a08,%ax`). `bOnGradientSlope_677C90` was renamed (from
+  each case head (`mov kAng180,%ax; mov %ax,%bx; sub a08,%ax`). `sbOnGradientSlope` was renamed (from
   `bIsOnGradientSlope`) so that `.bss` puts an even number of bytes before kAng180 (see the widening quirk).
 - `field_24_flags` is written through `field_24_bf` bit by bit, as in the other CarAI functions. This gives the
   `mov $0x10,%ecx` / `or %ecx,%eax` of the first switch with no extra local, and +383 front-end units: with the
@@ -5672,7 +5672,7 @@ inlines (`NeutralGear_42AC00`, `Accelerate_421210`, `ForceNeutralInput_42ABC0`, 
 
 What the original requires (from the 10.5 asm, `S` = first multiply inline, `m` = both out of line,
 `O` = the whole call out of line): the 30 `PolarToCartesian_41FC20` sites are
-`sssssssss mmmmmmmmmmmmm ssssss m O`, and the cap is crossed between the `gCurrCarAI_DesiredSpeed_677A8C + kFpPoint02_677B5C`
+`sssssssss mmmmmmmmmmmmm ssssss m O`, and the cap is crossed between the `sCurrCarAIDesiredSpeed + kFpPoint02_677B5C`
 `operator+` (inline) and the following `ForceNeutralInput_42ABC0` (out of line) in the second switch's
 `move_left_3` case. The 29th site (`m`) is decided by the ratio, not the cap: the `set_xyz_lazy` after it
 is still inline.
@@ -5921,7 +5921,7 @@ on stripped copies, `inlsim` searches over caller size, extra free sites per seg
 - New lead, first branch: `angle = rot; angle += kAng180` compiles to the original's `mov k,%cx; add %ax,%cx` only
   when `kAng180_6785A6` is not defined in the same TU; `DEFINE_GLOBAL(_INIT)` of it in Ped.cpp (with or without the
   initialiser) gives the 0xC getter temp in the natural forms and in the committed form alike. The committed
-  per-site form with that first branch and unbraced `else radius = kFpThreeEighths_67878C;` in cases 4-7/default
+  per-site form with that first branch and unbraced `else radius = kFpThreeEighths;` in cases 4-7/default
   (1201 nodes) scores 0 in a TU where the global is extern, 299 in Ped.cpp. Not usable as is (per-site helpers);
   the global's definition may belong to another TU in the original (compare STORE_CAR_INFO_509180's linkage lever).
 - Follow-up on that lead, in the real Ped.cpp: `EXTERN_GLOBAL(Ang16, kAng180_6785A6)` at the top and its
@@ -6055,7 +6055,7 @@ elsewhere. The committed natural form (156, then-branch byte-exact) stays WIP.
 after round 7. The committed form is the 156 natural form plus three spellings, scored 0 on Ped.cpp and verified by
 the full build (1184 caller nodes, `inl.sh` on the committed file):
 - `bUnk = true, field_264_killer_id_timer = 50;` for the group `if` and `angle += kAng180_6785A6, radius =
-  kFpThreeQuarters_678794;` in the bUnk blocks of cases 0-3 (comma forms, same code as the braced blocks). They
+  kFpThreeQuarters;` in the bUnk blocks of cases 0-3 (comma forms, same code as the braced blocks). They
   only lower the caller size: -2 and -8 nodes. Case 2's `operator+` gets budget 2031 with 45 sites left, nested 43,
   so its normalizing ctor (44) stays out of line; at 1186 nodes it goes inline (score 636). Round 7's `Fix16 unused;`
   in the default (a free site that lifted that cap by about 22 nodes) is no longer needed.
