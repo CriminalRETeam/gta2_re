@@ -883,6 +883,7 @@ EXTERN_GLOBAL(Fix16, kFpTwo_6F77C8);
 class ScriptThread
 {
   public:
+    STATIC_MEMBER(Fix16, kFp255);
     EXPORT void MissionFailOnDeathOrArrest_503200();
     EXPORT u8 GetEntityTypeOfCommand_503410(u32 opcode);
     EXPORT void PoolAllocate();
