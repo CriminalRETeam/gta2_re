@@ -40,7 +40,7 @@ with a patched copy that logs the pass, and checked by forcing other orders in t
      into it). The merge is done only if the result is **> 20**. The size estimate treats an operand field
      `[op+0xC]` (a running tuple count on some stores) as a displacement: below 0x80 such a store costs 5 bytes,
      from 0x80 on 8. So adding statements earlier in a function can turn a merge on or off
-     (`sound_obj::ProcessOtherObjects_41F520`).
+     (`sound_obj::ProcessOtherObjects`).
   4. Swap rule: if P0's whole block matched (the instruction before the match is an unconditional jump or a
      return) and the other's didn't, P0 jumps into the other instead.
   5. When P0 has been compared with every later candidate, the next candidate becomes the target, and so on.
@@ -153,12 +153,12 @@ the last block in the layout **falls into it**. Conditional jumps never move: ev
 the original exit. If the original's `jcc`s go to an exit copy in the middle of the function, with the last
 block ending in its own copy, then the exit was moved up there, and nothing fell into it when dupB ran.
 
-How a source gets that (`Ped::PunchChar_467FD0`, verified match): the then-block of an `if (A || B) { X; return; }`
+How a source gets that (`Ped::PunchChar`, verified match): the then-block of an `if (A || B) { X; return; }`
 is laid out out of line, after the rest of the function, just before the exit. The last `else`'s `return` then
 jumps over it (not a jump to the next label, so the early cleanups at `0x1073C33A`/`0x10706181` keep it). Later
 FlowOpts cross-jumps `X` into an identical store elsewhere, which leaves only a label between that `jmp` and the
 exit, and dupB moves the exit up. Probes: `if (!a || b == 9) {...}` goes out of line, `if (a == 5) {...}` and
-`&&` conditions don't. `TrainCab_414710` and `UpdateState_4FB330` need this (see `docs/match_attempts.md`).
+`&&` conditions don't. `TrainCab_414710` and `UpdateState` need this (see `docs/match_attempts.md`).
 
 ## Block layout: reverse postorder (`0x1070483E`, `0x10734C6A`)
 
@@ -177,7 +177,7 @@ Successors are visited in edge list order, which is **the jump target first, the
 by simulating it on the IL before the pass (`@S 10765998`) for every function of `winmain.cpp`: 298 of 305 give
 the actual order (the rest are loop sinking and merged empty blocks); fall-through first gives 283. A switch
 visits its cases in ascending value order with `default` last, so the cases are laid out `default` first, then
-by descending value (`Ambulance_20::UpdateState_4FB330`).
+by descending value (`Ambulance_20::UpdateState`).
 
 What follows:
 
@@ -187,7 +187,7 @@ What follows:
 - In `if (a || b) { X; return; }`, the first term's `jcc a -> X` makes X the first successor of the first test.
   X only leads to the exit, so it finishes before the rest of the function is even visited, and is laid out
   **after** everything that follows, just before the exit. That's the "out-of-line `||` block"
-  (`Ped::PunchChar_467FD0`). Without the `return`, X's DFS walks the code after the `if` first and X stays in
+  (`Ped::PunchChar`). Without the `return`, X's DFS walks the code after the `if` first and X stays in
   place; `if (a) X` and `&&` jump past X, so X stays in place too.
 - A join reached first through one arm is laid out right after that arm's last block, and before any sibling arm
   visited earlier (the earlier sibling finishes first, so it comes later). For example, a `HandleObjectiveState()`
@@ -223,12 +223,12 @@ both runs are sunk and `tail` stays first.
 ```bash
 venv/bin/python3 Scripts/flowopt/ildump.py && venv/bin/python3 Scripts/flowopt/sinklog.py
 X87_C2=sinklog X87_OUT=/tmp/sk Scripts/x87_sched/sched.sh -l Source/Explosion.cpp
-#   @SINK run a8f8/44..a8f8/44 after 2ed0/43    (ExplosionPool_7A8::FreeLowestPriority_543690: the in-loop return, index 44)
+#   @SINK run a8f8/44..a8f8/44 after 2ed0/43    (ExplosionPool_7A8::FreeLowestPriority: the in-loop return, index 44)
 #   @SINKCMP blk 6e7c/48 runidx 44              (the final tail, index 48: 44 < 48)
 #   @SINKINS before 6e7c/48                     (so the return is generated before the final tail)
 ```
 
 Consequence for register-only near misses: with this pass, a block's place in codegen order follows from its place
 in the final layout, except for the blocks dupB moves. When the layout already matches but the round-robin rotation
-doesn't, the difference is the number of picks (`ExplosionPool_7A8::FreeLowestPriority_543690`), or the codegen
-place of a block dupB moves (`CarDoorAlignmentSolver_545AF0`; both in `docs/match_attempts.md`).
+doesn't, the difference is the number of picks (`ExplosionPool_7A8::FreeLowestPriority`), or the codegen
+place of a block dupB moves (`CarDoorAlignmentSolver`; both in `docs/match_attempts.md`).

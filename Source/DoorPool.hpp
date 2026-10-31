@@ -11,7 +11,7 @@ class SpriteShape;
 class Ped;
 class Car;
 
-// DoorData::field_0_state
+// DoorData::mState
 namespace door_state
 {
 enum
@@ -25,52 +25,57 @@ class DoorData // Contains only position, face and DoorInfo id
 {
   public:
     EXPORT void PoolAllocate();
-    EXPORT void Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip);
-    EXPORT void Open_49C4E0(u8 bFlip);
-    EXPORT void Close_49C590(u8 bDoFlip);
-    EXPORT static s32 __stdcall GetOppositeFace_4DEEB0(s32 v);
+    EXPORT void Init(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip);
+    EXPORT void Open(u8 bFlip);
+    EXPORT void Close(u8 bDoFlip);
+    EXPORT static s32 __stdcall GetOppositeFace(s32 v);
 
-    u8 get_z_489640() const
+    // 9.6f 0x489640
+    u8 get_z() const
     {
-        return field_6_z;
+        return mZ;
     }
 
-    u8 get_y_489630() const
+    // 9.6f 0x489630
+    u8 get_y() const
     {
-        return field_5_y;
+        return mY;
     }
 
-    u8 get_x_489620() const
+    // 9.6f 0x489620
+    u8 get_x() const
     {
-        return field_4_x;
+        return mX;
     }
 
-    s32 field_0_state;
-    u8 field_4_x;
-    u8 field_5_y;
-    u8 field_6_z;
-    u8 field_7_gr_id;
-    s32 field_8_face;
+    s32 mState; // 0x0
+    u8 mX; // 0x4
+    u8 mY; // 0x5
+    u8 mZ; // 0x6
+    u8 mGrId; // 0x7
+    s32 mFace; // 0x8
     DoorData* mpNext;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(DoorData, 0x10);
 
-inline bool Door::IsOpen_44C860() const
+// 9.6f 0x44C860
+inline bool Door::IsOpen() const
 {
-    return field_0_primary_door_data->field_0_state == door_state::open_2;
+    return mPrimaryDoorData->mState == door_state::open_2;
 }
 
-inline void Door::CloseDoors_476A30()
+// 9.6f 0x476A30
+inline void Door::CloseDoors()
 {
-    if (field_28_bClosing)
+    if (mbClosing)
     {
-        if (field_0_primary_door_data)
+        if (mPrimaryDoorData)
         {
-            field_0_primary_door_data->Close_49C590(0);
+            mPrimaryDoorData->Close(0);
         }
-        if (field_4_secondary_door_data)
+        if (mSecondaryDoorData)
         {
-            field_4_secondary_door_data->Close_49C590(field_2A_bDoFlip);
+            mSecondaryDoorData->Close(mbDoFlip);
         }
     }
 }
@@ -81,8 +86,8 @@ class DoorDataPool
     // inlined 0x44c830
     DoorData* Allocate()
     {
-        DoorData* pNew = field_0_pool.field_0_pHead;
-        field_0_pool.field_0_pHead = pNew->mpNext;
+        DoorData* pNew = mPool.mpHead;
+        mPool.mpHead = pNew->mpNext;
         pNew->PoolAllocate();
         return pNew;
     }
@@ -95,19 +100,20 @@ class DoorDataPool
     // 9.6f 0x44C7F0
     ~DoorDataPool()
     {
-        field_0_pool.field_0_pHead = NULL;
+        mPool.mpHead = NULL;
     }
 
-    PoolBasic<DoorData, 44> field_0_pool;
+    PoolBasic<DoorData, 44> mPool; // 0x0
 };
 
 class DoorPool
 {
   public:
-    EXPORT DoorData* AllocDoorData_49CF10(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type bDoFlip);
-    EXPORT Door* RegisterSingleDoorNoCheck_49CF50(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 reversed);
-    EXPORT Door* RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed);
-    EXPORT Door* RegisterSingleDoor_49D170(u8 gr_id,
+    STATIC_MEMBER(DoorDataPool*, sDoor10Pool);
+    EXPORT DoorData* AllocDoorData(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type bDoFlip);
+    EXPORT Door* RegisterSingleDoorNoCheck(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 reversed);
+    EXPORT Door* RegisterDoubleDoorNoCheck(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed);
+    EXPORT Door* RegisterSingleDoor(u8 gr_id,
                                               u8 x,
                                               u8 y,
                                               u8 z,
@@ -119,7 +125,7 @@ class DoorPool
                                               Fix16 check_height,
                                               u8 flip,
                                               u8 reversed);
-    EXPORT Door* RegisterDoubleDoor_49D1F0(u8 gr_id,
+    EXPORT Door* RegisterDoubleDoor(u8 gr_id,
                                               u8 x,
                                               u8 y,
                                               u8 z,
@@ -131,19 +137,19 @@ class DoorPool
                                               Fix16 check_height,
                                               u8 flip,
                                               u8 reversed);
-    EXPORT void RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type speed);
-    EXPORT void TryOpenDoorForCar_49D340(Car* pCar, u8 door_idx);
-    EXPORT void TryOpenDoorForPed_49D370(Ped* pPed, u8 idx);
-    EXPORT Door* GetNextFreeDoor_49D3A0();
-    EXPORT bool CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx);
-    EXPORT void DoorsService_49D460();
+    EXPORT void RegisterDoorInfo(s16 start_frame, s16 end_frame, char_type speed);
+    EXPORT void TryOpenDoorForCar(Car* pCar, u8 door_idx);
+    EXPORT void TryOpenDoorForPed(Ped* pPed, u8 idx);
+    EXPORT Door* GetNextFreeDoor();
+    EXPORT bool CheckDoorAccess(Sprite* pSprite, u8 door_idx);
+    EXPORT void DoorsService();
     EXPORT DoorPool();
     EXPORT ~DoorPool();
 
-    Door field_0_doors[22];
-    u16 field_4D0_count;
-    s16 field_4D2_unused;
+    Door mDoors[22]; // 0x0
+    u16 mCount; // 0x4D0
+    s16 mUnused4D2; // 0x4D2
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(DoorPool, 0x4D4);
 
-EXTERN_GLOBAL(DoorPool*, gDoor_4D4_67BD2C);
+EXTERN_GLOBAL(DoorPool*, gDoor_4D4);

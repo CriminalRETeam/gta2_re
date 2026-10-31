@@ -2,8 +2,8 @@
 
 #include "types.hpp"
 
-// Car::field_78_flags masks. Flags named FlagN are used but their meaning is not understood yet. Car::IsFlagSet_411930
-// and AddFlags_421890 (9.6f inlines) take the mask as an argument, so the original treats this as a plain flag word.
+// Car::mFlags masks. Flags named FlagN are not used. Car::IsFlagSet
+// and AddFlags (9.6f inlines) take the mask as an argument, so the original treats this as a plain flag word.
 namespace car_flag
 {
 enum
@@ -11,17 +11,17 @@ enum
     TrailerDetached = 0x1,
     NoCollide = 0x2,
     NoPassengers = 0x4,
-    Flag3 = 0x8,
-    Flag4 = 0x10,
+    NoCollisionDamage = 0x8,
+    MiniCar = 0x10,
     Flag5 = 0x20,
-    Flag6 = 0x40,
+    Train = 0x40,
     CarAlarm = 0x80,
     Bulletproof = 0x100,
     Rocketproof = 0x200,
     Flameproof = 0x400,
-    Jammed = 0x800,
-    Flag12 = 0x1000,
-    Crushing = 0x2000, // set by SetCrushFlag_49EFC0
+    ResistsPushWhenStopped = 0x800,
+    JammedAccelerator = 0x1000,
+    Crushing = 0x2000, // set by SetCrushFlag
     Flag14 = 0x4000,
     Flag15 = 0x8000,
 };
@@ -32,7 +32,7 @@ enum
 // (it was either a bitfield or a mask word, like field_78 whose IsFlagSet/AddFlags helpers take masks). Decide which one
 // field_A4 / field_A6 really are and drop the other form. See docs/matching_quirks.md.
 
-// Car::field_A6_bf (aliases field_A6_turn_flags).
+// Car::mBfA6 (aliases mTurnFlags).
 struct CarTurnFlags8
 {
     u8 bTurnRight : 1; // bit 0
@@ -45,7 +45,7 @@ struct CarTurnFlags8
     u8 bFlag7 : 1; // bit 7
 };
 
-// Car::field_A4_bf (aliases field_A4_light_flags).
+// Car::mBfA4 (aliases mLightFlags).
 struct CarLightFlags8
 {
     u8 bBrakeLights : 1; // bit 0
@@ -58,8 +58,8 @@ struct CarLightFlags8
     u8 bFlag7 : 1; // bit 7
 };
 
-// Keeps the number of names MapRenderer.cpp sees at the count that makes Draw3SidedDiagonalDownRight_4EF520 and
-// Draw4SidedDiagonalUpLeft_4EF880 match (docs/matching_quirks.md). Do not remove without running the whole build.
+// Keeps the number of names MapRenderer.cpp sees at the count that makes Draw3SidedDiagonalDownRight and
+// Draw4SidedDiagonalUpLeft match (docs/matching_quirks.md). Do not remove without running the whole build.
 enum
 {
     kCarFlagsNameCount0,

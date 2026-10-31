@@ -3,52 +3,52 @@
 #include "Globals.hpp"
 #include <stdio.h>
 
-DEFINE_GLOBAL_INIT(T_gbh_InitDLL,         pgbh_InitDLL,         reinterpret_cast<T_gbh_InitDLL>(GBH_Graphics_Stub_5EA4D0),         0x626C54);
-DEFINE_GLOBAL_INIT(T_gbh_Init,            pgbh_Init,            reinterpret_cast<T_gbh_Init>(GBH_Graphics_Stub_5EA4D0),            0x626C58);
-DEFINE_GLOBAL_INIT(T_gbh_CloseDLL,        pgbh_CloseDLL,        static_cast<T_gbh_CloseDLL>(GBH_Graphics_Stub_5EA4D0),        0x626C5C);
-DEFINE_GLOBAL_INIT(T_gbh_SetWindow,       pgbh_SetWindow,       reinterpret_cast<T_gbh_SetWindow>(GBH_Graphics_Stub_5EA4D0),       0x626C60);
-DEFINE_GLOBAL_INIT(T_gbh_GetGlobals,      pgbh_GetGlobals,      reinterpret_cast<T_gbh_GetGlobals>(GBH_Graphics_Stub_5EA4D0),      0x626C64);
-DEFINE_GLOBAL_INIT(T_gbh_DrawTile,        pgbh_DrawTile,        reinterpret_cast<T_gbh_DrawTile>(GBH_Graphics_Stub_5EA4D0),        0x626C68);
-DEFINE_GLOBAL_INIT(T_gbh_DrawTilePart,    pgbh_DrawTilePart,    reinterpret_cast<T_gbh_DrawTilePart>(GBH_Graphics_Stub_5EA4D0),    0x626C6C);
-DEFINE_GLOBAL_INIT(T_gbh_DrawQuad,        pgbh_DrawQuad,        reinterpret_cast<T_gbh_DrawQuad>(GBH_Graphics_Stub_5EA4D0),        0x626C70);
-DEFINE_GLOBAL_INIT(T_gbh_DrawQuadClipped, pgbh_DrawQuadClipped, reinterpret_cast<T_gbh_DrawQuadClipped>(GBH_Graphics_Stub_5EA4D0), 0x626C74);
-DEFINE_GLOBAL_INIT(T_gbh_DrawFlatRect,    pgbh_DrawFlatRect,    reinterpret_cast<T_gbh_DrawFlatRect>(GBH_Graphics_Stub_5EA4D0),    0x626C78);
-DEFINE_GLOBAL_INIT(T_gbh_DrawTriangle,    pgbh_DrawTriangle,    reinterpret_cast<T_gbh_DrawTriangle>(GBH_Graphics_Stub_5EA4D0),    0x626C7C);
-DEFINE_GLOBAL_INIT(T_gbh_PrintBitmap,     pgbh_PrintBitmap,     reinterpret_cast<T_gbh_PrintBitmap>(GBH_Graphics_Stub_5EA4D0),     0x626C80);
-DEFINE_GLOBAL_INIT(T_gbh_SetColourDepth,  pgbh_SetColourDepth,  reinterpret_cast<T_gbh_SetColourDepth>(GBH_Graphics_Stub_5EA4D0),  0x626C84);
-DEFINE_GLOBAL_INIT(T_gbh_Plot,            pgbh_Plot,            reinterpret_cast<T_gbh_Plot>(GBH_Graphics_Stub_5EA4D0),            0x626C88);
-DEFINE_GLOBAL_INIT(T_gbh_ConvertColour,   pgbh_ConvertColour,   reinterpret_cast<T_gbh_ConvertColour>(GBH_Graphics_Stub_5EA4D0),   0x626C8C);
-DEFINE_GLOBAL_INIT(T_gbh_RegisterTexture, pgbh_RegisterTexture, reinterpret_cast<T_gbh_RegisterTexture>(GBH_Graphics_Stub_5EA4D0), 0x626C90);
-DEFINE_GLOBAL_INIT(T_gbh_SetCamera,       pgbh_SetCamera,       reinterpret_cast<T_gbh_SetCamera>(GBH_Graphics_Stub_5EA4D0),       0x626C94);
-DEFINE_GLOBAL_INIT(T_gbh_ResetLights,     pgbh_ResetLights,     static_cast<T_gbh_ResetLights>(GBH_Graphics_Stub_5EA4D0),     0x626C98);
-DEFINE_GLOBAL_INIT(T_gbh_AddLight,        pgbh_AddLight,        reinterpret_cast<T_gbh_AddLight>(GBH_Graphics_Stub_5EA4D0),        0x626C9C);
-DEFINE_GLOBAL_INIT(T_gbh_SetAmbient,      pgbh_SetAmbient,      reinterpret_cast<T_gbh_SetAmbient>(GBH_Graphics_Stub_5EA4D0),      0x626CA0);
-DEFINE_GLOBAL_INIT(T_gbh_GetUsedCache,    pgbh_GetUsedCache,    reinterpret_cast<T_gbh_GetUsedCache>(GBH_Graphics_Stub_5EA4D0),    0x626CA4);
-DEFINE_GLOBAL_INIT(T_gbh_FreeTexture,     pgbh_FreeTexture,     reinterpret_cast<T_gbh_FreeTexture>(GBH_Graphics_Stub_5EA4D0),     0x626CA8);
-DEFINE_GLOBAL_INIT(T_gbh_RegisterPalette, pgbh_RegisterPalette, reinterpret_cast<T_gbh_RegisterPalette>(GBH_Graphics_Stub_5EA4D0), 0x626CAC);
-DEFINE_GLOBAL_INIT(T_gbh_FreePalette,     pgbh_FreePalette,     reinterpret_cast<T_gbh_FreePalette>(GBH_Graphics_Stub_5EA4D0),     0x626CB0);
-DEFINE_GLOBAL_INIT(T_gbh_AssignPalette,   pgbh_AssignPalette,   reinterpret_cast<T_gbh_AssignPalette>(GBH_Graphics_Stub_5EA4D0),   0x626CB4);
-DEFINE_GLOBAL_INIT(T_gbh_LockTexture,     pgbh_LockTexture,     reinterpret_cast<T_gbh_LockTexture>(GBH_Graphics_Stub_5EA4D0),     0x626CB8);
-DEFINE_GLOBAL_INIT(T_gbh_UnlockTexture,   pgbh_UnlockTexture,   reinterpret_cast<T_gbh_UnlockTexture>(GBH_Graphics_Stub_5EA4D0),   0x626CBC);
-DEFINE_GLOBAL_INIT(T_gbh_BeginScene,      pgbh_BeginScene,      static_cast<T_gbh_BeginScene>(GBH_Graphics_Stub_5EA4D0),      0x626CC0);
-DEFINE_GLOBAL_INIT(T_gbh_EndScene,        pgbh_EndScene,        static_cast<T_gbh_EndScene>(GBH_Graphics_Stub_5EA4D0),        0x626CC4);
-DEFINE_GLOBAL_INIT(T_gbh_BeginLevel,      pgbh_BeginLevel,      static_cast<T_gbh_BeginLevel>(GBH_Graphics_Stub_5EA4D0),      0x626CC8);
-DEFINE_GLOBAL_INIT(T_gbh_EndLevel,        pgbh_EndLevel,        static_cast<T_gbh_EndLevel>(GBH_Graphics_Stub_5EA4D0),        0x626CCC);
-DEFINE_GLOBAL_INIT(T_MakeScreenTable,     pMakeScreenTable,     reinterpret_cast<T_MakeScreenTable>(GBH_Graphics_Stub_5EA4D0),     0x626CD0);
-DEFINE_GLOBAL_INIT(T_ConvertColourBank,   pConvertColourBank,   reinterpret_cast<T_ConvertColourBank>(GBH_Graphics_Stub_5EA4D0),   0x626CD4);
-DEFINE_GLOBAL_INIT(T_SetShadeTableA,      pSetShadeTableA,      reinterpret_cast<T_SetShadeTableA>(GBH_Graphics_Stub_5EA4D0),      0x626CD8);
-DEFINE_GLOBAL_INIT(T_gbh_InitImageTable,  pgbh_InitImageTable,  reinterpret_cast<T_gbh_InitImageTable>(GBH_Graphics_Stub_5EA4D0),  0x626CDC);
-DEFINE_GLOBAL_INIT(T_gbh_FreeImageTable,  pgbh_FreeImageTable,  reinterpret_cast<T_gbh_FreeImageTable>(GBH_Graphics_Stub_5EA4D0),  0x626CE0);
-DEFINE_GLOBAL_INIT(T_gbh_LoadImage,       pgbh_LoadImage,       reinterpret_cast<T_gbh_LoadImage>(GBH_Graphics_Stub_5EA4D0),       0x626CE4);
-DEFINE_GLOBAL_INIT(T_gbh_BlitImage,       pgbh_BlitImage,       reinterpret_cast<T_gbh_BlitImage>(GBH_Graphics_Stub_5EA4D0),       0x626CE8);
-DEFINE_GLOBAL_INIT(T_gbh_BlitBuffer,      pgbh_BlitBuffer,      reinterpret_cast<T_gbh_BlitBuffer>(GBH_Graphics_Stub_5EA4D0),      0x626CEC);
-DEFINE_GLOBAL(HMODULE, gGbhDllHandle_7085D8, 0x7085D8);
+DEFINE_GLOBAL_INIT(T_gbh_InitDLL,         pgbh_InitDLL,         reinterpret_cast<T_gbh_InitDLL>(GBH_Graphics_Stub),         0x626C54);
+DEFINE_GLOBAL_INIT(T_gbh_Init,            pgbh_Init,            reinterpret_cast<T_gbh_Init>(GBH_Graphics_Stub),            0x626C58);
+DEFINE_GLOBAL_INIT(T_gbh_CloseDLL,        pgbh_CloseDLL,        static_cast<T_gbh_CloseDLL>(GBH_Graphics_Stub),        0x626C5C);
+DEFINE_GLOBAL_INIT(T_gbh_SetWindow,       pgbh_SetWindow,       reinterpret_cast<T_gbh_SetWindow>(GBH_Graphics_Stub),       0x626C60);
+DEFINE_GLOBAL_INIT(T_gbh_GetGlobals,      pgbh_GetGlobals,      reinterpret_cast<T_gbh_GetGlobals>(GBH_Graphics_Stub),      0x626C64);
+DEFINE_GLOBAL_INIT(T_gbh_DrawTile,        pgbh_DrawTile,        reinterpret_cast<T_gbh_DrawTile>(GBH_Graphics_Stub),        0x626C68);
+DEFINE_GLOBAL_INIT(T_gbh_DrawTilePart,    pgbh_DrawTilePart,    reinterpret_cast<T_gbh_DrawTilePart>(GBH_Graphics_Stub),    0x626C6C);
+DEFINE_GLOBAL_INIT(T_gbh_DrawQuad,        pgbh_DrawQuad,        reinterpret_cast<T_gbh_DrawQuad>(GBH_Graphics_Stub),        0x626C70);
+DEFINE_GLOBAL_INIT(T_gbh_DrawQuadClipped, pgbh_DrawQuadClipped, reinterpret_cast<T_gbh_DrawQuadClipped>(GBH_Graphics_Stub), 0x626C74);
+DEFINE_GLOBAL_INIT(T_gbh_DrawFlatRect,    pgbh_DrawFlatRect,    reinterpret_cast<T_gbh_DrawFlatRect>(GBH_Graphics_Stub),    0x626C78);
+DEFINE_GLOBAL_INIT(T_gbh_DrawTriangle,    pgbh_DrawTriangle,    reinterpret_cast<T_gbh_DrawTriangle>(GBH_Graphics_Stub),    0x626C7C);
+DEFINE_GLOBAL_INIT(T_gbh_PrintBitmap,     pgbh_PrintBitmap,     reinterpret_cast<T_gbh_PrintBitmap>(GBH_Graphics_Stub),     0x626C80);
+DEFINE_GLOBAL_INIT(T_gbh_SetColourDepth,  pgbh_SetColourDepth,  reinterpret_cast<T_gbh_SetColourDepth>(GBH_Graphics_Stub),  0x626C84);
+DEFINE_GLOBAL_INIT(T_gbh_Plot,            pgbh_Plot,            reinterpret_cast<T_gbh_Plot>(GBH_Graphics_Stub),            0x626C88);
+DEFINE_GLOBAL_INIT(T_gbh_ConvertColour,   pgbh_ConvertColour,   reinterpret_cast<T_gbh_ConvertColour>(GBH_Graphics_Stub),   0x626C8C);
+DEFINE_GLOBAL_INIT(T_gbh_RegisterTexture, pgbh_RegisterTexture, reinterpret_cast<T_gbh_RegisterTexture>(GBH_Graphics_Stub), 0x626C90);
+DEFINE_GLOBAL_INIT(T_gbh_SetCamera,       pgbh_SetCamera,       reinterpret_cast<T_gbh_SetCamera>(GBH_Graphics_Stub),       0x626C94);
+DEFINE_GLOBAL_INIT(T_gbh_ResetLights,     pgbh_ResetLights,     static_cast<T_gbh_ResetLights>(GBH_Graphics_Stub),     0x626C98);
+DEFINE_GLOBAL_INIT(T_gbh_AddLight,        pgbh_AddLight,        reinterpret_cast<T_gbh_AddLight>(GBH_Graphics_Stub),        0x626C9C);
+DEFINE_GLOBAL_INIT(T_gbh_SetAmbient,      pgbh_SetAmbient,      reinterpret_cast<T_gbh_SetAmbient>(GBH_Graphics_Stub),      0x626CA0);
+DEFINE_GLOBAL_INIT(T_gbh_GetUsedCache,    pgbh_GetUsedCache,    reinterpret_cast<T_gbh_GetUsedCache>(GBH_Graphics_Stub),    0x626CA4);
+DEFINE_GLOBAL_INIT(T_gbh_FreeTexture,     pgbh_FreeTexture,     reinterpret_cast<T_gbh_FreeTexture>(GBH_Graphics_Stub),     0x626CA8);
+DEFINE_GLOBAL_INIT(T_gbh_RegisterPalette, pgbh_RegisterPalette, reinterpret_cast<T_gbh_RegisterPalette>(GBH_Graphics_Stub), 0x626CAC);
+DEFINE_GLOBAL_INIT(T_gbh_FreePalette,     pgbh_FreePalette,     reinterpret_cast<T_gbh_FreePalette>(GBH_Graphics_Stub),     0x626CB0);
+DEFINE_GLOBAL_INIT(T_gbh_AssignPalette,   pgbh_AssignPalette,   reinterpret_cast<T_gbh_AssignPalette>(GBH_Graphics_Stub),   0x626CB4);
+DEFINE_GLOBAL_INIT(T_gbh_LockTexture,     pgbh_LockTexture,     reinterpret_cast<T_gbh_LockTexture>(GBH_Graphics_Stub),     0x626CB8);
+DEFINE_GLOBAL_INIT(T_gbh_UnlockTexture,   pgbh_UnlockTexture,   reinterpret_cast<T_gbh_UnlockTexture>(GBH_Graphics_Stub),   0x626CBC);
+DEFINE_GLOBAL_INIT(T_gbh_BeginScene,      pgbh_BeginScene,      static_cast<T_gbh_BeginScene>(GBH_Graphics_Stub),      0x626CC0);
+DEFINE_GLOBAL_INIT(T_gbh_EndScene,        pgbh_EndScene,        static_cast<T_gbh_EndScene>(GBH_Graphics_Stub),        0x626CC4);
+DEFINE_GLOBAL_INIT(T_gbh_BeginLevel,      pgbh_BeginLevel,      static_cast<T_gbh_BeginLevel>(GBH_Graphics_Stub),      0x626CC8);
+DEFINE_GLOBAL_INIT(T_gbh_EndLevel,        pgbh_EndLevel,        static_cast<T_gbh_EndLevel>(GBH_Graphics_Stub),        0x626CCC);
+DEFINE_GLOBAL_INIT(T_MakeScreenTable,     pMakeScreenTable,     reinterpret_cast<T_MakeScreenTable>(GBH_Graphics_Stub),     0x626CD0);
+DEFINE_GLOBAL_INIT(T_ConvertColourBank,   pConvertColourBank,   reinterpret_cast<T_ConvertColourBank>(GBH_Graphics_Stub),   0x626CD4);
+DEFINE_GLOBAL_INIT(T_SetShadeTableA,      pSetShadeTableA,      reinterpret_cast<T_SetShadeTableA>(GBH_Graphics_Stub),      0x626CD8);
+DEFINE_GLOBAL_INIT(T_gbh_InitImageTable,  pgbh_InitImageTable,  reinterpret_cast<T_gbh_InitImageTable>(GBH_Graphics_Stub),  0x626CDC);
+DEFINE_GLOBAL_INIT(T_gbh_FreeImageTable,  pgbh_FreeImageTable,  reinterpret_cast<T_gbh_FreeImageTable>(GBH_Graphics_Stub),  0x626CE0);
+DEFINE_GLOBAL_INIT(T_gbh_LoadImage,       pgbh_LoadImage,       reinterpret_cast<T_gbh_LoadImage>(GBH_Graphics_Stub),       0x626CE4);
+DEFINE_GLOBAL_INIT(T_gbh_BlitImage,       pgbh_BlitImage,       reinterpret_cast<T_gbh_BlitImage>(GBH_Graphics_Stub),       0x626CE8);
+DEFINE_GLOBAL_INIT(T_gbh_BlitBuffer,      pgbh_BlitBuffer,      reinterpret_cast<T_gbh_BlitBuffer>(GBH_Graphics_Stub),      0x626CEC);
+DEFINE_GLOBAL(HMODULE, gGbhDllHandle, 0x7085D8);
 DEFINE_GLOBAL(FARPROC, pDrawLine, 0x7085DC);
-DEFINE_GLOBAL(s32, gGBH_GraphicsLoaded_7085E0, 0x7085E0);
-DEFINE_GLOBAL(u32*, gpGBH_Globals_7085E4, 0x7085E4);
+DEFINE_GLOBAL(s32, gGBH_GraphicsLoaded, 0x7085E0);
+DEFINE_GLOBAL(u32*, gpGBH_Globals, 0x7085E4);
 
 MATCH_FUNC(0x5EA4D0)
-EXPORT void __stdcall GBH_Graphics_Stub_5EA4D0()
+EXPORT void __stdcall GBH_Graphics_Stub()
 {
     MessageBoxA(NULL,
                 "Error: A GBH Graphic function was called without the DLL being loaded, or the function has not been fixed up.",
@@ -57,67 +57,67 @@ EXPORT void __stdcall GBH_Graphics_Stub_5EA4D0()
 }
 
 MATCH_FUNC(0x5EA500)
-EXPORT void __stdcall GBH_Graphics_Unload_5EA500()
+EXPORT void __stdcall GBH_Graphics_Unload()
 {
-    FreeLibrary(gGbhDllHandle_7085D8);
-    pgbh_InitDLL = reinterpret_cast<T_gbh_InitDLL>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_CloseDLL = static_cast<T_gbh_CloseDLL>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_Init = reinterpret_cast<T_gbh_Init>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_DrawTile = reinterpret_cast<T_gbh_DrawTile>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_DrawQuad = reinterpret_cast<T_gbh_DrawQuad>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_DrawQuadClipped = reinterpret_cast<T_gbh_DrawQuadClipped>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_DrawTriangle = reinterpret_cast<T_gbh_DrawTriangle>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_Plot = reinterpret_cast<T_gbh_Plot>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_SetWindow = reinterpret_cast<T_gbh_SetWindow>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_PrintBitmap = reinterpret_cast<T_gbh_PrintBitmap>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_SetColourDepth = reinterpret_cast<T_gbh_SetColourDepth>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_GetGlobals = reinterpret_cast<T_gbh_GetGlobals>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_ConvertColour = reinterpret_cast<T_gbh_ConvertColour>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_RegisterTexture = reinterpret_cast<T_gbh_RegisterTexture>(GBH_Graphics_Stub_5EA4D0);
-    pConvertColourBank = reinterpret_cast<T_ConvertColourBank>(GBH_Graphics_Stub_5EA4D0);
-    pDrawLine = reinterpret_cast<FARPROC>(GBH_Graphics_Stub_5EA4D0);
-    pMakeScreenTable = reinterpret_cast<T_MakeScreenTable>(GBH_Graphics_Stub_5EA4D0);
-    pSetShadeTableA = reinterpret_cast<T_SetShadeTableA>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_GetUsedCache = reinterpret_cast<T_gbh_GetUsedCache>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_SetCamera = reinterpret_cast<T_gbh_SetCamera>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_ResetLights = static_cast<T_gbh_ResetLights>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_AddLight = reinterpret_cast<T_gbh_AddLight>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_SetAmbient = reinterpret_cast<T_gbh_SetAmbient>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_InitImageTable = reinterpret_cast<T_gbh_InitImageTable>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_FreeImageTable = reinterpret_cast<T_gbh_FreeImageTable>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_LoadImage = reinterpret_cast<T_gbh_LoadImage>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_BlitImage = reinterpret_cast<T_gbh_BlitImage>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_BlitBuffer = reinterpret_cast<T_gbh_BlitBuffer>(GBH_Graphics_Stub_5EA4D0);
-    pgbh_DrawFlatRect = reinterpret_cast<T_gbh_DrawFlatRect>(GBH_Graphics_Stub_5EA4D0);
+    FreeLibrary(gGbhDllHandle);
+    pgbh_InitDLL = reinterpret_cast<T_gbh_InitDLL>(GBH_Graphics_Stub);
+    pgbh_CloseDLL = static_cast<T_gbh_CloseDLL>(GBH_Graphics_Stub);
+    pgbh_Init = reinterpret_cast<T_gbh_Init>(GBH_Graphics_Stub);
+    pgbh_DrawTile = reinterpret_cast<T_gbh_DrawTile>(GBH_Graphics_Stub);
+    pgbh_DrawQuad = reinterpret_cast<T_gbh_DrawQuad>(GBH_Graphics_Stub);
+    pgbh_DrawQuadClipped = reinterpret_cast<T_gbh_DrawQuadClipped>(GBH_Graphics_Stub);
+    pgbh_DrawTriangle = reinterpret_cast<T_gbh_DrawTriangle>(GBH_Graphics_Stub);
+    pgbh_Plot = reinterpret_cast<T_gbh_Plot>(GBH_Graphics_Stub);
+    pgbh_SetWindow = reinterpret_cast<T_gbh_SetWindow>(GBH_Graphics_Stub);
+    pgbh_PrintBitmap = reinterpret_cast<T_gbh_PrintBitmap>(GBH_Graphics_Stub);
+    pgbh_SetColourDepth = reinterpret_cast<T_gbh_SetColourDepth>(GBH_Graphics_Stub);
+    pgbh_GetGlobals = reinterpret_cast<T_gbh_GetGlobals>(GBH_Graphics_Stub);
+    pgbh_ConvertColour = reinterpret_cast<T_gbh_ConvertColour>(GBH_Graphics_Stub);
+    pgbh_RegisterTexture = reinterpret_cast<T_gbh_RegisterTexture>(GBH_Graphics_Stub);
+    pConvertColourBank = reinterpret_cast<T_ConvertColourBank>(GBH_Graphics_Stub);
+    pDrawLine = reinterpret_cast<FARPROC>(GBH_Graphics_Stub);
+    pMakeScreenTable = reinterpret_cast<T_MakeScreenTable>(GBH_Graphics_Stub);
+    pSetShadeTableA = reinterpret_cast<T_SetShadeTableA>(GBH_Graphics_Stub);
+    pgbh_GetUsedCache = reinterpret_cast<T_gbh_GetUsedCache>(GBH_Graphics_Stub);
+    pgbh_SetCamera = reinterpret_cast<T_gbh_SetCamera>(GBH_Graphics_Stub);
+    pgbh_ResetLights = static_cast<T_gbh_ResetLights>(GBH_Graphics_Stub);
+    pgbh_AddLight = reinterpret_cast<T_gbh_AddLight>(GBH_Graphics_Stub);
+    pgbh_SetAmbient = reinterpret_cast<T_gbh_SetAmbient>(GBH_Graphics_Stub);
+    pgbh_InitImageTable = reinterpret_cast<T_gbh_InitImageTable>(GBH_Graphics_Stub);
+    pgbh_FreeImageTable = reinterpret_cast<T_gbh_FreeImageTable>(GBH_Graphics_Stub);
+    pgbh_LoadImage = reinterpret_cast<T_gbh_LoadImage>(GBH_Graphics_Stub);
+    pgbh_BlitImage = reinterpret_cast<T_gbh_BlitImage>(GBH_Graphics_Stub);
+    pgbh_BlitBuffer = reinterpret_cast<T_gbh_BlitBuffer>(GBH_Graphics_Stub);
+    pgbh_DrawFlatRect = reinterpret_cast<T_gbh_DrawFlatRect>(GBH_Graphics_Stub);
 }
 
 MATCH_FUNC(0x5EA640)
-EXPORT s32 GBH_Graphics_Free_5EA640()
+EXPORT s32 GBH_Graphics_Free()
 {
-    if (!gGBH_GraphicsLoaded_7085E0)
+    if (!gGBH_GraphicsLoaded)
     {
         return 0;
     }
 
-    gGBH_GraphicsLoaded_7085E0 = 0;
+    gGBH_GraphicsLoaded = 0;
     pgbh_CloseDLL();
-    GBH_Graphics_Unload_5EA500();
+    GBH_Graphics_Unload();
     return 0;
 }
 
 #define load_gbh_func(varName, varType, funcName)                      \
-    varName = reinterpret_cast<varType>(GetProcAddress(gGbhDllHandle_7085D8, funcName)); \
+    varName = reinterpret_cast<varType>(GetProcAddress(gGbhDllHandle, funcName)); \
     if (!varName)                                                      \
     {                                                                  \
         char_type msg[120];                                            \
         sprintf(msg, "Can't Find Function Called %s", funcName);       \
         MessageBoxA(NULL, msg, "Error Patching DLL Function", MB_OK);    \
-        FreeLibrary(gGbhDllHandle_7085D8);                             \
+        FreeLibrary(gGbhDllHandle);                             \
         return -1;                                                     \
     }
 
 MATCH_FUNC(0x5EA680)
-EXPORT s32 __stdcall GBH_GraphicsLoadDll_5EA680(const char_type* lpLibFileName)
+EXPORT s32 __stdcall GBH_GraphicsLoadDll(const char_type* lpLibFileName)
 {
     char_type msg[126];
     if (!lpLibFileName)
@@ -125,8 +125,8 @@ EXPORT s32 __stdcall GBH_GraphicsLoadDll_5EA680(const char_type* lpLibFileName)
         return 0;
     }
 
-    gGbhDllHandle_7085D8 = LoadLibraryA(lpLibFileName);
-    if (gGbhDllHandle_7085D8)
+    gGbhDllHandle = LoadLibraryA(lpLibFileName);
+    if (gGbhDllHandle)
     {
         load_gbh_func(pgbh_InitDLL, T_gbh_InitDLL, "gbh_InitDLL");
         load_gbh_func(pgbh_CloseDLL, T_gbh_CloseDLL, "gbh_CloseDLL");
@@ -179,18 +179,18 @@ EXPORT s32 __stdcall GBH_GraphicsLoadDll_5EA680(const char_type* lpLibFileName)
 }
 
 MATCH_FUNC(0x5EB680)
-EXPORT s32 __stdcall GBH_GraphicsLoad_5EB680(const char_type* lpLibFileName, SVideo* pVidSys)
+EXPORT s32 __stdcall GBH_GraphicsLoad(const char_type* lpLibFileName, SVideo* pVidSys)
 {
-    const s32 error = GBH_GraphicsLoadDll_5EA680(lpLibFileName);
+    const s32 error = GBH_GraphicsLoadDll(lpLibFileName);
     if (error)
     {
         return error;
     }
 
     pgbh_InitDLL(pVidSys);
-    gpGBH_Globals_7085E4 = pgbh_GetGlobals();
+    gpGBH_Globals = pgbh_GetGlobals();
 
-    gGBH_GraphicsLoaded_7085E0 = 1;
+    gGBH_GraphicsLoaded = 1;
 
     return 0;
 }

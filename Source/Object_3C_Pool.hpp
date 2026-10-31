@@ -18,4 +18,4 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Object_3C_Pool, 0x5A40)
 
 typedef Object_3C_Pool TObject_3C_Pool;
 
-EXTERN_GLOBAL(TObject_3C_Pool*, gObject_3C_Pool_6F8F7C);
+EXTERN_GLOBAL(TObject_3C_Pool*, gObject_3C_Pool);

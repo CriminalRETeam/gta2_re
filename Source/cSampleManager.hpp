@@ -5,12 +5,12 @@
 
 struct SdtEntry
 {
-    s32 field_0_offset;
-    s32 field_4_sample_length;
-    s32 field_8_playBackRate;
-    s32 field_C_random_displacement;
-    s32 field_10_loop_start;
-    s32 field_14_loop_end; // -1 = end of sample
+    s32 mOffset; // 0x0
+    s32 mSampleLength; // 0x4
+    s32 mPlayBackRate; // 0x8
+    s32 mRandomDisplacement; // 0xC
+    s32 mLoopStart; // 0x10
+    s32 mLoopEnd; // 0x14: -1 = end of sample
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SdtEntry, 0x18);
 
@@ -20,171 +20,167 @@ class cSampleManager
     EXPORT cSampleManager();
 
   private:
-    EXPORT bool DisableA3DSplash_58D620();
+    EXPORT bool DisableA3DSplash();
 
   public:
-    EXPORT bool SoundInit_58D6C0(s32* not_used);
+    EXPORT bool SoundInit(s32* not_used);
 
   private:
-    EXPORT bool OpenDigitalDriver_58D720(bool b16Bit, bool bStereo, s32 sampleRate);
+    EXPORT bool OpenDigitalDriver(bool b16Bit, bool bStereo, s32 sampleRate);
 
   public:
-    // todo: order
+    EXPORT bool AllocSamples(s32 not_used);
 
-    EXPORT bool AllocSamples_58D9F0(s32 not_used);
+    EXPORT void PlaySampleRange(u32 idx, u32 end_idx);
 
-    EXPORT void PlaySampleRange_58E8C0(u32 idx, u32 end_idx);
-
-    EXPORT bool Init3DProvider_58D820(u8* pMaxSamples);
+    EXPORT bool Init3DProvider(u8* pMaxSamples);
 
   private:
-    EXPORT void Reset3DSamples_58D960();
+    EXPORT void Reset3DSamples();
 
-    EXPORT void AllocSample_58DA80();
+    EXPORT void AllocSample();
 
-    EXPORT void ReleaseSample_58DAC0();
+    EXPORT void ReleaseSample();
 
-    EXPORT void Terminate_58DAE0();
+    EXPORT void Terminate();
 
   public:
-    EXPORT void Shutdown_58DB30();
+    EXPORT void Shutdown();
 
-    EXPORT s32 GetPlayBackRate_58DBF0(s32 idx) const;
+    EXPORT s32 GetPlayBackRate(s32 idx) const;
 
-    EXPORT s32 GetRandomDisplacement_58DC10(s32 idx) const;
+    EXPORT s32 GetRandomDisplacement(s32 idx) const;
 
-    EXPORT s32 GetLoopStart_58DC30(s32 sample_idx) const;
+    EXPORT s32 GetLoopStart(s32 sample_idx) const;
 
-    EXPORT s32 GetLoopEnd_58DC50(s32 sample_idx) const;
+    EXPORT s32 GetLoopEnd(s32 sample_idx) const;
 
-    EXPORT s32 GetSampleLength_58DC70(s32 sample_idx) const;
+    EXPORT s32 GetSampleLength(s32 sample_idx) const;
 
-    EXPORT void InitialiseChannel_58DC90(s32 channel, s32 sample_idx);
+    EXPORT void InitialiseChannel(s32 channel, s32 sample_idx);
 
-    EXPORT void SetChannelVolume_58DCE0(s32 channel, s32 volume);
+    EXPORT void SetChannelVolume(s32 channel, s32 volume);
 
-    EXPORT void SetChannelPan_58DD00(s32 channel, s32 pan);
+    EXPORT void SetChannelPan(s32 channel, s32 pan);
 
-    EXPORT void SetChannelFrequency_58DD20(s32 channel, s32 frequency);
+    EXPORT void SetChannelFrequency(s32 channel, s32 frequency);
 
-    EXPORT void SetChannelLoopPoints_58DD40(s32 channel, s32 startOffset, s32 endOffset);
+    EXPORT void SetChannelLoopPoints(s32 channel, s32 startOffset, s32 endOffset);
 
-    EXPORT void SetChannelLoopCount_58DD60(s32 channel, s32 loopCount);
+    EXPORT void SetChannelLoopCount(s32 channel, s32 loopCount);
 
-    EXPORT bool GetChannelUsedFlag_58DD80(s32 channel) const;
+    EXPORT bool GetChannelUsedFlag(s32 channel) const;
 
-    EXPORT void StartChannel_58DDB0(s32 channel);
+    EXPORT void StartChannel(s32 channel);
 
-    EXPORT void StopChannel_58DDD0(s32 channel);
+    EXPORT void StopChannel(s32 channel);
 
-    EXPORT bool InitialiseChannel3D_58DDF0(s32 channel, s32 nSfx, s32 rate);
+    EXPORT bool InitialiseChannel3D(s32 channel, s32 nSfx, s32 rate);
 
-    EXPORT void SetChannel3DVolume_58DE80(s32 idx, s32 vol);
+    EXPORT void SetChannel3DVolume(s32 idx, s32 vol);
 
-    EXPORT void SetChannel3DPosition_58DEA0(s32 channel, f32 x, f32 y, f32 z);
+    EXPORT void SetChannel3DPosition(s32 channel, f32 x, f32 y, f32 z);
 
-    EXPORT void SetChannel3DDistances_58DED0(s32 channel, f32 maxDist, f32 minDist);
+    EXPORT void SetChannel3DDistances(s32 channel, f32 maxDist, f32 minDist);
 
-    EXPORT void SetChannel3DFrequency_58DF00(s32 channel, s32 freq);
+    EXPORT void SetChannel3DFrequency(s32 channel, s32 freq);
 
-    EXPORT void SetChannel3DLoopPoints_58DF20(s32 channel, s32 loop_start, s32 loop_end);
+    EXPORT void SetChannel3DLoopPoints(s32 channel, s32 loop_start, s32 loop_end);
 
-    EXPORT void SetChannel3DLoopCount_58DF50(s32 channel, s32 loop_count);
+    EXPORT void SetChannel3DLoopCount(s32 channel, s32 loop_count);
 
-    EXPORT bool GetChannel3DUsedFlag_58DF70(s32 channel) const;
+    EXPORT bool GetChannel3DUsedFlag(s32 channel) const;
 
-    EXPORT void StartChannel3D_58DFA0(s32 samp_idx);
+    EXPORT void StartChannel3D(s32 samp_idx);
 
-    EXPORT void StopChannel3D_58DFC0(s32 samp_idx);
+    EXPORT void StopChannel3D(s32 samp_idx);
 
-    EXPORT u8 Get3DSampleCount_58E000() const;
+    EXPORT u8 Get3DSampleCount() const;
 
   private:
-    EXPORT void SetEaxEnvironment_58E010(s32 env_idx);
+    EXPORT void SetEaxEnvironment(s32 env_idx);
 
-    EXPORT bool Open3DProvider_58E140(s32 provider_idx);
+    EXPORT bool Open3DProvider(s32 provider_idx);
 
-    // todo order
-    EXPORT void Close3DProvider_58E1C0();
+    EXPORT void Close3DProvider();
 
-    // todo order
-    EXPORT void Enum3DProviders_58E1F0();
+    EXPORT void Enum3DProviders();
 
   public:
     // order func
 
-    EXPORT bool StreamStatus_58E2C0() const;
+    EXPORT bool StreamStatus() const;
 
-    EXPORT void StreamSetVolume_58E2F0(u8 vol);
+    EXPORT void StreamSetVolume(u8 vol);
 
-    EXPORT void OpenStream_58E320(u32 stream_idx);
+    EXPORT void OpenStream(u32 stream_idx);
 
-    EXPORT void CloseStream_58E460();
+    EXPORT void CloseStream();
 
-    EXPORT void FadeOut_58E490();
+    EXPORT void FadeOut();
 
-    EXPORT bool MusicFileExists_58E500() const;
+    EXPORT bool MusicFileExists() const;
 
-    EXPORT void PlayVocal_58E510(s32 stream_idx, s32 voc_idx, bool bMainVariant);
+    EXPORT void PlayVocal(s32 stream_idx, s32 voc_idx, bool bMainVariant);
 
-    EXPORT void CloseVocalStream_58E6A0(s32 stream_idx);
+    EXPORT void CloseVocalStream(s32 stream_idx);
 
-    EXPORT void SetVocalVolume_58E6D0(s32 stream_idx, u8 vol);
+    EXPORT void SetVocalVolume(s32 stream_idx, u8 vol);
 
-    EXPORT void SetVocalSpeed_58E700(s32 stream_idx, s32 playbackRate);
+    EXPORT void SetVocalSpeed(s32 stream_idx, s32 playbackRate);
 
-    EXPORT s32 GetVocalSpeed_58E720(s32 stream_idx) const;
+    EXPORT s32 GetVocalSpeed(s32 stream_idx) const;
 
-    EXPORT void SetVocalPosMs_58E750(s32 stream_idx, s32 ms_pos);
+    EXPORT void SetVocalPosMs(s32 stream_idx, s32 ms_pos);
 
-    EXPORT s32 GetVocalPosMs_58E770(long stream_idx) const;
+    EXPORT s32 GetVocalPosMs(long stream_idx) const;
 
-    EXPORT s32 GetVocalLengthMs_58E7A0(long stream_idx) const;
+    EXPORT s32 GetVocalLengthMs(long stream_idx) const;
 
-    EXPORT void SetSampleVol_58E7D0(u8 vol);
+    EXPORT void SetSampleVol(u8 vol);
 
-    EXPORT void PlayAtIdx_58E7F0(s32 idx);
+    EXPORT void PlayAtIdx(s32 idx);
 
-    EXPORT bool SampleNotDone_58E880() const;
+    EXPORT bool SampleNotDone() const;
     
     EXPORT void EndSample_58E8A0();
 
     EXPORT void EndSample_58E960();
 
-    EXPORT bool LoadWavSdtData_58E980(const char_type* pRawOrSdtName);
+    EXPORT bool LoadWavSdtData(const char_type* pRawOrSdtName);
 
-    EXPORT bool Reacquire_58E2A0();
+    EXPORT bool Reacquire();
 
-    EXPORT void Release_58E290();
+    EXPORT void Release();
 
-    HDIGDRIVER field_0_hDriver;
-    char_type field_4_gtaAudioDriveLetter;
+    HDIGDRIVER mhDriver; // 0x0
+    char_type mGtaAudioDriveLetter; // 0x4
 
   private:
-    char_type field_5_str[80];
-    bool field_55_bMusicFound;
-    HSAMPLE field_58_hSamples[16];
-    HSAMPLE field_98_hSample;
-    HSTREAM field_9C_hStreams[2];
-    bool field_A4_bLoaded;
-    SdtEntry field_A8_sdt_entries[320];
-    void* field_1EA8_pAudioBuffer1;
-    void* field_1EAC_pAudioBuffer2;
-    u8 field_1EB0_count_samples;
-    u8 field_1EB1_bytes_per_sample;
-    u8 field_1EB2_3d_samp_count;
-    HPROVIDER field_1EB4_h3dProvider[256];
-    char_type* field_22B4_str[256];
-    s32 field_26B4_3d_provider_idx;
-    s32 field_26B8_bEaxSupported;
-    s32 field_26BC_eax_environment;
-    s32 field_26C0_3d_provider;
-    H3DSAMPLE field_26C4_3d_sample[16];
-    f32 field_2704_float;
-    f32 field_2708_float;
-    f32 field_270C_float;
-    s32 field_2710_3d_provider_count;
-    bool field_2714_is_stereo;
+    char_type mStr5[80]; // 0x5
+    bool mbMusicFound; // 0x55
+    HSAMPLE mhSamples[16]; // 0x58
+    HSAMPLE mhSample; // 0x98
+    HSTREAM mhStreams[2]; // 0x9C
+    bool mbLoaded; // 0xA4
+    SdtEntry mSdtEntries[320]; // 0xA8
+    void* mpAudioBuffer1; // 0x1EA8
+    void* mpAudioBuffer2; // 0x1EAC
+    u8 mCountSamples; // 0x1EB0
+    u8 mBytesPerSample; // 0x1EB1
+    u8 m3dSampCount; // 0x1EB2
+    HPROVIDER mH3dProvider[256]; // 0x1EB4
+    char_type* mStr22B4[256]; // 0x22B4
+    s32 m3dProviderIdx; // 0x26B4
+    s32 mbEaxSupported; // 0x26B8
+    s32 mEaxEnvironment; // 0x26BC
+    s32 m3dProvider; // 0x26C0
+    H3DSAMPLE m3dSample[16]; // 0x26C4
+    f32 mFloat2704; // 0x2704
+    f32 mFloat2708; // 0x2708
+    f32 mFloat270C; // 0x270C
+    s32 m3dProviderCount; // 0x2710
+    bool mIsStereo; // 0x2714
 };
 
-EXTERN_GLOBAL(cSampleManager, gSampManager_6FFF00);
+EXTERN_GLOBAL(cSampleManager, gSampManager);

@@ -10,17 +10,17 @@
 #include <windows.h>
 #include <mmsystem.h>
 
-DEFINE_GLOBAL(FrameProfiler*, gMike_A80_6F7328, 0x6F7328);
+DEFINE_GLOBAL(FrameProfiler*, gMike_A80, 0x6F7328);
 
 MATCH_FUNC(0x4ff1b0)
-void FrameProfiler::Init_4FF1B0()
+void FrameProfiler::Init()
 {
-    field_A78_history_idx = 0;
-    field_A7C_count = 0;
+    mHistoryIdx = 0;
+    mCount = 0;
 }
 
 MATCH_FUNC(0x4ff1c0)
-s32 FrameProfiler::sDrawFlatRect_4FF1C0(f32 left, f32 top, f32 right, f32 bottom, s32 colour)
+s32 FrameProfiler::sDrawFlatRect(f32 left, f32 top, f32 right, f32 bottom, s32 colour)
 {
     Vert verts[4];
     verts[0].x = left;
@@ -38,24 +38,23 @@ s32 FrameProfiler::sDrawFlatRect_4FF1C0(f32 left, f32 top, f32 right, f32 bottom
     return pgbh_DrawFlatRect(verts, colour);
 }
 
-EXTERN_GLOBAL(u32, gBufferMode_706B34);
-EXTERN_GLOBAL(s32, gDisplayDraw_67B57C);
-EXTERN_GLOBAL(s32, gDisplayAdd_67B578);
-EXPORT s32 __stdcall ConvertCycleCount_5BEED0(s32 cycles);
-
-DEFINE_GLOBAL(u32, gMemTotal_6F7360, 0x6F7360);
-DEFINE_GLOBAL(s32, gMemTotalCounter_6F7550, 0x6F7550);
-DEFINE_GLOBAL(s32, gLargeFrameTimer_6F754C, 0x6F754C);
+EXTERN_GLOBAL(u32, gBufferMode);
+EXTERN_GLOBAL(s32, gDisplayDraw);
+EXTERN_GLOBAL(s32, gDisplayAdd);
+EXPORT s32 __stdcall ConvertCycleCount(s32 cycles);
 
 MATCH_FUNC(0x4ff250)
-void FrameProfiler::DebugDrawProfiling_4FF250()
+void FrameProfiler::DebugDrawProfiling()
 {
+    LOCAL_STATIC(s32, sLargeFrameTimer, 0x6F754C);
+    LOCAL_STATIC(s32, sMemTotalCounter, 0x6F7550);
+    LOCAL_STATIC(u32, sMemTotal, 0x6F7360);
     s32 total_textures_used = 0;
     s32 total_texture_bytes = 0;
     s32 tex_counts[12];
     s32 cache_used[12];
 
-    if (gBufferMode_706B34 == 0)
+    if (gBufferMode == 0)
     {
         return;
     }
@@ -79,141 +78,140 @@ void FrameProfiler::DebugDrawProfiling_4FF250()
     {
         s32 size = 8 << (ypos < 140 ? row : row - 6);
 
-        swprintf(tmpBuff_67BD9C, L"%d", size);
-        DrawText_4B87A0(tmpBuff_67BD9C, 0, ypos, gStyleTextFont_703BAA, 1);
-        swprintf(tmpBuff_67BD9C, L"%d", pGlobals[4 + row]);
-        DrawText_4B87A0(tmpBuff_67BD9C, 50, ypos, gStyleTextFont_703BAA, 1);
-        swprintf(tmpBuff_67BD9C, L"%d", pGlobals[16 + row]);
-        DrawText_4B87A0(tmpBuff_67BD9C, 100, ypos, gStyleTextFont_703BAA, 1);
-        swprintf(tmpBuff_67BD9C, L"%d", tex_counts[row]);
-        DrawText_4B87A0(tmpBuff_67BD9C, 150, ypos, gStyleTextFont_703BAA, 1);
-        swprintf(tmpBuff_67BD9C, L"%d", cache_used[row]);
-        DrawText_4B87A0(tmpBuff_67BD9C, 200, ypos, gStyleTextFont_703BAA, 1);
+        swprintf(tmpBuff, L"%d", size);
+        DrawStringDefaultPalette(tmpBuff, 0, ypos, gStyleTextFont, 1);
+        swprintf(tmpBuff, L"%d", pGlobals[4 + row]);
+        DrawStringDefaultPalette(tmpBuff, 50, ypos, gStyleTextFont, 1);
+        swprintf(tmpBuff, L"%d", pGlobals[16 + row]);
+        DrawStringDefaultPalette(tmpBuff, 100, ypos, gStyleTextFont, 1);
+        swprintf(tmpBuff, L"%d", tex_counts[row]);
+        DrawStringDefaultPalette(tmpBuff, 150, ypos, gStyleTextFont, 1);
+        swprintf(tmpBuff, L"%d", cache_used[row]);
+        DrawStringDefaultPalette(tmpBuff, 200, ypos, gStyleTextFont, 1);
 
         total_textures_used += pGlobals[16 + row];
         total_texture_bytes += pGlobals[16 + row] * size * size * 2;
         row++;
     }
 
-    sDrawString_4FF910(0, 280, L"Total Num Textures %d - %d bytes", total_textures_used, total_texture_bytes);
+    sDrawString(0, 280, L"Total Num Textures %d - %d bytes", total_textures_used, total_texture_bytes);
 
-    swprintf(tmpBuff_67BD9C, L"Polys Drawn:");
-    DrawText_4B87A0(tmpBuff_67BD9C, 0, 300, gStyleTextFont_703BAA, 1);
-    swprintf(tmpBuff_67BD9C, L"%d", polys_drawn);
-    DrawText_4B87A0(tmpBuff_67BD9C, 180, 300, gStyleTextFont_703BAA, 1);
+    swprintf(tmpBuff, L"Polys Drawn:");
+    DrawStringDefaultPalette(tmpBuff, 0, 300, gStyleTextFont, 1);
+    swprintf(tmpBuff, L"%d", polys_drawn);
+    DrawStringDefaultPalette(tmpBuff, 180, 300, gStyleTextFont, 1);
 
-    swprintf(tmpBuff_67BD9C, L"TextureUsed: ");
-    DrawText_4B87A0(tmpBuff_67BD9C, 0, 320, gStyleTextFont_703BAA, 1);
-    swprintf(tmpBuff_67BD9C, L"%d", total_cache_used);
-    DrawText_4B87A0(tmpBuff_67BD9C, 180, 320, gStyleTextFont_703BAA, 1);
+    swprintf(tmpBuff, L"TextureUsed: ");
+    DrawStringDefaultPalette(tmpBuff, 0, 320, gStyleTextFont, 1);
+    swprintf(tmpBuff, L"%d", total_cache_used);
+    DrawStringDefaultPalette(tmpBuff, 180, 320, gStyleTextFont, 1);
 
-    swprintf(tmpBuff_67BD9C, L"Cache Misses:");
-    DrawText_4B87A0(tmpBuff_67BD9C, 0, 340, gStyleTextFont_703BAA, 1);
-    swprintf(tmpBuff_67BD9C, L"%d", total_tex_count);
-    DrawText_4B87A0(tmpBuff_67BD9C, 180, 340, gStyleTextFont_703BAA, 1);
+    swprintf(tmpBuff, L"Cache Misses:");
+    DrawStringDefaultPalette(tmpBuff, 0, 340, gStyleTextFont, 1);
+    swprintf(tmpBuff, L"%d", total_tex_count);
+    DrawStringDefaultPalette(tmpBuff, 180, 340, gStyleTextFont, 1);
 
-    swprintf(tmpBuff_67BD9C, L"TextureSwaps:");
-    DrawText_4B87A0(tmpBuff_67BD9C, 0, 360, gStyleTextFont_703BAA, 1);
-    swprintf(tmpBuff_67BD9C, L"%d", texture_swaps);
-    DrawText_4B87A0(tmpBuff_67BD9C, 180, 360, gStyleTextFont_703BAA, 1);
+    swprintf(tmpBuff, L"TextureSwaps:");
+    DrawStringDefaultPalette(tmpBuff, 0, 360, gStyleTextFont, 1);
+    swprintf(tmpBuff, L"%d", texture_swaps);
+    DrawStringDefaultPalette(tmpBuff, 180, 360, gStyleTextFont, 1);
 
-    if (++gMemTotalCounter_6F7550 > 100)
+    if (++sMemTotalCounter > 100)
     {
-        GetMemTotal_4FF970(&gMemTotal_6F7360);
-        gMemTotalCounter_6F7550 = 0;
+        GetMemTotal(&sMemTotal);
+        sMemTotalCounter = 0;
     }
-    sDrawString_4FF910(0, 380, L"Mem Total %5d", gMemTotal_6F7360);
+    sDrawString(0, 380, L"Mem Total %5d", sMemTotal);
 
-    s32 total = field_28_process_avg.Average() + field_A8_draw_avg.Average() + field_128_render_avg.Average() +
-        field_228_audio_avg.Average() + field_1A8_input_avg.Average();
-    sDrawString_4FF910(280, 20, L"Process %3d", field_28_process_avg.Average());
-    sDrawString_4FF910(280, 40, L"Draw    %3d", field_A8_draw_avg.Average());
-    sDrawString_4FF910(280, 60, L"Render  %3d", field_128_render_avg.Average());
-    sDrawString_4FF910(280, 80, L"Audio   %3d", field_228_audio_avg.Average());
-    sDrawString_4FF910(280, 100, L"Input   %3d", field_1A8_input_avg.Average());
-    sDrawString_4FF910(280, 120, L"Total   %3d", total);
+    s32 total = mProcessAvg.Average() + mDrawAvg.Average() + mRenderAvg.Average() +
+        mAudioAvg.Average() + mInputAvg.Average();
+    sDrawString(280, 20, L"Process %3d", mProcessAvg.Average());
+    sDrawString(280, 40, L"Draw    %3d", mDrawAvg.Average());
+    sDrawString(280, 60, L"Render  %3d", mRenderAvg.Average());
+    sDrawString(280, 80, L"Audio   %3d", mAudioAvg.Average());
+    sDrawString(280, 100, L"Input   %3d", mInputAvg.Average());
+    sDrawString(280, 120, L"Total   %3d", total);
 
-    s32 large_timer = total > 30 ? 15 : gLargeFrameTimer_6F754C;
+    s32 large_timer = total > 30 ? 15 : sLargeFrameTimer;
     if (large_timer)
     {
-        gLargeFrameTimer_6F754C = large_timer - 1;
-        sDrawString_4FF910(280, 140, L"LARGE");
+        sLargeFrameTimer = large_timer - 1;
+        sDrawString(280, 140, L"LARGE");
     }
 
-    s32 display_add = ConvertCycleCount_5BEED0(gDisplayAdd_67B578);
-    s32 display_draw = ConvertCycleCount_5BEED0(gDisplayDraw_67B57C);
-    // TODO: the format strings at 0x621100 and 0x6210DC are guesses
-    sDrawString_4FF910(280, 160, L"DisplayAdd   %3d", display_add);
-    sDrawString_4FF910(280, 180, L"DisplayDraw  %3d", display_draw);
-    gDisplayAdd_67B578 = 0;
-    gDisplayDraw_67B57C = 0;
+    s32 display_add = ConvertCycleCount(gDisplayAdd);
+    s32 display_draw = ConvertCycleCount(gDisplayDraw);
+    sDrawString(280, 160, L"DisplayAdd   %3d", display_add);
+    sDrawString(280, 180, L"DisplayDraw  %3d", display_draw);
+    gDisplayAdd = 0;
+    gDisplayDraw = 0;
 
-    DrawProfileHistory_4FFD90();
+    DrawProfileHistory();
 }
 
 MATCH_FUNC(0x4ff910)
-void FrameProfiler::sDrawString_4FF910(s32 xpos, s32 ypos, const wchar_t* pFormat, ...)
+void FrameProfiler::sDrawString(s32 xpos, s32 ypos, const wchar_t* pFormat, ...)
 {
     wchar_t buffer[240];
     va_list args;
     va_start(args, pFormat);
     vswprintf(buffer, pFormat, args);
-    DrawText_4B87A0(buffer, xpos, ypos, gStyleTextFont_703BAA, 1);
+    DrawStringDefaultPalette(buffer, xpos, ypos, gStyleTextFont, 1);
 }
 
 MATCH_FUNC(0x4ff970)
-void __stdcall FrameProfiler::GetMemTotal_4FF970(u32* pValue)
+void __stdcall FrameProfiler::GetMemTotal(u32* pValue)
 {
     *pValue = 0;
 }
 
 MATCH_FUNC(0x4ff980)
-void FrameProfiler::Service_4FF980()
+void FrameProfiler::Service()
 {
 }
 
 MATCH_FUNC(0x4ff990)
-void FrameProfiler::StartProfileTimer_4FF990(u32 idx)
+void FrameProfiler::StartProfileTimer(u32 idx)
 {
     switch (idx)
     {
         case 0:
-            field_0_process_watch.field_0_start_time = GetTickCount();
+            mProcessWatch.mStartTime = GetTickCount();
             break;
         case 1:
-            field_8_draw_watch.field_0_start_time = GetTickCount();
+            mDrawWatch.mStartTime = GetTickCount();
             break;
         case 2:
-            field_18_input_watch.field_0_start_time = GetTickCount();
+            mInputWatch.mStartTime = GetTickCount();
             break;
         case 3:
-            field_20_audio_watch.field_0_start_time = GetTickCount();
+            mAudioWatch.mStartTime = GetTickCount();
             break;
     }
 }
 
 MATCH_FUNC(0x4ff9f0)
-void FrameProfiler::StopProfileTimer_4FF9F0(u32 idx)
+void FrameProfiler::StopProfileTimer(u32 idx)
 {
     switch (idx)
     {
         case 0:
-            field_0_process_watch.field_4_end_time = GetTickCount();
+            mProcessWatch.mEndTime = GetTickCount();
             break;
         case 1:
-            field_8_draw_watch.field_4_end_time = GetTickCount();
+            mDrawWatch.mEndTime = GetTickCount();
             break;
         case 2:
-            field_18_input_watch.field_4_end_time = GetTickCount();
+            mInputWatch.mEndTime = GetTickCount();
             break;
         case 3:
-            field_20_audio_watch.field_4_end_time = GetTickCount();
+            mAudioWatch.mEndTime = GetTickCount();
             break;
     }
 }
 
 MATCH_FUNC(0x4ffa50)
-void FrameProfiler::DebugPrintf_4FFA50(const char_type* pFormat, ...)
+void FrameProfiler::DebugPrintf(const char_type* pFormat, ...)
 {
     char_type buffer[240];
     va_list args;
@@ -223,12 +221,12 @@ void FrameProfiler::DebugPrintf_4FFA50(const char_type* pFormat, ...)
 }
 
 MATCH_FUNC(0x4ffa90)
-void FrameProfiler::UpdateProfiling_4FFA90()
+void FrameProfiler::UpdateProfiling()
 {
-    s32 process_time = field_0_process_watch.TakeElapsed();
-    s32 draw_time = field_8_draw_watch.TakeElapsed();
-    s32 input_time = field_18_input_watch.TakeElapsed();
-    s32 audio_time = field_20_audio_watch.TakeElapsed();
+    s32 process_time = mProcessWatch.TakeElapsed();
+    s32 draw_time = mDrawWatch.TakeElapsed();
+    s32 input_time = mInputWatch.TakeElapsed();
+    s32 audio_time = mAudioWatch.TakeElapsed();
 
     if (process_time == 0 && draw_time == 0 && input_time == 0 && audio_time == 0)
     {
@@ -242,16 +240,16 @@ void FrameProfiler::UpdateProfiling_4FFA90()
         draw_time -= flip_time;
     }
 
-    field_2A8_process_history[field_A78_history_idx] = process_time;
-    field_438_draw_history[field_A78_history_idx] = draw_time;
-    field_5C8_render_history[field_A78_history_idx] = flip_time;
-    field_758_input_history[field_A78_history_idx] = input_time;
-    field_8E8_audio_history[field_A78_history_idx] = audio_time;
+    mProcessHistory[mHistoryIdx] = process_time;
+    mDrawHistory[mHistoryIdx] = draw_time;
+    mRenderHistory[mHistoryIdx] = flip_time;
+    mInputHistory[mHistoryIdx] = input_time;
+    mAudioHistory[mHistoryIdx] = audio_time;
 
     char_type buffer[240];
     if (process_time)
     {
-        field_28_process_avg.AddSample(process_time);
+        mProcessAvg.AddSample(process_time);
     }
     if (process_time > 15)
     {
@@ -261,7 +259,7 @@ void FrameProfiler::UpdateProfiling_4FFA90()
 
     if (draw_time)
     {
-        field_A8_draw_avg.AddSample(draw_time);
+        mDrawAvg.AddSample(draw_time);
     }
     if (draw_time > 15)
     {
@@ -271,12 +269,12 @@ void FrameProfiler::UpdateProfiling_4FFA90()
 
     if (flip_time)
     {
-        field_128_render_avg.AddSample(flip_time);
+        mRenderAvg.AddSample(flip_time);
     }
 
     if (input_time)
     {
-        field_1A8_input_avg.AddSample(input_time);
+        mInputAvg.AddSample(input_time);
     }
     if (input_time > 10)
     {
@@ -286,7 +284,7 @@ void FrameProfiler::UpdateProfiling_4FFA90()
 
     if (audio_time)
     {
-        field_228_audio_avg.AddSample(audio_time);
+        mAudioAvg.AddSample(audio_time);
     }
     // Checks input_time rather than audio_time
     if (input_time > 10)
@@ -302,31 +300,31 @@ void FrameProfiler::UpdateProfiling_4FFA90()
         OutputDebugStringA(buffer);
     }
 
-    if (++field_A78_history_idx >= 100)
+    if (++mHistoryIdx >= 100)
     {
-        field_A78_history_idx = 0;
+        mHistoryIdx = 0;
     }
-    field_A7C_count++;
+    mCount++;
 }
 
 MATCH_FUNC(0x4ffd90)
-void FrameProfiler::DrawProfileHistory_4FFD90()
+void FrameProfiler::DrawProfileHistory()
 {
-    s32 count = field_A7C_count < 100 ? field_A7C_count : 100;
+    s32 count = mCount < 100 ? mCount : 100;
 
     for (s32 i = 0; i < count; i++)
     {
-        s32 idx = field_A78_history_idx - i - 1;
+        s32 idx = mHistoryIdx - i - 1;
         if (idx < 0)
         {
             idx += 100;
         }
 
-        DrawProfileBar(6 * i, field_2A8_process_history[idx], 0xFF00);
-        DrawProfileBar(6 * i + 1, field_438_draw_history[idx], 0xFF0000);
-        DrawProfileBar(6 * i + 2, field_5C8_render_history[idx], 0xFF);
-        DrawProfileBar(6 * i + 3, field_758_input_history[idx], 0);
-        // Draws field_758_input_history again rather than field_8E8_audio_history
-        DrawProfileBar(6 * i + 4, field_758_input_history[idx], 0xFFFFFF);
+        DrawProfileBar(6 * i, mProcessHistory[idx], 0xFF00);
+        DrawProfileBar(6 * i + 1, mDrawHistory[idx], 0xFF0000);
+        DrawProfileBar(6 * i + 2, mRenderHistory[idx], 0xFF);
+        DrawProfileBar(6 * i + 3, mInputHistory[idx], 0);
+        // Draws mInputHistory again rather than mAudioHistory
+        DrawProfileBar(6 * i + 4, mInputHistory[idx], 0xFFFFFF);
     }
 }

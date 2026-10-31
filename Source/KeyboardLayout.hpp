@@ -10,23 +10,23 @@ class KeyboardLayout
 
     EXPORT ~KeyboardLayout();
 
-    EXPORT void ReadCfg_4D5DA0(FILE* Stream, wchar_t* pOut);
+    EXPORT void ReadCfg(FILE* Stream, wchar_t* pOut);
 
-    EXPORT void LoadKbCfg_4D5E00();
+    EXPORT void LoadKbCfg();
 
-    EXPORT wchar_t GetKey_4D5F40(u16 key_idx);
+    EXPORT wchar_t GetKey(u16 key_idx);
 
-    EXPORT static void __stdcall create_4D5F50();
+    EXPORT static void __stdcall create();
 
-    EXPORT static void destroy_4D5FA0();
+    EXPORT static void destroy();
 
-    EXPORT static void RecreateIfLayoutChanged_4D5FD0();
+    EXPORT static void RecreateIfLayoutChanged();
 
-    EXPORT static s32 __stdcall GetLayout_4D6000();
+    EXPORT static s32 __stdcall GetLayout();
 
-    s16 field_0_keys[256];
-    s32 field_200_keyBoardLayout;
+    s16 mKeys[256]; // 0x0
+    s32 mKeyBoardLayout; // 0x200
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(KeyboardLayout, 0x204);
 
-EXTERN_GLOBAL(KeyboardLayout*, gKeybrd_0x204_6F52F4);
+EXTERN_GLOBAL(KeyboardLayout*, gKeybrd_0x204);

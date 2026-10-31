@@ -20,44 +20,41 @@ enum
 
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_706A6C, Fix16(1), 0x706A6C);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_706C3C, Ang16(0), 0x706C3C);
-DEFINE_GLOBAL(QuadVerts, gQuadVerts_706B88, 0x706B88);
-EXTERN_GLOBAL(u32, gLightingDrawFlag_7068F4);
+DEFINE_STATIC_GLOBAL(QuadVerts, sQuadVerts, 0x706B88);
+EXTERN_GLOBAL(u32, gLightingDrawFlag);
 
-EXTERN_GLOBAL(s32, window_width_706630);
-EXTERN_GLOBAL(s32, window_height_706B50);
-
-DEFINE_GLOBAL(DWORD, gWindowRight_70675C, 0x70675C);
-DEFINE_GLOBAL(DWORD, gWindowBottom_70679C, 0x70679C);
+EXTERN_GLOBAL(s32, window_width);
+EXTERN_GLOBAL(s32, window_height);
 
 MATCH_FUNC(0x495470)
-void __stdcall DrawTextureScaled_495470(STexture* pTexture, Fix16 x_pos, Fix16 y_pos, u8 width, u8 height, Ang16 rotation, s32 alpha_value, u8 alpha_flag)
+void __stdcall DrawTextureScaled(STexture* pTexture, Fix16 x_pos, Fix16 y_pos, u8 width, u8 height, Ang16 rotation, s32 alpha_value, u8 alpha_flag)
 {
-    DrawTexture_5D8470(pTexture,
-               x_pos * gViewCamera_676978->field_A8_ui_scale,
-               y_pos * gViewCamera_676978->field_A8_ui_scale,
+    DrawTexture(pTexture,
+               x_pos * gViewCamera->mUiScale,
+               y_pos * gViewCamera->mUiScale,
                width,
                height,
                rotation,
-               gViewCamera_676978->field_A8_ui_scale,
+               gViewCamera->mUiScale,
                alpha_value,
                alpha_flag);
 }
 
 MATCH_FUNC(0x4B87A0)
-void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 fontType, Fix16 scale)
+void __stdcall DrawStringDefaultPalette(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 fontType, Fix16 scale)
 {
-    DrawText_5D8A10(pBuffer, xpos_fp, ypos_fp, fontType, scale, palette_types_enum::sprites_2, 0, 0, 0);
+    DrawString(pBuffer, xpos_fp, ypos_fp, fontType, scale, palette_types_enum::sprites_2, 0, 0, 0);
 }
 
 MATCH_FUNC(0x5D7670)
-void __stdcall DrawFigureScaled_5D7670(s32 sprite_type, s16 sprite_idx, Fix16 x_pos, Fix16 y_pos, Ang16 rotation, const s32& palette_type, s16 palette, s32 alpha_value, u8 flags)
+void __stdcall DrawFigureScaled(s32 sprite_type, s16 sprite_idx, Fix16 x_pos, Fix16 y_pos, Ang16 rotation, const s32& palette_type, s16 palette, s32 alpha_value, u8 flags)
 {
-    DrawFigure_5D7EC0(sprite_type,
+    DrawFigure(sprite_type,
                sprite_idx,
-               x_pos * gViewCamera_676978->field_A8_ui_scale,
-               y_pos * gViewCamera_676978->field_A8_ui_scale,
+               x_pos * gViewCamera->mUiScale,
+               y_pos * gViewCamera->mUiScale,
                rotation,
-               gViewCamera_676978->field_A8_ui_scale,
+               gViewCamera->mUiScale,
                palette_type,
                palette,
                alpha_value,
@@ -66,54 +63,54 @@ void __stdcall DrawFigureScaled_5D7670(s32 sprite_type, s16 sprite_idx, Fix16 x_
 }
 
 MATCH_FUNC(0x5D7700)
-s32 __stdcall GetLineSpacingFromFontType_5D7700(u16 font_type)
+s32 __stdcall GetLineSpacingFromFontType(u16 font_type)
 {
-    return static_cast<u16>(gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&font_type));
+    return static_cast<u16>(gGtx_0x106C->GetLineSpacing(&font_type));
 }
 
 MATCH_FUNC(0x5D7720)
-void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, const s32& palette_type, u16 palette, s32 alpha, u8 alpha_flag)
+void __stdcall DrawStringScaledPalette(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, const s32& palette_type, u16 palette, s32 alpha, u8 alpha_flag)
 {
-    DrawText_5D8A10(pStr,
-                    xoff * gViewCamera_676978->field_A8_ui_scale,
-                    yoff * gViewCamera_676978->field_A8_ui_scale,
-                    fontType,
-                    gViewCamera_676978->field_A8_ui_scale,
-                    palette_type,
-                    palette,
-                    alpha,
-                    alpha_flag);
+    DrawString(pStr,
+               xoff * gViewCamera->mUiScale,
+               yoff * gViewCamera->mUiScale,
+               fontType,
+               gViewCamera->mUiScale,
+               palette_type,
+               palette,
+               alpha,
+               alpha_flag);
 }
 
 MATCH_FUNC(0x5D77A0)
-void __stdcall DrawTextScaled_5D77A0(const wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type)
+void __stdcall DrawStringScaled(const wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type)
 {
-    DrawText_5D8A10(pText,
-                    xpos * gViewCamera_676978->field_A8_ui_scale,
-                    ypos * gViewCamera_676978->field_A8_ui_scale,
-                    font_type,
-                    gViewCamera_676978->field_A8_ui_scale,
-                    palette_types_enum::sprites_2,
-                    0,
-                    0,
-                    0);
+    DrawString(pText,
+               xpos * gViewCamera->mUiScale,
+               ypos * gViewCamera->mUiScale,
+               font_type,
+               gViewCamera->mUiScale,
+               palette_types_enum::sprites_2,
+               0,
+               0,
+               0);
 }
 
 // The original is a tail-call thunk into the body at 0x5D7CC0 (9.6f: 0x4CAEB0 -> 0x4CADE0)
 MATCH_FUNC(0x5D7CB0)
-void __stdcall ConvertColourBanks_5D7CB0()
+void __stdcall SetColourDepthAndConvertBanks()
 {
     pgbh_SetColourDepth();
-    ConvertColourBanks_5D7CC0();
+    ConvertColourBanks();
 }
 
 // https://decomp.me/scratch/zpWhI
 MATCH_FUNC(0x5D7CC0)
-void __stdcall ConvertColourBanks_5D7CC0()
+void __stdcall ConvertColourBanks()
 {
-    if (gGtx_0x106C_703DD4 && !gGtx_0x106C_703DD4->field_6A_palettes_converted)
+    if (gGtx_0x106C && !gGtx_0x106C->mPalettesConverted)
     {
-        s32 phys_pal_len = gGtx_0x106C_703DD4->get_physical_palettes_len_5AA900();
+        s32 phys_pal_len = gGtx_0x106C->get_physical_palettes_len();
         u32 max_idx = static_cast<u32>(phys_pal_len) / 64;
 
         if (phys_pal_len % 64 != 0)
@@ -122,41 +119,43 @@ void __stdcall ConvertColourBanks_5D7CC0()
         }
         for (u16 i = 0; i < max_idx; i++)
         {
-            pConvertColourBank(gGtx_0x106C_703DD4->GetPalData_5AA6A0(i * 64));
+            pConvertColourBank(gGtx_0x106C->GetPalData(i * 64));
         }
-        gGtx_0x106C_703DD4->field_6A_palettes_converted = true;
+        gGtx_0x106C->mPalettesConverted = true;
     }
 }
 
 MATCH_FUNC(0x5D7D30)
-void __stdcall MakeScreenTableAndSetWindow_5D7D30()
+void __stdcall MakeScreenTableAndSetWindow()
 {
-    pVid_GetSurface(gVidSys_7071D0);
-    pMakeScreenTable(reinterpret_cast<s32>(gVidSys_7071D0->field_50_surface_pixels_ptr),
-                     gVidSys_7071D0->field_54_surface_pixels_pitch,
-                     gVidSys_7071D0->field_4C_rect_bottom);
+    LOCAL_STATIC(DWORD, sWindowBottom, 0x70679C);
+    LOCAL_STATIC(DWORD, sWindowRight, 0x70675C);
+    pVid_GetSurface(gVidSys);
+    pMakeScreenTable(reinterpret_cast<s32>(gVidSys->field_50_surface_pixels_ptr),
+                     gVidSys->field_54_surface_pixels_pitch,
+                     gVidSys->field_4C_rect_bottom);
 
-    if (gVidSys_7071D0->field_40_full_screen == -2)
+    if (gVidSys->field_40_full_screen == -2)
     {
-        gWindowRight_70675C = window_width_706630 - 1;
-        gWindowBottom_70679C = window_height_706B50 - 1;
+        sWindowRight = window_width - 1;
+        sWindowBottom = window_height - 1;
     }
     else
     {
-        gWindowRight_70675C = gVidSys_7071D0->field_48_rect_right - 1;
-        gWindowBottom_70679C = gVidSys_7071D0->field_4C_rect_bottom - 1;
+        sWindowRight = gVidSys->field_48_rect_right - 1;
+        sWindowBottom = gVidSys->field_4C_rect_bottom - 1;
     }
 
-    pgbh_SetWindow(0, 0, static_cast<f32>(gWindowRight_70675C), static_cast<f32>(gWindowBottom_70679C));
+    pgbh_SetWindow(0, 0, static_cast<f32>(sWindowRight), static_cast<f32>(sWindowBottom));
 }
 
 // https://decomp.me/scratch/Zmms7
 // 9.6f 0x4CBA50: half_w/half_h are assigned after their declaration (the multiply result is copied into
 // them), the flags test is one equality condition and the widths go through the Fix16(u8) ctor.
 // The ternary, the field reads in u/v and `u32 flags` set the front-end size that gives the
-// original's inline cut-offs: the second rotation's Negate_4086A0 inline, the others out of line.
+// original's inline cut-offs: the second rotation's Negated inline, the others out of line.
 MATCH_FUNC(0x5D7EC0)
-void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
+void __stdcall DrawFigure(s32 sprite_type,
                           s16 sprite_idx,
                           Fix16 x_pos,
                           Fix16 y_pos,
@@ -169,13 +168,13 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
                           bool bNoTextureFiltering)
 {
     sprite_index* pSprIdx =
-        gGtx_0x106C_703DD4->get_sprite_index_5AA440(gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_type, sprite_idx));
+        gGtx_0x106C->get_sprite_index(gGtx_0x106C->GetSpriteTrueIndex(sprite_type, sprite_idx));
     Fix16_Point point;
 
     Fix16 half_w;
     Fix16 half_h;
-    half_w = (Fix16(pSprIdx->field_4_width) / 2) * scale;
-    half_h = (Fix16(pSprIdx->field_5_height) / 2) * scale;
+    half_w = (Fix16(pSprIdx->mWidth) / 2) * scale;
+    half_h = (Fix16(pSprIdx->mHeight) / 2) * scale;
 
     u32 flags;
 
@@ -185,71 +184,71 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
         flags |= quad_flag::texture_filtering;
     }
 
-    point.SetXY_432860(-half_w, -half_h);
-    point.RotateByAngle_40F6B0(rotation);
+    point.SetXY(-half_w, -half_h);
+    point.RotateByAngle(rotation);
 
-    gQuadVerts_706B88.field_0_verts[0].x = ((x_pos + point.x).ToFloat());
-    gQuadVerts_706B88.field_0_verts[0].y = ((y_pos + point.y).ToFloat());
-    gQuadVerts_706B88.field_0_verts[0].z = 0.000099999997f;
+    sQuadVerts.mVerts[0].x = ((x_pos + point.x).ToFloat());
+    sQuadVerts.mVerts[0].y = ((y_pos + point.y).ToFloat());
+    sQuadVerts.mVerts[0].z = 0.000099999997f;
 
-    point.SetXY_432860(half_w, -half_h);
-    point.RotateByAngle_40F6B0(rotation);
+    point.SetXY(half_w, -half_h);
+    point.RotateByAngle(rotation);
 
-    gQuadVerts_706B88.field_0_verts[1].x = ((x_pos + point.x).ToFloat());
-    gQuadVerts_706B88.field_0_verts[1].y = ((y_pos + point.y).ToFloat());
-    gQuadVerts_706B88.field_0_verts[1].z = 0.000099999997f;
+    sQuadVerts.mVerts[1].x = ((x_pos + point.x).ToFloat());
+    sQuadVerts.mVerts[1].y = ((y_pos + point.y).ToFloat());
+    sQuadVerts.mVerts[1].z = 0.000099999997f;
 
-    point.SetXY_432860(half_w, half_h);
-    point.RotateByAngle_40F6B0(rotation);
+    point.SetXY(half_w, half_h);
+    point.RotateByAngle(rotation);
 
-    gQuadVerts_706B88.field_0_verts[2].x = ((x_pos + point.x).ToFloat());
-    gQuadVerts_706B88.field_0_verts[2].y = ((y_pos + point.y).ToFloat());
-    gQuadVerts_706B88.field_0_verts[2].z = 0.000099999997f;
+    sQuadVerts.mVerts[2].x = ((x_pos + point.x).ToFloat());
+    sQuadVerts.mVerts[2].y = ((y_pos + point.y).ToFloat());
+    sQuadVerts.mVerts[2].z = 0.000099999997f;
 
-    point.SetXY_432860(-half_w, half_h);
-    point.RotateByAngle_40F6B0(rotation);
+    point.SetXY(-half_w, half_h);
+    point.RotateByAngle(rotation);
 
-    gQuadVerts_706B88.field_0_verts[3].x = ((x_pos + point.x).ToFloat());
-    gQuadVerts_706B88.field_0_verts[3].y = ((y_pos + point.y).ToFloat());
-    gQuadVerts_706B88.field_0_verts[3].z = 0.000099999997f;
+    sQuadVerts.mVerts[3].x = ((x_pos + point.x).ToFloat());
+    sQuadVerts.mVerts[3].y = ((y_pos + point.y).ToFloat());
+    sQuadVerts.mVerts[3].z = 0.000099999997f;
 
 
-    f32 u = pSprIdx->field_4_width - 0.000099999997f;
-    f32 v = pSprIdx->field_5_height - 0.000099999997f;
-    gQuadVerts_706B88.field_0_verts[0].u = 0.0;
-    gQuadVerts_706B88.field_0_verts[0].v = 0.0;
-    gQuadVerts_706B88.field_0_verts[1].v = 0.0;
-    gQuadVerts_706B88.field_0_verts[3].u = 0.0;
-    gQuadVerts_706B88.field_0_verts[1].u = u;
-    gQuadVerts_706B88.field_0_verts[2].u = u;
-    gQuadVerts_706B88.field_0_verts[2].v = v;
-    gQuadVerts_706B88.field_0_verts[3].v = v;
+    f32 u = pSprIdx->mWidth - 0.000099999997f;
+    f32 v = pSprIdx->mHeight - 0.000099999997f;
+    sQuadVerts.mVerts[0].u = 0.0;
+    sQuadVerts.mVerts[0].v = 0.0;
+    sQuadVerts.mVerts[1].v = 0.0;
+    sQuadVerts.mVerts[3].u = 0.0;
+    sQuadVerts.mVerts[1].u = u;
+    sQuadVerts.mVerts[2].u = u;
+    sQuadVerts.mVerts[2].v = v;
+    sQuadVerts.mVerts[3].v = v;
 
-    pgbh_DrawQuad(flags | CalcQuadFlags_5D83E0(alpha_value, og_flags),
-                  gTextureCache_15D8_705064->GetSpriteTexture_5B94F0(sprite_type, sprite_idx, palette_type, palette),
-                  gQuadVerts_706B88.field_0_verts,
+    pgbh_DrawQuad(flags | CalcQuadFlags(alpha_value, og_flags),
+                  gTextureCache_15D8->GetSpriteTexture(sprite_type, sprite_idx, palette_type, palette),
+                  sQuadVerts.mVerts,
                   255);
 }
 
 MATCH_FUNC(0x5D83E0);
-s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 alpha)
+s32 __stdcall CalcQuadFlags(s32 mode, u8 alpha)
 {
     switch (mode)
     {
         case 0:
-            return gLightingDrawFlag_7068F4 | 0x80;
+            return gLightingDrawFlag | 0x80;
         case 1:
-            gQuadVerts_706B88.field_0_verts[0].diff = (alpha << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[1].diff = (alpha << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[2].diff = (alpha << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[3].diff = (alpha << 27) | 0xFFFFFF;
-            return gLightingDrawFlag_7068F4 | 0x2180;
+            sQuadVerts.mVerts[0].diff = (alpha << 27) | 0xFFFFFF;
+            sQuadVerts.mVerts[1].diff = (alpha << 27) | 0xFFFFFF;
+            sQuadVerts.mVerts[2].diff = (alpha << 27) | 0xFFFFFF;
+            sQuadVerts.mVerts[3].diff = (alpha << 27) | 0xFFFFFF;
+            return gLightingDrawFlag | 0x2180;
         case 2:
-            gQuadVerts_706B88.field_0_verts[0].diff = (alpha << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[1].diff = (alpha << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[2].diff = (alpha << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[3].diff = (alpha << 27) | 0xFFFFFF;
-            return gLightingDrawFlag_7068F4 | 0x2280;
+            sQuadVerts.mVerts[0].diff = (alpha << 27) | 0xFFFFFF;
+            sQuadVerts.mVerts[1].diff = (alpha << 27) | 0xFFFFFF;
+            sQuadVerts.mVerts[2].diff = (alpha << 27) | 0xFFFFFF;
+            sQuadVerts.mVerts[3].diff = (alpha << 27) | 0xFFFFFF;
+            return gLightingDrawFlag | 0x2280;
         default:
             return 0;
     }
@@ -266,7 +265,7 @@ static inline f32 Fix16ToF32_Rounded(const Fix16& v)
 
 // https://decomp.me/scratch/SCz1D
 MATCH_FUNC(0x5D8470);
-void __stdcall DrawTexture_5D8470(STexture* pTexture,
+void __stdcall DrawTexture(STexture* pTexture,
                                  Fix16 x_pos,
                                  Fix16 y_pos,
                                  u8 width,
@@ -292,52 +291,52 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
     half_w = (Fix16(width) / 2) * scale;
     half_h = (Fix16(height) / 2) * scale;
 
-    point.SetXY_432860(-half_w, -half_h);
-    point.RotateByAngle_40F6B0(rotation);
+    point.SetXY(-half_w, -half_h);
+    point.RotateByAngle(rotation);
 
-    gQuadVerts_706B88.field_0_verts[0].x = ((x_pos + point.x).ToFloat());
-    gQuadVerts_706B88.field_0_verts[0].y = ((y_pos + point.y).ToFloat());
-    gQuadVerts_706B88.field_0_verts[0].z = 0.000099999997f;
+    sQuadVerts.mVerts[0].x = ((x_pos + point.x).ToFloat());
+    sQuadVerts.mVerts[0].y = ((y_pos + point.y).ToFloat());
+    sQuadVerts.mVerts[0].z = 0.000099999997f;
 
-    point.SetXY_432860(half_w, -half_h);
-    point.RotateByAngle_40F6B0(rotation);
+    point.SetXY(half_w, -half_h);
+    point.RotateByAngle(rotation);
 
     // Only this vertex converts through an f32 local (the original issues the fmuls two loads later)
-    gQuadVerts_706B88.field_0_verts[1].x = Fix16ToF32_Rounded(x_pos + point.x);
-    gQuadVerts_706B88.field_0_verts[1].y = ((y_pos + point.y).ToFloat());
-    gQuadVerts_706B88.field_0_verts[1].z = 0.000099999997f;
+    sQuadVerts.mVerts[1].x = Fix16ToF32_Rounded(x_pos + point.x);
+    sQuadVerts.mVerts[1].y = ((y_pos + point.y).ToFloat());
+    sQuadVerts.mVerts[1].z = 0.000099999997f;
 
-    point.SetXY_432860(half_w, half_h);
-    point.RotateByAngle_40F6B0(rotation);
+    point.SetXY(half_w, half_h);
+    point.RotateByAngle(rotation);
 
-    gQuadVerts_706B88.field_0_verts[2].x = ((x_pos + point.x).ToFloat());
-    gQuadVerts_706B88.field_0_verts[2].y = ((y_pos + point.y).ToFloat());
-    gQuadVerts_706B88.field_0_verts[2].z = 0.000099999997f;
+    sQuadVerts.mVerts[2].x = ((x_pos + point.x).ToFloat());
+    sQuadVerts.mVerts[2].y = ((y_pos + point.y).ToFloat());
+    sQuadVerts.mVerts[2].z = 0.000099999997f;
 
-    point.SetXY_432860(-half_w, half_h);
-    point.RotateByAngle_40F6B0(rotation);
+    point.SetXY(-half_w, half_h);
+    point.RotateByAngle(rotation);
 
-    gQuadVerts_706B88.field_0_verts[3].x = ((x_pos + point.x).ToFloat());
-    gQuadVerts_706B88.field_0_verts[3].y = ((y_pos + point.y).ToFloat());
-    gQuadVerts_706B88.field_0_verts[3].z = 0.000099999997f;
+    sQuadVerts.mVerts[3].x = ((x_pos + point.x).ToFloat());
+    sQuadVerts.mVerts[3].y = ((y_pos + point.y).ToFloat());
+    sQuadVerts.mVerts[3].z = 0.000099999997f;
     // u & v, with z interleaved (store order found by the permuter)
-    gQuadVerts_706B88.field_0_verts[0].u = 0.0;
-    gQuadVerts_706B88.field_0_verts[0].v = 0.0;
-    gQuadVerts_706B88.field_0_verts[1].v = 0.0;
-    gQuadVerts_706B88.field_0_verts[3].u = 0.0;
+    sQuadVerts.mVerts[0].u = 0.0;
+    sQuadVerts.mVerts[0].v = 0.0;
+    sQuadVerts.mVerts[1].v = 0.0;
+    sQuadVerts.mVerts[3].u = 0.0;
 
     f32 u = width - 0.000099999997f;
     f32 v = height - 0.000099999997f;
-    gQuadVerts_706B88.field_0_verts[1].u = u;
-    gQuadVerts_706B88.field_0_verts[2].u = u;
-    gQuadVerts_706B88.field_0_verts[2].v = v;
-    gQuadVerts_706B88.field_0_verts[3].v = v;
+    sQuadVerts.mVerts[1].u = u;
+    sQuadVerts.mVerts[2].u = u;
+    sQuadVerts.mVerts[2].v = v;
+    sQuadVerts.mVerts[3].v = v;
 
-    pgbh_DrawQuad(flags | CalcQuadFlags_5D83E0(alpha_value, alpha_flag) | quad_flag::texture_filtering, pTexture, gQuadVerts_706B88.field_0_verts, 255);
+    pgbh_DrawQuad(flags | CalcQuadFlags(alpha_value, alpha_flag) | quad_flag::texture_filtering, pTexture, sQuadVerts.mVerts, 255);
 }
 
 MATCH_FUNC(0x5D8940)
-s32 __stdcall CountLineSpacing_5D8940(const wchar_t* pStr, u16 font_type)
+s32 __stdcall CountLineSpacing(const wchar_t* pStr, u16 font_type)
 {
     s32 line_spacing = GetLineSpacingFromFontType_5D7700_inlined(font_type);
 
@@ -354,17 +353,17 @@ s32 __stdcall CountLineSpacing_5D8940(const wchar_t* pStr, u16 font_type)
 
 // https://decomp.me/scratch/HX0q9
 MATCH_FUNC(0x5D8A10)
-void __stdcall DrawText_5D8A10(const wchar_t* pText,
-                               Fix16 xpos_fp,
-                               Fix16 ypos_fp,
-                               u16 font_type,
-                               Fix16 scale_fp,
-                               const s32& og_palette_type,
-                               u16 og_palette,
-                               s32 alpha_value,
-                               u8 flags)
+void __stdcall DrawString(const wchar_t* pText,
+                          Fix16 xpos_fp,
+                          Fix16 ypos_fp,
+                          u16 font_type,
+                          Fix16 scale_fp,
+                          const s32& og_palette_type,
+                          u16 og_palette,
+                          s32 alpha_value,
+                          u8 flags)
 {
-    s32 quad_flags = CalcQuadFlags_5D83E0(alpha_value, flags) | quad_flag::texture_filtering;
+    s32 quad_flags = CalcQuadFlags(alpha_value, flags) | quad_flag::texture_filtering;
 
     // The original walks a copy of pText (it reuses pText's stack slot as a float temp)
     const wchar_t* pIter = pText;
@@ -374,8 +373,8 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
     Fix16 sprite_h;
     Fix16 cur_xpos = xpos_fp;
 
-    Fix16 spaceWidth = scale_fp * gGtx_0x106C_703DD4->GetSpaceCharWidth_5AA7B0(&font_type);
-    Fix16 lineHeight = scale_fp * static_cast<u16>(gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&font_type));
+    Fix16 spaceWidth = scale_fp * gGtx_0x106C->GetSpaceCharWidth(&font_type);
+    Fix16 lineHeight = scale_fp * static_cast<u16>(gGtx_0x106C->GetLineSpacing(&font_type));
 
     u16 curr_palette = og_palette;
     s32 curr_palette_type = og_palette_type;
@@ -389,11 +388,11 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
     {
         if (curr_palette_type == palette_types_enum::font_remaps_8)
         {
-            gKanjiFont_6F5168->SetGlyphParamsFromRemap_4D29D0(og_palette);
+            gKanjiFont->SetGlyphParamsFromRemap(og_palette);
         }
         else
         {
-            gKanjiFont_6F5168->SetGlyphParamsFromFont_4D28A0(font_type);
+            gKanjiFont->SetGlyphParamsFromFont(font_type);
         }
     }
 
@@ -432,11 +431,11 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
             {
                 if (curr_palette_type == palette_types_enum::font_remaps_8)
                 {
-                    gKanjiFont_6F5168->SetGlyphParamsFromRemap_4D29D0(curr_palette);
+                    gKanjiFont->SetGlyphParamsFromRemap(curr_palette);
                 }
                 else
                 {
-                    gKanjiFont_6F5168->SetGlyphParamsFromFont_4D28A0(font_type);
+                    gKanjiFont->SetGlyphParamsFromFont(font_type);
                 }
             }
         }
@@ -448,57 +447,57 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
             {
                 if (font_type < 0xC9 || font_type > 203)
                 {
-                    u16 sprt_relative_idx = gGtx_0x106C_703DD4->GetSpriteIdxFromFont_5AA710(font_type, text_char - 33);
-                    u16 sprt_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::font_7, sprt_relative_idx);
-                    pSprIdx = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprt_idx);
-                    pTexture = gTextureCache_15D8_705064->GetSpriteTexture_5B94F0(sprite_types_enum::font_7, sprt_relative_idx, curr_palette_type, curr_palette);
+                    u16 sprt_relative_idx = gGtx_0x106C->GetSpriteIdxFromFont(font_type, text_char - 33);
+                    u16 sprt_idx = gGtx_0x106C->GetSpriteTrueIndex(sprite_types_enum::font_7, sprt_relative_idx);
+                    pSprIdx = gGtx_0x106C->get_sprite_index(sprt_idx);
+                    pTexture = gTextureCache_15D8->GetSpriteTexture(sprite_types_enum::font_7, sprt_relative_idx, curr_palette_type, curr_palette);
                 }
                 else
                 {
-                    pSprIdx = gKanjiFont_6F5168->field_8E0_sprite_index;
-                    pTexture = gKanjiFont_6F5168->GetLargeGlyphTexture_4D27D0(text_char);
+                    pSprIdx = gKanjiFont->mSpriteIndex8E0;
+                    pTexture = gKanjiFont->GetLargeGlyphTexture(text_char);
                 }
             }
             else
             {
-                pSprIdx = gKanjiFont_6F5168->field_8D4_sprite_index;
-                pTexture = gKanjiFont_6F5168->GetSmallGlyphTexture_4D2710(text_char);
+                pSprIdx = gKanjiFont->mSpriteIndex8D4;
+                pTexture = gKanjiFont->GetSmallGlyphTexture(text_char);
             }
 
-            sprite_w = Fix16(pSprIdx->field_4_width) * scale_fp;
-            sprite_h = Fix16(pSprIdx->field_5_height) * scale_fp;
+            sprite_w = Fix16(pSprIdx->mWidth) * scale_fp;
+            sprite_h = Fix16(pSprIdx->mHeight) * scale_fp;
 
             // Each corner converts its coordinate again: VC6 CSEs the repeated ToFloat()s
             // (x0/y0 stay on the FPU stack, x1/y1 go through a stack temp like the original)
-            gQuadVerts_706B88.field_0_verts[0].x = cur_xpos.ToFloat();
-            gQuadVerts_706B88.field_0_verts[0].y = ypos_fp.ToFloat();
-            gQuadVerts_706B88.field_0_verts[0].z = 0.0001f;
-            gQuadVerts_706B88.field_0_verts[1].x = (cur_xpos + sprite_w).ToFloat();
-            gQuadVerts_706B88.field_0_verts[1].y = ypos_fp.ToFloat();
-            gQuadVerts_706B88.field_0_verts[1].z = 0.0001f;
-            gQuadVerts_706B88.field_0_verts[2].x = (cur_xpos + sprite_w).ToFloat();
-            gQuadVerts_706B88.field_0_verts[2].y = (ypos_fp + sprite_h).ToFloat();
-            gQuadVerts_706B88.field_0_verts[2].z = 0.0001f;
-            gQuadVerts_706B88.field_0_verts[3].x = cur_xpos.ToFloat();
-            gQuadVerts_706B88.field_0_verts[3].y = (ypos_fp + sprite_h).ToFloat();
-            gQuadVerts_706B88.field_0_verts[3].z = 0.0001f;
+            sQuadVerts.mVerts[0].x = cur_xpos.ToFloat();
+            sQuadVerts.mVerts[0].y = ypos_fp.ToFloat();
+            sQuadVerts.mVerts[0].z = 0.0001f;
+            sQuadVerts.mVerts[1].x = (cur_xpos + sprite_w).ToFloat();
+            sQuadVerts.mVerts[1].y = ypos_fp.ToFloat();
+            sQuadVerts.mVerts[1].z = 0.0001f;
+            sQuadVerts.mVerts[2].x = (cur_xpos + sprite_w).ToFloat();
+            sQuadVerts.mVerts[2].y = (ypos_fp + sprite_h).ToFloat();
+            sQuadVerts.mVerts[2].z = 0.0001f;
+            sQuadVerts.mVerts[3].x = cur_xpos.ToFloat();
+            sQuadVerts.mVerts[3].y = (ypos_fp + sprite_h).ToFloat();
+            sQuadVerts.mVerts[3].z = 0.0001f;
 
             // The double parentheses are two no-op expression nodes each (see "x87 code: the scheduler
             // works in 81-node windows" in docs/matching_quirks.md). With these 4 nodes the window
             // breaks before the zero u/v stores, so they are issued after the DrawQuad pushes
-            Fix16 u(((pSprIdx->field_4_width - 0.0001f)));
-            Fix16 v(((pSprIdx->field_5_height - 0.0001f)));
+            Fix16 u(((pSprIdx->mWidth - 0.0001f)));
+            Fix16 v(((pSprIdx->mHeight - 0.0001f)));
 
-            gQuadVerts_706B88.field_0_verts[0].u = 0.0f;
-            gQuadVerts_706B88.field_0_verts[0].v = 0.0f;
-            gQuadVerts_706B88.field_0_verts[1].v = 0.0f;
-            gQuadVerts_706B88.field_0_verts[3].u = 0.0f;
-            gQuadVerts_706B88.field_0_verts[1].u = u.ToFloat();
-            gQuadVerts_706B88.field_0_verts[2].u = u.ToFloat();
-            gQuadVerts_706B88.field_0_verts[2].v = v.ToFloat();
-            gQuadVerts_706B88.field_0_verts[3].v = v.ToFloat();
+            sQuadVerts.mVerts[0].u = 0.0f;
+            sQuadVerts.mVerts[0].v = 0.0f;
+            sQuadVerts.mVerts[1].v = 0.0f;
+            sQuadVerts.mVerts[3].u = 0.0f;
+            sQuadVerts.mVerts[1].u = u.ToFloat();
+            sQuadVerts.mVerts[2].u = u.ToFloat();
+            sQuadVerts.mVerts[2].v = v.ToFloat();
+            sQuadVerts.mVerts[3].v = v.ToFloat();
 
-            pgbh_DrawQuad(quad_flags, pTexture, &gQuadVerts_706B88.field_0_verts[0], 255);
+            pgbh_DrawQuad(quad_flags, pTexture, &sQuadVerts.mVerts[0], 255);
 
             cur_xpos += sprite_w;
         }

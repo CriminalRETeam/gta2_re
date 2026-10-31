@@ -6,7 +6,7 @@
 class Car;
 class Ped;
 
-// Firefighter::field_8_state (stored as s32)
+// Firefighter::mState (stored as s32)
 namespace firefighter_state
 {
 enum
@@ -25,34 +25,35 @@ class Firefighter
 {
   public:
     // inline
-    void Clear_450C10()
+    // 9.6f 0x450C10
+    void Clear()
     {
-        field_C_target_car = NULL;
-        field_8_state = firefighter_state::idle_0;
-        field_4_bActive = 0;
-        field_1C_car = NULL;
-        field_20_ped = NULL;
-        field_24_next_state_timer = 0;
+        mTargetCar = NULL;
+        mState = firefighter_state::idle_0;
+        mbActive = 0;
+        mCar = NULL;
+        mPed = NULL;
+        mNextStateTimer = 0;
     }
 
-    EXPORT bool CheckAbortConditions_4A7FC0();
-    EXPORT void deinit_4A81A0();
-    EXPORT void Update_4A81F0();
-    EXPORT void init_4A85C0();
-    EXPORT void Reset_4A85E0();
+    EXPORT bool CheckAbortConditions();
+    EXPORT void deinit();
+    EXPORT void Update();
+    EXPORT void init();
+    EXPORT void Reset();
 
-    s16 field_0_id;
-    s16 field_2_unused;
-    s32 field_4_bActive;
-    s32 field_8_state; // firefighter_state
-    Car* field_C_target_car;
-    Fix16 field_10_xpos;
-    Fix16 field_14_ypos;
-    Fix16 field_18_zpos;
-    Car* field_1C_car;
-    Ped* field_20_ped;
-    u16 field_24_next_state_timer;
-    s16 field_26_unused;
+    s16 mId; // 0x0
+    s16 mUnused2; // 0x2
+    s32 mbActive; // 0x4
+    s32 mState; // 0x8: firefighter_state
+    Car* mTargetCar; // 0xC
+    Fix16 mXpos; // 0x10
+    Fix16 mYpos; // 0x14
+    Fix16 mZpos; // 0x18
+    Car* mCar; // 0x1C
+    Ped* mPed; // 0x20
+    u16 mNextStateTimer; // 0x24
+    s16 mUnused26; // 0x26
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Firefighter, 0x28);
 
@@ -63,27 +64,26 @@ class FirefighterPool
     {
         for (s32 i = 0; i < 2; i++)
         {
-            field_0_firefighters[i].init_4A85C0();
+            mFirefighters[i].init();
         }
-        ResetCount_4A88D0();
+        ResetCount();
     }
 
     ~FirefighterPool()
     {
-        // TODO: Should this be empty?
     }
 
-    EXPORT void FireEnginesService_4A85F0();
-    EXPORT Firefighter* DispatchFirefighters_4A8620(Car* pCar, Fix16 x, Fix16 y, Fix16 z);
-    EXPORT Firefighter* New28_4A8800();
-    EXPORT bool TryDispatchFirefightersToCar_4A8820(Car* pCar);
-    EXPORT bool IsFireEngineSentToCar_4A8890(Car* pFireEngine, Car* pTargetCar) const;
-    EXPORT void ResetCount_4A88D0();
+    EXPORT void FireEnginesService();
+    EXPORT Firefighter* DispatchFirefighters(Car* pCar, Fix16 x, Fix16 y, Fix16 z);
+    EXPORT Firefighter* New28();
+    EXPORT bool TryDispatchFirefightersToCar(Car* pCar);
+    EXPORT bool IsFireEngineSentToCar(Car* pFireEngine, Car* pTargetCar) const;
+    EXPORT void ResetCount();
 
-    Firefighter field_0_firefighters[2];
-    s16 field_50_count;
-    s16 field_52_unused;
+    Firefighter mFirefighters[2]; // 0x0
+    s16 mCount; // 0x50
+    s16 mUnused52; // 0x52
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(FirefighterPool, 0x54);
 
-EXTERN_GLOBAL(FirefighterPool*, gFirefighterPool_54_67D4C0);
+EXTERN_GLOBAL(FirefighterPool*, gFirefighterPool_54);

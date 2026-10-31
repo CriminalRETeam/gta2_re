@@ -1,6 +1,6 @@
 #pragma once
 
-// Second parameter of Ped::UpdateMovementTowardsTarget_4672E0: which target position the ped moves towards.
+// Second parameter of Ped::UpdateMovementTowardsTarget: which target position the ped moves towards.
 // Kept in its own header so that the enum does not land in a header many TUs share.
 namespace ped_move_target_type
 {

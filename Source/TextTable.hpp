@@ -5,10 +5,10 @@
 
 struct TextKeyEntry
 {
-    wchar_t* field_0_pwstr;
-    // The TKEY record's 8 char key is stored inline in field_4_key and field_8, not through a pointer
-    const char_type* field_4_key;
-    s32 field_8_key_tail;
+    wchar_t* mPwstr; // 0x0
+    // The TKEY record's 8 char key is stored inline in mKey and mKeyTail, not through a pointer
+    const char_type* mKey; // 0x4
+    s32 mKeyTail; // 0x8
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TextKeyEntry, 0xC);
 
@@ -17,21 +17,21 @@ class text_tdat
   public:
     text_tdat() // inline 0x4C2420
     {
-        field_0_data = NULL;
-        field_4_len = 0;
+        mData = NULL;
+        mLen = 0;
     }
 
     ~text_tdat() // inline 0x4C2430
     {
-        if (field_0_data)
+        if (mData)
         {
-            delete[] field_0_data;
+            delete[] mData;
         }
-        field_0_data = NULL;
+        mData = NULL;
     }
-    u8* field_0_data;
-    s32 field_4_len;
-    EXPORT void TDAT_Load_5B5A80(u32 size);
+    u8* mData; // 0x0
+    s32 mLen; // 0x4
+    EXPORT void TDAT_Load(u32 size);
 };
 
 class text_tkey
@@ -39,20 +39,20 @@ class text_tkey
 public:
     text_tkey() // inline 4C23F0
     {
-        field_0_tKey = NULL;
-        field_4_tKey_count = 0;
+        mTKey = NULL;
+        mTKeyCount = 0;
     }
 
     ~text_tkey() // inline 0x4C2400
     {
-        if (field_0_tKey)
+        if (mTKey)
         {
-            delete[] field_0_tKey;
+            delete[] mTKey;
         }
-        field_0_tKey = NULL;
+        mTKey = NULL;
     }
-    TextKeyEntry* field_0_tKey;
-    s32 field_4_tKey_count;
+    TextKeyEntry* mTKey; // 0x0
+    s32 mTKeyCount; // 0x4
 };
 
 
@@ -60,48 +60,48 @@ class TextTable
 {
   public:
     // 9.6f 0x452E60
-    inline bool LangIsJapanese_452E60() const
+    inline bool LangIsJapanese() const
     {
-        return field_10_lang_code == 'j';
+        return mLangCode == 'j';
     }
 
-    text_tkey field_0_tKey;
-    text_tdat field_8_tDat;
-    char_type field_10_lang_code;
+    text_tkey mTKey; // 0x0
+    text_tdat mTDat; // 0x8
+    char_type mLangCode; // 0x10
 
-    EXPORT u16 RemapExtendedChar_5B58D0(u16 ch) const;
+    EXPORT u16 RemapExtendedChar(u16 ch) const;
 
-    EXPORT void RemapExtendedCharsIfNotJapanese_5B5910(wchar_t* pText);
+    EXPORT void RemapExtendedCharsIfNotJapanese(wchar_t* pText);
 
-    EXPORT void RemapExtendedChars_5B5930(wchar_t* pStr);
+    EXPORT void RemapExtendedChars(wchar_t* pStr);
 
-    EXPORT void TKEY_Load_5B5960(u32 chunk_size);
+    EXPORT void TKEY_Load(u32 chunk_size);
 
-    EXPORT void TDAT_Offsets2Strings_5B59B0(u8* pDat);
+    EXPORT void TDAT_Offsets2Strings(u8* pDat);
 
-    EXPORT bool TKeyFind_5B59E0(const char_type* pIdStr) const;
+    EXPORT bool TKeyExists(const char_type* pIdStr) const;
 
-    EXPORT static s32 __cdecl TKeySearch_5B5A10(const void* a, const void* b);
+    EXPORT static s32 __cdecl TKeySearch(const void* a, const void* b);
 
-    EXPORT wchar_t* TKeyFind_5B5A50(const char_type* pIdStr) const;
+    EXPORT wchar_t* TKeyFind(const char_type* pIdStr) const;
 
-    EXPORT u16 ToUpper_5B5AD0(wchar_t ch) const;
+    EXPORT u16 ToUpper(wchar_t ch) const;
 
-    EXPORT wchar_t* StrToUpper_5B5B80(wchar_t* pWideStr);
+    EXPORT wchar_t* StrToUpper(wchar_t* pWideStr);
 
-    EXPORT static s32 __stdcall InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr, const wchar_t* pSrcStr, s32 max_line_width, u16 font_type);
+    EXPORT static s32 __stdcall InsertLineBreaksAndGetNumLines(wchar_t* pDestStr, const wchar_t* pSrcStr, s32 max_line_width, u16 font_type);
 
-    EXPORT static char_type* __stdcall Wide2PesudoAscii_5B5D10(const wchar_t* pText);
+    EXPORT static char_type* __stdcall Wide2PesudoAscii(const wchar_t* pText);
 
-    EXPORT static wchar_t* __stdcall Ascii2Wide_5B5DF0(const char_type* pStr);
+    EXPORT static wchar_t* __stdcall Ascii2Wide(const char_type* pStr);
 
-    EXPORT void load_chunk_5B5E20(const char_type* chunk_type, u32 chunk_len);
+    EXPORT void load_chunk(const char_type* chunk_type, u32 chunk_len);
 
-    EXPORT void Load_5B5E90();
+    EXPORT void Load();
 
-    EXPORT wchar_t* Find_5B5F90(const char_type* pIdStr) const;
+    EXPORT wchar_t* Find(const char_type* pIdStr) const;
 
-    EXPORT bool KeyExists_5B5FA0(const char_type* pIdStr) const;
+    EXPORT bool KeyExists(const char_type* pIdStr) const;
 
     // 0x5B5FB0
     EXPORT TextTable();
@@ -111,6 +111,6 @@ class TextTable
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TextTable, 0x14);
 
-EXTERN_GLOBAL(TextTable*, gText_0x14_704DFC);
+EXTERN_GLOBAL(TextTable*, gText_0x14);
 
-EXTERN_GLOBAL(TextTable*, gtext_0x14_6F87F0);
+EXTERN_GLOBAL(TextTable*, gtext_0x14);

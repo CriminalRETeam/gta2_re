@@ -13,17 +13,19 @@ class LightBase
 
     }
 
-    void UpdatePool_45BF50()
+    // 9.6f 0x45BF50
+    void UpdatePool()
     {
-        field_0_pool.UpdatePool();
+        mPool.UpdatePool();
     }
 
-    void Service_45C1E0()
+    // 9.6f 0x45C1E0
+    void Service()
     {
-        UpdatePool_45BF50();
+        UpdatePool();
     }
 
-    Pool<Light, 3000> field_0_pool;
+    Pool<Light, 3000> mPool; // 0x0
 };
 
 class LightPool : public LightBase
@@ -31,79 +33,83 @@ class LightPool : public LightBase
   public:
     LightPool()
     {
-        LightGrid::AllocGrid_4D6E00();
+        LightGrid::AllocGrid();
     }
 
-    inline void AddToUpdateList_464C60(Light* pLight)
+    // 9.6f 0x464C60
+    inline void AddToUpdateList(Light* pLight)
     {
-        pLight->mpNext = field_0_pool.field_4_pPrev;
-        field_0_pool.field_4_pPrev = pLight;
+        pLight->mpNext = mPool.mpPrev;
+        mPool.mpPrev = pLight;
     }
 
-    inline Light* Alloc_464C40()
+    // 9.6f 0x464C40
+    inline Light* Alloc()
     {
-        Light* pFirst = field_0_pool.field_0_pStart;
-        field_0_pool.field_0_pStart = field_0_pool.field_0_pStart->mpNext;
+        Light* pFirst = mPool.mpStart;
+        mPool.mpStart = mPool.mpStart->mpNext;
         pFirst->mpNext = NULL;
-        pFirst->Reset_463F50();
+        pFirst->Reset();
         return pFirst;
     }
 
-    inline void SetFlashing_469070(Light* pLight, u8 on_time, u8 off_time, u8 shape)
+    // 9.6f 0x469070
+    inline void SetFlashing(Light* pLight, u8 on_time, u8 off_time, u8 shape)
     {
-        pLight->field_16_flicker_range = shape;
-        pLight->field_14_on_time = on_time;
-        pLight->field_15_off_time = off_time;
-        pLight->field_17_timer = off_time;
-        pLight->SetCurrentIntensity_45B2D0(0);
-        AddToUpdateList_464C60(pLight);
+        pLight->mFlickerRange = shape;
+        pLight->mOnTime = on_time;
+        pLight->mOffTime = off_time;
+        pLight->mTimer = off_time;
+        pLight->SetCurrentIntensity(0);
+        AddToUpdateList(pLight);
     }
     
     inline Light* Init_469010(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
     {
-        Light* pLight = Alloc_464C40();
-        pLight->field_4_x = xpos;
-        pLight->field_8_y = ypos;
-        pLight->field_C_z = zpos;
-        pLight->field_10_argb = argb;
-        pLight->field_0_intensity_radius.flag = 0x10000;
-        pLight->field_0_intensity_radius.SetRadius_463F10(radius);
-        pLight->SetCurrentIntensity_45B2D0(intensity);
-        pLight->field_18_intensity = intensity;
-        pLight->AddToGrid_4D6D70();
+        Light* pLight = Alloc();
+        pLight->mX = xpos;
+        pLight->mY = ypos;
+        pLight->mZ = zpos;
+        pLight->mArgb = argb;
+        pLight->mIntensityRadius.flag = 0x10000;
+        pLight->mIntensityRadius.SetRadius(radius);
+        pLight->SetCurrentIntensity(intensity);
+        pLight->mIntensity = intensity;
+        pLight->AddToGrid();
         return pLight;
     }
 
-    // Same as Init_469010, but TrafficLight::Init_5C1D00 calls the out-of-line copies
+    // Same as Init_469010, but TrafficLight::Init calls the out-of-line copies
     // Alloc_5C2B70 and LightIntensityRadius::SetRadius_5C5CD0 in 10.5.
     inline Light* InitOutOfLine_469010(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
     {
         Light* pLight = Alloc_5C2B70();
-        pLight->field_4_x = xpos;
-        pLight->field_8_y = ypos;
-        pLight->field_C_z = zpos;
-        pLight->field_10_argb = argb;
-        pLight->field_0_intensity_radius.flag = 0x10000;
-        pLight->field_0_intensity_radius.SetRadius_5C5CD0(radius);
-        pLight->SetCurrentIntensity_45B2D0(intensity);
-        pLight->field_18_intensity = intensity;
-        pLight->AddToGrid_4D6D70();
+        pLight->mX = xpos;
+        pLight->mY = ypos;
+        pLight->mZ = zpos;
+        pLight->mArgb = argb;
+        pLight->mIntensityRadius.flag = 0x10000;
+        pLight->mIntensityRadius.SetRadius_5C5CD0(radius);
+        pLight->SetCurrentIntensity(intensity);
+        pLight->mIntensity = intensity;
+        pLight->AddToGrid();
         return pLight;
     }
 
-    inline void Free_47F4B0(Light* pLight)
+    // 9.6f 0x47F4B0
+    inline void Free(Light* pLight)
     {
         pLight->PoolDeallocate();
-        pLight->mpNext = field_0_pool.field_0_pStart;
-        field_0_pool.field_0_pStart = pLight;
+        pLight->mpNext = mPool.mpStart;
+        mPool.mpStart = pLight;
     }
 
     // matched https://decomp.me/scratch/cZQwK
-    inline void RemoveFromUpdateListAndFree_47F450(Light* pLight)
+    inline void RemoveFromUpdateListAndFree(Light* pLight)
     {
         Light* pPrevious = NULL;
 
-        for (Light* pCurr = field_0_pool.field_4_pPrev; pCurr; pPrevious = pCurr, pCurr = pCurr->mpNext)
+        for (Light* pCurr = mPool.mpPrev; pCurr; pPrevious = pCurr, pCurr = pCurr->mpNext)
         {
             if (pCurr == pLight)
             {
@@ -114,32 +120,33 @@ class LightPool : public LightBase
                 }
                 else
                 {
-                    field_0_pool.field_4_pPrev = pCurr->mpNext;
+                    mPool.mpPrev = pCurr->mpNext;
                 }
-                pCurr->mpNext = field_0_pool.field_0_pStart;
-                field_0_pool.field_0_pStart = pCurr;
+                pCurr->mpNext = mPool.mpStart;
+                mPool.mpStart = pCurr;
                 break;
             }
         }
     }
 
-    inline void DeallocLight_47F4F0(Light* pLight)
+    // 9.6f 0x47F4F0
+    inline void DeallocLight(Light* pLight)
     {
-        pLight->RemoveFromGrid_4D6DC0();
-        if (pLight->field_14_on_time)
+        pLight->RemoveFromGrid();
+        if (pLight->mOnTime)
         {
-            field_0_pool.FindAndDeAllocate(pLight);
+            mPool.FindAndDeAllocate(pLight);
         }
         else
         {
-            field_0_pool.DeAllocate(pLight);
+            mPool.DeAllocate(pLight);
         }
     }
 
     EXPORT ~LightPool();
     EXPORT Light* Alloc_5C2B70();
-    EXPORT Light* CreateLight_52B2A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);
+    EXPORT Light* CreateLight(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(LightPool, 0x1D4CC);
 
-EXTERN_GLOBAL(LightPool*, gLight_1D4CC_6F5520);
+EXTERN_GLOBAL(LightPool*, gLight_1D4CC);

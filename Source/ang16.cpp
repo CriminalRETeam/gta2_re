@@ -1,16 +1,17 @@
 #include "ang16.hpp"
 #include "Function.hpp"
+#include "map_0x370.hpp"
 #include <cmath>
 
 DEFINE_GLOBAL_INIT(Ang16, kAng45_6F677C, Ang16(0xB4), 0x6F677C);
-DEFINE_GLOBAL_INIT(Ang16, kAng315_6F680C, Ang16(0x4EC), 0x6F680C);
+DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng315, Ang16(0x4EC), 0x6F680C);
 DEFINE_GLOBAL_INIT(Ang16, kAng135_6F6800, Ang16(0x21C), 0x6F6800);
-DEFINE_GLOBAL_INIT(Ang16, kAng225_6F67DC, Ang16(0x384), 0x6F67DC);
+DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng225, Ang16(0x384), 0x6F67DC);
 
 EXTERN_GLOBAL(Ang16, kAng180_669156);
 
 MATCH_FUNC(0x405640)
-void Ang16::SnapToAng4_405640()
+void Ang16::SnapToAng4()
 {
     if (rValue < 180 || rValue > 1260)
     {
@@ -27,34 +28,34 @@ void Ang16::SnapToAng4_405640()
 }
 
 MATCH_FUNC(0x405680)
-u8 Ang16::ToAng4_405680() const
+u8 Ang16::ToAng4() const
 {
     return rValue / 360;
 }
 
 MATCH_FUNC(0x4056A0)
-u8 Ang16::GetOctant_4056A0() const
+u8 Ang16::GetOctant() const
 {
     return rValue / 180;
 }
 
 MATCH_FUNC(0x405B60)
-Fix16 __stdcall Ang16::NormalizeAngleDeltaScaled_405B60(Ang16& from, Ang16& to, Ang16& divisor)
+Fix16 __stdcall Ang16::NormalizeAngleDeltaScaled(Ang16& from, Ang16& to, Ang16& divisor)
 {
     Ang16 d = to - from;
     if (d > kAng180_669156)
     {
         d = -d;
-        return d.divideBy_40E640(divisor);
+        return d.divideBy(divisor);
     }
     else
     {
-        return d.divideBy_40E640(divisor);
+        return d.divideBy(divisor);
     }
 }
 
 MATCH_FUNC(0x405C60)
-bool __stdcall Ang16::IsAngleAhead_405C60(Ang16* pFrom, Ang16* pTo)
+bool __stdcall Ang16::IsAngleAhead(Ang16* pFrom, Ang16* pTo)
 {
     if (*pTo - *pFrom <= kAng180_669156)
     {
@@ -70,7 +71,7 @@ void Ang16::Normalize_406C20()
 }
 
 MATCH_FUNC(0x409300)
-Ang16* Ang16::AssignNormalized_409300(const s16& value, s32 not_used)
+Ang16* Ang16::AssignNormalized(const s16& value, s32 not_used)
 {
     rValue = value;
     Normalize();
@@ -78,7 +79,7 @@ Ang16* Ang16::AssignNormalized_409300(const s16& value, s32 not_used)
 }
 
 MATCH_FUNC(0x409340)
-Ang16 Ang16::SubtractNormalized_409340(const Ang16& toSub)
+Ang16 Ang16::SubtractNormalized(const Ang16& toSub)
 {
     return Ang16(rValue - toSub.rValue, static_cast<u8>(0));
 }
@@ -90,12 +91,11 @@ Ang16::Ang16(Fix16* value, s32 not_used)
     Normalize();
 }
 
-// TODO: move
 MATCH_FUNC(0x451730)
 void __stdcall Ang16::PolarToCartesian_451730(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
 {
-    ret1 = radius * Ang16::sine_40F500(angle);
-    ret2 = radius * Ang16::cosine_40F520(angle);
+    ret1 = radius * Ang16::sine(angle);
+    ret2 = radius * Ang16::cosine(angle);
 }
 
 MATCH_FUNC(0x482740)
@@ -104,16 +104,17 @@ Ang16 Ang16::Fix16_To_Ang16_482740(const Fix16& value)
     return Ang16(value.mValue / 71, 0);
 }
 
+// The road_direction the angle faces: the inverse of ReturnAngleFromRoadDirection.
 MATCH_FUNC(0x4F78F0)
-s32 __stdcall Ang16::GetAngleFace_4F78F0(const Ang16& angle)
+s32 __stdcall Ang16::GetAngleFace(const Ang16& angle)
 {
-    if (angle <= kAng45_6F677C || angle > kAng315_6F680C) //  45° and 315°
+    if (angle <= kAng45_6F677C || angle > kAng315)
     {
-        return 2; //  North
+        return road_direction::down_2;
     }
-    if (angle < kAng135_6F6800) // kAng135_6F6800 = 135°
+    if (angle < kAng135_6F6800)
     {
-        return 3; //  East
+        return road_direction::right_3;
     }
-    return angle < kAng225_6F67DC ? 1 : 4; // kAng225_6F67DC = 225°  ,  1 = South, 4 = West
+    return angle < kAng225 ? road_direction::up_1 : road_direction::left_4;
 }

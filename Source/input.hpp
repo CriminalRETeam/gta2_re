@@ -13,13 +13,13 @@
 class Input
 {
   public:
-    EXPORT static void __stdcall DirectInputCreate_4986D0(HINSTANCE hInstance);
+    EXPORT static void __stdcall CreateDirectInput(HINSTANCE hInstance);
 
-    EXPORT static void __stdcall DInputRelease_498710();
+    EXPORT static void __stdcall DInputRelease();
 };
 
-EXTERN_GLOBAL(LPDIRECTINPUTA, gpDInput_67B804);
+EXTERN_GLOBAL(LPDIRECTINPUTA, gpDInput);
 
-EXTERN_GLOBAL(LPDIRECTINPUTDEVICEA, gKeyboardDevice_67B5C0);
+EXTERN_GLOBAL(LPDIRECTINPUTDEVICEA, gKeyboardDevice);
 
-EXTERN_GLOBAL(LPDIRECTINPUTDEVICEA, gGamePadDevice_67B6C0);
+EXTERN_GLOBAL(LPDIRECTINPUTDEVICEA, gGamePadDevice);

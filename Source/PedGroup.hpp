@@ -9,105 +9,107 @@ class PedGroup
 {
   private:
     // 9.6f 0x4038E0
-    inline void set_in_use_4038E0()
+    inline void set_in_use()
     {
-        field_40_in_use = true;
+        mInUse = true;
     }
 
     // 9.6f 0x4038F0
-    inline bool get_in_use_4038F0() const
+    inline bool get_in_use() const
     {
-        return field_40_in_use;
+        return mInUse;
     }
 
   public:
-    EXPORT void DestroyGroupArray_4C8E60();
+    STATIC_MEMBER(char_type, sGroupMemberCarDoor);
+    EXPORT void DestroyGroupArray();
 
   private:
-    EXPORT static void ResetMemberCarDoor_4C8E80();
+    EXPORT static void ResetMemberCarDoor();
 
   public:
-    EXPORT void ClearGroupData_4C8E90();
+    EXPORT void ClearGroupData();
 
   private:
-    EXPORT void Reset_4C8EF0();
+    EXPORT void Reset();
 
   public:
-    EXPORT void ResetGroupObjectives_4C8F20();
-    EXPORT void add_ped_to_end_of_list_4C8F90(Ped* pPed);
-    EXPORT void replace_leader_4C8FE0(Ped* pNewLeader);
-    EXPORT bool PurgeMembersInCars_4C9040();
-    EXPORT bool AreAllMembersOffScreen_4C9150() const;
-    EXPORT void ResetMembersToFollowLeader_4C91B0();
-    EXPORT bool IsLeaderInCar_4C9210() const;
-    EXPORT bool IsLeaderEnteringCarOrTrain_4C9220() const;
-    EXPORT void KillEntireGroup_4C9240();
-    EXPORT void DisbandGroup_4C92A0();
-    EXPORT void DestroyGroup_4C93A0();
-    EXPORT void DisbandGroupDueToAttack_4C94E0(Ped* pAttacker);
-    EXPORT void PromoteMemberToLeader_4C9680(u8 idx);
-    EXPORT void RemovePed_4C9970(Ped* pPed);
-    EXPORT void add_ped_leader_4C9B10(Ped* pLeader);
-    EXPORT void add_ped_to_list_4C9B30(Ped* pPed, u8 idx);
-    EXPORT void GroupAttackPed_4C9B60(Ped* pPed);
+    EXPORT void ResetGroupObjectives();
+    EXPORT void add_ped_to_end_of_list(Ped* pPed);
+    EXPORT void replace_leader(Ped* pNewLeader);
+    EXPORT bool PurgeMembersInCars();
+    EXPORT bool AreAllMembersOffScreen() const;
+    EXPORT void ResetMembersToFollowLeader();
+    EXPORT bool IsLeaderInCar() const;
+    EXPORT bool IsLeaderEnteringCarOrTrain() const;
+    EXPORT void KillEntireGroup();
+    EXPORT void DisbandGroup();
+    EXPORT void DestroyGroup();
+    EXPORT void DisbandGroupDueToAttack(Ped* pAttacker);
+    EXPORT void PromoteMemberToLeader(u8 idx);
+    EXPORT void RemovePed(Ped* pPed);
+    EXPORT void add_ped_leader(Ped* pLeader);
+    EXPORT void add_ped_to_list(Ped* pPed, u8 idx);
+    EXPORT void GroupAttackPed(Ped* pPed);
 
   private:
-    EXPORT Ped* FindLastNonPanickingMember_4C9ED0() const;
+    EXPORT Ped* FindLastNonPanickingMember() const;
 
   public:
-    EXPORT void CoordinateGroupCarEntry_4C9F00();
+    EXPORT void CoordinateGroupCarEntry();
 
   private:
-    EXPORT u32 IsLeaderPanicking_4CA3E0() const;
-    EXPORT Ped* FindFarthestMember_4CA3F0(Fix16* pFoundDistance) const;
-    EXPORT void UpdateFormation_4CA4B0();
+    EXPORT u32 IsLeaderPanicking() const;
+    EXPORT Ped* FindFarthestMember(Fix16* pFoundDistance) const;
+    EXPORT void UpdateFormation();
 
   public:
-    EXPORT void UpdateMemberAIState_4CA5E0(u8 idx);
-    EXPORT void UpdateMemberTightFollowState_4CA820(u8 idx);
-    EXPORT bool IsAllMembersInSomeCar_4CAA20() const;
-    EXPORT bool HasNoActiveMembers_4CAAE0() const;
-    EXPORT bool AreAllMembersOnFoot_4CAB80() const;
-    EXPORT bool IsMemberTooFarFromLeader_4CAC20(u8 idx) const;
-    EXPORT bool IsLeaderCloseToTargetCar_4CAD40() const;
+    EXPORT void UpdateMemberAIState(u8 idx);
+    EXPORT void UpdateMemberTightFollowState(u8 idx);
+    EXPORT bool IsAllMembersInSomeCar() const;
+    EXPORT bool HasNoActiveMembers() const;
+    EXPORT bool AreAllMembersOnFoot() const;
+    EXPORT bool IsMemberTooFarFromLeader(u8 idx) const;
+    EXPORT bool IsLeaderCloseToTargetCar() const;
 
   private:
-    EXPORT Ped* FindNearestOtherMember_4CAE80(u8 idx) const;
+    EXPORT Ped* FindNearestOtherMember(u8 idx) const;
 
   public:
-    EXPORT static void ResetAllGroups_4CB080();
-    EXPORT static PedGroup* New_4CB0D0();
+    EXPORT static void ResetAllGroups();
+    EXPORT static PedGroup* New();
     EXPORT PedGroup();
     EXPORT ~PedGroup();
 
     // 9.6f 0x433360
-    inline void SetCounts_433360(u8 count)
+    inline void SetCounts(u8 count)
     {
-        field_36_count = count;
-        field_34_count = count;
+        mCount36 = count;
+        mCount34 = count;
     }
 
-    inline s32 Get_F3C_433370() const
+    // 9.6f 0x433370
+    inline s32 Get_F3C() const
     {
-        return field_3C_is_leader_waiting;
+        return mIsLeaderWaiting;
     }
 
-    bool field_0_remove_dead_members;
-    bool field_1_wait_for_members; // while set, UpdateFormation makes the leader wait (objective 9) for a member who has fallen too far behind
-    char_type field_2_unused; // padding
-    char_type field_3_unused; // padding
-    Ped* field_4_ped_list[9]; // the members, without gaps up to field_34_count: the loops over them don't check for NULL
-    s32 field_28_unused;
-    Ped* field_2C_ped_leader;
-    s32 field_30_panicking; // UpdateFormation recomputes it as "the leader or a member is panicking"; GroupAttackPed_4C9B60, a leader in state 3/5/10 and the paramedics' revive step also set it. A dword in the original, so not a bool
-    u8 field_34_count;
-    char_type field_35_unused;
-    char_type field_36_count;
-    char_type field_37_unused;
-    s32 field_38_group_type;
-    s32 field_3C_is_leader_waiting;
-    bool field_40_in_use;
-    char_type field_41_unused;
-    char_type field_42_unused;
-    char_type field_43_unused;
+    bool mRemoveDeadMembers; // 0x0
+    bool mWaitForMembers; // 0x1: while set, UpdateFormation makes the leader wait (objective 9) for a member who has fallen too far behind
+    char_type mUnused2; // 0x2: padding
+    char_type mUnused3; // 0x3: padding
+    Ped* mPedList[9]; // 0x4: the members, without gaps up to mCount34: the loops over them don't check for NULL
+    s32 mUnused28; // 0x28
+    Ped* mPedLeader; // 0x2C
+    s32 mPanicking; // 0x30: UpdateFormation recomputes it as "the leader or a member is panicking"; GroupAttackPed, a leader in state 3/5/10 and the paramedics' revive step also set it. A dword in the original, so not a bool
+    u8 mCount34; // 0x34
+    char_type mUnused35; // 0x35
+    char_type mCount36; // 0x36
+    char_type mUnused37; // 0x37
+    s32 mGroupType; // 0x38
+    s32 mIsLeaderWaiting; // 0x3C
+    bool mInUse; // 0x40
+    char_type mUnused41; // 0x41
+    char_type mUnused42; // 0x42
+    char_type mUnused43; // 0x43
 };

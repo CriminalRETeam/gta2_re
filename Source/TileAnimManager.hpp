@@ -9,13 +9,13 @@ struct gmp_tile_animation;
 class TileAnimManager
 {
   public:
-    EXPORT void AddAnim_5BC260(s16 base, s16 start_frame, s16 length, s16 frame_rate, s16 repeat);
-    EXPORT void AddGmpAnim_5BC2C0(const gmp_tile_animation* pTileAnimation);
-    EXPORT void Empty_5BC300();
-    EXPORT void UpdateTileAnimations_5BC310();
+    EXPORT void AddAnim(s16 base, s16 start_frame, s16 length, s16 frame_rate, s16 repeat);
+    EXPORT void AddGmpAnim(const gmp_tile_animation* pTileAnimation);
+    EXPORT void Empty();
+    EXPORT void UpdateTileAnimations();
     EXPORT TileAnimManager();
     EXPORT ~TileAnimManager();
-    s16 field_0_count;
+    s16 mCount; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TileAnimManager, 0x2);
 
@@ -23,14 +23,14 @@ class TileAnim
 {
   public:
     // 9.6f 0x4C33F0
-    inline void Init_4C33F0(s16 base, s16 start_frame, s16 length, s16 frame_rate, s16 repeat)
+    inline void Init(s16 base, s16 start_frame, s16 length, s16 frame_rate, s16 repeat)
     {
-        field_10_base = base;
-        field_0_start_frame = start_frame;
-        field_2_anim_length = length;
-        field_4_frame_rate = frame_rate;
-        field_6_repeat = repeat;
-        field_C_ptr = NULL;
+        mBase = base;
+        mStartFrame = start_frame;
+        mAnimLength = length;
+        mFrameRate = frame_rate;
+        mRepeat = repeat;
+        mPtr = NULL;
     }
 
     EXPORT void PoolAllocate();
@@ -38,22 +38,22 @@ class TileAnim
     {
       
     }
-    EXPORT void ApplyCurrentFrame_5BC150();
-    EXPORT void InitFromGmpAnim_5BC190(const gmp_tile_animation* pAnimation);
-    EXPORT void Start_5BC1D0();
+    EXPORT void ApplyCurrentFrame();
+    EXPORT void InitFromGmpAnim(const gmp_tile_animation* pAnimation);
+    EXPORT void Start();
     EXPORT bool PoolUpdate();
     EXPORT TileAnim();
     EXPORT ~TileAnim();
 
-    u16 field_0_start_frame;
-    u16 field_2_anim_length;
-    s16 field_4_frame_rate;
-    u16 field_6_repeat;
-    u16 field_8_current_frame;
-    s16 field_A_frame_timer;
-    const gmp_tile_animation* field_C_ptr;
-    s16 field_10_base;
-    s16 field_12_anim_idx;
+    u16 mStartFrame; // 0x0
+    u16 mAnimLength; // 0x2
+    s16 mFrameRate; // 0x4
+    u16 mRepeat; // 0x6
+    u16 mCurrentFrame; // 0x8
+    s16 mFrameTimer; // 0xA
+    const gmp_tile_animation* mPtr; // 0xC
+    s16 mBase; // 0x10
+    s16 mAnimIdx; // 0x12
     TileAnim* mpNext;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TileAnim, 0x18);
@@ -70,10 +70,10 @@ class TileAnimPool
 
     TileAnim* Allocate()
     {
-        return field_0_pool.Allocate();
+        return mPool.Allocate();
     }
 
-    Pool<TileAnim, 50> field_0_pool;
+    Pool<TileAnim, 50> mPool; // 0x0
 };
 
-EXTERN_GLOBAL(TileAnimManager*, gTileAnim_2_7052C4);
+EXTERN_GLOBAL(TileAnimManager*, gTileAnim_2);

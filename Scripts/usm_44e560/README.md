@@ -1,6 +1,6 @@
-# UpdateStateMachine_44E560 kit
+# UpdateStateMachine kit
 
-`CarAI_78::UpdateStateMachine_44E560` matches (see `docs/match_attempts.md`, the UpdateStateMachine_44E560
+`CarAI_78::UpdateStateMachine` matches (see `docs/match_attempts.md`, the UpdateStateMachine
 sections). These tools score it alone and build the patched C2s used to find the last differences.
 
 ```bash
@@ -12,7 +12,7 @@ Scripts/usm_44e560/score.sh build_vc6/inline_c2_P661
 ```
 
 - The source holds reconstructions the match needs: an unused `s32 unused;` in `Ang16::PolarToCartesian_41FC20`
-  and `CarPhysics_B0::TurnClockwise_42ABA0` (+34 optimizer entries, 1 scope marker per expansion, 0 nodes; any
+  and `CarPhysics_B0::TurnClockwise` (+34 optimizer entries, 1 scope marker per expansion, 0 nodes; any
   set of helpers giving 34 or 35 works), the two cluster-C spellings at the left alongside site, and the
   `bOvertake` hand-off flag in follow_behind. The compiled-out asserts (in the function and two per `Fix16`
   operator) are part of the match: each costs 2 front-end nodes in the inline budget and nothing else.

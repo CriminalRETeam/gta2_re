@@ -17,7 +17,7 @@ struct TaxiListNode
     {
     }
 
-    Car* field_0_pCar;
+    Car* mpCar; // 0x0
     TaxiListNode* mpNext;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TaxiListNode, 0x8);
@@ -33,7 +33,7 @@ public:
     
     ~TaxiListPool()
     {
-        this->field_0_pHead = NULL;
+        this->mpHead = NULL;
     }
 };
 
@@ -42,33 +42,36 @@ class TaxiList
 {
   private:
     // inlined
-    void Init_4C09B0()
+    // 9.6f 0x4C09B0
+    void Init()
     {
-        ClearList_4C0980();
+        ClearList();
     }
 
     // inlined
-    void ClearList_4C0980()
+    // 9.6f 0x4C0980
+    void ClearList()
     {
-        field_0_pFirst = NULL;
+        mpFirst = NULL;
     }
 
   public:
+    STATIC_MEMBER(TaxiListPool*, sTaxi4Pool);
     // 9.6f 0x434970
-    inline bool IsEmpty_434970() const
+    inline bool IsEmpty() const
     {
-        return field_0_pFirst == NULL;
+        return mpFirst == NULL;
     }
 
-    EXPORT void PushTaxi_457BA0(Car* pCar);
-    EXPORT void PopAll_457BC0();
-    EXPORT Car* GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos);
+    EXPORT void PushTaxi(Car* pCar);
+    EXPORT void PopAll();
+    EXPORT Car* GetTaxiNear(Fix16 xpos, Fix16 ypos);
     EXPORT TaxiList();
     EXPORT ~TaxiList();
 
   private:
-    TaxiListNode* field_0_pFirst;
+    TaxiListNode* mpFirst; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TaxiList, 0x4);
 
-EXTERN_GLOBAL(TaxiList*, gTaxi_4_704130);
+EXTERN_GLOBAL(TaxiList*, gTaxi_4);

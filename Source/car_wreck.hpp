@@ -6,6 +6,6 @@ namespace car_wreck
 {
 enum
 {
-    none_99 = 99, // the model has no wreck: it can't be destroyed, so ResetCarModelFlags_592380 treats it as already destroyed
+    none_99 = 99, // the model has no wreck: it can't be destroyed, so ResetCarModelFlags treats it as already destroyed
 };
 } // namespace car_wreck

@@ -9,10 +9,10 @@
 #include "fix16.hpp"
 #include "sprite.hpp"
 
-EXTERN_GLOBAL(Fix16_Point, gZeroVector_6F8EF0);
-EXTERN_GLOBAL(s32, gObj2C_id_623EC0);
+EXTERN_GLOBAL(Fix16_Point, gZeroVector);
+EXTERN_GLOBAL(s32, gObj2C_id);
 
-EXPORT void __stdcall UnpackSignedNibbles_529050(u8 packed, s8* pX, s8* pY);
+EXPORT void __stdcall UnpackSignedNibbles(u8 packed, s8* pX, s8* pY);
 
 class Object;
 class Sprite;
@@ -30,8 +30,8 @@ namespace object_pool_state
 enum
 {
     none_0 = 0,
-    in_pool_list_1 = 1, // linked into the pool's list of live objects (PoolGive_522340)
-    out_of_pool_list_2 = 2, // allocated but not linked (PoolTake_522360, AllocateUntracked)
+    in_pool_list_1 = 1, // linked into the pool's list of live objects (PoolGive)
+    out_of_pool_list_2 = 2, // allocated but not linked (PoolTake, AllocateUntracked)
 };
 } // namespace object_pool_state
 
@@ -40,264 +40,289 @@ namespace object_removal_state
 enum
 {
     none_0 = 0,
-    requested_1 = 1, // RequestRemoval_5290A0
-    when_off_screen_2 = 2, // RequestRemovalWhenOffScreen_5290B0
+    requested_1 = 1, // RequestRemoval
+    when_off_screen_2 = 2, // RequestRemovalWhenOffScreen
 };
 } // namespace object_removal_state
 
 class Object
 {
   public:
+    STATIC_MEMBER(s32, sObject2CWallHitSide);
+    STATIC_MEMBER(Sprite*, sObject2CLastCollisionSprite);
+    STATIC_MEMBER(bool, sObject2CHitWallOrDoor);
     // 9.6f 0x4C4F10
-    inline void SetThreadTriggerIdx_4C4F10(char_type v)
+    inline void SetThreadTriggerIdx(char_type v)
     {
-        field_27_thread_trigger_idx = v;
+        mThreadTriggerIdx = v;
     }
 
     EXPORT Object();
     EXPORT void PoolDeallocate();
-    EXPORT bool IsSpriteOwnerPed_522250(Sprite* pSprite) const;
-    EXPORT s32 GetMovementRegionSize_5222B0() const;
-    EXPORT void UpdatePhysics_5222D0();
-    EXPORT void PoolGive_522340();
-    EXPORT void PoolTake_522360();
-    EXPORT bool ShouldCollideWith_5223C0(Sprite* pSprite) const;
-    EXPORT bool ShouldStopAtTrafficLight_525290(Sprite* pSprite) const;
-    EXPORT bool ShouldCollideWithSprite_522430(Sprite* pSprite) const;
-    EXPORT bool SelectCollisionSprite_522460(Sprite* pProbe);
-    EXPORT void SetMovementVector_5224E0(Fix16_Point& speed);
-    EXPORT void SetMovementVectorWithRandomState_522640(Fix16_Point& point);
-    EXPORT void SetConveyorPush_5226A0(char_type conveyor_speed);
-    EXPORT void ResolveCollisionWithObject_522710(Object* pObj, Fix16_Point* pPoint);
-    EXPORT void ResolveCollisionWithPed_5229B0(Char* pChar, Fix16_Point* pPoint, u8 not_used);
-    EXPORT void ResolveCollisionWithWorld_522B20(Fix16_Point* pCollisionPoint, Fix16_Point* pPoint, Fix16_Point* speed);
-    EXPORT void ResolveCollisionWithHorizontalEdge_522BE0(Fix16_Point* pPoint);
-    EXPORT void ResolveCollisionWithVerticalEdge_522D00(Fix16_Point* pPoint);
-    EXPORT void HandleCollision_522E10(Fix16_Point* pPoint);
-    EXPORT bool TryStartSlide_5233A0(Fix16 speed);
-    EXPORT void HandleCollisionOutcome_523440(Fix16_Point point, bool bHitFloorBelow, bool bHitBlockAtZ);
-    EXPORT bool HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, bool* pHitWall, Fix16 found_z);
-    EXPORT bool HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, bool* pHitWall, bool* pHitBlockAtZ);
-    EXPORT bool HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint, bool* pHitWall, bool* pHitFloorBelow, Fix16 found_z);
-    EXPORT void ComputeWallHitSide_524550();
-    EXPORT void IntegrateHorizontalMovementAndCollisions_524630(Fix16 move_len, Ang16 move_angle);
-    EXPORT void OnExplosionNearby_525190(u8 ped_ref_idx);
-    EXPORT void UpdateAnimation_5257D0();
-    EXPORT bool DispatchFrameAction_525910();
-    EXPORT bool ShouldCollideWithSprite_525370(Sprite* pSprite) const;
-    EXPORT void CheckCollisionForModel_139_And_141_525AE0();
-    EXPORT void SpawnSpriteParticlesForRocketBullet_525B40();
-    EXPORT bool CheckWaterDeath_525B60();
-    EXPORT void UpdatePhysicsAndMovement_525B80();
-    EXPORT void UpdatePhysicsMovementAndAnimation_525D90();
-    EXPORT void Update_525F30();
+    EXPORT bool IsSpriteOwnerPed(Sprite* pSprite) const;
+    EXPORT s32 GetMovementRegionSize() const;
+    EXPORT void UpdatePhysics();
+    EXPORT void PoolGive();
+    EXPORT void PoolTake();
+    EXPORT bool ShouldCollideWith(Sprite* pSprite) const;
+    EXPORT bool ShouldStopAtTrafficLight(Sprite* pSprite) const;
+    EXPORT bool ShouldCollideWithNonOwner(Sprite* pSprite) const;
+    EXPORT bool SelectCollisionSprite(Sprite* pProbe);
+    EXPORT void SetMovementVector(Fix16_Point& speed);
+    EXPORT void SetMovementVectorWithRandomState(Fix16_Point& point);
+    EXPORT void SetConveyorPush(char_type conveyor_speed);
+    EXPORT void ResolveCollisionWithObject(Object* pObj, Fix16_Point* pPoint);
+    EXPORT void ResolveCollisionWithPed(Char* pChar, Fix16_Point* pPoint, u8 not_used);
+    EXPORT void ResolveCollisionWithWorld(Fix16_Point* pCollisionPoint, Fix16_Point* pPoint, Fix16_Point* speed);
+    EXPORT void ResolveCollisionWithHorizontalEdge(Fix16_Point* pPoint);
+    EXPORT void ResolveCollisionWithVerticalEdge(Fix16_Point* pPoint);
+    EXPORT void HandleCollision(Fix16_Point* pPoint);
+    EXPORT bool TryStartSlide(Fix16 speed);
+    EXPORT void HandleCollisionOutcome(Fix16_Point point, bool bHitFloorBelow, bool bHitBlockAtZ);
+    EXPORT bool HandleSpriteGroundAndCollision(Sprite* pSprite, Fix16_Point* pPoint, bool* pHitWall, Fix16 found_z);
+    EXPORT bool HandleSpriteGroundAndCollisionSimple(Sprite* pSprite, Fix16_Point* pPoint, bool* pHitWall, bool* pHitBlockAtZ);
+    EXPORT bool HandleSpriteZCollision(Sprite* pSprite, Fix16_Point* pPoint, bool* pHitWall, bool* pHitFloorBelow, Fix16 found_z);
+    EXPORT void ComputeWallHitSide();
+    EXPORT void IntegrateHorizontalMovementAndCollisions(Fix16 move_len, Ang16 move_angle);
+    EXPORT void OnExplosionNearby(u8 ped_ref_idx);
+    EXPORT void UpdateAnimation();
+    EXPORT bool DispatchFrameAction();
+    EXPORT bool CanObjectCollideWithSprite(Sprite* pSprite) const;
+    EXPORT void CheckCollisionForModel_139_And_141();
+    EXPORT void SpawnSpriteParticlesForRocketBullet();
+    EXPORT bool CheckWaterDeath();
+    EXPORT void UpdatePhysicsAndMovement();
+    EXPORT void UpdatePhysicsMovementAndAnimation();
+    EXPORT void Update();
     EXPORT bool PoolUpdate();
-    EXPORT void TriggerCarExplosionIfApplicable_526790(Sprite* pSprite);
-    EXPORT static s32 __stdcall GetExplosionTypeForItemDefinition_526830(s32 type);
-    EXPORT void InheritMotionFromSprite_526B40(Sprite* pSprite);
-    EXPORT bool UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot);
-    EXPORT void InitializeObject_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
-    EXPORT void TurnOffLight_527990();
-    EXPORT void AssignToBucket_527AE0();
-    EXPORT void RemoveFromCollisionBuckets_527D00();
-    EXPORT void ReleaseSubObjects_527F10();
-    EXPORT void NewObj3C_528130(Fix16_Point& speed);
-    EXPORT bool ChangeInstanceLimitKind_528240(s32 current, s32 desired);
-    EXPORT void TickObject_5283C0(s32 obj_type);
-    EXPORT bool OnObjectTouched_5288B0(Sprite* pSprite);
-    EXPORT void HandleWaterDeath_528900();
-    EXPORT static s32 __stdcall GetExplosionTypeForWallSide_528E00(s32 wall_side);
-    EXPORT bool HandleObjectHitIfExplosive_528960(Object* pOther);
-    EXPORT bool HandleObjectHit_528990(Sprite* pSprite);
-    EXPORT void ProcessObjectExplosionImpact_528A20(Object* pObj);
-    EXPORT void HandleImpactNoSprite_528BA0();
-    EXPORT void HandleImpact_528E50(Sprite* pSprite);
-    EXPORT void HandleCollisionWithObject_529000(Object* pObj);
-    EXPORT void SetConveyorSpeed_529030(s8 speed_x, s8 speed_y);
-    EXPORT void ApplyConveyorSpeedFrom_529070(Object* pObj);
-    EXPORT s32 GetExplosionTypeForDiagonalWall_529210() const;
-    EXPORT s32 GetMapBlockSoundSpec_529240() const;
-    EXPORT void SetDefaultWeaponAmmo_5292D0();
-    EXPORT void SetDamageOwner_529080(u8 ped_ref_idx);
-    EXPORT void RequestRemoval_5290A0();
-    EXPORT void RequestRemovalWhenOffScreen_5290B0();
-    EXPORT void Dealloc_5291B0();
-    EXPORT void PoolGiveAndMarkDone_5291D0();
-    EXPORT void PoolGiveAndQueueObjectType_5291E0(s32 object_type);
-    EXPORT bool IsNotModel_174_529200() const;
+    EXPORT void TriggerCarExplosionIfApplicable(Sprite* pSprite);
+    EXPORT static s32 __stdcall GetExplosionTypeForItemDefinition(s32 type);
+    EXPORT void InheritMotionFromSprite(Sprite* pSprite);
+    EXPORT bool UpdateMovementAndEffects(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot);
+    EXPORT void InitializeObject(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
+    EXPORT void TurnOffLight();
+    EXPORT void AssignToBucket();
+    EXPORT void RemoveFromCollisionBuckets();
+    EXPORT void ReleaseSubObjects();
+    EXPORT void NewObj3C(Fix16_Point& speed);
+    EXPORT bool ChangeInstanceLimitKind(s32 current, s32 desired);
+    EXPORT void TickObject(s32 obj_type);
+    EXPORT bool OnObjectTouched(Sprite* pSprite);
+    EXPORT void HandleWaterDeath();
+    EXPORT static s32 __stdcall GetExplosionTypeForWallSide(s32 wall_side);
+    EXPORT bool HandleObjectHitIfExplosive(Object* pOther);
+    EXPORT bool HandleObjectHit(Sprite* pSprite);
+    EXPORT void ProcessObjectExplosionImpact(Object* pObj);
+    EXPORT void HandleImpactNoSprite();
+    EXPORT void HandleImpact(Sprite* pSprite);
+    EXPORT void HandleCollisionWithObject(Object* pObj);
+    EXPORT void SetConveyorSpeed(s8 speed_x, s8 speed_y);
+    EXPORT void ApplyConveyorSpeedFrom(Object* pObj);
+    EXPORT s32 GetExplosionTypeForDiagonalWall() const;
+    EXPORT s32 GetMapBlockSoundSpec() const;
+    EXPORT void SetDefaultWeaponAmmo();
+    EXPORT void SetDamageOwner(u8 ped_ref_idx);
+    EXPORT void RequestRemoval();
+    EXPORT void RequestRemovalWhenOffScreen();
+    EXPORT void Dealloc();
+    EXPORT void PoolGiveAndMarkDone();
+    EXPORT void PoolGiveAndQueueObjectType(s32 object_type);
+    EXPORT bool IsNotModel_174() const;
     EXPORT ~Object();
-    EXPORT void EnsureObject3C_52A650();
-    EXPORT void OnAttachedToSprite_52A6D0(Sprite* pSprite);
-    EXPORT Fix16_Point GetXY_52AE70() const;
+    EXPORT void EnsureObject3C();
+    EXPORT void OnAttachedToSprite(Sprite* pSprite);
+    EXPORT Fix16_Point GetXY() const;
     EXPORT Fix16_Point GetSpeedVector_52AE90() const;
     // 9.6f 0x482C50; GetSpeedVector_52AE90 is its out-of-line copy. It returns a Fix16_Point (which has
     // a destructor), so VC6 never expands it: it is charged to the caller's inline budget and called
-    // out of line (SetMovementVector_5224E0)
+    // out of line (SetMovementVector)
     inline Fix16_Point GetSpeedVector_482C50() const
     {
-        if (field_10_obj_3c)
+        if (mObj3c)
         {
-            return field_10_obj_3c->GetSpeedVector_482BA0();
+            return mObj3c->GetSpeedVector_482BA0();
         }
-        return gZeroVector_6F8EF0;
+        return gZeroVector;
     }
 
-    // TODO: ordering
-    EXPORT void SetSpriteIdxOffset_5290C0(u8 offset);
-    EXPORT Fix16 GetEffectiveSpeed_5290F0() const;
-    EXPORT bool IsFireExplosion_525AC0() const;
-    EXPORT void UpdateEffectPool_525B20();
-    EXPORT void UpdateLight_527A30();
-    EXPORT void OnAttachedSpriteDestroyed_525100();
+    EXPORT void SetSpriteIdxOffset(u8 offset);
+    EXPORT Fix16 GetEffectiveSpeed() const;
+    EXPORT bool IsFireExplosion() const;
+    EXPORT void UpdateEffectPool();
+    EXPORT void UpdateLight();
+    EXPORT void OnAttachedSpriteDestroyed();
 
-    EXPORT void IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle);
-    EXPORT void Sprite_UpdateZFromSlopeAndTile_522FA0(Sprite* pSprite);
+    EXPORT void IntegrateMovementAndCollisions(Fix16 mov_speed, Ang16 angle);
+    EXPORT void Sprite_UpdateZFromSlopeAndTile(Sprite* pSprite);
 
     // 9.6f 0x475A70
-    inline bool IsStaticCollisionCheck_475A70() const
+    inline bool IsStaticCollisionCheck() const
     {
-        return field_8_definition->field_34_behavior_type == object_behavior_type::static_collision_check_1;
+        return mDefinition->mBehaviorType == object_behavior_type::static_collision_check_1;
     }
 
     // 9.6f 0x475A60
-    inline bool IsShop_475A60() const
+    inline bool IsShop() const
     {
-        s32 behavior_type = field_8_definition->field_34_behavior_type;
+        s32 behavior_type = mDefinition->mBehaviorType;
         return behavior_type == object_behavior_type::shop_10;
     }
 
-    bool IsAnimatedBehavior_475A80() const
+    // 9.6f 0x475A80
+    bool IsAnimatedBehavior() const
     {
-        s32 behavior_type = this->field_8_definition->field_34_behavior_type;
+        s32 behavior_type = this->mDefinition->mBehaviorType;
         return behavior_type == object_behavior_type::animated_2 || behavior_type == object_behavior_type::physics_animated_4 || behavior_type == object_behavior_type::pickup_animated_8 || behavior_type == object_behavior_type::pickup_physics_animated_9;
     }
 
-    inline bool IsDestroyedPowergen_434140() const
+    // 9.6f 0x434140
+    inline bool IsDestroyedPowergen() const
     {
-        if (field_18_model == objects::destroyed_invisible_powergen_285 || field_18_model == objects::destroyed_powergen_282)
+        if (mModel == objects::destroyed_invisible_powergen_285 || mModel == objects::destroyed_powergen_282)
         {
             return true;
         }
         return false;
     }
 
-    bool CanBePushed_482C90() const
+    // 9.6f 0x482C90
+    bool CanBePushed() const
     {
-        s32 behavior_type = field_8_definition->field_34_behavior_type;
+        s32 behavior_type = mDefinition->mBehaviorType;
         if (behavior_type == object_behavior_type::physics_3 || behavior_type == object_behavior_type::physics_animated_4 ||
-            ((behavior_type == object_behavior_type::static_object_0 || behavior_type == object_behavior_type::static_collision_check_1 || behavior_type == object_behavior_type::animated_2) && field_8_definition->field_44_touch_behavior == 2))
+            ((behavior_type == object_behavior_type::static_object_0 || behavior_type == object_behavior_type::static_collision_check_1 || behavior_type == object_behavior_type::animated_2) && mDefinition->mTouchBehavior == 2))
         {
             return true;
         }
         return false;
     }
 
-    bool UsesParamAsPedRef_421080() const
+    // 9.6f 0x421080
+    bool UsesParamAsPedRef() const
     {
-        s32 type = this->field_8_definition->field_34_behavior_type;
+        s32 type = this->mDefinition->mBehaviorType;
         return type != object_behavior_type::pickup_6 && type != object_behavior_type::pickup_physics_7 &&
             type != object_behavior_type::pickup_animated_8 && type != object_behavior_type::pickup_physics_animated_9 &&
             type != object_behavior_type::shop_10 && type != object_behavior_type::static_collision_check_1 &&
             type != object_behavior_type::effect_only_12;
     }
 
-    bool IsOwnedByPedRef_4973E0(u8 ped_ref_idx) const
+    // 9.6f 0x4973E0
+    bool IsOwnedByPedRef(u8 ped_ref_idx) const
     {
-        return UsesParamAsPedRef_421080() && field_26_ped_ref_idx == ped_ref_idx;
+        return UsesParamAsPedRef() && mPedRefIdx == ped_ref_idx;
     }
 
-    bool IsSpriteGrid2Region3_4210B0() const
+    // 9.6f 0x4210B0
+    bool IsSpriteGrid2Region3() const
     {
-        return field_8_definition->field_40_collision_bucket_category == collision_bucket_category::sprite_grid_2_region_3;
+        return mDefinition->mCollisionBucketCategory == collision_bucket_category::sprite_grid_2_region_3;
     }
 
     // Inlined on version 9.6f 0x447e90 (also 9.6f copies 0x45E0A0 and 0x482C00)
-    inline void set_field_26(u8 v)
+    inline void SetParam(u8 v)
     {
-        field_26_ped_ref_idx = v;
+        mPedRefIdx = v;
     }
 
     // Inlined on version 9.6f 0x420FF0
-    inline u8 get_field_26_420FF0() const
+    inline u8 GetPedRefIdx() const
     {
-        return field_26_ped_ref_idx;
+        return mPedRefIdx;
+    }
+
+    // 9.6f 0x421050
+    inline u8 GetParam() const
+    {
+        return mPedRefIdx;
+    }
+
+    // 9.6f 0x4340A0
+    inline u8 GetAmmo() const
+    {
+        return mPedRefIdx;
     }
 
     // 9.6f 0x434130
-    inline void SetO8Timer_434130(s16 timer)
+    inline void SetO8Timer(s16 timer)
     {
-        field_C_pAny.o8->field_4_timer = timer;
+        mpAny.o8->mTimer = timer;
     }
 
     // 9.6f 0x40FEF0
-    s32 GetModel_40FEF0() const
+    s32 GetModel() const
     {
-        return field_18_model;
+        return mModel;
     }
 
     // 9.6f 0x40FF00
-    inline char_type MakesCollisionSound_40FF00() const
+    inline char_type MakesCollisionSound() const
     {
-        return field_8_definition->field_63_makes_collision_sound;
+        return mDefinition->mMakesCollisionSound;
     }
 
     // 9.6f 0x475AA0
-    inline bool IsModel176To181_475AA0() const
+    inline bool IsModel176To181() const
     {
-        s32 model = field_18_model;
+        s32 model = mModel;
         return model == 176 || model == 177 || model == 178 || model == 179 || model == 180 || model == 181;
     }
 
-    bool IsPickup_421060() const
+    // 9.6f 0x421060
+    bool IsPickup() const
     {
-        return field_8_definition->field_34_behavior_type == object_behavior_type::pickup_6 ||
-            field_8_definition->field_34_behavior_type == object_behavior_type::pickup_physics_7 ||
-            field_8_definition->field_34_behavior_type == object_behavior_type::pickup_animated_8 ||
-            field_8_definition->field_34_behavior_type == object_behavior_type::pickup_physics_animated_9;
+        return mDefinition->mBehaviorType == object_behavior_type::pickup_6 ||
+            mDefinition->mBehaviorType == object_behavior_type::pickup_physics_7 ||
+            mDefinition->mBehaviorType == object_behavior_type::pickup_animated_8 ||
+            mDefinition->mBehaviorType == object_behavior_type::pickup_physics_animated_9;
     }
 
     // 9.6f 0x482490
     inline void PoolAllocate()
     {
-        field_14_id = gObj2C_id_623EC0++;
-        field_25_removal_state = object_removal_state::none_0;
-        field_26_ped_ref_idx = 99;
-        field_10_obj_3c = NULL;
-        field_C_pAny.o8 = NULL;
-        field_1C_has_explosion = false;
-        field_4_sprite = NULL;
-        field_18_model = 0;
+        mId = gObj2C_id++;
+        mRemovalState = object_removal_state::none_0;
+        mPedRefIdx = 99;
+        mObj3c = NULL;
+        mpAny.o8 = NULL;
+        mHasExplosion = false;
+        mSprite = NULL;
+        mModel = 0;
     }
 
-    inline Fix16 GetX_4340D0() const
+    // 9.6f 0x4340D0
+    inline Fix16 GetX() const
     {
-        return field_4_sprite->field_14_xy.x;
+        return mSprite->mXy.x;
     }
 
-    inline Fix16 GetY_4340E0() const
+    // 9.6f 0x4340E0
+    inline Fix16 GetY() const
     {
-        return field_4_sprite->field_14_xy.y;
+        return mSprite->mXy.y;
     }
 
-    inline Fix16 GetZ_4340F0() const
+    // 9.6f 0x4340F0
+    inline Fix16 GetZ() const
     {
-        return field_4_sprite->field_1C_zpos;
+        return mSprite->mZpos;
     }
 
     // 9.6f 0x4BE850
-    bool IsGangIcon_4BE850() const
+    bool IsGangIcon() const
     {
-        return field_18_model >= objects::loonies_icon_287 && field_18_model <= objects::russian_mafia_icon_293;
+        return mModel >= objects::loonies_icon_287 && mModel <= objects::russian_mafia_icon_293;
     }
 
-    bool IsFlameObject_4BE830() const
+    // 9.6f 0x4BE830
+    bool IsFlameObject() const
     {
-        if (this->field_18_model == objects::fire_197)
+        if (this->mModel == objects::fire_197)
         {
             return true;
         }
 
-        if (IsFireExplosion_525AC0())
+        if (IsFireExplosion())
         {
             return true;
         }
@@ -306,63 +331,64 @@ class Object
     }
 
     // 9.6f 0x482400
-    static inline bool IsExplosiveItemDefinition_482400(s32 idx)
+    static inline bool IsExplosiveItemDefinition(s32 idx)
     {
         return idx >= 39 && idx <= 42;
     }
 
     // 9.6f 0x482C80
-    inline Fix16 GetMass_482C80() const
+    inline Fix16 GetMass() const
     {
-        return field_8_definition->field_18_mass;
+        return mDefinition->mMass;
     }
 
-    void ApplyDefinitionDrawLayer_482BE0()
+    // 9.6f 0x482BE0
+    void ApplyDefinitionDrawLayer()
     {
-        field_4_sprite->SetDrawLayer_40F7B0(field_8_definition->field_2C_draw_layer);
+        mSprite->SetDrawLayer(mDefinition->mDrawLayer);
     }
 
     // 9.6f 0x482C10, defined in Object_5C.cpp (needs Object_8)
-    inline bool IsAnimFinished_482C10() const;
+    inline bool IsAnimFinished() const;
 
     // 9.6f 0x493090
-    inline void GetConveyorDirection_493090(s8* pX, s8* pY)
+    inline void GetConveyorDirection(s8* pX, s8* pY)
     {
-        UnpackSignedNibbles_529050(get_field_26_420FF0(), pX, pY);
+        UnpackSignedNibbles(GetParam(), pX, pY);
     }
 
     // 9.6f 0x482BF0
-    void SetTopDrawLayer_482BF0()
+    void SetTopDrawLayer()
     {
-        field_4_sprite->SetDrawLayer_40F7B0(29);
+        mSprite->SetDrawLayer(29);
     }
 
     Object* mpNext;
-    Sprite* field_4_sprite;
-    ObjectDefinition* field_8_definition;
+    Sprite* mSprite; // 0x4
+    ObjectDefinition* mDefinition; // 0x8
     union TAny
     {
         Explosion* pExplosion;
         Object_8* o8;
         Light* pLight;
     };
-    TAny field_C_pAny;
-    Object_3C* field_10_obj_3c;
-    s32 field_14_id;
-    s32 field_18_model;
-    bool field_1C_has_explosion;
-    char_type field_1D_unused;
-    char_type field_1E_unused;
-    char_type field_1F_unused;
-    s32 field_20_pool_list_state;
-    u8 field_24_touched_result;
-    u8 field_25_removal_state;
-    u8 field_26_ped_ref_idx; // Seems to be a generic index. Sometimes it's the current idx of its object type. For many objects, it's unused (equal to 99).
-    char_type field_27_thread_trigger_idx;
-    char_type field_28_unused;
-    char_type field_29_unused;
-    char_type field_2A_unused;
-    char_type field_2B_unused;
+    TAny mpAny; // 0xC
+    Object_3C* mObj3c; // 0x10
+    s32 mId; // 0x14
+    s32 mModel; // 0x18
+    bool mHasExplosion; // 0x1C
+    char_type mUnused1D; // 0x1D
+    char_type mUnused1E; // 0x1E
+    char_type mUnused1F; // 0x1F
+    s32 mPoolListState; // 0x20
+    u8 mTouchedResult; // 0x24
+    u8 mRemovalState; // 0x25
+    u8 mPedRefIdx; // 0x26: Seems to be a generic index. Sometimes it's the current idx of its object type. For many objects, it's unused (equal to 99).
+    char_type mThreadTriggerIdx; // 0x27
+    char_type mUnused28; // 0x28
+    char_type mUnused29; // 0x29
+    char_type mUnused2A; // 0x2A
+    char_type mUnused2B; // 0x2B
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Object, 0x2C);
 
@@ -371,22 +397,22 @@ struct SavedObjectData;
 class Object_5C
 {
   public:
-    EXPORT void TrimSpriteList_529300();
-    EXPORT void ObjectsService_5293A0();
+    EXPORT void TrimSpriteList();
+    EXPORT void ObjectsService();
     EXPORT Object_5C();
     EXPORT ~Object_5C();
-    EXPORT void CreateDiagonalWallObjects_5297F0();
-    EXPORT Object* GetDirectionalObject_5298E0(s32 slope_type) const;
-    EXPORT Object* NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 depth);
-    EXPORT Object* NewPhysicsObj_5299B0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
-    EXPORT Object* NewWithPedRefIdx_5299F0(s32 object_type, u32 ped_ref_idx, Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT Object* NewLight_529A40(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);
-    EXPORT Object* NewLight_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 argb, Fix16 radius, u8 intensity);
-    EXPORT Object* NewFlashingLight_529B20(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity, u8 on_time, u8 off_time, u8 shape);
-    EXPORT Object* NewPhysicsObjUnlessBlocked_529BC0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
-    EXPORT Object* CreateObject_529C00(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, bool fail_if_blocked);
-    EXPORT u8 SetPendingDamageOwner_52A210(u8 ped_ref_idx);
-    EXPORT Object* NewMovingObj_52A240(s32 object_type,
+    EXPORT void CreateDiagonalWallObjects();
+    EXPORT Object* GetDirectionalObject(s32 slope_type) const;
+    EXPORT Object* NewTouchPoint(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 depth);
+    EXPORT Object* NewPhysicsObj(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
+    EXPORT Object* NewWithPedRefIdx(s32 object_type, u32 ped_ref_idx, Fix16 xpos, Fix16 ypos, Fix16 zpos);
+    EXPORT Object* NewLight(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);
+    EXPORT Object* NewLightOfType(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 argb, Fix16 radius, u8 intensity);
+    EXPORT Object* NewFlashingLight(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity, u8 on_time, u8 off_time, u8 shape);
+    EXPORT Object* NewPhysicsObjUnlessBlocked(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
+    EXPORT Object* CreateObject(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, bool fail_if_blocked);
+    EXPORT u8 SetPendingDamageOwner(u8 ped_ref_idx);
+    EXPORT Object* NewMovingObj(s32 object_type,
                                         Fix16 xpos,
                                         Fix16 ypos,
                                         Fix16 zpos,
@@ -395,7 +421,7 @@ class Object_5C
                                         Fix16 speed,
                                         Fix16 friction,
                                         Fix16 z_speed);
-    EXPORT Object* NewMovingObjUnlessBlocked_52A280(s32 object_type,
+    EXPORT Object* NewMovingObjUnlessBlocked(s32 object_type,
                                  Fix16 xpos,
                                  Fix16 ypos,
                                  Fix16 zpos,
@@ -404,7 +430,7 @@ class Object_5C
                                  Fix16 speed,
                                  Fix16 friction,
                                  Fix16 z_speed);
-    EXPORT Object* CreateMovingObj_52A2C0(s32 object_type,
+    EXPORT Object* CreateMovingObj(s32 object_type,
                                  Fix16 xpos,
                                  Fix16 ypos,
                                  Fix16 zpos,
@@ -414,26 +440,26 @@ class Object_5C
                                  Fix16 friction,
                                  Fix16 z_speed,
                                  bool fail_if_blocked);
-    EXPORT Object* CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 kind, s32 ped_id);
+    EXPORT Object* CreateExplosion(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 kind, s32 ped_id);
 
-    EXPORT void SaveObjects_52A500(SavedObjectData* pData);
-    EXPORT void RestoreObjects_52A590(SavedObjectData* pData);
-    EXPORT void RemoveAndFree_52A610(Object* pObject);
+    EXPORT void SaveObjects(SavedObjectData* pData);
+    EXPORT void RestoreObjects(SavedObjectData* pData);
+    EXPORT void RemoveAndFree(Object* pObject);
 
-    Object* field_0_diagonal_wall_ang315;
-    Object* field_4_diagonal_wall_ang135;
-    Object* field_8_diagonal_wall_ang225;
-    Object* field_C_diagonal_wall_ang45;
-    s32 field_10_limited_object_count;
-    s32 field_14_listed_sprite_count;
-    u8 field_18_pending_damage_owner;
-    u8 field_19_unused;
-    u16 field_1A_unused;
-    SpriteList field_1C_sprite_list;
-    bool field_20_uncollected_tokens[50];
-    u16 field_52_unused; // pad?
-    s32 field_54_uncollected_token_index;
-    Sprite* field_58_collision_probe_sprite;
+    Object* mDiagonalWallAng315; // 0x0
+    Object* mDiagonalWallAng135; // 0x4
+    Object* mDiagonalWallAng225; // 0x8
+    Object* mDiagonalWallAng45; // 0xC
+    s32 mLimitedObjectCount; // 0x10
+    s32 mListedSpriteCount; // 0x14
+    u8 mPendingDamageOwner; // 0x18
+    u8 mUnused19; // 0x19
+    u16 mUnused1A; // 0x1A
+    SpriteList mSpriteList; // 0x1C
+    bool mUncollectedTokens[50]; // 0x20
+    u16 mUnused52; // 0x52: pad?
+    s32 mUncollectedTokenIndex; // 0x54
+    Sprite* mCollisionProbeSprite; // 0x58
 };
 
-EXTERN_GLOBAL(Object_5C*, gObject_5C_6F8F84);
+EXTERN_GLOBAL(Object_5C*, gObject_5C);

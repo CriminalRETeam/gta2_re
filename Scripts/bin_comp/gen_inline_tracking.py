@@ -51,21 +51,40 @@ for f in sorted(glob.glob("../../Source/*.cpp")):
 CORE = re.compile(r"^(Fix16|ang16|Ang16|Fix16_Point|Fix16_2|Fix16_rect)::")
 
 
-# helpers in the headers marked with the 9.6f function they come from ("// 9.6f 0x403A00" on the
-# line of the definition or the line above it): their names count as uses of that 9.6f function
+# helpers marked with the 9.6f function they come from ("// 9.6f 0x403A00" or "// Inlined 0x403A00" on the
+# line of the definition or in the comment above it; in a .cpp only a comment line of its own, at file
+# scope): their names count as uses of that function
 alias = defaultdict(set)
-for f in sorted(glob.glob("../../Source/*.hpp")):
+for f in sorted(glob.glob("../../Source/*.[ch]pp")):
     lines = open(f, encoding="utf-8", errors="ignore").read().split("\n")
     for i, line in enumerate(lines):
-        if "9.6f" not in line and "96f" not in line:
+        if not re.search(r"9\.6f|96f|[Ii]nline", line):
+            continue
+        if f.endswith(".cpp") and not re.match(r"^// ", line):
             continue
         for x in re.findall(r"0x([0-9A-Fa-f]{6})\b", line):
             code = line.split("//")[0]
-            if not re.search(r"\w+\s*\(", code) and i + 1 < len(lines):
-                code = lines[i + 1].split("//")[0]
+            j = i + 1
+            while not re.search(r"\w+\s*\(", code) and j < len(lines) and lines[j].strip().startswith("//"):
+                j += 1
+            if not re.search(r"\w+\s*\(", code) and j < len(lines):
+                code = lines[j].split("//")[0]
+                if f.endswith(".cpp") and (code.rstrip().endswith(";") or code[:1].isspace()):
+                    continue
             mm = re.search(r"(\w+)\s*\(", code)
             if mm and mm.group(1) not in ("if", "while", "for", "return", "switch"):
                 alias[hex(int(x, 16))].add(mm.group(1))
+
+# marked functions by address: a call to the 10.5 copy of an inline counts as a use of the inline. A name
+# shared by several marked functions only counts qualified (Class::Name).
+marked_name = {}
+for f in sorted(glob.glob("../../Source/*.cpp")):
+    text = open(f, encoding="utf-8", errors="ignore").read()
+    for mm in re.finditer(r"^\s*(?:MATCH|WIP|STUB)_FUNC\((0x[0-9A-Fa-f]+)\)\s*\n[^{;(]*?([\w:~]+)\s*\(", text, re.M):
+        marked_name[hex(int(mm.group(1), 16))] = mm.group(2)
+shared = defaultdict(int)
+for q in marked_name.values():
+    shared[q.split("::")[-1]] += 1
 
 
 def used_in(a, c):
@@ -75,6 +94,10 @@ def used_in(a, c):
     if c in rpairs:
         pats.append(rpairs[c][2:])
     if any(re.search(r"_" + x + r"(?![0-9A-Fa-f])", t, re.I) for x in pats):
+        return True
+    q = marked_name.get(rpairs.get(c, ""))
+    if q and re.search((r"\b" if shared[q.split("::")[-1]] == 1 else r"\b" + re.escape(q.rsplit("::", 1)[0]) + r"::")
+                       + re.escape(q.split("::")[-1]) + r"\s*\(", t):
         return True
     return any(re.search(r"\b" + n + r"\s*\(", t) for n in alias.get(c, ()))
 

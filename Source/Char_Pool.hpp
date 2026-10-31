@@ -19,19 +19,19 @@ class CharPool
     // inline 0x4355C0
     void DeAllocate(Char* pChar)
     {
-        field_0_pool.DeAllocate(pChar);
+        mPool.DeAllocate(pChar);
     }
 
-    PoolBasic<Char, 400> field_0_pool;
+    PoolBasic<Char, 400> mPool; // 0x0
 };
 
 class PedListNode
 {
   public:
     // 9.6f 0x420EA0
-    inline bool no_char_ped_420EA0() const
+    inline bool HasNoPed() const
     {
-        return field_0_char_ped == NULL;
+        return mCharPed == NULL;
     }
 
     void PoolAllocate()
@@ -42,7 +42,7 @@ class PedListNode
     {
     }
 
-    Ped* field_0_char_ped;
+    Ped* mCharPed; // 0x0
     PedListNode* mpNext;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PedListNode, 0x8);
@@ -50,23 +50,23 @@ GTA2_ASSERT_SIZEOF_ALWAYS(PedListNode, 0x8);
 class PedListNodePool
 {
   public:
-    PoolBasic<PedListNode, 100> field_0_pool;
+    PoolBasic<PedListNode, 100> mPool; // 0x0
 
     ~PedListNodePool()
     {
-        field_0_pool.field_0_pHead = NULL;
+        mPool.mpHead = NULL;
     }
 
     // 9.6f 0x445EF0
-    inline PedListNode* Allocate_445EF0()
+    inline PedListNode* Allocate()
     {
-        return field_0_pool.Allocate();
+        return mPool.Allocate();
     }
 
     // 9.6f 0x445F00
-    inline void DeAllocate_445F00(PedListNode* pItem)
+    inline void DeAllocate(PedListNode* pItem)
     {
-        field_0_pool.DeAllocate(pItem);
+        mPool.DeAllocate(pItem);
     }
 
     __forceinline PedListNodePool()
@@ -77,35 +77,40 @@ class PedListNodePool
 class PedManager
 {
   private:
-    EXPORT void SpawnDummies_46EB60(Camera* pCam);
+    EXPORT void SpawnDummies(Camera* pCam);
 
   public:
-    EXPORT void PedsService_4703F0();
+    STATIC_MEMBER(u8, sSpawnSideLocked);
+    STATIC_MEMBER(u8, sSpawnCountLimit);
+    STATIC_MEMBER(s8, sSpawnSide);
+    STATIC_MEMBER(s8, sSpawnIndex);
+    STATIC_MEMBER(u16, sPedsServiceTickCount);
+    EXPORT void PedsService();
     EXPORT PedManager();
     EXPORT ~PedManager();
     EXPORT Ped* SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rotation);
-    EXPORT Ped* SpawnDriver_470B00(Car* pCar);
-    EXPORT Ped* SpawnGangDriver_470BA0(Car* pCar, Gang* pGang);
-    EXPORT Ped* CreateDummyDriver_470CC0(Car* pCar);
-    EXPORT Ped* SpawnRunAwayGuy_470D60();
-    EXPORT Ped* SpawnTrainLeaver_470E30();
-    EXPORT Ped* AllocatePed_470F30();
-    EXPORT Ped* ClonePed_470F90(Ped* pSrc);
-    EXPORT void DoIanTest_471060(u16 key);
+    EXPORT Ped* SpawnDriver(Car* pCar);
+    EXPORT Ped* SpawnGangDriver(Car* pCar, Gang* pGang);
+    EXPORT Ped* CreateDummyDriver(Car* pCar);
+    EXPORT Ped* SpawnRunAwayGuy();
+    EXPORT Ped* SpawnTrainLeaver();
+    EXPORT Ped* AllocatePed();
+    EXPORT Ped* ClonePed(Ped* pSrc);
+    EXPORT void DoIanTest(u16 key);
     EXPORT Ped* PedById(s32 pedId);
 
   private:
-    EXPORT void Dummies_470330();
+    EXPORT void Dummies();
 
   public:
-    s16 field_0_max_dummy_chars;
-    char_type field_2_num_dummy_chars;
-    char_type field_3_num_peds_updated;
-    char_type field_4_num_script_created_peds;
-    u8 field_5_fbi_army_count;
-    char_type field_6_num_peds_on_screen;
-    char_type field_7_make_all_muggers;
-    Sprite* field_8_spawn_probe_sprite;
+    s16 mMaxDummyChars; // 0x0
+    char_type mNumDummyChars; // 0x2
+    char_type mNumPedsUpdated; // 0x3
+    char_type mNumScriptCreatedPeds; // 0x4
+    u8 mFbiArmyCount; // 0x5
+    char_type mNumPedsOnScreen; // 0x6
+    char_type mMakeAllMuggers; // 0x7
+    Sprite* mSpawnProbeSprite; // 0x8
 };
 
 class PedPool
@@ -122,21 +127,21 @@ class PedPool
     // 9.6f 0x403890
     Ped* Allocate()
     {
-        return field_0_pool.Allocate();
+        return mPool.Allocate();
     }
 
     // 9.6f 0x445960
     // Pool::UpdatePool with the next item stored in both branches
-    void UpdatePool_445960()
+    void UpdatePool()
     {
-        field_0_pool.field_X_count = 0;
+        mPool.field_X_count = 0;
 
         Ped* pPreviousItem = NULL;
-        Ped* pCurrItem = field_0_pool.field_4_pPrev;
+        Ped* pCurrItem = mPool.mpPrev;
 
         while (pCurrItem)
         {
-            ++field_0_pool.field_X_count;
+            ++mPool.field_X_count;
 
             Ped* pNext = pCurrItem->mpNext;
 
@@ -155,13 +160,13 @@ class PedPool
                 }
                 else
                 {
-                    if (field_0_pool.field_4_pPrev == pCurrItem)
+                    if (mPool.mpPrev == pCurrItem)
                     {
-                        field_0_pool.field_4_pPrev = pCurrItem->mpNext;
+                        mPool.mpPrev = pCurrItem->mpNext;
                     }
                     else
                     {
-                        pPreviousItem = field_0_pool.field_4_pPrev;
+                        pPreviousItem = mPool.mpPrev;
                         while (pPreviousItem->mpNext != pCurrItem)
                         {
                             pPreviousItem = pPreviousItem->mpNext;
@@ -170,8 +175,8 @@ class PedPool
                     }
                 }
 
-                pCurrItem->mpNext = field_0_pool.field_0_pStart;
-                field_0_pool.field_0_pStart = pCurrItem;
+                pCurrItem->mpNext = mPool.mpStart;
+                mPool.mpStart = pCurrItem;
                 pCurrItem = pNext;
             }
             else
@@ -183,22 +188,22 @@ class PedPool
     }
 
     // 9.6f 0x435530
-    inline Ped* GetFirstPed_435530() const
+    inline Ped* GetFirstPed() const
     {
-        return field_0_pool.field_4_pPrev;
+        return mPool.mpPrev;
     }
 
-    Pool<Ped, 200> field_0_pool;
+    Pool<Ped, 200> mPool; // 0x0
 };
 
-EXTERN_GLOBAL(PedManager*, gPedManager_6787BC);
+EXTERN_GLOBAL(PedManager*, gPedManager);
 
-EXTERN_GLOBAL(PedPool*, gPedPool_6787B8);
+EXTERN_GLOBAL(PedPool*, gPedPool);
 
-EXTERN_GLOBAL(CharPool*, gChar_B4_Pool_6FDB44);
+EXTERN_GLOBAL(CharPool*, gChar_B4_Pool);
 
-EXTERN_GLOBAL(PedListNodePool*, gChar_8_Pool_678b50);
+EXTERN_GLOBAL(PedListNodePool*, gChar_8_Pool);
 
-EXTERN_GLOBAL(u8, gNumPolicePedsInRangeScreen_6787EE);
+EXTERN_GLOBAL(u8, gNumPolicePedsInRangeScreen);
 
-EXTERN_GLOBAL(u8, gLosCheckSlotFree_61A8A2);
+EXTERN_GLOBAL(u8, gLosCheckSlotFree);

@@ -11,11 +11,11 @@ class Generator;
 #pragma pack(1)
 struct str_table_entry
 {
-    s16 field_0_str_id;
-    s16 field_2_zone_idx;
-    s16 field_4_type;
-    s16 field_6_padding;
-    u8 field_8_length;
+    s16 mStrId; // 0x0
+    s16 mZoneIdx; // 0x2
+    s16 mType; // 0x4
+    s16 mPadding6; // 0x6
+    u8 mLength; // 0x8
 
     inline char_type* get_name()
     {
@@ -26,9 +26,9 @@ struct str_table_entry
 
 struct str_table_normalized
 {
-    u16 field_0_string_count;
-    s16 field_2_unused;
-    str_table_entry* field_4_entries[999];
+    u16 mStringCount; // 0x0
+    s16 mUnused2; // 0x2
+    str_table_entry* mEntries[999]; // 0x4
 };
 
 enum SCRCMD
@@ -484,95 +484,95 @@ enum SCRCMD
     SCRCMD_RESTORE_RESPECT = 446, // BE01
 };
 
-EXTERN_GLOBAL(s32, gStoredCarId_6F78B4);
+EXTERN_GLOBAL(s32, gStoredCarId);
 
 // A script thread waiting to be started by an event (a car / phone object interaction): the ids to match and the
 // script command to start the thread from. cmd_line 0 marks a free entry.
 class ThreadTrigger
 {
   public:
-    s32 field_0_ped_id;
-    s32 field_4_target_id;
-    u16 field_8_cmd_line;
-    u16 field_A_unused;
+    s32 mPedId; // 0x0
+    s32 mTargetId; // 0x4
+    u16 mCmdLine; // 0x8
+    u16 mUnusedA; // 0xA
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ThreadTrigger, 0xC);
 
 // Player/world info
 struct SavedPlayerStats
 {
-    Fix16 field_0_x; // Maybe Fix16, but no ctor call seen in 9.6f - TODO: Check it
-    Fix16 field_4_y;
-    Fix16 field_8_z;
-    Ang16 field_C_rotation;
-    u16 field_E_pad;
-    s32 field_10_money;
-    s32 field_14_multipliers;
-    s16 field_18_health;
-    u16 field_1A_power_ups[17];
-    s32 field_3C_crime_counts[10];
-    u16 field_64_pad;
-    u8 field_66_weapon_ammo[15];
-    u8 field_75_gang_respect[10];
-    u8 field_7F_player_ped_remap;
-    u8 field_80_lives;
-    u8 field_81_pad;
-    u16 field_82_curr_weapon_idx;
-    s32 field_84_car_damage_cost;
-    s32 field_88_evasion_rating;
-    u16 field_8C_wanted_level;
-    u16 field_8E_pad;
+    Fix16 mX; // 0x0
+    Fix16 mY; // 0x4
+    Fix16 mZ; // 0x8
+    Ang16 mRotation; // 0xC
+    u16 mPadE; // 0xE
+    s32 mMoney; // 0x10
+    s32 mMultipliers; // 0x14
+    s16 mHealth; // 0x18
+    u16 mPowerUps[17]; // 0x1A
+    s32 mCrimeCounts[10]; // 0x3C
+    u16 mPad64; // 0x64
+    u8 mWeaponAmmo[15]; // 0x66
+    u8 mGangRespect[10]; // 0x75
+    u8 mPlayerPedRemap; // 0x7F
+    u8 mLives; // 0x80
+    u8 mPad81; // 0x81
+    u16 mCurrWeaponIdx; // 0x82
+    s32 mCarDamageCost; // 0x84
+    s32 mEvasionRating; // 0x88
+    u16 mWantedLevel; // 0x8C
+    u16 mPad8E; // 0x8E
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SavedPlayerStats, 0x90);
 
 struct SavedFix16
 {
     // Compiler (?) generated ctor in 9.6f at 0x403770
-    Fix16 field_0_value;
+    Fix16 mValue; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SavedFix16, 0x4);
 
 // Object data
 struct SavedObjectData
 {
-    SavedFix16 field_0_obj_x[3][20];
-    u16 field_F0_model[20];
-    u8 field_118_ped_ref_idx[20];
-    char_type field_12C_obj_5C_bUnCollectedTokens[50];
-    s16 field_15E_pad;
-    s32 field_160_secret_tokens_collected;
+    SavedFix16 mObjX[3][20]; // 0x0
+    u16 mModel[20]; // 0xF0
+    u8 mPickupAmmo[20]; // 0x118
+    char_type mObj5CBUnCollectedTokens[50]; // 0x12C
+    s16 mPad15E; // 0x15E
+    s32 mSecretTokensCollected; // 0x160
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SavedObjectData, 0x164);
 
 // Car data
 struct SavedCarInfo
 {
-    SavedFix16 field_0_x[3];
-    SavedFix16 field_C_y[3];
-    SavedFix16 field_18_z[3];
-    Ang16 field_24_ang[3];
-    s16 field_2A_damage[3];
-    u32 field_30_damaged_areas[3];
-    u16 field_3C_car_model[3];
-    s16 field_42_pad;
+    SavedFix16 mX[3]; // 0x0
+    SavedFix16 mY[3]; // 0xC
+    SavedFix16 mZ[3]; // 0x18
+    Ang16 mAng[3]; // 0x24
+    s16 mDamage[3]; // 0x2A
+    u32 mDamagedAreas[3]; // 0x30
+    u16 mCarModel[3]; // 0x3C
+    s16 mPad42; // 0x42
 };
 
 struct SavedScriptCounter
 {
-    u16 field_0_pointer;
-    s16 field_2_saved_value;
+    u16 mPointer; // 0x0
+    s16 mSavedValue; // 0x2
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SavedScriptCounter, 0x4);
 
 // Car and script data
 struct SavedCarAndScriptData
 {
-    SavedCarInfo field_0_saved_cars; // 3x saved cars
-    s16 field_44_unused;
-    s16 field_46_script_ptr_count; // count of populated array entries
-    s32 field_48_flags;
-    s32 field_4C_started_basic_kf_mask;
-    SavedScriptCounter field_50_script_counter[300];
+    SavedCarInfo mSavedCars; // 0x0: 3x saved cars
+    s16 mUnused44; // 0x44
+    s16 mScriptPtrCount; // 0x46: count of populated array entries
+    s32 mFlags; // 0x48
+    s32 mStartedBasicKfMask; // 0x4C
+    SavedScriptCounter mScriptCounter[300]; // 0x50
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SavedCarAndScriptData, 0x500);
 
@@ -581,24 +581,24 @@ class SaveData
 {
   public:
     // 9.6f generated constructor at 0x532650
-    char_type field_0_map_name[25];
-    char_type field_19_style_name[25];
-    char_type field_32_script_name[25];
-    char_type field_4B_main_stage;
-    char_type field_4C_lhv; // maybe sub bonus level or something
-    char_type field_4D_bonus_stage;
-    char_type field_4E_pad;
-    char_type field_4F_pad;
-    s32 field_50_unused;
-    SavedPlayerStats field_54_player_and_world_stats;
-    SavedCarAndScriptData field_E4_car_and_script_data;
-    SavedObjectData field_5E4_object_data;
+    char_type mMapName[25]; // 0x0
+    char_type mStyleName[25]; // 0x19
+    char_type mScriptName[25]; // 0x32
+    char_type mMainStage; // 0x4B
+    char_type mLhv; // 0x4C: maybe sub bonus level or something
+    char_type mBonusStage; // 0x4D
+    char_type mPad4E; // 0x4E
+    char_type mPad4F; // 0x4F
+    s32 mUnused50; // 0x50
+    SavedPlayerStats mPlayerAndWorldStats; // 0x54
+    SavedCarAndScriptData mCarAndScriptData; // 0xE4
+    SavedObjectData mObjectData; // 0x5E4
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SaveData, 0x748);
 
-EXTERN_GLOBAL(SaveData, gGameSave_6F78C8);
+EXTERN_GLOBAL(SaveData, gGameSave);
 
-// WeaponCheckTable::field_6_flags
+// WeaponCheckTable::mFlags
 namespace weapon_check_flag
 {
 enum
@@ -611,10 +611,10 @@ enum
 
 struct WeaponCheckTable
 {
-    s32 field_0_entity_id;
-    s8 field_4_weapon_idx;
-    s8 field_5_hit_projectile_type;
-    s8 field_6_flags;
+    s32 mEntityId; // 0x0
+    s8 mWeaponIdx; // 0x4
+    s8 mHitProjectileType; // 0x5
+    s8 mFlags; // 0x6
 };
 
 // Loads the mission scripts (.scr) and runs the script threads, also fills / reads the savegame script data
@@ -622,140 +622,140 @@ class ScriptManager
 {
   public:
     // 9.6f 0x4C7350
-    inline bool IsOnMission_4C7350() const
+    inline bool IsOnMission() const
     {
-        return field_344_mission_flag && *field_344_mission_flag;
+        return mMissionFlag && *mMissionFlag;
     }
 
     // 9.6f 0x475980
-    inline bool HasCheckFlag1_475980(const WeaponCheckTable* pTable) const
+    inline bool IsCheckHit(const WeaponCheckTable* pTable) const
     {
-        return (pTable->field_6_flags & weapon_check_flag::hit_1) == weapon_check_flag::hit_1;
+        return (pTable->mFlags & weapon_check_flag::hit_1) == weapon_check_flag::hit_1;
     }
 
     // 9.6f 0x4759A0
-    inline bool HasCheckFlag2_4759A0(const WeaponCheckTable* pTable) const
+    inline bool IsCarCheck(const WeaponCheckTable* pTable) const
     {
-        return (pTable->field_6_flags & weapon_check_flag::car_2) == weapon_check_flag::car_2;
+        return (pTable->mFlags & weapon_check_flag::car_2) == weapon_check_flag::car_2;
     }
 
     // 9.6f 0x4759C0
-    inline bool HasCheckFlag4_4759C0(const WeaponCheckTable* pTable) const
+    inline bool IsPedCheck(const WeaponCheckTable* pTable) const
     {
-        return (pTable->field_6_flags & weapon_check_flag::ped_4) == weapon_check_flag::ped_4;
+        return (pTable->mFlags & weapon_check_flag::ped_4) == weapon_check_flag::ped_4;
     }
 
     // 9.6f 0x475A20
-    inline bool get_field_C1E2C_475A20() const
+    inline bool IsLoadedFromSave() const
     {
-        return field_C1E2C_bLoadedFromSave;
+        return mbLoadedFromSave;
     }
 
     // 9.6f 0x475A30
-    inline bool get_field_C1E2D_475A30() const
+    inline bool IsKillFrenzyActive() const
     {
-        return field_C1E2D_bKillFrenzyActive;
+        return mbKillFrenzyActive;
     }
 
     // 9.6f 0x475A40
-    inline void set_field_C1E2D_475A40(bool v)
+    inline void SetKillFrenzyActive(bool v)
     {
-        field_C1E2D_bKillFrenzyActive = v;
+        mbKillFrenzyActive = v;
     }
 
-    EXPORT str_table_entry* FindStringById_503080(s16 stringId) const;
-    EXPORT str_table_entry* StrEntryByString_5030B0(const char_type* strToFind) const;
-    EXPORT void SetGeneratorTypeForCar_511A70(s32 car_model, Generator* pGen);
-    EXPORT char_type AddCranePowerupTrigger_511B10(s16 idx);
-    EXPORT void SaveScriptCounters_511B90();
-    EXPORT void LoadScriptCounters_511C30();
-    EXPORT void RestoreAnsweredPhones_511C60();
-    EXPORT void SaveMapInfo_511D40();
-    EXPORT void SaveGame_511E10(const char_type* pFileName);
-    EXPORT void LoadSave_511F80(const char_type* pFileName);
-    EXPORT ScriptThread* SpawnThread_5120C0(s16 start_cmd, char_type flags);
-    EXPORT SCR_CMD_HEADER* FindCommandByType_512100(u16 toFind, u16 startOff);
-    EXPORT void StartLevelThread_512160();
-    EXPORT void LoadStringTbl_5121E0(u16 tableSize);
-    EXPORT void GetScrFileName_5122D0();
-    EXPORT void Load_512330(const char_type* pScrName);
-    EXPORT u16 LoadMissionScript_512400(const char_type* pScriptName, u16* pStartCmd);
-    EXPORT void LoadSubScripts_5125F0();
-    EXPORT SCR_CMD_HEADER* GetBasePointer_512770(u16 idx);
-    EXPORT void ExecuteScriptThreads_5127A0();
-    EXPORT ThreadTrigger* FindCarThread_5128A0(s32 ped_id, s32 car_id);
-    EXPORT void AddCarThread_5128D0(s32 ped_id, s32 car_id, u16 cmd_line);
-    EXPORT bool TriggerCarThread_512910(s32 ped_id, s32 car_id);
-    EXPORT ThreadTrigger* FindPhoneThread_512980(s32 ped_id, s32 obj_id);
-    EXPORT void AddPhoneThread_5129B0(s32 ped_id, s32 obj_id, u16 cmd_line);
-    EXPORT bool AnswerPhone_5129F0(s32 ped_id, s32 obj_id);
-    EXPORT ThreadTrigger* RemovePhoneThread_512A70(s32 ped_id, s32 obj_id);
-    EXPORT ThreadTrigger* RemovePhoneThreadByObjId_512AA0(s32 obj_id);
-    EXPORT ThreadTrigger* FindPhoneThreadByObjId_512AD0(s32 obj_id);
-    EXPORT bool TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, bool bIsPed);
-    EXPORT void ClearWeaponHitFlag_512BA0(s32 id, bool bIsPed);
-    EXPORT void RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, bool bIsPed);
-    EXPORT bool IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, bool bIsPed) const;
+    EXPORT str_table_entry* FindStringById(s16 stringId) const;
+    EXPORT str_table_entry* StrEntryByString(const char_type* strToFind) const;
+    EXPORT void SetGeneratorTypeForCar(s32 car_model, Generator* pGen);
+    EXPORT char_type AddCranePowerupTrigger(s16 idx);
+    EXPORT void SaveScriptCounters();
+    EXPORT void LoadScriptCounters();
+    EXPORT void RestoreAnsweredPhones();
+    EXPORT void SaveMapInfo();
+    EXPORT void SaveGame(const char_type* pFileName);
+    EXPORT void LoadSave(const char_type* pFileName);
+    EXPORT ScriptThread* SpawnThread(s16 start_cmd, char_type flags);
+    EXPORT SCR_CMD_HEADER* FindCommandByType(u16 toFind, u16 startOff);
+    EXPORT void StartLevelThread();
+    EXPORT void LoadStringTbl(u16 tableSize);
+    EXPORT void GetScrFileName();
+    EXPORT void Load(const char_type* pScrName);
+    EXPORT u16 LoadMissionScript(const char_type* pScriptName, u16* pStartCmd);
+    EXPORT void LoadSubScripts();
+    EXPORT SCR_CMD_HEADER* GetBasePointer(u16 idx);
+    EXPORT void ExecuteScriptThreads();
+    EXPORT ThreadTrigger* FindCarThread(s32 ped_id, s32 car_id);
+    EXPORT void AddCarThread(s32 ped_id, s32 car_id, u16 cmd_line);
+    EXPORT bool TriggerCarThread(s32 ped_id, s32 car_id);
+    EXPORT ThreadTrigger* FindPhoneThread(s32 ped_id, s32 obj_id);
+    EXPORT void AddPhoneThread(s32 ped_id, s32 obj_id, u16 cmd_line);
+    EXPORT bool AnswerPhone(s32 ped_id, s32 obj_id);
+    EXPORT ThreadTrigger* RemovePhoneThread(s32 ped_id, s32 obj_id);
+    EXPORT ThreadTrigger* RemovePhoneThreadByObjId(s32 obj_id);
+    EXPORT ThreadTrigger* FindPhoneThreadByObjId(s32 obj_id);
+    EXPORT bool TestAndRecordWeaponHit(s32 id, char_type weapon_idx, bool bIsPed);
+    EXPORT void ClearWeaponHitFlag(s32 id, bool bIsPed);
+    EXPORT void RecordWeaponHit(s32 entity_id, s32 projectile_model, bool bIsPed);
+    EXPORT bool IsWeaponHitRecorded(s32 id, char_type weapon_idx, bool bIsPed) const;
     EXPORT ScriptManager();
     EXPORT ~ScriptManager();
 
-    s16 field_0_car_trigger_count;
-    s16 field_2_unused;
-    ThreadTrigger field_4_car_triggers[32];
-    s16 field_184_phone_trigger_count;
-    s16 field_186_unused;
-    ThreadTrigger field_188_phone_triggers[20];
-    s16 field_278_weapon_check_count;
-    s16 field_27A_unused;
-    WeaponCheckTable field_27C_weapon_check_table[15];
-    s32 field_2F4_bPreloadMissionScripts;
-    Fix16_Rect field_2F8_area_rect;
-    s32 field_310_finish_score;
-    s32 field_314_total_missions;
-    u32 field_318_total_secrets;
-    s32 field_31C_gang_1_missions_total;
-    s32 field_320_gang_2_missions_total;
-    s32 field_324_gang_3_missions_total;
-    s32* field_328_passed_flag;
-    s32* field_32C_1_passed_flag;
-    s32* field_330_2_passed_flag;
-    s32* field_334_3_passed_flag;
-    s32* field_338_secrets_passed;
-    s32* field_33C_secrets_failed;
-    u32* field_340_car_list;
-    s32* field_344_mission_flag;
-    s32* field_348_gang_1_mission_flag;
-    s32* field_34C_gang_2_mission_flag;
-    s32* field_350_gang_3_mission_flag;
-    char_type field_354_next_gang_idx;
-    char_type field_355_death_arr_state;
-    s16 field_356_gang_1_death_base;
-    s16 field_358_gang_2_death_base;
-    s16 field_35A_gang_3_death_base;
-    char_type field_35C_full_scr_file_name[256];
-    char_type field_45C_scr_file_name[9];
-    char_type field_465_unused;
-    char_type field_466_unused;
-    char_type field_467_unused;
-    s32 field_468_unused;
-    u16 field_46C_base_pointers[6000];
-    u8 field_334C_script_data[65536];
-    str_table_entry* field_1334C_strings;
-    str_table_normalized* field_13350_pStringTbl;
-    u8 field_13354_mission_script_data[620000];
-    u8 field_AA934_mission_base_pointers[95232];
-    s16 field_C1D34_mission_start_cmd[31];
-    s16 field_C1D72_mission_base_ptr_idx[31];
-    u32 field_C1DB0_mission_script_data_len[31];
-    bool field_C1E2C_bLoadedFromSave;
-    bool field_C1E2D_bKillFrenzyActive;
-    bool field_C1E2E_death_arrest_flag;
-    char_type field_C1E2F_saved_gang_respect[3];
-    u16 field_C1E32_phone_ids[31];
-    u32 field_C1E70_wanted_car_model;
-    u16 field_C1E74_basic_kf[25];
-    s16 field_C1EA6_unused;
+    s16 mCarTriggerCount; // 0x0
+    s16 mUnused2; // 0x2
+    ThreadTrigger mCarTriggers[32]; // 0x4
+    s16 mPhoneTriggerCount; // 0x184
+    s16 mUnused186; // 0x186
+    ThreadTrigger mPhoneTriggers[20]; // 0x188
+    s16 mWeaponCheckCount; // 0x278
+    s16 mUnused27A; // 0x27A
+    WeaponCheckTable mWeaponCheckTable[15]; // 0x27C
+    s32 mbPreloadMissionScripts; // 0x2F4
+    Fix16_Rect mAreaRect; // 0x2F8
+    s32 mFinishScore; // 0x310
+    s32 mTotalMissions; // 0x314
+    u32 mTotalSecrets; // 0x318
+    s32 mGang1MissionsTotal; // 0x31C
+    s32 mGang2MissionsTotal; // 0x320
+    s32 mGang3MissionsTotal; // 0x324
+    s32* mPassedFlag; // 0x328
+    s32* m1PassedFlag; // 0x32C
+    s32* m2PassedFlag; // 0x330
+    s32* m3PassedFlag; // 0x334
+    s32* mSecretsPassed; // 0x338
+    s32* mSecretsFailed; // 0x33C
+    u32* mCarList; // 0x340
+    s32* mMissionFlag; // 0x344
+    s32* mGang1MissionFlag; // 0x348
+    s32* mGang2MissionFlag; // 0x34C
+    s32* mGang3MissionFlag; // 0x350
+    char_type mNextGangIdx; // 0x354
+    char_type mDeathArrState; // 0x355
+    s16 mGang1DeathBase; // 0x356
+    s16 mGang2DeathBase; // 0x358
+    s16 mGang3DeathBase; // 0x35A
+    char_type mFullScrFileName[256]; // 0x35C
+    char_type mScrFileName[9]; // 0x45C
+    char_type mUnused465; // 0x465
+    char_type mUnused466; // 0x466
+    char_type mUnused467; // 0x467
+    s32 mUnused468; // 0x468
+    u16 mBasePointers[6000]; // 0x46C
+    u8 mScriptData[65536]; // 0x334C
+    str_table_entry* mStrings; // 0x1334C
+    str_table_normalized* mpStringTbl; // 0x13350
+    u8 mMissionScriptData[620000]; // 0x13354
+    u8 mMissionBasePointers[95232]; // 0xAA934
+    s16 mMissionStartCmd[31]; // 0xC1D34
+    s16 mMissionBasePtrIdx[31]; // 0xC1D72
+    u32 mMissionScriptDataLen[31]; // 0xC1DB0
+    bool mbLoadedFromSave; // 0xC1E2C
+    bool mbKillFrenzyActive; // 0xC1E2D
+    bool mDeathArrestFlag; // 0xC1E2E
+    char_type mSavedGangRespect[3]; // 0xC1E2F
+    u16 mPhoneIds[31]; // 0xC1E32
+    u32 mWantedCarModel; // 0xC1E70
+    u16 mBasicKf[25]; // 0xC1E74
+    s16 mUnusedC1EA6; // 0xC1EA6
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ScriptManager, 0xC1EA8);
 
-EXTERN_GLOBAL(ScriptManager*, gScriptManager_6F8060);
+EXTERN_GLOBAL(ScriptManager*, gScriptManager);

@@ -10,7 +10,8 @@ in a TU can move the others and change code (docs/matching_quirks.md, "Even a gl
 copies are never widened (zero-extended byte reads are, but this script doesn't check them), and globals defined in
 another TU (extern) never are.
 
-The original address comes from the `_gRef_<name>_0x<addr>` symbol that DEFINE_GLOBAL emits.
+The original address comes from the `_gRef_<name>_0x<addr>` symbol that DEFINE_GLOBAL emits (`_gRefStatic_` for a file
+static, `_gRef_<Class>_<member>` for a class static).
 
     python3 Scripts/bin_comp/global_align_check.py            # all objects in build_vc6
     python3 Scripts/bin_comp/global_align_check.py Hud.cpp    # one TU (after build.py or --single_cpp)
@@ -51,13 +52,16 @@ def check(obj):
         sec, scl, off, name = int(m[1]), int(m[2]), int(m[3], 16), m[4]
         if sec == 0:
             continue  # undefined (extern)
-        g = re.match(r'_gRef_(.+)_0x([0-9a-fA-F]+)$', name)
+        g = re.match(r'_gRef(?:Static)?_(.+)_0x([0-9a-fA-F]+)$', name)
         if g:
             orig[g[1]] = int(g[2], 16)
             continue
         d = re.match(r'\?(\w+)@@3(.+?)A$', name)
-        if d and scl == 2:
+        if d and scl in (2, 3):  # global, or file static (DEFINE_STATIC_GLOBAL*)
             defs[d[1]] = (off, d[2])
+        d = re.match(r'\?(\w+)@(\w+)@@2(.+?)A$', name)
+        if d and scl == 2:  # class static, registered as gRef_<Class>_<member>
+            defs[d[2] + '_' + d[1]] = (off, d[3])
     bad = []
     for name, (off, ty) in sorted(defs.items()):
         if name not in orig:

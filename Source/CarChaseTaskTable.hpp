@@ -14,33 +14,33 @@ class Ped;
 class CarChaseTask
 {
   public:
-    EXPORT void ResetEntry_4747B0();
+    EXPORT void ResetEntry();
     EXPORT CarChaseTask();
     EXPORT ~CarChaseTask();
 
-    char_type field_0_in_use;
-    Ped* field_4_pDriver;
-    s32 field_8_task_type; // car_task_type
-    s32 field_C_chase_state; // car_chase_state
-    bool field_10_ram_target; // set when overtaking: touching the target car then damages it (CarAI)
-    Fix16 field_14_target_x;
-    Fix16 field_18_target_y;
-    Fix16 field_1C_target_z;
-    bool field_20_can_snap_to_target; // chase tasks only: may be teleported to the target when off screen (see field_34_snap_timer)
-    char_type field_21_unused;
-    bool field_22_following_route; // driving along a route (junction shortcuts), cleared when the route is cancelled
-    char_type field_23_unused;
-    char_type field_24_unused;
-    char_type field_25_unused;
-    bool field_26_route_finished;  // the route ended, Ped completes the goto_position objective
-    char_type field_27_pad[3];
-    s16 field_2A_settle_counter;
-    u16 field_2C_side_counter;
-    s16 field_2E_wait_counter; // ticks spent waiting next to the target before pulling ahead
-    Ped* field_30_pTargetPed;
-    s16 field_34_snap_timer;
-    s32 field_38_unused;
-    char_type field_3C_block_counter;
+    char_type mInUse; // 0x0
+    Ped* mpDriver; // 0x4
+    s32 mTaskType; // 0x8: car_task_type
+    s32 mChaseState; // 0xC: car_chase_state
+    bool mRamTarget; // 0x10: set when overtaking: touching the target car then damages it (CarAI)
+    Fix16 mTargetX; // 0x14
+    Fix16 mTargetY; // 0x18
+    Fix16 mTargetZ; // 0x1C
+    bool mCanSnapToTarget; // 0x20: chase tasks only: may be teleported to the target when off screen (see mSnapTimer)
+    char_type mUnused21; // 0x21
+    bool mFollowingRoute; // 0x22: driving along a route (junction shortcuts), cleared when the route is cancelled
+    char_type mUnused23; // 0x23
+    char_type mUnused24; // 0x24
+    char_type mUnused25; // 0x25
+    bool mRouteFinished;  // 0x26: the route ended, Ped completes the goto_position objective
+    char_type mPad27[3]; // 0x27
+    s16 mSettleCounter; // 0x2A
+    u16 mSideCounter; // 0x2C
+    s16 mWaitCounter; // 0x2E: ticks spent waiting next to the target before pulling ahead
+    Ped* mpTargetPed; // 0x30
+    s16 mSnapTimer; // 0x34
+    s32 mUnused38; // 0x38
+    char_type mBlockCounter; // 0x3C
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarChaseTask, 0x40);
 
@@ -53,24 +53,24 @@ class CarChaseTaskTable
         k_max_entries = 20
     };
 
-    EXPORT CarChaseTask* AllocateEntry_474810();
-    EXPORT bool AreAllies_474850(Ped* pPed1, Ped* pPed2) const;
-    EXPORT Ped* FindDriverInState_4748A0(s32 chase_state, Ped* pTargetPed) const;
-    EXPORT u8 CountPursuers_474920(Ped* pTargetPed, Ped* pPed) const;
-    EXPORT bool HasAnyPursuer_474970(Ped* pTargetPed) const;
-    EXPORT bool HasPursuerInFront_4749B0(Ped* pPed) const;
-    EXPORT bool HasPursuerAlongsideLeft_474A20(Ped* pPed) const;
-    EXPORT bool HasPursuerOnLeft_474A80(Ped* pPed) const;
-    EXPORT bool HasPursuerAlongsideRight_474AF0(Ped* pPed) const;
-    EXPORT bool HasPursuerOnRight_474B50(Ped* pPed) const;
-    EXPORT bool HasPursuerAlongside_474BC0(Ped* pPed) const;
-    EXPORT bool HasPursuerChoosingSide_474C30(Ped* pPed) const;
-    EXPORT void FreeEntry_474CC0(CarChaseTask* pEntry);
+    EXPORT CarChaseTask* AllocateEntry();
+    EXPORT bool AreAllies(Ped* pPed1, Ped* pPed2) const;
+    EXPORT Ped* FindDriverInState(s32 chase_state, Ped* pTargetPed) const;
+    EXPORT u8 CountPursuers(Ped* pTargetPed, Ped* pPed) const;
+    EXPORT bool HasAnyPursuer(Ped* pTargetPed) const;
+    EXPORT bool HasPursuerInFront(Ped* pPed) const;
+    EXPORT bool HasPursuerAlongsideLeft(Ped* pPed) const;
+    EXPORT bool HasPursuerOnLeft(Ped* pPed) const;
+    EXPORT bool HasPursuerAlongsideRight(Ped* pPed) const;
+    EXPORT bool HasPursuerOnRight(Ped* pPed) const;
+    EXPORT bool HasPursuerAlongside(Ped* pPed) const;
+    EXPORT bool HasPursuerChoosingSide(Ped* pPed) const;
+    EXPORT void FreeEntry(CarChaseTask* pEntry);
     EXPORT CarChaseTaskTable();
     EXPORT ~CarChaseTaskTable();
 
-    CarChaseTask field_0_entries[k_max_entries];
+    CarChaseTask mEntries[k_max_entries]; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarChaseTaskTable, 0x500);
 
-EXTERN_GLOBAL(CarChaseTaskTable*, gCarChaseTaskTable_678E30);
+EXTERN_GLOBAL(CarChaseTaskTable*, gCarChaseTaskTable);

@@ -10,71 +10,74 @@ class Link
     // 9.6f 0x40CE90
     inline u16 GetIndex_0040CE90() const
     {
-        return field_0 & 0x1ff;
+        return mPacked & 0x1ff;
     }
 
     // 9.6f 0x40CED0
     inline u8 IsEnabled() const
     {
-        return field_0 >> 15;
+        return mPacked >> 15;
     }
 
     // 9.6f 0x40CEA0
     inline u16 GetLength() const
     {
-        return (field_0 >> 9) & 0x3F;
+        return (mPacked >> 9) & 0x3F;
     }
 
-    inline void Disable_40CEC0()
+    // 9.6f 0x40CEC0
+    inline void Disable()
     {
-        field_0 &= ~0x8000u;
+        mPacked &= ~0x8000u;
     }
 
-    inline void Enable_40CEB0()
+    // 9.6f 0x40CEB0
+    inline void Enable()
     {
-        field_0 |= 0x8000u;
+        mPacked |= 0x8000u;
     }
 
-    u16 field_0;
+    u16 mPacked; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Link, 0x2);
 
 class Junction
 {
   public:
-    EXPORT bool IsUsableWithArrowType_588580(s32 arrow_type) const;
-    EXPORT u16 GetDirectionToJunction_5885C0(u16 junction_idx) const;
+    EXPORT bool IsUsableWithArrowType(s32 arrow_type) const;
+    EXPORT u16 GetDirectionToJunction(u16 junction_idx) const;
 
     // 9.6f 0x40CEE0
     inline bool ContainsPoint(s16 x, s16 y) const
     {
-        return x >= field_C_min_x && x <= field_E_max_x && y >= field_D_min_y && y <= field_F_max_y;
+        return x >= mMinX && x <= mMaxX && y >= mMinY && y <= mMaxY;
     }
 
-    Link field_0_n;
-    Link field_2_s;
-    Link field_4_e;
-    Link field_6_w;
-    s32 field_8_type;
-    u8 field_C_min_x;
-    u8 field_D_min_y;
-    u8 field_E_max_x;
-    u8 field_F_max_y;
+    Link mN; // 0x0
+    Link mS; // 0x2
+    Link mE; // 0x4
+    Link mW; // 0x6
+    s32 mType; // 0x8
+    u8 mMinX; // 0xC
+    u8 mMinY; // 0xD
+    u8 mMaxX; // 0xE
+    u8 mMaxY; // 0xF
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Junction, 0x10);
 
 struct JunctionSegment
 {
-    inline bool ContainsPoint_40CF20(s16 x, s16 y) const
+    // 9.6f 0x40CF20
+    inline bool ContainsPoint(s16 x, s16 y) const
     {
-        return x >= field_4_min_x && x <= field_6_max_x && y >= field_5_min_y && y <= field_7_max_y;
+        return x >= mMinX && x <= mMaxX && y >= mMinY && y <= mMaxY;
     }
-    u16 field_0_junction_num1;
-    u16 field_2_junction_num2;
-    u8 field_4_min_x;
-    u8 field_5_min_y;
-    u8 field_6_max_x;
-    u8 field_7_max_y;
+    u16 mJunctionNum1; // 0x0
+    u16 mJunctionNum2; // 0x2
+    u8 mMinX; // 0x4
+    u8 mMinY; // 0x5
+    u8 mMaxX; // 0x6
+    u8 mMaxY; // 0x7
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(JunctionSegment, 0x8);
 
@@ -82,89 +85,90 @@ class RouteSearchNode
 {
   public:
     EXPORT RouteSearchNode();
-    u16 field_0_junction_idx;
-    u16 field_2_cost;
-    s16 field_4_expanded;
-    s16 field_6_unused;
-    RouteSearchNode* field_8_pParent;
-    RouteSearchNode* field_C_pNext;
+    u16 mJunctionIdx; // 0x0
+    u16 mCost; // 0x2
+    s16 mExpanded; // 0x4
+    s16 mUnused6; // 0x6
+    RouteSearchNode* mpParent; // 0x8
+    RouteSearchNode* mpNext; // 0xC
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(RouteSearchNode, 0x10);
 
 class JunctionRoute
 {
   public:
-    u16 field_0_junctions[256];
+    u16 mJunctions[256]; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(JunctionRoute, 0x200);
 
 class RouteFinder
 {
   public:
-    EXPORT void ShowJunctionIds_588620();
-    EXPORT void RoadOff_588810(u8 x, u8 y, u8 z);
-    EXPORT void RoadOn_588950(u8 x, u8 y, u8 z);
-    EXPORT u16 IsPointInJunctionBounds_588AA0(u8 x, u8 y, u16 junc_idx1, u16 junc_idx2); // 0 or 1, but u16: a bool return changes the code
-    EXPORT void Load_RGEN_588B30();
-    EXPORT void Reset_588C60();
-    EXPORT bool HasBlockDesiredArrow_588CA0(const gmp_block_info* block, s32 arrow_type, u8 direction) const;
-    EXPORT bool HasBlockArrowInRoadDirection_588DE0(const gmp_block_info* pBlock, s32 arrow_type, s32 road_direction) const;
+    STATIC_MEMBER(u16, sLastRouteLength);
+    EXPORT void ShowJunctionIds();
+    EXPORT void RoadOff(u8 x, u8 y, u8 z);
+    EXPORT void RoadOn(u8 x, u8 y, u8 z);
+    EXPORT u16 IsPointInJunctionBounds(u8 x, u8 y, u16 junc_idx1, u16 junc_idx2); // 0 or 1, but u16: a bool return changes the code
+    EXPORT void Load_RGEN();
+    EXPORT void Reset();
+    EXPORT bool HasBlockDesiredArrow(const gmp_block_info* block, s32 arrow_type, u8 direction) const;
+    EXPORT bool HasBlockArrowInRoadDirection(const gmp_block_info* pBlock, s32 arrow_type, s32 road_direction) const;
 
   private:
-    EXPORT u16 FindHorzSegmentJunction_588E60(u8 x, u8 y, u8 z, bool bIsDest, s32 arrow_type);
-    EXPORT u16 FindVertSegmentJunction_588F30(u8 x, u8 y, u8 z, bool bIsDest, s32 arrow_type);
-    EXPORT u16 FindSegmentJunction_589000(u8 x_coord, u8 y_coord, u8 z_coord, bool bIsDest, s32 arrow_type);
+    EXPORT u16 FindHorzSegmentJunction(u8 x, u8 y, u8 z, bool bIsDest, s32 arrow_type);
+    EXPORT u16 FindVertSegmentJunction(u8 x, u8 y, u8 z, bool bIsDest, s32 arrow_type);
+    EXPORT u16 FindSegmentJunction(u8 x_coord, u8 y_coord, u8 z_coord, bool bIsDest, s32 arrow_type);
 
   public:
-    EXPORT void FindArrowBlockInJunction_5890D0(u16 junction_idx, s32 direction, u8* xpos, u8* ypos);
+    EXPORT void FindArrowBlockInJunction(u16 junction_idx, s32 direction, u8* xpos, u8* ypos);
 
   private:
-    EXPORT s32 NoRefs_589210(u8 x, u8 y, s32 a4, u8 direction, s32 a6, u16 junction_idx);
-    EXPORT RouteSearchNode* NewChildNode_5892F0(RouteSearchNode* pParent, u16 idx, s16 step_cost);
-    EXPORT RouteSearchNode* NewStartNode_589390(u16 junction_idx);
-    EXPORT void InsertIntoOpenList_589420(RouteSearchNode* pNode);
-    EXPORT bool InitSearch_589480(u8 start_x, u8 start_y, u8 start_z, u8 dest_x, u8 dest_y, u8 dest_z, s32 arrow_type);
-    EXPORT bool InitSearchWithDirection_5895C0(u8 x, u8 y, u8 z, s32 arrow_type, s32 direction);
+    EXPORT s32 NoRefs(u8 x, u8 y, s32, u8 direction, s32, u16 junction_idx);
+    EXPORT RouteSearchNode* NewChildNode(RouteSearchNode* pParent, u16 idx, s16 step_cost);
+    EXPORT RouteSearchNode* NewStartNode(u16 junction_idx);
+    EXPORT void InsertIntoOpenList(RouteSearchNode* pNode);
+    EXPORT bool InitSearch(u8 start_x, u8 start_y, u8 start_z, u8 dest_x, u8 dest_y, u8 dest_z, s32 arrow_type);
+    EXPORT bool InitSearchWithDirection(u8 x, u8 y, u8 z, s32 arrow_type, s32 direction);
 
   public:
-    EXPORT void CancelRoute_589930(s16 route_idx);
+    EXPORT void CancelRoute(s16 route_idx);
 
   private:
-    EXPORT s16 GetFreeRouteIdx_589960();
-    EXPORT u16 AddChildNode_589990(RouteSearchNode* pParent, u16 junction_idx, s16 step_cost);
-    EXPORT bool ExpandNode_5899C0(RouteSearchNode* pNode, s32 arrow_type);
-    EXPORT bool ExpandNodeUnlessOffScreen_589BB0(RouteSearchNode* pNode, s32 arrow_type);
-    EXPORT RouteSearchNode* GetFirstUnexpandedNode_589E00();
-    EXPORT bool SearchToDest_589E20(s32 arrow_type);
-    EXPORT bool SearchUntilOffScreen_589E70(s32 arrow_type);
-    EXPORT s16 StoreRoute_589EB0();
-    EXPORT s16 StoreRouteReversed_589F70();
+    EXPORT s16 GetFreeRouteIdx();
+    EXPORT u16 AddChildNode(RouteSearchNode* pParent, u16 junction_idx, s16 step_cost);
+    EXPORT bool ExpandNode(RouteSearchNode* pNode, s32 arrow_type);
+    EXPORT bool ExpandNodeUnlessOffScreen(RouteSearchNode* pNode, s32 arrow_type);
+    EXPORT RouteSearchNode* GetFirstUnexpandedNode();
+    EXPORT bool SearchToDest(s32 arrow_type);
+    EXPORT bool SearchUntilOffScreen(s32 arrow_type);
+    EXPORT s16 StoreRoute();
+    EXPORT s16 StoreRouteReversed();
 
   public:
-    EXPORT void DebugPrintRoute_58A020(char_type route_idx);
-    EXPORT Junction* GetJunction_58A0B0(u16 junction_idx);
-    EXPORT s16 DoStartRoute_58A0D0(u8 x1, u8 y1, u8 z1, u8 x2, u8 y2, u8 z2, s32 arrow_type);
-    EXPORT s16 FindOffScreenRoute_58A130(u8 x, s16 y, u8 z, u8* pRouteLength, s32 arrow_type, s32 direction);
-    EXPORT u16 StartRoute_58A190(u8 x1, u8 y1, u8 z1, u8 x2, u8 y2, u8 z2, s32 arrow_type);
+    EXPORT void DebugPrintRoute(char_type route_idx);
+    EXPORT Junction* GetJunction(u16 junction_idx);
+    EXPORT s16 DoStartRoute(u8 x1, u8 y1, u8 z1, u8 x2, u8 y2, u8 z2, s32 arrow_type);
+    EXPORT s16 FindOffScreenRoute(u8 x, s16 y, u8 z, u8* pRouteLength, s32 arrow_type, s32 direction);
+    EXPORT u16 StartRoute(u8 x1, u8 y1, u8 z1, u8 x2, u8 y2, u8 z2, s32 arrow_type);
     EXPORT RouteFinder();
 
-    u16 field_0_route_count;
-    u8 field_2;
-    char_type field_3_unused;
-    s16 field_4_unused;
-    s16 field_6_unused;
-    Junction field_8_junctions[545];
-    JunctionRoute field_2218_routes[50];
-    u16 field_8618_start_idx;
-    u16 field_861A_dest_idx;
-    RouteSearchNode field_861C_nodes[545];
-    RouteSearchNode* field_A82C_open_list;
-    JunctionSegment field_A830_horz_segments[545];
-    JunctionSegment field_B938_vert_segments[545];
-    bool field_CA40_visited[545];
-    u16 field_CC62_horz_segment_count;
-    u16 field_CC64_vert_segment_count;
-    u16 field_CC66_545_count;
+    u16 mRouteCount; // 0x0
+    u8 mNoJunctionDirection; // 0x2
+    char_type mUnused3; // 0x3
+    s16 mUnused4; // 0x4
+    s16 mUnused6; // 0x6
+    Junction mJunctions[545]; // 0x8
+    JunctionRoute mRoutes[50]; // 0x2218
+    u16 mStartIdx; // 0x8618
+    u16 mDestIdx; // 0x861A
+    RouteSearchNode mNodes[545]; // 0x861C
+    RouteSearchNode* mOpenList; // 0xA82C
+    JunctionSegment mHorzSegments[545]; // 0xA830
+    JunctionSegment mVertSegments[545]; // 0xB938
+    bool mVisited[545]; // 0xCA40
+    u16 mHorzSegmentCount; // 0xCC62
+    u16 mVertSegmentCount; // 0xCC64
+    u16 m545Count; // 0xCC66
 };
 
-EXTERN_GLOBAL(RouteFinder*, gRouteFinder_6FFDC8);
+EXTERN_GLOBAL(RouteFinder*, gRouteFinder);

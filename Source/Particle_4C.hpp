@@ -11,52 +11,52 @@ class Explosion;
 class Particle_4C
 {
   public:
-    EXPORT bool UpdateFloatingParticle_state_6_15_16_17_538060();
-    EXPORT bool UpdateDirectedProjectile_state_3_12_5384C0();
-    EXPORT bool UpdateBeamSegment_state_43_538A40();
-    EXPORT bool UpdateObjectBeamLink_state_38_538AC0();
-    EXPORT bool UpdateDirectedBurstSweep_state_4_539040();
-    EXPORT bool UpdateDirectedBurst_state_13_14_36_539480();
-    EXPORT bool UpdateCircularBurst_state_5_539890();
-    EXPORT bool UpdateStaticAnim_state_39_53A180();
-    EXPORT bool UpdateSkidOrScrapeSpark_state_40_41_53A280();
-    EXPORT bool Empty_state_42_53AB70();
-    EXPORT bool UpdateSimpleBallisticMotion_state_1_53ABA0();
-    EXPORT bool UpdateLargeBallisticDebris_state_35_53AE60();
-    EXPORT bool Empty_state_44_53B170();
-    EXPORT bool UpdateDebrisArc_state_7_53B1A0();
-    EXPORT bool UpdateShortAnim_state_37_53B580();
-    EXPORT bool UpdateAttachedEmitter_state_9_10_53B670();
-    EXPORT bool UpdateBurstAnimation_state_29_30_53B9F0();
-    EXPORT bool UpdateCollisionBurst_state_31_34_53BAC0();
+    EXPORT bool UpdateFloatingParticle_state_6_15_16_17();
+    EXPORT bool UpdateDirectedProjectile_state_3_12();
+    EXPORT bool UpdateBeamSegment_state_43();
+    EXPORT bool UpdateObjectBeamLink_state_38();
+    EXPORT bool UpdateDirectedBurstSweep_state_4();
+    EXPORT bool UpdateDirectedBurst_state_13_14_36();
+    EXPORT bool UpdateCircularBurst_state_5();
+    EXPORT bool UpdateStaticAnim_state_39();
+    EXPORT bool UpdateSkidOrScrapeSpark_state_40_41();
+    EXPORT bool Empty_state_42();
+    EXPORT bool UpdateSimpleBallisticMotion_state_1();
+    EXPORT bool UpdateLargeBallisticDebris_state_35();
+    EXPORT bool Empty_state_44();
+    EXPORT bool UpdateDebrisArc_state_7();
+    EXPORT bool UpdateShortAnim_state_37();
+    EXPORT bool UpdateAttachedEmitter_state_9_10();
+    EXPORT bool UpdateBurstAnimation_state_29_30();
+    EXPORT bool UpdateCollisionBurst_state_31_34();
     EXPORT bool PoolUpdate();
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
     
-    s32 field_0_id;
+    s32 mId; // 0x0
     union
     {
-        s32 field_4_flags;
-        ParticleFlags32 field_4_bf;
+        s32 mFlags; // 0x4
+        ParticleFlags32 mBf4; // 0x4
     };
-    Fix16_Vec field_8_speed;
-    Fix16_Vec field_14_additional_speed;
-    Fix16 field_20_speed;
-    Ang16 field_24_angle;
-    s16 field_26_unused;
-    Sprite* field_28_pSprite;
-    u16 field_2C_counter;
-    u16 field_2E_initial_counter;
-    Sprite* field_30_pOwnSprite;
-    s32 field_34_unused;
-    s32 field_38_state;
+    Fix16_Vec mSpeed8; // 0x8
+    Fix16_Vec mAdditionalSpeed; // 0x14
+    Fix16 mSpeed20; // 0x20
+    Ang16 mAngle; // 0x24
+    s16 mUnused26; // 0x26
+    Sprite* mpSprite; // 0x28
+    u16 mCounter; // 0x2C
+    u16 mInitialCounter; // 0x2E
+    Sprite* mpOwnSprite; // 0x30
+    s32 mUnused34; // 0x34
+    s32 mState; // 0x38
     Particle_4C* mpNext; // 0x3C
-    Explosion* field_40_pExplosion;
-    s16 field_44_explosion_id;
-    u8 field_46_sub_state;
-    char_type field_47_unused;
-    u8 field_48_timer;
-    char_type field_49_unused;
-    char_type field_4A_unused;
-    char_type field_4B_unused;
+    Explosion* mpExplosion; // 0x40
+    s16 mExplosionId; // 0x44
+    u8 mSubState; // 0x46
+    char_type mUnused47; // 0x47
+    u8 mTimer; // 0x48
+    char_type mUnused49; // 0x49
+    char_type mUnused4A; // 0x4A
+    char_type mUnused4B; // 0x4B
 };

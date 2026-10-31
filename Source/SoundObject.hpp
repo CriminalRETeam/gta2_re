@@ -13,21 +13,21 @@ enum
     Weapon_30_7 = 7,
     CollisionSoundQueue_6 = 6,
     Camera_0xBC_5 = 5,
-    Unknown_4 = 4,
+    Unused_4 = 4,
     Radio_3 = 3,
-    Frontend_2 = 2, // Frontend's snd2_67D6F8, processed by sound_obj::ProcessType2_412490
+    Frontend_2 = 2, // Frontend's snd2, processed by sound_obj::ProcessType2_Frontend_412490
     Sprite_1 = 1,
 };
 } // namespace SoundObjectTypeEnum
 
-// A sound emitting object registered with root_sound (a pool of 1000). Its owner is in field_C_pAny; sound_obj
-// processes it each frame depending on field_0_object_type.
+// A sound emitting object registered with root_sound (a pool of 1000). Its owner is in mpAny; sound_obj
+// processes it each frame depending on mObjectType.
 class SoundObject
 {
   public:
-    s32 field_0_object_type; // SoundObjectTypeEnum
-    bool field_4_bStatus;
-    s32 field_8_sound_entry;
+    s32 mObjectType; // 0x0: SoundObjectTypeEnum
+    bool mbStatus; // 0x4
+    s32 mSoundEntry; // 0x8
 
     union SoundObjectType
     {
@@ -42,9 +42,9 @@ class SoundObject
         void* pAny;
     };
 
-    // Type depends on what field_0_object_type is
-    SoundObjectType field_C_pAny;
+    // Type depends on what mObjectType is
+    SoundObjectType mpAny; // 0xC
 
-    EXPORT void Release_40EF20();
+    EXPORT void Release();
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SoundObject, 0x10);

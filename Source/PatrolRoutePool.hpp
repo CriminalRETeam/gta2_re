@@ -10,9 +10,9 @@ class PatrolPoint
     EXPORT PatrolPoint();
     EXPORT ~PatrolPoint();
 
-    u8 field_0_x;
-    u8 field_1_y;
-    u8 field_2_z;
+    u8 mX; // 0x0
+    u8 mY; // 0x1
+    u8 mZ; // 0x2
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PatrolPoint, 0x3);
 #pragma pack(pop)
@@ -28,13 +28,13 @@ class PatrolRoute
 
 
     EXPORT ~PatrolRoute();
-    EXPORT void Init_543EC0();
+    EXPORT void Init();
     EXPORT PatrolRoute();
-    PatrolPoint field_0_points[k_max_points];
+    PatrolPoint mPoints[k_max_points]; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PatrolRoute, 0x96);
 
-// Pool of 50 patrol routes handed out to peds by AllocPatrolList_543F10
+// Pool of 50 patrol routes handed out to peds by AllocPatrolList
 class PatrolRoutePool
 {
   public:
@@ -46,10 +46,10 @@ class PatrolRoutePool
 
     EXPORT ~PatrolRoutePool();
     EXPORT PatrolRoutePool();
-    EXPORT PatrolRoute* AllocPatrolList_543F10(u8* pRouteIdx);
-    PatrolRoute field_0_routes[k_max_routes];
-    bool field_1D4C_bUsed[k_max_routes];
+    EXPORT PatrolRoute* AllocPatrolList(u8* pRouteIdx);
+    PatrolRoute mRoutes[k_max_routes]; // 0x0
+    bool mbUsed[k_max_routes]; // 0x1D4C
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PatrolRoutePool, 0x1D7E);
 
-EXTERN_GLOBAL(PatrolRoutePool*, gPatrolRoutePool_6FD784);
+EXTERN_GLOBAL(PatrolRoutePool*, gPatrolRoutePool);

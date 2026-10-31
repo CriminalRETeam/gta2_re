@@ -4,49 +4,49 @@
 #include "map_0x370.hpp"
 #include <string.h>
 
-DEFINE_GLOBAL(u8, gPathFinder_SlopeZDelta_6FDEEC, 0x6FDEEC);
-DEFINE_GLOBAL(s16, gPathFinder_best_cost_6FDECE, 0x6FDECE);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderSlopeZDelta, 0x6FDEEC);
+DEFINE_STATIC_MEMBER(s16, PathFinder, sPathFinderBestCost, 0x6FDECE);
 
-DEFINE_GLOBAL(PathFinder*, gPathFinder_6FDEF0, 0x6FDEF0);
+DEFINE_GLOBAL(PathFinder*, gPathFinder, 0x6FDEF0);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_6FDD98, Fix16(0), 0x6FDD98);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FDD50, Fix16(0x100, 0), 0x6FDD50);
 DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_6FDC00, Fix16(0.25), 0x6FDC00);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6FDCA8, Fix16(0.5), 0x6FDCA8);
 
-DEFINE_GLOBAL(u8, gPathFinder_edge2_grid_x_6FDBF8, 0x6FDBF8);
-DEFINE_GLOBAL(u8, gPathFinder_edge2_grid_y_6FDBF9, 0x6FDBF9);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge2GridX, 0x6FDBF8);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge2GridY, 0x6FDBF9);
 
-DEFINE_GLOBAL(s32, gPathFinder_angle_face_6FDD38, 0x6FDD38);
-DEFINE_GLOBAL(u8, gPathFinder_edge1_x_6FDBE2, 0x6FDBE2);
-DEFINE_GLOBAL(u8, gPathFinder_edge1_y_6FDBE3, 0x6FDBE3);
-DEFINE_GLOBAL(u8, gPathFinder_edge1_z_6FDBE4, 0x6FDBE4);
-DEFINE_GLOBAL(u8, gPathFinder_edge1_grid_x_6FDBE0, 0x6FDBE0);
-DEFINE_GLOBAL(u8, gPathFinder_edge1_grid_y_6FDBE1, 0x6FDBE1);
+DEFINE_STATIC_MEMBER(s32, PathFinder, sPathFinderAngleFace, 0x6FDD38);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge1X, 0x6FDBE2);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge1Y, 0x6FDBE3);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge1Z, 0x6FDBE4);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge1GridX, 0x6FDBE0);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge1GridY, 0x6FDBE1);
 
-DEFINE_GLOBAL(u8, gPathFinder_best_x_6FDECA, 0x6FDECA);
-DEFINE_GLOBAL(u8, gPathFinder_best_y_6FDECB, 0x6FDECB);
-DEFINE_GLOBAL(u8, gPathFinder_best_z_6FDECC, 0x6FDECC);
-DEFINE_GLOBAL(u8, gPathFinder_best_grid_x_6FDEC8, 0x6FDEC8);
-DEFINE_GLOBAL(u8, gPathFinder_best_grid_y_6FDEC9, 0x6FDEC9);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderBestX, 0x6FDECA);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderBestY, 0x6FDECB);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderBestZ, 0x6FDECC);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderBestGridX, 0x6FDEC8);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderBestGridY, 0x6FDEC9);
 
-DEFINE_GLOBAL(u8, gPathFinder_edge2_x_6FDBFA, 0x6FDBFA);
-DEFINE_GLOBAL(u8, gPathFinder_edge2_y_6FDBFB, 0x6FDBFB);
-DEFINE_GLOBAL(u8, gPathFinder_edge2_z_6FDBFC, 0x6FDBFC);
-DEFINE_GLOBAL(u8, gPathFinder_edge3_grid_x_6FDB68, 0x6FDB68);
-DEFINE_GLOBAL(u8, gPathFinder_edge3_grid_y_6FDB69, 0x6FDB69);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge2X, 0x6FDBFA);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge2Y, 0x6FDBFB);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge2Z, 0x6FDBFC);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge3GridX, 0x6FDB68);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge3GridY, 0x6FDB69);
 
-DEFINE_GLOBAL(u8, gPathFinder_edge3_x_6FDB6A, 0x6FDB6A);
-DEFINE_GLOBAL(u8, gPathFinder_edge3_y_6FDB6B, 0x6FDB6B);
-DEFINE_GLOBAL(u8, gPathFinder_edge3_z_6FDB6C, 0x6FDB6C);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge3X, 0x6FDB6A);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge3Y, 0x6FDB6B);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge3Z, 0x6FDB6C);
 
-DEFINE_GLOBAL(u8, gPathFinder_edge4_x_6FDBF2, 0x6FDBF2);
-DEFINE_GLOBAL(u8, gPathFinder_edge4_y_6FDBF3, 0x6FDBF3);
-DEFINE_GLOBAL(u8, gPathFinder_edge4_z_6FDBF4, 0x6FDBF4);
-DEFINE_GLOBAL(u8, gPathFinder_edge4_grid_x_6FDBF0, 0x6FDBF0);
-DEFINE_GLOBAL(u8, gPathFinder_edge4_grid_y_6FDBF1, 0x6FDBF1);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge4X, 0x6FDBF2);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge4Y, 0x6FDBF3);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge4Z, 0x6FDBF4);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge4GridX, 0x6FDBF0);
+DEFINE_STATIC_MEMBER(u8, PathFinder, sPathFinderEdge4GridY, 0x6FDBF1);
 
-// EvaluateGridCell_554640 results: skip the cell, add it, or the grid edge in the facing direction is reached
+// EvaluateGridCell results: skip the cell, add it, or the grid edge in the facing direction is reached
 enum
 {
     k_cell_skip = 0,
@@ -55,12 +55,12 @@ enum
 };
 
 MATCH_FUNC(0x554080)
-bool PathFinder::CanMoveInDirection_554080(s32 path_direction) const
+bool PathFinder::CanMoveInDirection(s32 path_direction) const
 {
-    if (field_25_xpos > 1u && field_25_xpos < 254u && field_26_ypos > 1u && field_26_ypos < 254u)
+    if (mXpos25 > 1u && mXpos25 < 254u && mYpos26 > 1u && mYpos26 < 254u)
     {
         bool result =
-            gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(field_25_xpos, field_26_ypos, field_27_zpos, path_direction, &gPathFinder_SlopeZDelta_6FDEEC, 1) ==
+            gMap_0x370->IsMoveOntoSlopeTileBlocked(mXpos25, mYpos26, mZpos27, path_direction, &sPathFinderSlopeZDelta, true) ==
             0;
         return result;
     }
@@ -68,22 +68,22 @@ bool PathFinder::CanMoveInDirection_554080(s32 path_direction) const
 }
 
 MATCH_FUNC(0x5540e0)
-bool PathFinder::TestMoveToAdjacentTile_5540E0(u8 curr_xpos, u8 curr_ypos, u8 curr_zpos, u8 desired_xpos, u8 desired_ypos)
+bool PathFinder::TestMoveToAdjacentTile(u8 curr_xpos, u8 curr_ypos, u8 curr_zpos, u8 desired_xpos, u8 desired_ypos)
 {
-    field_25_xpos = curr_xpos;
-    field_26_ypos = curr_ypos;
-    field_27_zpos = curr_zpos;
-    return CanMoveToAdjacentTile_554110(desired_xpos, desired_ypos);
+    mXpos25 = curr_xpos;
+    mYpos26 = curr_ypos;
+    mZpos27 = curr_zpos;
+    return CanMoveToAdjacentTile(desired_xpos, desired_ypos);
 }
 
 MATCH_FUNC(0x554110)
-bool PathFinder::CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_ypos)
+bool PathFinder::CanMoveToAdjacentTile(u8 desired_xpos, u8 desired_ypos)
 {
 
-    gPathFinder_SlopeZDelta_6FDEEC = 0;
+    sPathFinderSlopeZDelta = 0;
 
-    const char_type xd = desired_xpos - field_25_xpos;
-    const char_type yd = desired_ypos - field_26_ypos;
+    const char_type xd = desired_xpos - mXpos25;
+    const char_type yd = desired_ypos - mYpos26;
 
     if (xd == 0 && yd == 0)
     {
@@ -93,7 +93,7 @@ bool PathFinder::CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_ypos)
     if (xd != 0 && yd != 0)
     {
         // No diagonal move from a slope tile
-        if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_25_xpos, field_26_ypos, field_27_zpos))
+        if (gMap_0x370->IsGradientSlopeAt(mXpos25, mYpos26, mZpos27))
         {
             return false;
         }
@@ -103,116 +103,116 @@ bool PathFinder::CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_ypos)
             if (yd == 1)
             {
                 // moving southeast
-                if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(this->field_25_xpos, this->field_26_ypos + 1, this->field_27_zpos))
+                if (gMap_0x370->IsGradientSlopeAt(this->mXpos25, this->mYpos26 + 1, this->mZpos27))
                 {
                     return false;
                 }
 
-                if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos))
+                if (gMap_0x370->IsGradientSlopeAt(this->mXpos25 + 1, this->mYpos26, this->mZpos27))
                 {
                     return false;
                 }
 
-                if (CanMoveInDirection_554080(path_direction::down_2) && CanMoveInDirection_554080(path_direction::right_3))
+                if (CanMoveInDirection(path_direction::down_2) && CanMoveInDirection(path_direction::right_3))
                 {
-                    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(this->field_25_xpos + 1,
-                                                                       this->field_26_ypos,
-                                                                       this->field_27_zpos,
+                    if (gMap_0x370->IsMoveOntoSlopeTileBlocked(this->mXpos25 + 1,
+                                                                       this->mYpos26,
+                                                                       this->mZpos27,
                                                                        path_direction::down_2,
-                                                                       &gPathFinder_SlopeZDelta_6FDEEC,
+                                                                       &sPathFinderSlopeZDelta,
                                                                        1))
                     {
                         return false;
                     }
-                    return gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(this->field_25_xpos,
-                                                                              this->field_26_ypos + 1,
-                                                                              this->field_27_zpos,
+                    return gMap_0x370->IsMoveOntoSlopeTileBlocked(this->mXpos25,
+                                                                              this->mYpos26 + 1,
+                                                                              this->mZpos27,
                                                                               path_direction::right_3,
-                                                                              &gPathFinder_SlopeZDelta_6FDEEC,
+                                                                              &sPathFinderSlopeZDelta,
                                                                               1) ? false : true;
                 }
                 return false;
             }
 
-            if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(this->field_25_xpos, this->field_26_ypos - 1, this->field_27_zpos))
+            if (gMap_0x370->IsGradientSlopeAt(this->mXpos25, this->mYpos26 - 1, this->mZpos27))
             {
                 return false;
             }
 
-            if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos))
+            if (gMap_0x370->IsGradientSlopeAt(this->mXpos25 + 1, this->mYpos26, this->mZpos27))
             {
                 return false;
             }
 
-            if (!CanMoveInDirection_554080(path_direction::up_1) || !CanMoveInDirection_554080(path_direction::right_3))
+            if (!CanMoveInDirection(path_direction::up_1) || !CanMoveInDirection(path_direction::right_3))
             {
                 return false;
             }
 
-            if (gMap_0x370_6F6268
-                    ->IsMoveOntoSlopeTileBlocked_4E0130(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos, path_direction::up_1, &gPathFinder_SlopeZDelta_6FDEEC, 1))
+            if (gMap_0x370
+                    ->IsMoveOntoSlopeTileBlocked(this->mXpos25 + 1, this->mYpos26, this->mZpos27, path_direction::up_1, &sPathFinderSlopeZDelta, 1))
             {
                 return false;
             }
-            return gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(this->field_25_xpos,
-                                                                      this->field_26_ypos - 1,
-                                                                      this->field_27_zpos,
+            return gMap_0x370->IsMoveOntoSlopeTileBlocked(this->mXpos25,
+                                                                      this->mYpos26 - 1,
+                                                                      this->mZpos27,
                                                                       path_direction::right_3,
-                                                                      &gPathFinder_SlopeZDelta_6FDEEC,
+                                                                      &sPathFinderSlopeZDelta,
                                                                       1) ? false : true;
         }
 
         if (yd == 1)
         {
-            if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(this->field_25_xpos, this->field_26_ypos + 1, this->field_27_zpos))
+            if (gMap_0x370->IsGradientSlopeAt(this->mXpos25, this->mYpos26 + 1, this->mZpos27))
             {
                 return false;
             }
 
-            if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos))
+            if (gMap_0x370->IsGradientSlopeAt(this->mXpos25 - 1, this->mYpos26, this->mZpos27))
             {
                 return false;
             }
 
-            if (!CanMoveInDirection_554080(path_direction::down_2) || !CanMoveInDirection_554080(path_direction::left_4))
+            if (!CanMoveInDirection(path_direction::down_2) || !CanMoveInDirection(path_direction::left_4))
             {
                 return false;
             }
 
-            if (gMap_0x370_6F6268
-                    ->IsMoveOntoSlopeTileBlocked_4E0130(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos, path_direction::down_2, &gPathFinder_SlopeZDelta_6FDEEC, 1))
+            if (gMap_0x370
+                    ->IsMoveOntoSlopeTileBlocked(this->mXpos25 - 1, this->mYpos26, this->mZpos27, path_direction::down_2, &sPathFinderSlopeZDelta, 1))
             {
                 return false;
             }
-            return gMap_0x370_6F6268
-                       ->IsMoveOntoSlopeTileBlocked_4E0130(this->field_25_xpos, this->field_26_ypos + 1, this->field_27_zpos, path_direction::left_4, &gPathFinder_SlopeZDelta_6FDEEC, 1) ? false : true;
+            return gMap_0x370
+                       ->IsMoveOntoSlopeTileBlocked(this->mXpos25, this->mYpos26 + 1, this->mZpos27, path_direction::left_4, &sPathFinderSlopeZDelta, 1) ? false : true;
         }
 
-        if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(this->field_25_xpos, this->field_26_ypos - 1, this->field_27_zpos))
+        if (gMap_0x370->IsGradientSlopeAt(this->mXpos25, this->mYpos26 - 1, this->mZpos27))
         {
             return false;
         }
 
-        if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos))
+        if (gMap_0x370->IsGradientSlopeAt(this->mXpos25 - 1, this->mYpos26, this->mZpos27))
         {
             return false;
         }
 
-        if (!CanMoveInDirection_554080(path_direction::up_1) || !CanMoveInDirection_554080(path_direction::left_4))
+        if (!CanMoveInDirection(path_direction::up_1) || !CanMoveInDirection(path_direction::left_4))
         {
             return false;
         }
 
-        if (gMap_0x370_6F6268
-                ->IsMoveOntoSlopeTileBlocked_4E0130(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos, path_direction::up_1, &gPathFinder_SlopeZDelta_6FDEEC, 1))
+        if (gMap_0x370
+                ->IsMoveOntoSlopeTileBlocked(this->mXpos25 - 1, this->mYpos26, this->mZpos27, path_direction::up_1, &sPathFinderSlopeZDelta, 1))
         {
             return false;
         }
-        return gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(this->field_25_xpos,
-                                                                  this->field_26_ypos - 1,
-                                                                  this->field_27_zpos,
+        return gMap_0x370->IsMoveOntoSlopeTileBlocked(this->mXpos25,
+                                                                  this->mYpos26 - 1,
+                                                                  this->mZpos27,
                                                                   path_direction::left_4,
-                                                                  &gPathFinder_SlopeZDelta_6FDEEC,
+                                                                  &sPathFinderSlopeZDelta,
                                                                   1) ? false : true;
     }
 
@@ -220,66 +220,66 @@ bool PathFinder::CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_ypos)
     {
         if (xd == -1)
         {
-            return CanMoveInDirection_554080(path_direction::left_4);
+            return CanMoveInDirection(path_direction::left_4);
         }
-        return CanMoveInDirection_554080(path_direction::right_3);
+        return CanMoveInDirection(path_direction::right_3);
     }
 
     if (yd == -1)
     {
-        return CanMoveInDirection_554080(path_direction::up_1);
+        return CanMoveInDirection(path_direction::up_1);
     }
-    return CanMoveInDirection_554080(path_direction::down_2);
+    return CanMoveInDirection(path_direction::down_2);
 }
 
 MATCH_FUNC(0x5545c0)
-void PathFinder::ClearGrid_5545C0()
+void PathFinder::ClearGrid()
 {
-    memset(this->field_40_grid, 0, sizeof(this->field_40_grid));
+    memset(this->mGrid, 0, sizeof(this->mGrid));
 }
 
 MATCH_FUNC(0x5545e0)
-void PathFinder::Init_5545E0()
+void PathFinder::Init()
 {
-    memset(this->field_40_grid, 0, sizeof(this->field_40_grid));
-    field_38_bComputePathInProgress = false;
-    field_34_unused = 1;
-    field_36_unused = 0;
-    field_3A_unused = 0;
-    field_2FD0_bTimedOut = true;
-    field_2FD1_time_out_counter = 0;
+    memset(this->mGrid, 0, sizeof(this->mGrid));
+    mbComputePathInProgress = false;
+    mUnused34 = 1;
+    mUnused36 = 0;
+    mUnused3A = 0;
+    mbTimedOut = true;
+    mTimeOutCounter = 0;
 }
 
 MATCH_FUNC(0x554620)
-void PathFinder::RemovePed_554620(s32 ped_id)
+void PathFinder::RemovePed(s32 ped_id)
 {
-    if (ped_id == field_0_ped_id)
+    if (ped_id == mPedId)
     {
-        field_2FD0_bTimedOut = true;
-        field_2FD1_time_out_counter = 0;
+        mbTimedOut = true;
+        mTimeOutCounter = 0;
     }
 }
 
 MATCH_FUNC(0x554640)
-char_type PathFinder::EvaluateGridCell_554640()
+char_type PathFinder::EvaluateGridCell()
 {
-    if (field_23_grid_x <= 32)
+    if (mGridX <= 32)
     {
-        if (field_24_grid_y <= 32)
+        if (mGridY <= 32)
         {
-            if (field_22_zpos <= 8)
+            if (mZpos22 <= 8)
             {
-                field_1C_grid_idx = field_23_grid_x + 34 * field_24_grid_y;
-                PathNode* pNode = &field_40_grid[field_1C_grid_idx];
-                if (pNode->field_1_idx2 == 0)
+                mGridIdx = mGridX + 34 * mGridY;
+                PathNode* pNode = &mGrid[mGridIdx];
+                if (pNode->mIdx2 == 0)
                 {
                     return k_cell_open;
                 }
-                if (pNode->field_0_idx1 != 1 && pNode->field_2_xpos != field_22_zpos)
+                if (pNode->mIdx1 != 1 && pNode->mXpos != mZpos22)
                 {
-                    if (abs(pNode->field_2_xpos - field_22_zpos) >= 1)
+                    if (abs(pNode->mXpos - mZpos22) >= 1)
                     {
-                        pNode->field_0_idx1 = 1;
+                        pNode->mIdx1 = 1;
                         return k_cell_open;
                     }
                 }
@@ -287,32 +287,32 @@ char_type PathFinder::EvaluateGridCell_554640()
             }
         }
     }
-    if (field_10_zStart != field_13_zEnd)
+    if (mZStart != mZEnd)
     {
         return k_cell_skip;
     }
-    switch (gPathFinder_angle_face_6FDD38)
+    switch (sPathFinderAngleFace)
     {
         case path_direction::up_1:
-            if (field_24_grid_y < 1)
+            if (mGridY < 1)
             {
                 return k_cell_edge_reached;
             }
             break;
         case path_direction::down_2:
-            if (field_24_grid_y > 32)
+            if (mGridY > 32)
             {
                 return k_cell_edge_reached;
             }
             break;
         case path_direction::right_3:
-            if (field_23_grid_x > 32)
+            if (mGridX > 32)
             {
                 return k_cell_edge_reached;
             }
             break;
         case path_direction::left_4:
-            if (field_23_grid_x < 1)
+            if (mGridX < 1)
             {
                 return k_cell_edge_reached;
             }
@@ -323,22 +323,22 @@ char_type PathFinder::EvaluateGridCell_554640()
 
 // https://decomp.me/scratch/f8WDL
 MATCH_FUNC(0x554710)
-void PathFinder::AddGridCell_554710()
+void PathFinder::AddGridCell()
 {
     u16 cost_scale;
-    // zpos assigned in both arms (not `zpos = field_22_zpos; if (..) zpos += ..;`): the extra
+    // zpos assigned in both arms (not `zpos = mZpos22; if (..) zpos += ..;`): the extra
     // definition raises its priority above dx/dy so it is coloured first and keeps edx.
     u8 zpos;
-    if (gPathFinder_SlopeZDelta_6FDEEC)
+    if (sPathFinderSlopeZDelta)
     {
-        zpos = field_22_zpos + gPathFinder_SlopeZDelta_6FDEEC;
+        zpos = mZpos22 + sPathFinderSlopeZDelta;
     }
     else
     {
-        zpos = field_22_zpos;
+        zpos = mZpos22;
     }
 
-    if (zpos != field_13_zEnd)
+    if (zpos != mZEnd)
     {
         cost_scale = 2;
     }
@@ -347,165 +347,165 @@ void PathFinder::AddGridCell_554710()
         cost_scale = 1;
     }
 
-    field_1C_grid_idx = field_23_grid_x + 34 * field_24_grid_y;
-    PathNode* pNode = &field_40_grid[field_1C_grid_idx];
-    if (field_40_grid[field_1C_grid_idx].field_0_idx1 == 1 && zpos == pNode->field_2_xpos)
+    mGridIdx = mGridX + 34 * mGridY;
+    PathNode* pNode = &mGrid[mGridIdx];
+    if (mGrid[mGridIdx].mIdx1 == 1 && zpos == pNode->mXpos)
     {
-        pNode->field_0_idx1 = 0;
+        pNode->mIdx1 = 0;
     }
     else
     {
         u16 heuristic;
-        if (!field_4_bFindTileMode)
+        if (!mbFindTileMode)
         {
             // The sum assigned first and `*= cost_scale` after (one expression keeps cost_scale's multiply in the sum's
             // register and pushes ebp at the top instead of inside this branch). The dx/dy locals give
             // the original's evaluation order (x difference first).
-            u16 dx = field_20_xpos - field_11_xEnd;
-            u16 dy = field_21_ypos - field_12_yEnd;
+            u16 dx = mXpos20 - mXEnd;
+            u16 dy = mYpos21 - mYEnd;
             heuristic = dy * dy + dx * dx;
             heuristic *= cost_scale;
         }
         else
         {
-            heuristic = field_16_start_cost;
+            heuristic = mStartCost;
         }
-        field_8_pNode->field_0_idx1 = field_23_grid_x;
-        field_8_pNode->field_1_idx2 = field_24_grid_y;
-        field_8_pNode->field_2_xpos = field_20_xpos;
-        field_8_pNode->field_3_ypos = field_21_ypos;
-        field_8_pNode->field_4_zpos = zpos;
-        field_8_pNode->field_6_cost = heuristic;
-        ++field_8_pNode;
-        ++field_C_node_count;
+        mpNode->mIdx1 = mGridX;
+        mpNode->mIdx2 = mGridY;
+        mpNode->mXpos = mXpos20;
+        mpNode->mYpos = mYpos21;
+        mpNode->mZpos = zpos;
+        mpNode->mCost = heuristic;
+        ++mpNode;
+        ++mNodeCount;
 
-        if (pNode->field_0_idx1 == 1)
+        if (pNode->mIdx1 == 1)
         {
-            pNode->field_3_ypos = field_1B_direction;
-            pNode->field_4_zpos = zpos;
+            pNode->mYpos = mDirection;
+            pNode->mZpos = zpos;
         }
         else
         {
-            pNode->field_1_idx2 = field_1B_direction;
-            pNode->field_2_xpos = zpos;
+            pNode->mIdx2 = mDirection;
+            pNode->mXpos = zpos;
         }
-        pNode->field_6_cost = field_1E_current_cost + 1;
+        pNode->mCost = mCurrentCost + 1;
 
-        if (field_24_grid_y)
+        if (mGridY)
         {
-            if (field_24_grid_y == 31)
+            if (mGridY == 31)
             {
-                gPathFinder_edge2_grid_x_6FDBF8 = field_23_grid_x;
-                gPathFinder_edge2_grid_y_6FDBF9 = field_24_grid_y;
-                gPathFinder_edge2_x_6FDBFA = field_20_xpos;
-                gPathFinder_edge2_y_6FDBFB = field_21_ypos;
-                gPathFinder_edge2_z_6FDBFC = field_22_zpos;
+                sPathFinderEdge2GridX = mGridX;
+                sPathFinderEdge2GridY = mGridY;
+                sPathFinderEdge2X = mXpos20;
+                sPathFinderEdge2Y = mYpos21;
+                sPathFinderEdge2Z = mZpos22;
             }
         }
         else
         {
-            gPathFinder_edge1_grid_x_6FDBE0 = field_23_grid_x;
-            gPathFinder_edge1_grid_y_6FDBE1 = field_24_grid_y;
-            gPathFinder_edge1_x_6FDBE2 = field_20_xpos;
-            gPathFinder_edge1_y_6FDBE3 = field_21_ypos;
-            gPathFinder_edge1_z_6FDBE4 = field_22_zpos;
+            sPathFinderEdge1GridX = mGridX;
+            sPathFinderEdge1GridY = mGridY;
+            sPathFinderEdge1X = mXpos20;
+            sPathFinderEdge1Y = mYpos21;
+            sPathFinderEdge1Z = mZpos22;
         }
 
-        if (field_23_grid_x)
+        if (mGridX)
         {
-            if (field_23_grid_x == 31)
+            if (mGridX == 31)
             {
-                gPathFinder_edge3_grid_x_6FDB68 = 31;
-                gPathFinder_edge3_grid_y_6FDB69 = field_24_grid_y;
-                gPathFinder_edge3_x_6FDB6A = field_20_xpos;
-                gPathFinder_edge3_y_6FDB6B = field_21_ypos;
-                gPathFinder_edge3_z_6FDB6C = field_22_zpos;
+                sPathFinderEdge3GridX = 31;
+                sPathFinderEdge3GridY = mGridY;
+                sPathFinderEdge3X = mXpos20;
+                sPathFinderEdge3Y = mYpos21;
+                sPathFinderEdge3Z = mZpos22;
             }
         }
         else
         {
-            gPathFinder_edge4_grid_x_6FDBF0 = 0;
-            gPathFinder_edge4_grid_y_6FDBF1 = field_24_grid_y;
-            gPathFinder_edge4_x_6FDBF2 = field_20_xpos;
-            gPathFinder_edge4_y_6FDBF3 = field_21_ypos;
-            gPathFinder_edge4_z_6FDBF4 = field_22_zpos;
+            sPathFinderEdge4GridX = 0;
+            sPathFinderEdge4GridY = mGridY;
+            sPathFinderEdge4X = mXpos20;
+            sPathFinderEdge4Y = mYpos21;
+            sPathFinderEdge4Z = mZpos22;
         }
     }
 }
 
 MATCH_FUNC(0x5548c0)
-bool PathFinder::ProcessGridCell_5548C0()
+bool PathFinder::ProcessGridCell()
 {
-    char_type cell_result = PathFinder::EvaluateGridCell_554640();
+    char_type cell_result = PathFinder::EvaluateGridCell();
     if (cell_result == k_cell_open)
     {
-        if (PathFinder::CanMoveToAdjacentTile_554110(field_20_xpos, field_21_ypos))
+        if (PathFinder::CanMoveToAdjacentTile(mXpos20, mYpos21))
         {
-            PathFinder::AddGridCell_554710();
+            PathFinder::AddGridCell();
         }
         else
         {
-            PathNode* pCell = &field_40_grid[field_1C_grid_idx];
-            if (pCell->field_0_idx1 == 1 && pCell->field_3_ypos == 0)
+            PathNode* pCell = &mGrid[mGridIdx];
+            if (pCell->mIdx1 == 1 && pCell->mYpos == 0)
             {
-                pCell->field_0_idx1 = 0;
+                pCell->mIdx1 = 0;
             }
         }
     }
     else if (cell_result == k_cell_edge_reached)
     {
-        field_18_bSearching = false;
-        field_19_unused = 1;
-        field_1A_unused = 1;
+        mbSearching = false;
+        mUnused19 = 1;
+        mUnused1A = 1;
         return true;
     }
     return false;
 }
 
 MATCH_FUNC(0x554920)
-void PathFinder::RestoreSavedPosition_554920()
+void PathFinder::RestoreSavedPosition()
 {
-    switch (gPathFinder_angle_face_6FDD38)
+    switch (sPathFinderAngleFace)
     {
         case path_direction::up_1:
-            this->field_25_xpos = gPathFinder_edge1_x_6FDBE2;
-            gPathFinder_best_x_6FDECA = gPathFinder_edge1_x_6FDBE2;
-            this->field_26_ypos = gPathFinder_edge1_y_6FDBE3;
-            gPathFinder_best_y_6FDECB = gPathFinder_edge1_y_6FDBE3;
-            this->field_27_zpos = gPathFinder_edge1_z_6FDBE4;
-            gPathFinder_best_z_6FDECC = gPathFinder_edge1_z_6FDBE4;
-            gPathFinder_best_grid_x_6FDEC8 = gPathFinder_edge1_grid_x_6FDBE0;
-            gPathFinder_best_grid_y_6FDEC9 = gPathFinder_edge1_grid_y_6FDBE1;
+            this->mXpos25 = sPathFinderEdge1X;
+            sPathFinderBestX = sPathFinderEdge1X;
+            this->mYpos26 = sPathFinderEdge1Y;
+            sPathFinderBestY = sPathFinderEdge1Y;
+            this->mZpos27 = sPathFinderEdge1Z;
+            sPathFinderBestZ = sPathFinderEdge1Z;
+            sPathFinderBestGridX = sPathFinderEdge1GridX;
+            sPathFinderBestGridY = sPathFinderEdge1GridY;
             break;
         case path_direction::down_2:
-            this->field_25_xpos = gPathFinder_edge2_x_6FDBFA;
-            gPathFinder_best_x_6FDECA = gPathFinder_edge2_x_6FDBFA;
-            this->field_26_ypos = gPathFinder_edge2_y_6FDBFB;
-            gPathFinder_best_y_6FDECB = gPathFinder_edge2_y_6FDBFB;
-            this->field_27_zpos = gPathFinder_edge2_z_6FDBFC;
-            gPathFinder_best_z_6FDECC = gPathFinder_edge2_z_6FDBFC;
-            gPathFinder_best_grid_x_6FDEC8 = gPathFinder_edge3_grid_x_6FDB68;
-            gPathFinder_best_grid_y_6FDEC9 = gPathFinder_edge3_grid_y_6FDB69;
+            this->mXpos25 = sPathFinderEdge2X;
+            sPathFinderBestX = sPathFinderEdge2X;
+            this->mYpos26 = sPathFinderEdge2Y;
+            sPathFinderBestY = sPathFinderEdge2Y;
+            this->mZpos27 = sPathFinderEdge2Z;
+            sPathFinderBestZ = sPathFinderEdge2Z;
+            sPathFinderBestGridX = sPathFinderEdge3GridX;
+            sPathFinderBestGridY = sPathFinderEdge3GridY;
             break;
         case path_direction::right_3:
-            this->field_25_xpos = gPathFinder_edge3_x_6FDB6A;
-            gPathFinder_best_x_6FDECA = gPathFinder_edge3_x_6FDB6A;
-            this->field_26_ypos = gPathFinder_edge3_y_6FDB6B;
-            gPathFinder_best_y_6FDECB = gPathFinder_edge3_y_6FDB6B;
-            this->field_27_zpos = gPathFinder_edge3_z_6FDB6C;
-            gPathFinder_best_z_6FDECC = gPathFinder_edge3_z_6FDB6C;
-            gPathFinder_best_grid_x_6FDEC8 = gPathFinder_edge3_grid_x_6FDB68;
-            gPathFinder_best_grid_y_6FDEC9 = gPathFinder_edge3_grid_y_6FDB69;
+            this->mXpos25 = sPathFinderEdge3X;
+            sPathFinderBestX = sPathFinderEdge3X;
+            this->mYpos26 = sPathFinderEdge3Y;
+            sPathFinderBestY = sPathFinderEdge3Y;
+            this->mZpos27 = sPathFinderEdge3Z;
+            sPathFinderBestZ = sPathFinderEdge3Z;
+            sPathFinderBestGridX = sPathFinderEdge3GridX;
+            sPathFinderBestGridY = sPathFinderEdge3GridY;
             break;
         case path_direction::left_4:
-            this->field_25_xpos = gPathFinder_edge4_x_6FDBF2;
-            gPathFinder_best_x_6FDECA = gPathFinder_edge4_x_6FDBF2;
-            this->field_26_ypos = gPathFinder_edge4_y_6FDBF3;
-            gPathFinder_best_y_6FDECB = gPathFinder_edge4_y_6FDBF3;
-            this->field_27_zpos = gPathFinder_edge4_z_6FDBF4;
-            gPathFinder_best_z_6FDECC = gPathFinder_edge4_z_6FDBF4;
-            gPathFinder_best_grid_x_6FDEC8 = gPathFinder_edge4_grid_x_6FDBF0;
-            gPathFinder_best_grid_y_6FDEC9 = gPathFinder_edge4_grid_y_6FDBF1;
+            this->mXpos25 = sPathFinderEdge4X;
+            sPathFinderBestX = sPathFinderEdge4X;
+            this->mYpos26 = sPathFinderEdge4Y;
+            sPathFinderBestY = sPathFinderEdge4Y;
+            this->mZpos27 = sPathFinderEdge4Z;
+            sPathFinderBestZ = sPathFinderEdge4Z;
+            sPathFinderBestGridX = sPathFinderEdge4GridX;
+            sPathFinderBestGridY = sPathFinderEdge4GridY;
             break;
         default:
             return;
@@ -513,14 +513,14 @@ void PathFinder::RestoreSavedPosition_554920()
 }
 
 MATCH_FUNC(0x554a90)
-s32 PathFinder::IsFirstInPathQueue_554A90(Ped* pPed) const
+s32 PathFinder::IsFirstInPathQueue(Ped* pPed) const
 {
-    return field_3C_ped_list.field_0_pFirstPed->field_0_char_ped == pPed;
+    return mPedList.mpFirstPed->mCharPed == pPed;
 }
 
 // https://decomp.me/scratch/Fr0bT
 MATCH_FUNC(0x554ab0)
-bool PathFinder::ComputePath_554AB0(s32 ped_id,
+bool PathFinder::ComputePath(s32 ped_id,
                                         Ped* pPed,
                                         u8 x_start,
                                         u8 y_start,
@@ -544,356 +544,355 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
     PatrolPoint* pEndPoint;
     u16 j;
 
-    field_2E_iteration_budget = 100;
-    field_0_ped_id = ped_id;
-    gPathFinder_edge1_grid_x_6FDBE0 = 0;
-    gPathFinder_edge1_grid_y_6FDBE1 = 0;
-    gPathFinder_edge1_x_6FDBE2 = 0;
-    gPathFinder_edge1_y_6FDBE3 = 0;
-    gPathFinder_edge1_z_6FDBE4 = 0;
-    gPathFinder_edge2_grid_x_6FDBF8 = 0;
-    gPathFinder_edge2_grid_y_6FDBF9 = 0;
-    gPathFinder_edge2_x_6FDBFA = 0;
-    gPathFinder_edge2_y_6FDBFB = 0;
-    gPathFinder_edge2_z_6FDBFC = 0;
-    gPathFinder_edge3_grid_x_6FDB68 = 0;
-    gPathFinder_edge3_grid_y_6FDB69 = 0;
-    gPathFinder_edge3_x_6FDB6A = 0;
-    gPathFinder_edge3_y_6FDB6B = 0;
-    gPathFinder_edge3_z_6FDB6C = 0;
-    gPathFinder_edge4_grid_x_6FDBF0 = 0;
-    gPathFinder_edge4_grid_y_6FDBF1 = 0;
-    gPathFinder_edge4_x_6FDBF2 = 0;
-    gPathFinder_edge4_y_6FDBF3 = 0;
-    gPathFinder_edge4_z_6FDBF4 = 0;
-    if (field_2FD0_bTimedOut)
+    mIterationBudget = 100;
+    mPedId = ped_id;
+    sPathFinderEdge1GridX = 0;
+    sPathFinderEdge1GridY = 0;
+    sPathFinderEdge1X = 0;
+    sPathFinderEdge1Y = 0;
+    sPathFinderEdge1Z = 0;
+    sPathFinderEdge2GridX = 0;
+    sPathFinderEdge2GridY = 0;
+    sPathFinderEdge2X = 0;
+    sPathFinderEdge2Y = 0;
+    sPathFinderEdge2Z = 0;
+    sPathFinderEdge3GridX = 0;
+    sPathFinderEdge3GridY = 0;
+    sPathFinderEdge3X = 0;
+    sPathFinderEdge3Y = 0;
+    sPathFinderEdge3Z = 0;
+    sPathFinderEdge4GridX = 0;
+    sPathFinderEdge4GridY = 0;
+    sPathFinderEdge4X = 0;
+    sPathFinderEdge4Y = 0;
+    sPathFinderEdge4Z = 0;
+    if (mbTimedOut)
     {
-        field_E_xStart = x_start;
-        field_F_yStart = y_start;
-        field_10_zStart = z_start;
+        mXStart = x_start;
+        mYStart = y_start;
+        mZStart = z_start;
 
-        field_11_xEnd = x_end;
-        field_12_yEnd = y_end;
-        field_13_zEnd = z_end;
+        mXEnd = x_end;
+        mYEnd = y_end;
+        mZEnd = z_end;
 
-        field_2FD1_time_out_counter = 0;
-        gPathFinder_angle_face_6FDD38 = angle_face;
-        field_4_bFindTileMode = false;
-        PathFinder::ClearGrid_5545C0();
+        mTimeOutCounter = 0;
+        sPathFinderAngleFace = angle_face;
+        mbFindTileMode = false;
+        PathFinder::ClearGrid();
 
-        if (!gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(x_start, y_start, z_start))
+        if (!gMap_0x370->IsGradientSlopeAt(x_start, y_start, z_start))
         {
-            field_10_zStart = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(Fix16(x_start), Fix16(y_start), Fix16(z_start)).ToUInt8();
+            mZStart = gMap_0x370->FindGroundZBelowCoord(Fix16(x_start), Fix16(y_start), Fix16(z_start)).ToUInt8();
         }
-        gPathFinder_SlopeZDelta_6FDEEC = 0;
-        field_20_xpos = x_start;
-        field_C_node_count = 0;
-        field_8_pNode = field_2350_nodes;
-        field_21_ypos = y_start;
-        field_22_zpos = z_start;
-        field_23_grid_x = 16;
-        field_24_grid_y = 16;
-        field_1B_direction = 66;
-        PathFinder::AddGridCell_554710();
-        field_8_pNode = field_2350_nodes;
-        field_1C_grid_idx = 560;
-        field_40_grid[field_1C_grid_idx].field_6_cost = 0;
-        field_2FD0_bTimedOut = false;
-        field_1E_current_cost = 0;
-        field_18_bSearching = true;
+        sPathFinderSlopeZDelta = 0;
+        mXpos20 = x_start;
+        mNodeCount = 0;
+        mpNode = mNodes;
+        mYpos21 = y_start;
+        mZpos22 = z_start;
+        mGridX = 16;
+        mGridY = 16;
+        mDirection = 66;
+        PathFinder::AddGridCell();
+        mpNode = mNodes;
+        mGridIdx = 560;
+        mGrid[mGridIdx].mCost = 0;
+        mbTimedOut = false;
+        mCurrentCost = 0;
+        mbSearching = true;
     }
-    ++field_2FD1_time_out_counter;
-    if (field_2FD1_time_out_counter > 200)
+    ++mTimeOutCounter;
+    if (mTimeOutCounter > 200)
     {
-        field_2FD0_bTimedOut = true;
-        field_38_bComputePathInProgress = false;
+        mbTimedOut = true;
+        mbComputePathInProgress = false;
         return true;
     }
-    if (field_C_node_count)
+    if (mNodeCount)
     {
         while (1)
         {
-            field_38_bComputePathInProgress = true;
-            field_8_pNode = field_2350_nodes;
-            pBestNode = field_2350_nodes;
+            mbComputePathInProgress = true;
+            mpNode = mNodes;
+            pBestNode = mNodes;
 
-            for (j = 0; j < field_C_node_count - 1; j++)
+            for (j = 0; j < mNodeCount - 1; j++)
             {
-                ++field_8_pNode;
-                if (field_8_pNode->field_6_cost < pBestNode->field_6_cost)
+                ++mpNode;
+                if (mpNode->mCost < pBestNode->mCost)
                 {
-                    pBestNode = field_8_pNode;
+                    pBestNode = mpNode;
                 }
             }
 
-            gPathFinder_best_grid_x_6FDEC8 = pBestNode->field_0_idx1;
-            gPathFinder_best_grid_y_6FDEC9 = pBestNode->field_1_idx2;
-            gPathFinder_best_x_6FDECA = pBestNode->field_2_xpos;
-            gPathFinder_best_y_6FDECB = pBestNode->field_3_ypos;
-            gPathFinder_best_z_6FDECC = pBestNode->field_4_zpos;
-            gPathFinder_best_cost_6FDECE = pBestNode->field_6_cost;
-            field_1C_grid_idx = gPathFinder_best_grid_x_6FDEC8 + 34 * gPathFinder_best_grid_y_6FDEC9;
-            field_1E_current_cost = field_40_grid[field_1C_grid_idx].field_6_cost;
-            pBestNode->field_0_idx1 = field_8_pNode->field_0_idx1;
-            pBestNode->field_1_idx2 = field_8_pNode->field_1_idx2;
-            pBestNode->field_2_xpos = field_8_pNode->field_2_xpos;
-            pBestNode->field_3_ypos = field_8_pNode->field_3_ypos;
-            pBestNode->field_4_zpos = field_8_pNode->field_4_zpos;
-            pBestNode->field_6_cost = field_8_pNode->field_6_cost;
-            --field_C_node_count;
-            field_25_xpos = gPathFinder_best_x_6FDECA;
-            field_26_ypos = gPathFinder_best_y_6FDECB;
-            field_27_zpos = gPathFinder_best_z_6FDECC;
-            if (field_25_xpos == field_11_xEnd && field_26_ypos == field_12_yEnd && field_27_zpos == field_13_zEnd)
+            sPathFinderBestGridX = pBestNode->mIdx1;
+            sPathFinderBestGridY = pBestNode->mIdx2;
+            sPathFinderBestX = pBestNode->mXpos;
+            sPathFinderBestY = pBestNode->mYpos;
+            sPathFinderBestZ = pBestNode->mZpos;
+            sPathFinderBestCost = pBestNode->mCost;
+            mGridIdx = sPathFinderBestGridX + 34 * sPathFinderBestGridY;
+            mCurrentCost = mGrid[mGridIdx].mCost;
+            pBestNode->mIdx1 = mpNode->mIdx1;
+            pBestNode->mIdx2 = mpNode->mIdx2;
+            pBestNode->mXpos = mpNode->mXpos;
+            pBestNode->mYpos = mpNode->mYpos;
+            pBestNode->mZpos = mpNode->mZpos;
+            pBestNode->mCost = mpNode->mCost;
+            --mNodeCount;
+            mXpos25 = sPathFinderBestX;
+            mYpos26 = sPathFinderBestY;
+            mZpos27 = sPathFinderBestZ;
+            if (mXpos25 == mXEnd && mYpos26 == mYEnd && mZpos27 == mZEnd)
             {
-                field_18_bSearching = false;
-                field_19_unused = 1;
-                field_1A_unused = 1;
-                goto trace_path;
+                mbSearching = false;
+                mUnused19 = 1;
+                mUnused1A = 1;
+                break;
             }
-            field_20_xpos = gPathFinder_best_x_6FDECA;
-            field_21_ypos = gPathFinder_best_y_6FDECB - 1;
-            field_22_zpos = gPathFinder_best_z_6FDECC;
-            field_23_grid_x = gPathFinder_best_grid_x_6FDEC8;
-            field_24_grid_y = gPathFinder_best_grid_y_6FDEC9 - 1;
-            field_1B_direction = 1;
+            mXpos20 = sPathFinderBestX;
+            mYpos21 = sPathFinderBestY - 1;
+            mZpos22 = sPathFinderBestZ;
+            mGridX = sPathFinderBestGridX;
+            mGridY = sPathFinderBestGridY - 1;
+            mDirection = 1;
 
-            if (PathFinder::ProcessGridCell_5548C0())
+            if (PathFinder::ProcessGridCell())
             {
-                goto trace_path;
+                break;
             }
-            field_20_xpos = gPathFinder_best_x_6FDECA + 1;
-            field_21_ypos = gPathFinder_best_y_6FDECB - 1;
-            field_22_zpos = gPathFinder_best_z_6FDECC;
-            field_23_grid_x = gPathFinder_best_grid_x_6FDEC8 + 1;
-            field_24_grid_y = gPathFinder_best_grid_y_6FDEC9 - 1;
-            field_1B_direction = 5;
+            mXpos20 = sPathFinderBestX + 1;
+            mYpos21 = sPathFinderBestY - 1;
+            mZpos22 = sPathFinderBestZ;
+            mGridX = sPathFinderBestGridX + 1;
+            mGridY = sPathFinderBestGridY - 1;
+            mDirection = 5;
 
-            if (PathFinder::ProcessGridCell_5548C0())
+            if (PathFinder::ProcessGridCell())
             {
-                goto trace_path;
+                break;
             }
-            field_20_xpos = gPathFinder_best_x_6FDECA + 1;
-            field_21_ypos = gPathFinder_best_y_6FDECB;
-            field_22_zpos = gPathFinder_best_z_6FDECC;
-            field_23_grid_x = gPathFinder_best_grid_x_6FDEC8 + 1;
-            field_24_grid_y = gPathFinder_best_grid_y_6FDEC9;
-            field_1B_direction = 2;
+            mXpos20 = sPathFinderBestX + 1;
+            mYpos21 = sPathFinderBestY;
+            mZpos22 = sPathFinderBestZ;
+            mGridX = sPathFinderBestGridX + 1;
+            mGridY = sPathFinderBestGridY;
+            mDirection = 2;
 
-            if (PathFinder::ProcessGridCell_5548C0())
+            if (PathFinder::ProcessGridCell())
             {
-                goto trace_path;
+                break;
             }
-            field_20_xpos = gPathFinder_best_x_6FDECA + 1;
-            field_21_ypos = gPathFinder_best_y_6FDECB + 1;
-            field_22_zpos = gPathFinder_best_z_6FDECC;
-            field_23_grid_x = gPathFinder_best_grid_x_6FDEC8 + 1;
-            field_24_grid_y = gPathFinder_best_grid_y_6FDEC9 + 1;
-            field_1B_direction = 6;
+            mXpos20 = sPathFinderBestX + 1;
+            mYpos21 = sPathFinderBestY + 1;
+            mZpos22 = sPathFinderBestZ;
+            mGridX = sPathFinderBestGridX + 1;
+            mGridY = sPathFinderBestGridY + 1;
+            mDirection = 6;
 
-            if (PathFinder::ProcessGridCell_5548C0())
+            if (PathFinder::ProcessGridCell())
             {
-                goto trace_path;
+                break;
             }
-            field_20_xpos = gPathFinder_best_x_6FDECA;
-            field_21_ypos = gPathFinder_best_y_6FDECB + 1;
-            field_22_zpos = gPathFinder_best_z_6FDECC;
-            field_23_grid_x = gPathFinder_best_grid_x_6FDEC8;
-            field_24_grid_y = gPathFinder_best_grid_y_6FDEC9 + 1;
-            field_1B_direction = 3;
-            if (PathFinder::ProcessGridCell_5548C0())
+            mXpos20 = sPathFinderBestX;
+            mYpos21 = sPathFinderBestY + 1;
+            mZpos22 = sPathFinderBestZ;
+            mGridX = sPathFinderBestGridX;
+            mGridY = sPathFinderBestGridY + 1;
+            mDirection = 3;
+            if (PathFinder::ProcessGridCell())
             {
-                goto trace_path;
+                break;
             }
-            field_20_xpos = gPathFinder_best_x_6FDECA - 1;
-            field_21_ypos = gPathFinder_best_y_6FDECB + 1;
-            field_22_zpos = gPathFinder_best_z_6FDECC;
-            field_23_grid_x = gPathFinder_best_grid_x_6FDEC8 - 1;
-            field_24_grid_y = gPathFinder_best_grid_y_6FDEC9 + 1;
-            field_1B_direction = 7;
-            if (PathFinder::ProcessGridCell_5548C0())
+            mXpos20 = sPathFinderBestX - 1;
+            mYpos21 = sPathFinderBestY + 1;
+            mZpos22 = sPathFinderBestZ;
+            mGridX = sPathFinderBestGridX - 1;
+            mGridY = sPathFinderBestGridY + 1;
+            mDirection = 7;
+            if (PathFinder::ProcessGridCell())
             {
-                goto trace_path;
+                break;
             }
-            field_20_xpos = gPathFinder_best_x_6FDECA - 1;
-            field_21_ypos = gPathFinder_best_y_6FDECB;
-            field_22_zpos = gPathFinder_best_z_6FDECC;
-            field_23_grid_x = gPathFinder_best_grid_x_6FDEC8 - 1;
-            field_24_grid_y = gPathFinder_best_grid_y_6FDEC9;
-            field_1B_direction = 4;
-            if (PathFinder::ProcessGridCell_5548C0())
+            mXpos20 = sPathFinderBestX - 1;
+            mYpos21 = sPathFinderBestY;
+            mZpos22 = sPathFinderBestZ;
+            mGridX = sPathFinderBestGridX - 1;
+            mGridY = sPathFinderBestGridY;
+            mDirection = 4;
+            if (PathFinder::ProcessGridCell())
             {
-                goto trace_path;
+                break;
             }
-            field_20_xpos = gPathFinder_best_x_6FDECA - 1;
-            field_21_ypos = gPathFinder_best_y_6FDECB - 1;
-            field_22_zpos = gPathFinder_best_z_6FDECC;
-            field_23_grid_x = gPathFinder_best_grid_x_6FDEC8 - 1;
-            field_24_grid_y = gPathFinder_best_grid_y_6FDEC9 - 1;
-            field_1B_direction = 8;
+            mXpos20 = sPathFinderBestX - 1;
+            mYpos21 = sPathFinderBestY - 1;
+            mZpos22 = sPathFinderBestZ;
+            mGridX = sPathFinderBestGridX - 1;
+            mGridY = sPathFinderBestGridY - 1;
+            mDirection = 8;
 
-            if (PathFinder::ProcessGridCell_5548C0())
+            if (PathFinder::ProcessGridCell())
             {
-                goto trace_path;
+                break;
             }
-            if (!field_C_node_count)
+            if (!mNodeCount)
             {
-                field_18_bSearching = false;
-                field_19_unused = 1;
-                PathFinder::RestoreSavedPosition_554920();
-                if (gPathFinder_best_x_6FDECA)
+                mbSearching = false;
+                mUnused19 = 1;
+                PathFinder::RestoreSavedPosition();
+                if (!sPathFinderBestX)
                 {
-                    goto next_iteration;
+                    goto fail;
                 }
-                goto fail;
             }
-            field_14_bExpanding = true;
-            if (field_2E_iteration_budget == 0)
+            else
             {
-                return false;
+                mbExpanding = true;
+                if (mIterationBudget == 0)
+                {
+                    return false;
+                }
             }
-        next_iteration:
-            if (field_2E_iteration_budget > 0)
+            if (mIterationBudget > 0)
             {
-                --field_2E_iteration_budget;
+                --mIterationBudget;
             }
-            if (!field_18_bSearching)
+            if (!mbSearching)
             {
-                goto trace_path;
+                break;
             }
         }
     }
 
-trace_path:
-    field_14_bExpanding = false;
-    cur_x = field_25_xpos;
-    cur_y = field_26_ypos;
-    cur_z = field_27_zpos;
-    idx1 = gPathFinder_best_grid_x_6FDEC8;
-    idx2 = gPathFinder_best_grid_y_6FDEC9;
-    field_8_pNode = field_2350_nodes;
-    field_8_pNode->field_2_xpos = cur_x;
-    field_8_pNode->field_3_ypos = cur_y;
-    field_8_pNode->field_4_zpos = cur_z;
-    field_C_node_count = 1;
-    pCell = &field_40_grid[static_cast<s16>(idx1 + 34 * idx2)];
+    mbExpanding = false;
+    cur_x = mXpos25;
+    cur_y = mYpos26;
+    cur_z = mZpos27;
+    idx1 = sPathFinderBestGridX;
+    idx2 = sPathFinderBestGridY;
+    mpNode = mNodes;
+    mpNode->mXpos = cur_x;
+    mpNode->mYpos = cur_y;
+    mpNode->mZpos = cur_z;
+    mNodeCount = 1;
+    pCell = &mGrid[static_cast<s16>(idx1 + 34 * idx2)];
     while (2)
     {
-        if (pCell->field_0_idx1 == 1)
+        if (pCell->mIdx1 == 1)
         {
-            if (abs(cur_z - pCell->field_4_zpos) < 1)
+            if (abs(cur_z - pCell->mZpos) < 1)
             {
-                field_1B_direction = pCell->field_3_ypos;
-                new_z = pCell->field_4_zpos;
-                pCell->field_0_idx1 = 0;
+                mDirection = pCell->mYpos;
+                new_z = pCell->mZpos;
+                pCell->mIdx1 = 0;
             }
             else
             {
-                field_1B_direction = pCell->field_1_idx2;
-                u8 second_direction = pCell->field_3_ypos;
-                new_z = pCell->field_2_xpos;
-                pCell->field_1_idx2 = second_direction;
-                pCell->field_0_idx1 = 0;
-                pCell->field_2_xpos = pCell->field_4_zpos;
+                mDirection = pCell->mIdx2;
+                u8 second_direction = pCell->mYpos;
+                new_z = pCell->mXpos;
+                pCell->mIdx2 = second_direction;
+                pCell->mIdx1 = 0;
+                pCell->mXpos = pCell->mZpos;
             }
         }
         else
         {
-            field_1B_direction = pCell->field_1_idx2;
-            new_z = pCell->field_2_xpos;
-            pCell->field_1_idx2 = 0;
+            mDirection = pCell->mIdx2;
+            new_z = pCell->mXpos;
+            pCell->mIdx2 = 0;
         }
-        switch (field_1B_direction)
+        switch (mDirection)
         {
             case 1:
                 pCell += 34;
                 ++cur_y;
-                goto add_path_node;
+                break;
             case 3:
                 pCell -= 34;
                 --cur_y;
-                goto add_path_node;
+                break;
             case 2:
                 --pCell;
                 cur_x--;
-                goto add_path_node;
+                break;
             case 4:
                 // ++cur_x written out in cases 4, 7 and 8 (VC6 tail-merges them after register allocation);
                 // a shared ++cur_x label gives new_z 2 more regalloc priority than the switch temp, so new_z
                 // took eax (al) instead of edx (dl)
                 ++pCell;
                 ++cur_x;
-                goto add_path_node;
+                break;
             case 5:
                 ++cur_y;
                 pCell += 33;
                 cur_x--;
-                goto add_path_node;
+                break;
             case 6:
                 --cur_y;
                 pCell -= 35;
                 cur_x--;
-                goto add_path_node;
+                break;
             case 7:
                 --cur_y;
                 pCell -= 33;
                 ++cur_x;
-                goto add_path_node;
+                break;
             case 8:
                 ++cur_y;
                 pCell += 35;
                 ++cur_x;
-            add_path_node:
-                field_8_pNode++;
-                cur_z = new_z;
-                field_8_pNode->field_2_xpos = cur_x;
-                field_8_pNode->field_3_ypos = cur_y;
-                field_8_pNode->field_4_zpos = cur_z;
-                ++field_C_node_count;
-                continue;
+                break;
             case 66:
-                if (field_C_node_count > 1)
+                if (mNodeCount > 1)
                 {
-                    --field_8_pNode;
+                    --mpNode;
                 }
-                if (field_C_node_count > 100)
+                if (mNodeCount > 100)
                 {
-                    field_C_node_count = 100;
+                    mNodeCount = 100;
                 }
 
-                for (i = 0; i < field_C_node_count; i++)
+                for (i = 0; i < mNodeCount; i++)
                 {
-                    PatrolPoint* pPatrolPoint = &pPed->field_0_patrol_points[i];
-                    pPatrolPoint->field_0_x = field_8_pNode->field_2_xpos;
-                    pPatrolPoint->field_1_y = field_8_pNode->field_3_ypos;
-                    pPatrolPoint->field_2_z = field_8_pNode->field_4_zpos;
-                    --field_8_pNode;
+                    PatrolPoint* pPatrolPoint = &pPed->mPatrolPoints[i];
+                    pPatrolPoint->mX = mpNode->mXpos;
+                    pPatrolPoint->mY = mpNode->mYpos;
+                    pPatrolPoint->mZ = mpNode->mZpos;
+                    --mpNode;
                 }
-                pEndPoint = &pPed->field_0_patrol_points[i];
-                pEndPoint->field_0_x = 0;
-                pEndPoint->field_1_y = 0;
-                pEndPoint->field_2_z = 0;
-                *pOutPathPointCount = static_cast<u8>(field_C_node_count);
-                field_2FD0_bTimedOut = true;
-                field_38_bComputePathInProgress = false;
-                field_2FD1_time_out_counter = 0;
+                pEndPoint = &pPed->mPatrolPoints[i];
+                pEndPoint->mX = 0;
+                pEndPoint->mY = 0;
+                pEndPoint->mZ = 0;
+                *pOutPathPointCount = static_cast<u8>(mNodeCount);
+                mbTimedOut = true;
+                mbComputePathInProgress = false;
+                mTimeOutCounter = 0;
                 return true;
             default:
-                // Shared failure block: the default case and the "no more nodes" path both end here.
+                // Shared failure block with the "no more nodes" path: goto-free forms change the code
                 goto fail;
         }
+        mpNode++;
+        cur_z = new_z;
+        mpNode->mXpos = cur_x;
+        mpNode->mYpos = cur_y;
+        mpNode->mZpos = cur_z;
+        ++mNodeCount;
     }
 fail:
-    PathFinder::RemovePed_554620(field_0_ped_id);
+    PathFinder::RemovePed(mPedId);
     return true;
 }
 
 // https://decomp.me/scratch/19LIh
 MATCH_FUNC(0x5552b0)
-bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, u8* ypos, u8* zpos, bool bAllowDuringPathCompute)
+bool PathFinder::FindNearbyTileMatchingSlopeType(u8 block_type, u8* xpos, u8* ypos, u8* zpos, bool bAllowDuringPathCompute)
 {
-    u8 dead_end_count = 0;
-    if (field_38_bComputePathInProgress && !bAllowDuringPathCompute)
+    u8 expanded_count = 0;
+    if (mbComputePathInProgress && !bAllowDuringPathCompute)
     {
         return false;
     }
@@ -902,151 +901,151 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
         return false;
     }
     u8 default_pos = kFpZero_6FDD98.ToUInt8();
-    field_27_zpos = default_pos;
-    field_26_ypos = default_pos;
-    field_25_xpos = default_pos;
-    field_28_grid_origin_x = *xpos - 16;
-    field_29_grid_origin_y = *ypos - 16;
-    PathFinder::ClearGrid_5545C0();
-    field_E_xStart = *xpos;
-    field_F_yStart = *ypos;
-    field_10_zStart = *zpos;
-    field_4_bFindTileMode = true;
+    mZpos27 = default_pos;
+    mYpos26 = default_pos;
+    mXpos25 = default_pos;
+    mGridOriginX = *xpos - 16;
+    mGridOriginY = *ypos - 16;
+    PathFinder::ClearGrid();
+    mXStart = *xpos;
+    mYStart = *ypos;
+    mZStart = *zpos;
+    mbFindTileMode = true;
 
-    if (!gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_E_xStart, field_F_yStart, field_10_zStart))
+    if (!gMap_0x370->IsGradientSlopeAt(mXStart, mYStart, mZStart))
     {
-        field_10_zStart = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(Fix16(field_E_xStart), Fix16(field_F_yStart), Fix16(field_10_zStart)).ToUInt8();
+        mZStart = gMap_0x370->FindGroundZBelowCoord(Fix16(mXStart), Fix16(mYStart), Fix16(mZStart)).ToUInt8();
     }
-    field_16_start_cost = 0;
-    field_11_xEnd = 0;
-    field_12_yEnd = 0;
-    field_13_zEnd = 0;
-    gPathFinder_SlopeZDelta_6FDEEC = 0;
-    field_C_node_count = 0;
-    field_8_pNode = field_2350_nodes;
-    field_22_zpos = field_10_zStart;
-    field_24_grid_y = 16;
-    field_23_grid_x = 16;
-    field_20_xpos = field_E_xStart;
-    field_21_ypos = field_F_yStart;
-    field_1B_direction = 66;
-    PathFinder::AddGridCell_554710();
-    field_8_pNode = field_2350_nodes;
-    field_1C_grid_idx = 560;
-    field_40_grid[field_1C_grid_idx].field_6_cost = field_16_start_cost;
-    field_1E_current_cost = 0;
-    field_18_bSearching = true;
+    mStartCost = 0;
+    mXEnd = 0;
+    mYEnd = 0;
+    mZEnd = 0;
+    sPathFinderSlopeZDelta = 0;
+    mNodeCount = 0;
+    mpNode = mNodes;
+    mZpos22 = mZStart;
+    mGridY = 16;
+    mGridX = 16;
+    mXpos20 = mXStart;
+    mYpos21 = mYStart;
+    mDirection = 66;
+    PathFinder::AddGridCell();
+    mpNode = mNodes;
+    mGridIdx = 560;
+    mGrid[mGridIdx].mCost = mStartCost;
+    mCurrentCost = 0;
+    mbSearching = true;
     bool bListWasEmpty = true;
-    while (field_C_node_count)
+    while (mNodeCount)
     {
         bListWasEmpty = false;
-        PathNode* pIter = field_2350_nodes;
-        field_8_pNode = field_2350_nodes;
+        PathNode* pIter = mNodes;
+        mpNode = mNodes;
 
-        for (u8 i = 0; i < field_C_node_count - 1; i++)
+        for (u8 i = 0; i < mNodeCount - 1; i++)
         {
-            ++field_8_pNode;
-            if (field_8_pNode->field_6_cost < pIter->field_6_cost)
+            ++mpNode;
+            if (mpNode->mCost < pIter->mCost)
             {
-                pIter = field_8_pNode;
+                pIter = mpNode;
             }
         }
-        gPathFinder_best_grid_x_6FDEC8 = pIter->field_0_idx1;
-        gPathFinder_best_grid_y_6FDEC9 = pIter->field_1_idx2;
-        gPathFinder_best_x_6FDECA = pIter->field_2_xpos;
-        gPathFinder_best_y_6FDECB = pIter->field_3_ypos;
-        gPathFinder_best_z_6FDECC = pIter->field_4_zpos;
-        gPathFinder_best_cost_6FDECE = pIter->field_6_cost;
-        field_1C_grid_idx = gPathFinder_best_grid_x_6FDEC8 + 34 * gPathFinder_best_grid_y_6FDEC9;
-        field_1E_current_cost = field_40_grid[field_1C_grid_idx].field_6_cost;
-        pIter->field_0_idx1 = field_8_pNode->field_0_idx1;
-        pIter->field_1_idx2 = field_8_pNode->field_1_idx2;
-        pIter->field_2_xpos = field_8_pNode->field_2_xpos;
-        pIter->field_3_ypos = field_8_pNode->field_3_ypos;
-        pIter->field_4_zpos = field_8_pNode->field_4_zpos;
-        pIter->field_6_cost = field_8_pNode->field_6_cost;
-        --field_C_node_count;
-        field_25_xpos = gPathFinder_best_x_6FDECA;
-        field_26_ypos = gPathFinder_best_y_6FDECB;
-        field_27_zpos = gPathFinder_best_z_6FDECC;
+        sPathFinderBestGridX = pIter->mIdx1;
+        sPathFinderBestGridY = pIter->mIdx2;
+        sPathFinderBestX = pIter->mXpos;
+        sPathFinderBestY = pIter->mYpos;
+        sPathFinderBestZ = pIter->mZpos;
+        sPathFinderBestCost = pIter->mCost;
+        mGridIdx = sPathFinderBestGridX + 34 * sPathFinderBestGridY;
+        mCurrentCost = mGrid[mGridIdx].mCost;
+        pIter->mIdx1 = mpNode->mIdx1;
+        pIter->mIdx2 = mpNode->mIdx2;
+        pIter->mXpos = mpNode->mXpos;
+        pIter->mYpos = mpNode->mYpos;
+        pIter->mZpos = mpNode->mZpos;
+        pIter->mCost = mpNode->mCost;
+        --mNodeCount;
+        mXpos25 = sPathFinderBestX;
+        mYpos26 = sPathFinderBestY;
+        mZpos27 = sPathFinderBestZ;
 
-        u8 block_below_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(field_25_xpos, field_26_ypos, field_27_zpos - 1);
+        u8 block_below_type = gMap_0x370->GetBlockTypeAtCoord(mXpos25, mYpos26, mZpos27 - 1);
 
         if (block_type == 5)
         {
-            if (!gMap_0x370_6F6268->IsProbePathClear_4E5640(kFpOne64th_6FDD50,
+            if (!gMap_0x370->IsProbePathClear(kFpOne64th_6FDD50,
                                                kFpQuarter_6FDC00,
                                                kFpOne64th_6FDD50,
                                                Fix16(*xpos) + kFpHalf_6FDCA8,
                                                Fix16(*ypos) + kFpHalf_6FDCA8,
                                                Fix16(*zpos),
-                                               Fix16(field_25_xpos) + kFpHalf_6FDCA8,
-                                               Fix16(field_26_ypos) + kFpHalf_6FDCA8,
-                                               Fix16(field_27_zpos)))
+                                               Fix16(mXpos25) + kFpHalf_6FDCA8,
+                                               Fix16(mYpos26) + kFpHalf_6FDCA8,
+                                               Fix16(mZpos27)))
             {
-                field_18_bSearching = false;
-                *xpos = field_25_xpos;
-                *ypos = field_26_ypos;
-                *zpos = field_27_zpos;
+                mbSearching = false;
+                *xpos = mXpos25;
+                *ypos = mYpos26;
+                *zpos = mZpos27;
             }
         }
         else if (block_below_type == block_type)
         {
             if (block_type == ROAD)
             {
-                if ((gMap_0x370_6F6268->GetBlock_4DFE10(field_25_xpos, field_26_ypos, field_27_zpos - 1)->field_A_arrows & block_arrow::green_mask) != 0)
+                if ((gMap_0x370->GetBlock(mXpos25, mYpos26, mZpos27 - 1)->mArrows & block_arrow::green_mask) != 0)
                 {
-                    field_18_bSearching = false;
-                    *xpos = field_25_xpos;
-                    *ypos = field_26_ypos;
-                    *zpos = field_27_zpos;
+                    mbSearching = false;
+                    *xpos = mXpos25;
+                    *ypos = mYpos26;
+                    *zpos = mZpos27;
                     return true;
                 }
             }
             else
             {
-                field_18_bSearching = false;
-                *xpos = field_25_xpos;
-                *ypos = field_26_ypos;
-                *zpos = field_27_zpos;
+                mbSearching = false;
+                *xpos = mXpos25;
+                *ypos = mYpos26;
+                *zpos = mZpos27;
             }
         }
-        field_20_xpos = gPathFinder_best_x_6FDECA;
-        field_21_ypos = gPathFinder_best_y_6FDECB - 1;
-        field_22_zpos = gPathFinder_best_z_6FDECC;
-        field_23_grid_x = gPathFinder_best_grid_x_6FDEC8;
-        field_24_grid_y = gPathFinder_best_grid_y_6FDEC9 - 1;
-        field_1B_direction = 1;
-        if (!PathFinder::ProcessGridCell_5548C0())
+        mXpos20 = sPathFinderBestX;
+        mYpos21 = sPathFinderBestY - 1;
+        mZpos22 = sPathFinderBestZ;
+        mGridX = sPathFinderBestGridX;
+        mGridY = sPathFinderBestGridY - 1;
+        mDirection = 1;
+        if (!PathFinder::ProcessGridCell())
         {
-            field_20_xpos = gPathFinder_best_x_6FDECA + 1;
-            field_21_ypos = gPathFinder_best_y_6FDECB;
-            field_22_zpos = gPathFinder_best_z_6FDECC;
-            field_23_grid_x = gPathFinder_best_grid_x_6FDEC8 + 1;
-            field_24_grid_y = gPathFinder_best_grid_y_6FDEC9;
-            field_1B_direction = 2;
-            if (!PathFinder::ProcessGridCell_5548C0())
+            mXpos20 = sPathFinderBestX + 1;
+            mYpos21 = sPathFinderBestY;
+            mZpos22 = sPathFinderBestZ;
+            mGridX = sPathFinderBestGridX + 1;
+            mGridY = sPathFinderBestGridY;
+            mDirection = 2;
+            if (!PathFinder::ProcessGridCell())
             {
-                field_20_xpos = gPathFinder_best_x_6FDECA;
-                field_21_ypos = gPathFinder_best_y_6FDECB + 1;
-                field_22_zpos = gPathFinder_best_z_6FDECC;
-                field_23_grid_x = gPathFinder_best_grid_x_6FDEC8;
-                field_24_grid_y = gPathFinder_best_grid_y_6FDEC9 + 1;
-                field_1B_direction = 3;
-                if (!PathFinder::ProcessGridCell_5548C0())
+                mXpos20 = sPathFinderBestX;
+                mYpos21 = sPathFinderBestY + 1;
+                mZpos22 = sPathFinderBestZ;
+                mGridX = sPathFinderBestGridX;
+                mGridY = sPathFinderBestGridY + 1;
+                mDirection = 3;
+                if (!PathFinder::ProcessGridCell())
                 {
-                    field_20_xpos = gPathFinder_best_x_6FDECA - 1;
-                    field_21_ypos = gPathFinder_best_y_6FDECB;
-                    field_22_zpos = gPathFinder_best_z_6FDECC;
-                    field_23_grid_x = gPathFinder_best_grid_x_6FDEC8 - 1;
-                    field_24_grid_y = gPathFinder_best_grid_y_6FDEC9;
-                    field_1B_direction = 4;
-                    if (!PathFinder::ProcessGridCell_5548C0())
+                    mXpos20 = sPathFinderBestX - 1;
+                    mYpos21 = sPathFinderBestY;
+                    mZpos22 = sPathFinderBestZ;
+                    mGridX = sPathFinderBestGridX - 1;
+                    mGridY = sPathFinderBestGridY;
+                    mDirection = 4;
+                    if (!PathFinder::ProcessGridCell())
                     {
-                        ++field_16_start_cost;
-                        if (++dead_end_count <= 6 || bAllowDuringPathCompute)
+                        ++mStartCost;
+                        if (++expanded_count <= 6 || bAllowDuringPathCompute)
                         {
-                            if (!field_18_bSearching)
+                            if (!mbSearching)
                             {
                                 return true;
                             }

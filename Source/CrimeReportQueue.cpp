@@ -8,7 +8,7 @@
 #include "Police.hpp"
 #include "char.hpp"
 
-DEFINE_GLOBAL(CrimeReportQueue*, gCrimeReportQueue_67A4B8, 0x67A4B8);
+DEFINE_GLOBAL(CrimeReportQueue*, gCrimeReportQueue, 0x67A4B8);
 
 DEFINE_GLOBAL_INIT(Fix16, kFP16Zero_67A370, Fix16(0), 0x67A370);
 
@@ -18,11 +18,11 @@ EXTERN_GLOBAL(u8, gCharB4_HitByMine_6FDB59);
 MATCH_FUNC(0x484cb0)
 CrimeReport::CrimeReport()
 {
-    field_0_crime_type = crime_stats_type::none_0;
-    field_4_ped_id = 0;
-    field_8_pos.x = kFP16Zero_67A370;
-    field_8_pos.y = kFP16Zero_67A370;
-    field_8_pos.z = kFP16Zero_67A370;
+    mCrimeType = crime_stats_type::none_0;
+    mPedId = 0;
+    mPos.x = kFP16Zero_67A370;
+    mPos.y = kFP16Zero_67A370;
+    mPos.z = kFP16Zero_67A370;
 }
 
 MATCH_FUNC(0x484ce0)
@@ -33,37 +33,37 @@ CrimeReport::~CrimeReport()
 MATCH_FUNC(0x484cf0)
 void CrimeReport::SetReport(s32 crime_type, s32 ped_id)
 {
-    field_0_crime_type = crime_type;
-    field_4_ped_id = ped_id;
+    mCrimeType = crime_type;
+    mPedId = ped_id;
     if (!ped_id)
     {
-        field_8_pos.x = kFP16Zero_67A370;
-        field_8_pos.y = kFP16Zero_67A370;
-        field_8_pos.z = kFP16Zero_67A370;
+        mPos.x = kFP16Zero_67A370;
+        mPos.y = kFP16Zero_67A370;
+        mPos.z = kFP16Zero_67A370;
     }
     else
     {
-        Ped* pPed = gPedManager_6787BC->PedById(ped_id);
-        field_8_pos.x = pPed->get_cam_x();
-        field_8_pos.y = pPed->get_cam_y();
-        field_8_pos.z = pPed->get_cam_z();
+        Ped* pPed = gPedManager->PedById(ped_id);
+        mPos.x = pPed->get_cam_x();
+        mPos.y = pPed->get_cam_y();
+        mPos.z = pPed->get_cam_z();
     }
 }
 
 MATCH_FUNC(0x484d50)
 void CrimeReport::GetReport(s32* pCrimeType, Fix16* pXPos, Fix16* pYPos, Fix16* pZPos) const
 {
-    *pCrimeType = field_0_crime_type;
-    *pXPos = field_8_pos.x;
-    *pYPos = field_8_pos.y;
-    *pZPos = field_8_pos.z;
+    *pCrimeType = mCrimeType;
+    *pXPos = mPos.x;
+    *pYPos = mPos.y;
+    *pZPos = mPos.z;
 }
 
 MATCH_FUNC(0x484d80)
 CrimeReportQueue::CrimeReportQueue()
 {
-    field_0_write_idx = 0;
-    field_2_read_idx = 0;
+    mWriteIdx = 0;
+    mReadIdx = 0;
 }
 
 MATCH_FUNC(0x484db0)
@@ -74,21 +74,21 @@ CrimeReportQueue::~CrimeReportQueue()
 MATCH_FUNC(0x484dd0)
 void CrimeReportQueue::QueueReport(s32 crime_type, s32 ped_id)
 {
-    field_4_reports[field_0_write_idx].SetReport(crime_type, ped_id);
+    mReports[mWriteIdx].SetReport(crime_type, ped_id);
 
-    field_0_write_idx++;
+    mWriteIdx++;
 
-    if (field_0_write_idx >= GTA2_COUNTOF(field_4_reports))
+    if (mWriteIdx >= GTA2_COUNTOF(mReports))
     {
-        field_0_write_idx = 0;
+        mWriteIdx = 0;
     }
 
-    if (field_0_write_idx == field_2_read_idx)
+    if (mWriteIdx == mReadIdx)
     {
-        field_2_read_idx++;
-        if (field_2_read_idx >= GTA2_COUNTOF(field_4_reports))
+        mReadIdx++;
+        if (mReadIdx >= GTA2_COUNTOF(mReports))
         {
-            field_2_read_idx = 0;
+            mReadIdx = 0;
         }
     }
 }
@@ -96,16 +96,16 @@ void CrimeReportQueue::QueueReport(s32 crime_type, s32 ped_id)
 MATCH_FUNC(0x484e20)
 bool CrimeReportQueue::TryPopOldestReport(s32* pCrimeType, Fix16* pXPos, Fix16* pYPos, Fix16* pZPos)
 {
-    field_4_reports[field_2_read_idx].GetReport(pCrimeType, pXPos, pYPos, pZPos);
+    mReports[mReadIdx].GetReport(pCrimeType, pXPos, pYPos, pZPos);
 
-    field_4_reports[field_2_read_idx].SetReport(crime_stats_type::none_0, 0);
+    mReports[mReadIdx].SetReport(crime_stats_type::none_0, 0);
 
-    if (field_2_read_idx != field_0_write_idx)
+    if (mReadIdx != mWriteIdx)
     {
-        field_2_read_idx++;
-        if (field_2_read_idx >= GTA2_COUNTOF(field_4_reports))
+        mReadIdx++;
+        if (mReadIdx >= GTA2_COUNTOF(mReports))
         {
-            field_2_read_idx = 0;
+            mReadIdx = 0;
         }
     }
 
@@ -115,15 +115,15 @@ bool CrimeReportQueue::TryPopOldestReport(s32* pCrimeType, Fix16* pXPos, Fix16* 
 MATCH_FUNC(0x484e90)
 bool CrimeReportQueue::IsCrimeQueued(s32 crime_type) const
 {
-    u16 idx = field_2_read_idx;
-    while (idx != field_0_write_idx)
+    u16 idx = mReadIdx;
+    while (idx != mWriteIdx)
     {
-        if (field_4_reports[idx].field_0_crime_type == crime_type)
+        if (mReports[idx].mCrimeType == crime_type)
         {
             return true;
         }
 
-        if (++idx >= GTA2_COUNTOF(field_4_reports))
+        if (++idx >= GTA2_COUNTOF(mReports))
         {
             idx = 0;
         }
@@ -145,7 +145,7 @@ CrimeReportQueue_CC_Sub::~CrimeReportQueue_CC_Sub()
 MATCH_FUNC(0x484fe0)
 void CrimeReportQueue::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 {
-    switch (pPed->get_occupation_403980())
+    switch (pPed->get_occupation())
     {
         case ped_ocupation_enum::police:
         case ped_ocupation_enum::swat:
@@ -171,11 +171,11 @@ void CrimeReportQueue::ReportCrimeForPed(u32 crime_type, Ped* pPed)
                     break;
 
                 default:
-                    pPed->SetRecentCrimeTimer_45B550();
-                    QueueReport(crime_type, pPed->field_200_id);
-                    if (pPed->is_player_41B0A0())
+                    pPed->SetRecentCrimeTimer();
+                    QueueReport(crime_type, pPed->mId);
+                    if (pPed->is_player())
                     {
-                        gPolice_7B8_6FEE40->UpdateCriminalLatestPosition_570940(pPed);
+                        gPolice_7B8->UpdateCriminalLatestPosition(pPed);
                     }
                     break;
             }
@@ -184,14 +184,14 @@ void CrimeReportQueue::ReportCrimeForPed(u32 crime_type, Ped* pPed)
             {
                 if (!IsCrimeQueued(crime_type))
                 {
-                    QueueReport(crime_type, pPed->field_200_id);
+                    QueueReport(crime_type, pPed->mId);
                 }
             }
 
-            Player* pPlayer = pPed->field_15C_player;
+            Player* pPlayer = pPed->mPlayer;
             if (pPlayer)
             {
-                pPlayer->field_644_crime_stats.IncrementCrimeCount_484F50(crime_type);
+                pPlayer->mCrimeStats.IncrementCrimeCount(crime_type);
             }
 
             break;
@@ -201,18 +201,18 @@ void CrimeReportQueue::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 
 // https://decomp.me/scratch/xN2BK
 MATCH_FUNC(0x485090)
-bool CrimeReportQueue::ShouldReportCarCrime_485090(Car* pCar, Player* pPlayer)
+bool CrimeReportQueue::ShouldReportCarCrime(Car* pCar, Player* pPlayer)
 {
     bool bInRange = true;
-    if (gCarManager_6C_677930->field_68_object_hit_active)
+    if (gCarManager_6C->mObjectHitActive)
     {
-        if (!gGame_0x40_67E008->IsSpriteInPlayerBounds_4B9950(pCar->field_50_car_sprite, pPlayer->GetIdx_4881E0(), 0))
+        if (!gGame_0x40->IsSpriteInPlayerBounds(pCar->mCarSprite, pPlayer->GetIdx(), 0))
         {
             bInRange = false;
         }
     }
 
-    if (pCar->IsBeingCrushed_43DD50())
+    if (pCar->IsBeingCrushed())
     {
         bInRange = false;
     }
@@ -222,12 +222,12 @@ bool CrimeReportQueue::ShouldReportCarCrime_485090(Car* pCar, Player* pPlayer)
 
 // https://decomp.me/scratch/KvTvv
 MATCH_FUNC(0x4850f0)
-bool CrimeReportQueue::ShouldReportCharCrime_4850F0(Char* pChar, Player* pPlayer)
+bool CrimeReportQueue::ShouldReportCharCrime(Char* pChar, Player* pPlayer)
 {
     bool bInRange = true;
     if (gCharB4_HitByMine_6FDB59)
     {
-        if (!gGame_0x40_67E008->IsSpriteInPlayerBounds_4B9950(pChar->field_80_sprite_ptr, pPlayer->GetIdx_4881E0(), 0))
+        if (!gGame_0x40->IsSpriteInPlayerBounds(pChar->mSpritePtr, pPlayer->GetIdx(), 0))
         {
             bInRange = false;
         }
@@ -236,15 +236,15 @@ bool CrimeReportQueue::ShouldReportCharCrime_4850F0(Char* pChar, Player* pPlayer
 }
 
 MATCH_FUNC(0x485140)
-bool CrimeReportQueue::ShouldReportPedCrime_485140(Ped* pPed, Player* pPlayer)
+bool CrimeReportQueue::ShouldReportPedCrime(Ped* pPed, Player* pPlayer)
 {
-    Char* pChar = pPed->field_168_game_object;
+    Char* pChar = pPed->mGameObject;
     if (pChar)
     {
-        return ShouldReportCharCrime_4850F0(pChar, pPlayer);
+        return ShouldReportCharCrime(pChar, pPlayer);
     }
     else
     {
-        return ShouldReportCarCrime_485090(pPed->field_16C_car, pPlayer);
+        return ShouldReportCarCrime(pPed->mCar, pPlayer);
     }
 }

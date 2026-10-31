@@ -11,16 +11,16 @@ class ScriptGosubStack
     EXPORT ScriptGosubStack() throw(); // 503120
     EXPORT ~ScriptGosubStack(); // 503130
 
-    EXPORT void add_503160(ScriptStackFrame* pFrame);
-    EXPORT ScriptStackFrame* remove_503180();
+    EXPORT void PushFrame(ScriptStackFrame* pFrame);
+    EXPORT ScriptStackFrame* PopFrame();
 
-    EXPORT ScriptStackFrame* AllocFrame_5031A0();
+    EXPORT ScriptStackFrame* AllocFrame();
 
-    EXPORT void FreeFrame_5031C0(ScriptStackFrame* pFrame);
+    EXPORT void FreeFrame(ScriptStackFrame* pFrame);
 
-    EXPORT void remove_5031E0(u8 count);
+    EXPORT void PopToDepth(u8 count);
 
-    ScriptStackFrame* field_0_current;
-    u8 field_4_count;
+    ScriptStackFrame* mCurrent; // 0x0
+    u8 mCount; // 0x4
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ScriptGosubStack, 0x8)

@@ -7,7 +7,7 @@ before spending time on manual permutations. See its README for the passes and o
 
 ```sh
 git submodule update --init 3rdParty/cpp_permuter
-Scripts/permute.sh Source/sound_obj.cpp sound_obj::UpdateCarRadioAudio_57E220 57e220 -j 4 -n 400
+Scripts/permute.sh Source/sound_obj.cpp sound_obj::UpdateCarRadioAudio 57e220 -j 4 -n 400
 Scripts/permute.sh Source/Foo.cpp Foo::Bar_123456 123456 -m exhaustive -p reorder_saves+invert_if -j 4
 Scripts/permute.sh Source/Foo.cpp Foo::Bar_123456 123456 --base-only   # just print the score
 ```
@@ -27,8 +27,8 @@ Scripts/permute.sh Source/Foo.cpp Foo::Bar_123456 123456 --base-only   # just pr
   `function.cpp`, `diff.txt`, `asm_diff.txt`. Copy the function back, then run `build.py` and
   `compare_builds.py` as usual. The passes assume fields don't alias, so read the diff.
 - About 400 candidates a minute with `-j 8` on 4 cores.
-- `permute.sh` passes `--op-alias "*=Multiply_408680" --op-alias "+=Add_408660" --op-alias
-  "neg=Negate_4086A0"`. The `named_op` pass then tries the named out-of-line `Fix16` versions of
+- `permute.sh` passes `--op-alias "*=Multiply" --op-alias "+=Add" --op-alias
+  "neg=Negated"`. The `named_op` pass then tries the named out-of-line `Fix16` versions of
   `*`, `+` and unary `-`, for
   the inline-budget problems (see matching_quirks.md). `cast_operand` tries integer casts on the
   operands of `/ % >> < > + -`, for signedness problems.
@@ -80,23 +80,23 @@ callees through the existing pairs and compares them with the calls of every unp
 
 | 10.5 | 9.6f | shared |
 |---|---|---|
-| `ScriptThread::GetSpeed_50E190` (matched) | 0x47D070 | 6/14 |
-| `Ped::FindBestTargetPed_466BF0` | 0x437BE0 | 6/6 |
-| `Ped::BusCustomer_AI_461290` | 0x4427E0 | 14/19 |
-| `Ped::HandlePedHitByObject_45D000` | 0x441A30 | 15/28 |
-| `ShockPedsAroundSprite_5DF270` (Weapon.cpp) | 0x4CEF40 | 9/13 |
-| `sound_obj::ProcessOtherObjects_41F520` | 0x41A3C0 | 9/9 |
-| `sound_obj::HandleVocalStreamSwitching_57DF10` | 0x4B25D0 | 12/16 |
-| `Sprite::Draw_59EFF0` | 0x4BE060 | 13/16 |
-| `TrafficLight::Init_5C1D00` | 0x4C3C70 | 22/26 |
-| `Map_0x370::AdvanceAlongRailway_4E6660` | 0x467110 | 56/56 |
+| `ScriptThread::GetSpeed` (matched) | 0x47D070 | 6/14 |
+| `Ped::FindBestTargetPed` | 0x437BE0 | 6/6 |
+| `Ped::BusCustomer_AI` | 0x4427E0 | 14/19 |
+| `Ped::HandlePedHitByObject` | 0x441A30 | 15/28 |
+| `ShockPedsAroundSprite` (Weapon.cpp) | 0x4CEF40 | 9/13 |
+| `sound_obj::ProcessOtherObjects` | 0x41A3C0 | 9/9 |
+| `sound_obj::HandleVocalStreamSwitching` | 0x4B25D0 | 12/16 |
+| `Sprite::Draw` | 0x4BE060 | 13/16 |
+| `TrafficLight::Init` | 0x4C3C70 | 22/26 |
+| `Map_0x370::AdvanceAlongRailway` | 0x467110 | 56/56 |
 | `Particle_4C::PoolUpdate` 0x53D260 | 0x490760 | 25/28 |
-| `Particle_4C::UpdateObjectBeamLink_state_38_538AC0` | 0x48F230 | 12/24 |
+| `Particle_4C::UpdateObjectBeamLink_state_38` | 0x48F230 | 12/24 |
 | `ParticleManager::EmitElectricArcParticle` 0x540320 | 0x48DDC0 | 9/18 |
-| `CarDoorAlignmentSolver_545AF0` | 0x493940 | 2/9 (found through its callers: 21 calls from the paired 10.5 callers) |
+| `CarDoorAlignmentSolver` | 0x493940 | 2/9 (found through its callers: 21 calls from the paired 10.5 callers) |
 
 Matching the source against 9.6f first settles its shape fast (VC7 compiles in about 1 s): for
-`FindBestTargetPed_466BF0`, `Fix16 dz; dz = Abs(...); if (dz >= kFpOne) return 0;` (9.6f calls
+`FindBestTargetPed`, `Fix16 dz; dz = Abs(...); if (dz >= kFpOne) return 0;` (9.6f calls
 `greater_than_or_equal`, so the source says `>=`) and `Fix16 dist; dist = MaxAbsDistance(...)` took the 9.6f
 score from 201 to 50.
 
@@ -109,25 +109,25 @@ score from 201 to 50.
   orders of the declaration lines at the top of one function (on a temp copy of `Source/`, scored
   with `quick_score.sh`) and prints the best block. Declaration order decides stack slots and dead
   parameter slot reuse, and the permuter rarely tries a full shuffle; it took
-  `InsertLineBreaksAndGetNumLines_5B5BC0` from 232 to 56.
+  `InsertLineBreaksAndGetNumLines` from 232 to 56.
 - `Scripts/bin_comp/show_96f.py <addr>` prints the 9.6f version of a 10.5 function and the 9.6f
   bodies of the callees 10.5 inlined into it.
 - Logic-bug finders (from `Scripts/bin_comp`, after a build and `msvc_dump_new_data.py`):
   `compare_globals.py` lists globals and float constants a WIP reads where the original reads
   others (the asm normaliser hides these behind `stable_name` numbers), and
   `compare_callees_multiset.py` lists calls to real functions that the original makes and ours
-  doesn't, or the reverse. Both found real bugs (`SetupTrainAndBusStops_5794B0`,
-  `Weapon::throwable_5DDFC0`). Run them before tuning registers.
+  doesn't, or the reverse. Both found real bugs (`SetupTrainAndBusStops`,
+  `Weapon::throwable`). Run them before tuning registers.
 
 ## Rejected candidates
 
-- **`PoliceCrew::TryDespawnInCarCrew_571A30`, score 129 → 72.** The candidate casts `(s8)pCar->field_76_last_seen_timer <= 200`, which is always true. VC6 then drops the compare and the score falls, but the original does `cmpw $0xC8`. With `(u8)` instead it scores 0.659 (base 0.748).
-- **`MapRenderer::DrawDiagonalDownRightFace_4ECE40`, exhaustive run.** `(s8)right_word >> 13` changes the result from 0–7 to 0 or -1. The random run's candidate (a `u32` temp) was used instead.
-- **`PedGroup::CoordinateGroupCarEntry_4C9F00` and `Ped::IncreaseWantedLevelFromDebugKeys_46EFD0`.** The permuter score went down but the real ratio got worse. Always re-check with the real ratio before committing.
+- **`PoliceCrew::TryDespawnInCarCrew`, score 129 → 72.** The candidate casts `(s8)pCar->mLastSeenTimer <= 200`, which is always true. VC6 then drops the compare and the score falls, but the original does `cmpw $0xC8`. With `(u8)` instead it scores 0.659 (base 0.748).
+- **`MapRenderer::DrawDiagonalDownRightFace`, exhaustive run.** `(s8)right_word >> 13` changes the result from 0–7 to 0 or -1. The random run's candidate (a `u32` temp) was used instead.
+- **`PedGroup::CoordinateGroupCarEntry` and `Ped::IncreaseWantedLevelFromDebugKeys`.** The permuter score went down but the real ratio got worse. Always re-check with the real ratio before committing.
 
-- **`remove_stmt` and `move_stmt` can win by breaking the logic.** On `Map_0x370::CloneColumnWithoutBlock_4E8370`
-  `remove_stmt` "improved" the score by deleting `field_0_height--`, and on
-  `ProcessOtherObjects_41F520` by deleting `sample_index = 1;`. Read the diff of every candidate
+- **`remove_stmt` and `move_stmt` can win by breaking the logic.** On `Map_0x370::CloneColumnWithoutBlock`
+  `remove_stmt` "improved" the score by deleting `mHeight--`, and on
+  `ProcessOtherObjects` by deleting `sample_index = 1;`. Read the diff of every candidate
   from these passes, or leave them out (`-p`).
 
 A cast that narrows a compared value into a range where the compare is always true or always false is a red flag: check the target asm's compare width.

@@ -2,8 +2,8 @@
 
 #include "Function.hpp"
 
-EXTERN_GLOBAL(u32, gObj8_count_6F8F18);
-EXTERN_GLOBAL(u32, gObj8_dealloc_count_6F8DC0);
+EXTERN_GLOBAL(u32, gObj8_count);
+EXTERN_GLOBAL(u32, gObj8_dealloc_count);
 
 class Object_8
 {
@@ -13,21 +13,21 @@ class Object_8
 
     inline void PoolAllocate()
     {
-        gObj8_count_6F8F18++;
-        field_6_frame_counter = 0;
-        field_7_frame_idx = 0;
-        field_4_timer = 0;
+        gObj8_count++;
+        mFrameCounter = 0;
+        mFrameIdx = 0;
+        mTimer = 0;
     }
 
     // 9.6f 0x482AF0
     inline void PoolDeallocate()
     {
-        --gObj8_count_6F8F18;
-        ++gObj8_dealloc_count_6F8DC0;
+        --gObj8_count;
+        ++gObj8_dealloc_count;
     }
 
     Object_8* mpNext;
-    s16 field_4_timer;
-    u8 field_6_frame_counter;
-    u8 field_7_frame_idx;
+    s16 mTimer; // 0x4
+    u8 mFrameCounter; // 0x6
+    u8 mFrameIdx; // 0x7
 };

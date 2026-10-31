@@ -17,8 +17,8 @@ EXTERN_GLOBAL(Fix16, kFpOne64th_6FEB88);
 EXTERN_GLOBAL(Fix16, kFpFour_6FECF8);
 EXTERN_GLOBAL(Fix16, kFpOneSixteenth_6FEB0C);
 EXTERN_GLOBAL(Fix16, kFpPoint8_6FEB68);
-EXTERN_GLOBAL(Police*, gPolice_7B8_6FEE40);
-EXTERN_GLOBAL(s32, gCrewKind_6FEDB8);
+EXTERN_GLOBAL(Police*, gPolice_7B8);
+EXTERN_GLOBAL(s32, gCrewKind);
 
 // Number of criminals the police can pursue at once (not the player count: MAX_PLAYERS is 6)
 #define MAX_PURSUIT_TARGETS 4
@@ -29,66 +29,71 @@ EXTERN_GLOBAL(s32, gCrewKind_6FEDB8);
 class Police
 {
   public:
+    STATIC_MEMBER(u16, sIdCounter);
+    STATIC_MEMBER(u32, sDispatchCrewType);
+    STATIC_MEMBER(s32, sDispatchCrewState);
+    STATIC_MEMBER(s16, sDispatchCrewSpawnDelay);
+    STATIC_MEMBER(u8, sbHaveCriminals);
     Police()
     {
-        Init_56F400();
+        Init();
     }
 
     EXPORT ~Police();
 
   private:
-    EXPORT void Init_56F400();
+    EXPORT void Init();
 
   public:
-    EXPORT bool TryReplaceCrewLeaderOnDeath_56F4D0(Ped* pPed);
+    EXPORT bool TryReplaceCrewLeaderOnDeath(Ped* pPed);
 
   private:
-    EXPORT PoliceCrew* NewCrew_56F560();
+    EXPORT PoliceCrew* NewCrew();
 
   public:
-    EXPORT Ped* SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
-    EXPORT void DespawnCrewInCar_56F6D0(Car* pCar);
-    EXPORT bool IsBeingPursued_56F800(Ped* pCriminal) const;
-    EXPORT bool IsActivelyChased_56F880(Ped* pCriminal) const;
-    EXPORT void SetArrestedPed_56F8E0(Ped* pCriminal, Ped* pAuxPed);
-    EXPORT void RegisterCriminal_56F940(Ped* pCriminal);
+    EXPORT Ped* SpawnRoadblockGuard(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
+    EXPORT void DespawnCrewInCar(Car* pCar);
+    EXPORT bool IsBeingPursued(Ped* pCriminal) const;
+    EXPORT bool IsActivelyChased(Ped* pCriminal) const;
+    EXPORT void SetArrestedPed(Ped* pCriminal, Ped* pAuxPed);
+    EXPORT void RegisterCriminal(Ped* pCriminal);
 
   private:
-    EXPORT void UpdateFirstPursuitTimer_56FA40();
-    EXPORT bool DispatchNewCrewToPursuit_56FAA0(PolicePursuitTarget* pPursuitTarget);
-    EXPORT void UpdatePursuitTargets_56FBD0();
+    EXPORT void UpdateFirstPursuitTimer();
+    EXPORT bool DispatchNewCrewToPursuit(PolicePursuitTarget* pPursuitTarget);
+    EXPORT void UpdatePursuitTargets();
 
   public:
-    EXPORT void Service_570270();
-    EXPORT void SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
-    EXPORT bool SpawnCrewInCar_5703E0(Car* pCar);
-    EXPORT bool AssignCrewToPursuit_570790(PoliceCrew* pCrew, PolicePursuitTarget* pPursuitTarget);
-    EXPORT bool TryAssignCarCrewToCriminal_5707B0(Car* pCar, Ped* pCriminal);
-    EXPORT void UpdateLastSeenCoordsForCriminal_5708C0(Ped* pPed);
-    EXPORT void UpdateCriminalLatestPosition_570940(Ped* pPed);
-    EXPORT bool TryBeginRoadblock_577320();
-    EXPORT void TryCreateRoadblockAt_577370(u8 tileX, u8 tileY, s32 roadblock_type);
+    EXPORT void Service();
+    EXPORT void SpawnWalkingGuard(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
+    EXPORT bool SpawnCrewInCar(Car* pCar);
+    EXPORT bool AssignCrewToPursuit(PoliceCrew* pCrew, PolicePursuitTarget* pPursuitTarget);
+    EXPORT bool TryAssignCarCrewToCriminal(Car* pCar, Ped* pCriminal);
+    EXPORT void UpdateLastSeenCoordsForCriminal(Ped* pPed);
+    EXPORT void UpdateCriminalLatestPosition(Ped* pPed);
+    EXPORT bool TryBeginRoadblock();
+    EXPORT void TryCreateRoadblockAt(u8 tileX, u8 tileY, s32 roadblock_type);
 
   private:
-    u8 field_0_unused; // set to 1 in Init, never read
+    u8 mUnused0; // 0x0: set to 1 in Init, never read
 
   public:
-    PoliceCrew field_4_cop_crew[MAX_POLICE_CREWS];
-    PolicePursuitTarget field_464_pursuit_targets[MAX_PURSUIT_TARGETS]; // one per wanted criminal
-    s32 field_654_max_wanted_level;
-    u8 field_658_police_car_count;
-    char_type field_659_max_police_cars;
-    s32 field_65C_highest_crew_type_in_pursuit;
-    u8 field_660_max_wanted_stars;
+    PoliceCrew mCopCrew[MAX_POLICE_CREWS]; // 0x4
+    PolicePursuitTarget mPursuitTargets[MAX_PURSUIT_TARGETS]; // 0x464: one per wanted criminal
+    s32 mMaxWantedLevel; // 0x654
+    u8 mPoliceCarCount; // 0x658
+    char_type mMaxPoliceCars; // 0x659
+    s32 mHighestCrewTypeInPursuit; // 0x65C
+    u8 mMaxWantedStars; // 0x660
 
   private:
-    PoliceRoadblock field_664_roadblock_1;
-    PoliceRoadblock field_708_roadblock_2;
-    u8 field_7AC_roadblock_cooldown;
+    PoliceRoadblock mRoadblock1; // 0x664
+    PoliceRoadblock mRoadblock2; // 0x708
+    u8 mRoadblockCooldown; // 0x7AC
 
   public:
-    char_type field_7AD_police_peds_in_range_screen;
-    Ped* field_7B0_last_firing_emergency_ped;
-    bool field_7B4_crew_ped_onscreen;
+    char_type mPolicePedsInRangeScreen; // 0x7AD
+    Ped* mLastFiringEmergencyPed; // 0x7B0
+    bool mCrewPedOnscreen; // 0x7B4
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Police, 0x7B8);

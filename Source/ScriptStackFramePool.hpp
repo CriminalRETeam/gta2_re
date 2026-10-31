@@ -15,8 +15,8 @@ class ScriptStackFrame
     {
     }
 
-    s32 field_0_cond_result;
-    s16 field_4_return_cmd;
+    s32 mCondResult; // 0x0
+    s16 mReturnCmd; // 0x4
     ScriptStackFrame* mpNext;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ScriptStackFrame, 0xC)
@@ -40,11 +40,11 @@ class ScriptStackFramePool
     // 9.6f 0x476780
     inline void DeAllocate_476780(ScriptStackFrame* pItem)
     {
-        field_0_pool.DeAllocate(pItem);
+        mPool.DeAllocate(pItem);
     }
 
-    PoolBasic<ScriptStackFrame, k_max_frames> field_0_pool;
+    PoolBasic<ScriptStackFrame, k_max_frames> mPool;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ScriptStackFramePool, 0x25C)
 
-EXTERN_GLOBAL(ScriptStackFramePool*, gScriptStackFramePool_6F8068);
+EXTERN_GLOBAL(ScriptStackFramePool*, gScriptStackFramePool);

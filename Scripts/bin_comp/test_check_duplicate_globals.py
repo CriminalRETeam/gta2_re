@@ -124,6 +124,24 @@ DEFINE_GLOBAL(s32, same, 0x600000);
                                          "a.hpp": "DEFINE_GLOBAL(s32, first, 0x600000);\n"})
         self.assertEqual((code, output), (0, ""))
 
+    def test_statics_share_names_but_not_addresses(self):
+        code, output = self.run_checker({"a.cpp": """DEFINE_STATIC_GLOBAL_INIT(Fix16, kHalf, Fix16(1), 0x600000);
+void f()
+{
+    LOCAL_STATIC(s32, sCount, 0x600008);
+}
+""", "b.cpp": """DEFINE_STATIC_GLOBAL_INIT(Fix16, kHalf, Fix16(1), 0x600004);
+DEFINE_STATIC_MEMBER(s32, Foo, sCount, 0x60000C);
+"""})
+        self.assertEqual((code, output), (0, ""))
+
+    def test_static_address_duplicating_a_global(self):
+        code, output = self.run_checker({"a.cpp": "DEFINE_GLOBAL(s32, gFirst, 0x600000);\n",
+                                         "b.cpp": "DEFINE_STATIC_MEMBER_INIT(s32, Foo, sSecond, 1, 0x600000);\n"})
+        self.assertEqual(code, 1)
+        self.assertIn("gFirst on a.cpp(1)", output)
+        self.assertIn("sSecond on b.cpp(1)", output)
+
 
 if __name__ == "__main__":
     unittest.main()

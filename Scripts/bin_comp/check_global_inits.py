@@ -1,5 +1,5 @@
 """
-Checks the DEFINE_GLOBAL* declarations in Source/ against 10.5's static initialisers.
+Checks the DEFINE_GLOBAL* declarations (and the statics: DEFINE_STATIC_*, LOCAL_STATIC*) in Source/ against 10.5's static initialisers.
 
 Every global with a dynamic initialiser (a class type such as Fix16/Ang16/Fix16_Point, or a value that
 isn't a compile time constant) gets a small init function, and the CRT calls them all through the
@@ -73,10 +73,15 @@ def our_globals():
     ours = {}
     for path in glob.glob("../../Source/*.cpp"):
         text = open(path, errors="ignore").read()
-        for m in re.finditer(r"\b(DEFINE_GLOBAL(?:_INIT|_ARRAY|_ARRAY_INIT)?)\((.*?)\)\s*;", text):
-            addrs = re.findall(r"0x[0-9a-fA-F]{6}\b", m.group(2))
+        macros = r"\b((?:DEFINE_GLOBAL|DEFINE_STATIC_GLOBAL|DEFINE_STATIC_MEMBER|LOCAL_STATIC)(?:_INIT|_ARRAY|_ARRAY_INIT)?)"
+        for m in re.finditer(macros + r"\((.*?)\)\s*;", text):
+            args = m.group(2)
+            if "MEMBER" in m.group(1):  # (type, Class, name, ...): drop the class to read it like a global
+                args = re.sub(r"^([^,]+),\s*[^,]+,", r"\1,", args)
+            kind = re.sub(r"^(DEFINE_STATIC_GLOBAL|DEFINE_STATIC_MEMBER|LOCAL_STATIC)", "DEFINE_GLOBAL", m.group(1))
+            addrs = re.findall(r"0x[0-9a-fA-F]{6}\b", args)
             if addrs:
-                ours[int(addrs[-1], 16)] = (m.group(1), m.group(2).split(",")[0].strip(), m.group(2), path.split("/")[-1])
+                ours[int(addrs[-1], 16)] = (kind, args.split(",")[0].strip(), args, path.split("/")[-1])
     return ours
 
 

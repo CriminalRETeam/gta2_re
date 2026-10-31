@@ -1,6 +1,6 @@
 #pragma once
 
-// PedGroup::field_38_group_type (scripts set it with SET_GROUP_TYPE)
+// PedGroup::mGroupType (scripts set it with SET_GROUP_TYPE)
 namespace ped_group_type
 {
 enum

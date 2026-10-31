@@ -23,6 +23,18 @@ MACROS = r"""
 #define EXTERN_GLOBAL(type, name) extern type name
 #define EXTERN_GLOBAL_ARRAY(type, name, size) extern type name[size]
 
+#define DEFINE_STATIC_GLOBAL(type, name, addr) static type name
+#define DEFINE_STATIC_GLOBAL_INIT(type, name, value, addr) static type name
+#define DEFINE_STATIC_GLOBAL_ARRAY(type, name, size, addr) static type name[size]
+#define STATIC_MEMBER(type, name) static type name
+#define STATIC_MEMBER_ARRAY(type, name, size) static type name[size]
+#define DEFINE_STATIC_MEMBER(type, cls, name, addr)
+#define DEFINE_STATIC_MEMBER_INIT(type, cls, name, value, addr)
+#define DEFINE_STATIC_MEMBER_ARRAY(type, cls, name, size, addr)
+#define LOCAL_STATIC(type, name, addr) static type name
+#define LOCAL_STATIC_INIT(type, name, value, addr) static type name = value
+#define LOCAL_STATIC_ARRAY(type, name, size, addr) static type name[size]
+
 #define GTA2_ASSERT_SIZEOF_ALWAYS(structureName, expectedSize)
 
 #define GTA2_COUNTOF(x) (sizeof(x) / sizeof(*(x)))

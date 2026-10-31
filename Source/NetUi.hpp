@@ -7,8 +7,8 @@ struct Network_NameList;
 struct Network_PlayerPing;
 struct Network_ChatMessage;
 
-EXPORT char_type* __stdcall GetString_519A00(const char_type* Key);
-EXPORT void __stdcall WideToDbcs_519960(char_type* pDst, wchar_t* pSrc);
+EXPORT char_type* __stdcall GetNarrowText(const char_type* Key);
+EXPORT void __stdcall WideToDbcs(char_type* pDst, wchar_t* pSrc);
 
 enum Network_UI_Window
 {
@@ -56,121 +56,122 @@ enum Network_UI_Control_Ids
 
 struct Network_Enumerated_Map
 {
-    char field_0_map_name[260];
-    char field_104_style_name[260];
-    char field_208_script_name[260];
-    char field_30C_description[260];
-    char field_410_mmp_name[260];
-    u32 field_514_player_count;
+    char mMapName[260]; // 0x0
+    char mStyleName[260]; // 0x104
+    char mScriptName[260]; // 0x208
+    char mDescription[260]; // 0x30C
+    char mMmpName[260]; // 0x410
+    u32 mPlayerCount; // 0x514
 };
 
 struct NetworkGameSettings
 {
-    char field_20088_default_map[260];
-    u32 field_2018C_map_idx;
-    u32 field_20190_game_speed;
-    u32 field_20194_frag_limit;
-    u32 field_20198_game_type;
-    u32 field_2019C_tick_count;
-    u32 field_201A0_police_on;
-    u32 field_201A4_game_time_limit;
+    char mDefaultMap[260]; // 0x20088
+    u32 mMapIdx; // 0x2018C
+    u32 mGameSpeed; // 0x20190
+    u32 mFragLimit; // 0x20194
+    u32 mGameType; // 0x20198
+    u32 mTickCount; // 0x2019C
+    u32 mPoliceOn; // 0x201A0
+    u32 mGameTimeLimit; // 0x201A4
 };
 
 class NetUi
 {
   public:
-    EXPORT static void DbcsToWide_5199B0(wchar_t* pDst, char_type* pSrc);
-    EXPORT static void GetString_519A50(wchar_t* Dest, char_type* Source, size_t MaxCount);
+    STATIC_MEMBER(UINT_PTR, sTimerId);
+    EXPORT static void DbcsToWide(wchar_t* pDst, char_type* pSrc);
+    EXPORT static void GetString(wchar_t* Dest, char_type* Source, size_t MaxCount);
     EXPORT NetUi();
     EXPORT virtual ~NetUi();
-    EXPORT s32 ShowNetworkUiBlocking_519BD0(HINSTANCE hInstance);
+    EXPORT s32 ShowNetworkUiBlocking(HINSTANCE hInstance);
     EXPORT static int __stdcall DialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
-    EXPORT static s32 __stdcall cb_FillSessionList_519D30(NetUi* pThis, Network_NameList* pSessions);
-    EXPORT void SetDlgHwnd_519E10(HWND hDlg);
-    EXPORT HWND Get_2031C_HWND_519E20();
-    EXPORT static void __stdcall cb_AddPlayerToList_519E30(NetUi* pNetUi, wchar_t* pName, s32 player_idx);
-    EXPORT static void __stdcall OnPaint_519FD0(HWND hWnd);
-    EXPORT static void __stdcall OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notify);
-    EXPORT static void __stdcall OnTimer_51A9D0(HWND hWnd, s32 timer_id);
-    EXPORT void CreateMainUi_51AA90(HWND hWndParent);
-    EXPORT void ShowSpecificWindow_51ABF0(s32 showing_specific_window_idx);
-    EXPORT static s32 OnInitDialog_51AC60(HWND hWnd, s32 lParam, NetUi* thisPtr);
-    EXPORT s32 Get_20310_showing_window_idx_51ACC0();
-    EXPORT static void __stdcall cb_RemovePlayerFromList_51ACD0(NetUi* pNetUi, wchar_t* Source);
-    EXPORT static void _stdcall cb_Disconnect_51ADE0(NetUi* pNetUi);
-    EXPORT void ClearListView_51AE20(s32 nIDDlgItem);
-    EXPORT static s32 __stdcall cb_SetPlayerPing_51AE50(NetUi* pNetUi, Network_PlayerPing* pPing);
-    EXPORT void PopulateMainUI_51AFA0();
-    EXPORT static LRESULT __stdcall cb_AddChatMessage_51B2F0(NetUi* pNetUi, Network_ChatMessage* pMsg);
-    EXPORT s32 AppendChatMessage_51B4F0(s32 hmenu, const char_type* pMsg);
-    EXPORT void SetPlayerNameText_51B7C0();
-    EXPORT static void __stdcall cb_GameSettingsChanged_51B7E0(NetUi* pNetUi, const char_type** ppData);
-    EXPORT void ApplyHostGameSettings_51B810(const char_type* pData);
-    EXPORT void SetSetting_51B9C0(s32 setting, s32 value);
-    EXPORT void IncCount_51BBC0();
-    EXPORT u32 GetCount_51BBD0();
-    EXPORT void DecCount_51BBE0();
-    EXPORT void ResetCount_51BBF0();
-    EXPORT static void __stdcall cb_SavePlayerName_51BC00(NetUi* pThis);
-    EXPORT void SetEndDialog_51BC70(s32 bEnd);
-    EXPORT s32 GetEndDialog_51BC80();
-    EXPORT void LoadPlayerNameFromRegistry_51BC90();
-    EXPORT void SetPlayNameAndSaveToRegistry_51BD40(const wchar_t* pPlayerNameW, const char* pPlayerNameA);
-    EXPORT static LRESULT __stdcall subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
-    EXPORT void OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 hmenu);
-    EXPORT void EnumerateMaps_51BFA0();
-    EXPORT static void __stdcall OnWmHScroll_51C630(HWND hWnd, HWND hTrackBar, s32 code, s32 pos);
-    EXPORT void CopyGameSettings_51C7F0(NetworkGameSettings* pSettings);
-    EXPORT void LoadGameSettingsFromRegistry_51C830();
-    EXPORT char_type* GetMapName_51CA10();
-    EXPORT char_type* GetMapStyName_51CA50();
-    EXPORT char_type* GetMapScrName_51CA90();
-    EXPORT static void __stdcall ShowUnableToOpenFileError_51CAD0(const char_type* pMmpName, const char_type* pFileName);
-    EXPORT void SetPlayerCountText_51CB30(s32 count, HWND hDlg);
-    EXPORT void UpdateButtonsEnabledState_51CBC0();
-    EXPORT void SetPoliceEnabledCheckBox_51CCB0(s32 bPoliceOn, HWND hDlg);
-    EXPORT void SetJoinedGamePoliceEnabledText_51CD30(s32 bPoliceOn, HWND hDlg);
-    EXPORT void SetFragsNumberAndLabel_51CDC0(s32 gameType, s32 fragLimit, HWND hDlg);
-    EXPORT void SetGameSpeedTextLabelAndSlider_51CFC0(LPARAM game_speed, HWND hDlg);
-    EXPORT void SetJoinedGameTypeAndFragLimitText_51D0C0(s32 game_type, s32 frag_limit, HWND hDlg);
-    EXPORT void SetJoinedGameTimeLimitText_51D2F0(s32 gameTimeLimit, HWND hDlg);
-    EXPORT void SetGameTimeLimitTextBox_51D3B0(s32 timeLimitMins, HWND hDlg);
+    EXPORT static s32 __stdcall cb_FillSessionList(NetUi* pThis, Network_NameList* pSessions);
+    EXPORT void SetDlgHwnd(HWND hDlg);
+    EXPORT HWND Get_2031C_HWND();
+    EXPORT static void __stdcall cb_AddPlayerToList(NetUi* pNetUi, wchar_t* pName, s32 player_idx);
+    EXPORT static void __stdcall OnPaint(HWND hWnd);
+    EXPORT static void __stdcall OnWmCommand(HWND hDlg, s32 id, HWND hCtl, s32 notify);
+    EXPORT static void __stdcall OnTimer(HWND hWnd, s32 timer_id);
+    EXPORT void CreateMainUi(HWND hWndParent);
+    EXPORT void ShowSpecificWindow(s32 showing_specific_window_idx);
+    EXPORT static s32 OnInitDialog(HWND hWnd, s32 lParam, NetUi* thisPtr);
+    EXPORT s32 Get_20310_showing_window_idx();
+    EXPORT static void __stdcall cb_RemovePlayerFromList(NetUi* pNetUi, wchar_t* Source);
+    EXPORT static void _stdcall cb_Disconnect(NetUi* pNetUi);
+    EXPORT void ClearListView(s32 nIDDlgItem);
+    EXPORT static s32 __stdcall cb_SetPlayerPing(NetUi* pNetUi, Network_PlayerPing* pPing);
+    EXPORT void PopulateMainUI();
+    EXPORT static LRESULT __stdcall cb_AddChatMessage(NetUi* pNetUi, Network_ChatMessage* pMsg);
+    EXPORT s32 AppendChatMessage(s32 hmenu, const char_type* pMsg);
+    EXPORT void SetPlayerNameText();
+    EXPORT static void __stdcall cb_GameSettingsChanged(NetUi* pNetUi, const char_type** ppData);
+    EXPORT void ApplyHostGameSettings(const char_type* pData);
+    EXPORT void SetSetting(s32 setting, s32 value);
+    EXPORT void IncCount();
+    EXPORT u32 GetCount();
+    EXPORT void DecCount();
+    EXPORT void ResetCount();
+    EXPORT static void __stdcall cb_SavePlayerName(NetUi* pThis);
+    EXPORT void SetEndDialog(s32 bEnd);
+    EXPORT s32 GetEndDialog();
+    EXPORT void LoadPlayerNameFromRegistry();
+    EXPORT void SetPlayNameAndSaveToRegistry(const wchar_t* pPlayerNameW, const char* pPlayerNameA);
+    EXPORT static LRESULT __stdcall subclass_proc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
+    EXPORT void OnEnterPressed(s32 nIDDlgItem, s32 hmenu);
+    EXPORT void EnumerateMaps();
+    EXPORT static void __stdcall OnWmHScroll(HWND hWnd, HWND hTrackBar, s32 code, s32 pos);
+    EXPORT void CopyGameSettings(NetworkGameSettings* pSettings);
+    EXPORT void LoadGameSettingsFromRegistry();
+    EXPORT char_type* GetMapName();
+    EXPORT char_type* GetMapStyName();
+    EXPORT char_type* GetMapScrName();
+    EXPORT static void __stdcall ShowUnableToOpenFileError(const char_type* pMmpName, const char_type* pFileName);
+    EXPORT void SetPlayerCountText(s32 count, HWND hDlg);
+    EXPORT void UpdateButtonsEnabledState();
+    EXPORT void SetPoliceEnabledCheckBox(s32 bPoliceOn, HWND hDlg);
+    EXPORT void SetJoinedGamePoliceEnabledText(s32 bPoliceOn, HWND hDlg);
+    EXPORT void SetFragsNumberAndLabel(s32 gameType, s32 fragLimit, HWND hDlg);
+    EXPORT void SetGameSpeedTextLabelAndSlider(LPARAM game_speed, HWND hDlg);
+    EXPORT void SetJoinedGameTypeAndFragLimitText(s32 game_type, s32 frag_limit, HWND hDlg);
+    EXPORT void SetJoinedGameTimeLimitText(s32 gameTimeLimit, HWND hDlg);
+    EXPORT void SetGameTimeLimitTextBox(s32 timeLimitMins, HWND hDlg);
 
     //s32 field_0_vTable; // added by the compiler
-    Network_Enumerated_Map field_4_maps[100];
-    s32 field_1FD64_total_map_count;
-    s32 field_1FD68_bEndDialog;
-    s32 field_1FD6C_count;
-    WNDPROC field_1FD70_old_proc;
-    WNDPROC field_1FD74_old_proc;
-    wchar_t field_1FD78_player_name_2[260];
-    char_type field_1FF80_player_name[260];
-    s32 field_20084_unused;
-    NetworkGameSettings field_20088_game_settings;
-    HWND field_201A8_ui_control_hwnds[3][30];
-    s32 field_20310_showing_specific_window_idx;
-    s32 field_20314_last_showing_specific_window_idx;
-    s16 field_20318_unused;
-    s16 field_2031A_unused;
-    HWND field_2031C_dlg_hwnd;
-    HINSTANCE field_20320_hInstance;
+    Network_Enumerated_Map mMaps[100]; // 0x4
+    s32 mTotalMapCount; // 0x1FD64
+    s32 mbEndDialog; // 0x1FD68
+    s32 mCount; // 0x1FD6C
+    WNDPROC mOldProc1FD70; // 0x1FD70
+    WNDPROC mOldProc1FD74; // 0x1FD74
+    wchar_t mPlayerName2[260]; // 0x1FD78
+    char_type mPlayerName[260]; // 0x1FF80
+    s32 mUnused20084; // 0x20084
+    NetworkGameSettings mGameSettings; // 0x20088
+    HWND mUiControlHwnds[3][30]; // 0x201A8
+    s32 mShowingSpecificWindowIdx; // 0x20310
+    s32 mLastShowingSpecificWindowIdx; // 0x20314
+    s16 mUnused20318; // 0x20318
+    s16 mUnused2031A; // 0x2031A
+    HWND mDlgHwnd; // 0x2031C
+    HINSTANCE mhInstance; // 0x20320
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(NetUi, 0x20324);
 
 struct Network_WindowCreateParams
 {
-    int field_0_x;
-    int field_4_y;
-    unsigned int field_8_w;
-    int field_C_h;
-    HMENU field_10_hMenu;
-    int field_14_style;
-    int field_18_exStyle;
+    s32 mX; // 0x0
+    s32 mY; // 0x4
+    u32 mW; // 0x8
+    s32 mH; // 0xC
+    HMENU mhMenu; // 0x10
+    s32 mStyle; // 0x14
+    s32 mExStyle; // 0x18
 };
 
 struct Network_UI_Control_Data
 {
-    Network_WindowCreateParams field_0_windowParams;
-    char field_1C_window_class_name[80];
-    char field_6C_gtx_string_name[8];
+    Network_WindowCreateParams mWindowParams; // 0x0
+    char mWindowClassName[80]; // 0x1C
+    char mGtxStringName[8]; // 0x6C
 };

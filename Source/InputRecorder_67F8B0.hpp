@@ -7,10 +7,10 @@ struct DIDEVICEOBJECTDATA;
 
 struct AttractFile
 {
-    char_type field_0_path[256];
+    char_type mPath[256]; // 0x0
 };
 
-// InputRecorder_67F8B0::field_38_replay_state
+// InputRecorder_67F8B0::mReplayState
 enum ReplayState
 {
     Live_0 = 0,     // reads the real input devices and records them (test\replay.rep)
@@ -25,23 +25,27 @@ enum ReplayState
 class InputDevices
 {
   public:
-    // TODO: Probably this call
-    EXPORT void __stdcall free_input_devices_4987A0();
+    STATIC_MEMBER_ARRAY(s32, sPlayerControlsBinding, 12);
+    STATIC_MEMBER(bool, sNeedKbAcquire);
+    STATIC_MEMBER(DWORD, sDeviceDataCount);
+    STATIC_MEMBER_ARRAY(s32, sControlDeviceType, 12);
+    STATIC_MEMBER(u8, sAltKeyDown);
+    EXPORT void __stdcall free_input_devices();
 
-    EXPORT void flush_keyboard_and_gamepad_498CC0();
+    EXPORT void flush_keyboard_and_gamepad();
 
-    EXPORT void get_registry_controls_498C00();
-    EXPORT bool game_pads_init_498BA0();
-    EXPORT BOOL __stdcall make_input_devices_498800(HINSTANCE hInstance);
-    EXPORT void set_game_pad_device_properties_4989C0();
-    EXPORT void __stdcall input_devices_init_498C40(HINSTANCE hInstance);
-    EXPORT void SetAltKeyState_498CB0(u32 alt_down);
-    EXPORT bool acquire_input_device_498730(struct IDirectInputDeviceA* pGamePadDevice);
-    EXPORT bool game_pad_read_498D20();
-    EXPORT void AddKeyToInputBits_498C80(s32* pInputBits, DIDEVICEOBJECTDATA* device_data_keys);
-    EXPORT void read_input_device_498DA0(s32* input_bits, bool bApplyKeyboardControls);
+    EXPORT void get_registry_controls();
+    EXPORT bool game_pads_init();
+    EXPORT BOOL __stdcall make_input_devices(HINSTANCE hInstance);
+    EXPORT void set_game_pad_device_properties();
+    EXPORT void __stdcall input_devices_init(HINSTANCE hInstance);
+    EXPORT void SetAltKeyState(u32 alt_down);
+    EXPORT bool acquire_input_device(struct IDirectInputDeviceA* pGamePadDevice);
+    EXPORT bool game_pad_read();
+    EXPORT void AddKeyToInputBits(s32* pInputBits, DIDEVICEOBJECTDATA* device_data_keys);
+    EXPORT void read_input_device(s32* input_bits, bool bApplyKeyboardControls);
 
-    u8 field_0_unused;
+    u8 mUnused0; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(InputDevices, 0x1);
 #pragma pack(pop)
@@ -49,27 +53,27 @@ GTA2_ASSERT_SIZEOF_ALWAYS(InputDevices, 0x1);
 // One recorded input change: the rng index it happened at, the input bits and the random number
 struct InputRecord
 {
-    s32 field_0_rng_idx;
-    s32 field_4_inputs;
-    s32 field_8_rng_rnd;
+    s32 mRngIdx; // 0x0
+    s32 mInputs; // 0x4
+    s32 mRngRnd; // 0x8
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(InputRecord, 0xC);
 
 // The text header at the start of a replay file
 struct ReplayHeader
 {
-    char_type field_0_version[8];
-    char_type field_8_date[30];
-    char_type field_26_computer_name[30];
-    char_type field_44_map_name[40];
-    char_type field_6C_style_name[40];
-    char_type field_94_script_name[40];
-    char_type field_BC_debug_str[40];
-    char_type field_E4_flags[40];
+    char_type mVersion[8]; // 0x0
+    char_type mDate[30]; // 0x8
+    char_type mComputerName[30]; // 0x26
+    char_type mMapName[40]; // 0x44
+    char_type mStyleName[40]; // 0x6C
+    char_type mScriptName[40]; // 0x94
+    char_type mDebugStr[40]; // 0xBC
+    char_type mFlags[40]; // 0xE4
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ReplayHeader, 0x10C);
 
-// Reads the inputs (get_input_bits_4CEAC0) and records / plays back replays
+// Reads the inputs (get_input_bits) and records / plays back replays
 class InputRecorder_67F8B0
 {
   public:
@@ -82,36 +86,36 @@ class InputRecorder_67F8B0
 
     ~InputRecorder_67F8B0()
     {
-        Shutdown_4CEA00();
+        Shutdown();
     }
 
-    EXPORT void StaticShutdown_4CDCD0(); // static dtor
-    EXPORT void clear_inputs_4CDCE0();
-    EXPORT void set_input_4CDCF0(s32 mask_idx);
-    EXPORT void clear_input_4CDD10(s32 mask_idx);
-    EXPORT bool should_ignore_input_4CDD80(s32 dinput_key);
-    EXPORT bool should_record_input_4CDDF0(s32 dinput_key);
-    EXPORT void save_replay_record_4CDE20(u32 inputs);
-    EXPORT void SaveReplay_4CDED0();
-    EXPORT void modify_inputs_4CDF30(s32 match_mask);
-    EXPORT void AppendReplayHeader_4CDF70();
-    EXPORT void LoadReplayHeader_4CE380(bool bLoadDebug);
-    EXPORT void VerifyAttractFilesExist_4CE650();
-    EXPORT void GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut);
-    EXPORT void input_init_replay_4CE740(HINSTANCE hInstance);
-    EXPORT void input_init_live_4CE880(HINSTANCE hInstance);
-    EXPORT void Shutdown_4CEA00();
-    EXPORT void replay_save_4CEA40(u32* input_bits);
-    EXPORT u32 get_input_bits_4CEAC0();
-    EXPORT void save_replay_inputs_4CED00(s32 input_old, s32 input_new);
-    EXPORT void DisplayInputBits_4CED90();
-    EXPORT bool IsPlayingBack_4CEDF0() const;
-    EXPORT void ShowInput_4CEE10();
+    EXPORT void StaticShutdown(); // static dtor
+    EXPORT void clear_inputs();
+    EXPORT void set_input(s32 mask_idx);
+    EXPORT void clear_input(s32 mask_idx);
+    EXPORT bool should_ignore_input(s32 dinput_key);
+    EXPORT bool should_record_input(s32 dinput_key);
+    EXPORT void save_replay_record(u32 inputs);
+    EXPORT void SaveReplay();
+    EXPORT void modify_inputs(s32 match_mask);
+    EXPORT void AppendReplayHeader();
+    EXPORT void LoadReplayHeader(bool bLoadDebug);
+    EXPORT void VerifyAttractFilesExist();
+    EXPORT void GetNextAttrReplay(char_type* pAttrPathOut);
+    EXPORT void input_init_replay(HINSTANCE hInstance);
+    EXPORT void input_init_live(HINSTANCE hInstance);
+    EXPORT void Shutdown();
+    EXPORT void replay_save(u32* input_bits);
+    EXPORT u32 get_input_bits();
+    EXPORT void save_replay_inputs(s32 input_old, s32 input_new);
+    EXPORT void DisplayInputBits();
+    EXPORT bool IsPlayingBack() const;
+    EXPORT void ShowInput();
 
     // 9.6f 0x44AA60
     bool inlined_check() const
     {
-        if (field_38_replay_state == Playback_1 || field_38_replay_state == Attract_3)
+        if (mReplayState == Playback_1 || mReplayState == Attract_3)
         {
             return true;
         }
@@ -119,28 +123,28 @@ class InputRecorder_67F8B0
     }
 
     // 9.6f 0x44C050
-    inline bool IsInputSet_44C050(s32 mask_idx) const
+    inline bool IsInputSet(s32 mask_idx) const
     {
-        return static_cast<u32>(field_4_input_bits & field_8_input_masks[mask_idx]) > 0;
+        return static_cast<u32>(mInputBits & mInputMasks[mask_idx]) > 0;
     }
 
     // 9.6f 0x44AA80
-    inline s32 GetLastRecRngIdx_44AA80() const
+    inline s32 GetLastRecRngIdx() const
     {
-        return field_3C_rec_buff[field_7533C_used_recs_count - 1].field_0_rng_idx;
+        return mRecBuff[mUsedRecsCount - 1].mRngIdx;
     }
 
-    bool field_0_bShutDown;
-    s32 field_4_input_bits;
-    s32 field_8_input_masks[12];
-    s32 field_38_replay_state;
-    InputRecord field_3C_rec_buff[k_max_records];
-    s32 field_7533C_used_recs_count;
-    u32 field_75340_rec_buf_idx;
-    char_type field_75344_bInputEnabled;
-    u8 field_75345_attract_idx;
+    bool mbShutDown; // 0x0
+    s32 mInputBits; // 0x4
+    s32 mInputMasks[12]; // 0x8
+    s32 mReplayState; // 0x38
+    InputRecord mRecBuff[k_max_records]; // 0x3C
+    s32 mUsedRecsCount; // 0x7533C
+    u32 mRecBufIdx; // 0x75340
+    char_type mbInputEnabled; // 0x75344
+    u8 mAttractIdx; // 0x75345
 };
 
-EXTERN_GLOBAL(InputRecorder_67F8B0, gInputRecorder_67F8B0);
+EXTERN_GLOBAL(InputRecorder_67F8B0, gInputRecorder);
 
-EXTERN_GLOBAL(InputDevices*, gInputDevices_67B990);
+EXTERN_GLOBAL(InputDevices*, gInputDevices);

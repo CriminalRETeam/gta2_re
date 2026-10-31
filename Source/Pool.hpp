@@ -1,34 +1,33 @@
 #pragma once
 #include "types.hpp"
 
-// TODO: name these better, this "basic" pool has O(1) allocate
-// and deallocate.
+// A free list only, with O(1) allocate and deallocate: unlike Pool, no list of the used items
 template<typename PoolType, s32 PoolSize>
 class PoolBasic
 {
   public:
     __forceinline PoolBasic()
     {
-        PoolType* pIter = &field_4_pool[0];
+        PoolType* pIter = &mPool[0];
         for (s32 i = 0; i < PoolSize - 1; i++)
         {
             pIter->mpNext = pIter + 1;
             pIter++;
         }
 
-        field_4_pool[PoolSize - 1].mpNext = NULL;
-        field_0_pHead = field_4_pool;
+        mPool[PoolSize - 1].mpNext = NULL;
+        mpHead = mPool;
     }
 
     /*~PoolBasic()
     {
-        field_0_pHead = 0;
+        mpHead = 0;
     }*/
 
     PoolType* Allocate()
     {
-        PoolType* pNew = field_0_pHead;
-        field_0_pHead = pNew->mpNext;
+        PoolType* pNew = mpHead;
+        mpHead = pNew->mpNext;
         pNew->PoolAllocate();
         return pNew;
     }
@@ -36,20 +35,20 @@ class PoolBasic
     void DeAllocate(PoolType* pItem)
     {
         pItem->PoolDeallocate();
-        pItem->mpNext = field_0_pHead;
-        field_0_pHead = pItem;
+        pItem->mpNext = mpHead;
+        mpHead = pItem;
     }
 
     PoolType* UnlinkAndReturnNext(PoolType* pOldItem)
     {
         PoolType* pNewItem = pOldItem->mpNext;
-        pOldItem->mpNext = this->field_0_pHead;
-        this->field_0_pHead = pOldItem;
+        pOldItem->mpNext = this->mpHead;
+        this->mpHead = pOldItem;
         return pNewItem;
     }
 
-    PoolType* field_0_pHead;
-    PoolType field_4_pool[PoolSize];
+    PoolType* mpHead; // 0x0
+    PoolType mPool[PoolSize]; // 0x4
 };
 
 template<typename PoolType, s32 PoolSize>
@@ -57,45 +56,45 @@ class Pool
 {
   public:
     // 9.6f 0x48A8F0
-    inline bool has_pStart_48A8F0()
+    inline bool has_pStart()
     {
-        return field_0_pStart != NULL;
+        return mpStart != NULL;
     }
 
     // 9.6f 0x4B8FD0 (CokeZero_FC, 10.5 copy 0x5935C0): first used item
-    inline PoolType* GetFirstUsed_4B8FD0()
+    inline PoolType* GetFirstUsed()
     {
-        return field_4_pPrev;
+        return mpPrev;
     }
 
     __forceinline Pool()
     {
-        PoolType* pIter = field_8_pool;
+        PoolType* pIter = mPool;
         for (s32 i = 0; i < PoolSize - 1; i++)
         {
             pIter->mpNext = pIter + 1;
             pIter++;
         }
 
-        field_8_pool[PoolSize - 1].mpNext = NULL;
-        field_0_pStart = field_8_pool;
+        mPool[PoolSize - 1].mpNext = NULL;
+        mpStart = mPool;
 
-        field_4_pPrev = NULL;
+        mpPrev = NULL;
         field_X_count = 0;
     }
 
     ~Pool()
     {
-        field_0_pStart = NULL;
-        field_4_pPrev = NULL;
+        mpStart = NULL;
+        mpPrev = NULL;
     }
 
     PoolType* Allocate()
     {
-        PoolType* pNew = field_0_pStart;
-        field_0_pStart = pNew->mpNext;
-        pNew->mpNext = field_4_pPrev;
-        field_4_pPrev = pNew;
+        PoolType* pNew = mpStart;
+        mpStart = pNew->mpNext;
+        pNew->mpNext = mpPrev;
+        mpPrev = pNew;
         pNew->PoolAllocate();
         return pNew;
     }
@@ -104,18 +103,18 @@ class Pool
     PoolType* AllocateAppend()
     {
         // Pop from free list
-        PoolType* obj = field_0_pStart;
-        field_0_pStart = obj->mpNext;
+        PoolType* obj = mpStart;
+        mpStart = obj->mpNext;
         obj->mpNext = NULL;
 
         // Append to active list (FIFO style)
-        if (!field_4_pPrev)
+        if (!mpPrev)
         {
-            field_4_pPrev = obj; // active list was empty
+            mpPrev = obj; // active list was empty
         }
         else
         {
-            PoolType* tail = field_4_pPrev;
+            PoolType* tail = mpPrev;
             while (tail->mpNext)
             {
                 tail = tail->mpNext;
@@ -129,8 +128,8 @@ class Pool
 
     PoolType* AllocateUntracked()
     {
-        PoolType* pNew = this->field_0_pStart;
-        this->field_0_pStart = pNew->mpNext;
+        PoolType* pNew = this->mpStart;
+        this->mpStart = pNew->mpNext;
         pNew->mpNext = 0;
         pNew->PoolAllocate();
         return pNew;
@@ -139,20 +138,20 @@ class Pool
     void DeAllocate(PoolType* pItem)
     {
         pItem->PoolDeallocate();
-        pItem->mpNext = field_0_pStart;
-        field_0_pStart = pItem;
+        pItem->mpNext = mpStart;
+        mpStart = pItem;
     }
     
     void Remove_NoDeAllocate(PoolType* pItem)
     {
-        pItem->mpNext = field_0_pStart;
-        field_0_pStart = pItem;
+        pItem->mpNext = mpStart;
+        mpStart = pItem;
     }
 
     void UpdateNextPrev(PoolType* pItem)
     {
-        pItem->mpNext = field_4_pPrev;
-        field_4_pPrev = pItem;
+        pItem->mpNext = mpPrev;
+        mpPrev = pItem;
     }
 
     void UpdatePool()
@@ -160,7 +159,7 @@ class Pool
         field_X_count = 0;
 
         PoolType* pPreviousItem = NULL;
-        PoolType* pCurrItem = field_4_pPrev;
+        PoolType* pCurrItem = mpPrev;
 
         while (pCurrItem)
         {
@@ -183,13 +182,13 @@ class Pool
                 }
                 else
                 {
-                    if (field_4_pPrev == pCurrItem)
+                    if (mpPrev == pCurrItem)
                     {
-                        field_4_pPrev = pCurrItem->mpNext;
+                        mpPrev = pCurrItem->mpNext;
                     }
                     else
                     {
-                        pPreviousItem = field_4_pPrev;
+                        pPreviousItem = mpPrev;
                         while (pPreviousItem->mpNext != pCurrItem)
                         {
                             pPreviousItem = pPreviousItem->mpNext;
@@ -198,8 +197,8 @@ class Pool
                     }
                 }
 
-                pCurrItem->mpNext = field_0_pStart;
-                field_0_pStart = pCurrItem;
+                pCurrItem->mpNext = mpStart;
+                mpStart = pCurrItem;
             }
             else
             {
@@ -215,7 +214,7 @@ class Pool
         field_X_count = 0;
 
         PoolType* pPreviousItem = NULL;
-        PoolType* pCurrItem = field_4_pPrev;
+        PoolType* pCurrItem = mpPrev;
 
         while (pCurrItem)
         {
@@ -236,13 +235,13 @@ class Pool
                 }
                 else
                 {
-                    if (field_4_pPrev == pCurrItem)
+                    if (mpPrev == pCurrItem)
                     {
-                        field_4_pPrev = pCurrItem->mpNext;
+                        mpPrev = pCurrItem->mpNext;
                     }
                     else
                     {
-                        pPreviousItem = field_4_pPrev;
+                        pPreviousItem = mpPrev;
                         while (pPreviousItem->mpNext != pCurrItem)
                         {
                             pPreviousItem = pPreviousItem->mpNext;
@@ -251,8 +250,8 @@ class Pool
                     }
                 }
 
-                pCurrItem->mpNext = field_0_pStart;
-                field_0_pStart = pCurrItem;
+                pCurrItem->mpNext = mpStart;
+                mpStart = pCurrItem;
             }
             else
             {
@@ -267,7 +266,7 @@ class Pool
     {
         PoolType* pLast = NULL;
 
-        for (PoolType* pIter = field_4_pPrev; pIter; pIter = pIter->mpNext)
+        for (PoolType* pIter = mpPrev; pIter; pIter = pIter->mpNext)
         {
             if (pIter == pToFind)
             {
@@ -279,10 +278,10 @@ class Pool
                 }
                 else
                 {
-                    field_4_pPrev = pIter->mpNext;
+                    mpPrev = pIter->mpNext;
                 }
-                pIter->mpNext = field_0_pStart;
-                field_0_pStart = pIter;
+                pIter->mpNext = mpStart;
+                mpStart = pIter;
                 return pToFind;
             }
             pLast = pIter;
@@ -290,10 +289,11 @@ class Pool
         return pToFind;
     }
 
-    void UnlinkFromActiveList_420F30(PoolType* toFind)
+    // 9.6f 0x420F30
+    void UnlinkFromActiveList(PoolType* toFind)
     {
         PoolType* pLast = 0;
-        for (PoolType* pIter = this->field_4_pPrev; pIter; pIter = pIter->mpNext)
+        for (PoolType* pIter = this->mpPrev; pIter; pIter = pIter->mpNext)
         {
             if (pIter == toFind)
             {
@@ -303,7 +303,7 @@ class Pool
                 }
                 else
                 {
-                    this->field_4_pPrev = pIter->mpNext;
+                    this->mpPrev = pIter->mpNext;
                 }
                 pIter->mpNext = 0;
                 return;
@@ -312,9 +312,9 @@ class Pool
         }
     }
 
-    PoolType* field_0_pStart;
-    PoolType* field_4_pPrev;
-    PoolType field_8_pool[PoolSize];
+    PoolType* mpStart; // 0x0
+    PoolType* mpPrev; // 0x4
+    PoolType mPool[PoolSize]; // 0x8
 
     // Unknown offsets due to sizeof(PoolType) varying per template
     s16 field_X_count;

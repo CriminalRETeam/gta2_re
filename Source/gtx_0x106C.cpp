@@ -1,5 +1,5 @@
 #include "gtx_0x106C.hpp"
-#include "Frontend.hpp" // TODO: for some globals, prob should be put some where else
+#include "Frontend.hpp" // for the gFrontend*Font globals
 #include "Function.hpp"
 #include "Globals.hpp"
 #include "chunk.hpp"
@@ -13,88 +13,88 @@
 #include "enums.hpp"
 
 // Forward declarations: the functions below are in address order
-void __stdcall ClearPixelsOfColourInRow_5ABAE0(u8* pData, s32 width, u8 clear_target);
+void __stdcall ClearPixelsOfColourInRow(u8* pData, s32 width, u8 clear_target);
 
-DEFINE_GLOBAL(gtx_0x106C*, gGtx_0x106C_703DD4, 0x703DD4);
-DEFINE_GLOBAL(s16, gStyleMessageFont_703D9C, 0x703D9C);
-DEFINE_GLOBAL(s16, gKanjiLargeFont_703D9A, 0x703D9A);
-DEFINE_GLOBAL(s16, gKanjiSmallFont_703C3E, 0x703C3E);
-DEFINE_GLOBAL(s16, gStylePauseFont_703DA4, 0x703DA4);
-DEFINE_GLOBAL(s16, gStyleTextFont_703BAA, 0x703BAA);
-DEFINE_GLOBAL(s16, gStyleCarNameFont_703D98, 0x703D98);
-DEFINE_GLOBAL(s16, gStyleZoneNameFont_703C9C, 0x703C9C);
+DEFINE_GLOBAL(gtx_0x106C*, gGtx_0x106C, 0x703DD4);
+DEFINE_GLOBAL(s16, gStyleMessageFont, 0x703D9C);
+DEFINE_GLOBAL(s16, gKanjiLargeFont, 0x703D9A);
+DEFINE_GLOBAL(s16, gKanjiSmallFont, 0x703C3E);
+DEFINE_GLOBAL(s16, gStylePauseFont, 0x703DA4);
+DEFINE_GLOBAL(s16, gStyleTextFont, 0x703BAA);
+DEFINE_GLOBAL(s16, gStyleCarNameFont, 0x703D98);
+DEFINE_GLOBAL(s16, gStyleZoneNameFont, 0x703C9C);
 
 MATCH_FUNC(0x5AA3B0)
 car_info* gtx_0x106C::get_car_info_5AA3B0(u8 idx) const
 {
-    return field_5C_cari->field_0_car_info[idx];
+    return mCari->mCarInfo[idx];
 }
 
 MATCH_FUNC(0x5AA3D0)
-u8* gtx_0x106C::get_car_door_data_5AA3D0(u8 idx) const
+u8* gtx_0x106C::get_car_door_data(u8 idx) const
 {
-    car_info* pCarInfo = field_5C_cari->field_0_car_info[idx];
+    car_info* pCarInfo = mCari->mCarInfo[idx];
     return &pCarInfo->remap[pCarInfo->num_remaps];
 }
 
 MATCH_FUNC(0x5AA3F0)
-sprite_delta* gtx_0x106C::get_delta_5AA3F0(u16 sprite_idx, u8 delta_idx) const
+sprite_delta* gtx_0x106C::get_delta(u16 sprite_idx, u8 delta_idx) const
 {
-    delta_container* pDel = field_54_del;
+    delta_container* pDel = mDel;
 
-    if (sprite_idx >= pDel->field_0_count)
+    if (sprite_idx >= pDel->mCount)
     {
         return NULL;
     }
 
-    sprite_deltas* pEntry = pDel->field_4_entries[sprite_idx];
+    sprite_deltas* pEntry = pDel->mEntries[sprite_idx];
 
     if (!pEntry)
     {
         return NULL;
     }
 
-    if (delta_idx >= pEntry->field_2_count)
+    if (delta_idx >= pEntry->mCount)
     {
         return NULL;
     }
 
-    sprite_delta* pDelta = &pEntry->field_4_deltas[delta_idx];
+    sprite_delta* pDelta = &pEntry->mDeltas[delta_idx];
 
-    return pDelta->field_4_len != 0 ? pDelta : NULL;
+    return pDelta->mLen != 0 ? pDelta : NULL;
 }
 
 // note: param type matters
 MATCH_FUNC(0x5AA440)
-sprite_index* gtx_0x106C::get_sprite_index_5AA440(u16 idx) const
+sprite_index* gtx_0x106C::get_sprite_index(u16 idx) const
 {
-    return &field_20_sprite_index[idx];
+    return &mSpriteIndex[idx];
 }
 
 MATCH_FUNC(0x5AA460)
-u16 gtx_0x106C::GetSpriteTrueIndex_5AA460(s32 sprite_type, s16 sprite_idx) const
+u16 gtx_0x106C::GetSpriteTrueIndex(s32 sprite_type, s16 sprite_idx) const
 {
     u16 result;
     switch (sprite_type)
     {
         case sprite_types_enum::car_2:
-            result = sprite_idx + field_14_sprite_base2->field_0_car;
+            result = sprite_idx + mSpriteBase2->mCar;
             break;
         case sprite_types_enum::ped_3:
-            result = field_14_sprite_base2->field_2_ped + sprite_idx;
+            result = mSpriteBase2->mPed + sprite_idx;
             break;
         case sprite_types_enum::code_obj1_4:
         case sprite_types_enum::code_obj2_8:
-            result = sprite_idx + field_14_sprite_base2->field_4_code_obj;
+            result = sprite_idx + mSpriteBase2->mCodeObj;
             break;
         case sprite_types_enum::map_obj_5:
-            result = sprite_idx + field_14_sprite_base2->field_6_map_obj;
+            result = sprite_idx + mSpriteBase2->mMapObj;
             break;
         case sprite_types_enum::user_6:
-            result = sprite_idx + static_cast<s16>(field_14_sprite_base2->field_8_user);
+            result = sprite_idx + static_cast<s16>(mSpriteBase2->mUser);
             break;
         case sprite_types_enum::font_7:
-            result = sprite_idx + field_14_sprite_base2->field_A_font;
+            result = sprite_idx + mSpriteBase2->mFont;
             break;
         default:
             // No assignment: VC6 gives result sprite_idx's stack slot, so this returns sprite_idx
@@ -105,84 +105,84 @@ u16 gtx_0x106C::GetSpriteTrueIndex_5AA460(s32 sprite_type, s16 sprite_idx) const
 }
 
 MATCH_FUNC(0x5AA4F0)
-s16 gtx_0x106C::GetSpriteBaseOfType_5AA4F0(s32 sprite_type) const
+s16 gtx_0x106C::GetSpriteBaseOfType(s32 sprite_type) const
 {
     switch (sprite_type)
     {
         case sprite_types_enum::car_2:
-            return field_18_sprite_base1->field_0_car;
+            return mSpriteBase1->mCar;
         case sprite_types_enum::ped_3:
-            return field_18_sprite_base1->field_2_ped;
+            return mSpriteBase1->mPed;
         case sprite_types_enum::code_obj1_4:
         case sprite_types_enum::code_obj2_8:
-            return field_18_sprite_base1->field_4_code_obj;
+            return mSpriteBase1->mCodeObj;
         case sprite_types_enum::map_obj_5:
-            return field_18_sprite_base1->field_6_map_obj;
+            return mSpriteBase1->mMapObj;
         case sprite_types_enum::font_7:
-            return field_18_sprite_base1->field_A_font;
+            return mSpriteBase1->mFont;
         case sprite_types_enum::user_6:
-            return field_18_sprite_base1->field_8_user;
+            return mSpriteBase1->mUser;
         default:
             return 0;
     }
 }
 
 MATCH_FUNC(0x5AA560)
-s16 gtx_0x106C::GetPaletteBaseOfType_5AA560(s32 palette_type) const
+s16 gtx_0x106C::GetPaletteBaseOfType(s32 palette_type) const
 {
     switch (palette_type)
     {
         case palette_types_enum::tiles_1:
-            return field_10_palette_base1->field_0_tile;
+            return mPaletteBase1->mTile;
         case palette_types_enum::sprites_2:
-            return field_10_palette_base1->field_2_sprite;
+            return mPaletteBase1->mSprite;
         case palette_types_enum::car_remaps_3:
-            return field_10_palette_base1->field_4_car_remap;
+            return mPaletteBase1->mCarRemap;
         case palette_types_enum::ped_remaps_4:
-            return field_10_palette_base1->field_6_ped_remap;
+            return mPaletteBase1->mPedRemap;
         case palette_types_enum::code_obj_remaps_5:
-            return field_10_palette_base1->field_8_code_obj_remap;
+            return mPaletteBase1->mCodeObjRemap;
         case palette_types_enum::map_obj_remaps_6:
-            return field_10_palette_base1->field_A_map_obj_remap;
+            return mPaletteBase1->mMapObjRemap;
         case palette_types_enum::user_remaps_7:
-            return field_10_palette_base1->field_C_user_remap;
+            return mPaletteBase1->mUserRemap;
         case palette_types_enum::font_remaps_8:
-            return field_10_palette_base1->field_E_font_remap;
+            return mPaletteBase1->mFontRemap;
         default:
             return 0;
     }
 }
 
 MATCH_FUNC(0x5AA5F0)
-s16 gtx_0x106C::GetTruePalette_5AA5F0(s32 palette_type, s16 pal) const
+s16 gtx_0x106C::GetTruePalette(s32 palette_type, s16 pal) const
 {
     s16 result;
 
     switch (palette_type)
     {
         case palette_types_enum::tiles_1:
-            result = pal + field_C_palette_base2->field_0_tile;
+            result = pal + mPaletteBase2->mTile;
             break;
         case palette_types_enum::sprites_2:
-            result = pal + field_C_palette_base2->field_2_sprite;
+            result = pal + mPaletteBase2->mSprite;
             break;
         case palette_types_enum::car_remaps_3:
-            result = pal + field_C_palette_base2->field_4_car_remap;
+            result = pal + mPaletteBase2->mCarRemap;
             break;
         case palette_types_enum::ped_remaps_4:
-            result = pal + field_C_palette_base2->field_6_ped_remap;
+            result = pal + mPaletteBase2->mPedRemap;
             break;
         case palette_types_enum::code_obj_remaps_5:
-            result = pal + field_C_palette_base2->field_8_code_obj_remap;
+            result = pal + mPaletteBase2->mCodeObjRemap;
             break;
         case palette_types_enum::map_obj_remaps_6:
-            result = pal + field_C_palette_base2->field_A_map_obj_remap;
+            result = pal + mPaletteBase2->mMapObjRemap;
             break;
         case palette_types_enum::user_remaps_7:
-            result = pal + field_C_palette_base2->field_C_user_remap;
+            result = pal + mPaletteBase2->mUserRemap;
             break;
         case palette_types_enum::font_remaps_8:
-            result = pal + field_C_palette_base2->field_E_font_remap;
+            result = pal + mPaletteBase2->mFontRemap;
             break;
         default:
             result = pal;
@@ -192,41 +192,41 @@ s16 gtx_0x106C::GetTruePalette_5AA5F0(s32 palette_type, s16 pal) const
 }
 
 MATCH_FUNC(0x5AA6A0)
-u8* gtx_0x106C::GetPalData_5AA6A0(u16 palette_idx) const
+u8* gtx_0x106C::GetPalData(u16 palette_idx) const
 {
-    return static_cast<u8*>(field_2C_physical_palettes) + 4 * ((palette_idx & 63) + ((palette_idx & 0xFFFFC0) << 8));
+    return static_cast<u8*>(mPhysicalPalettes) + 4 * ((palette_idx & 63) + ((palette_idx & 0xFFFFC0) << 8));
 }
 
 MATCH_FUNC(0x5AA6F0)
-u16 gtx_0x106C::get_phys_pal_5AA6F0(u16 palId) const
+u16 gtx_0x106C::get_phys_pal(u16 palId) const
 {
-    return field_28_palette_index->field_0_phys_palette[palId];
+    return mPaletteIndex->mPhysPalette[palId];
 }
 
 MATCH_FUNC(0x5AA710)
-u16 gtx_0x106C::GetSpriteIdxFromFont_5AA710(u16 font_type, s16 offset) const
+u16 gtx_0x106C::GetSpriteIdxFromFont(u16 font_type, s16 offset) const
 {
-    u16 result = field_1C_font_base->field_2_base[font_type] + offset;
-    if (font_type == field_1C_font_base->field_0_font_count - 1)
+    u16 result = mFontBase->mBase[font_type] + offset;
+    if (font_type == mFontBase->mFontCount - 1)
     {
-        if (result >= field_2_font_base_total)
+        if (result >= mFontBaseTotal)
         {
-            return field_1C_font_base->field_2_base[font_type];
+            return mFontBase->mBase[font_type];
         }
         else
         {
             return result;
         }
     }
-    else if (result >= static_cast<u32>(field_1C_font_base->field_2_base[font_type + 1]))
+    else if (result >= static_cast<u32>(mFontBase->mBase[font_type + 1]))
     {
-        return field_1C_font_base->field_2_base[font_type];
+        return mFontBase->mBase[font_type];
     }
     return result;
 }
 
 MATCH_FUNC(0x5AA760)
-u16 gtx_0x106C::GetFontWidth_5AA760(const u16* font_type, const wchar_t* pStr) const
+u16 gtx_0x106C::GetFontWidth(const u16* font_type, const wchar_t* pStr) const
 {
     if (*font_type >= 101)
     {
@@ -236,13 +236,13 @@ u16 gtx_0x106C::GetFontWidth_5AA760(const u16* font_type, const wchar_t* pStr) c
     else
     {
         // In this case letters have different widths
-        return this->field_20_sprite_index[this->field_14_sprite_base2->field_A_font + gtx_0x106C::GetSpriteIdxFromFont_5AA710(*font_type, *pStr - 33)]
-            .field_4_width;
+        return this->mSpriteIndex[this->mSpriteBase2->mFont + gtx_0x106C::GetSpriteIdxFromFont(*font_type, *pStr - 33)]
+            .mWidth;
     }
 }
 
 MATCH_FUNC(0x5AA7B0)
-u16 gtx_0x106C::GetSpaceCharWidth_5AA7B0(const u16* font_type) const
+u16 gtx_0x106C::GetSpaceCharWidth(const u16* font_type) const
 {
     if (*font_type >= 101)
     {
@@ -251,11 +251,11 @@ u16 gtx_0x106C::GetSpaceCharWidth_5AA7B0(const u16* font_type) const
     }
 
     // In this case space characters have different widths for different font types below 101
-    return field_20_sprite_index[field_14_sprite_base2->field_A_font + 77 + field_1C_font_base->field_2_base[*font_type]].field_4_width;
+    return mSpriteIndex[mSpriteBase2->mFont + 77 + mFontBase->mBase[*font_type]].mWidth;
 }
 
 MATCH_FUNC(0x5AA800)
-s16 gtx_0x106C::GetLineSpacing_5AA800(const u16* font_type) const
+s16 gtx_0x106C::GetLineSpacing(const u16* font_type) const
 {
     if (*font_type >= 0x65u)
     {
@@ -263,28 +263,28 @@ s16 gtx_0x106C::GetLineSpacing_5AA800(const u16* font_type) const
     }
     else
     {
-        return this->field_20_sprite_index[this->field_14_sprite_base2->field_A_font + 32 + this->field_1C_font_base->field_2_base[*font_type]]
-            .field_5_height;
+        return this->mSpriteIndex[this->mSpriteBase2->mFont + 32 + this->mFontBase->mBase[*font_type]]
+            .mHeight;
     }
 }
 
 MATCH_FUNC(0x5AA850)
-bool gtx_0x106C::IsTileRemapped_5AA850(u16 tile_idx) const
+bool gtx_0x106C::IsTileRemapped(u16 tile_idx) const
 {
-    return field_40_tile->field_0_tile_mapping[tile_idx] != tile_idx;
+    return mTile->mTileMapping[tile_idx] != tile_idx;
 }
 
 MATCH_FUNC(0x5AA870)
-s16 gtx_0x106C::GetTile_5AA870(u16 tile_idx) const
+s16 gtx_0x106C::GetTile(u16 tile_idx) const
 {
-    return field_40_tile->field_0_tile_mapping[tile_idx];
+    return mTile->mTileMapping[tile_idx];
 }
 
 MATCH_FUNC(0x5AA890)
-s16 gtx_0x106C::GetFirstFreeReservedTileIdx_5AA890() const
+s16 gtx_0x106C::GetFirstFreeReservedTileIdx() const
 {
     // Decreasing order: starts from 1023 down to 992
-    const u16* i = &field_40_tile->field_0_tile_mapping[1023];
+    const u16* i = &mTile->mTileMapping[1023];
     for (u16 j = 1023; j >= 992; j--, i--)
     {
         if (*i == 0)
@@ -297,84 +297,84 @@ s16 gtx_0x106C::GetFirstFreeReservedTileIdx_5AA890() const
 }
 
 MATCH_FUNC(0x5AA8C0)
-void* gtx_0x106C::GetTiles_5AA8C0() const
+void* gtx_0x106C::GetTiles() const
 {
-    return field_3C_tiles;
+    return mTiles;
 }
 
 MATCH_FUNC(0x5AA900)
-u16 gtx_0x106C::get_physical_palettes_len_5AA900() const
+u16 gtx_0x106C::get_physical_palettes_len() const
 {
-    return field_8_physical_palettes_len;
+    return mPhysicalPalettesLen;
 }
 
 MATCH_FUNC(0x5AA910)
-object_info* gtx_0x106C::get_map_object_info_5AA910(u16 idx) const
+object_info* gtx_0x106C::get_map_object_info(u16 idx) const
 {
-    if (idx >= field_6_map_object_info_len)
+    if (idx >= mMapObjectInfoLen)
     {
         return NULL;
     }
-    return &field_24_map_object_info[idx];
+    return &mMapObjectInfo[idx];
 }
 
 MATCH_FUNC(0x5AA930)
-void gtx_0x106C::SetTileRemap_5AA930(u16 tile_idx, s16 tile_val)
+void gtx_0x106C::SetTileRemap(u16 tile_idx, s16 tile_val)
 {
-    field_40_tile->field_0_tile_mapping[tile_idx] = tile_val;
+    mTile->mTileMapping[tile_idx] = tile_val;
 }
 
 MATCH_FUNC(0x5AA950)
-void gtx_0x106C::InitTileMapping_5AA950()
+void gtx_0x106C::InitTileMapping()
 {
-    field_40_tile = new tile_array();
+    mTile = new tile_array();
 
     for (u16 tile_num = 0; tile_num < 992; tile_num++)
     {
-        field_40_tile->field_0_tile_mapping[tile_num] = tile_num;
+        mTile->mTileMapping[tile_num] = tile_num;
     }
 
     u32 tile_num_2 = 992;
     for (u32 i = 32; i > 0; i--)
     {
-        field_40_tile->field_0_tile_mapping[tile_num_2++] = 0;
+        mTile->mTileMapping[tile_num_2++] = 0;
     }
 }
 
 MATCH_FUNC(0x5AA9A0)
-void gtx_0x106C::BuildCarInfoContainer_5AA9A0(s32 chunk_size)
+void gtx_0x106C::BuildCarInfoContainer(s32 chunk_size)
 {
-    car_info* pCarInfoIter = reinterpret_cast<car_info*>(field_58_car_info);
+    car_info* pCarInfoIter = reinterpret_cast<car_info*>(mCarInfo);
     u32 total_len = 0;
     u32 idx = 0;
     u8 total_sprite = 0;
     u8 last_car_sprite = 0;
 
-    field_5C_cari = new car_info_container();
+    mCari = new car_info_container();
 
-    if (field_5C_cari == NULL)
+    if (mCari == NULL)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 821);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 821);
     }
 
     while (total_len < static_cast<u32>(chunk_size))
     {
         if (idx >= 256)
         {
-            FatalError_4A38C0(Gta2Error::FileOverflow, "C:\\Splitting\\Gta2\\Source\\style.cpp", 825);
+            FatalError(Gta2Error::FileOverflow, "C:\\Splitting\\Gta2\\Source\\style.cpp", 825);
         }
 
         if (pCarInfoIter->w > 0x80u || pCarInfoIter->h > 0x80u || pCarInfoIter->num_remaps > 0x40u)
         {
-            FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 826, pCarInfoIter->model);
+            FatalError(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 826, pCarInfoIter->model);
         }
 
         if (pCarInfoIter->sprite != 0 && pCarInfoIter->sprite != 1)
         {
-            FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 827, pCarInfoIter->model);
+            FatalError(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 827, pCarInfoIter->model);
         }
 
-        field_5C_cari->field_0_car_info[pCarInfoIter->model] = pCarInfoIter;
+        mCari->mCarInfo[pCarInfoIter->model] = pCarInfoIter;
 
         if (pCarInfoIter->sprite)
         {
@@ -389,309 +389,310 @@ void gtx_0x106C::BuildCarInfoContainer_5AA9A0(s32 chunk_size)
         u32 off = pCarInfoIter->num_remaps + 0xE;
         if (reinterpret_cast<u8*>(pCarInfoIter)[off] > 5u)
         {
-            FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 842, pCarInfoIter->model);
+            FatalError(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 842, pCarInfoIter->model);
         }
         u32 door_len = reinterpret_cast<u8*>(pCarInfoIter)[off] * sizeof(door_info) + 1;
         total_len += off + door_len;
         pCarInfoIter = reinterpret_cast<car_info*>(reinterpret_cast<u8*>(pCarInfoIter) + off + door_len);
         idx++;
     }
-    field_5C_cari->field_400_count = idx;
+    mCari->mCount = idx;
 }
 
 MATCH_FUNC(0x5AAB30)
-void gtx_0x106C::load_delx_5AAB30(u32 delx_chunk_size)
+void gtx_0x106C::load_delx(u32 delx_chunk_size)
 {
-    delta_entry* pIter = field_4C_delta_index;
+    delta_entry* pIter = mDeltaIndex;
     u32 off = 0;
     u32 total = 0;
 
     for (; off < delx_chunk_size;)
     {
-        u32 size = 2 * pIter->field_2_delta_count + 4;
-        field_60_delta_len += 8 * pIter->field_2_delta_count + 4;
+        u32 size = 2 * pIter->mDeltaCount + 4;
+        mDeltaLen += 8 * pIter->mDeltaCount + 4;
         pIter = reinterpret_cast<delta_entry*>(reinterpret_cast<u8*>(pIter) + size);
         off += size;
     }
 
-    field_50_delta_buffer = static_cast<sprite_deltas*>(Memory::malloc_4FE4D0(field_60_delta_len));
-    delta_entry* pSrc = field_4C_delta_index;
+    mDeltaBuffer = static_cast<sprite_deltas*>(Memory::Checked_malloc(mDeltaLen));
+    delta_entry* pSrc = mDeltaIndex;
     u32 off2 = 0;
-    sprite_deltas* pDst = static_cast<sprite_deltas*>(field_50_delta_buffer);
+    sprite_deltas* pDst = static_cast<sprite_deltas*>(mDeltaBuffer);
 
     for (; off2 < delx_chunk_size;)
     {
-        pDst->field_0_which_sprite = pSrc->field_0_which_sprite;
-        pDst->field_2_count = pSrc->field_2_delta_count;
-        pDst->field_3_pad = 0;
+        pDst->mWhichSprite = pSrc->mWhichSprite;
+        pDst->mCount = pSrc->mDeltaCount;
+        pDst->mPad3 = 0;
 
-        for (u32 i = 0; i < pSrc->field_2_delta_count; i++)
+        for (u32 i = 0; i < pSrc->mDeltaCount; i++)
         {
-            pDst->field_4_deltas[i].field_4_len = pSrc->field_4_delta[i];
-            pDst->field_4_deltas[i].field_0_pData = reinterpret_cast<delta_store_entry*>(total);
-            total += pDst->field_4_deltas[i].field_4_len;
+            pDst->mDeltas[i].mLen = pSrc->mDelta[i];
+            pDst->mDeltas[i].mpData = reinterpret_cast<delta_store_entry*>(total);
+            total += pDst->mDeltas[i].mLen;
         }
 
-        u32 size = 2 * pSrc->field_2_delta_count + 4;
-        pDst = reinterpret_cast<sprite_deltas*>(reinterpret_cast<u8*>(pDst) + 8 * pDst->field_2_count + 4);
+        u32 size = 2 * pSrc->mDeltaCount + 4;
+        pDst = reinterpret_cast<sprite_deltas*>(reinterpret_cast<u8*>(pDst) + 8 * pDst->mCount + 4);
         off2 += size;
         pSrc = reinterpret_cast<delta_entry*>(reinterpret_cast<u8*>(pSrc) + size);
     }
 }
 
-// https://decomp.me/scratch/vwSG1 TODO: fix this hack
 MATCH_FUNC(0x5AABF0)
-void gtx_0x106C::SetDeltaDataPtrs_5AABF0()
+void gtx_0x106C::SetDeltaDataPtrs()
 {
     s32 size;
-    delta_entry* pEntry = static_cast<delta_entry*>(field_50_delta_buffer);
+    sprite_deltas* pEntry = static_cast<sprite_deltas*>(mDeltaBuffer);
 
-    for (u32 offset = 0; offset < static_cast<u32>(field_60_delta_len); offset += size)
+    for (u32 offset = 0; offset < static_cast<u32>(mDeltaLen); offset += size)
     {
-        for (u32 delta_idx = 0; delta_idx < pEntry->field_2_delta_count; delta_idx++)
+        for (u32 delta_idx = 0; delta_idx < pEntry->mCount; delta_idx++)
         {
-            *reinterpret_cast<u32*>(&pEntry->field_4_delta[4 * delta_idx]) += *reinterpret_cast<u32*>(&field_48_delta_store); // TODO: fix me
+            // load_delx left the delta's offset into the store in mpData
+            pEntry->mDeltas[delta_idx].mpData = reinterpret_cast<delta_store_entry*>(
+                reinterpret_cast<u32>(pEntry->mDeltas[delta_idx].mpData) + reinterpret_cast<u32>(mDeltaStore));
         }
-        size = 8 * pEntry->field_2_delta_count + 4;
-        pEntry = reinterpret_cast<delta_entry*>(reinterpret_cast<char_type*>(pEntry) + size);
+        size = 8 * pEntry->mCount + 4;
+        pEntry = reinterpret_cast<sprite_deltas*>(reinterpret_cast<u8*>(pEntry) + size);
     }
 }
 
 MATCH_FUNC(0x5AAC40)
-void gtx_0x106C::SetSpriteIndexDataPtrs_5AAC40()
+void gtx_0x106C::SetSpriteIndexDataPtrs()
 {
-    for (u32 i = 0; i < static_cast<u16>(this->field_4_sprite_index_count); i++)
+    for (u32 i = 0; i < static_cast<u16>(this->mSpriteIndexCount); i++)
     {
-        u8* pGraphicsOffset = this->field_20_sprite_index[i].field_0_pData;
-        sprite_index* pSpriteIndex = &this->field_20_sprite_index[i];
-        pSpriteIndex->field_0_pData = &this->field_34_sprite_graphics[reinterpret_cast<u32>(pGraphicsOffset)];
+        u8* pGraphicsOffset = this->mSpriteIndex[i].mpData;
+        sprite_index* pSpriteIndex = &this->mSpriteIndex[i];
+        pSpriteIndex->mpData = &this->mSpriteGraphics[reinterpret_cast<u32>(pGraphicsOffset)];
     }
 }
 
 MATCH_FUNC(0x5AAC70)
-void gtx_0x106C::build_delta_container_5AAC70()
+void gtx_0x106C::build_delta_container()
 {
     u32 off = 0;
-    sprite_deltas* pIter = static_cast<sprite_deltas*>(field_50_delta_buffer);
+    sprite_deltas* pIter = static_cast<sprite_deltas*>(mDeltaBuffer);
     u16 maxSprite = 0;
 
-    for (; off < static_cast<u32>(field_60_delta_len);)
+    for (; off < static_cast<u32>(mDeltaLen);)
     {
-        if (pIter->field_0_which_sprite >= maxSprite)
+        if (pIter->mWhichSprite >= maxSprite)
         {
-            maxSprite = pIter->field_0_which_sprite;
+            maxSprite = pIter->mWhichSprite;
         }
 
-        u32 size = 8 * pIter->field_2_count + 4;
+        u32 size = 8 * pIter->mCount + 4;
         off += size;
         pIter = reinterpret_cast<sprite_deltas*>(reinterpret_cast<u8*>(pIter) + size);
     }
 
-    field_54_del = static_cast<delta_container*>(Memory::malloc_4FE4D0(4 * maxSprite + 8));
-    field_54_del->field_0_count = maxSprite + 1;
+    mDel = static_cast<delta_container*>(Memory::Checked_malloc(4 * maxSprite + 8));
+    mDel->mCount = maxSprite + 1;
 
-    for (u32 i = 0; i < field_54_del->field_0_count; i++)
+    for (u32 i = 0; i < mDel->mCount; i++)
     {
-        field_54_del->field_4_entries[i] = NULL;
+        mDel->mEntries[i] = NULL;
     }
 
-    pIter = static_cast<sprite_deltas*>(field_50_delta_buffer);
+    pIter = static_cast<sprite_deltas*>(mDeltaBuffer);
 
-    for (u32 off2 = 0; off2 < static_cast<u32>(field_60_delta_len);)
+    for (u32 off2 = 0; off2 < static_cast<u32>(mDeltaLen);)
     {
-        if (field_54_del->field_4_entries[pIter->field_0_which_sprite])
+        if (mDel->mEntries[pIter->mWhichSprite])
         {
-            FatalError_4A38C0(Gta2Error::MultipleSpriteDeltas, "C:\\Splitting\\Gta2\\Source\\style.cpp", 996, pIter->field_0_which_sprite);
+            FatalError(Gta2Error::MultipleSpriteDeltas, "C:\\Splitting\\Gta2\\Source\\style.cpp", 996, pIter->mWhichSprite);
         }
 
-        field_54_del->field_4_entries[pIter->field_0_which_sprite] = pIter;
+        mDel->mEntries[pIter->mWhichSprite] = pIter;
 
-        if (pIter->field_0_which_sprite >= maxSprite)
+        if (pIter->mWhichSprite >= maxSprite)
         {
-            maxSprite = pIter->field_0_which_sprite;
+            maxSprite = pIter->mWhichSprite;
         }
 
-        u32 size = 8 * pIter->field_2_count + 4;
+        u32 size = 8 * pIter->mCount + 4;
         pIter = reinterpret_cast<sprite_deltas*>(reinterpret_cast<u8*>(pIter) + size);
         off2 += size;
     }
 }
 
 MATCH_FUNC(0x5AAD50)
-void gtx_0x106C::load_car_info_5AAD50(u32 cari_chunk_size)
+void gtx_0x106C::load_car_info(u32 cari_chunk_size)
 {
-    field_58_car_info = static_cast<car_info**>(Memory::malloc_4FE4D0(cari_chunk_size));
-    File::Global_Read_4A71C0(field_58_car_info, cari_chunk_size);
+    mCarInfo = static_cast<car_info**>(Memory::Checked_malloc(cari_chunk_size));
+    File::Global_Read(mCarInfo, cari_chunk_size);
 
-    BuildCarInfoContainer_5AA9A0(cari_chunk_size);
+    BuildCarInfoContainer(cari_chunk_size);
 }
 
 MATCH_FUNC(0x5AAD80)
-void gtx_0x106C::load_delta_index_5AAD80(u32 delx_chunk_size)
+void gtx_0x106C::load_delta_index(u32 delx_chunk_size)
 {
-    this->field_4C_delta_index = static_cast<delta_entry*>(Memory::malloc_4FE4D0(delx_chunk_size));
-    File::Global_Read_4A71C0(field_4C_delta_index, delx_chunk_size);
+    this->mDeltaIndex = static_cast<delta_entry*>(Memory::Checked_malloc(delx_chunk_size));
+    File::Global_Read(mDeltaIndex, delx_chunk_size);
 
-    load_delx_5AAB30(delx_chunk_size);
-    build_delta_container_5AAC70();
+    load_delx(delx_chunk_size);
+    build_delta_container();
 
-    crt::free(this->field_4C_delta_index);
-    this->field_4C_delta_index = NULL;
+    crt::free(this->mDeltaIndex);
+    this->mDeltaIndex = NULL;
 }
 
 MATCH_FUNC(0x5AADD0)
-void gtx_0x106C::load_delta_store_5AADD0(u32 dels_chunk_size)
+void gtx_0x106C::load_delta_store(u32 dels_chunk_size)
 {
-    field_48_delta_store = static_cast<delta_store_entry*>(Memory::malloc_4FE4D0(dels_chunk_size));
-    File::Global_Read_4A71C0(field_48_delta_store, dels_chunk_size);
+    mDeltaStore = static_cast<delta_store_entry*>(Memory::Checked_malloc(dels_chunk_size));
+    File::Global_Read(mDeltaStore, dels_chunk_size);
 }
 
 MATCH_FUNC(0x5AADF0)
-void gtx_0x106C::load_tiles_5AADF0(u32 tile_chunk_len)
+void gtx_0x106C::load_tiles(u32 tile_chunk_len)
 {
-    field_3C_tiles = static_cast<u8*>(Memory::Aligned_malloc_4FE510(tile_chunk_len, &field_44_tiles_unaligned));
-    File::Global_Read_4A71C0(field_3C_tiles, tile_chunk_len);
-    InitTileMapping_5AA950();
+    mTiles = static_cast<u8*>(Memory::Aligned_malloc(tile_chunk_len, &mTilesUnaligned));
+    File::Global_Read(mTiles, tile_chunk_len);
+    InitTileMapping();
 }
 
 MATCH_FUNC(0x5AAE20)
-void gtx_0x106C::skip_ovly_5AAE20(u32 size)
+void gtx_0x106C::skip_ovly(u32 size)
 {
-    File::Global_Seek_4A7140(&size);
+    File::Global_Seek(&size);
 }
 
 MATCH_FUNC(0x5AAE30)
-void gtx_0x106C::skip_psxt_5AAE30(u32 size)
+void gtx_0x106C::skip_psxt(u32 size)
 {
-    File::Global_Seek_4A7140(&size);
+    File::Global_Seek(&size);
 }
 
 MATCH_FUNC(0x5AAE40)
-void gtx_0x106C::load_sprite_graphics_5AAE40(u32 sprg_chunk_len)
+void gtx_0x106C::load_sprite_graphics(u32 sprg_chunk_len)
 {
-    field_34_sprite_graphics = reinterpret_cast<u8*>(Memory::Aligned_malloc_4FE510(sprg_chunk_len, &field_38_sprite_graphics_unaligned));
-    File::Global_Read_4A71C0(field_34_sprite_graphics, sprg_chunk_len);
+    mSpriteGraphics = reinterpret_cast<u8*>(Memory::Aligned_malloc(sprg_chunk_len, &mSpriteGraphicsUnaligned));
+    File::Global_Read(mSpriteGraphics, sprg_chunk_len);
 }
 
 MATCH_FUNC(0x5AAE70)
-void gtx_0x106C::load_physical_palettes_5AAE70(u32 ppal_chunk_size)
+void gtx_0x106C::load_physical_palettes(u32 ppal_chunk_size)
 {
-    field_2C_physical_palettes = Memory::Aligned_malloc_4FE510(ppal_chunk_size, &field_30_physical_palettes_unaligned);
-    File::Global_Read_4A71C0(field_2C_physical_palettes, ppal_chunk_size);
-    field_8_physical_palettes_len = ppal_chunk_size >> 10;
+    mPhysicalPalettes = Memory::Aligned_malloc(ppal_chunk_size, &mPhysicalPalettesUnaligned);
+    File::Global_Read(mPhysicalPalettes, ppal_chunk_size);
+    mPhysicalPalettesLen = ppal_chunk_size >> 10;
 }
 
 MATCH_FUNC(0x5AAEA0)
-void gtx_0x106C::load_palette_index_5AAEA0(u32 palx_chunk_len)
+void gtx_0x106C::load_palette_index(u32 palx_chunk_len)
 {
     if (palx_chunk_len != sizeof(palette_index))
     {
-        FatalError_4A38C0(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1157, palx_chunk_len);
+        FatalError(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1157, palx_chunk_len);
     }
 
-    field_28_palette_index = new palette_index();
-    if (!field_28_palette_index)
+    mPaletteIndex = new palette_index();
+    if (!mPaletteIndex)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1159);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1159);
     }
 
-    File::Global_Read_4A71C0(field_28_palette_index, palx_chunk_len);
+    File::Global_Read(mPaletteIndex, palx_chunk_len);
 }
 
 MATCH_FUNC(0x5AAF00)
-void gtx_0x106C::load_map_object_info_5AAF00(u32 obji_chunk_len)
+void gtx_0x106C::load_map_object_info(u32 obji_chunk_len)
 {
-    field_24_map_object_info = static_cast<object_info*>(Memory::malloc_4FE4D0(obji_chunk_len));
-    File::Global_Read_4A71C0(field_24_map_object_info, obji_chunk_len);
+    mMapObjectInfo = static_cast<object_info*>(Memory::Checked_malloc(obji_chunk_len));
+    File::Global_Read(mMapObjectInfo, obji_chunk_len);
     if (obji_chunk_len / 2 >= 0x10000)
     {
-        FatalError_4A38C0(Gta2Error::TooManyLoadedObjectInfos, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1177, obji_chunk_len / 2);
+        FatalError(Gta2Error::TooManyLoadedObjectInfos, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1177, obji_chunk_len / 2);
     }
 
-    field_6_map_object_info_len = obji_chunk_len / 2;
+    mMapObjectInfoLen = obji_chunk_len / 2;
     if (((obji_chunk_len / 2) & 0xffff) * 2 != obji_chunk_len)
     {
-        FatalError_4A38C0(Gta2Error::InvalidLoadedObjectInfoData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1179);
+        FatalError(Gta2Error::InvalidLoadedObjectInfoData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1179);
     }
 }
 
 MATCH_FUNC(0x5AAF80)
-void gtx_0x106C::load_sprite_index_5AAF80(u32 sprx_chunk_size)
+void gtx_0x106C::load_sprite_index(u32 sprx_chunk_size)
 {
-    field_20_sprite_index = static_cast<sprite_index*>(Memory::malloc_4FE4D0(sprx_chunk_size + 8));
-    File::Global_Read_4A71C0(field_20_sprite_index, sprx_chunk_size);
+    mSpriteIndex = static_cast<sprite_index*>(Memory::Checked_malloc(sprx_chunk_size + 8));
+    File::Global_Read(mSpriteIndex, sprx_chunk_size);
     if ((sprx_chunk_size & ~7u) > 524280)
     {
-        FatalError_4A38C0(Gta2Error::TooManySprites, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1198, sprx_chunk_size >> 3);
+        FatalError(Gta2Error::TooManySprites, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1198, sprx_chunk_size >> 3);
     }
-    field_4_sprite_index_count = (sprx_chunk_size >> 3) + 1;
+    mSpriteIndexCount = (sprx_chunk_size >> 3) + 1;
 }
 
 MATCH_FUNC(0x5AAFE0)
-void gtx_0x106C::InitFontTypes_5AAFE0(u16 fontCount)
+void gtx_0x106C::InitFontTypes(u16 fontCount)
 {
     if (fontCount == 14)
     {
-        gStyleMessageFont_703D9C = 0;
-        gKanjiSmallFont_703C3E = 1;
-        gKanjiLargeFont_703D9A = 2;
-        gStylePauseFont_703DA4 = 3;
-        gFrontendNormalFont_703D0C = 4;
-        gFrontendSelectedFont_703C16 = 5;
-        word_703C8C = 6;
-        font_type_703C14 = 7;
-        gFrontendHeadingFont_703C3C = 8;
-        gFrontendPlayMenuScoreFont_703C8A = 9;
-        gFrontendScoreFont_703BE2 = 10;
-        gFrontendAreaCompleteFont_703B88 = 11;
-        word_703DAC = 12;
-        gFrontendTitleFont_703B9C = 13;
-        gStyleTextFont_703BAA = 99;
-        gStyleCarNameFont_703D98 = 99;
-        gStyleZoneNameFont_703C9C = 99;
+        gStyleMessageFont = 0;
+        gKanjiSmallFont = 1;
+        gKanjiLargeFont = 2;
+        gStylePauseFont = 3;
+        gFrontendNormalFont = 4;
+        gFrontendSelectedFont = 5;
+        gFrontendFont6 = 6;
+        gFrontendFont7 = 7;
+        gFrontendHeadingFont = 8;
+        gFrontendPlayMenuScoreFont = 9;
+        gFrontendScoreFont = 10;
+        gFrontendAreaCompleteFont = 11;
+        gFrontendFont12 = 12;
+        gFrontendTitleFont = 13;
+        gStyleTextFont = 99;
+        gStyleCarNameFont = 99;
+        gStyleZoneNameFont = 99;
     }
     else if (fontCount == 7)
     {
-        gStyleMessageFont_703D9C = 0;
-        gStyleTextFont_703BAA = 1;
-        gStyleCarNameFont_703D98 = 2;
-        gKanjiSmallFont_703C3E = 3;
-        gKanjiLargeFont_703D9A = 4;
-        gStyleZoneNameFont_703C9C = 5;
-        gStylePauseFont_703DA4 = 6;
+        gStyleMessageFont = 0;
+        gStyleTextFont = 1;
+        gStyleCarNameFont = 2;
+        gKanjiSmallFont = 3;
+        gKanjiLargeFont = 4;
+        gStyleZoneNameFont = 5;
+        gStylePauseFont = 6;
     }
     else
     {
-        FatalError_4A38C0(Gta2Error::StyleFileContainsUnexpectedNumberOfFonts, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1251, fontCount);
+        FatalError(Gta2Error::StyleFileContainsUnexpectedNumberOfFonts, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1251, fontCount);
     }
 }
 
 MATCH_FUNC(0x5AB0F0)
-void gtx_0x106C::load_font_base_5AB0F0(u32 fonb_chunk_size)
+void gtx_0x106C::load_font_base(u32 fonb_chunk_size)
 {
     if (fonb_chunk_size < 2)
     {
-        FatalError_4A38C0(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1268, fonb_chunk_size);
+        FatalError(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1268, fonb_chunk_size);
     }
 
-    field_1C_font_base = static_cast<font_base*>(Memory::malloc_4FE4D0(fonb_chunk_size));
-    File::Global_Read_4A71C0(field_1C_font_base, fonb_chunk_size);
+    mFontBase = static_cast<font_base*>(Memory::Checked_malloc(fonb_chunk_size));
+    File::Global_Read(mFontBase, fonb_chunk_size);
 
-    u32 font_count = field_1C_font_base->field_0_font_count;
+    u32 font_count = mFontBase->mFontCount;
     if (fonb_chunk_size != (font_count * 2) + 2)
     {
-        FatalError_4A38C0(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1271, fonb_chunk_size);
+        FatalError(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1271, fonb_chunk_size);
     }
 
-    field_2_font_base_total = SumCounts_5AB1A0(field_1C_font_base->field_2_base, field_1C_font_base->field_0_font_count);
+    mFontBaseTotal = SumCounts(mFontBase->mBase, mFontBase->mFontCount);
 
-    ConvertToVirtualOffsets_5AB1C0(field_1C_font_base->field_2_base, field_1C_font_base->field_0_font_count);
+    ConvertToVirtualOffsets(mFontBase->mBase, mFontBase->mFontCount);
 
-    InitFontTypes_5AAFE0(field_1C_font_base->field_0_font_count);
+    InitFontTypes(mFontBase->mFontCount);
 }
 
 MATCH_FUNC(0x5AB1A0)
-u16 __stdcall gtx_0x106C::SumCounts_5AB1A0(const u16* pOffsets, u32 offsetsCount)
+u16 __stdcall gtx_0x106C::SumCounts(const u16* pOffsets, u32 offsetsCount)
 {
     u16 total = 0;
     while (offsetsCount > 0)
@@ -704,7 +705,7 @@ u16 __stdcall gtx_0x106C::SumCounts_5AB1A0(const u16* pOffsets, u32 offsetsCount
 }
 
 MATCH_FUNC(0x5AB1C0)
-void __stdcall gtx_0x106C::ConvertToVirtualOffsets_5AB1C0(u16* pBuffer, u32 len)
+void __stdcall gtx_0x106C::ConvertToVirtualOffsets(u16* pBuffer, u32 len)
 {
     for (s32 i = len - 1; i > 0; i--)
     {
@@ -722,263 +723,263 @@ void __stdcall gtx_0x106C::ConvertToVirtualOffsets_5AB1C0(u16* pBuffer, u32 len)
 }
 
 MATCH_FUNC(0x5AB210)
-void gtx_0x106C::load_sprite_base_5AB210(u32 sprite_base_chunk_size)
+void gtx_0x106C::load_sprite_base(u32 sprite_base_chunk_size)
 {
     if (sprite_base_chunk_size != sizeof(sprite_base))
     {
-        FatalError_4A38C0(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1289, sprite_base_chunk_size);
+        FatalError(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1289, sprite_base_chunk_size);
     }
 
-    field_18_sprite_base1 = new sprite_base();
-    if (!field_18_sprite_base1)
+    mSpriteBase1 = new sprite_base();
+    if (!mSpriteBase1)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1291);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1291);
     }
 
-    field_14_sprite_base2 = new sprite_base();
-    if (!field_14_sprite_base2)
+    mSpriteBase2 = new sprite_base();
+    if (!mSpriteBase2)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1293);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1293);
     }
 
-    File::Global_Read_4A71C0(field_18_sprite_base1, sprite_base_chunk_size);
+    File::Global_Read(mSpriteBase1, sprite_base_chunk_size);
 
-    *field_14_sprite_base2 = *field_18_sprite_base1;
+    *mSpriteBase2 = *mSpriteBase1;
 
-    ConvertToVirtualOffsets_5AB1C0(&field_14_sprite_base2->field_0_car, 6);
+    ConvertToVirtualOffsets(&mSpriteBase2->mCar, 6);
 }
 
 MATCH_FUNC(0x5AB2C0)
-void gtx_0x106C::load_palete_base_5AB2C0(u32 palette_base_chunk_len)
+void gtx_0x106C::load_palete_base(u32 palette_base_chunk_len)
 {
     if (palette_base_chunk_len != sizeof(palette_base))
     {
-        FatalError_4A38C0(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1311, palette_base_chunk_len);
+        FatalError(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1311, palette_base_chunk_len);
     }
 
-    field_10_palette_base1 = new palette_base();
-    if (!field_10_palette_base1)
+    mPaletteBase1 = new palette_base();
+    if (!mPaletteBase1)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1313);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1313);
     }
 
-    field_C_palette_base2 = new palette_base();
-    if (!field_C_palette_base2)
+    mPaletteBase2 = new palette_base();
+    if (!mPaletteBase2)
     {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1315);
+        FatalError(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1315);
     }
 
-    File::Global_Read_4A71C0(field_10_palette_base1, palette_base_chunk_len);
+    File::Global_Read(mPaletteBase1, palette_base_chunk_len);
 
-    *field_C_palette_base2 = *field_10_palette_base1;
+    *mPaletteBase2 = *mPaletteBase1;
 
-    field_0_totalPalBase = SumCounts_5AB1A0(&field_C_palette_base2->field_0_tile, 8);
-    ConvertToVirtualOffsets_5AB1C0(&field_C_palette_base2->field_0_tile, 8);
+    mTotalPalBase = SumCounts(&mPaletteBase2->mTile, 8);
+    ConvertToVirtualOffsets(&mPaletteBase2->mTile, 8);
 }
 
 MATCH_FUNC(0x5AB380)
-bool gtx_0x106C::IsCarModelInRecycleList_5AB380(u8 car_id) const
+bool gtx_0x106C::IsCarModelInRecycleList(u8 car_id) const
 {
     // Certain car models are in the recycle list only for certain stages/districts
     s32 i = 0;
-    if (!field_64_car_recycling_info)
+    if (!mCarRecyclingInfo)
     {
         return true;
     }
 
     // This while only ends if it finds 'car_id' or if it reaches the 
     // sentinel value 255, which is surely greater than 'car_id'
-    while (field_64_car_recycling_info[i] < car_id)
+    while (mCarRecyclingInfo[i] < car_id)
     {
         i++;
     }
-    return field_64_car_recycling_info[i] == car_id;
+    return mCarRecyclingInfo[i] == car_id;
 }
 
 MATCH_FUNC(0x5AB3C0)
-void gtx_0x106C::load_car_recycling_info_5AB3C0(u32 recy_chunk_size)
+void gtx_0x106C::load_car_recycling_info(u32 recy_chunk_size)
 {
-    field_64_car_recycling_info = static_cast<u8*>(Memory::malloc_4FE4D0(recy_chunk_size));
-    field_68_recy_chunk_size = recy_chunk_size;
-    File::Global_Read_4A71C0(field_64_car_recycling_info, recy_chunk_size);
+    mCarRecyclingInfo = static_cast<u8*>(Memory::Checked_malloc(recy_chunk_size));
+    mRecyChunkSize = recy_chunk_size;
+    File::Global_Read(mCarRecyclingInfo, recy_chunk_size);
 }
 
 MATCH_FUNC(0x5AB3F0)
-void gtx_0x106C::read_spec_5AB3F0(u32 spec)
+void gtx_0x106C::read_spec(u32 spec)
 {
     u16 index_to_set;
     u32 len = 2;
-    File::Global_Read_4A71C0(&index_to_set, len);
+    File::Global_Read(&index_to_set, len);
     while (index_to_set)
     {
-        this->field_6C_spec[index_to_set] = spec;
+        this->mSpec[index_to_set] = spec;
         s32 len2 = 2;
-        File::Global_Read_4A71C0(&index_to_set, len2);
+        File::Global_Read(&index_to_set, len2);
     }
 }
 
 MATCH_FUNC(0x5AB450)
-void gtx_0x106C::load_spec_5AB450()
+void gtx_0x106C::load_spec()
 {
-    read_spec_5AB3F0(tile_spec::grass_dirt_floor);
-    read_spec_5AB3F0(tile_spec::road_junction_special);
-    read_spec_5AB3F0(tile_spec::water);
-    read_spec_5AB3F0(tile_spec::electrified_floor);
-    read_spec_5AB3F0(tile_spec::electrified_platform_floor);
-    read_spec_5AB3F0(tile_spec::wood_floor);
-    read_spec_5AB3F0(tile_spec::metal_floor);
-    read_spec_5AB3F0(tile_spec::metal_wall);
-    read_spec_5AB3F0(tile_spec::grass_dirt_wall);
+    read_spec(tile_spec::grass_dirt_floor);
+    read_spec(tile_spec::road_junction_special);
+    read_spec(tile_spec::water);
+    read_spec(tile_spec::electrified_floor);
+    read_spec(tile_spec::electrified_platform_floor);
+    read_spec(tile_spec::wood_floor);
+    read_spec(tile_spec::metal_floor);
+    read_spec(tile_spec::metal_wall);
+    read_spec(tile_spec::grass_dirt_wall);
 }
 
 MATCH_FUNC(0x5AB4B0)
-void gtx_0x106C::LoadChunk_5AB4B0(const char_type* pChunkType, u32 chunk_len)
+void gtx_0x106C::LoadChunk(const char_type* pChunkType, u32 chunk_len)
 {
     if (!strncmp(pChunkType, "PALB", 4u))
     {
-        load_palete_base_5AB2C0(chunk_len);
+        load_palete_base(chunk_len);
     }
     else if (!strncmp(pChunkType, "SPRB", 4u))
     {
-        load_sprite_base_5AB210(chunk_len);
+        load_sprite_base(chunk_len);
     }
     else if (!strncmp(pChunkType, "FONB", 4u))
     {
-        load_font_base_5AB0F0(chunk_len);
+        load_font_base(chunk_len);
     }
     else if (!strncmp(pChunkType, "SPRX", 4u))
     {
-        load_sprite_index_5AAF80(chunk_len);
+        load_sprite_index(chunk_len);
     }
     else if (!strncmp(pChunkType, "OBJI", 4u))
     {
-        load_map_object_info_5AAF00(chunk_len);
+        load_map_object_info(chunk_len);
     }
     else if (!strncmp(pChunkType, "PALX", 4u))
     {
-        load_palette_index_5AAEA0(chunk_len);
+        load_palette_index(chunk_len);
     }
     else if (!strncmp(pChunkType, "PPAL", 4u))
     {
-        load_physical_palettes_5AAE70(chunk_len);
+        load_physical_palettes(chunk_len);
     }
     else if (!strncmp(pChunkType, "SPRG", 4u))
     {
-        load_sprite_graphics_5AAE40(chunk_len);
+        load_sprite_graphics(chunk_len);
     }
     else if (!strncmp(pChunkType, "TILE", 4u))
     {
-        load_tiles_5AADF0(chunk_len);
+        load_tiles(chunk_len);
     }
     else if (!strncmp(pChunkType, "DELS", 4u))
     {
-        load_delta_store_5AADD0(chunk_len);
+        load_delta_store(chunk_len);
     }
     else if (!strncmp(pChunkType, "DELX", 4u))
     {
-        load_delta_index_5AAD80(chunk_len);
+        load_delta_index(chunk_len);
     }
     else if (!strncmp(pChunkType, "CARI", 4u))
     {
-        load_car_info_5AAD50(chunk_len);
+        load_car_info(chunk_len);
     }
     else if (!strncmp(pChunkType, "PSXT", 4u))
     {
-        skip_psxt_5AAE30(chunk_len);
+        skip_psxt(chunk_len);
     }
     else if (!strncmp(pChunkType, "OVLY", 4u))
     {
-        skip_ovly_5AAE20(chunk_len);
+        skip_ovly(chunk_len);
     }
     else if (!strncmp(pChunkType, "SPEC", 4u))
     {
-        load_spec_5AB450();
+        load_spec();
     }
     else if (!strncmp(pChunkType, "RECY", 4u))
     {
-        load_car_recycling_info_5AB3C0(chunk_len);
+        load_car_recycling_info(chunk_len);
     }
     else
     {
-        File::Global_Seek_4A7140(&chunk_len);
+        File::Global_Seek(&chunk_len);
     }
 }
 
 MATCH_FUNC(0x5AB720)
-void gtx_0x106C::SetDataPtrs_5AB720()
+void gtx_0x106C::SetDataPtrs()
 {
-    if (field_50_delta_buffer && field_48_delta_store)
+    if (mDeltaBuffer && mDeltaStore)
     {
-        SetDeltaDataPtrs_5AABF0();
+        SetDeltaDataPtrs();
     }
 
-    if (field_20_sprite_index && field_34_sprite_graphics)
+    if (mSpriteIndex && mSpriteGraphics)
     {
-        SetSpriteIndexDataPtrs_5AAC40();
+        SetSpriteIndexDataPtrs();
     }
 }
 
 MATCH_FUNC(0x5AB750)
-void gtx_0x106C::LoadSty_5AB750(const char_type* pStyFileName)
+void gtx_0x106C::LoadSty(const char_type* pStyFileName)
 {
-    File::Global_Open_4A7060(pStyFileName);
+    File::Global_Open(pStyFileName);
 
     file_header styHeader;
     u32 len = sizeof(file_header);
-    File::Global_Read_4A71C0(styHeader.field_0_type, len);
+    File::Global_Read(styHeader.mType, len);
 
     styHeader.verify_type("GBST");
     styHeader.verify_version(700);
 
     chunk_header chunkHeader;
-    for (len = sizeof(chunk_header); File::Global_Read_4A7210(&chunkHeader, &len); len = sizeof(chunk_header))
+    for (len = sizeof(chunk_header); File::Global_TryRead(&chunkHeader, &len); len = sizeof(chunk_header))
     {
-        if (chunkHeader.field_4_size != 0)
+        if (chunkHeader.mSize != 0)
         {
-            LoadChunk_5AB4B0(chunkHeader.field_0_type, chunkHeader.field_4_size);
+            LoadChunk(chunkHeader.mType, chunkHeader.mSize);
         }
     }
 
-    File::Global_Close_4A70C0();
+    File::Global_Close();
 
-    SetDataPtrs_5AB720();
+    SetDataPtrs();
 }
 
 MATCH_FUNC(0x5AB820)
 gtx_0x106C::gtx_0x106C()
 {
-    ResetSpecs_4C03D0();
+    ResetSpecs();
 
-    field_64_car_recycling_info = NULL;
-    field_68_recy_chunk_size = 0;
-    field_14_sprite_base2 = NULL;
-    field_C_palette_base2 = NULL;
-    field_1C_font_base = NULL;
-    field_20_sprite_index = NULL;
-    field_24_map_object_info = NULL;
-    field_6_map_object_info_len = 0;
-    field_28_palette_index = NULL;
-    field_2C_physical_palettes = NULL;
-    field_30_physical_palettes_unaligned = NULL;
-    field_3C_tiles = NULL;
-    field_44_tiles_unaligned = NULL;
-    field_34_sprite_graphics = NULL;
-    field_38_sprite_graphics_unaligned = NULL;
-    field_48_delta_store = NULL;
-    field_50_delta_buffer = NULL;
-    field_58_car_info = NULL;
-    field_5C_cari = NULL;
-    field_4C_delta_index = NULL;
-    field_60_delta_len = 0;
-    field_54_del = NULL;
-    field_4_sprite_index_count = 0;
-    field_0_totalPalBase = 0;
-    field_2_font_base_total = 0;
-    field_40_tile = NULL;
-    field_8_physical_palettes_len = 0;
-    field_6A_palettes_converted = false;
-    field_10_palette_base1 = NULL;
-    field_18_sprite_base1 = NULL;
+    mCarRecyclingInfo = NULL;
+    mRecyChunkSize = 0;
+    mSpriteBase2 = NULL;
+    mPaletteBase2 = NULL;
+    mFontBase = NULL;
+    mSpriteIndex = NULL;
+    mMapObjectInfo = NULL;
+    mMapObjectInfoLen = 0;
+    mPaletteIndex = NULL;
+    mPhysicalPalettes = NULL;
+    mPhysicalPalettesUnaligned = NULL;
+    mTiles = NULL;
+    mTilesUnaligned = NULL;
+    mSpriteGraphics = NULL;
+    mSpriteGraphicsUnaligned = NULL;
+    mDeltaStore = NULL;
+    mDeltaBuffer = NULL;
+    mCarInfo = NULL;
+    mCari = NULL;
+    mDeltaIndex = NULL;
+    mDeltaLen = 0;
+    mDel = NULL;
+    mSpriteIndexCount = 0;
+    mTotalPalBase = 0;
+    mFontBaseTotal = 0;
+    mTile = NULL;
+    mPhysicalPalettesLen = 0;
+    mPalettesConverted = false;
+    mPaletteBase1 = NULL;
+    mSpriteBase1 = NULL;
 }
 
 MATCH_FUNC(0x5AB8A0)
@@ -1003,110 +1004,110 @@ gtx_0x106C::~gtx_0x106C()
     void* pDeltaContainer;
     tile_array* pTileArray;
 
-    if (field_64_car_recycling_info)
+    if (mCarRecyclingInfo)
     {
-        crt::free(field_64_car_recycling_info);
+        crt::free(mCarRecyclingInfo);
     }
 
-    pSpriteBase2 = field_14_sprite_base2;
-    field_64_car_recycling_info = NULL;
+    pSpriteBase2 = mSpriteBase2;
+    mCarRecyclingInfo = NULL;
     delete pSpriteBase2;
 
-    pSpriteBase1 = field_18_sprite_base1;
-    field_14_sprite_base2 = NULL;
+    pSpriteBase1 = mSpriteBase1;
+    mSpriteBase2 = NULL;
     delete (pSpriteBase1);
 
-    pPaletteBase2 = field_C_palette_base2;
-    field_18_sprite_base1 = NULL;
+    pPaletteBase2 = mPaletteBase2;
+    mSpriteBase1 = NULL;
     delete (pPaletteBase2);
-    pPaletteBase1 = field_10_palette_base1;
-    field_C_palette_base2 = NULL;
+    pPaletteBase1 = mPaletteBase1;
+    mPaletteBase2 = NULL;
     delete (pPaletteBase1);
-    pFontBase = field_1C_font_base;
-    field_10_palette_base1 = NULL;
+    pFontBase = mFontBase;
+    mPaletteBase1 = NULL;
     if (pFontBase)
     {
         crt::free(pFontBase);
     }
 
-    pSpriteIndex = field_20_sprite_index;
-    field_1C_font_base = NULL;
+    pSpriteIndex = mSpriteIndex;
+    mFontBase = NULL;
     if (pSpriteIndex)
     {
         crt::free(pSpriteIndex);
     }
-    pMapObjectInfo = field_24_map_object_info;
-    field_20_sprite_index = NULL;
+    pMapObjectInfo = mMapObjectInfo;
+    mSpriteIndex = NULL;
     if (pMapObjectInfo)
     {
         crt::free(pMapObjectInfo);
     }
-    pPaletteIndex = field_28_palette_index;
-    field_24_map_object_info = NULL;
+    pPaletteIndex = mPaletteIndex;
+    mMapObjectInfo = NULL;
     delete (pPaletteIndex);
-    pPhysPalettesUnaligned = field_30_physical_palettes_unaligned;
-    field_28_palette_index = NULL;
+    pPhysPalettesUnaligned = mPhysicalPalettesUnaligned;
+    mPaletteIndex = NULL;
     if (pPhysPalettesUnaligned)
     {
         crt::free(pPhysPalettesUnaligned);
     }
-    pTilesUnaligned = field_44_tiles_unaligned;
-    field_2C_physical_palettes = NULL;
-    field_30_physical_palettes_unaligned = NULL;
+    pTilesUnaligned = mTilesUnaligned;
+    mPhysicalPalettes = NULL;
+    mPhysicalPalettesUnaligned = NULL;
     if (pTilesUnaligned)
     {
         crt::free(pTilesUnaligned);
     }
-    pSpriteGraphicsUnaligned = field_38_sprite_graphics_unaligned;
-    field_3C_tiles = NULL;
-    field_44_tiles_unaligned = NULL;
+    pSpriteGraphicsUnaligned = mSpriteGraphicsUnaligned;
+    mTiles = NULL;
+    mTilesUnaligned = NULL;
     if (pSpriteGraphicsUnaligned)
     {
         crt::free(pSpriteGraphicsUnaligned);
     }
-    pDeltaStore = field_48_delta_store;
-    field_34_sprite_graphics = NULL;
-    field_38_sprite_graphics_unaligned = NULL;
+    pDeltaStore = mDeltaStore;
+    mSpriteGraphics = NULL;
+    mSpriteGraphicsUnaligned = NULL;
     if (pDeltaStore)
     {
         crt::free(pDeltaStore);
     }
-    pDeltaBuffer = field_50_delta_buffer;
-    field_48_delta_store = NULL;
+    pDeltaBuffer = mDeltaBuffer;
+    mDeltaStore = NULL;
     if (pDeltaBuffer)
     {
         crt::free(pDeltaBuffer);
     }
-    pCarInfo = field_58_car_info;
-    field_50_delta_buffer = NULL;
+    pCarInfo = mCarInfo;
+    mDeltaBuffer = NULL;
     if (pCarInfo)
     {
         crt::free(pCarInfo);
     }
-    pCarInfoContainer = field_5C_cari;
-    field_58_car_info = NULL;
+    pCarInfoContainer = mCari;
+    mCarInfo = NULL;
     delete (pCarInfoContainer);
-    pDeltaIndex = field_4C_delta_index;
-    field_5C_cari = NULL;
+    pDeltaIndex = mDeltaIndex;
+    mCari = NULL;
     if (pDeltaIndex)
     {
         crt::free(pDeltaIndex);
     }
-    pDeltaContainer = static_cast<void*>(field_54_del);
-    field_4C_delta_index = NULL;
+    pDeltaContainer = static_cast<void*>(mDel);
+    mDeltaIndex = NULL;
     if (pDeltaContainer)
     {
         crt::free(pDeltaContainer);
     }
-    pTileArray = field_40_tile;
-    field_54_del = NULL;
+    pTileArray = mTile;
+    mDel = NULL;
     delete (pTileArray);
-    field_40_tile = NULL;
+    mTile = NULL;
 }
 
 // https://decomp.me/scratch/CjuP1
 MATCH_FUNC(0x5ABA00)
-void sprite_delta::Delta_5ABA00(u8* pArray)
+void sprite_delta::ApplyToPixels(u8* pArray)
 {
     // Inline asm in the original (lodsw, rep movsb). Each entry is a u16 offset from the end
     // of the previous run, a u8 length and that many bytes.
@@ -1137,7 +1138,7 @@ void sprite_delta::Delta_5ABA00(u8* pArray)
 
 // https://decomp.me/scratch/Cc0Dx Not fully working
 MATCH_FUNC(0x5ABA40)
-void sprite_delta::Delta_5ABA40(u8* pArray, u32 width)
+void sprite_delta::ApplyMirroredToPixels(u8* pArray, u32 width)
 {
     // Inline asm in the original (lodsw / loop)
     // Each entry: u16 offset, u8 len, then len bytes written backwards from the end of the row
@@ -1180,16 +1181,16 @@ void sprite_delta::Delta_5ABA40(u8* pArray, u32 width)
 }
 
 MATCH_FUNC(0x5abaa0)
-void sprite_index::ClearPixelsOfColour_5ABAA0(u8 clear_target)
+void sprite_index::ClearPixelsOfColour(u8 clear_target)
 {
-    for (s32 i = 0; i < field_5_height; i++)
+    for (s32 i = 0; i < mHeight; i++)
     {
-        ClearPixelsOfColourInRow_5ABAE0(&this->field_0_pData[i * 256], this->field_4_width, clear_target);
+        ClearPixelsOfColourInRow(&this->mpData[i * 256], this->mWidth, clear_target);
     }
 }
 
 MATCH_FUNC(0x5ABAE0)
-void __stdcall ClearPixelsOfColourInRow_5ABAE0(u8* pData, s32 width, u8 clear_target)
+void __stdcall ClearPixelsOfColourInRow(u8* pData, s32 width, u8 clear_target)
 {
     u8* pDataIter = pData;
     for (s32 i = 0; i < width; i++)
@@ -1203,11 +1204,11 @@ void __stdcall ClearPixelsOfColourInRow_5ABAE0(u8* pData, s32 width, u8 clear_ta
 }
 
 MATCH_FUNC(0x5abb00)
-void sprite_index::CopyPixels_5ABB00(u8* pDst)
+void sprite_index::CopyPixels(u8* pDst)
 {
-    for (s32 ypos = 0; ypos < field_5_height; ypos++)
+    for (s32 ypos = 0; ypos < mHeight; ypos++)
     {
         s32 idx = ypos << 8;
-        memcpy(&pDst[idx], &field_0_pData[idx], field_4_width);
+        memcpy(&pDst[idx], &mpData[idx], mWidth);
     }
 }

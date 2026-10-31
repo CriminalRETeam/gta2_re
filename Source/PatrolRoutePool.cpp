@@ -1,13 +1,13 @@
 #include "PatrolRoutePool.hpp"
 
-DEFINE_GLOBAL(PatrolRoutePool*, gPatrolRoutePool_6FD784, 0x6FD784);
+DEFINE_GLOBAL(PatrolRoutePool*, gPatrolRoutePool, 0x6FD784);
 
 MATCH_FUNC(0x463F90)
 PatrolPoint::PatrolPoint()
 {
-    field_0_x = 0;
-    field_1_y = 0;
-    field_2_z = 0;
+    mX = 0;
+    mY = 0;
+    mZ = 0;
 }
 
 MATCH_FUNC(0x463FA0)
@@ -26,30 +26,30 @@ PatrolRoute::~PatrolRoute()
 }
 
 MATCH_FUNC(0x543ec0)
-void PatrolRoute::Init_543EC0()
+void PatrolRoute::Init()
 {
 }
 
 MATCH_FUNC(0x543ed0)
 PatrolRoutePool::PatrolRoutePool()
 {
-    for (s32 i = 0; i < GTA2_COUNTOF(field_1D4C_bUsed); i++)
+    for (s32 i = 0; i < GTA2_COUNTOF(mbUsed); i++)
     {
-        field_1D4C_bUsed[i] = false;
+        mbUsed[i] = false;
     }
 }
 
 MATCH_FUNC(0x543f10)
-PatrolRoute* PatrolRoutePool::AllocPatrolList_543F10(u8* pRouteIdx)
+PatrolRoute* PatrolRoutePool::AllocPatrolList(u8* pRouteIdx)
 {
-    for (u8 i = 0; i < GTA2_COUNTOF(field_1D4C_bUsed); i++)
+    for (u8 i = 0; i < GTA2_COUNTOF(mbUsed); i++)
     {
-        if (!field_1D4C_bUsed[i])
+        if (!mbUsed[i])
         {
-            field_0_routes[i].Init_543EC0();
+            mRoutes[i].Init();
             *pRouteIdx = i;
-            field_1D4C_bUsed[i] = true;
-            return &field_0_routes[i];
+            mbUsed[i] = true;
+            return &mRoutes[i];
         }
     }
     return NULL;

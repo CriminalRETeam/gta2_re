@@ -1,6 +1,6 @@
 #pragma once
 
-// Ped::field_230_jump_over_mode (Char checks it before jumping over obstacles)
+// Ped::mJumpOverMode (Char checks it before jumping over obstacles)
 namespace ped_jump_over_mode
 {
 enum

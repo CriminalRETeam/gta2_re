@@ -16,14 +16,14 @@ enum
 {
     none_0 = 0,
     patrol_1 = 1,
-    despawning_2 = 2, // PoliceCrew::TryDespawnOffscreenCrew_571350, back to shutdown_6 next update
+    despawning_2 = 2, // PoliceCrew::TryDespawnOffscreenCrew, back to shutdown_6 next update
     alerted_search_3 = 3,
     pursue_or_chase_5 = 5,
     shutdown_6 = 6,
 };
 } // namespace police_crew_state
 
-// PolicePursuitTarget::field_8_state, see Police::UpdatePursuitTargets_56FBD0
+// PolicePursuitTarget::mState, see Police::UpdatePursuitTargets
 namespace pursuit_state
 {
 enum
@@ -39,163 +39,164 @@ enum
 class PoliceCrew
 {
   public:
+    STATIC_MEMBER(Ped*, sCurrentCrewPed);
     EXPORT PoliceCrew();
     EXPORT ~PoliceCrew();
-    EXPORT void Init_5709C0();
-    EXPORT void AddToPursuit_570A10();
-    EXPORT void RemoveFromPursuit_570AB0();
-    EXPORT void SpawnPoliceInCar_570BF0();
-    EXPORT void SpawnSWAT_570E30();
-    EXPORT void SpawnFBI_nonused_571150();
-    EXPORT void TryDespawnOffscreenCrew_571350();
-    EXPORT void TryDespawnFinishedCrew_571540();
-    EXPORT void TryDespawnInCarCrew_571A30();
-    EXPORT void HandleShutdownAndDespawn_5720C0();
-    EXPORT bool CanTrackCriminal_572210() const;
-    EXPORT void State3_AlertedSearch_572340();
-    EXPORT void State5_PursueOrChase_572920();
-    EXPORT void State6_ShutDown_574720();
-    EXPORT void State1_Patrol_574F10();
-    EXPORT void State2_SwitchToShutDown_575200();
-    EXPORT void HandleEnterCarObjective_575210();
-    EXPORT void HandleLeaveCarObjective_575270();
-    EXPORT void HandleGotoAreaInCarObjective_5752C0();
-    EXPORT void HandleChaseInCarObjective_575310();
-    EXPORT void Service_575590();
-    EXPORT void UnlinkFromPursuitTarget_575650();
+    EXPORT void Init();
+    EXPORT void AddToPursuit();
+    EXPORT void RemoveFromPursuit();
+    EXPORT void SpawnPoliceInCar();
+    EXPORT void SpawnSWAT();
+    EXPORT void SpawnFBI_nonused();
+    EXPORT void TryDespawnOffscreenCrew();
+    EXPORT void TryDespawnFinishedCrew();
+    EXPORT void TryDespawnInCarCrew();
+    EXPORT void HandleShutdownAndDespawn();
+    EXPORT bool CanTrackCriminal() const;
+    EXPORT void State3_AlertedSearch();
+    EXPORT void State5_PursueOrChase();
+    EXPORT void State6_ShutDown();
+    EXPORT void State1_Patrol();
+    EXPORT void State2_SwitchToShutDown();
+    EXPORT void HandleEnterCarObjective();
+    EXPORT void HandleLeaveCarObjective();
+    EXPORT void HandleGotoAreaInCarObjective();
+    EXPORT void HandleChaseInCarObjective();
+    EXPORT void Service();
+    EXPORT void UnlinkFromPursuitTarget();
 
-    u16 field_0_id;
-    u8 field_2_targ_x;
-    u8 field_3_targ_y;
-    u8 field_4_targ_z;
-    char_type field_5_unused;
-    char_type field_6_unused;
-    char_type field_7_unused;
-    Fix16 field_8_criminal_distance;
-    Fix16 field_C_unused;
-    EmergencyCrew* field_10_subObj;
-    PolicePursuitTarget* field_14_pPursuitTarget; // Pursuit of one wanted criminal by police crews
-    s16 field_18_unused;
-    char_type field_1A_unused;
-    char_type field_1B_unused;
-    s32 field_1C_used;
-    s32 field_20_crew_kind; // crew_kind
-    s32 field_24_state;
-    bool field_28_use_car;
-    bool field_29_bCountedInPoliceCount;
-    s16 field_2A_unused;
-    s16 field_2C_unused;
-    char_type field_2E_unused;
-    char_type field_2F_unused;
-    Ped* field_30_prev_target_ped;
-    bool field_34_is_dismissed;
-    u8 field_35_fast_target_counter;
-    char_type field_36_unused;
-    char_type field_37_unused;
+    u16 mId; // 0x0
+    u8 mTargX; // 0x2
+    u8 mTargY; // 0x3
+    u8 mTargZ; // 0x4
+    char_type mUnused5; // 0x5
+    char_type mUnused6; // 0x6
+    char_type mUnused7; // 0x7
+    Fix16 mCriminalDistance; // 0x8
+    Fix16 mUnusedC; // 0xC
+    EmergencyCrew* mSubObj; // 0x10
+    PolicePursuitTarget* mpPursuitTarget; // 0x14: Pursuit of one wanted criminal by police crews
+    s16 mUnused18; // 0x18
+    char_type mUnused1A; // 0x1A
+    char_type mUnused1B; // 0x1B
+    s32 mUsed; // 0x1C
+    s32 mCrewKind; // 0x20: crew_kind
+    s32 mState; // 0x24
+    bool mUseCar; // 0x28
+    bool mbCountedInPoliceCount; // 0x29
+    s16 mUnused2A; // 0x2A
+    s16 mUnused2C; // 0x2C
+    char_type mUnused2E; // 0x2E
+    char_type mUnused2F; // 0x2F
+    Ped* mPrevTargetPed; // 0x30
+    bool mIsDismissed; // 0x34
+    u8 mFastTargetCounter; // 0x35
+    char_type mUnused36; // 0x36
+    char_type mUnused37; // 0x37
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PoliceCrew, 0x38);
 
 class PolicePursuitTarget  // Pursuit of one wanted criminal by police crews
 {
   public:
-    Ped* field_0_criminal_ped;
-    s32 field_4_wanted_level;
-    s32 field_8_state; // pursuit_state
-    u16 field_C_timer;
-    char_type field_E_block_counter;
-    char_type field_F_unused;
-    Fix16 field_10_x;
-    Fix16 field_14_y;
-    Fix16 field_18_z;
-    bool field_1C_crew_gave_up;
-    char_type field_1D_unused;
-    char_type field_1E_unused;
-    char_type field_1F_unused;
-    PoliceCrew* field_20_crews[6];
-    s32 field_38_unused;
-    s32 field_3C_unused;
-    s32 field_40_unused;
-    s32 field_44_unused;
-    s32 field_48_unused;
-    s32 field_4C_unused;
-    s32 field_50_unused;
-    s32 field_54_unused;
-    s32 field_58_barrier_1_id;
-    s32 field_5C_barrier_2_id;
-    s32 field_60_barrier_3_id;
-    s32 field_64_barrier_4_id;
-    s32 field_68_barrier_5_id;
-    s32 field_6C_barrier_6_id;
-    u8 field_70_num_police_crews;
-    u8 field_71_target_police_crews;
-    u8 field_72_num_swat_crews;
-    u8 field_73_num_fbi_crews;
-    u8 field_74_num_army_crews;
-    u8 field_75_num_crews;
-    s16 field_76_unused;
-    bool field_78_is_actively_chased;
-    char_type field_79_unused;
-    s16 field_7A_wanted_timer;
+    Ped* mCriminalPed; // 0x0
+    s32 mWantedLevel; // 0x4
+    s32 mState; // 0x8: pursuit_state
+    u16 mTimer; // 0xC
+    char_type mBlockCounter; // 0xE
+    char_type mUnusedF; // 0xF
+    Fix16 mX; // 0x10
+    Fix16 mY; // 0x14
+    Fix16 mZ; // 0x18
+    bool mCrewGaveUp; // 0x1C
+    char_type mUnused1D; // 0x1D
+    char_type mUnused1E; // 0x1E
+    char_type mUnused1F; // 0x1F
+    PoliceCrew* mCrews[6]; // 0x20
+    s32 mUnused38; // 0x38
+    s32 mUnused3C; // 0x3C
+    s32 mUnused40; // 0x40
+    s32 mUnused44; // 0x44
+    s32 mUnused48; // 0x48
+    s32 mUnused4C; // 0x4C
+    s32 mUnused50; // 0x50
+    s32 mUnused54; // 0x54
+    s32 mBarrier1Id; // 0x58
+    s32 mBarrier2Id; // 0x5C
+    s32 mBarrier3Id; // 0x60
+    s32 mBarrier4Id; // 0x64
+    s32 mBarrier5Id; // 0x68
+    s32 mBarrier6Id; // 0x6C
+    u8 mNumPoliceCrews; // 0x70
+    u8 mTargetPoliceCrews; // 0x71
+    u8 mNumSwatCrews; // 0x72
+    u8 mNumFbiCrews; // 0x73
+    u8 mNumArmyCrews; // 0x74
+    u8 mNumCrews; // 0x75
+    s16 mUnused76; // 0x76
+    bool mIsActivelyChased; // 0x78
+    char_type mUnused79; // 0x79
+    s16 mWantedTimer; // 0x7A
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PolicePursuitTarget, 0x7C);
 
 class PoliceRoadblock
 {
   public:
-    EXPORT void Reset_575710();
-    EXPORT void Update_5757B0();
-    EXPORT void RemoveRoadblock_575CA0();
-    EXPORT bool CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation);
+    EXPORT void Reset();
+    EXPORT void Update();
+    EXPORT void RemoveRoadblock();
+    EXPORT bool CreateRoadblock(u8 x, u8 y, u8 z, s32 orientation);
 
     EXPORT PoliceRoadblock();
     EXPORT ~PoliceRoadblock();
-    bool field_0_bActive;
-    char_type field_1_unused;
-    char_type field_2_unused;
-    char_type field_3_unused;
-    s32 field_4_unused;
-    u8 field_8_x;
-    u8 field_9_y;
-    char_type field_A_unused;
-    char_type field_B_unused;
-    u16 field_C_startup_timer;
-    s16 field_E_unseen_timer;
-    Car* field_10_car_1;
-    Car* field_14_car_2;
-    Car* field_18_car_3;
-    Car* field_1C_car_4;
-    Car* field_20_car_5;
-    Car* field_24_car_6;
-    Object* field_28_barrier_1;
-    Object* field_2C_barrier_2;
-    Object* field_30_barrier_3;
-    Object* field_34_barrier_4;
-    Object* field_38_barrier_5;
-    Object* field_3C_barrier_6;
-    Object* field_40_barrier_7;
-    Object* field_44_barrier_8;
-    Object* field_48_barrier_9;
-    Object* field_4C_barrier_10;
-    Object* field_50_barrier_11;
-    Object* field_54_barrier_12;
-    s32 field_58_barrier_1_id;
-    s32 field_5C_barrier_2_id;
-    s32 field_60_barrier_3_id;
-    s32 field_64_barrier_4_id;
-    s32 field_68_barrier_5_id;
-    s32 field_6C_barrier_6_id;
-    s32 field_70_barrier_7_id;
-    s32 field_74_barrier_8_id;
-    s32 field_78_barrier_9_id;
-    s32 field_7C_barrier_10_id;
-    s32 field_80_barrier_11_id;
-    s32 field_84_barrier_12_id;
-    Ped* field_88_guard_1;
-    Ped* field_8C_guard_2;
-    Ped* field_90_guard_3;
-    Ped* field_94_guard_4;
-    Ped* field_98_guard_5;
-    Ped* field_9C_guard_6;
-    Fix16_Rect* field_A0_rect;
+    bool mbActive; // 0x0
+    char_type mUnused1; // 0x1
+    char_type mUnused2; // 0x2
+    char_type mUnused3; // 0x3
+    s32 mUnused4; // 0x4
+    u8 mX; // 0x8
+    u8 mY; // 0x9
+    char_type mUnusedA; // 0xA
+    char_type mUnusedB; // 0xB
+    u16 mStartupTimer; // 0xC
+    s16 mUnseenTimer; // 0xE
+    Car* mCar1; // 0x10
+    Car* mCar2; // 0x14
+    Car* mCar3; // 0x18
+    Car* mCar4; // 0x1C
+    Car* mCar5; // 0x20
+    Car* mCar6; // 0x24
+    Object* mBarrier1; // 0x28
+    Object* mBarrier2; // 0x2C
+    Object* mBarrier3; // 0x30
+    Object* mBarrier4; // 0x34
+    Object* mBarrier5; // 0x38
+    Object* mBarrier6; // 0x3C
+    Object* mBarrier7; // 0x40
+    Object* mBarrier8; // 0x44
+    Object* mBarrier9; // 0x48
+    Object* mBarrier10; // 0x4C
+    Object* mBarrier11; // 0x50
+    Object* mBarrier12; // 0x54
+    s32 mBarrier1Id; // 0x58
+    s32 mBarrier2Id; // 0x5C
+    s32 mBarrier3Id; // 0x60
+    s32 mBarrier4Id; // 0x64
+    s32 mBarrier5Id; // 0x68
+    s32 mBarrier6Id; // 0x6C
+    s32 mBarrier7Id; // 0x70
+    s32 mBarrier8Id; // 0x74
+    s32 mBarrier9Id; // 0x78
+    s32 mBarrier10Id; // 0x7C
+    s32 mBarrier11Id; // 0x80
+    s32 mBarrier12Id; // 0x84
+    Ped* mGuard1; // 0x88
+    Ped* mGuard2; // 0x8C
+    Ped* mGuard3; // 0x90
+    Ped* mGuard4; // 0x94
+    Ped* mGuard5; // 0x98
+    Ped* mGuard6; // 0x9C
+    Fix16_Rect* mRect; // 0xA0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PoliceRoadblock, 0xA4);

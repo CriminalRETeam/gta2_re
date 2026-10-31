@@ -1,7 +1,7 @@
 #pragma once
 
-// Argument of root_sound::PlayVoice_40F090 (sound_obj::PlayVocal_418C80): the vocal to play, named after the sample in
-// data/audio/Vocals it ends up playing (see sound_obj::ProcessType10_Vocals_418CA0, which maps these to gVocNames_5FEA5C).
+// Argument of root_sound::PlayVoice (sound_obj::PlayVocal): the vocal to play, named after the sample in
+// data/audio/Vocals it ends up playing (see sound_obj::ProcessType10_Vocals, which maps these to gVocNames_5FEA5C).
 // Values that are not mapped there play nothing. Kept in its own header, like car_despawn_status.hpp, so that the enum
 // does not land in a header many TUs share.
 namespace voice_line
@@ -24,7 +24,7 @@ enum
     frenzyfail_18 = 18, // frenzyfail.wav
     frenzypassed_19 = 19, // frenzypassed.wav
     fryingtonite_20 = 20, // fryingtonite.wav
-    game_over_21 = 21, // not mapped in ProcessType10_Vocals_418CA0 (plays nothing; gameover.wav is never reached)
+    game_over_21 = 21, // not mapped in ProcessType10_Vocals (plays nothing; gameover.wav is never reached)
     jobcomplete_22 = 22, // jobcomplete.wav
     jobfail_23 = 23, // jobfail.wav
     respectis_24 = 24, // respectis.wav

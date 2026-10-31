@@ -5,9 +5,9 @@ values to the same blocks (jump tables and the byte index tables of merged cases
 
 compare_all_functions.py renames absolute addresses to stable_name_N in order of first use and leaves
 out jump tables, so a wrong `case` label, two swapped constants or a call to the wrong function still
-"match". Found this way: Ped::Deallocate_45EB60 (case 28 for 29), Char::sub_54C090 (two constants
-swapped between cases), Car::IsAreaDamaged_43D1C0, the script compares SCRCMD_I_OP_S/S_OP_S,
-NetUi::SetSetting_51B9C0 and sound_obj::HandleTruckCorneringAudio_417FD0 (case labels).
+"match". Found this way: Ped::Deallocate (case 28 for 29), Char::sub_54C090 (two constants
+swapped between cases), Car::IsAreaDamaged, the script compares SCRCMD_I_OP_S/S_OP_S,
+NetUi::SetSetting and sound_obj::HandleTruckCorneringAudio (case labels).
 
 Switch blocks laid out in another order pass when each value's block does the same (calls and globals
 mapped to 10.5.exe's). Differences reviewed as equivalent are in REVIEWED and left out; check a new one
@@ -28,17 +28,17 @@ ROOT = '../..'
 # Differences that do the same as 10.5.exe (reviewed by reading both)
 REVIEWED = {
     0x4e0130: 'Map_0x370::CanMoveOntoSlopeTile_4E0130: 10.5.exe\'s block is a copy of the first instructions of ours',
-    0x546360: 'Char_B4::UpdateAnimState_546360: 10.5.exe skips reloading al, which holds the same value',
+    0x546360: 'Char_B4::UpdateAnimState: 10.5.exe skips reloading al, which holds the same value',
     0x453590: 'Fix16_Point_POD::GetLength_453590: another Fix16(0) constant',
-    0x55dc00: 'CarPhysics_B0::UpdateWheelSkidEffects_55DC00: another Fix16(1) constant',
-    0x4785d0: 'SpriteGrid_400::CheckRowForRectCollisions_4785D0: a copy of the same 0xCCC constant',
-    0x45bd20: 'Ped::CloseDoorIfCarApproaching_45BD20: two addends in the other order',
-    0x454680: 'ModelPhysics_48::ConvertMass_454680: two addends in the other order',
-    0x53a280: 'Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280: two addends in the other order',
-    0x542060: 'Explosion_30::EmitExplosion_19_32_542060: two addends in the other order',
-    0x520de0: 'NetPlay::ClearPlayersAndSession_520DE0: free, where 10.5.exe calls delete_5ED46D (which frees)',
+    0x55dc00: 'CarPhysics_B0::UpdateWheelSkidEffects: another Fix16(1) constant',
+    0x4785d0: 'SpriteGrid_400::CheckRowForRectCollisions: a copy of the same 0xCCC constant',
+    0x45bd20: 'Ped::CloseDoorIfCarApproaching: two addends in the other order',
+    0x454680: 'ModelPhysics_48::ConvertMass: two addends in the other order',
+    0x53a280: 'Particle_4C::UpdateSkidOrScrapeSpark_state_40_41: two addends in the other order',
+    0x542060: 'Explosion_30::EmitExplosion_19_32: two addends in the other order',
+    0x520de0: 'NetPlay::ClearPlayersAndSession: free, where 10.5.exe calls delete_5ED46D (which frees)',
     0x4bae30: 'Game_0x40::dtor_4BAE30: dtor_484FD0 is a jmp to dtor_484DB0',
-    0x4dad50: 'Net_Set_Local_Player_Inputs_4DAD50: network only, not reviewed further',
+    0x4dad50: 'Net_Set_Local_Player_Inputs: network only, not reviewed further',
 }
 NEW = ROOT + '/build_vc6/decomp_main.exe'
 OG = '10.5.exe'
@@ -286,6 +286,10 @@ def main():
                 if yo - base > 0x10000:
                     continue
                 want = known[base] + (yo - base)
+                # an end-of-array pointer (array + count * size, maybe plus a field offset) can land on the next global
+                if want != xo and yo == base and any(known[known_sorted[k]] + (yo - known_sorted[k]) == xo
+                                                     for k in range(max(0, i - 8), i)):
+                    continue
                 if want != xo and yo == base and not same_code(og, sizes, xo, want) and not \
                         (x.flow_control == FlowControl.CALL and same_as_build(og, new, sizes, xo, yo)):
                     problems.append('%x: 10.5 references %x, the build %x (= %x)' % (x.ip - oa, xo, yo, want))

@@ -16,9 +16,9 @@ class SoundPos
 {
   public:
     // Compiler-generated constructor at 0x419DF0
-    Fix16 field_0_x;
-    Fix16 field_4_y;
-    Fix16 field_8_z;
+    Fix16 mX; // 0x0
+    Fix16 mY; // 0x4
+    Fix16 mZ; // 0x8
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SoundPos, 0xC);
 
@@ -29,394 +29,375 @@ struct SoundPosEntry
     {
     }
 
-    Fix16 field_0_last_speed;
-    u32 field_4_car;
-    s16 field_8_unused;
-    u8 field_A_horn_pattern_idx;
-    char_type field_B_unused;
+    Fix16 mLastSpeed; // 0x0
+    Car* mCar; // 0x4
+    s16 mUnused8; // 0x8
+    u8 mHornPatternIdx; // 0xA
+    char_type mUnusedB; // 0xB
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SoundPosEntry, 0xC);
 
 struct AudioEntity
 {
-    bool field_0_bUsed;
-    u8 field_1_age;
-    char_type field_2_unused;
-    char_type field_3_unused;
-    SoundObject* field_4_pObj;
-    SoundPosEntry* field_8_pAlloc;
+    bool mbUsed; // 0x0
+    u8 mAge; // 0x1
+    char_type mUnused2; // 0x2
+    char_type mUnused3; // 0x3
+    SoundObject* mpObj; // 0x4
+    SoundPosEntry* mpAlloc; // 0x8
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(AudioEntity, 0xC);
 
 struct SoundEntry
 {
-    bool field_0_fifth_frame_flag;
-    char_type field_1_unused;
-    char_type field_2_unused;
-    char_type field_3_unused;
-    s32 field_4_entity_idx;
-    SoundObject field_8_sound_obj;
-    s32 field_18;
+    bool mFifthFrameFlag; // 0x0
+    char_type mUnused1[3]; // 0x1
+    s32 mEntityIdx; // 0x4
+    SoundObject mSoundObj; // 0x8
+    s32 mPendingVoice; // 0x18
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SoundEntry, 0x1C);
 
 struct RadioStationEmitter
 {
-    bool field_0_bUsed;
-    u8 field_1_unused;
-    u8 field_2_unused;
-    u8 field_3_unused;
+    bool mbUsed; // 0x0
+    u8 mUnused1; // 0x1
+    u8 mUnused2; // 0x2
+    u8 mUnused3; // 0x3
     
-    Fix16 field_4_xpos;
-    Fix16 field_8_ypos;
+    Fix16 mXpos; // 0x4
+    Fix16 mYpos; // 0x8
 
-    s32 field_C_station_idx;
-    s16 field_10_a_variant_radius;
-    s16 field_12_main_radius;
-    s32 field_14_elapsed_frames;
-    s32 field_18_pos_ms;
+    s32 mStationIdx; // 0xC
+    s16 mAVariantRadius; // 0x10
+    s16 mMainRadius; // 0x12
+    s32 mElapsedFrames; // 0x14
+    s32 mPosMs; // 0x18
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(RadioStationEmitter, 0x1C);
 
 struct sound_0x68
 {
-    s32 field_0_EntityIndex;
-    char_type field_4_SampleIndex;
-    char_type field_5_unused;
-    char_type field_6_unused;
-    char_type field_7_unused;
-    SoundPos field_8_obj;
-    u32 field_14_samp_idx;
-    bool field_18_bIs2D;
-    char_type field_19_unused;
-    char_type field_1A_unused;
-    char_type field_1B_unused;
-    u32 field_1C_ReleasingVolumeModificator;
-    u32 field_20_rate;
-    u8 field_24_nVolume;
-    char_type field_25_unused;
-    char_type field_26_unused;
-    char_type field_27_unused;
-    Fix16 field_28_distance;
-    bool field_2C_bIsBeingPlayed;
-    bool field_2D_bIsPlayingFinished;
-    char_type field_2E_unused;
-    char_type field_2F_unused;
-    u32 field_30_loop_count;
-    s32 field_34_loop_start;
-    s32 field_38_loop_end;
-    s32 field_3C_speed_multiplier;
-    char_type field_40_pan;
-    char_type field_41_releasing_sound_flag;
-    char_type field_42_unused;
-    char_type field_43_unused;
-    s32 field_44_frames_to_play;
-    u32 field_48_nCalculatedVolume;
-    u32 field_4C_releasing_volume_divider;
-    u8 field_50_volume_change;
-    char_type field_51_unused;
-    char_type field_52_unused;
-    char_type field_53_unused;
-    Fix16 field_54_sound_intensity;
-    s32 field_58_type;
-    sound_0x68* field_5C_pReleaseSource;
-    u8 field_60_nEmittingVolume;
-    char_type field_61_unused;
-    char_type field_62_unused;
-    char_type field_63_unused;
-    s32 field_64_max_distance;
+    s32 mEntityIndex; // 0x0
+    char_type mSampleIndex; // 0x4
+    char_type mUnused5; // 0x5
+    char_type mUnused6; // 0x6
+    char_type mUnused7; // 0x7
+    SoundPos mObj; // 0x8
+    u32 mSampIdx; // 0x14
+    bool mbIs2D; // 0x18
+    char_type mUnused19; // 0x19
+    char_type mUnused1A; // 0x1A
+    char_type mUnused1B; // 0x1B
+    u32 mReleasingVolumeModificator; // 0x1C
+    u32 mRate; // 0x20
+    u8 mnVolume; // 0x24
+    char_type mUnused25; // 0x25
+    char_type mUnused26; // 0x26
+    char_type mUnused27; // 0x27
+    Fix16 mDistance; // 0x28
+    bool mbIsBeingPlayed; // 0x2C
+    bool mbIsPlayingFinished; // 0x2D
+    char_type mUnused2E; // 0x2E
+    char_type mUnused2F; // 0x2F
+    u32 mLoopCount; // 0x30
+    s32 mLoopStart; // 0x34
+    s32 mLoopEnd; // 0x38
+    s32 mSpeedMultiplier; // 0x3C
+    char_type mPan; // 0x40
+    char_type mReleasingSoundFlag; // 0x41
+    char_type mUnused42; // 0x42
+    char_type mUnused43; // 0x43
+    s32 mFramesToPlay; // 0x44
+    u32 mnCalculatedVolume; // 0x48
+    u32 mReleasingVolumeDivider; // 0x4C
+    u8 mVolumeChange; // 0x50
+    char_type mUnused51; // 0x51
+    char_type mUnused52; // 0x52
+    char_type mUnused53; // 0x53
+    Fix16 mSoundIntensity; // 0x54
+    s32 mType; // 0x58
+    sound_0x68* mpReleaseSource; // 0x5C
+    u8 mnEmittingVolume; // 0x60
+    char_type mUnused61; // 0x61
+    char_type mUnused62; // 0x62
+    char_type mUnused63; // 0x63
+    s32 mMaxDistance; // 0x64
 };
 
 struct Sound_Params
 {
-    Sprite* field_0_pObj;
-    char_type field_4_bDrivenByPlayer;
-    bool field_5_bHasSolidAbove;
+    Sprite* mpObj; // 0x0
+    char_type mbDrivenByPlayer; // 0x4
+    bool mbHasSolidAbove; // 0x5
     // pad?
-    char_type field_6_unused;
-    char_type field_7_unused;
+    char_type mUnused6; // 0x6
+    char_type mUnused7; // 0x7
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Sound_Params, 0x8);
 
 class sound_obj
 {
   private:
-    bool field_0_bSoundInitialized;
-    bool field_1_isPaused;
-    bool field_2_service_enabled;
-    char_type field_3_bFirstMenuStream; // frontend music restarts d.wav (stream 0) while set, m.wav (stream 1) once cleared
-    s32 field_4_speed_of_sound;
-    u8 field_8_frames_per_second;
-    char_type field_9_unused;
-    char_type field_A_unused;
-    char_type field_B_unused;
-    s32 field_C_doppler_divisor;
-    u8 field_10_nActiveSamples;
-    char_type field_11_unused;
-    char_type field_12_unused;
-    char_type field_13_unused;
-    s32 field_14_sample_rate;
-    char_type field_18_unused;
-    char_type field_19_unused;
-    bool field_1A_bDoubleVolume;
-    char_type field_1B_unused;
-    u8 field_1C_samp_count;
-    char_type field_1D_b3d_sound;
-    char_type field_1E_unused;
-    char_type field_1F_unused;
-    s32 field_20_unused;
-    u8 field_24_sfx_vol;
-    u8 field_25_cdVol;
-    char_type field_26_unused;
-    char_type field_27_unused;
-    Fix16 field_28_dist_squared;
-    bool field_2C_distCalculated;
-    char_type field_2D_unused;
-    char_type field_2E_unused;
-    char_type field_2F_unused;
-    sound_0x68 field_30_sQueueSample;
-    u8 field_98_nActiveSampleQueue;
-    sound_0x68 field_9C_asSamples[2][16];
-    u8 field_D9C_abSampleQueueIndexTable[2][16];
-    u8 field_DBC_SampleRequestQueuesStatus[2];
-    s16 field_DBE_unused;
-    sound_0x68 field_DC0_ActiveSamples[16];
-    s32 field_1440_unused;
-    char_type field_1444_unused;
-    char_type field_1445_unused;
-    char_type field_1446_unused;
-    char_type field_1447_unused;
-    s32 field_1448_unused;
-    s32 field_144C_unused;
-    char_type field_1450_unused;
-    char_type field_1451_unused;
-    char_type field_1452_unused;
-    char_type field_1453_unused;
-    u32 field_1454_anRandomTable[5];
-    Fix16 field_1468_listener_x;
-    Fix16 field_146C_listener_y;
-    Fix16 field_1470_listener_z;
-    Ang16 field_1474_rotation;
-    char_type field_1476_unused;
-    char_type field_1477_unused;
-    s32 field_1478_type5Idx;
-    AudioEntity field_147C_audio_entities[1020];
-    u32 field_444C_AudioEntityOrderList[1020];
-    u32 field_543C_444C_nAudioEntitiesCount;
-    s32 field_5440_unused;
-    s32 field_5444_unused;
-    u32 field_5448_m_FrameCounter;
-    SoundEntry field_544C[5]; // RadioStationEmitter instead of SoundEntry ?
-
-    // Radio emitters use indices 1..5
-    inline RadioStationEmitter& RadioEmitter(s32 idx)
-    {
-        return reinterpret_cast<RadioStationEmitter*>(field_544C)[idx];
-    }
-
-    char_type field_54D8_unused[5];
-    char_type field_54DD_unused;
-    char_type field_54DE_unused;
-    char_type field_54DF_unused;
-    char_type field_54E0_unused;
-    char_type field_54E1_unused;
-    char_type field_54E2_unused;
-    char_type field_54E3_unused;
-    char_type field_54E4_unused;
-    char_type field_54E5_unused;
-    char_type field_54E6_unused;
-    char_type field_54E7_unused;
-    s16 field_54E8[5];
-    u8 field_54F2[5];
-    u8 field_54F7_active_emitter_idx[5];
-    s32 field_54FC_main_variant;
-    s32 field_5500_prev_main_variant;
-    char_type field_5504_radio_station_change_mode;
-    char_type field_5505_unused;
-    char_type field_5506_mute_timer;
-    char_type field_5507_unused;
-    s32 field_5508_radio_entity_idx;
-    SoundObject field_550C_radio_entity;
-    s32 field_551C_fade_in_timer;
-    bool field_5520_bCanPlay;
-    u8 field_5521_radio_word;
-    s16 field_5522_wanted_star_count;
-    s32 field_5524_radio_word;
-    u8 field_5528_radio_word_read_idx;
-    u8 field_5529_radio_word_write_idx;
-    s32 field_552C_radio_word_queue[15];
-    char_type field_5568_crime_xpos;
-    char_type field_5569_crime_ypos;
-    s16 field_556A_erv_en_route_timer;
-    s16 field_556C_timer;
-    s16 field_556E_timer;
-    s16 field_5570_timer;
-    s16 field_5572_unused; // pad?
-    s32 field_5574_car_info_idx;
+    bool mbSoundInitialized; // 0x0
+    bool mIsPaused; // 0x1
+    bool mServiceEnabled; // 0x2
+    char_type mbFirstMenuStream; // 0x3: frontend music restarts d.wav (stream 0) while set, m.wav (stream 1) once cleared
+    s32 mSpeedOfSound; // 0x4
+    u8 mFramesPerSecond; // 0x8
+    char_type mUnused9; // 0x9
+    char_type mUnusedA; // 0xA
+    char_type mUnusedB; // 0xB
+    s32 mDopplerDivisor; // 0xC
+    u8 mnActiveSamples; // 0x10
+    char_type mUnused11; // 0x11
+    char_type mUnused12; // 0x12
+    char_type mUnused13; // 0x13
+    s32 mSampleRate; // 0x14
+    char_type mUnused18; // 0x18
+    char_type mUnused19; // 0x19
+    bool mbDoubleVolume; // 0x1A
+    char_type mUnused1B; // 0x1B
+    u8 mSampCount; // 0x1C
+    char_type mB3dSound; // 0x1D
+    char_type mUnused1E; // 0x1E
+    char_type mUnused1F; // 0x1F
+    s32 mUnused20; // 0x20
+    u8 mSfxVol; // 0x24
+    u8 mCdVol; // 0x25
+    char_type mUnused26; // 0x26
+    char_type mUnused27; // 0x27
+    Fix16 mDistSquared; // 0x28
+    bool mDistCalculated; // 0x2C
+    char_type mUnused2D; // 0x2D
+    char_type mUnused2E; // 0x2E
+    char_type mUnused2F; // 0x2F
+    sound_0x68 msQueueSample; // 0x30
+    u8 mnActiveSampleQueue; // 0x98
+    sound_0x68 masSamples[2][16]; // 0x9C
+    u8 mabSampleQueueIndexTable[2][16]; // 0xD9C
+    u8 mSampleRequestQueuesStatus[2]; // 0xDBC
+    s16 mUnusedDBE; // 0xDBE
+    sound_0x68 mActiveSamples[16]; // 0xDC0
+    s32 mUnused1440; // 0x1440
+    char_type mUnused1444; // 0x1444
+    char_type mUnused1445; // 0x1445
+    char_type mUnused1446; // 0x1446
+    char_type mUnused1447; // 0x1447
+    s32 mUnused1448; // 0x1448
+    s32 mUnused144C; // 0x144C
+    char_type mUnused1450; // 0x1450
+    char_type mUnused1451; // 0x1451
+    char_type mUnused1452; // 0x1452
+    char_type mUnused1453; // 0x1453
+    u32 manRandomTable[5]; // 0x1454
+    Fix16 mListenerX; // 0x1468
+    Fix16 mListenerY; // 0x146C
+    Fix16 mListenerZ; // 0x1470
+    Ang16 mRotation; // 0x1474
+    char_type mUnused1476; // 0x1476
+    char_type mUnused1477; // 0x1477
+    s32 mType5Idx; // 0x1478
+    AudioEntity mAudioEntities[1020]; // 0x147C
+    u32 mAudioEntityOrderList[1020]; // 0x444C
+    u32 m444CNAudioEntitiesCount; // 0x543C
+    s32 mUnused5440; // 0x5440
+    s32 mUnused5444; // 0x5444
+    u32 mMFrameCounter; // 0x5448
+    SoundEntry mVocals; // 0x544C
+    RadioStationEmitter mRadioEmitters[5]; // 0x5468
+    u8 mbWasInRadioCar; // 0x54F4
+    u8 mbInRadioCar; // 0x54F5
+    u8 mRadioVolume; // 0x54F6
+    u8 mActiveEmitterIdx[5]; // 0x54F7
+    s32 mMainVariant; // 0x54FC
+    s32 mPrevMainVariant; // 0x5500
+    char_type mRadioStationChangeMode; // 0x5504
+    char_type mUnused5505; // 0x5505
+    char_type mMuteTimer; // 0x5506
+    char_type mUnused5507; // 0x5507
+    s32 mRadioEntityIdx; // 0x5508
+    SoundObject mRadioEntity; // 0x550C
+    s32 mFadeInTimer; // 0x551C
+    bool mbCanPlay; // 0x5520
+    u8 mRadioWord5521; // 0x5521
+    s16 mWantedStarCount; // 0x5522
+    s32 mRadioWord5524; // 0x5524
+    u8 mRadioWordReadIdx; // 0x5528
+    u8 mRadioWordWriteIdx; // 0x5529
+    s32 mRadioWordQueue[15]; // 0x552C
+    char_type mCrimeXpos; // 0x5568
+    char_type mCrimeYpos; // 0x5569
+    s16 mErvEnRouteTimer; // 0x556A
+    s16 mTimer556C; // 0x556C
+    s16 mTimer556E; // 0x556E
+    s16 mTimer5570; // 0x5570
+    s16 mUnused5572; // 0x5572: pad?
+    s32 mCarInfoIdx; // 0x5574
 
   public:
+    STATIC_MEMBER(bool, sSoundVocalsInited);
     EXPORT sound_obj();
 
-    // TODO: Ordering
-    EXPORT void Reacquire_41A2A0();
-    EXPORT char_type GetAudioDriveLetter_41A2E0() const;
-    EXPORT char_type Get3dSound_41A390() const;
-    EXPORT void Service_419EF0();
-    EXPORT void Release_41A290();
-    EXPORT u8 GetCDVol_41A280() const;
-    EXPORT void Init_419E10();
-    EXPORT void DeinitializeAudio_419E50();
-    EXPORT s32 get_samp_idx_for_car_417D70(Car* pCar, bool bDoorOpening, bool bLargeDoorOffset) const;
-    EXPORT s32 samp_idx_for_model_417AC0(s32 car_model) const;
-    EXPORT s32 GetSirenSampleIdx_417B80(s32 car_model, bool bHornOn) const;
+    EXPORT void Reacquire();
+    EXPORT char_type GetAudioDriveLetter() const;
+    EXPORT char_type Get3dSound() const;
+    EXPORT void Service();
+    EXPORT void Release();
+    EXPORT u8 GetCDVol() const;
+    EXPORT void Init();
+    EXPORT void DeinitializeAudio();
+    EXPORT s32 get_samp_idx_for_car(Car* pCar, bool bDoorOpening, bool bLargeDoorOffset) const;
+    EXPORT s32 samp_idx_for_model(s32 car_model) const;
+    EXPORT s32 GetSirenSampleIdx(s32 car_model, bool bHornOn) const;
 
-    EXPORT void null_412240();
-    EXPORT void null_412250();
-    EXPORT bool InitSampleForType_412260(sound_0x68* pObj);
-    EXPORT void ProcessEntity_4123A0(s32 idx);
-    EXPORT void ProcessType2_412490(s32 idx);
-    EXPORT void ProcessType1_Sprite_412740(s32 idx);
-    EXPORT void ProcessType8_Crane_412820(s32 idx);
-    EXPORT void ProcessType9_Crusher_412A60(s32 idx);
-    EXPORT void ProcessCar_412B80(Sound_Params* pParams);
-    EXPORT bool Type6_412C90(CollisionEvent* pEvent, u8 base_sample);
-    EXPORT bool SelectObjectImpactSound_1_10_412D30(CollisionEvent* pEvent);
-    EXPORT bool Type6_2_412D40(u8 roll);
-    EXPORT void Type6_Play_412D90(s32 model);
-    EXPORT bool Type6_3_413000(CollisionEvent* pEvent);
-    EXPORT bool Type6_4_413040(u8 roll);
-    EXPORT bool Type6_5_413090(u8 roll);
-    EXPORT bool Type6_7_4130E0(CollisionEvent* pEvent);
-    EXPORT bool SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 interactionType);
-    EXPORT bool Type6_9_413540(CollisionEvent* pEvent);
-    EXPORT bool Type6_12_4136D0(CollisionEvent* pEvent);
+    EXPORT void PreSoundInit();
+    EXPORT void PreSoundShutdown();
+    EXPORT bool InitSampleForType(sound_0x68* pObj);
+    EXPORT void ProcessEntity(s32 idx);
+    EXPORT void ProcessType2_Frontend_412490(s32 idx);
+    EXPORT void ProcessType1_Sprite(s32 idx);
+    EXPORT void ProcessType8_Crane(s32 idx);
+    EXPORT void ProcessType9_Crusher(s32 idx);
+    EXPORT void ProcessCar(Sound_Params* pParams);
+    EXPORT bool SelectCollisionSound(CollisionEvent* pEvent, u8 volume);
+    EXPORT bool SelectObjectImpactSound_1_10(CollisionEvent* pEvent);
+    EXPORT bool SelectCarCarCollisionSound(u8 volume);
+    EXPORT void PlayPickupVoice(s32 model);
+    EXPORT bool SelectCarObjectCollisionSound(CollisionEvent* pEvent);
+    EXPORT bool SelectCarPedCollisionSound(u8 volume);
+    EXPORT bool SelectCarWallCollisionSound(u8 volume);
+    EXPORT bool SelectPedObjectCollisionSound(CollisionEvent* pEvent);
+    EXPORT bool SelectObjectImpactSound(CollisionEvent* pEvent, s32 interactionType);
+    EXPORT bool SelectObjectObjectCollisionSound(CollisionEvent* pEvent);
+    EXPORT bool SelectCarFloorCollisionSound(CollisionEvent* pEvent);
     EXPORT void ProcessType6_CollisionSoundQueue_413760(s32 idx);
-    EXPORT u8 Type6_413A10(CollisionEvent* pEvent);
-    EXPORT void ProcessTrainCab_413B90(Sound_Params* pParams, SoundPosEntry* pAlloc);
-    EXPORT void ProcessTrain_413BE0(Sound_Params* pParams);
-    EXPORT void ProcessTank_413BF0(Sound_Params* pParams, SoundPosEntry* pAlloc);
-    EXPORT void ProcessOtherCarTypes_413C50(Sound_Params* pParams, SoundPosEntry* pAlloc);
-    EXPORT void HandleAICarHornBeep_413D10(Sound_Params* pParams);
-    EXPORT void HandleTrainEngineSound_4140C0(Sound_Params* pParams);
+    EXPORT u8 GetCollisionVolume_413A10(CollisionEvent* pEvent);
+    EXPORT void ProcessTrainCab(Sound_Params* pParams, SoundPosEntry* pAlloc);
+    EXPORT void ProcessTrain(Sound_Params* pParams);
+    EXPORT void ProcessTank(Sound_Params* pParams, SoundPosEntry* pAlloc);
+    EXPORT void ProcessOtherCarTypes(Sound_Params* pParams, SoundPosEntry* pAlloc);
+    EXPORT void HandleAICarHornBeep(Sound_Params* pParams);
+    EXPORT void HandleTrainEngineSound(Sound_Params* pParams);
 
-    EXPORT bool Type_16_414320(sound_0x68* pObj);
-    EXPORT void HandleTrainCabRollingFrictionSound_4143A0(Sound_Params* pParams);
-    EXPORT bool GetCar_4145E0(s32 idx, Car** ppOut) const;
-    EXPORT bool Type_17_414690(sound_0x68* pObj);
-    EXPORT void TrainCab_414710(Sound_Params* pParams);
-    EXPORT bool Type_19_4149D0(sound_0x68* pObj);
-    EXPORT void Tank_414A50(Sound_Params* pParams);
-    EXPORT bool Type_12_414C90(sound_0x68* pSound);
-    EXPORT void Tank_414D30(Sound_Params* pParams);
-    EXPORT bool Type_11_414EE0(sound_0x68* pSound);
-    EXPORT void HandleCarBurningSound_414F90(Sound_Params* pParams);
-    EXPORT bool Type_15_415100(sound_0x68* pSound);
-    EXPORT void Tank_415190(Sound_Params* pParams);
-    EXPORT bool Type_13_4153F0(sound_0x68* pObj);
-    EXPORT void HandleCarWeaponHitSound_415480(Sound_Params* pParams);
-    EXPORT void HandleCarHornSound_415570(Sound_Params* pParams, SoundPosEntry* pAlloc);
-    EXPORT bool Type_5_InitHornSound_415730(sound_0x68* pSound);
-    EXPORT void HandleCarEngineSound_4157C0(Sound_Params* pParams);
-    EXPORT bool Type_1_6_416260(sound_0x68* pSound);
-    EXPORT void HandleCarAlarmSound_417060(Sound_Params* pParams);
-    EXPORT bool Type_3_InitCarAlarmSound_4174C0(sound_0x68* pSound);
-    EXPORT void HandleCarDamageSound_4177D0(Sound_Params* pParams);
-    EXPORT void HandleSirenActivationSound_4178C0(Sound_Params* pParams);
-    EXPORT bool Type_4_417A00(sound_0x68* pSound);
-    EXPORT s32 GetVehicleAudioClass_417BA0(s32 car_model) const;
-    EXPORT s32 ConvertToPlayBackRate_417C60(s32 car_model) const;
-    EXPORT void HandleHeavyVehicleStopSound_417E30(Sound_Params* pParams, SoundPosEntry* pAlloc);
-    EXPORT bool Type_7_417EF0(sound_0x68* pObj);
-    EXPORT bool IsHeavyTruckOrBus_417F40(s32 car_model) const;
-    EXPORT void HandleTruckCorneringAudio_417FD0(Sound_Params* pParams);
-    EXPORT bool Type_8_418130(sound_0x68* pObj);
-    EXPORT void HandleAICarEngineSound_418190(Sound_Params* pParams);
-    EXPORT bool Type_2_4182A0(sound_0x68* pObj);
-    EXPORT void HandleCarDoorSounds_4182E0(Sound_Params* pParams);
-    EXPORT void HandleCarEngineStartSound_418610(Sound_Params* pParams);
-    EXPORT bool Type_9_4186D0(sound_0x68* pObj);
-    EXPORT void HandleCarTireScrubSound_418720(Sound_Params* pParams);
-    EXPORT bool Type_10_HandleCarSkidSound_418940(sound_0x68* pSound);
-    EXPORT void ProcessType11_HudPager_418B60(s32 entity_idx);
-    EXPORT void AddVocalsEntity_418C20();
-    EXPORT void RemoveVocalsEntity_418C60();
-    EXPORT void PlayVocal_418C80(s32 voice);
-    EXPORT void ProcessType10_Vocals_418CA0();
-    EXPORT bool CalculateDistance_419020(Fix16 max_dist);
-    EXPORT bool VolCalc_419070(u8 base_volume, Fix16 max_dist, bool bHasSolidAbove);
-    EXPORT Fix16 ComputeEmitterDistanceSquared_4190B0() const;
-    EXPORT s32 AddSoundObject_419FA0(SoundObject* pSoundObj);
+    EXPORT bool Type_16_InitTrainEngineSound(sound_0x68* pObj);
+    EXPORT void HandleTrainCabRollingFrictionSound(Sound_Params* pParams);
+    EXPORT bool GetCar(s32 idx, Car** ppOut) const;
+    EXPORT bool Type_17_InitTrainRollingFrictionSound(sound_0x68* pObj);
+    EXPORT void HandleTrainStationSound(Sound_Params* pParams);
+    EXPORT bool Type_19_InitTrainStationSound(sound_0x68* pObj);
+    EXPORT void HandleTankMovementSound(Sound_Params* pParams);
+    EXPORT bool Type_12_InitTankMovementSound(sound_0x68* pSound);
+    EXPORT void HandleTankTurretSound(Sound_Params* pParams);
+    EXPORT bool Type_11_InitTankTurretSound(sound_0x68* pSound);
+    EXPORT void HandleCarBombSound(Sound_Params* pParams);
+    EXPORT bool Type_15_InitCarBombSound(sound_0x68* pSound);
+    EXPORT void HandleTankCrushSound(Sound_Params* pParams);
+    EXPORT bool Type_13_InitTankCrushSound(sound_0x68* pObj);
+    EXPORT void PlayCarShopEventSound(Sound_Params* pParams);
+    EXPORT void HandleCarHornSound(Sound_Params* pParams, SoundPosEntry* pAlloc);
+    EXPORT bool Type_5_InitHornSound(sound_0x68* pSound);
+    EXPORT void HandleCarEngineSound(Sound_Params* pParams);
+    EXPORT bool Type_1_6_InitCarEngineOrDamageSound(sound_0x68* pSound);
+    EXPORT void HandleCarAlarmSound(Sound_Params* pParams);
+    EXPORT bool Type_3_InitCarAlarmSound(sound_0x68* pSound);
+    EXPORT void HandleCarDamageSound(Sound_Params* pParams);
+    EXPORT void HandleSirenActivationSound(Sound_Params* pParams);
+    EXPORT bool Type_4_InitSirenSound(sound_0x68* pSound);
+    EXPORT s32 GetVehicleAudioClass(s32 car_model) const;
+    EXPORT s32 ConvertToPlayBackRate(s32 car_model) const;
+    EXPORT void HandleHeavyVehicleStopSound(Sound_Params* pParams, SoundPosEntry* pAlloc);
+    EXPORT bool Type_7_InitHeavyVehicleStopSound(sound_0x68* pObj);
+    EXPORT bool IsHeavyTruckOrBus(s32 car_model) const;
+    EXPORT void HandleTruckCorneringAudio(Sound_Params* pParams);
+    EXPORT bool Type_8_InitTruckCorneringSound(sound_0x68* pObj);
+    EXPORT void HandleAICarEngineSound(Sound_Params* pParams);
+    EXPORT bool Type_2_InitAICarEngineSound(sound_0x68* pObj);
+    EXPORT void HandleCarDoorSounds(Sound_Params* pParams);
+    EXPORT void HandleCarEngineStartSound(Sound_Params* pParams);
+    EXPORT bool Type_9_InitCarEngineStartSound(sound_0x68* pObj);
+    EXPORT void HandleCarTireScrubSound(Sound_Params* pParams);
+    EXPORT bool Type_10_HandleCarSkidSound(sound_0x68* pSound);
+    EXPORT void ProcessType11_HudPager(s32 entity_idx);
+    EXPORT void AddVocalsEntity();
+    EXPORT void RemoveVocalsEntity();
+    EXPORT void PlayVocal(s32 voice);
+    EXPORT void ProcessType10_Vocals();
+    EXPORT bool CalculateDistance(Fix16 max_dist);
+    EXPORT bool VolCalc(u8 base_volume, Fix16 max_dist, bool bHasSolidAbove);
+    EXPORT Fix16 ComputeEmitterDistanceSquared() const;
+    EXPORT s32 AddSoundObject(SoundObject* pSoundObj);
 
-    EXPORT void FreeSoundEntry_41A090(u32 idx);
-    EXPORT bool LoadStyle_41A1B0(const char_type* pStyleName);
-    EXPORT const char_type* GetFileName_41A1E0(const char_type* pStr);
-    EXPORT void SetSfxVol_41A250(u8 sfxVol);
-    EXPORT void SetCDVol_41A270(u8 cdVol);
-    EXPORT bool Set3DSound_41A2F0(char_type b3dSound);
-    EXPORT void ServiceSoundEffects_41A3A0();
-    EXPORT u8 CalcVolume_41A3F0(u8 base_volume, Fix16 max_dist, Fix16 dist) const;
-    EXPORT u8 ComputePan_41A4A0(Fix16 intensity, Fix16 x_offset) const;
-    EXPORT s32 AdjustPlaybackRate_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, Fix16 zpos) const;
-    EXPORT s32 RandomDisplacement_41A650(u32 seed);
-    EXPORT void ResetEntry_41A6C0(s32 idx);
-    EXPORT void IncrementAudioEntitiesAge_41A6F0();
-    EXPORT void InterrogateAudioEntities_41A730();
-    EXPORT void AddSampleToRequestedQueue_41A850();
-    EXPORT void AddDetailsToRequestedOrderList_41A910(u8 sample);
-    EXPORT void AddReleasingSounds_41A9D0();
-    EXPORT void ProcessActiveQueues_41AB80();
+    EXPORT void FreeSoundEntry(u32 idx);
+    EXPORT bool LoadStyle(const char_type* pStyleName);
+    EXPORT const char_type* GetFileName(const char_type* pStr);
+    EXPORT void SetSfxVol(u8 sfxVol);
+    EXPORT void SetCDVol(u8 cdVol);
+    EXPORT bool Set3DSound(char_type b3dSound);
+    EXPORT void ServiceSoundEffects();
+    EXPORT u8 CalcVolume(u8 base_volume, Fix16 max_dist, Fix16 dist) const;
+    EXPORT u8 ComputePan(Fix16 intensity, Fix16 x_offset) const;
+    EXPORT s32 AdjustPlaybackRate(s32 snd_rate, Fix16 xpos, Fix16 ypos, Fix16 zpos) const;
+    EXPORT s32 RandomDisplacement(u32 seed);
+    EXPORT void ResetEntry(s32 idx);
+    EXPORT void IncrementAudioEntitiesAge();
+    EXPORT void InterrogateAudioEntities();
+    EXPORT void AddSampleToRequestedQueue();
+    EXPORT void AddDetailsToRequestedOrderList(u8 sample);
+    EXPORT void AddReleasingSounds();
+    EXPORT void ProcessActiveQueues();
 
-    EXPORT void UpdateFramesToPlay_41B490(sound_0x68* pObj);
-    EXPORT void VecDiff_41B4E0(const SoundPos* pVec, SoundPos* pRet) const;
-    EXPORT void FromFix16_41B520(Fix16 value, f32* pOut) const;
-    EXPORT void AdjustSamplesVolume_41B540();
-    EXPORT u8 ComputeEmittingVolume_41B660(u8 emittingVolume, u32 maxDistance, u32 distance) const;
-    EXPORT void ClearRequestedQueue_41B700();
-    EXPORT void ClearActivateSamples_41B7A0();
-    EXPORT void GenerateIntegerRandomNumberTable_41BA90();
+    EXPORT void UpdateFramesToPlay(sound_0x68* pObj);
+    EXPORT void VecDiff(const SoundPos* pVec, SoundPos* pRet) const;
+    EXPORT void FromFix16(Fix16 value, f32* pOut) const;
+    EXPORT void AdjustSamplesVolume();
+    EXPORT u8 ComputeEmittingVolume(u8 emittingVolume, u32 maxDistance, u32 distance) const;
+    EXPORT void ClearRequestedQueue();
+    EXPORT void ClearActivateSamples();
+    EXPORT void GenerateIntegerRandomNumberTable();
 
-    EXPORT void ProcessObject_41E820(Sound_Params* pParams);
-    EXPORT void ProcessObject_Type12_41E850(Sound_Params* pParams);
-    EXPORT void ProcessOtherObjects_41F520(Sound_Params* pParams);
-    EXPORT void UpdateRadioChatterLoop_41FCA0();
+    EXPORT void ProcessObject(Sound_Params* pParams);
+    EXPORT void ProcessEffectOnlyObject(Sound_Params* pParams);
+    EXPORT void ProcessOtherObjects(Sound_Params* pParams);
+    EXPORT void UpdateRadioChatterLoop();
 
-    EXPORT void ProcessPed_422B70(Sound_Params* pParams);
-    EXPORT void HandlePedVoiceEvent_423080(Sound_Params* pParams);
+    EXPORT void ProcessPed(Sound_Params* pParams);
+    EXPORT void HandlePedVoiceEvent(Sound_Params* pParams);
 
-    EXPORT void ResetRadioMessageState_426750();
+    EXPORT void ResetRadioMessageState();
     EXPORT void PoliceRadioMessageGeneration_426790();
-    EXPORT void EnqueueRadioLocationPhrase_426E10(u8 xpos, u8 ypos);
+    EXPORT void EnqueueRadioLocationPhrase(u8 xpos, u8 ypos);
     EXPORT void GenerateRadioVehicleDescription_426F20(Car* pCar);
 
-    EXPORT void Init_RadioMessageQueue_427180();
-    EXPORT void EnqueueRadioWord_4271B0(u32 val);
-    EXPORT void ProcessPoliceRadioWordsPlayback_427220();
-    EXPORT u8 GetFreeRadioWordSlots_427310() const;
-    EXPORT void EnqueueRadioCrimeCallout_427340(s32 crime_word, u8 loc_a, u8 loc_b);
-    EXPORT void AppendRadioMessageSuffix_4273B0();
+    EXPORT void Init_RadioMessageQueue();
+    EXPORT void EnqueueRadioWord(u32 val);
+    EXPORT void ProcessPoliceRadioWordsPlayback();
+    EXPORT u8 GetFreeRadioWordSlots() const;
+    EXPORT void EnqueueRadioCrimeCallout(s32 crime_word, u8 loc_a, u8 loc_b);
+    EXPORT void AppendRadioMessageSuffix();
     EXPORT void nullsub_4();
-    EXPORT u32 GetCopRadioZoneIndex_427400(u8 x, u8 y, gmp_map_zone** ppZone) const;
+    EXPORT u32 GetCopRadioZoneIndex(u8 x, u8 y, gmp_map_zone** ppZone) const;
 
-    EXPORT void ProcessType7_Weapon_42A500(s32 idx);
+    EXPORT void ProcessType7_Weapon(s32 idx);
 
-    EXPORT void ProcessType3_CopRadioAndMusic_57DD50();
-    EXPORT void HandleVocalStreamSwitching_57DF10(char_type bFastForward);
-    EXPORT void UpdateCarRadioAudio_57E220();
-    EXPORT void UpdateVocalStream_57E510();
-    EXPORT void TickRadioStationClocks_57E680();
-    EXPORT void ChooseRadioEmitterForVehicle_57E6C0();
-    EXPORT void InitMusicAndCopRadio_57E960();
-    EXPORT void DeInitVocals_57EA10();
-    EXPORT void UpdateActiveRadioEmitterVolume_57EA90();
-    EXPORT u8 ComputeRadioEmitterVolume_57EB90(u8 emitterIndex, s32 bMainVariant);
-    EXPORT void DeclareRadioStation_57ECB0(s32 station_idx, Fix16 xpos, Fix16 ypos);
-    EXPORT void SetRadioEmitterRadii_57EDB0(RadioStationEmitter* pEmitter, s32 type);
-    EXPORT void RemoveSound_57EE30(Fix16 xpos, Fix16 ypos);
-    EXPORT void CycleRadioStation_57EEE0(char_type bPrev);
-    EXPORT void SelectBestRadioEmitter_57EF60();
-    EXPORT u8 FindEmitterByStation_57F050(s32 station_idx) const;
-    EXPORT bool IsPoliceOrServiceVehicle_57F090(Car* pCar) const;
-    EXPORT bool IsTrainOrBoxcar_57F120(Car* pCar) const;
+    EXPORT void ProcessType3_CopRadioAndMusic();
+    EXPORT void HandleVocalStreamSwitching(char_type bFastForward);
+    EXPORT void UpdateCarRadioAudio();
+    EXPORT void UpdateVocalStream();
+    EXPORT void TickRadioStationClocks();
+    EXPORT void ChooseRadioEmitterForVehicle();
+    EXPORT void InitMusicAndCopRadio();
+    EXPORT void DeInitVocals();
+    EXPORT void UpdateActiveRadioEmitterVolume();
+    EXPORT u8 ComputeRadioEmitterVolume(u8 emitterIndex, s32 bMainVariant);
+    EXPORT void DeclareRadioStation(s32 station_idx, Fix16 xpos, Fix16 ypos);
+    EXPORT void SetRadioEmitterRadii(RadioStationEmitter* pEmitter, s32 type);
+    EXPORT void RemoveSound(Fix16 xpos, Fix16 ypos);
+    EXPORT void CycleRadioStation(char_type bPrev);
+    EXPORT void SelectBestRadioEmitter();
+    EXPORT u8 FindEmitterByStation(s32 station_idx) const;
+    EXPORT bool IsPoliceOrServiceVehicle(Car* pCar) const;
+    EXPORT bool IsTrainOrBoxcar(Car* pCar) const;
 };
 
-EXTERN_GLOBAL(sound_obj, gSound_obj_66F680);
+EXTERN_GLOBAL(sound_obj, gSound_obj);

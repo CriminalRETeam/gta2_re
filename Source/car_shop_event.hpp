@@ -1,6 +1,6 @@
 #pragma once
 
-// Car::field_B4_shop_event: what a car shop just did to the car, read once by sound_obj::HandleCarWeaponHitSound_415480.
+// Car::mShopEvent: what a car shop just did to the car, read once by sound_obj::PlayCarShopEventSound.
 namespace car_shop_event
 {
 enum

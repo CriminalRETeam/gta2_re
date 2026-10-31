@@ -4,7 +4,7 @@
 #include "TextureCache.hpp"
 
 // Forward declarations: the functions below are in address order
-s32 __stdcall GetMaxNumOfDigits_4F7660(const s32& max_value);
+s32 __stdcall GetMaxNumOfDigits(const s32& max_value);
 
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_67B210, Ang16(0), 0x67B210);
 
@@ -13,142 +13,142 @@ RollingDigitCounter::RollingDigitCounter()
 {
     for (s32 digit_idx = 0; digit_idx < kNumDigits; digit_idx++)
     {
-        field_13_scroll_offsets[digit_idx] = 0;
-        field_9_shown_digits[digit_idx] = '0';
-        field_1D_target_digits[digit_idx] = '0';
+        mScrollOffsets[digit_idx] = 0;
+        mShownDigits[digit_idx] = '0';
+        mTargetDigits[digit_idx] = '0';
     }
 
-    field_9_shown_digits[kNumDigits] = 0;
-    field_0_value = 0;
-    field_4_target_value = -1;
-    field_8_bRollingUp = false;
-    field_27_sprite_w = -1;
-    field_28_sprite_h_calc = -1;
-    field_2A_max_num_of_digits = 0;
-    field_2C_digit_transition_speed = 0;
-    field_2E_non_used_digits = 0;
-    field_30_max_value = 0;
-    field_34_first_digit_texture_idx = 0;
-    field_36_sprite_idx = 0;
+    mShownDigits[kNumDigits] = 0;
+    mValue = 0;
+    mTargetValue = -1;
+    mbRollingUp = false;
+    mSpriteW = -1;
+    mSpriteHCalc = -1;
+    mMaxNumOfDigits = 0;
+    mDigitTransitionSpeed = 0;
+    mNonUsedDigits = 0;
+    mMaxValue = 0;
+    mFirstDigitTextureIdx = 0;
+    mSpriteIdx = 0;
 }
 
 MATCH_FUNC(0x492110)
-void RollingDigitCounter::SetupDigitsParams_492110(s16 digit_transition_speed, s32 max_value, s16 palette)
+void RollingDigitCounter::SetupDigitsParams(s16 digit_transition_speed, s32 max_value, s16 palette)
 {
-    field_36_sprite_idx = palette;
-    field_2C_digit_transition_speed = digit_transition_speed;
-    field_30_max_value = max_value;
-    field_2A_max_num_of_digits = GetMaxNumOfDigits_4F7660(field_30_max_value);
+    mSpriteIdx = palette;
+    mDigitTransitionSpeed = digit_transition_speed;
+    mMaxValue = max_value;
+    mMaxNumOfDigits = GetMaxNumOfDigits(mMaxValue);
     s8 non_used_digits = kNumDigits;
-    non_used_digits -= static_cast<s8>(field_2A_max_num_of_digits);
-    field_2E_non_used_digits = non_used_digits;
+    non_used_digits -= static_cast<s8>(mMaxNumOfDigits);
+    mNonUsedDigits = non_used_digits;
 }
 
 MATCH_FUNC(0x492150)
-void RollingDigitCounter::InitDigitSprites_492150()
+void RollingDigitCounter::InitDigitSprites()
 {
-    u16 true_sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, field_36_sprite_idx);
-    sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(true_sprite_idx);
-    field_27_sprite_w = pSpriteIndex->field_4_width;
-    field_28_sprite_h_calc = pSpriteIndex->field_5_height / 11;
-    field_34_first_digit_texture_idx = gTextureCache_15D8_705064->RegisterDigits_5B9220(field_2A_max_num_of_digits, field_36_sprite_idx);
+    u16 true_sprite_idx = gGtx_0x106C->GetSpriteTrueIndex(sprite_types_enum::user_6, mSpriteIdx);
+    sprite_index* pSpriteIndex = gGtx_0x106C->get_sprite_index(true_sprite_idx);
+    mSpriteW = pSpriteIndex->mWidth;
+    mSpriteHCalc = pSpriteIndex->mHeight / 11;
+    mFirstDigitTextureIdx = gTextureCache_15D8->RegisterDigits(mMaxNumOfDigits, mSpriteIdx);
 }
 
 MATCH_FUNC(0x4921b0)
-void RollingDigitCounter::ChangeStatByAmount_4921B0(s32 amount)
+void RollingDigitCounter::ChangeStatByAmount(s32 amount)
 {
     if (amount > 0)
     {
-        if(amount >= field_30_max_value)
+        if(amount >= mMaxValue)
         {
-            field_0_value = field_30_max_value;
+            mValue = mMaxValue;
         }
         else
         {
-            field_0_value += amount;
-            if (field_0_value > field_30_max_value )
+            mValue += amount;
+            if (mValue > mMaxValue )
             {
-                field_0_value = field_30_max_value;
+                mValue = mMaxValue;
             }
         }
     }
     else
     {
-        if(amount > -field_30_max_value)
+        if(amount > -mMaxValue)
         {
-            field_0_value += amount;
-            if(field_0_value < 0 )
+            mValue += amount;
+            if(mValue < 0 )
             {
-                field_0_value = 0;
+                mValue = 0;
             }
         }
         else
         {
-            field_0_value = 0;
+            mValue = 0;
         }
     }
 }
 
 MATCH_FUNC(0x4921f0)
-void RollingDigitCounter::ColorDigits_4921F0(s32 palette_type, s16 palette)
+void RollingDigitCounter::ColorDigits(s32 palette_type, s16 palette)
 {
     u16 true_palette;
     if (palette_type == palette_types_enum::sprites_2)
     {
-        u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, field_36_sprite_idx);
-        true_palette = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(palette_types_enum::sprites_2, sprite_idx);
+        u16 sprite_idx = gGtx_0x106C->GetSpriteTrueIndex(sprite_types_enum::user_6, mSpriteIdx);
+        true_palette = gGtx_0x106C->GetTruePalette(palette_types_enum::sprites_2, sprite_idx);
     }
     else
     {
-        true_palette = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(palette_type, palette);
+        true_palette = gGtx_0x106C->GetTruePalette(palette_type, palette);
     }
 
-    s32 digit_idx = field_2E_non_used_digits;
+    s32 digit_idx = mNonUsedDigits;
 
     while (digit_idx < kNumDigits)
     {
-        gTextureCache_15D8_705064->SetPal_5B9660(field_34_first_digit_texture_idx - field_2E_non_used_digits + digit_idx, true_palette);
+        gTextureCache_15D8->SetPal(mFirstDigitTextureIdx - mNonUsedDigits + digit_idx, true_palette);
         digit_idx++;
     }
 }
 
 // https://decomp.me/scratch/6E5vt
 MATCH_FUNC(0x492260)
-s32 RollingDigitCounter::DrawDigitsRightAligned_492260(s32 base_xpos, s32 base_ypos) const
+s32 RollingDigitCounter::DrawDigitsRightAligned(s32 base_xpos, s32 base_ypos) const
 {
     s32 curr_xpos = base_xpos;
     bool bFirst = true;
-    s32 ypos_default = base_ypos + (field_28_sprite_h_calc >> 1);
+    s32 ypos_default = base_ypos + (mSpriteHCalc >> 1);
 
     // The x of each digit counts back from the last one
-    for (s32 idx = field_2E_non_used_digits; idx < kNumDigits; idx++)
+    for (s32 idx = mNonUsedDigits; idx < kNumDigits; idx++)
     {
-        s32 offset = field_13_scroll_offsets[idx];
+        s32 offset = mScrollOffsets[idx];
         if (bFirst)
         {
-            char_type curr_char = field_9_shown_digits[idx];
-            if (curr_char == '0' && idx != kNumDigits - 1 && !field_13_scroll_offsets[idx])
+            char_type curr_char = mShownDigits[idx];
+            if (curr_char == '0' && idx != kNumDigits - 1 && !mScrollOffsets[idx])
             {
                 continue;
             }
 
             u8 height;
-            if (field_9_shown_digits[idx] != '0' || idx == kNumDigits - 1)
+            if (mShownDigits[idx] != '0' || idx == kNumDigits - 1)
             {
-                height = field_28_sprite_h_calc;
+                height = mSpriteHCalc;
             }
             else
             {
-                height = field_13_scroll_offsets[idx];
+                height = mScrollOffsets[idx];
             }
 
-            u16 v = field_28_sprite_h_calc * (kDigitAfterNine - curr_char) - offset;
-            curr_xpos = (field_27_sprite_w >> 1) - field_27_sprite_w * (kNumDigits - idx) + base_xpos;
+            u16 v = mSpriteHCalc * (kDigitAfterNine - curr_char) - offset;
+            curr_xpos = (mSpriteW >> 1) - mSpriteW * (kNumDigits - idx) + base_xpos;
             s32 ypos = base_ypos + static_cast<s8>(height) / 2;
-            DrawTextureScaled_495470(gTextureCache_15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits, v, height),
+            DrawTextureScaled(gTextureCache_15D8->GetDigitTexture(idx + mFirstDigitTextureIdx - mNonUsedDigits, v, height),
                        curr_xpos,
                        ypos,
-                       field_27_sprite_w,
+                       mSpriteW,
                        height,
                        kAngZero_67B210,
                        0,
@@ -157,93 +157,93 @@ s32 RollingDigitCounter::DrawDigitsRightAligned_492260(s32 base_xpos, s32 base_y
         }
         else
         {
-            u16 v = field_28_sprite_h_calc * (kDigitAfterNine - field_9_shown_digits[idx]) - offset;
-            s32 xpos = (field_27_sprite_w >> 1) - field_27_sprite_w * (kNumDigits - idx) + base_xpos;
-            DrawTextureScaled_495470(gTextureCache_15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits,
+            u16 v = mSpriteHCalc * (kDigitAfterNine - mShownDigits[idx]) - offset;
+            s32 xpos = (mSpriteW >> 1) - mSpriteW * (kNumDigits - idx) + base_xpos;
+            DrawTextureScaled(gTextureCache_15D8->GetDigitTexture(idx + mFirstDigitTextureIdx - mNonUsedDigits,
                                                              v,
-                                                             field_28_sprite_h_calc),
+                                                             mSpriteHCalc),
                        xpos,
                        ypos_default,
-                       field_27_sprite_w,
-                       field_28_sprite_h_calc,
+                       mSpriteW,
+                       mSpriteHCalc,
                        kAngZero_67B210,
                        0,
                        0);
         }
     }
-    return curr_xpos - (field_27_sprite_w >> 1);
+    return curr_xpos - (mSpriteW >> 1);
 }
 
 // Draws the digits left to right, skipping leading zeros, and returns the x after the last digit
 MATCH_FUNC(0x492430)
-s32 RollingDigitCounter::DrawDigitsLeftAligned_492430(s32 base_xpos, s32 base_ypos) const
+s32 RollingDigitCounter::DrawDigitsLeftAligned(s32 base_xpos, s32 base_ypos) const
 {
     // u32: converts with the Fix16(u32) constructor, whose out-of-line copy is 0x4926F0
     bool bFirst = true;
-    u32 curr_xpos = base_xpos + (field_27_sprite_w >> 1);
-    u32 ypos_default = base_ypos + (field_28_sprite_h_calc >> 1);
+    u32 curr_xpos = base_xpos + (mSpriteW >> 1);
+    u32 ypos_default = base_ypos + (mSpriteHCalc >> 1);
 
-    for (s32 idx = field_2E_non_used_digits; idx < kNumDigits; idx++)
+    for (s32 idx = mNonUsedDigits; idx < kNumDigits; idx++)
     {
-        char_type offset_byte = field_13_scroll_offsets[idx];
+        char_type offset_byte = mScrollOffsets[idx];
         s32 offset = offset_byte;
         if (bFirst)
         {
-            if (field_9_shown_digits[idx] == '0' && idx != kNumDigits - 1 && !offset_byte)
+            if (mShownDigits[idx] == '0' && idx != kNumDigits - 1 && !offset_byte)
             {
                 continue;
             }
 
             u8 height;
-            if (field_9_shown_digits[idx] != '0' || idx == kNumDigits - 1)
+            if (mShownDigits[idx] != '0' || idx == kNumDigits - 1)
             {
-                height = field_28_sprite_h_calc;
+                height = mSpriteHCalc;
             }
             else
             {
                 height = offset_byte;
             }
 
-            u16 v = field_28_sprite_h_calc * (kDigitAfterNine - field_9_shown_digits[idx]) - offset;
+            u16 v = mSpriteHCalc * (kDigitAfterNine - mShownDigits[idx]) - offset;
             u32 ypos = base_ypos + static_cast<s8>(height) / 2;
-            DrawTextureScaled_495470(gTextureCache_15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits, v, height),
+            DrawTextureScaled(gTextureCache_15D8->GetDigitTexture(idx + mFirstDigitTextureIdx - mNonUsedDigits, v, height),
                        curr_xpos,
                        ypos,
-                       field_27_sprite_w,
+                       mSpriteW,
                        height,
                        kAngZero_67B210,
                        0,
                        0);
             bFirst = false;
-            curr_xpos += field_27_sprite_w;
+            curr_xpos += mSpriteW;
         }
         else
         {
-            u16 v = field_28_sprite_h_calc * (kDigitAfterNine - field_9_shown_digits[idx]) - offset;
-            DrawTextureScaled_495470(gTextureCache_15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits,
+            u16 v = mSpriteHCalc * (kDigitAfterNine - mShownDigits[idx]) - offset;
+            DrawTextureScaled(gTextureCache_15D8->GetDigitTexture(idx + mFirstDigitTextureIdx - mNonUsedDigits,
                                                              v,
-                                                             field_28_sprite_h_calc),
+                                                             mSpriteHCalc),
                        curr_xpos,
                        ypos_default,
-                       field_27_sprite_w,
-                       field_28_sprite_h_calc,
+                       mSpriteW,
+                       mSpriteHCalc,
                        kAngZero_67B210,
                        0,
                        0);
-            curr_xpos += field_27_sprite_w;
+            curr_xpos += mSpriteW;
         }
     }
     return curr_xpos;
 }
 
 MATCH_FUNC(0x4925c0)
-bool RollingDigitCounter::IsAnyDigitRolling_4925C0() const
+bool RollingDigitCounter::IsAnyDigitRolling() const
 {
-    s32 digit_idx = field_2E_non_used_digits;
+    s32 digit_idx = mNonUsedDigits;
 
     while (digit_idx < kNumDigits)
     {
-        if (this->field_13_scroll_offsets[digit_idx] != 0)
+        if (this->mScrollOffsets[digit_idx] != 0)
         {
             return true;
         }
@@ -253,65 +253,65 @@ bool RollingDigitCounter::IsAnyDigitRolling_4925C0() const
 }
 
 MATCH_FUNC(0x4925e0)
-void RollingDigitCounter::UpdateRollingDigits_4925E0()
+void RollingDigitCounter::UpdateRollingDigits()
 {
     s32 shown_value;
-    sscanf(field_9_shown_digits, "%d", &shown_value);
+    sscanf(mShownDigits, "%d", &shown_value);
 
-    if (field_4_target_value == -1 || shown_value == field_4_target_value && !RollingDigitCounter::IsAnyDigitRolling_4925C0())
+    if (mTargetValue == -1 || shown_value == mTargetValue && !RollingDigitCounter::IsAnyDigitRolling())
     {
-        if (field_0_value == shown_value)
+        if (mValue == shown_value)
         {
-            field_4_target_value = -1;
+            mTargetValue = -1;
             return;
         }
-        field_4_target_value = field_0_value;
-        if (field_0_value > shown_value)
+        mTargetValue = mValue;
+        if (mValue > shown_value)
         {
-            field_8_bRollingUp = true;
+            mbRollingUp = true;
         }
         else
         {
-            field_8_bRollingUp = false;
+            mbRollingUp = false;
         }
-        sprintf(field_1D_target_digits, "%09d", field_0_value);
+        sprintf(mTargetDigits, "%09d", mValue);
     }
 
-    for (s32 idx = field_2E_non_used_digits; idx < kNumDigits; idx++)
+    for (s32 idx = mNonUsedDigits; idx < kNumDigits; idx++)
     {
-        // idx + 20 is field_1D_target_digits[idx]; written as an offset from field_9_shown_digits, as in the original
-        if (field_9_shown_digits[idx + 20] != field_9_shown_digits[idx] || field_13_scroll_offsets[idx])
+        // idx + 20 is mTargetDigits[idx]; written as an offset from mShownDigits, as in the original
+        if (mShownDigits[idx + 20] != mShownDigits[idx] || mScrollOffsets[idx])
         {
-            if (field_8_bRollingUp)
+            if (mbRollingUp)
             {
-                field_13_scroll_offsets[idx] = field_2C_digit_transition_speed + field_13_scroll_offsets[idx];
-                if (field_13_scroll_offsets[idx] >= field_28_sprite_h_calc)
+                mScrollOffsets[idx] = mDigitTransitionSpeed + mScrollOffsets[idx];
+                if (mScrollOffsets[idx] >= mSpriteHCalc)
                 {
-                    if (field_9_shown_digits[idx] < '9')
+                    if (mShownDigits[idx] < '9')
                     {
-                        field_9_shown_digits[idx]++;
+                        mShownDigits[idx]++;
                     }
                     else
                     {
-                        field_9_shown_digits[idx] = '0';
+                        mShownDigits[idx] = '0';
                     }
-                    field_13_scroll_offsets[idx] = 0;
+                    mScrollOffsets[idx] = 0;
                 }
             }
             else
             {
-                field_13_scroll_offsets[idx] = field_13_scroll_offsets[idx] - field_2C_digit_transition_speed;
-                if (field_13_scroll_offsets[idx] < 0)
+                mScrollOffsets[idx] = mScrollOffsets[idx] - mDigitTransitionSpeed;
+                if (mScrollOffsets[idx] < 0)
                 {
-                    if (field_9_shown_digits[idx] > '0')
+                    if (mShownDigits[idx] > '0')
                     {
-                        field_9_shown_digits[idx]--;
+                        mShownDigits[idx]--;
                     }
                     else
                     {
-                        field_9_shown_digits[idx] = '9';
+                        mShownDigits[idx] = '9';
                     }
-                    field_13_scroll_offsets[idx] = field_28_sprite_h_calc - field_2C_digit_transition_speed;
+                    mScrollOffsets[idx] = mSpriteHCalc - mDigitTransitionSpeed;
                 }
             }
         }
@@ -319,7 +319,7 @@ void RollingDigitCounter::UpdateRollingDigits_4925E0()
 }
 
 MATCH_FUNC(0x4f7660)
-s32 __stdcall GetMaxNumOfDigits_4F7660(const s32& max_value)
+s32 __stdcall GetMaxNumOfDigits(const s32& max_value)
 {
     s32 num_digits = 1;
     s32 abs_value = max_value;

@@ -3,17 +3,17 @@
 #include <windows.h>
 
 MATCH_FUNC(0x5BEBF0)
-void ProfilerTimer::AccumulateElapsed_5BEBF0()
+void ProfilerTimer::AccumulateElapsed()
 {
-    field_8_accum_time += timeGetTime() - field_4_start_time;
+    mAccumTime += timeGetTime() - mStartTime;
 }
 
 MATCH_FUNC(0x5BEC10)
 ProfilerTimer::ProfilerTimer()
 {
-    field_0_time_percent = 0;
-    field_8_accum_time = 0;
-    field_4_start_time = 0;
+    mTimePercent = 0;
+    mAccumTime = 0;
+    mStartTime = 0;
 }
 
 MATCH_FUNC(0x5BEC20)

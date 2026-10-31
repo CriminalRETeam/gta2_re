@@ -39,45 +39,45 @@ enum
 class CarAI
 {
   private:
-    EXPORT void MakeAgressiveSirensAndLights_4476F0();
-    EXPORT void PlanTurnAtNextJunction_447710();
-    EXPORT void DoShortcutsUsingJunctions_447970();
-    inline void TurnAround_447970();
+    EXPORT void MakeAgressiveSirensAndLights();
+    EXPORT void PlanTurnAtNextJunction();
+    EXPORT void DoShortcutsUsingJunctions();
+    inline void TurnAround();
 
   public:
-    EXPORT bool GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 arrow_type);
+    EXPORT bool GoToBlock(u8 x, u8 y, u8 z, s32 arrow_type);
 
   private:
-    EXPORT bool TrySetTargetDirectionFromArrows_447D40(const gmp_block_info* pBlock);
-    EXPORT bool IsClockwiseTurning_448270() const;
-    EXPORT void BrakeForBlockedRoadAhead_4482C0();
-    EXPORT void CheckRoadAhead_448770();
-    EXPORT void ManageTrafficCarDirection_448CE0();
-    EXPORT void FollowRoadDirection_44A1F0();
-    EXPORT void AlignToLaneCenter_44AF00();
-    EXPORT void DetectCarAhead_44D1D0();
-    EXPORT void UpdateChase_44E0C0();
-    EXPORT void UpdateStateMachine_44E560();
-    EXPORT void ReactToNearbyCar_451980();
-    EXPORT void ReactToNearbyObject_451FA0();
-    EXPORT void ReactToNearbyPed_451FF0();
-    EXPORT void ScanAheadForObstacles_452060();
-    EXPORT void ManageCollisions_452A20();
-    EXPORT void UpdateDrivingAI_452DF0();
-    EXPORT void UpdateDriving_453470();
-    EXPORT void ChooseRandomTurn_4537D0();
-    EXPORT void ClearSteeringIfTurning_4538B0();
-    EXPORT void RaiseSpeedTo_453990(Fix16 target_speed);
-    EXPORT void ClearTurnReady_4539B0();
-    EXPORT void UpdateSpeedTowardTarget_4539D0();
+    EXPORT bool TrySetTargetDirectionFromArrows(const gmp_block_info* pBlock);
+    EXPORT bool IsClockwiseTurning() const;
+    EXPORT void BrakeForBlockedRoadAhead();
+    EXPORT void CheckRoadAhead();
+    EXPORT void ManageTrafficCarDirection();
+    EXPORT void FollowRoadDirection();
+    EXPORT void AlignToLaneCenter();
+    EXPORT void DetectCarAhead();
+    EXPORT void UpdateChase();
+    EXPORT void UpdateStateMachine();
+    EXPORT void ReactToNearbyCar();
+    EXPORT void ReactToNearbyObject();
+    EXPORT void ReactToNearbyPed();
+    EXPORT void ScanAheadForObstacles();
+    EXPORT void ManageCollisions();
+    EXPORT void UpdateDrivingAI();
+    EXPORT void UpdateDriving();
+    EXPORT void ChooseRandomTurn();
+    EXPORT void ClearSteeringIfTurning();
+    EXPORT void RaiseSpeedTo(Fix16 target_speed);
+    EXPORT void ClearTurnReady();
+    EXPORT void UpdateSpeedTowardTarget();
 
   public:
-    EXPORT void UpdateTrainMovement_453A40();
-    EXPORT void AI_Service_453BB0();
-    EXPORT void SetCar_453BF0(Car* pCar);
+    EXPORT void UpdateTrainMovement();
+    EXPORT void AI_Service();
+    EXPORT void SetCar(Car* pCar);
 
   private:
-    EXPORT void ReverseOrNeutral_453C00();
+    EXPORT void ReverseOrNeutral();
 
   public:
     EXPORT void PoolAllocate();
@@ -85,55 +85,55 @@ class CarAI
 
     void PoolDeallocate()
     {
-        field_0_car = NULL;
+        mCar = NULL;
     }
 
-    Car* field_0_car;
-    s32 field_4_unused;
-    char_type field_8_maneuver_active;
-    char_type field_9_probe_x;
-    char_type field_A_probe_y;
+    Car* mCar; // 0x0
+    s32 mUnused4; // 0x4
+    char_type mManeuverActive; // 0x8
+    char_type mProbeX; // 0x9
+    char_type mProbeY; // 0xA
     CarAI* mpNext;
-    Ang16 field_10_angle;
-    Fix16 field_14_speed;
-    Fix16 field_18_target_speed;
-    Fix16 field_1C_acceleration;
-    s32 field_20_unused;
+    Ang16 mAngle; // 0x10
+    Fix16 mSpeed; // 0x14
+    Fix16 mTargetSpeed; // 0x18
+    Fix16 mAcceleration; // 0x1C
+    s32 mUnused20; // 0x20
 
     union
     {
-        u32 field_24_flags;
-        CarAIFlags32 field_24_bf;
+        u32 mFlags; // 0x24
+        CarAIFlags32 mBf24; // 0x24
     };
 
-    char_type field_28_route_idx;
-    char_type field_29_pad;
-    u8 field_2A_stopped_timer;
-    u8 field_2B_ticks_since_alloc;
-    u8 field_2C_yield_timer;
-    char_type field_2D_arrow_start;
-    char_type field_2E_arrow_cur;
-    char_type field_2F_arrow_end;
-    u8 field_30_forced_stop_timer;
-    s32 field_34_unused;
-    s32 field_38_junction_turn_direction;
-    s32 field_3C_seeking_road;
-    s32 field_40_prev_target_direction;
-    s32 field_44_target_direction;
-    s32 field_48_probe_direction;
-    s32 field_4C_curr_direction;
-    s32 field_50_seek_road_turn;
-    u16 field_54_accel_cooldown;
-    s16 field_56_route_pos;
-    u16 field_58_off_road_timer;
-    s16 field_5A_obstacle_timer;
-    Fix16 field_5C_unused;
-    Fix16 field_60_unused;
-    Fix16 field_64_unused;
-    Car* field_68_car_in_collision;
-    Car* field_6C_yield_to_car;
-    Sprite* field_70_nearest_entity;
-    Fix16 field_74_max_speed;
+    char_type mRouteIdx; // 0x28
+    char_type mPad29; // 0x29
+    u8 mStoppedTimer; // 0x2A
+    u8 mTicksSinceAlloc; // 0x2B
+    u8 mYieldTimer; // 0x2C
+    char_type mArrowStart; // 0x2D
+    char_type mArrowCur; // 0x2E
+    char_type mArrowEnd; // 0x2F
+    u8 mForcedStopTimer; // 0x30
+    s32 mUnused34; // 0x34
+    s32 mJunctionTurnDirection; // 0x38
+    s32 mSeekingRoad; // 0x3C
+    s32 mPrevTargetDirection; // 0x40
+    s32 mTargetDirection; // 0x44
+    s32 mProbeDirection; // 0x48
+    s32 mCurrDirection; // 0x4C
+    s32 mSeekRoadTurn; // 0x50
+    u16 mAccelCooldown; // 0x54
+    s16 mRoutePos; // 0x56
+    u16 mOffRoadTimer; // 0x58
+    s16 mObstacleTimer; // 0x5A
+    Fix16 mUnused5C; // 0x5C
+    Fix16 mUnused60; // 0x60
+    Fix16 mUnused64; // 0x64
+    Car* mCarInCollision; // 0x68
+    Car* mYieldToCar; // 0x6C
+    Sprite* mNearestEntity; // 0x70
+    Fix16 mMaxSpeed; // 0x74
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarAI, 0x78);
 
@@ -147,21 +147,21 @@ class CarAIPool
 
     ~CarAIPool()
     {
-        field_0_pool.field_0_pHead = NULL;
+        mPool.mpHead = NULL;
     }
 
     CarAI* Allocate()
     {
-        return field_0_pool.Allocate();
+        return mPool.Allocate();
     }
 
-    // TODO: get 9.6f inline addr
+    // 9.6f 0x425460
     void DeAllocate(CarAI* pCarAI)
     {
-        field_0_pool.DeAllocate(pCarAI);
+        mPool.DeAllocate(pCarAI);
     }
 
-    PoolBasic<CarAI, 306> field_0_pool;
+    PoolBasic<CarAI, 306> mPool; // 0x0
 };
 
-EXTERN_GLOBAL(CarAIPool*, gCarAI_78_Pool_677CF8);
+EXTERN_GLOBAL(CarAIPool*, gCarAI_78_Pool);

@@ -23,7 +23,7 @@ The list scheduler is at C2 `0x1072a20f`, called once per function.
   `priority = height << 13 + mem << 16 + ([node+0x22] >> 5)` (+ one x87-only bit), with
   `height = 1 + max over successors (height + edge latency)` and `mem` = any operand is a memory
   reference (`0x1072AC9F`: operand kinds 2 and 6), so loads, stores' address reads and calls.
-  `sv.py` prints `priority >> 12`, i.e. `2*height + 16*mem`: in `GetLayout_4D6000` the byte load
+  `sv.py` prints `priority >> 12`, i.e. `2*height + 16*mem`: in `GetLayout` the byte load
   `mov dl,[pwszKLID+6]` is `2*15 + 16 = 46`, `lea ecx,&v2` `2*14 = 28`.
 - **Calls don't pair**: nothing issues in a call's cycle (0 of 2705 pairs in `sound_obj.cpp`, bar a few
   `imul`).
@@ -54,8 +54,8 @@ also taken from that checkout.
 
 ```bash
 # Windows and schedule of one function (a stripped copy of the TU is compiled; Source/ isn't touched)
-Scripts/x87_sched/sched.sh Source/MapRenderer.cpp draw_left_4F3C00       # -r: also the ready lists
-#   #238 void __thiscall MapRenderer::draw_left_4F3C00(...)     <- #238: ordinal for LIM
+Scripts/x87_sched/sched.sh Source/MapRenderer.cpp draw_left       # -r: also the ready lists
+#   #238 void __thiscall MapRenderer::draw_left(...)     <- #238: ordinal for LIM
 #      window 2   n=81  nop=5  FULL at [23, 33, 43, 67, 77]     <- cut by the limit; positions of no-op nodes
 #   ---------- window 2: 81 nodes, 5 nop
 #    25 s30  p 210.0  e25  fiadd DWORD PTR -20+[esp+44]  -> s50/0 ...
@@ -66,7 +66,7 @@ LIM=69 Scripts/x87_sched/sched.sh Source/MapRenderer.cpp 4EEE60           # ever
 LIM=238:71,71 Scripts/x87_sched/sched.sh Source/MapRenderer.cpp 4F3C00    # function #238, per window
 
 # Search the limits against the 10.5 target (needs Scripts/bin_comp/target_asm.json and the venv)
-venv/bin/python3 Scripts/x87_sched/regsearch.py Source/MapRenderer.cpp draw_left_4F3C00 0x4f3c00 -j 8
+venv/bin/python3 Scripts/x87_sched/regsearch.py Source/MapRenderer.cpp draw_left 0x4f3c00 -j 8
 #   stock limit 80: 8 differing lines ... all windows 71: 0
 #   best 0 with LIM=238:71,...;  extra nodes before each window break (80 - limit): [9, ...]
 venv/bin/python3 Scripts/x87_sched/regsearch.py Source/MapRenderer.cpp --tu --range 68:71 -j 4

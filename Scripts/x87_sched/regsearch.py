@@ -9,7 +9,7 @@
         One limit for every function of the TU: total diff lines over its WIP_FUNCs, the ones that reach 0,
         and the MATCH_FUNCs whose code changes against the stock limit.
 
-FUNC is a substring of the decorated name as `sched.sh` prints it (`draw_left_4F3C00`); ADDR the function's
+FUNC is a substring of the decorated name as `sched.sh` prints it (`draw_left`); ADDR the function's
 address for the target lookup. The target is Scripts/bin_comp/target_asm.json (WIP/STUB functions), from
 `git show origin/claude/target-asm:target_asm.json`. Each compile takes a few seconds; -j runs that many in
 parallel (separate build_vc6/x87_c2/job<N> dirs).

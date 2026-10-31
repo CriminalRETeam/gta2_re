@@ -24,8 +24,8 @@ check **Excluded: never called** below, and don't redo these:
   0x45C4E0, 0x4AE970, 0x41B480, 0x4369F0, 0x4926F0 and the `ClampToRangeFlexible` copy at
   0x55EEE0 are copies of code `fix16.hpp` already defines and marks. Marking them again on a
   holder struct adds nothing, and a declaration added to `fix16.hpp` or `ang16.hpp` changes
-  inlining in every TU that includes it: it broke `MapRenderer::Draw4SidedDiagonalUpLeft_4EF880`
-  and `Draw3SidedDiagonalDownRight_4EF520`. The same goes for the `Ang16` copies at 0x4516F0
+  inlining in every TU that includes it: it broke `MapRenderer::Draw4SidedDiagonalUpLeft`
+  and `Draw3SidedDiagonalDownRight`. The same goes for the `Ang16` copies at 0x4516F0
   and 0x525D50.
 - **Empty functions nothing calls**, for example `nullsub_141` (0x48B9A0) and `nullsub_239`
   (0x53F050). 325 of the unmarked functions are a single `ret`.
@@ -63,12 +63,12 @@ Only the `WIP_FUNC` functions are worth working on: they are real, called game c
 | 0x404AA0 | 1 | `nullsub_45` |
 | 0x404AE0 | 1 | `nullsub_46` |
 | 0x4057B0 | 421 | `sub_4057B0` |
-| 0x405DA0 | 118 | `TurnAngleToward_405DA0` |
-| 0x405E20 | 95 | `IsAngleWithinTolerance_405E20` |
-| 0x405E80 | 272 | `ClampAngleAroundTarget_405E80` |
+| 0x405DA0 | 118 | `TurnAngleToward` |
+| 0x405E20 | 95 | `IsAngleWithinTolerance` |
+| 0x405E80 | 272 | `ClampAngleAroundTarget` |
 | 0x40AC40 | 1 | `Car_8::dtor_40AC40` |
 | 0x40AC80 | 42 | `Fix16::subtract_40AC80` |
-| 0x40ACB0 | 31 | `Fix16::Negate_40ACB0` |
+| 0x40ACB0 | 31 | `Fix16::Negated` |
 | 0x40AD20 | 1 | `nullsub_47` |
 | 0x40AD60 | 1 | `nullsub_48` |
 | 0x40B740 | 1 | `nullsub_49` |
@@ -120,7 +120,7 @@ Only the `WIP_FUNC` functions are worth working on: they are real, called game c
 | 0x435360 | 1 | `nullsub_90` |
 | 0x4353B0 | 1 | `nullsub_91` |
 | 0x4369F0 | 14 | `Fix16::FromInt_4369F0` |
-| 0x436A00 | 19 | `Fix16::Subtract_436A00` |
+| 0x436A00 | 19 | `Fix16::Subtract` |
 | 0x439070 | 1 | `nullsub_92` |
 | 0x4390B0 | 1 | `nullsub_93` |
 | 0x439AA0 | 1 | `nullsub_94` |
@@ -128,7 +128,7 @@ Only the `WIP_FUNC` functions are worth working on: they are real, called game c
 | 0x4415F0 | 1 | `nullsub_96` |
 | 0x441990 | 1 | `nullsub_97` |
 | 0x4419D0 | 1 | `nullsub_98` |
-| 0x444CE0 | 5 | `NoRefs_444CE0` |
+| 0x444CE0 | 5 | `NoRefs` |
 | 0x447170 | 1 | `nullsub_99` |
 | 0x447200 | 1 | `nullsub_100` |
 | 0x447250 | 1 | `nullsub_101` |
@@ -256,17 +256,17 @@ Only the `WIP_FUNC` functions are worth working on: they are real, called game c
 | 0x4D5C40 | 1 | `nullsub_196` |
 | 0x4D5C90 | 1 | `nullsub_197` |
 | 0x4DB120 | 71 | `sub_4DB120` |
-| 0x4DB410 | 40 | `FatalErrorMsg_4DB410` |
+| 0x4DB410 | 40 | `FatalErrorMsg` |
 | 0x4DDB50 | 1 | `nullsub_198` |
 | 0x4DDB90 | 1 | `nullsub_199` |
 | 0x4DE5F0 | 1 | `nullsub_200` |
 | 0x4DE640 | 1 | `nullsub_201` |
 | 0x4E5630 | 1 | `nullsub_202` |
 | 0x4E5B20 | 1 | `nullsub_203` |
-| 0x4E5D10 | 69 | `MovePosAlongDirection_4E5D10` |
-| 0x4E5D70 | 126 | `GetLateralOffsetInBlock_4E5D70` |
-| 0x4E5E00 | 126 | `GetForwardOffsetInBlock_4E5E00` |
-| 0x4E6280 | 36 | `Fix16_Rect::MakeRect_4E6280` |
+| 0x4E5D10 | 69 | `MovePosAlongDirection` |
+| 0x4E5D70 | 126 | `GetLateralOffsetInBlock` |
+| 0x4E5E00 | 126 | `GetForwardOffsetInBlock` |
+| 0x4E6280 | 36 | `Fix16_Rect::MakeRect` |
 | 0x4E9B80 | 1 | `nullsub_204` |
 | 0x4E9BD0 | 1 | `nullsub_205` |
 | 0x4E9D40 | 1 | `nullsub_207` |
@@ -303,7 +303,7 @@ Only the `WIP_FUNC` functions are worth working on: they are real, called game c
 | 0x531940 | 3 | `sub_531940` |
 | 0x533C80 | 1 | `nullsub_233` |
 | 0x534260 | 1 | `nullsub_234` |
-| 0x5345E0 | 85 | `GetHeadingForDoorFace_5345E0` |
+| 0x5345E0 | 85 | `GetHeadingForDoorFace` |
 | 0x537440 | 1 | `nullsub_235` |
 | 0x537480 | 1 | `nullsub_236` |
 | 0x537E10 | 1 | `nullsub_237` |
@@ -401,7 +401,7 @@ Only the `WIP_FUNC` functions are worth working on: they are real, called game c
 | 0x59D660 | 1 | `nullsub_315` |
 | 0x59D6A0 | 1 | `nullsub_316` |
 | 0x59F940 | 1 | `nullsub_317` |
-| 0x5A5690 | 192 | `ProjectWorldToScreen_5A5690` |
+| 0x5A5690 | 192 | `ProjectWorldToScreen` |
 | 0x5A5C90 | 1 | `nullsub_318` |
 | 0x5A5CD0 | 1 | `nullsub_319` |
 | 0x5A67E0 | 1 | `nullsub_320` |
@@ -451,7 +451,7 @@ Only the `WIP_FUNC` functions are worth working on: they are real, called game c
 | 0x5D7AC0 | 1 | `nullsub_362` |
 | 0x5D7B10 | 1 | `nullsub_363` |
 | 0x5D7DD0 | 235 | `sub_5D7DD0` |
-| 0x5D98D0 | 9 | `IsFullScreen_5D98D0` |
+| 0x5D98D0 | 9 | `IsVideoFullScreen` |
 | 0x5DBEF0 | 1 | `nullsub_364` |
 | 0x5DBF30 | 1 | `nullsub_365` |
 | 0x5DC9C0 | 1 | `nullsub_366` |
@@ -711,7 +711,7 @@ Without a marker (not to be added):
 | 0x4023F0 | 314 | `sub_4023F0` | (nothing) |
 | 0x4057B0 | 421 | `sub_4057B0` | (nothing) |
 | 0x427170 | 10 | `cSampleManager::sub_427170` | (nothing) |
-| 0x444CE0 | 5 | `NoRefs_444CE0` | (nothing) |
+| 0x444CE0 | 5 | `NoRefs` | (nothing) |
 | 0x454940 | 84 | `dtor_454940` | (nothing) |
 | 0x4A6BE0 | 152 | `File::sub_4A6BE0` | (nothing) |
 | 0x4A6DB0 | 197 | `File::sub_4A6DB0` | (nothing) |
@@ -732,7 +732,7 @@ Without a marker (not to be added):
 | 0x587620 | 108 | `Registry::sub_587620` | (nothing) |
 | 0x58E000 | 7 | `cSampleManager::sub_58E000` | (nothing) |
 | 0x5B2750 | 3 | `sub_5B2750` | (nothing) |
-| 0x5D98D0 | 9 | `IsFullScreen_5D98D0` | (nothing) |
+| 0x5D98D0 | 9 | `IsVideoFullScreen` | (nothing) |
 | 0x5DCED0 | 25 | `sub_5DCED0` | (nothing) |
 
 Already in `Source/` with a marker, but also dead (kept, listed for reference):
@@ -740,34 +740,34 @@ Already in `Source/` with a marker, but also dead (kept, listed for reference):
 | Address | Size | Name | Referenced from |
 |---|---|---|---|
 | 0x407BD0 | 266 | `Trailer::sub_407BD0` | (nothing) |
-| 0x43A1F0 | 18 | `Car::IsBus_43A1F0` | (nothing) |
-| 0x43B420 | 285 | `Car::GetDoorWorldPos_43B420` | (nothing) |
-| 0x441600 | 203 | `Car::GetOrientedHalfExtentsRect_441600` | (nothing) |
-| 0x454A50 | 38 | `CarInfoTable::Reload_454A50` | (nothing) |
-| 0x477BA0 | 40 | `SpriteGrid::DebugLogAll_477BA0` | (nothing) |
-| 0x478950 | 157 | `SpriteGrid::DebugLog_478950` | 0x477BA0 |
-| 0x4A6BB0 | 44 | `File::IsCdRomDrive_4A6BB0` | 0x4B80F0, 0x4BBCB0, 0x4BBFA0 |
-| 0x4B5270 | 243 | `Frontend::DrawSavedStage_4B5270` | (nothing) |
-| 0x4C9240 | 94 | `PedGroup::KillEntireGroup_4C9240` | (nothing) |
-| 0x4DF3E0 | 239 | `Map_0x370::GetZoneOfTypeNearestCentre_4DF3E0` | (nothing) |
-| 0x4E0120 | 14 | `Map_0x370::TakeLowerBlockHasArrows_4E0120` | (nothing) |
-| 0x4E4820 | 242 | `Map_0x370::AllBlocksInRectHaveSlopeBits_4E4820` | (nothing) |
-| 0x4E7E90 | 120 | `Map_0x370::FindFirstPavementCoord_4E7E90` | (nothing) |
-| 0x4FF990 | 70 | `FrameProfiler::StartProfileTimer_4FF990` | (nothing) |
-| 0x4FF9F0 | 71 | `FrameProfiler::StopProfileTimer_4FF9F0` | (nothing) |
-| 0x4FFA50 | 50 | `FrameProfiler::DebugPrintf_4FFA50` | (nothing) |
-| 0x4FFA90 | 758 | `FrameProfiler::UpdateProfiling_4FFA90` | (nothing) |
-| 0x51E140 | 361 | `NetPlay::CreateTcpIpAddress_51E140` | (nothing) |
-| 0x51E2B0 | 405 | `NetPlay::CreateModemAddress_51E2B0` | (nothing) |
-| 0x51E450 | 354 | `NetPlay::CreateSerialAddress_51E450` | (nothing) |
-| 0x520EA0 | 1 | `NetPlay::NoRefs_null_520EA0` | (nothing) |
-| 0x5215B0 | 119 | `NetPlay::CopyConnection_5215B0` | (nothing) |
-| 0x521BE0 | 155 | `NetPlay::NoRefs_Send_521BE0` | (nothing) |
-| 0x521C80 | 151 | `NetPlay::NoRefs_Send_521C80` | (nothing) |
-| 0x5455F0 | 8 | `Char::KillPed_5455F0` | (nothing) |
-| 0x56B680 | 33 | `PlySlot::GetTotalLatestScore_56B680` | 0x56C170 |
-| 0x571150 | 235 | `PoliceCrew::SpawnFBI_nonused_571150` | (nothing) |
-| 0x5872A0 | 145 | `Registry::Set_Binary_5872A0` | 0x5875E0 |
-| 0x589210 | 158 | `RouteFinder::NoRefs_589210` | (nothing) |
-| 0x5AA8C0 | 4 | `gtx_0x106C::GetTiles_5AA8C0` | (nothing) |
-| 0x5B1170 | 5280 | `NoRefs_sub_5B1170` | (nothing) |
+| 0x43A1F0 | 18 | `Car::IsBus` | (nothing) |
+| 0x43B420 | 285 | `Car::GetDoorWorldPos` | (nothing) |
+| 0x441600 | 203 | `Car::GetOrientedHalfExtentsRect` | (nothing) |
+| 0x454A50 | 38 | `CarInfoTable::Reload` | (nothing) |
+| 0x477BA0 | 40 | `SpriteGrid::DebugLogAll` | (nothing) |
+| 0x478950 | 157 | `SpriteGrid::DebugLog` | 0x477BA0 |
+| 0x4A6BB0 | 44 | `File::IsCdRomDrive` | 0x4B80F0, 0x4BBCB0, 0x4BBFA0 |
+| 0x4B5270 | 243 | `Frontend::DrawSavedStage` | (nothing) |
+| 0x4C9240 | 94 | `PedGroup::KillEntireGroup` | (nothing) |
+| 0x4DF3E0 | 239 | `Map_0x370::GetZoneOfTypeNearestCentre` | (nothing) |
+| 0x4E0120 | 14 | `Map_0x370::TakeLowerBlockHasArrows` | (nothing) |
+| 0x4E4820 | 242 | `Map_0x370::AllBlocksInRectHaveSlopeBits` | (nothing) |
+| 0x4E7E90 | 120 | `Map_0x370::FindFirstPavementCoord` | (nothing) |
+| 0x4FF990 | 70 | `FrameProfiler::StartProfileTimer` | (nothing) |
+| 0x4FF9F0 | 71 | `FrameProfiler::StopProfileTimer` | (nothing) |
+| 0x4FFA50 | 50 | `FrameProfiler::DebugPrintf` | (nothing) |
+| 0x4FFA90 | 758 | `FrameProfiler::UpdateProfiling` | (nothing) |
+| 0x51E140 | 361 | `NetPlay::CreateTcpIpAddress` | (nothing) |
+| 0x51E2B0 | 405 | `NetPlay::CreateModemAddress` | (nothing) |
+| 0x51E450 | 354 | `NetPlay::CreateSerialAddress` | (nothing) |
+| 0x520EA0 | 1 | `NetPlay::NoRefs_null` | (nothing) |
+| 0x5215B0 | 119 | `NetPlay::CopyConnection` | (nothing) |
+| 0x521BE0 | 155 | `NetPlay::NoRefs_SendToAllDelayed` | (nothing) |
+| 0x521C80 | 151 | `NetPlay::NoRefs_SendTickedStandardPacket` | (nothing) |
+| 0x5455F0 | 8 | `Char::KillPed` | (nothing) |
+| 0x56B680 | 33 | `PlySlot::GetTotalLatestScore` | 0x56C170 |
+| 0x571150 | 235 | `PoliceCrew::SpawnFBI_nonused` | (nothing) |
+| 0x5872A0 | 145 | `Registry::Set_Binary` | 0x5875E0 |
+| 0x589210 | 158 | `RouteFinder::NoRefs` | (nothing) |
+| 0x5AA8C0 | 4 | `gtx_0x106C::GetTiles` | (nothing) |
+| 0x5B1170 | 5280 | `NoRefs_sub` | (nothing) |

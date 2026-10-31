@@ -68,8 +68,8 @@ class Ang16
         return Ang16(value, 0);
     }
 
-    // operator+ with the normalizing constructor called out of line (AssignNormalized_409300), for
-    // functions that ran out of inline expansions (Explosion::EmitBuildingDebris_22_23_24_25_542E30)
+    // operator+ with the normalizing constructor called out of line (AssignNormalized), for
+    // functions that ran out of inline expansions (Explosion::EmitBuildingDebris_22_23_24_25)
     Ang16 Add_ool(const Ang16& rhs) const
     {
         s16 value = rValue + rhs.rValue;
@@ -84,7 +84,7 @@ class Ang16
     }
 
     // 9.6f 0x49E240, defined in CarPhysics.cpp
-    inline wchar_t* ThetaText_49E240();
+    inline wchar_t* ThetaText();
 
     Ang16 operator-() const
     {
@@ -179,7 +179,7 @@ class Ang16
 
     EXPORT void Normalize_406C20();
 
-    inline Ang16& Normalized_406C20()
+    inline Ang16& Normalized()
     {
         Normalize_406C20();
         return *this;
@@ -199,46 +199,48 @@ class Ang16
         }
     }
 
-    EXPORT static bool __stdcall IsAngleAhead_405C60(Ang16* pFrom, Ang16* pTo);
+    EXPORT static bool __stdcall IsAngleAhead(Ang16* pFrom, Ang16* pTo);
 
-    EXPORT void SnapToAng4_405640();
-    EXPORT Ang16* AssignNormalized_409300(const s16& value, s32 not_used);
-    EXPORT Ang16 SubtractNormalized_409340(const Ang16& toSub);
+    EXPORT void SnapToAng4();
+    EXPORT Ang16* AssignNormalized(const s16& value, s32 not_used);
+    EXPORT Ang16 SubtractNormalized(const Ang16& toSub);
     EXPORT static Ang16 __stdcall Fix16_To_Ang16_482740(const Fix16& value);
 
-    // 10.5 0x409300 (AssignNormalized_409300) is the out-of-line copy of the normalizing constructor
+    // 10.5 0x409300 (AssignNormalized) is the out-of-line copy of the normalizing constructor
     // Ang16(const s16&, s32) below (9.6f 0x401C60). VC6 calls it instead of inlining in functions that
     // ran out of inline expansions. C++ can't declare the inline and the out-of-line copy of one
     // constructor, so the out-of-line one is reached through these overloads.
     Ang16(Ang16& input, s32 not_used)
     {
-        AssignNormalized_409300(input.rValue, not_used);
+        AssignNormalized(input.rValue, not_used);
     }
 
     Ang16(const s16* value, s32 not_used)
     {
-        AssignNormalized_409300(*value, not_used);
+        AssignNormalized(*value, not_used);
     }
 
     // The value is stored as a dword, as 9.6f's 0x40F540 passes it to 0x401C60; the copy reads its low word
     Ang16(const s32* value, s32 not_used)
     {
-        AssignNormalized_409300(*reinterpret_cast<const s16*>(value), not_used);
+        AssignNormalized(*reinterpret_cast<const s16*>(value), not_used);
     }
 
     // The out-of-line copy of Ang16(Fix16& value, u8) (9.6f 0x401C40). A real constructor, not a
     // method: when it is called out of line its 0 argument is pushed before the Fix16 argument is
-    // evaluated (ParticleManager::EmitImpactParticles_53FE40). Also used by ScriptThread::SCRCMD_CRANE_5041C0.
+    // evaluated (ParticleManager::EmitImpactParticles). Also used by ScriptThread::SCRCMD_CRANE.
     EXPORT Ang16(Fix16* value, s32 not_used);
 
-    inline static Fix16 __stdcall cosine_40F520(const Ang16& angle)
+    // 9.6f 0x40F520
+    inline static Fix16 __stdcall cosine(const Ang16& angle)
     {
-        return gCos_table_669260[angle.rValue];
+        return gCos_table[angle.rValue];
     }
 
-    inline static Fix16 __stdcall sine_40F500(const Ang16& angle)
+    // 9.6f 0x40F500
+    inline static Fix16 __stdcall sine(const Ang16& angle)
     {
-        return gSin_table_667A80[angle.rValue];
+        return gSin_table[angle.rValue];
     }
 
     // 9.6f 0x41FC20: the table value is the left operand (this) of the multiply
@@ -247,7 +249,7 @@ class Ang16
     // Non-inlined version of above function
     EXPORT static void __stdcall PolarToCartesian_451730(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2);
 
-    EXPORT static s32 __stdcall GetAngleFace_4F78F0(const Ang16& angle);
+    EXPORT static s32 __stdcall GetAngleFace(const Ang16& angle);
 
     // inlined from 0x40f580 on v9.6f
     // I was tempted to put this on the Fix16 header, but that will create a circular dependency...
@@ -258,37 +260,38 @@ class Ang16
     }
 
     // Reverse of above func
-    // OBS: INLINE_MODE required to match Char::ApplyRandomRotationJitter_54C6C0
+    // OBS: INLINE_MODE required to match Char::ApplyRandomRotationJitter
     INLINE_MODE static Ang16 __stdcall Fix16_To_Ang16_inlined_40F540(const Fix16& input)
     {
-        return Ang16(input.GetRaw_40F4B0() / 71, 0);
+        return Ang16(input.GetRaw() / 71, 0);
     }
 
-    inline static Ang16 __stdcall Fix16_To_Ang16_40F540(const Fix16& input)
+    // 9.6f 0x40F540
+    inline static Ang16 __stdcall Fix16_To_Ang16(const Fix16& input)
     {
-        return Ang16(input.GetRaw_40F4B0() / 71, 0);
+        return Ang16(input.GetRaw() / 71, 0);
     }
 
-    // Fix16_To_Ang16_40F540 with the normalizing Ang16 ctor called out of line (AssignNormalized_409300),
-    // Trailer::UpdateTrailerAlignment_407CE0
+    // Fix16_To_Ang16 with the normalizing Ang16 ctor called out of line (AssignNormalized),
+    // Trailer::UpdateTrailerAlignment
     inline static Ang16 __stdcall Fix16_To_Ang16_ool_40F540(const Fix16& input)
     {
         // The quotient is stored as a dword, like 9.6f's 0x40F540 passing it to 0x401C60
-        s32 value = input.GetRaw_40F4B0() / 71;
+        s32 value = input.GetRaw() / 71;
         return Ang16(&value, 0);
     }
 
     // 9.6f 0x41E110
     // https://decomp.me/scratch/RKAuT
-    bool IsAxisAligned_41E110() const
+    bool IsAxisAligned() const
     {
         return (rValue == 0 || rValue == 360 || rValue == 720 || rValue == 1080) ? true : false;
     }
 
     // 9.6f 0x41E3C0
-    bool jIsAxisAligned_41E3C0() const
+    bool jIsAxisAligned() const
     {
-        return IsAxisAligned_41E110();
+        return IsAxisAligned();
     }
 
     // 9.6f 0x401C60
@@ -312,7 +315,7 @@ class Ang16
     {
     }
 
-    Ang16(Fix16 value) : rValue(value.mValue >> 14) // value.ToInt() breaks Map_0x370::SpawnMapObjects_4DFB90
+    Ang16(Fix16 value) : rValue(value.mValue >> 14) // value.ToInt() breaks Map_0x370::SpawnMapObjects
     {
     }
 
@@ -323,43 +326,45 @@ class Ang16
         Normalize();
     }
 
-    Ang16 MultiplyByFix16_401CB0(const Fix16& factor) const
+    // 9.6f 0x401CB0
+    Ang16 MultiplyByFix16(const Fix16& factor) const
     {
         return Ang16(Fix16(rValue) * factor, 0);
     }
 
-    // MultiplyByFix16_401CB0 with the multiply and the Fix16* constructor out of line. The product
+    // MultiplyByFix16 with the multiply and the Fix16* constructor out of line. The product
     // goes straight into the constructor call, so its 0 argument is pushed before the multiply
-    // (ParticleManager::EmitImpactParticles_53FE40)
+    // (ParticleManager::EmitImpactParticles)
     Ang16 MultiplyByFix16_401CB0_out_of_line(const Fix16& factor) const
     {
-        return Ang16(const_cast<Fix16*>(&static_cast<const Fix16&>(Fix16(rValue).Multiply_408680(factor))), 0);
+        return Ang16(const_cast<Fix16*>(&static_cast<const Fix16&>(Fix16(rValue).Multiply(factor))), 0);
     }
 
-    // MultiplyByFix16_401CB0 with the multiply inline and the Fix16* constructor out of line
-    // (ParticleManager::EmitWaterSplash_53F060)
+    // MultiplyByFix16 with the multiply inline and the Fix16* constructor out of line
+    // (ParticleManager::EmitWaterSplash)
     Ang16 MultiplyByFix16_401CB0_ctor_ool(const Fix16& factor) const
     {
         Fix16 product = Fix16(rValue) * factor;
         return Ang16(&product, 0);
     }
 
-    Fix16 divideBy_40E640(const Ang16& scale) const
+    // 9.6f 0x40E640
+    Fix16 divideBy(const Ang16& scale) const
     {
         return Fix16(rValue) / scale.rValue;
     }
 
-    EXPORT static Fix16 __stdcall NormalizeAngleDeltaScaled_405B60(Ang16& from, Ang16& to, Ang16& divisor);
-    EXPORT u8 GetOctant_4056A0() const;
-    EXPORT u8 ToAng4_405680() const;
+    EXPORT static Fix16 __stdcall NormalizeAngleDeltaScaled(Ang16& from, Ang16& to, Ang16& divisor);
+    EXPORT u8 GetOctant() const;
+    EXPORT u8 ToAng4() const;
 
-    // TODO: move with CarDoorAlignmentSolver_545AF0
     // https://decomp.me/scratch/6VBR0  (matched)
-    static inline void __stdcall RotateVector_41FC90(Fix16& xpos, Fix16& ypos, Ang16& rotation)
+    // 9.6f 0x41FC90
+    static inline void __stdcall RotateVector(Fix16& xpos, Fix16& ypos, Ang16& rotation)
     {
         Fix16 old_xpos = xpos;
-        xpos = xpos * Ang16::cosine_40F520(rotation) + ypos * Ang16::sine_40F500(rotation);
-        ypos = (-old_xpos) * Ang16::sine_40F500(rotation) + ypos * Ang16::cosine_40F520(rotation);
+        xpos = xpos * Ang16::cosine(rotation) + ypos * Ang16::sine(rotation);
+        ypos = (-old_xpos) * Ang16::sine(rotation) + ypos * Ang16::cosine(rotation);
     }
 
     s16 rValue;
@@ -369,10 +374,10 @@ class Ang16
 #pragma warning(disable : 4101)
 inline void __stdcall Ang16::PolarToCartesian_41FC20(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
 {
-    // Never read: its optimizer entry is needed by CarAI::UpdateStateMachine_44E560 (docs/match_attempts.md)
+    // Never read: its optimizer entry is needed by CarAI::UpdateStateMachine (docs/match_attempts.md)
     s32 unused;
-    ret1 = Ang16::sine_40F500(angle) * radius;
-    ret2 = Ang16::cosine_40F520(angle) * radius;
+    ret1 = Ang16::sine(angle) * radius;
+    ret2 = Ang16::cosine(angle) * radius;
 }
 #pragma warning(pop)
 
@@ -393,7 +398,8 @@ class Ang8
     u8 rValue;
 };
 
-inline void __stdcall RotateAndTranslatePoint_42A720(Fix16& inX,
+// 9.6f 0x42A720
+inline void __stdcall RotateAndTranslatePoint(Fix16& inX,
                                                          Fix16& inY,
                                                          Ang16& rotation,
                                                          Fix16& transX,
@@ -401,6 +407,6 @@ inline void __stdcall RotateAndTranslatePoint_42A720(Fix16& inX,
                                                          Fix16& outX,
                                                          Fix16& outY)
 {
-    outX = (((inX - transX) * Ang16::cosine_40F520(rotation)) + ((inY - transY) * Ang16::sine_40F500(rotation)));
-    outY = ((-(inX - transX) * Ang16::sine_40F500(rotation)) + ((inY - transY) * Ang16::cosine_40F520(rotation)));
+    outX = (((inX - transX) * Ang16::cosine(rotation)) + ((inY - transY) * Ang16::sine(rotation)));
+    outY = ((-(inX - transX) * Ang16::sine(rotation)) + ((inY - transY) * Ang16::cosine(rotation)));
 }

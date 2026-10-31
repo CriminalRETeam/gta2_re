@@ -1,6 +1,6 @@
 #pragma once
 
-// Parameter of Ped::AttackTargetStateMachine_46D460
+// Parameter of Ped::AttackTargetStateMachine
 namespace ped_attack_target_type
 {
 enum

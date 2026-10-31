@@ -10,49 +10,49 @@ class Ped;
 class TagGame
 {
   public:
-    EXPORT void Init_516560();
-    EXPORT void SetNewFugitive_516590(Player* pNewFugitive);
-    EXPORT void ExecuteGamemodeTick_516660();
-    EXPORT void UpdateFugitive_516740(Player* pFormerPlayerFugitive, Player* pPlayer_killer);
+    EXPORT void Init();
+    EXPORT void SetNewFugitive(Player* pNewFugitive);
+    EXPORT void ExecuteGamemodeTick();
+    EXPORT void UpdateFugitive(Player* pFormerPlayerFugitive, Player* pPlayer_killer);
 
     // 9.6f 0x434B20
-    inline bool IsTagGame_434B20()
+    inline bool IsTagGame()
     {
-        return gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0() == TAG_GAME_3;
+        return gGameSession.GetMultiplayerGamemode() == TAG_GAME_3;
     }
 
     // 9.6f 0x434B60, defined in Player.hpp
-    inline bool IsFugitivePed_434B60(Ped* pPed);
+    inline bool IsFugitivePed(Ped* pPed);
 
     // 9.6f 0x453A90
-    inline bool HasQuit_453A90(s32 player_idx)
+    inline bool HasQuit(s32 player_idx)
     {
-        return field_20_bHasQuit[player_idx];
+        return mbHasQuit[player_idx];
     }
 
     // 9.6f 0x4C7380, defined in Hud.cpp (needs Player)
-    inline s32 GetPlayerTime_4C7380(Player* pPlayer);
+    inline s32 GetPlayerTime(Player* pPlayer);
 
     // 9.6f 0x461DD0
-    inline void SetQuit_461DD0(s32 player_idx)
+    inline void SetQuit(s32 player_idx)
     {
-        field_20_bHasQuit[player_idx] = true;
+        mbHasQuit[player_idx] = true;
     }
 
     // 9.6f 0x453AA0
-    inline s32 GetTime_453AA0(s32 player_idx)
+    inline s32 GetTime(s32 player_idx)
     {
-        return field_4_it_time_secs[player_idx];
+        return mItTimeSecs[player_idx];
     }
 
     // 9.6f 0x453AB0, defined in Frontend.cpp
-    inline s32 GetLeaderIdx_453AB0();
+    inline s32 GetLeaderIdx();
 
-    Player* field_0_fugitive;  //  the player who is "IT"
-    s32 field_4_it_time_secs[MAX_PLAYERS]; //  seconds each player has spent as "IT" (counted while the net time limit is enabled)
-    s32 field_1C_tick_timer;
-    bool field_20_bHasQuit[MAX_PLAYERS];
+    Player* mFugitive;  // 0x0:  the player who is "IT"
+    s32 mItTimeSecs[MAX_PLAYERS]; // 0x4:  seconds each player has spent as "IT" (counted while the net time limit is enabled)
+    s32 mTickTimer; // 0x1C
+    bool mbHasQuit[MAX_PLAYERS]; // 0x20
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TagGame, 0x28);
 
-EXTERN_GLOBAL(TagGame, gTagGame_6F8450);
+EXTERN_GLOBAL(TagGame, gTagGame);

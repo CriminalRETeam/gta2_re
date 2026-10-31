@@ -87,6 +87,15 @@ class GlobalSymbolMetadataTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Ambiguous decorated public names'):
             self.parse(archive([b'?value@A@@3HA', b'?value@B@@3HA'], [('value', '0x401000')]))
 
+    def test_class_static_member(self):
+        symbol = b'?sCount@Foo@@2HA'
+        self.assertEqual(self.parse(archive([symbol], [('Foo_sCount', '0x401000')])),
+                         [('Foo::sCount', symbol.decode(), '0x401000')])
+
+    def test_file_static_registration_is_not_a_global(self):
+        data = archive([b'?kHalf@@3HA'], [('kHalf', '0x401000')]).replace(b'gRef_kHalf_', b'gRefStatic_kHalf_')
+        self.assertEqual(self.parse(data), [])
+
     def test_private_c_style_omission_is_unchanged(self):
         self.assertEqual(self.parse(archive([b'_privateValue'], [('privateValue', '0x401000')])), [])
 

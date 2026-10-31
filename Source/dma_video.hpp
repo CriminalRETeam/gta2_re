@@ -4,7 +4,7 @@
 #include "3rdParty/GTA2Hax/DmaVideo/DmaVideo.hpp"
 #include <Windows.h>
 
-EXTERN_GLOBAL(SVideo*, gVidSys_7071D0);
+EXTERN_GLOBAL(SVideo*, gVidSys);
 
 EXTERN_GLOBAL(T_Vid_GetVersion, pVid_GetVersion);
 EXTERN_GLOBAL(T_Vid_Init_SYS, pVid_Init_SYS);
@@ -29,6 +29,6 @@ EXTERN_GLOBAL(T_Vid_WindowProc, pVid_WindowProc);
 EXTERN_GLOBAL(T_Vid_InitDLL, pVid_InitDLL);
 EXTERN_GLOBAL(T_Vid_SetGamma, pVid_SetGamma);
 
-EXPORT void __stdcall DMA_Video_Stub_5EB810();
-EXPORT void __stdcall DMA_Video_Unload_5EB8C0(SVideo* pVidSys);
-EXPORT s32 __stdcall DMA_Video_LoadDll_5EB970(const char_type* lpLibFileName);
+EXPORT void __stdcall DMA_Video_Stub();
+EXPORT void __stdcall DMA_Video_Unload(SVideo* pVidSys);
+EXPORT s32 __stdcall DMA_Video_LoadDll(const char_type* lpLibFileName);

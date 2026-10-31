@@ -5,19 +5,19 @@
 #include "fix16.hpp"
 #include "Fix16_Vec.hpp"
 
-EXTERN_GLOBAL(Fix16, gFix16_6777CC);
+EXTERN_GLOBAL(Fix16, kFpZero_6777CC);
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
-EXTERN_GLOBAL(Fix16, kFP16One256th_6FE07C);
+EXTERN_GLOBAL(Fix16, kFP16One256th);
 EXTERN_GLOBAL(Fix16, kFpZero_6F77C0);
 
 // GetLength_41E260 compares against a zero constant that each TU of the original has its own copy of
 // (a header static, like 9.6f's single 0x5E3DC8 in vec_len 0x41E260). A TU whose copy isn't
-// gFix16_6777CC defines FIX16_POINT_ZERO to it before its first include.
+// kFpZero_6777CC defines FIX16_POINT_ZERO to it before its first include.
 #ifndef FIX16_POINT_ZERO
-    #define FIX16_POINT_ZERO gFix16_6777CC
+    #define FIX16_POINT_ZERO kFpZero_6777CC
 #endif
 EXTERN_GLOBAL(Fix16, kFpZero_6F610C);
-EXTERN_GLOBAL(Fix16, kF16Zero_677B90);
+EXTERN_GLOBAL(Fix16, kF16Zero);
 EXTERN_GLOBAL(Fix16, kFpZero_706EB8);
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FD9E4);
 EXTERN_GLOBAL(Fix16, kZero_676818);
@@ -27,9 +27,9 @@ EXTERN_GLOBAL(Fix16, kZero_679E70);
 class Fix16_Point;
 
 // A point without a destructor. 10.5 has points that don't take part in EH unwinding: struct members
-// (~Sprite is a bare jmp, the Char ctor's EH states leave out field_98_velocity_vector), a by-value
-// parameter the caller copies as two dwords (DrawElectricArc_5DE910) and a few locals (CarPhysics 0x55F280,
-// 0x55F800, Camera::WorldToScreen_40CFC0's result). Everything else is a Fix16_Point. It is a
+// (~Sprite is a bare jmp, the Char ctor's EH states leave out mVelocityVector), a by-value
+// parameter the caller copies as two dwords (DrawElectricArc) and a few locals (CarPhysics 0x55F280,
+// 0x55F800, Camera::WorldToScreen's result). Everything else is a Fix16_Point. It is a
 // separate type, not a base of Fix16_Point: 10.5 charges Fix16_Point's ctor as one size-42 inline
 // site at the top level, which a derived class's ctor (base ctor nested in it) doesn't reproduce.
 // 9.6f doesn't tell the two apart.
@@ -45,23 +45,26 @@ struct Fix16_Point_POD
         y = new_y;
     }
 
-    void SetXY_432860(Fix16& new_x, Fix16& new_y)
+    // 9.6f 0x432860
+    void SetXY(Fix16& new_x, Fix16& new_y)
     {
         this->x = new_x;
         this->y = new_y;
     }
 
-    inline void SetFromPolar_41E210(Fix16& radius, Ang16& angle)
+    // 9.6f 0x41E210
+    inline void SetFromPolar(Fix16& radius, Ang16& angle)
     {
-        x = Ang16::sine_40F500(angle) * radius;
-        y = Ang16::cosine_40F520(angle) * radius;
+        x = Ang16::sine(angle) * radius;
+        y = Ang16::cosine(angle) * radius;
     }
 
-    // Matching impl at RotateVelocity_562C20
-    inline void RotateByAngle_40F6B0(const Ang16& angle)
+    // Matching impl at RotateVelocity
+    // 9.6f 0x40F6B0
+    inline void RotateByAngle(const Ang16& angle)
     {
-        Fix16 sin = Ang16::sine_40F500(angle);
-        Fix16 cos = Ang16::cosine_40F520(angle);
+        Fix16 sin = Ang16::sine(angle);
+        Fix16 cos = Ang16::cosine(angle);
 
         Fix16 x_old = x;
 
@@ -84,13 +87,13 @@ struct Fix16_Point_POD
 class Fix16_Point
 {
   public:
-    void SetXY_432860(Fix16& new_x, Fix16& new_y)
+    void SetXY(Fix16& new_x, Fix16& new_y)
     {
         this->x = new_x;
         this->y = new_y;
     }
 
-    // Reads the TU's FIX16_POINT_ZERO copy (Weapon::throwable_5DDFC0 compares with 0x706EB8)
+    // Reads the TU's FIX16_POINT_ZERO copy (Weapon::throwable compares with 0x706EB8)
     inline bool IsNull_420360() const
     {
         return x == FIX16_POINT_ZERO && y == FIX16_POINT_ZERO;
@@ -103,15 +106,16 @@ class Fix16_Point
     }
 
     // 9.6f 0x49E450
-    inline bool HasZeroComponent_49E450() const
+    inline bool HasZeroComponent() const
     {
         return x == kFP16Zero_6FE20C || y == kFP16Zero_6FE20C;
     }
 
-    void ApplyDeadZone_49E3C0()
+    // 9.6f 0x49E3C0
+    void ApplyDeadZone()
     {
         Fix16 total = (Fix16::Abs(x) + Fix16::Abs(y));
-        if (total < kFP16One256th_6FE07C)
+        if (total < kFP16One256th)
         {
             x = kFP16Zero_6FE20C;
             y = kFP16Zero_6FE20C;
@@ -119,15 +123,16 @@ class Fix16_Point
     }
 
     // But also 0x40ACD0 non inlined in 10.5
-    Ang16 atan2_40F790()
+    // 9.6f 0x40F790
+    Ang16 GetAngle()
     {
-        return Fix16::atan2_fixed_405320(y, x);
+        return Fix16::atan2_fixed(y, x);
     }
 
     Fix16 GetLength_453590() const;
 
     // 9.6f 0x41E260; the out-of-line copy is GetLength_453590. The nested if/else (front-end size 162, the
-    // else-if chain is 160) gives the original's cut-offs in Crane::ComputeHookPolar_47F6C0 with
+    // else-if chain is 160) gives the original's cut-offs in Crane::ComputeHookPolar with
     // SquareRoot at 48; matched functions allow 159..162.
     inline Fix16 GetLength_41E260() const
     {
@@ -148,8 +153,8 @@ class Fix16_Point
         }
     }
 
-    // GetLength_41E260 as inlined twice into Car::GetCarLinearSpeed_43A240: the original inlines both
-    // multiplies, the add and SquareRoot but calls Negate_4086A0 for all four Abs. No helper/caller shape found
+    // GetLength_41E260 as inlined twice into Car::GetCarLinearSpeed: the original inlines both
+    // multiplies, the add and SquareRoot but calls Negated for all four Abs. No helper/caller shape found
     // that gives that with the plain inline (unexplained, no 9.6f copy of the function).
     inline Fix16 GetLength_SqrtForced_43A240()
     {
@@ -167,42 +172,44 @@ class Fix16_Point
         }
     }
 
-    inline void SetFromPolar_41E210(Fix16& radius, Ang16& angle)
+    // 9.6f 0x41E210
+    inline void SetFromPolar(Fix16& radius, Ang16& angle)
     {
-        x = Ang16::sine_40F500(angle) * radius;
-        y = Ang16::cosine_40F520(angle) * radius;
+        x = Ang16::sine(angle) * radius;
+        y = Ang16::cosine(angle) * radius;
     }
 
-    // RotateByAngle_40F6B0 in a function that ran out of inline expansions: every operator but
-    // the first + is called out of line (SpawnCabAndTrailerHelper_408370)
+    // RotateByAngle in a function that ran out of inline expansions: every operator but
+    // the first + is called out of line (SpawnCabAndTrailerHelper)
     inline void RotateByAngle_40F6B0_out_of_line(const Ang16& angle)
     {
-        Fix16 sin = Ang16::sine_40F500(angle);
-        Fix16 cos = Ang16::cosine_40F520(angle);
+        Fix16 sin = Ang16::sine(angle);
+        Fix16 cos = Ang16::cosine(angle);
 
         Fix16 x_old = x;
 
-        x = x.Multiply_408680(cos) + y.Multiply_408680(sin);
-        y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(y.Multiply_408680(cos));
+        x = x.Multiply(cos) + y.Multiply(sin);
+        y = x_old.Negated().Multiply(sin).Add(y.Multiply(cos));
     }
 
-    // RotateByAngle_40F6B0 with every operator called out of line (ParticleManager::EmitImpactParticles_53FE40)
+    // RotateByAngle with every operator called out of line (ParticleManager::EmitImpactParticles)
     inline void RotateByAngle_40F6B0_all_out_of_line(const Ang16& angle)
     {
-        Fix16 sin = Ang16::sine_40F500(angle);
-        Fix16 cos = Ang16::cosine_40F520(angle);
+        Fix16 sin = Ang16::sine(angle);
+        Fix16 cos = Ang16::cosine(angle);
 
         Fix16 x_old = x;
 
-        x = x.Multiply_408680(cos).Add_408660(y.Multiply_408680(sin));
-        y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(y.Multiply_408680(cos));
+        x = x.Multiply(cos).Add(y.Multiply(sin));
+        y = x_old.Negated().Multiply(sin).Add(y.Multiply(cos));
     }
 
-    // Matching impl at RotateVelocity_562C20
-    inline void RotateByAngle_40F6B0(const Ang16& angle)
+    // Matching impl at RotateVelocity
+    // 9.6f 0x40F6B0
+    inline void RotateByAngle(const Ang16& angle)
     {
-        Fix16 sin = Ang16::sine_40F500(angle);
-        Fix16 cos = Ang16::cosine_40F520(angle);
+        Fix16 sin = Ang16::sine(angle);
+        Fix16 cos = Ang16::cosine(angle);
 
         Fix16 x_old = x;
 
@@ -213,8 +220,8 @@ class Fix16_Point
     void FromPolar_41E210(const Fix16& radius, const Ang16& angle)
     {
 
-        x = radius * Ang16::sine_40F500(angle);
-        y = radius * Ang16::cosine_40F520(angle);
+        x = radius * Ang16::sine(angle);
+        y = radius * Ang16::cosine(angle);
     }
 
 
@@ -233,39 +240,40 @@ class Fix16_Point
         return *this;
     }
 
-    Fix16_Point& MultiplyByFix16_49E3A0(const Fix16& factor)
+    // 9.6f 0x49E3A0
+    Fix16_Point& MultiplyByFix16(const Fix16& factor)
     {
         x *= factor;
         y *= factor;
         return *this;
     }
 
-    // Out-of-line copy of RotateByAngle_40F6B0, emitted in CarPhysics.cpp
-    EXPORT void RotateVelocity_562C20(const Ang16& angle);
+    // Out-of-line copy of RotateByAngle, emitted in CarPhysics.cpp
+    EXPORT void RotateVelocity(const Ang16& angle);
 
-    EXPORT Fix16_Point Multiply_438FE0(Fix16& in) const;
-    EXPORT Fix16_Point Divide_442CB0(Fix16& in) const;
+    EXPORT Fix16_Point Multiply(Fix16& in) const;
+    EXPORT Fix16_Point Divide(Fix16& in) const;
 
-    // Divide_442CB0 as a nothrow inline (see DivideInl_55F9E0; CarPhysics::HandleObjectCollision_5606C0,
-    // Car::ApplyExplosionImpulse_443710)
+    // Divide as a nothrow inline (see DivideInl_55F9E0; CarPhysics::HandleObjectCollision,
+    // Car::ApplyExplosionImpulse)
     inline Fix16_Point DivideInl_442CB0(Fix16& in) const throw()
     {
         return Fix16_Point(x / in, y / in);
     }
 
-    // Multiply_438FE0 as a nothrow inline (see DivideInl_55F9E0; Car::TryHitchTrailer_442810)
+    // Multiply as a nothrow inline (see DivideInl_55F9E0; Car::TryHitchTrailer)
     inline Fix16_Point MultiplyInl_438FE0(Fix16& in) const throw()
     {
         return Fix16_Point(x * in, y * in);
     }
 
-    // Out-of-line copies emitted in Weapon.cpp (used by DrawElectricArc_5DE910).
-    EXPORT Fix16_Point& AddAssign_5E40C0(const Fix16_Point& other);
-    EXPORT Fix16_Point& DivAssign_5E40E0(const Fix16& v);
+    // Out-of-line copies emitted in Weapon.cpp (used by DrawElectricArc).
+    EXPORT Fix16_Point& AddAssign(const Fix16_Point& other);
+    EXPORT Fix16_Point& DivAssign(const Fix16& v);
     EXPORT Fix16 MaxAbs_5E4140() const;
 
     // 9.6f 0x48A270 (the inline of MaxAbs_5E4140)
-    inline Fix16 MaxAbs_48A270()
+    inline Fix16 MaxAbs()
     {
         Fix16 ax = Fix16::Abs_436A50(x);
         Fix16 ay = Fix16::Abs_436A50(y);
@@ -277,10 +285,10 @@ class Fix16_Point
     }
 
     // 9.6f 0x48A250: both components through Fix16::DivideAssign (10.5 0x539F90)
-    inline void DivideAssign_48A250(const Fix16& d)
+    inline void DivideAssign(const Fix16& d)
     {
-        x.DivideAssign_539F90(d);
-        y.DivideAssign_539F90(d);
+        x.DivideAssign(d);
+        y.DivideAssign(d);
     }
 
     // FUNCTION: 96f 0x41e1e0
@@ -290,27 +298,27 @@ class Fix16_Point
         y = Fix16(0);
     }
 
-    // Both inlined and exists as a function... some strange array init behaviour??
+    // Out of line at 0x40AC40 only as the destructor the eh vector constructor iterator (??_L) gets for
+    // Fix16_Point arrays (CarPhysics::ctor_563900, SpriteShape::ctor_5A57B0)
     ~Fix16_Point()
     {
     }
 
-    // It needs to be in the header
-    // MATCH_FUNC(0x563970)
-
+    // Out of line at 0x563970 for the same ??_L calls: a header inline, so it has no marker
     Fix16_Point()
     {
     }
 
     // No user-defined copy ctor: 9.6f copies points with plain movs (no call even at /Ob0), and the
-    // implicit one does not use up VC6's inline budget (SpawnCabAndTrailerHelper_408370 needs that).
+    // implicit one does not use up VC6's inline budget (SpawnCabAndTrailerHelper needs that).
 
     // 9.6f 0x401D20
     Fix16_Point(const Fix16& new_x, const Fix16& new_y) : x(new_x), y(new_y)
     {
     }
 
-    void ClampTowardsZero_49E480(const Fix16_Point& limit)
+    // 9.6f 0x49E480
+    void ClampTowardsZero(const Fix16_Point& limit)
     {
         if (x >= kFP16Zero_6FE20C)
         {
@@ -350,28 +358,28 @@ class Fix16_Point
     }
 
     // The out-of-line copy of the inline operator-. Called by name where the original keeps an EH state
-    // for temporaries around the call (Crane::HookPickupCar_47EF80, ComputeHookPolar_47F6C0); the
-    // inline operator- called out of line gets none (CarPhysics::HandleCarCollision_55FF20)
-    EXPORT Fix16_Point Sub_40AC80(const Fix16_Point& rhs) const;
+    // for temporaries around the call (Crane::HookPickupCar, ComputeHookPolar); the
+    // inline operator- called out of line gets none (CarPhysics::HandleCarCollision)
+    EXPORT Fix16_Point Sub(const Fix16_Point& rhs) const;
 
-    // operator+/operator- with their bodies defined at the end of Car.cpp (HandleCarHitByObject_43F130)
+    // operator+/operator- with their bodies defined at the end of Car.cpp (HandleCarHitByObject)
     inline Fix16_Point AddLate_40AC50(const Fix16_Point& in);
     inline Fix16_Point SubLate_40AC80(const Fix16_Point& rhs);
 
-    // Out of line operator+ (CarPhysics::SpawnSkidSegment_55D200)
-    EXPORT Fix16_Point Add_40AC50(const Fix16_Point& in) const;
+    // Out of line operator+ (CarPhysics::SpawnSkidSegment)
+    EXPORT Fix16_Point Add(const Fix16_Point& in) const;
 
     // operator+ 0x40AC50 as a nothrow inline that VC6 still calls out of line: no EH state for the
-    // temporaries alive across the call (Car::TryHitchTrailer_442810)
+    // temporaries alive across the call (Car::TryHitchTrailer)
     inline Fix16_Point AddInl_40AC50(const Fix16_Point& in) const throw()
     {
         return Fix16_Point(x + in.x, y + in.y);
     }
 
-    // Out of line unary minus (Object::ResolveCollisionWithPed_5229B0)
-    EXPORT Fix16_Point Negate_40ACB0() const;
+    // Out of line unary minus (Object::ResolveCollisionWithPed)
+    EXPORT Fix16_Point Negated() const;
 
-    // Unused, but deleting it breaks Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0 (see "Adding unused
+    // Unused, but deleting it breaks Particle_4C::UpdateCollisionBurst_state_31_34 (see "Adding unused
     // inline methods to a header" in docs/matching_quirks.md)
     inline Fix16 GetLength_no_sqrt_inline()
     {
@@ -389,7 +397,26 @@ class Fix16_Point
         }
     }
 
-    // Needed for CarPhysics::HandleCarCollision_55FF20.
+    // Unused (GetSpeed matches with the plain GetLength_41E260), but don't remove it: without it
+    // MapRenderer::Draw4SidedDiagonalUpLeft and Draw3SidedDiagonalDownRight stop matching
+    // (see "Adding unused inline methods to a header" in docs/matching_quirks.md).
+    inline Fix16 GetLength_all_out_of_line_abs_y_negate()
+    {
+        if (x == kFpZero_6F77C0)
+        {
+            return Fix16::Abs_negate_out_of_line(y);
+        }
+        else if (y == kFpZero_6F77C0)
+        {
+            return Fix16::Abs(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot_436A70(x.Multiply(x).Add(y.Multiply(y)));
+        }
+    }
+
+    // Needed for CarPhysics::HandleCarCollision.
     inline Fix16 GetLength_all_out_of_line_abs_y_negate_2()
     {
         if (x == kFP16Zero_6FE20C)
@@ -402,11 +429,11 @@ class Fix16_Point
         }
         else
         {
-            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y.Multiply_408680(y)));
+            return Fix16::SquareRoot_436A70(x.Multiply(x).Add(y.Multiply(y)));
         }
     }
 
-    // Needed for CarPhysics::ComputeEngineTorque_561970: named out-of-line multiplies, inline add (Abs goes
+    // Needed for CarPhysics::ComputeEngineTorque: named out-of-line multiplies, inline add (Abs goes
     // out of line by the inline budget).
     inline Fix16 GetLength_ool_abs_mul()
     {
@@ -420,11 +447,11 @@ class Fix16_Point
         }
         else
         {
-            return Fix16::SquareRoot_436A70(Fix16::Add_ref(x.Multiply_408680(x), y.Multiply_408680(y)));
+            return Fix16::SquareRoot_436A70(Fix16::Add_ref(x.Multiply(x), y.Multiply(y)));
         }
     }
 
-    // Needed for CarPhysics::SpawnSkidSegment_55D200.
+    // Needed for CarPhysics::SpawnSkidSegment.
     inline Fix16 GetLength_all_out_of_line_abs()
     {
         if (x == kFP16Zero_6FE20C)
@@ -437,11 +464,11 @@ class Fix16_Point
         }
         else
         {
-            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y.Multiply_408680(y)));
+            return Fix16::SquareRoot_436A70(x.Multiply(x).Add(y.Multiply(y)));
         }
     }
 
-    // Needed for CarPhysics::ScarePedsOnDrivingFast_559C30 and UpdateSteeringAngle_562560.
+    // Needed for CarPhysics::ScarePedsOnDrivingFast and UpdateSteeringAngle.
     inline Fix16 GetLength_out_of_line_x_squared()
     {
         if (x == kFP16Zero_6FE20C)
@@ -454,7 +481,7 @@ class Fix16_Point
         }
         else
         {
-            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y * y));
+            return Fix16::SquareRoot_436A70(x.Multiply(x).Add(y * y));
         }
     }
 
@@ -468,37 +495,37 @@ class Fix16_Point
         return Fix16_Point(-x, -y);
     }
 
-    EXPORT Fix16_Point MultBy_442C80(const s32& factor) const;
+    EXPORT Fix16_Point MultBy(const s32& factor) const;
 
     // 10.0 0x442CB0
     EXPORT Fix16_Point operator/(Fix16& in) const;
 
-    // GetLength_41E260 as inlined into NormalizeSafe_442AD0 (out of line helpers where the inline budget ran out)
+    // GetLength_41E260 as inlined into NormalizeSafe (out of line helpers where the inline budget ran out)
     inline Fix16 GetLength_inline_442AD0()
     {
-        if (x == gFix16_6777CC)
+        if (x == kFpZero_6777CC)
         {
             return Fix16::Abs_negate_out_of_line(y);
         }
-        else if (y == gFix16_6777CC)
+        else if (y == kFpZero_6777CC)
         {
             return Fix16::Abs_436A50(x);
         }
         else
         {
-            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y * y));
+            return Fix16::SquareRoot_436A70(x.Multiply(x).Add(y * y));
         }
     }
 
-    // MultiplyByFix16_49E3A0 as inlined into CarPhysics::CalculateRearWheelForce_5620D0: the
+    // MultiplyByFix16 as inlined into CarPhysics::CalculateRearWheelForce: the
     // second *= is the out-of-line copy
     void MultiplyByFix16_inline_5620D0(const Fix16& factor)
     {
         x *= factor;
-        y.MultiplyAssign_562430(factor);
+        y.MultiplyAssign(factor);
     }
 
-    // GetLength_41E260 as inlined into CarPhysics::CalculateRearWheelForce_5620D0: Abs and x*x out of line
+    // GetLength_41E260 as inlined into CarPhysics::CalculateRearWheelForce: Abs and x*x out of line
     // by the inline budget, y*y written out inline (the plain y * y changes the function)
     inline Fix16 GetLength_inline_5620D0()
     {
@@ -516,30 +543,31 @@ class Fix16_Point
         }
     }
 
-    // Same, for the scaled point in NormalizeSafe_442AD0
+    // Same, for the scaled point in NormalizeSafe
     inline Fix16 GetLength_scaled_inline_442AD0()
     {
-        if (x == gFix16_6777CC)
+        if (x == kFpZero_6777CC)
         {
             return Fix16::Abs_negate_out_of_line(y);
         }
-        else if (y == gFix16_6777CC)
+        else if (y == kFpZero_6777CC)
         {
             return Fix16::Abs_negate_out_of_line(x);
         }
         else
         {
-            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y.Multiply_408680(y)));
+            return Fix16::SquareRoot_436A70(x.Multiply(x).Add(y.Multiply(y)));
         }
     }
 
-    EXPORT Fix16_Point NormalizeSafe_442AD0();
+    EXPORT Fix16_Point NormalizeSafe();
 
-    EXPORT Ang16 atan2_40ACD0();
+    EXPORT Ang16 GetAngle_40ACD0();
 
-    EXPORT Fix16_Point Rotate90CCW_5605E0() const;
+    EXPORT Fix16_Point Rotate90CCW() const;
 
-    void clear_41E1E0()
+    // 9.6f 0x41E1E0
+    void SetZero()
     {
         x = 0;
         y = 0;
@@ -548,14 +576,14 @@ class Fix16_Point
     EXPORT Fix16_Point operator/(const s32& divisor) const;
 
     // operator/ 0x55F9E0 as a nothrow inline that VC6 still calls out of line: the original sets no EH
-    // state for the temporaries that live across this call (CarPhysics::HandleCarCollision_55FF20,
-    // HandleObjectCollision_5606C0). throw() on the real operator/ changes 6 matched functions.
+    // state for the temporaries that live across this call (CarPhysics::HandleCarCollision,
+    // HandleObjectCollision). throw() on the real operator/ changes 6 matched functions.
     inline Fix16_Point DivideInl_55F9E0(const s32& divisor) const throw()
     {
         return Fix16_Point(x / divisor, y / divisor);
     }
 
-    // Same layout: a point sliced into a Fix16_Point_POD (one free inline site, see ShockPedsAroundSprite_5DF270)
+    // Same layout: a point sliced into a Fix16_Point_POD (one free inline site, see ShockPedsAroundSprite)
     operator Fix16_Point_POD&()
     {
         return *reinterpret_cast<Fix16_Point_POD*>(this);

@@ -1,6 +1,6 @@
 #pragma once
 
-// Garage::field_C_state, stepped by Garage::GaragesService_5349D0
+// Garage::mState, stepped by Garage::GaragesService
 namespace garage_state
 {
 enum

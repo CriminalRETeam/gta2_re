@@ -3,40 +3,41 @@
 #include "Function.hpp"
 #include <windows.h>
 
-EXPORT void Start_GTA2Manager_5E4DE0();
+EXPORT void Start_GTA2Manager();
 
-EXPORT void __stdcall ErrorMsgBox_5E4EC0(LPCSTR lpText);
+EXPORT void __stdcall ErrorMsgBox(LPCSTR lpText);
 
-EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
-
-EXPORT void __stdcall laughing_blackwell_0x1EB54_sub_5E53C0(BYTE* a1);
+EXPORT LRESULT __stdcall WindowProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 
 void LoadBeginSceneCBPtr();
 
-s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd);
+s32 __stdcall GameWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd);
 
-EXPORT bool __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance);
+EXPORT bool __stdcall Start_NetworkGame(HINSTANCE hInstance);
 
-EXPORT void __stdcall GetGTA2Version_5E5D60(s32* pVerMinor, s32* pVerMajor);
+EXPORT void __stdcall GetGTA2Version(s32* pVerMinor, s32* pVerMajor);
+EXTERN_GLOBAL(s32, gGTA2VersionMajor);
+EXTERN_GLOBAL(s32, gGTA2VersionMinor);
 
-EXPORT void __stdcall ResetFrameTimer_4DA830();
+EXPORT void __stdcall ResetFrameTimer();
 
-EXPORT void UpdateGameScreenSize_5D8E00();
+EXPORT void UpdateGameScreenSize();
 
-EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
-EXTERN_GLOBAL_ARRAY(u8, gSyncCheckData_6F58E0, 0x20);
-EXPORT void __stdcall MakeInitialSyncData_4DB2E0(u8* pSyncData);
-EXPORT void __stdcall CompareRemotePlayers_4DB440(u8* pLocalSyncData, u8* pRemoteSyncData);
+EXTERN_GLOBAL(s32, bStartNetworkGame);
+EXTERN_GLOBAL_ARRAY(u8, gSyncCheckData, 0x20);
+EXPORT void __stdcall MakeInitialSyncData(u8* pSyncData);
+EXPORT void __stdcall CompareRemotePlayers(u8* pLocalSyncData, u8* pRemoteSyncData);
 
-EXTERN_GLOBAL_ARRAY(char_type, gWorkingDir_707F64, 256);
+EXTERN_GLOBAL_ARRAY(char_type, gWorkingDir, 256);
 
-EXTERN_GLOBAL(u32, gLightingDrawFlag_7068F4);
+EXTERN_GLOBAL(u32, gLightingDrawFlag);
 
-EXTERN_GLOBAL(u32, gBufferMode_706B34);
+EXTERN_GLOBAL(u32, gBufferMode);
 
-EXTERN_GLOBAL(char_type, gLighting_626A09);
+EXTERN_GLOBAL(char_type, gLighting);
 
-static inline u8 IsNetworkGame_434B10()
+// 9.6f 0x434B10
+static inline u8 IsNetworkGame()
 {
-    return bStartNetworkGame_7081F0;
+    return bStartNetworkGame;
 }

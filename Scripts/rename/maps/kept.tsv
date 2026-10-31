@@ -1,0 +1,622 @@
+Abs_436A50	funcs	same class as an existing Abs
+AddAngles_ool_54B8F0	helpers	variant name
+AddInl_40AC50	helpers	variant name
+AddLate_40AC50	helpers	address shared with Add_40AC50 AddInl_40AC50
+Alloc_5C2B70	funcs	same scope: Alloc_464C40 Alloc_5C2B70
+ApplyDeadZone_482730	helpers	address shared with ZeroIfNegligible_482730
+BeamLength_5DE4F0	helpers	address shared with TraceBeamToHitTarget_5DE4F0 BeamStep_5DE4F0
+BeamLength_5DE910	helpers	address shared with DrawElectricArc_5DE910
+BeamStep_5DE4F0	helpers	address shared with TraceBeamToHitTarget_5DE4F0 BeamLength_5DE4F0
+CheckCdFile_4B80F0	funcs	shared with a non-member: func ::
+CheckCdFile_4BBCB0	funcs	shared with a non-member: func ::
+CheckCdFile_4BBFA0	funcs	shared with a non-member: func ::
+ClearAttacking_403A40	helpers	same class as an existing ClearAttacking
+ClearHandBrake_421260	helpers	address shared with SetHandBrakeOff_421260
+ClearHeadlightDeltas_447360	funcs	same scope: ClearHeadlightDeltas_425650 ClearHeadlightDeltas_447360
+ComputeHookPos_47E730	funcs	same scope: ComputeHookPos_47E620 ComputeHookPos_47E730
+DivideInl_442CB0	helpers	variant name
+DivideInl_55F9E0	helpers	variant name
+DotProductInlined_49E500	helpers	variant name
+DotProductOOL_49E500	helpers	variant name
+DrawFigureScaled_4C71B0	helpers	shared with a non-member: func ::
+DrawTextScaled_4BA2C0	helpers	shared with a non-member: func ::
+DrawTextScaled_4C7280	helpers	shared with a non-member: func ::
+EndSample_58E8A0	funcs	same scope: EndSample_58E8A0 EndSample_58E960
+EndSample_58E960	funcs	same scope: EndSample_58E8A0 EndSample_58E960
+EnsureAI_421510	helpers	address shared with AllocateAI_421510
+Fix16_To_Ang16_482740	funcs	variant of Fix16_To_Ang16_40F540
+Fix16_To_Ang16_inlined_40F540	helpers	variant name
+Fix16_To_Ang16_ool_40F540	helpers	variant name
+ForceNeutralInput_453F50	funcs	same scope: ForceNeutralInput_42ABC0 ForceNeutralInput_453F50
+FromPolar_41E210	helpers	address shared with SetFromPolar_41E210 SetFromPolar_OOL_41E210
+gCharB4_HitByMine_6FDB59	globals	renaming it changes matched code
+gCharB4_Unused_6FD7DC	globals	shared with a non-member: var ::
+gCharB4_Unused_6FD8B4	globals	shared with a non-member: var ::
+gCharB4_Unused_6FDB53	globals	shared with a non-member: var ::
+gCharB4_Unused_6FDB55	globals	shared with a non-member: var ::
+gCurrCarAI_HasChaseUpdate_677CA8	globals	renaming it changes matched code
+gCurrCarAI_Unused_677A78	globals	shared with a non-member: var ::
+gCurrCarAI_Unused_677C88	globals	shared with a non-member: var ::
+gElectroChainDepth_706C94	globals	renaming it changes matched code
+GenerateRadioVehicleDescription_426F20	funcs	renaming it changes matched code
+get_car_info_4BF1F0	helpers	same scope: get_car_info_4BF1F0 get_car_info_5AA3B0
+get_car_info_5AA3B0	funcs	same scope: get_car_info_4BF1F0 get_car_info_5AA3B0
+GetCharWidth_local_4539D0	helpers	variant name
+GetCollisionVolume_413A10	funcs	renaming it changes matched code
+GetColour_4F0BD0	funcs	same scope: GetColour_46B5E0 GetColour_4F0BD0
+GetFracValue_42A630	helpers	same class as an existing GetFracValue
+GetHalfExtents_ool_4BA0A0	helpers	variant name
+GetLength_41E260	helpers	address shared with GetLength_AbsOutOfLine_41E260
+GetLength_453590	funcs	variant of GetLength_41E260
+GetLength_AbsOutOfLine_41E260	helpers	variant name
+GetLength_inline_442AD0	helpers	variant name
+GetLength_inline_5538A0	helpers	variant name
+GetLength_inline_5620D0	helpers	variant name
+GetLength_scaled_inline_442AD0	helpers	variant name
+GetLength_SqrtForced_43A240	helpers	address shared with GetCarLinearSpeed_43A240 GetLinearSpeed_43A240
+GetLinearSpeed_43A240	helpers	address shared with GetCarLinearSpeed_43A240 GetLength_SqrtForced_43A240
+GetPlayerPed_4A5130	helpers	shared with a non-member: func ::, method Player
+GetSpeedVector_482BA0	helpers	same scope: GetSpeedVector_482BA0 GetSpeedVector_482C50 GetSpeedVector_52ADF0 GetSpeedVector_52AE90
+GetSpeedVector_482C50	helpers	same scope: GetSpeedVector_482BA0 GetSpeedVector_482C50 GetSpeedVector_52ADF0 GetSpeedVector_52AE90
+GetSpeedVector_52ADF0	funcs	same scope: GetSpeedVector_482BA0 GetSpeedVector_482C50 GetSpeedVector_52ADF0 GetSpeedVector_52AE90
+GetSpeedVector_52AE90	funcs	same scope: GetSpeedVector_482BA0 GetSpeedVector_482C50 GetSpeedVector_52ADF0 GetSpeedVector_52AE90
+get_x_y_443580	funcs	same class as an existing get_x_y
+get_x_y_late_443580	helpers	address shared with get_x_y_443580
+gExplosionSound_Unused_61A6CC	globals	shared with a non-member: var ::
+gExplosionSound_Unused_61A6D0	globals	shared with a non-member: var ::
+gInputDeviceFormat_601A6C	other	not a function or global
+gMessageFont_7062F0	globals	renaming it changes matched code
+gMouseObjectDataFormats_5EA3D0	other	not a function or global
+gNet_Unused_6F580C	globals	shared with a non-member: var ::
+gNet_Unused_6F5AC0	globals	shared with a non-member: var ::
+gNet_Unused_6F5AC8	globals	shared with a non-member: var ::
+gNet_Unused_6F5B00	globals	shared with a non-member: var ::
+gTableSize_61FF20	other	not a function or global
+gUiControlDefinitions_621430	other	not a function or global
+Init_469010	helpers	address shared with GetValueByIdParity_469010 InitOutOfLine_469010
+InitOutOfLine_469010	helpers	variant name
+inline_ComputeTorqueFromThrottle_561DD0	helpers	variant name
+InputRecorder_67F8B0	funcs_addr_differs	suffix is not the marker or DEFINE_GLOBAL address
+IsBlockPavementType_42A8C0	helpers	address shared with IsBlockRoadType_42A8C0
+IsBlockPavementTypeInlined_433530	helpers	variant name
+IsBlockRoadTypeInlined_433470	helpers	variant name
+IsEmittingHorn_411990	helpers	same scope: IsEmittingHorn_411970 IsEmittingHorn_411990
+IsInvisibleOnFoot_433DA0	helpers	same scope: IsInvisibleOnFoot_433DA0 IsInvisibleOnFoot_466B70
+IsInvisibleOnFoot_466B70	funcs	same scope: IsInvisibleOnFoot_433DA0 IsInvisibleOnFoot_466B70
+IsNull_420360	helpers	same class as an existing IsNull
+IsPedAThreat_Inline_465D00	helpers	variant name
+kAng0_677CE8	globals	shared with a non-member: var ::
+kAng0_678B40	globals	shared with a non-member: var ::
+kAng0_67D4B0	globals	shared with a non-member: var ::
+kAng0_6FD25C	globals	shared with a non-member: var ::
+kAng0_6FDB34	globals	shared with a non-member: var ::
+kAng0_6FEE30	globals	shared with a non-member: var ::
+kAng0_6FF1BC	globals	shared with a non-member: var ::
+kAng0_702F24	globals	shared with a non-member: var ::
+kAng0_704500	globals	shared with a non-member: var ::
+kAng0_705948	globals	shared with a non-member: var ::
+kAng12_677A2E	globals	shared with a non-member: var ::
+kAng12_6FD892	globals	shared with a non-member: var ::
+kAng12_706D5E	globals	shared with a non-member: var ::
+kAng135_676790	globals	shared with a non-member: var ::
+kAng135_6F6414	globals	shared with a non-member: var ::
+kAng135_6F6800	globals	shared with a non-member: var ::
+kAng135_6F8D80	globals	shared with a non-member: var ::
+kAng135_6FD40C	globals	shared with a non-member: var ::
+kAng16_6784E4	globals	shared with a non-member: var ::
+kAng16_6FD888	globals	shared with a non-member: var ::
+kAng16_6FD940	globals	shared with a non-member: var ::
+kAng1_6FD5CC	globals	shared with a non-member: var ::
+kAng1_6FE3B8	globals	shared with a non-member: var ::
+kAng180_669156	globals	shared with a non-member: var ::
+kAng180_676772	globals	shared with a non-member: var ::
+kAng180_677326	globals	shared with a non-member: var ::
+kAng180_6785A6	globals	shared with a non-member: var ::
+kAng180_67A63A	globals	shared with a non-member: var ::
+kAng180_67D2D6	globals	shared with a non-member: var ::
+kAng180_6F603E	globals	shared with a non-member: var ::
+kAng180_6F67EA	globals	shared with a non-member: var ::
+kAng180_6F771E	globals	shared with a non-member: var ::
+kAng180_6F8D62	globals	shared with a non-member: var ::
+kAng180_6FD07E	globals	shared with a non-member: var ::
+kAng180_6FD3EE	globals	shared with a non-member: var ::
+kAng180_6FD8E8	globals	shared with a non-member: var ::
+kAng180_6FD920	globals	shared with a non-member: var ::
+kAng180_6FD936	globals	shared with a non-member: var ::
+kAng180_6FE12A	globals	shared with a non-member: var ::
+kAng180_6FEFD6	globals	shared with a non-member: var ::
+kAng180_70351E	globals	shared with a non-member: var ::
+kAng180_705762	globals	shared with a non-member: var ::
+kAng180_706412	globals	shared with a non-member: var ::
+kAng180_706DFA	globals	shared with a non-member: var ::
+kAng225_6786B8	globals	plain use in Source/Camera.cpp
+kAng270_66AABC	globals	shared with a non-member: var ::
+kAng270_6785D0	globals	shared with a non-member: var ::
+kAng270_67A660	globals	shared with a non-member: var ::
+kAng270_67BB2C	globals	shared with a non-member: var ::
+kAng270_67D2FC	globals	shared with a non-member: var ::
+kAng270_6F6808	globals	shared with a non-member: var ::
+kAng270_6F8D88	globals	shared with a non-member: var ::
+kAng270_6FD0A4	globals	shared with a non-member: var ::
+kAng270_6FD94C	globals	shared with a non-member: var ::
+kAng270_6FD95C	globals	shared with a non-member: var ::
+kAng270_6FE154	globals	shared with a non-member: var ::
+kAng270_6FEFFE	globals	shared with a non-member: var ::
+kAng270_703544	globals	shared with a non-member: var ::
+kAng270_705788	globals	shared with a non-member: var ::
+kAng315_6785A8	globals	shared with a non-member: var ::
+kAng315_6FD938	globals	shared with a non-member: var ::
+kAng45_6766DC	globals	shared with a non-member: var ::
+kAng45_677A38	globals	shared with a non-member: var ::
+kAng45_6784FC	globals	shared with a non-member: var ::
+kAng45_6F637C	globals	shared with a non-member: var ::
+kAng45_6F677C	globals	shared with a non-member: var ::
+kAng45_6F8CD0	globals	shared with a non-member: var ::
+kAng45_6FD35C	globals	shared with a non-member: var ::
+kAng45_6FD89C	globals	shared with a non-member: var ::
+kAng45_6FE058	globals	shared with a non-member: var ::
+kAng45_706D6C	globals	shared with a non-member: var ::
+kAng4_677CE2	globals	plain use in Source/char.cpp
+kAng90_66A9C8	globals	shared with a non-member: var ::
+kAng90_677234	globals	shared with a non-member: var ::
+kAng90_6784B0	globals	shared with a non-member: var ::
+kAng90_67A568	globals	shared with a non-member: var ::
+kAng90_67BA38	globals	shared with a non-member: var ::
+kAng90_67D208	globals	shared with a non-member: var ::
+kAng90_6F6754	globals	shared with a non-member: var ::
+kAng90_6F8C88	globals	shared with a non-member: var ::
+kAng90_6FCFB0	globals	shared with a non-member: var ::
+kAng90_6FD314	globals	shared with a non-member: var ::
+kAng90_6FD854	globals	shared with a non-member: var ::
+kAng90_6FD8A2	globals	shared with a non-member: var ::
+kAng90_6FDA64	globals	shared with a non-member: var ::
+kAng90_6FE00C	globals	shared with a non-member: var ::
+kAng90_6FEB74	globals	shared with a non-member: var ::
+kAng90_6FEF04	globals	shared with a non-member: var ::
+kAng90_70344C	globals	shared with a non-member: var ::
+kAng90_70420C	globals	shared with a non-member: var ::
+kAng90_705690	globals	shared with a non-member: var ::
+kAngFix16FullCircle_66A8E4	globals	plain use in Source/CarPhysics.cpp
+kAngFix16HalfCircle_6691EC	globals	plain use in Source/CarPhysics.cpp
+kAngFix16OneDegree_677920	globals	shared with a non-member: var ::
+kAngFix16OneDegree_679FC8	globals	shared with a non-member: var ::
+kAngFix16OneDegree_6FE3C4	globals	shared with a non-member: var ::
+kAngZero_676964	globals	shared with a non-member: var ::
+kAngZero_67791C	globals	shared with a non-member: var ::
+kAngZero_679FC4	globals	shared with a non-member: var ::
+kAngZero_67A820	globals	shared with a non-member: var ::
+kAngZero_67B210	globals	shared with a non-member: var ::
+kAngZero_67DA70	globals	shared with a non-member: var ::
+kAngZero_6F6D3C	globals	shared with a non-member: var ::
+kAngZero_6F804C	globals	shared with a non-member: var ::
+kAngZero_6FD5D4	globals	shared with a non-member: var ::
+kAngZero_6FE3C0	globals	shared with a non-member: var ::
+kAngZero_6FE754	globals	shared with a non-member: var ::
+kAngZero_705F10	globals	shared with a non-member: var ::
+kAngZero_706610	globals	shared with a non-member: var ::
+kAngZero_706C3C	globals	shared with a non-member: var ::
+kAngZero_707006	globals	shared with a non-member: var ::
+kFP16Eight_6FD4C0	globals	shared with a non-member: var ::
+kFP16Eight_6FDA08	globals	shared with a non-member: var ::
+kFP16Eight_6FE234	globals	shared with a non-member: var ::
+kFP16Eight_7035E4	globals	shared with a non-member: var ::
+kFP16Eighth_6FD2D0	globals	plain use in Source/CarPhysics.cpp
+kFP16Five_6FD9F8	globals	shared with a non-member: var ::
+kFP16Five_6FE220	globals	shared with a non-member: var ::
+kFP16Four_6FD9F4	globals	shared with a non-member: var ::
+kFP16Four_6FE21C	globals	shared with a non-member: var ::
+kFP16Half_6F67B0	globals	shared with a non-member: var ::
+kFP16Half_6F8D10	globals	shared with a non-member: var ::
+kFP16Half_6F8D3C	globals	shared with a non-member: var ::
+kFP16Half_6F8EE4	globals	shared with a non-member: var ::
+kFP16Half_6F8F2C	globals	shared with a non-member: var ::
+kFP16Half_6FD39C	globals	shared with a non-member: var ::
+kFP16Half_6FD8E4	globals	shared with a non-member: var ::
+kFP16Half_6FE0C0	globals	shared with a non-member: var ::
+kFP16Half_6FE0D0	globals	shared with a non-member: var ::
+kFP16Half_6FE2F8	globals	shared with a non-member: var ::
+kFP16Half_706DA8	globals	shared with a non-member: var ::
+kFP16One128th_6FE0A0	globals	plain use in Source/CarPhysics.cpp
+kFP16One64th_6FE1AC	globals	shared with a non-member: var ::
+kFP16One64th_6FE2E0	globals	shared with a non-member: var ::
+kFP16One_6777D0	globals	shared with a non-member: var ::
+kFP16One_6F8CE0	globals	shared with a non-member: var ::
+kFP16One_6F8CEC	globals	shared with a non-member: var ::
+kFP16One_6F8D24	globals	shared with a non-member: var ::
+kFP16One_6F8D38	globals	shared with a non-member: var ::
+kFP16One_6F8E14	globals	shared with a non-member: var ::
+kFP16One_6F8F74	globals	shared with a non-member: var ::
+kFP16One_6FD4A0	globals	shared with a non-member: var ::
+kFP16One_6FD9E8	globals	shared with a non-member: var ::
+kFP16One_6FDF7C	globals	shared with a non-member: var ::
+kFP16One_6FE070	globals	shared with a non-member: var ::
+kFP16One_6FE098	globals	shared with a non-member: var ::
+kFP16One_6FE0D4	globals	shared with a non-member: var ::
+kFP16One_6FE0F4	globals	shared with a non-member: var ::
+kFP16One_6FE3D0	globals	shared with a non-member: var ::
+kFP16One_6FE3DC	globals	shared with a non-member: var ::
+kFP16One_7035C4	globals	shared with a non-member: var ::
+kFP16Quarter_6FD2EC	globals	shared with a non-member: var ::
+kFP16Quarter_6FD828	globals	shared with a non-member: var ::
+kFP16Quarter_6FDFB8	globals	shared with a non-member: var ::
+kFP16Quarter_6FDFD4	globals	shared with a non-member: var ::
+kFP16Quarter_6FE1A8	globals	shared with a non-member: var ::
+kFP16Quarter_706CF4	globals	shared with a non-member: var ::
+kFP16Three_6FD9F0	globals	shared with a non-member: var ::
+kFP16Three_6FE218	globals	shared with a non-member: var ::
+kFP16Two_6FD4A4	globals	shared with a non-member: var ::
+kFP16Two_6FE214	globals	shared with a non-member: var ::
+kFP16Two_7035C8	globals	shared with a non-member: var ::
+kFP16Two_706EC0	globals	shared with a non-member: var ::
+kFP16Zero_67A370	globals	shared with a non-member: var ::
+kFP16Zero_6FD49C	globals	shared with a non-member: var ::
+kFP16Zero_6FD9E4	globals	shared with a non-member: var ::
+kFP16Zero_6FE20C	globals	shared with a non-member: var ::
+kFP16Zero_703A38	globals	shared with a non-member: var ::
+kFp255_676D98	globals	shared with a non-member: var ::
+kFp255_677950	globals	shared with a non-member: var ::
+kFp255_678414	globals	shared with a non-member: var ::
+kFp255_6F5B8C	globals	shared with a non-member: var ::
+kFp255_6F8BF0	globals	shared with a non-member: var ::
+kFp255_6F8FA4	other	not a function or global
+kFp255_6FD280	globals	shared with a non-member: var ::
+kFp255_6FF558	globals	shared with a non-member: var ::
+kFp255_702BC4	globals	shared with a non-member: var ::
+kFp255_7033B4	globals	shared with a non-member: var ::
+kFpEight_676840	globals	shared with a non-member: var ::
+kFpEight_6F6130	globals	shared with a non-member: var ::
+kFpEight_6F6FC0	globals	shared with a non-member: var ::
+kFpEight_6FCE28	globals	shared with a non-member: var ::
+kFpEight_6FED0C	globals	shared with a non-member: var ::
+kFpEight_6FFC9C	globals	shared with a non-member: var ::
+kFpEight_702E04	globals	shared with a non-member: var ::
+kFpEight_7064E8	globals	shared with a non-member: var ::
+kFpEight_706EDC	globals	shared with a non-member: var ::
+kFpEpsilon_6F64B4	globals	plain use in Source/ParticleManager.cpp
+kFpFive_66F1D0	globals	shared with a non-member: var ::
+kFpFive_66F404	globals	shared with a non-member: var ::
+kFpFive_675414	globals	shared with a non-member: var ::
+kFpFive_67682C	globals	shared with a non-member: var ::
+kFpFive_6778D0	globals	shared with a non-member: var ::
+kFpFive_677BA4	globals	shared with a non-member: var ::
+kFpFive_678674	globals	shared with a non-member: var ::
+kFpFive_67DECC	globals	shared with a non-member: var ::
+kFpFive_6F77D4	globals	shared with a non-member: var ::
+kFpFive_6FCE1C	globals	shared with a non-member: var ::
+kFpFive_6FDEFC	globals	shared with a non-member: var ::
+kFpFive_6FECFC	globals	shared with a non-member: var ::
+kFpFive_6FF6D4	globals	shared with a non-member: var ::
+kFpFiveEighths_6F60B8	globals	plain use in Source/Camera.cpp
+kFpFour_677BA0	globals	shared with a non-member: var ::
+kFpFour_678670	globals	shared with a non-member: var ::
+kFpFour_679E80	globals	shared with a non-member: var ::
+kFpFour_6FD4AC	globals	shared with a non-member: var ::
+kFpFour_6FECF8	globals	shared with a non-member: var ::
+kFpFour_706148	globals	shared with a non-member: var ::
+kFpHalf_66F258	globals	shared with a non-member: var ::
+kFpHalf_66F2FC	globals	shared with a non-member: var ::
+kFpHalf_676678	globals	shared with a non-member: var ::
+kFpHalf_67671C	globals	shared with a non-member: var ::
+kFpHalf_6771FC	globals	shared with a non-member: var ::
+kFpHalf_677218	globals	shared with a non-member: var ::
+kFpHalf_6772D0	globals	shared with a non-member: var ::
+kFpHalf_6778FC	globals	shared with a non-member: var ::
+kFpHalf_6779CC	globals	shared with a non-member: var ::
+kFpHalf_677A84	globals	shared with a non-member: var ::
+kFpHalf_67853C	globals	shared with a non-member: var ::
+kFpHalf_678F74	globals	shared with a non-member: var ::
+kFpHalf_679CB0	globals	shared with a non-member: var ::
+kFpHalf_679D64	globals	shared with a non-member: var ::
+kFpHalf_67BA20	globals	shared with a non-member: var ::
+kFpHalf_67D1F0	globals	shared with a non-member: var ::
+kFpHalf_6F5F18	globals	shared with a non-member: var ::
+kFpHalf_6F5FE0	globals	shared with a non-member: var ::
+kFpHalf_6F75F0	globals	shared with a non-member: var ::
+kFpHalf_6F7690	globals	shared with a non-member: var ::
+kFpHalf_6F8FEC	globals	shared with a non-member: var ::
+kFpHalf_6FC584	globals	shared with a non-member: var ::
+kFpHalf_6FCF98	globals	shared with a non-member: var ::
+kFpHalf_6FDAB0	globals	shared with a non-member: var ::
+kFpHalf_6FDB18	globals	shared with a non-member: var ::
+kFpHalf_6FDB28	globals	shared with a non-member: var ::
+kFpHalf_6FDCA8	globals	shared with a non-member: var ::
+kFpHalf_6FDFEC	globals	shared with a non-member: var ::
+kFpHalf_6FEB5C	globals	shared with a non-member: var ::
+kFpHalf_6FEBF4	globals	shared with a non-member: var ::
+kFpHalf_6FEEE8	globals	shared with a non-member: var ::
+kFpHalf_6FF674	globals	shared with a non-member: var ::
+kFpHalf_7041F0	globals	shared with a non-member: var ::
+kFpHalf_7042A4	globals	shared with a non-member: var ::
+kFpHalf_705674	globals	shared with a non-member: var ::
+kFpHalf_705714	globals	shared with a non-member: var ::
+kFpMinusNineThirtySeconds_6FD4CC	globals_addr_differs	suffix is not the marker or DEFINE_GLOBAL address
+kFpOne128th_6784BC	globals	plain use in Source/Camera.cpp
+kFpOne256th_678620	globals	shared with a non-member: var ::
+kFpOne256th_6F8CF0	globals	shared with a non-member: var ::
+kFpOne256th_6FD99C	globals	shared with a non-member: var ::
+kFpOne512th_6FD548	globals	plain use in Source/Weapon.cpp
+kFpOne64th_6766FC	globals	shared with a non-member: var ::
+kFpOne64th_676740	globals	shared with a non-member: var ::
+kFpOne64th_6767D0	globals	shared with a non-member: var ::
+kFpOne64th_6768D8	globals	shared with a non-member: var ::
+kFpOne64th_677888	globals	shared with a non-member: var ::
+kFpOne64th_6784C4	globals	shared with a non-member: var ::
+kFpOne64th_679E20	globals	shared with a non-member: var ::
+kFpOne64th_679F28	globals	shared with a non-member: var ::
+kFpOne64th_6F8C9C	globals	shared with a non-member: var ::
+kFpOne64th_6F8DC8	globals	shared with a non-member: var ::
+kFpOne64th_6F8ECC	globals	shared with a non-member: var ::
+kFpOne64th_6FCEB0	globals	shared with a non-member: var ::
+kFpOne64th_6FD0D8	globals	shared with a non-member: var ::
+kFpOne64th_6FD1D8	globals	shared with a non-member: var ::
+kFpOne64th_6FD328	globals	shared with a non-member: var ::
+kFpOne64th_6FD448	globals	shared with a non-member: var ::
+kFpOne64th_6FD554	globals	shared with a non-member: var ::
+kFpOne64th_6FD868	globals	shared with a non-member: var ::
+kFpOne64th_6FDA9C	globals	shared with a non-member: var ::
+kFpOne64th_6FDD50	globals	shared with a non-member: var ::
+kFpOne64th_6FEB88	globals	shared with a non-member: var ::
+kFpOne64th_6FECA0	globals	shared with a non-member: var ::
+kFpOne64th_6FEDA0	globals	shared with a non-member: var ::
+kFpOne64th_703578	globals	shared with a non-member: var ::
+kFpOne64th_703678	globals	shared with a non-member: var ::
+kFpOne64th_706D34	globals	shared with a non-member: var ::
+kFpOne64th_706F70	globals	shared with a non-member: var ::
+kFpOne64th_706FD0	globals	shared with a non-member: var ::
+kFpOne64th_706FF4	globals	shared with a non-member: var ::
+kFpOne_66AE9C	globals	shared with a non-member: var ::
+kFpOne_66F3F4	globals	shared with a non-member: var ::
+kFpOne_6785EC	globals	shared with a non-member: var ::
+kFpOne_678664	globals	shared with a non-member: var ::
+kFpOne_678798	globals	shared with a non-member: var ::
+kFpOne_679084	globals	shared with a non-member: var ::
+kFpOne_679E74	globals	shared with a non-member: var ::
+kFpOne_67B434	globals	shared with a non-member: var ::
+kFpOne_67BBE4	globals	shared with a non-member: var ::
+kFpOne_67D934	globals	shared with a non-member: var ::
+kFpOne_6F6110	other	not a function or global
+kFpOne_6F77C4	globals	shared with a non-member: var ::
+kFpOne_6FCE0C	globals	shared with a non-member: var ::
+kFpOne_6FD124	globals	shared with a non-member: var ::
+kFpOne_6FDB20	globals	shared with a non-member: var ::
+kFpOne_6FE210	globals	shared with a non-member: var ::
+kFpOne_6FECEC	globals	shared with a non-member: var ::
+kFpOne_6FF07C	globals	shared with a non-member: var ::
+kFpOne_6FF3F4	globals	shared with a non-member: var ::
+kFpOne_6FF778	globals	shared with a non-member: var ::
+kFpOne_6FFC7C	globals	shared with a non-member: var ::
+kFpOne_702DE4	globals	shared with a non-member: var ::
+kFpOne_7043AC	globals	shared with a non-member: var ::
+kFpOne_70580C	globals	shared with a non-member: var ::
+kFpOne_705DDC	globals	shared with a non-member: var ::
+kFpOne_7064C4	globals	shared with a non-member: var ::
+kFpOne_706A6C	globals	shared with a non-member: var ::
+kFpOne_706EBC	globals	shared with a non-member: var ::
+kFpOneAndHalf_6772AC	globals	shared with a non-member: var ::
+kFpOneAndHalf_6FF680	globals	shared with a non-member: var ::
+kFpOneEighth_67845C	globals	shared with a non-member: var ::
+kFpOneEighth_6784E8	globals	shared with a non-member: var ::
+kFpOneEighth_6F6050	globals	shared with a non-member: var ::
+kFpOneEighth_706CC8	globals	shared with a non-member: var ::
+kFpOneEighth_706CD8	globals	shared with a non-member: var ::
+kFpOneEighth_706D88	globals	shared with a non-member: var ::
+kFpOneSixteenth_678448	globals	shared with a non-member: var ::
+kFpOneSixteenth_6FEB0C	globals	shared with a non-member: var ::
+kFpOneSixtyFourth_6F60C0	globals	shared with a non-member: var ::
+kFpOneSixtyFourth_6F6434	globals	shared with a non-member: var ::
+kFpOneSixtyFourth_7057C0	globals	shared with a non-member: var ::
+kFpOneSixtyFourth_7058C4	globals	shared with a non-member: var ::
+kFpOneThirtySecond_6784CC	globals	shared with a non-member: var ::
+kFpOneThirtySecond_6F601C	globals	shared with a non-member: var ::
+kFpOneThirtySecond_6FD330	globals	shared with a non-member: var ::
+kFpOneThirtySecond_6FD870	globals	shared with a non-member: var ::
+kFpPoint005_6FE2F0	globals	plain use in Source/Particle_4C.cpp
+kFpPoint01_66F3B4	globals	shared with a non-member: var ::
+kFpPoint01_677B50	globals	shared with a non-member: var ::
+kFpPoint01_678624	globals	shared with a non-member: var ::
+kFpPoint01_6FCDD8	globals	shared with a non-member: var ::
+kFpPoint01_6FD45C	globals	shared with a non-member: var ::
+kFpPoint01_6FD9A0	globals	shared with a non-member: var ::
+kFpPoint01_6FE15C	globals	shared with a non-member: var ::
+kFpPoint01_6FE1C4	globals	shared with a non-member: var ::
+kFpPoint01_6FE37C	globals	shared with a non-member: var ::
+kFpPoint01_706E74	globals	shared with a non-member: var ::
+kFpPoint02_677B5C	globals	shared with a non-member: var ::
+kFpPoint02_6FD9AC	globals	shared with a non-member: var ::
+kFpPoint03_6FD464	globals	plain use in Source/Car.cpp
+kFpPoint04_6FE1D8	globals	plain use in Source/CarAI.cpp
+kFpPoint05_6777A0	globals	shared with a non-member: var ::
+kFpPoint05_677B60	globals	shared with a non-member: var ::
+kFpPoint05_678634	globals	shared with a non-member: var ::
+kFpPoint05_6FD46C	globals	shared with a non-member: var ::
+kFpPoint05_6FD9B0	globals	shared with a non-member: var ::
+kFpPoint05_6FE1D4	globals	shared with a non-member: var ::
+kFpPoint05_6FF04C	globals	shared with a non-member: var ::
+kFpPoint06_6FE1E4	globals	plain use in Source/CarAI.cpp
+kFpPoint09_677B78	globals	plain use in Source/Explosion.cpp
+kFpPoint139_6FE148	globals	plain use in Source/CarPhysics.cpp
+kFpPoint1_676664	globals	shared with a non-member: var ::
+kFpPoint1_6779B8	globals	shared with a non-member: var ::
+kFpPoint1_678480	globals	shared with a non-member: var ::
+kFpPoint1_6F8C58	globals	shared with a non-member: var ::
+kFpPoint1_6F8FD8	globals	shared with a non-member: var ::
+kFpPoint1_6FD2E8	globals	shared with a non-member: var ::
+kFpPoint1_6FD824	globals	shared with a non-member: var ::
+kFpPoint1_6FDFD0	globals	shared with a non-member: var ::
+kFpPoint1_6FEB44	globals	shared with a non-member: var ::
+kFpPoint1_706CF0	globals	shared with a non-member: var ::
+kFpPoint2_66F24C	globals	shared with a non-member: var ::
+kFpPoint2_67666C	globals	shared with a non-member: var ::
+kFpPoint2_6772BC	globals	shared with a non-member: var ::
+kFpPoint2_6772CC	globals	shared with a non-member: var ::
+kFpPoint2_6779C0	globals	shared with a non-member: var ::
+kFpPoint2_678488	globals	shared with a non-member: var ::
+kFpPoint2_6F8FE0	globals	shared with a non-member: var ::
+kFpPoint2_6FC578	globals	shared with a non-member: var ::
+kFpPoint2_6FD2F0	globals	shared with a non-member: var ::
+kFpPoint2_6FD82C	globals	shared with a non-member: var ::
+kFpPoint2_6FDFD8	globals	shared with a non-member: var ::
+kFpPoint2_6FEB50	globals	shared with a non-member: var ::
+kFpPoint2_6FF5CC	globals	shared with a non-member: var ::
+kFpPoint2_6FF724	globals	shared with a non-member: var ::
+kFpPoint2_703424	globals	shared with a non-member: var ::
+kFpPoint2_706CF8	globals	shared with a non-member: var ::
+kFpPoint3_6FD2F4	globals	shared with a non-member: var ::
+kFpPoint3_6FD830	globals	shared with a non-member: var ::
+kFpPoint3_6FDFE4	globals	shared with a non-member: var ::
+kFpPoint4_677214	globals	shared with a non-member: var ::
+kFpPoint4_6F8FE8	globals	shared with a non-member: var ::
+kFpPoint4_6FF5D4	globals	shared with a non-member: var ::
+kFpPoint4_6FF70C	globals	shared with a non-member: var ::
+kFpPoint6_6F8FF0	globals	shared with a non-member: var ::
+kFpPoint6_6FDFF0	globals	shared with a non-member: var ::
+kFpPoint6_705678	globals	shared with a non-member: var ::
+kFpPoint7_6F8C78	globals	plain use in Source/CarAI.cpp
+kFpPoint8_6784A0	globals	shared with a non-member: var ::
+kFpPoint8_6FDFF8	globals	shared with a non-member: var ::
+kFpPoint8_6FE320	globals	shared with a non-member: var ::
+kFpPoint8_6FEB68	globals	shared with a non-member: var ::
+kFpPoint9_6FDFFC	globals	plain use in Source/CarPhysics.cpp
+kFpPoint97_6FDFBC	globals	shared with a non-member: var ::
+kFpPoint97_6FE0FC	globals	shared with a non-member: var ::
+kFpPoint985_6FE240	globals	shared with a non-member: var ::
+kFpPoint985_6FE330	globals	shared with a non-member: var ::
+kFpQuarter_677208	globals	shared with a non-member: var ::
+kFpQuarter_6779BC	globals	shared with a non-member: var ::
+kFpQuarter_678484	globals	shared with a non-member: var ::
+kFpQuarter_678574	globals	shared with a non-member: var ::
+kFpQuarter_6F6180	globals	shared with a non-member: var ::
+kFpQuarter_6F8FAC	globals	shared with a non-member: var ::
+kFpQuarter_6F8FDC	globals	shared with a non-member: var ::
+kFpQuarter_6FCE60	globals	shared with a non-member: var ::
+kFpQuarter_6FCED0	globals	shared with a non-member: var ::
+kFpQuarter_6FCF88	globals	shared with a non-member: var ::
+kFpQuarter_6FD04C	globals	shared with a non-member: var ::
+kFpQuarter_6FDC00	globals	shared with a non-member: var ::
+kFpQuarter_6FE364	globals	shared with a non-member: var ::
+kFpQuarter_6FE374	globals	shared with a non-member: var ::
+kFpQuarter_6FE3A0	globals	shared with a non-member: var ::
+kFpQuarter_704420	globals	shared with a non-member: var ::
+kFpSeven_676838	globals	shared with a non-member: var ::
+kFpSeven_6F6128	globals	shared with a non-member: var ::
+kFpSeven_7035DC	globals	shared with a non-member: var ::
+kFpSevenThirtySeconds_6FD2D4	globals	plain use in Source/Weapon.cpp
+kFpSix_675418	globals	shared with a non-member: var ::
+kFpSix_678678	globals	shared with a non-member: var ::
+kFpSixteen_6768B4	globals	plain use in Source/Camera.cpp
+kFpThree_66F3FC	globals	shared with a non-member: var ::
+kFpThree_677B9C	globals	shared with a non-member: var ::
+kFpThree_67866C	globals	shared with a non-member: var ::
+kFpThree_679E7C	globals	shared with a non-member: var ::
+kFpThree_67D384	globals	shared with a non-member: var ::
+kFpThree_6FCE14	globals	shared with a non-member: var ::
+kFpThree_6FD4A8	globals	shared with a non-member: var ::
+kFpThree_6FECF4	globals	shared with a non-member: var ::
+kFpThree_706EC4	globals	shared with a non-member: var ::
+kFpThreeEighths_6F60A0	globals	plain use in Source/CarPhysics.cpp
+kFpThreeQuarters_6766F4	globals	shared with a non-member: var ::
+kFpThreeQuarters_6768E0	globals	shared with a non-member: var ::
+kFpThreeQuarters_67691C	globals	shared with a non-member: var ::
+kFpThreeQuarters_6F61D8	globals	shared with a non-member: var ::
+kFpThreeQuarters_6FD55C	globals	shared with a non-member: var ::
+kFpThreeThirtySeconds_6FD48C	globals	plain use in Source/Ped.cpp
+kFpTwo_66F3F8	globals	shared with a non-member: var ::
+kFpTwo_6777D4	globals	shared with a non-member: var ::
+kFpTwo_677B98	globals	shared with a non-member: var ::
+kFpTwo_678658	globals	shared with a non-member: var ::
+kFpTwo_678668	globals	shared with a non-member: var ::
+kFpTwo_679E78	globals	shared with a non-member: var ::
+kFpTwo_679F8C	globals	shared with a non-member: var ::
+kFpTwo_67BBE8	globals	shared with a non-member: var ::
+kFpTwo_67F608	globals	shared with a non-member: var ::
+kFpTwo_6F77C8	globals	shared with a non-member: var ::
+kFpTwo_6FCE10	globals	shared with a non-member: var ::
+kFpTwo_6FD128	globals	shared with a non-member: var ::
+kFpTwo_6FECF0	globals	shared with a non-member: var ::
+kFpTwo_6FF77C	globals	shared with a non-member: var ::
+kFpTwo_7055E0	globals	shared with a non-member: var ::
+kFpTwo_705810	globals	shared with a non-member: var ::
+kFpZero_66AB38	globals	shared with a non-member: var ::
+kFpZero_66AE98	globals	shared with a non-member: var ::
+kFpZero_66F3F0	globals	shared with a non-member: var ::
+kFpZero_674CD8	globals	shared with a non-member: var ::
+kFpZero_675400	globals	shared with a non-member: var ::
+kFpZero_678438	globals	shared with a non-member: var ::
+kFpZero_678660	globals	shared with a non-member: var ::
+kFpZero_678D0C	globals	shared with a non-member: var ::
+kFpZero_67D378	globals	shared with a non-member: var ::
+kFpZero_67D930	globals	shared with a non-member: var ::
+kFpZero_67F610	globals	shared with a non-member: var ::
+kFpZero_6F610C	globals	shared with a non-member: var ::
+kFpZero_6F77C0	globals	shared with a non-member: var ::
+kFpZero_6F8E10	globals	shared with a non-member: var ::
+kFpZero_6FCE08	globals	shared with a non-member: var ::
+kFpZero_6FD120	globals	shared with a non-member: var ::
+kFpZero_6FDD98	globals	shared with a non-member: var ::
+kFpZero_6FECE8	globals	shared with a non-member: var ::
+kFpZero_6FF078	globals	shared with a non-member: var ::
+kFpZero_6FF774	globals_addr_differs	suffix is not the marker or DEFINE_GLOBAL address
+kFpZero_702DE0	globals	shared with a non-member: var ::
+kFpZero_7064C0	globals	shared with a non-member: var ::
+kFpZero_706EB8	globals	shared with a non-member: var ::
+kFpZeroForStaticInit_6FCE08	other	not a function or global
+kOne_67681C	globals	shared with a non-member: var ::
+kOne_677F54	globals	shared with a non-member: var ::
+kOne_6FE614	globals	shared with a non-member: var ::
+kRegistryRootKey_625018	other	not a function or global
+kShotgunInnerSpread_707002	globals	renaming it changes matched code
+kTwo_676820	globals	shared with a non-member: var ::
+kTwo_6FE618	globals	shared with a non-member: var ::
+kZero_6761A4	globals	shared with a non-member: var ::
+kZero_676818	globals	shared with a non-member: var ::
+kZero_679E70	globals	shared with a non-member: var ::
+kZero_67BBE0	globals	shared with a non-member: var ::
+kZero_6F6C50	globals	shared with a non-member: var ::
+kZero_6FE41C	globals	shared with a non-member: var ::
+kZero_6FE610	globals	shared with a non-member: var ::
+kZero_705DD8	globals	shared with a non-member: var ::
+kZeroAng_6F8F68	globals	plain use in Source/sprite.hpp
+Max3_55EEE0	helpers	address shared with Max3_ool_55EEE0
+Max3_ool_55EEE0	funcs	variant name
+Max_41E130	helpers	VC98 or GTA2Hax name for a non-member
+Max_44E540	funcs	VC98 or GTA2Hax name for a non-member
+MaxAbs_5E4140	funcs	same scope: MaxAbs_48A270 MaxAbs_5E4140
+MaxAbsDistance_4614E0	funcs	variant of MaxAbsDistance_5504F0 MaxAbsDistance_572920 MaxAbsDistance_5DF270
+MaxAbsDistance_5504F0	helpers	address shared with UpdateFleeOrRunning_5504F0
+MaxAbsDistance_572920	helpers	address shared with State5_PursueOrChase_572920
+MaxAbsDistance_5DF270	helpers	address shared with ShockPedsAroundSprite_5DF270
+MaxAbsDistanceRawY_451980	helpers	address shared with ReactToNearbyCar_451980
+MaxByValue_55A6A0	helpers	address shared with ComputeRequiredSweepSteps_55A6A0
+MaxValue_44E540	helpers	address shared with Max_44E540
+MultiplyAssign_inline_408680	helpers	variant name
+MultiplyByFix16_inline_5620D0	helpers	variant name
+MultiplyInl_438FE0	helpers	variant name
+Normalize_406C20	funcs	same class as an existing Normalize
+PolarToCartesian_41FC20	helpers	same scope: PolarToCartesian_41FC20 PolarToCartesian_451730
+PolarToCartesian_451730	funcs	same scope: PolarToCartesian_41FC20 PolarToCartesian_451730
+PoliceRadioMessageGeneration_426790	funcs	renaming it changes matched code
+ProcessType2_Frontend_412490	funcs	renaming it changes matched code
+ProcessType6_CollisionSoundQueue_413760	funcs	renaming it changes matched code
+ProjectToScreen_5A5690	helpers	address shared with ProjectWorldToScreen_5A5690
+ProjectWorldPointToScreen_First_4BA4D0	helpers	address shared with ProjectWorldPointToScreen_4BA4D0
+ProjectWorldToScreen_4B90E0	helpers	address shared with ProjectWorldToScreen_Hud_4B90E0 ProjectWorldToScreen_OutOfLine_4B90E0
+ProjectWorldToScreen_Hud_4B90E0	helpers	address shared with ProjectWorldToScreen_4B90E0 ProjectWorldToScreen_OutOfLine_4B90E0
+RegulateVelocityByRef_433970	helpers	address shared with RegulateVelocity_433970
+RemovePed_4711F0	funcs	same scope: RemovePed_4711F0 RemovePed_471240
+RemovePed_471240	funcs	same scope: RemovePed_4711F0 RemovePed_471240
+RotateAndTranslatePoint_NegOOL_42A720	helpers	variant name
+RotateAndTranslatePoint_ool_42A720	helpers	variant name
+SetDespawn3IfNot5_421490	helpers	address shared with DespawnSoon_421490
+Set_F8_ped_state_1_433910	helpers	address shared with SetPedState1_433910
+SetRadius_5C5CD0	funcs	same scope: SetRadius_463F10 SetRadius_5C5CD0
+SetRoadBlockAt_4E6660	helpers	address shared with AdvanceAlongRailway_4E6660 GetRoadBlockAt_4E6660 StepOneBlock_4E6660
+SetRoadBlockAtOrNull_4E7190	helpers	address shared with AdvanceAlongRailwayChecked_4E7190 GetRoadBlockAtOrNull_4E7190
+SetVelocityByRef_433920	helpers	address shared with SetVelocity_433920
+set_xyz_lazy_451950	funcs	variant of set_xyz_lazy_420600
+set_xyz_lazy_inlined_420600	helpers	variant name
+SignedPixelsToFix16_440860	funcs	same scope: SignedPixelsToFix16_41FE70 SignedPixelsToFix16_440860
+SquareRoot_436A70	funcs	same class as an existing SquareRoot
+SubLate_40AC80	helpers	address shared with Sub_40AC80
+Vid_FindDevice_5D9290	funcs	VC98 or GTA2Hax name for a non-member
+WorldToScreen_Hud_40CFC0	helpers	address shared with WorldToScreen_40CFC0 WorldToScreen_RouteFinder_40CFC0
+WorldToScreen_RouteFinder_40CFC0	helpers	address shared with WorldToScreen_40CFC0 WorldToScreen_Hud_40CFC0

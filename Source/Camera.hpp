@@ -22,188 +22,193 @@ namespace camera_follow_mode
 enum
 {
     none_0 = 0,
-    smooth_1 = 1, // eases towards the target (Update_435FF0)
+    smooth_1 = 1, // eases towards the target (Update)
     snap_2 = 2, // copies the target straight in (debug/free camera)
 };
 } // namespace camera_follow_mode
 
 struct CameraPos
 {
-    Fix16 field_0_x;
-    Fix16 field_4_y;
-    Fix16 field_8_z;
-    Fix16 field_C_zoom;
+    Fix16 mX; // 0x0
+    Fix16 mY; // 0x4
+    Fix16 mZ; // 0x8
+    Fix16 mZoom; // 0xC
 };
 
 struct WorldRect
 {
-    Fix16 field_0_left;
-    Fix16 field_4_right;
-    Fix16 field_8_top;
-    Fix16 field_C_bottom;
+    Fix16 mLeft; // 0x0
+    Fix16 mRight; // 0x4
+    Fix16 mTop; // 0x8
+    Fix16 mBottom; // 0xC
 };
 
 class Camera
 {
   public:
     // 9.6f 0x416B70
-    inline Ped* GetFollowedPed_416B70() const
+    inline Ped* GetFollowedPed() const
     {
-        return field_34_target_ped;
+        return mTargetPed;
     }
 
-    EXPORT bool IsSpriteTheCameraSubject_4355D0(Sprite* pSprite) const;
-    EXPORT bool IsSpriteInView_435630(Sprite* pSprite, s32 wide_view);
-    EXPORT void SavePrevCamPos_4357B0();
-    EXPORT void IncreaseElevation_4357F0();
-    EXPORT void DecreaseElevation_435810();
-    EXPORT void ResetElevation_435830();
-    EXPORT void ClampTargetZ_435840();
-    EXPORT void ApplyMovementDeltaFrom_435860(Camera* pCamera);
-    EXPORT Ang16 ComputeTargetFacingAngle_4358D0();
-    EXPORT Fix16 ReturnOwnerVelocity_435A20();
-    EXPORT s32 IsCoordsPosVisible_435A70(Fix16 x, Fix16 y, Fix16 z);
-    EXPORT void UpdateBoundaries_435B90();
-    EXPORT void MoveTarget_435D20(bool move_north, bool move_south, bool move_west, bool move_east, bool zoom_in, bool zoom_out);
-    EXPORT void ResetCameraSmoothing_435DD0();
-    EXPORT void AccumulateSuspicionOnDriver_435F90(Car* pCar);
-    EXPORT void Update_435FF0();
-    EXPORT void RefreshBoundaries_436110();
-    EXPORT void SetShake_436120(Fix16 amount);
-    EXPORT void ApplyShake_436140();
-    EXPORT void SetScreenSize_4361B0(u32 width, u32 height);
-    EXPORT void ApplyCarVelocityCameraOffset_436200(Car* pCar, Fix16* pOutX, Fix16* pOutY, Fix16* pOutZ);
-    EXPORT void UpdateFollowCarCamera_4364A0(Car* pCar);
-    EXPORT void UpdateFollowPedCamera_436540(Ped* pPed);
-    EXPORT void HandlePanning_436710(bool forward_gas_on, bool foot_brake_on, bool left_on, bool right_on);
-    EXPORT void ResetPanning_436830();
-    EXPORT void ApplyPanOffset_436860(Ped* pPed, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos);
+    EXPORT bool IsSpriteTheCameraSubject(Sprite* pSprite) const;
+    EXPORT bool IsSpriteInView(Sprite* pSprite, s32 wide_view);
+    EXPORT void SavePrevCamPos();
+    EXPORT void IncreaseElevation();
+    EXPORT void DecreaseElevation();
+    EXPORT void ResetElevation();
+    EXPORT void ClampTargetZ();
+    EXPORT void ApplyMovementDeltaFrom(Camera* pCamera);
+    EXPORT Ang16 ComputeTargetFacingAngle();
+    EXPORT Fix16 ReturnOwnerVelocity();
+    EXPORT s32 IsCoordsPosVisible(Fix16 x, Fix16 y, Fix16 z);
+    EXPORT void UpdateBoundaries();
+    EXPORT void MoveTarget(bool move_north, bool move_south, bool move_west, bool move_east, bool zoom_in, bool zoom_out);
+    EXPORT void ResetCameraSmoothing();
+    EXPORT void AccumulateSuspicionOnDriver(Car* pCar);
+    EXPORT void Update();
+    EXPORT void RefreshBoundaries();
+    EXPORT void SetShake(Fix16 amount);
+    EXPORT void ApplyShake();
+    EXPORT void SetScreenSize(u32 width, u32 height);
+    EXPORT void ApplyCarVelocityCameraOffset(Car* pCar, Fix16* pOutX, Fix16* pOutY, Fix16* pOutZ);
+    EXPORT void UpdateFollowCarCamera(Car* pCar);
+    EXPORT void UpdateFollowPedCamera(Ped* pPed);
+    EXPORT void HandlePanning(bool forward_gas_on, bool foot_brake_on, bool left_on, bool right_on);
+    EXPORT void ResetPanning();
+    EXPORT void ApplyPanOffset(Ped* pPed, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos);
     EXPORT Camera();
     EXPORT ~Camera();
-    EXPORT void SetTarget_4397D0(Fix16 x, Fix16 y, Fix16 z, Fix16 zoom);
-    EXPORT bool IsPointInBoundaries_58CF10(Fix16 x, Fix16 y);
+    EXPORT void SetTarget(Fix16 x, Fix16 y, Fix16 z, Fix16 zoom);
+    EXPORT bool IsPointInBoundaries(Fix16 x, Fix16 y);
 
     void ProjectWorldToScreen_4B90E0(Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
     {
-        Fix16 scale = kFpOne_702DE4 / ((kFpEight_702E04 - z) + field_98_cur_pos.field_8_z);
-        *pOutX = (((x - field_98_cur_pos.field_0_x) * field_60_screen_scale.x) * scale) + Fix16(field_70_screen_px_center_x);
-        *pOutY = (((y - field_98_cur_pos.field_4_y) * field_60_screen_scale.x) * scale) + Fix16(field_74_screen_px_center_y);
+        Fix16 scale = kFpOne_702DE4 / ((kFpEight_702E04 - z) + mCurPos.mZ);
+        *pOutX = (((x - mCurPos.mX) * mScreenScale.x) * scale) + Fix16(mScreenPxCenterX);
+        *pOutY = (((y - mCurPos.mY) * mScreenScale.x) * scale) + Fix16(mScreenPxCenterY);
     }
 
-    inline void SetSmoothFollow_475B60()
+    // 9.6f 0x475B60
+    inline void SetSmoothFollow()
     {
-        field_3C_follow_mode = camera_follow_mode::smooth_1;
+        mFollowMode = camera_follow_mode::smooth_1;
     }
 
     // 9.6f 0x4A5070
-    inline void SetSnapFollow_4A5070()
+    inline void SetSnapFollow()
     {
-        field_3C_follow_mode = camera_follow_mode::snap_2;
+        mFollowMode = camera_follow_mode::snap_2;
     }
 
     // FUNCTION: 96f 0x40cfc0
-    inline Fix16_Point_POD WorldToScreen_40CFC0(Fix16 x, Fix16 y, Fix16 z)
+    inline Fix16_Point_POD WorldToScreen(Fix16 x, Fix16 y, Fix16 z)
     {
         Fix16_Point_POD screen_pos;
-        Fix16 u = field_98_cur_pos.field_8_z - z;
+        Fix16 u = mCurPos.mZ - z;
         Fix16 t(kOne_67681C / Fix16(u.mValue + kFpEight_676840.mValue, 0));
 
-        screen_pos.x = (((x - field_98_cur_pos.field_0_x) * field_60_screen_scale.y) * t) + Fix16(320);
-        screen_pos.y = (((y - field_98_cur_pos.field_4_y) * field_60_screen_scale.y) * t) + Fix16(240);
+        screen_pos.x = (((x - mCurPos.mX) * mScreenScale.y) * t) + Fix16(320);
+        screen_pos.y = (((y - mCurPos.mY) * mScreenScale.y) * t) + Fix16(240);
 
         return screen_pos;
     }
 
     // 9.6f 0x45AEA0
-    inline bool IsSpriteInBounds_45AEA0(Sprite* pSprite, Fix16 margin)
+    inline bool IsSpriteInBounds(Sprite* pSprite, Fix16 margin)
     {
-        return pSprite->field_14_xy.x >= field_20_padded_view_bounds.field_0_left - margin &&
-            pSprite->field_14_xy.x <= field_20_padded_view_bounds.field_4_right + margin &&
-            pSprite->field_14_xy.y >= field_20_padded_view_bounds.field_8_top - margin &&
-            pSprite->field_14_xy.y <= field_20_padded_view_bounds.field_C_bottom + margin;
+        return pSprite->mXy.x >= mPaddedViewBounds.mLeft - margin &&
+            pSprite->mXy.x <= mPaddedViewBounds.mRight + margin &&
+            pSprite->mXy.y >= mPaddedViewBounds.mTop - margin &&
+            pSprite->mXy.y <= mPaddedViewBounds.mBottom + margin;
     }
 
     // 9.6f 0x45AF40
-    inline bool IsRectInBounds_45AF40(Fix16_Rect* pRect)
+    inline bool IsRectInBounds(Fix16_Rect* pRect)
     {
-        return pRect->get_top_45ADD0() <= field_20_padded_view_bounds.field_C_bottom &&
-            pRect->get_bottom_45ADC0() >= field_20_padded_view_bounds.field_8_top &&
-            pRect->get_left_45ADB0() <= field_20_padded_view_bounds.field_4_right &&
-            pRect->get_right_45ADA0() >= field_20_padded_view_bounds.field_0_left;
+        return pRect->get_top() <= mPaddedViewBounds.mBottom &&
+            pRect->get_bottom() >= mPaddedViewBounds.mTop &&
+            pRect->get_left() <= mPaddedViewBounds.mRight &&
+            pRect->get_right() >= mPaddedViewBounds.mLeft;
     }
 
     // 9.6f 0x40CF60
-    inline bool IsPointInViewBounds_40CF60(Fix16 x, Fix16 y) const
+    inline bool IsPointInViewBounds(Fix16 x, Fix16 y) const
     {
-        return x >= field_78_view_bounds.field_0_left && x <= field_78_view_bounds.field_4_right &&
-            y >= field_78_view_bounds.field_8_top && y <= field_78_view_bounds.field_C_bottom;
+        return x >= mViewBounds.mLeft && x <= mViewBounds.mRight &&
+            y >= mViewBounds.mTop && y <= mViewBounds.mBottom;
     }
 
-    inline void CommitPendingTarget_41E410()
+    // 9.6f 0x41E410
+    inline void CommitPendingTarget()
     {
-        field_0_target_pos = field_10_pending_target_pos;
+        mTargetPos = mPendingTargetPos;
     }
 
     inline void ResetPendingTarget()
     {
-        field_10_pending_target_pos = field_0_target_pos;
+        mPendingTargetPos = mTargetPos;
     }
 
     // 9.6f inline 0x433E90
-    inline bool HasFollowTarget_433E90() const
+    inline bool HasFollowTarget() const
     {
-        return field_34_target_ped || field_38_target_car;
+        return mTargetPed || mTargetCar;
     }
 
-    inline void SetPendingTarget_41E3D0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16 zoom)
+    // 9.6f 0x41E3D0
+    inline void SetPendingTarget(Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16 zoom)
     {
-        field_10_pending_target_pos.field_0_x = xpos;
-        field_10_pending_target_pos.field_4_y = ypos;
-        field_10_pending_target_pos.field_8_z = zpos + field_40_target_elevation;
-        field_10_pending_target_pos.field_C_zoom = zoom;
+        mPendingTargetPos.mX = xpos;
+        mPendingTargetPos.mY = ypos;
+        mPendingTargetPos.mZ = zpos + mTargetElevation;
+        mPendingTargetPos.mZoom = zoom;
     }
 
-    Fix16 GetPaddedViewBoundsWidth_4B3110() const
+    // 9.6f 0x4B3110
+    Fix16 GetPaddedViewBoundsWidth() const
     {
-        return field_20_padded_view_bounds.field_4_right - field_20_padded_view_bounds.field_0_left;
+        return mPaddedViewBounds.mRight - mPaddedViewBounds.mLeft;
     }
 
-    Fix16 GetPaddedViewBoundsHeight_4B3130() const
+    // 9.6f 0x4B3130
+    Fix16 GetPaddedViewBoundsHeight() const
     {
-        return field_20_padded_view_bounds.field_C_bottom - field_20_padded_view_bounds.field_8_top;
+        return mPaddedViewBounds.mBottom - mPaddedViewBounds.mTop;
     }
 
-    CameraPos field_0_target_pos;
-    CameraPos field_10_pending_target_pos;
-    WorldRect field_20_padded_view_bounds;
-    Fix16 field_30_shake_amount;
-    Ped* field_34_target_ped;
-    Car* field_38_target_car;
-    s32 field_3C_follow_mode;
-    Fix16 field_40_target_elevation;
-    u8 field_44_suspicion;
-    char_type field_45_unused;
-    char_type field_46_unused;
-    char_type field_47_unused;
-    Fix16 field_48_pan_x;
-    Fix16 field_4C_pan_y;
-    Fix16 field_50_pan_speed_up;
-    Fix16 field_54_pan_speed_down;
-    Fix16 field_58_pan_speed_left;
-    Fix16 field_5C_pan_speed_right;
-    Fix16_Point field_60_screen_scale; // x: screen width * zoom, y: 640 * zoom
-    s32 field_68_screen_px_width;
-    s32 field_6C_screen_px_height;
-    s32 field_70_screen_px_center_x;
-    s32 field_74_screen_px_center_y;
-    WorldRect field_78_view_bounds;
-    CameraPos field_88_prev_pos;
-    CameraPos field_98_cur_pos;
-    Fix16 field_A8_ui_scale;
-    CameraPos field_AC_cam_velocity;
+    CameraPos mTargetPos; // 0x0
+    CameraPos mPendingTargetPos; // 0x10
+    WorldRect mPaddedViewBounds; // 0x20
+    Fix16 mShakeAmount; // 0x30
+    Ped* mTargetPed; // 0x34
+    Car* mTargetCar; // 0x38
+    s32 mFollowMode; // 0x3C
+    Fix16 mTargetElevation; // 0x40
+    u8 mSuspicion; // 0x44
+    char_type mUnused45; // 0x45
+    char_type mUnused46; // 0x46
+    char_type mUnused47; // 0x47
+    Fix16 mPanX; // 0x48
+    Fix16 mPanY; // 0x4C
+    Fix16 mPanSpeedUp; // 0x50
+    Fix16 mPanSpeedDown; // 0x54
+    Fix16 mPanSpeedLeft; // 0x58
+    Fix16 mPanSpeedRight; // 0x5C
+    Fix16_Point mScreenScale; // 0x60: x: screen width * zoom, y: 640 * zoom
+    s32 mScreenPxWidth; // 0x68
+    s32 mScreenPxHeight; // 0x6C
+    s32 mScreenPxCenterX; // 0x70
+    s32 mScreenPxCenterY; // 0x74
+    WorldRect mViewBounds; // 0x78
+    CameraPos mPrevPos; // 0x88
+    CameraPos mCurPos; // 0x98
+    Fix16 mUiScale; // 0xA8
+    CameraPos mCamVelocity; // 0xAC
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Camera, 0xBC)
 
-EXTERN_GLOBAL(Camera*, gViewCamera_676978);
+EXTERN_GLOBAL(Camera*, gViewCamera);
 
 extern inline Fix16 Max_41E130(Fix16 a, Fix16 b);

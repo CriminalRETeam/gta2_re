@@ -194,11 +194,18 @@ def parse_lib(lib_file_path):
     with open(lib_file_path, "rb") as lib_file:
         content = lib_file.read()
     symbols_by_name = {}
+    display = {}
     for symbol in archive_public_symbols(content):
         match = re.match(rb'\?([A-Za-z0-9_]+)@', symbol)
         if match:
             name = match[1].decode('ascii')
             symbols_by_name.setdefault(name, set()).add(symbol)
+        # a class static registers as gRef_<Class>_<member>_<addr> (GLOBAL_MEMBER)
+        match = re.match(rb'\?([A-Za-z0-9_]+)@([A-Za-z0-9_]+)@@2', symbol)
+        if match:
+            name = match[2].decode('ascii') + '_' + match[1].decode('ascii')
+            symbols_by_name.setdefault(name, set()).add(symbol)
+            display[name] = match[2].decode('ascii') + '::' + match[1].decode('ascii')
     registrations = {}
     matches = re.findall(rb'gRef_([A-Za-z0-9_]+)_(0x[0-9A-Fa-f]+)', content)
     for name_bytes, address_bytes in matches:
@@ -220,7 +227,7 @@ def parse_lib(lib_file_path):
         hex_address = min(addresses)
         if len(hex_address) < 8:
             print(f"warning: {var_name} has a weird address {hex_address}")
-        variable_data.add(VariableData(var_name, mangled_var_name, hex_address))
+        variable_data.add(VariableData(display.get(var_name, var_name), mangled_var_name, hex_address))
 
     return [var.to_dict() for var in variable_data]
 

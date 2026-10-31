@@ -21,8 +21,8 @@ flow and calls match and only register allocation / stack layout differ.
 targets, in order) and returns. Instruction scheduling inside a block doesn't count, so 0 means the
 branches, block order and call order match.
 
-Unless --no-callees is given, each call to a function named after an address (Name_ADDRESS) that the
-original doesn't call adds 2. The asm comparison only checks that the call targets map one to one,
+Unless --no-callees is given, each call to a function the source knows the address of (its marker, or a
+Name_ADDRESS name) that the original doesn't call adds 2. The asm comparison only checks that the call targets map one to one,
 so a call to the wrong named function would otherwise score 0 when that function is called once.
 A call to an inline's out-of-line COMDAT copy (??HFix16@@...) is not counted: the original has one
 out-of-line copy per operator (0x408660 is the inline operator's copy; 10.5's linker folds nothing),
@@ -183,28 +183,46 @@ def score_lines(tl, ml):
 
 
 ADDR_KEY = re.compile(r"_([0-9A-Fa-f]{6})(?:@|$)")
-# Functions the source names after an address: an original callee counts only when the source has
-# a function for it, so a callee nobody has named yet doesn't cost anything.
+MARKER = re.compile(r"\b(?:MATCH|WIP|STUB)_FUNC\(0x([0-9A-Fa-f]+)\)\s*(?:template\s*<[^>]*>\s*)?[^{;(]*?([\w:~]+)\s*\(")
+# Functions the source names after an address or marks with MATCH_FUNC/WIP_FUNC/STUB_FUNC: an original
+# callee counts only when the source has a function for it, so a callee nobody has named yet doesn't cost anything.
 SOURCE_ADDRS = None
+MARKED = None  # (name, class) -> address, from the markers
 
 
 def source_addrs():
-    global SOURCE_ADDRS
+    global SOURCE_ADDRS, MARKED
     if SOURCE_ADDRS is None:
         src = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "Source")
-        found = set()
+        found, marked = set(), {}
         for root, _, files in os.walk(src):
             for f in files:
                 if f.endswith((".cpp", ".hpp", ".h")):
                     text = open(os.path.join(root, f), errors="replace").read()
                     found.update(m.lower() for m in re.findall(r"\w_([0-9A-Fa-f]{6})\b", text))
-        SOURCE_ADDRS = found
+                    for m in MARKER.finditer(text):
+                        parts = m.group(2).split("::")
+                        marked[(parts[-1], parts[-2] if len(parts) > 1 else "")] = "%06x" % int(m.group(1), 16)
+        SOURCE_ADDRS = found | set(marked.values())
+        MARKED = marked
     return SOURCE_ADDRS
 
 
+def symbol_addr(name):
+    """Original address of a function symbol: its marker (by name and class), else an _ADDRESS suffix."""
+    source_addrs()
+    m = re.match(r"^\?([A-Za-z_]\w*)@(?:([A-Za-z_]\w*)@)?@", name) or re.match(r"^_?([A-Za-z_]\w*?)(?:@\d+)?$", name)
+    if m:
+        cls = m.group(2) if m.lastindex and m.lastindex >= 2 and m.group(2) else ""
+        if (m.group(1), cls) in MARKED:
+            return MARKED[(m.group(1), cls)]
+    m = ADDR_KEY.search(name)
+    return m.group(1).lower() if m else None
+
+
 def callee_penalty(coff, symidx, target, addr):
-    """2 for each call of the candidate to a function named after an address (the REL32
-    relocations whose symbol ends in _ADDRESS) beyond the original's calls to that address
+    """2 for each call of the candidate to a function with a known address (the REL32 relocations
+    whose symbol has a marker or ends in _ADDRESS) beyond the original's calls to that address
     (its absolute call targets). Returns (penalty, the original's calls the candidate doesn't
     make to a named function, the candidate's extra calls)."""
     from collections import Counter
@@ -224,9 +242,9 @@ def callee_penalty(coff, symidx, target, addr):
     ours = Counter()
     for va, ridx, typ in coff.relocs(sec):
         if start <= va < end and typ == IMAGE_REL_I386_REL32:
-            m = ADDR_KEY.search(coff.symbols[ridx]["name"])
-            if m and m.group(1).lower() in source_addrs():
-                ours[m.group(1).lower()] += 1
+            a = symbol_addr(coff.symbols[ridx]["name"])
+            if a and a in source_addrs():
+                ours[a] += 1
     missing = Counter({a: n for a, n in (orig - ours).items() if a in source_addrs() and a != "%06x" % addr})
     extra = ours - orig
     return 2 * sum(extra.values()), missing, extra

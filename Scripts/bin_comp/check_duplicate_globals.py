@@ -6,7 +6,7 @@ REPO_ROOT_FOLDER = Path(__file__).parent.parent.parent
 SOURCE_FOLDER = REPO_ROOT_FOLDER / "Source"
 
 class globals():
-    __slots__ = "var_type", "name", "address", "source_file", "src_line_num"
+    __slots__ = "var_type", "name", "address", "source_file", "src_line_num", "unique_name"
 
     def __init__(self, var_type : str, name : str, address : int, source_file : str, src_line_num : int):
         self.var_type = var_type
@@ -14,6 +14,21 @@ class globals():
         self.address = address
         self.source_file = source_file
         self.src_line_num = src_line_num
+        self.unique_name = True
+
+
+# macro: (argument count, index of the name, whether the name must be unique). Statics may share a name with
+# statics of other files or functions, but never an address.
+MACROS = {
+    "DEFINE_GLOBAL": (3, 1, True),
+    "DEFINE_GLOBAL_INIT": (4, 1, True),
+    "DEFINE_STATIC_GLOBAL": (3, 1, False),
+    "DEFINE_STATIC_GLOBAL_INIT": (4, 1, False),
+    "DEFINE_STATIC_MEMBER": (4, 2, False),
+    "DEFINE_STATIC_MEMBER_INIT": (5, 2, False),
+    "LOCAL_STATIC": (3, 1, False),
+    "LOCAL_STATIC_INIT": (4, 1, False),
+}
 
 
 class GlobalParseError(ValueError):
@@ -71,7 +86,7 @@ def mask_comments_and_literals(text, filename):
 def iter_globals(text, filename):
     clean, code = mask_comments_and_literals(text, filename)
     # Arrays remain deliberately excluded. Match whole macro names only.
-    macro_pattern = re.compile(r"\b(DEFINE_GLOBAL_INIT|DEFINE_GLOBAL)\s*\(")
+    macro_pattern = re.compile(r"\b(" + "|".join(sorted(MACROS, key=len, reverse=True)) + r")\s*\(")
     position = 0
     while match := macro_pattern.search(code, position):
         macro = match[1]
@@ -96,12 +111,14 @@ def iter_globals(text, filename):
         if depth:
             raise GlobalParseError(f"{filename}({line}): unterminated {macro} invocation")
 
-        expected = 4 if macro == "DEFINE_GLOBAL_INIT" else 3
+        expected, name_index, unique_name = MACROS[macro]
         if len(arguments) != expected or not all(arguments):
             raise GlobalParseError(f"{filename}({line}): {macro} expects {expected} nonempty arguments, got {len(arguments)}")
         if not re.fullmatch(r"0[xX][0-9a-fA-F]+", arguments[-1]):
             raise GlobalParseError(f"{filename}({line}): invalid global address {arguments[-1]!r}")
-        yield globals(arguments[0], arguments[1], int(arguments[-1], 16), filename, line)
+        declaration = globals(arguments[0], arguments[name_index], int(arguments[-1], 16), filename, line)
+        declaration.unique_name = unique_name
+        yield declaration
         position = index + 1
 
 
@@ -128,7 +145,8 @@ def main():
             for curr_global in declarations:
                 duplicated = False
                 for global_iter in globals_list:
-                    if global_iter.address == curr_global.address or global_iter.name == curr_global.name:
+                    same_name = global_iter.name == curr_global.name and global_iter.unique_name and curr_global.unique_name
+                    if global_iter.address == curr_global.address or same_name:
                         # duplicated global
                         duplicated = True
                         error_list.append((global_iter, curr_global))

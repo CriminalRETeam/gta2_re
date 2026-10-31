@@ -5,4 +5,4 @@
 
 typedef Pool<Object, 3825> TObjectPool;
 
-EXTERN_GLOBAL(TObjectPool*, gObject_2C_Pool_6F8F80);
+EXTERN_GLOBAL(TObjectPool*, gObject_2C_Pool);

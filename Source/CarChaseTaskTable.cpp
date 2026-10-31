@@ -2,64 +2,64 @@
 #include "Globals.hpp"
 #include "Ped.hpp"
 
-DEFINE_GLOBAL(CarChaseTaskTable*, gCarChaseTaskTable_678E30, 0x678E30);
+DEFINE_GLOBAL(CarChaseTaskTable*, gCarChaseTaskTable, 0x678E30);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_678D0C, Fix16(0), 0x678D0C);
 
 MATCH_FUNC(0x4747b0)
-void CarChaseTask::ResetEntry_4747B0()
+void CarChaseTask::ResetEntry()
 {
-    field_0_in_use = 0;
-    field_10_ram_target = false;
-    field_8_task_type = 0;
-    field_14_target_x = kFpZero_678D0C;
-    field_18_target_y = kFpZero_678D0C;
-    field_1C_target_z = kFpZero_678D0C;
-    field_20_can_snap_to_target = false;
-    field_21_unused = 0;
-    field_22_following_route = true;
-    field_23_unused = 1;
-    field_24_unused = 0;
-    field_25_unused = 0;
-    field_30_pTargetPed = NULL;
-    field_26_route_finished = false;
-    field_2A_settle_counter = 0;
-    field_2C_side_counter = 0;
-    field_2E_wait_counter = 0;
-    field_C_chase_state = car_chase_state::follow_behind_0;
-    field_34_snap_timer = 0;
-    field_4_pDriver = NULL;
-    field_38_unused = 0;
-    field_3C_block_counter = 0;
+    mInUse = 0;
+    mRamTarget = false;
+    mTaskType = 0;
+    mTargetX = kFpZero_678D0C;
+    mTargetY = kFpZero_678D0C;
+    mTargetZ = kFpZero_678D0C;
+    mCanSnapToTarget = false;
+    mUnused21 = 0;
+    mFollowingRoute = true;
+    mUnused23 = 1;
+    mUnused24 = 0;
+    mUnused25 = 0;
+    mpTargetPed = NULL;
+    mRouteFinished = false;
+    mSettleCounter = 0;
+    mSideCounter = 0;
+    mWaitCounter = 0;
+    mChaseState = car_chase_state::follow_behind_0;
+    mSnapTimer = 0;
+    mpDriver = NULL;
+    mUnused38 = 0;
+    mBlockCounter = 0;
 }
 
 MATCH_FUNC(0x474810)
-CarChaseTask* CarChaseTaskTable::AllocateEntry_474810()
+CarChaseTask* CarChaseTaskTable::AllocateEntry()
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
-        if (!field_0_entries[i].field_0_in_use)
+        if (!mEntries[i].mInUse)
         {
-            field_0_entries[i].field_0_in_use = 1;
-            return &field_0_entries[i];
+            mEntries[i].mInUse = 1;
+            return &mEntries[i];
         }
     }
     return NULL;
 }
 
 MATCH_FUNC(0x474850)
-bool CarChaseTaskTable::AreAllies_474850(Ped* pPed1, Ped* pPed2) const
+bool CarChaseTaskTable::AreAllies(Ped* pPed1, Ped* pPed2) const
 {
-    if (pPed1->get_occupation_403980() < ped_ocupation_enum::police || pPed1->get_occupation_403980() > ped_ocupation_enum::army_army) // ped 1 is not police
+    if (pPed1->get_occupation() < ped_ocupation_enum::police || pPed1->get_occupation() > ped_ocupation_enum::army_army) // ped 1 is not police
     {
-        if (pPed2->field_17C_pGang == pPed1->field_17C_pGang) // they are from same gang (or both dont have any)
+        if (pPed2->mpGang == pPed1->mpGang) // they are from same gang (or both dont have any)
         {
             return true;
         }
     }
     else
     {
-        if (pPed2->get_occupation_403980() >= ped_ocupation_enum::police && pPed2->field_240_occupation <= ped_ocupation_enum::army_army) // both ped 1 and ped 2 are police feds
+        if (pPed2->get_occupation() >= ped_ocupation_enum::police && pPed2->mOccupation <= ped_ocupation_enum::army_army) // both ped 1 and ped 2 are police feds
         {
             return true;
         }
@@ -68,28 +68,28 @@ bool CarChaseTaskTable::AreAllies_474850(Ped* pPed1, Ped* pPed2) const
 }
 
 MATCH_FUNC(0x4748a0)
-Ped* CarChaseTaskTable::FindDriverInState_4748A0(s32 chase_state, Ped* pTargetPed) const
+Ped* CarChaseTaskTable::FindDriverInState(s32 chase_state, Ped* pTargetPed) const
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
-        if (field_0_entries[i].field_0_in_use == 1 && field_0_entries[i].field_30_pTargetPed == pTargetPed && AreAllies_474850(pTargetPed, field_0_entries[i].field_4_pDriver) &&
-            chase_state == field_0_entries[i].field_C_chase_state)
+        if (mEntries[i].mInUse == 1 && mEntries[i].mpTargetPed == pTargetPed && AreAllies(pTargetPed, mEntries[i].mpDriver) &&
+            chase_state == mEntries[i].mChaseState)
         {
-            return field_0_entries[i].field_4_pDriver;
+            return mEntries[i].mpDriver;
         }
     }
     return NULL;
 }
 
 MATCH_FUNC(0x474920)
-u8 CarChaseTaskTable::CountPursuers_474920(Ped* pTargetPed, Ped* pPed) const
+u8 CarChaseTaskTable::CountPursuers(Ped* pTargetPed, Ped* pPed) const
 {
     u8 total = 0;
     for (u8 i = 0; i < k_max_entries; i++)
     {
-        if (field_0_entries[i].field_0_in_use == 1 && field_0_entries[i].field_30_pTargetPed == pTargetPed)
+        if (mEntries[i].mInUse == 1 && mEntries[i].mpTargetPed == pTargetPed)
         {
-            if (AreAllies_474850(pPed, field_0_entries[i].field_4_pDriver))
+            if (AreAllies(pPed, mEntries[i].mpDriver))
             {
                 total++;
             }
@@ -99,11 +99,11 @@ u8 CarChaseTaskTable::CountPursuers_474920(Ped* pTargetPed, Ped* pPed) const
 }
 
 MATCH_FUNC(0x474970)
-bool CarChaseTaskTable::HasAnyPursuer_474970(Ped* pTargetPed) const
+bool CarChaseTaskTable::HasAnyPursuer(Ped* pTargetPed) const
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
-        if (field_0_entries[i].field_0_in_use == 1 && field_0_entries[i].field_30_pTargetPed == pTargetPed)
+        if (mEntries[i].mInUse == 1 && mEntries[i].mpTargetPed == pTargetPed)
         {
             return true;
         }
@@ -112,15 +112,15 @@ bool CarChaseTaskTable::HasAnyPursuer_474970(Ped* pTargetPed) const
 }
 
 MATCH_FUNC(0x4749b0)
-bool CarChaseTaskTable::HasPursuerInFront_4749B0(Ped* pPed) const
+bool CarChaseTaskTable::HasPursuerInFront(Ped* pPed) const
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
-        if (field_0_entries[i].field_0_in_use == 1)
+        if (mEntries[i].mInUse == 1)
         {
-            if (AreAllies_474850(pPed, field_0_entries[i].field_4_pDriver))
+            if (AreAllies(pPed, mEntries[i].mpDriver))
             {
-                switch (field_0_entries[i].field_C_chase_state)
+                switch (mEntries[i].mChaseState)
                 {
                     case car_chase_state::in_front_stopping_13:
                     case car_chase_state::target_stopped_15:
@@ -133,13 +133,13 @@ bool CarChaseTaskTable::HasPursuerInFront_4749B0(Ped* pPed) const
 }
 
 MATCH_FUNC(0x474a20)
-bool CarChaseTaskTable::HasPursuerAlongsideLeft_474A20(Ped* pPed) const
+bool CarChaseTaskTable::HasPursuerAlongsideLeft(Ped* pPed) const
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
-        if (field_0_entries[i].field_0_in_use == 1)
+        if (mEntries[i].mInUse == 1)
         {
-            if (AreAllies_474850(pPed, field_0_entries[i].field_4_pDriver) && field_0_entries[i].field_C_chase_state == car_chase_state::alongside_left_8)
+            if (AreAllies(pPed, mEntries[i].mpDriver) && mEntries[i].mChaseState == car_chase_state::alongside_left_8)
             {
                 return true;
             }
@@ -149,15 +149,15 @@ bool CarChaseTaskTable::HasPursuerAlongsideLeft_474A20(Ped* pPed) const
 }
 
 MATCH_FUNC(0x474a80)
-bool CarChaseTaskTable::HasPursuerOnLeft_474A80(Ped* pPed) const
+bool CarChaseTaskTable::HasPursuerOnLeft(Ped* pPed) const
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
-        if (field_0_entries[i].field_0_in_use == 1)
+        if (mEntries[i].mInUse == 1)
         {
-            if (AreAllies_474850(pPed, field_0_entries[i].field_4_pDriver))
+            if (AreAllies(pPed, mEntries[i].mpDriver))
             {
-                switch (field_0_entries[i].field_C_chase_state)
+                switch (mEntries[i].mChaseState)
                 {
                     case car_chase_state::approach_left_6:
                     case car_chase_state::alongside_left_8:
@@ -171,13 +171,13 @@ bool CarChaseTaskTable::HasPursuerOnLeft_474A80(Ped* pPed) const
 }
 
 MATCH_FUNC(0x474af0)
-bool CarChaseTaskTable::HasPursuerAlongsideRight_474AF0(Ped* pPed) const
+bool CarChaseTaskTable::HasPursuerAlongsideRight(Ped* pPed) const
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
-        if (field_0_entries[i].field_0_in_use == 1)
+        if (mEntries[i].mInUse == 1)
         {
-            if (AreAllies_474850(pPed, field_0_entries[i].field_4_pDriver) && field_0_entries[i].field_C_chase_state == car_chase_state::alongside_right_9)
+            if (AreAllies(pPed, mEntries[i].mpDriver) && mEntries[i].mChaseState == car_chase_state::alongside_right_9)
             {
                 return true;
             }
@@ -187,15 +187,15 @@ bool CarChaseTaskTable::HasPursuerAlongsideRight_474AF0(Ped* pPed) const
 }
 
 MATCH_FUNC(0x474b50)
-bool CarChaseTaskTable::HasPursuerOnRight_474B50(Ped* pPed) const
+bool CarChaseTaskTable::HasPursuerOnRight(Ped* pPed) const
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
-        if (field_0_entries[i].field_0_in_use == 1)
+        if (mEntries[i].mInUse == 1)
         {
-            if (AreAllies_474850(pPed, field_0_entries[i].field_4_pDriver))
+            if (AreAllies(pPed, mEntries[i].mpDriver))
             {
-                switch (field_0_entries[i].field_C_chase_state)
+                switch (mEntries[i].mChaseState)
                 {
                     case car_chase_state::approach_right_7:
                         return true;
@@ -210,15 +210,15 @@ bool CarChaseTaskTable::HasPursuerOnRight_474B50(Ped* pPed) const
 }
 
 MATCH_FUNC(0x474bc0)
-bool CarChaseTaskTable::HasPursuerAlongside_474BC0(Ped* pPed) const
+bool CarChaseTaskTable::HasPursuerAlongside(Ped* pPed) const
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
-        if (field_0_entries[i].field_0_in_use == 1)
+        if (mEntries[i].mInUse == 1)
         {
-            if (AreAllies_474850(pPed, field_0_entries[i].field_4_pDriver))
+            if (AreAllies(pPed, mEntries[i].mpDriver))
             {
-                if (field_0_entries[i].field_C_chase_state >= car_chase_state::approach_left_6 && (field_0_entries[i].field_C_chase_state <= car_chase_state::alongside_right_9 || field_0_entries[i].field_C_chase_state == car_chase_state::in_front_stopping_13))
+                if (mEntries[i].mChaseState >= car_chase_state::approach_left_6 && (mEntries[i].mChaseState <= car_chase_state::alongside_right_9 || mEntries[i].mChaseState == car_chase_state::in_front_stopping_13))
                 {
                     return true;
                 }
@@ -229,20 +229,20 @@ bool CarChaseTaskTable::HasPursuerAlongside_474BC0(Ped* pPed) const
 }
 
 MATCH_FUNC(0x474c30)
-bool CarChaseTaskTable::HasPursuerChoosingSide_474C30(Ped* pPed) const
+bool CarChaseTaskTable::HasPursuerChoosingSide(Ped* pPed) const
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
-        if (field_0_entries[i].field_0_in_use == 1)
+        if (mEntries[i].mInUse == 1)
         {
-            if (AreAllies_474850(pPed, field_0_entries[i].field_4_pDriver))
+            if (AreAllies(pPed, mEntries[i].mpDriver))
             {
-                if (field_0_entries[i].field_C_chase_state < car_chase_state::move_right_4)
+                if (mEntries[i].mChaseState < car_chase_state::move_right_4)
                 {
                     continue;
                 }
 
-                if (field_0_entries[i].field_C_chase_state <= car_chase_state::choose_side_5)
+                if (mEntries[i].mChaseState <= car_chase_state::choose_side_5)
                 {
                     return true;
                 }
@@ -255,7 +255,7 @@ bool CarChaseTaskTable::HasPursuerChoosingSide_474C30(Ped* pPed) const
 MATCH_FUNC(0x474ca0)
 CarChaseTask::CarChaseTask()
 {
-    ResetEntry_4747B0();
+    ResetEntry();
 }
 
 MATCH_FUNC(0x474cb0)
@@ -264,14 +264,14 @@ CarChaseTask::~CarChaseTask()
 }
 
 MATCH_FUNC(0x474cc0)
-void CarChaseTaskTable::FreeEntry_474CC0(CarChaseTask* pEntry)
+void CarChaseTaskTable::FreeEntry(CarChaseTask* pEntry)
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
-        if (&field_0_entries[i] == pEntry)
+        if (&mEntries[i] == pEntry)
         {
-            field_0_entries[i].field_0_in_use = 0;
-            field_0_entries[i].ResetEntry_4747B0();
+            mEntries[i].mInUse = 0;
+            mEntries[i].ResetEntry();
             return;
         }
     }
