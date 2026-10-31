@@ -9,8 +9,6 @@
 DEFINE_GLOBAL(GangPool*, gGangPool_CA8_67E274, 0x67E274);
 DEFINE_GLOBAL_INIT(s32, gGangIdx_6206B8, -1, 0x6206B8);
 
-DEFINE_GLOBAL_ARRAY(wchar_t, gGangNameWide_67E030, 4, 0x67E030);
-
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
 MATCH_FUNC(0x4BE4E0);
@@ -58,11 +56,12 @@ Gang* GangPool::NextGang_4BECE0()
 MATCH_FUNC(0x4BED30)
 wchar_t* Gang::GetNameWide_4BED30() const
 {
-    gGangNameWide_67E030[0] = field_2_name[0];
-    gGangNameWide_67E030[1] = field_2_name[1];
-    gGangNameWide_67E030[2] = field_2_name[2];
-    gGangNameWide_67E030[3] = 0;
-    return gGangNameWide_67E030;
+    LOCAL_STATIC_ARRAY(wchar_t, sGangNameWide, 4, 0x67E030);
+    sGangNameWide[0] = field_2_name[0];
+    sGangNameWide[1] = field_2_name[1];
+    sGangNameWide[2] = field_2_name[2];
+    sGangNameWide[3] = 0;
+    return sGangNameWide;
 }
 
 MATCH_FUNC(0x4BED70);
