@@ -43,7 +43,7 @@ DEFINE_GLOBAL_INIT(u32, counter_706C4C, 0, 0x706C4C);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_67D930, Fix16(0, 0), 0x67D930);
 u16 gTableSize_61FF20 = 25; // Note is constant but can't be marked const
 DEFINE_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 2, 0x67DC8C);
-DEFINE_GLOBAL_INIT(Fix16, kFpOne_67D9FC, Fix16(1), 0x67D9FC);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpOne, Fix16(1), 0x67D9FC);
 DEFINE_GLOBAL(s16, font_type_703C14, 0x703C14);
 DEFINE_GLOBAL(s16, gFrontendHeadingFont_703C3C, 0x703C3C);
 DEFINE_GLOBAL(s16, gFrontendNormalFont_703D0C, 0x703D0C);
@@ -1495,7 +1495,7 @@ bool Frontend::pre_intro_bik_exists_4B6030()
 }
 
 DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDataDir_620454, 8, 0x620454, "Data\\");
-DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDriveDataDir_62045C, 4, 0x62045C, ":\\");
+DEFINE_STATIC_GLOBAL_ARRAY_INIT(char_type, sBikDriveDataDir, 4, 0x62045C, ":\\");
 
 MATCH_FUNC(0x4B5F20)
 char_type* Frontend::pre_intro_bik_4B5F20()
@@ -1508,7 +1508,7 @@ char_type* Frontend::pre_intro_bik_4B5F20()
     {
         drive[1] = 0;
         strcpy(sPreIntroBikPath, drive);
-        strcat(sPreIntroBikPath, gBikDriveDataDir_62045C);
+        strcat(sPreIntroBikPath, sBikDriveDataDir);
     }
     else
     {
@@ -1529,7 +1529,7 @@ const char_type* Frontend::intro_bik_4B5E50()
     {
         drive[1] = 0;
         strcpy(sIntroBikPath, drive);
-        strcat(sIntroBikPath, gBikDriveDataDir_62045C);
+        strcat(sIntroBikPath, sBikDriveDataDir);
     }
     else
     {
@@ -1787,7 +1787,7 @@ void Frontend::ManageCredits_4B7A10()
                 }
             }
         }
-        field_1EB34_credits_ypos -= kFpOne_67D9FC;
+        field_1EB34_credits_ypos -= kFpOne;
     }
 }
 
@@ -2289,7 +2289,7 @@ static __forceinline bool CheckCdFile()
         {
             drive[1] = 0;
             strcpy(path, drive);
-            strcat(path, gBikDriveDataDir_62045C);
+            strcat(path, sBikDriveDataDir);
             strcat(path, gCdCheckFiles_6252E8[idx].field_0_name);
             if (File::IsCdRomDrive_4A6BB0(drive[0]))
             {
