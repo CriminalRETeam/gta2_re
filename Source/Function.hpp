@@ -53,6 +53,8 @@
         #error "EXPORT_VARS and IMPORT_VARS should not be defined together!"
     #endif
 
+    // Statics keep the original address in their macro. File statics (DEFINE_STATIC_GLOBAL*) and LOCAL_STATIC* are
+    // private to each build, so the hook DLLs don't redirect them to 10.5.exe; class statics are exported like globals.
     #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
         #if defined(EXPORT_VARS)
             #define DEFINE_GLOBAL(type, name, addr) \
@@ -61,6 +63,18 @@
 
             #define DEFINE_STATIC_GLOBAL(type, name, addr) \
                 static type name;                          \
+                GLOBAL(name, addr)
+
+            #define DEFINE_STATIC_GLOBAL_INIT(type, name, value, addr) \
+                static type name = value;                              \
+                GLOBAL(name, addr)
+
+            #define DEFINE_STATIC_GLOBAL_ARRAY(type, name, size, addr) \
+                static type name[size];                                \
+                GLOBAL(name, addr)
+
+            #define DEFINE_STATIC_GLOBAL_ARRAY_INIT(type, name, size, addr, va_args) \
+                static type name[size] = {va_args};                                 \
                 GLOBAL(name, addr)
 
             #define DEFINE_GLOBAL_INIT(type, name, value, addr) \
@@ -78,10 +92,28 @@
             #define EXTERN_GLOBAL(type, name) __declspec(dllexport) extern type name
             #define EXTERN_GLOBAL_ARRAY(type, name, size) __declspec(dllexport) extern type name[size]
 
+            #define STATIC_MEMBER(type, name) static __declspec(dllexport) type name
+            #define STATIC_MEMBER_ARRAY(type, name, size) static __declspec(dllexport) type name[size]
+            #define DEFINE_STATIC_MEMBER(type, cls, name, addr) \
+                type cls::name;                             \
+                GLOBAL_MEMBER(cls, name, addr)
+            #define DEFINE_STATIC_MEMBER_INIT(type, cls, name, value, addr) \
+                type cls::name = value;                                 \
+                GLOBAL_MEMBER(cls, name, addr)
+            #define DEFINE_STATIC_MEMBER_ARRAY(type, cls, name, size, addr) \
+                type cls::name[size];                                   \
+                GLOBAL_MEMBER(cls, name, addr)
+            #define DEFINE_STATIC_MEMBER_ARRAY_INIT(type, cls, name, size, addr, va_args) \
+                type cls::name[size] = {va_args};                                     \
+                GLOBAL_MEMBER(cls, name, addr)
+
         #elif defined(IMPORT_VARS)
             // define
             #define DEFINE_GLOBAL(type, name, addr) __declspec(dllimport) type name
             #define DEFINE_STATIC_GLOBAL(type, name, addr) static type name
+            #define DEFINE_STATIC_GLOBAL_INIT(type, name, value, addr) static type name = value
+            #define DEFINE_STATIC_GLOBAL_ARRAY(type, name, size, addr) static type name[size]
+            #define DEFINE_STATIC_GLOBAL_ARRAY_INIT(type, name, size, addr, va_args) static type name[size] = {va_args}
             #define DEFINE_GLOBAL_INIT(type, name, value, addr) __declspec(dllimport) type name;
 
             #define DEFINE_GLOBAL_ARRAY(type, name, size, addr) __declspec(dllimport) type name[size]
@@ -89,6 +121,14 @@
             // extern
             #define EXTERN_GLOBAL(type, name) __declspec(dllimport) extern type name
             #define EXTERN_GLOBAL_ARRAY(type, name, size) __declspec(dllimport) extern type name[size]
+
+            // The member is defined in gta2_dll_exports; a dllimport member can't be defined here
+            #define STATIC_MEMBER(type, name) static __declspec(dllimport) type name
+            #define STATIC_MEMBER_ARRAY(type, name, size) static __declspec(dllimport) type name[size]
+            #define DEFINE_STATIC_MEMBER(type, cls, name, addr)
+            #define DEFINE_STATIC_MEMBER_INIT(type, cls, name, value, addr)
+            #define DEFINE_STATIC_MEMBER_ARRAY(type, cls, name, size, addr)
+            #define DEFINE_STATIC_MEMBER_ARRAY_INIT(type, cls, name, size, addr, va_args)
         #endif
     #else
         // Static build
@@ -98,6 +138,18 @@
 
         #define DEFINE_STATIC_GLOBAL(type, name, addr) \
             static type name;                          \
+            GLOBAL(name, addr)
+
+        #define DEFINE_STATIC_GLOBAL_INIT(type, name, value, addr) \
+            static type name = value;                              \
+            GLOBAL(name, addr)
+
+        #define DEFINE_STATIC_GLOBAL_ARRAY(type, name, size, addr) \
+            static type name[size];                                \
+            GLOBAL(name, addr)
+
+        #define DEFINE_STATIC_GLOBAL_ARRAY_INIT(type, name, size, addr, va_args) \
+            static type name[size] = {va_args};                                 \
             GLOBAL(name, addr)
 
         #define DEFINE_GLOBAL_INIT(type, name, value, addr) \
@@ -114,6 +166,21 @@
 
         #define EXTERN_GLOBAL(type, name) extern type name
         #define EXTERN_GLOBAL_ARRAY(type, name, size) extern type name[size]
+
+        #define STATIC_MEMBER(type, name) static type name
+        #define STATIC_MEMBER_ARRAY(type, name, size) static type name[size]
+        #define DEFINE_STATIC_MEMBER(type, cls, name, addr) \
+            type cls::name;                             \
+            GLOBAL_MEMBER(cls, name, addr)
+        #define DEFINE_STATIC_MEMBER_INIT(type, cls, name, value, addr) \
+            type cls::name = value;                                 \
+            GLOBAL_MEMBER(cls, name, addr)
+        #define DEFINE_STATIC_MEMBER_ARRAY(type, cls, name, size, addr) \
+            type cls::name[size];                                   \
+            GLOBAL_MEMBER(cls, name, addr)
+        #define DEFINE_STATIC_MEMBER_ARRAY_INIT(type, cls, name, size, addr, va_args) \
+            type cls::name[size] = {va_args};                                     \
+            GLOBAL_MEMBER(cls, name, addr)
     #endif
 
     #if defined(__clang__) || (_MSC_VER <= 1200)
@@ -186,13 +253,28 @@ void __stdcall LogFuncAddr(u32 codeAddr, s32 mode);
 
     #define DEFINE_GLOBAL(type, name, addr) type name
     #define DEFINE_STATIC_GLOBAL(type, name, addr) static type name
+    #define DEFINE_STATIC_GLOBAL_INIT(type, name, value, addr) static type name = value
+    #define DEFINE_STATIC_GLOBAL_ARRAY(type, name, size, addr) static type name[size]
     #define DEFINE_GLOBAL_INIT(type, name, value, addr) type name = value
 
     #define DEFINE_GLOBAL_ARRAY(type, name, size, addr) type name[size]
 
     #define EXTERN_GLOBAL(type, name) extern type name
     #define EXTERN_GLOBAL_ARRAY(type, name, size) extern type name[size]
+
+    #define STATIC_MEMBER(type, name) static type name
+    #define STATIC_MEMBER_ARRAY(type, name, size) static type name[size]
+    #define DEFINE_STATIC_MEMBER(type, cls, name, addr) type cls::name
+    #define DEFINE_STATIC_MEMBER_INIT(type, cls, name, value, addr) type cls::name = value
+    #define DEFINE_STATIC_MEMBER_ARRAY(type, cls, name, size, addr) type cls::name[size]
 #endif
+
+// A static inside the one function that uses it. Only for constant initializers: a constructor would add an init
+// guard the original doesn't have.
+#define LOCAL_STATIC(type, name, addr) static type name
+#define LOCAL_STATIC_INIT(type, name, value, addr) static type name = value
+#define LOCAL_STATIC_ARRAY(type, name, size, addr) static type name[size]
+#define LOCAL_STATIC_ARRAY_INIT(type, name, size, addr, va_args) static type name[size] = {va_args}
 
 #if defined(_MSC_VER)
     #if defined(__clang__) || (_MSC_VER <= 1200)

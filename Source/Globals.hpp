@@ -31,3 +31,4 @@ class GlobalRef
 };
 
 #define GLOBAL(var, addr) const GlobalRef gRef_##var##_##addr(&var, addr, sizeof(var));
+#define GLOBAL_MEMBER(cls, name, addr) const GlobalRef gRef_##cls##_##name##_##addr(&cls::name, addr, sizeof(cls::name));
