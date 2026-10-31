@@ -493,12 +493,12 @@ EXPORT void __stdcall NoRefs_sub()
     gTestCar1->IncrementCarStats(car_kind::mission_car_8);
     gTestCar1->SetMiniCar();
     gTestCar1->UpdateDrawLayer();
-    gWeapon_8->allocate_5E3D50(23, 1, gTestCar1);
+    gWeapon_8->add_car_weapon(23, 1, gTestCar1);
     gTestCar1->IsBeingCrushed();
     gTestTrailer =
         gCarManager_6C->SpawnCabAndTrailer(98, 179, kAng90_70420C, car_model_enum::TRUKCAB2, car_model_enum::TRUKTRNS);
     gTestTrailer->mTruckCab->IncrementCarStats(car_kind::mission_car_8);
-    gWeapon_8->allocate_5E3D50(15, 1, gTestTrailer->mTruckCab);
+    gWeapon_8->add_car_weapon(15, 1, gTestTrailer->mTruckCab);
     gTestCar2 = gCarManager_6C->SpawnCarAtCorrectZ_Scaled(Fix16(92) + kFpQuarter_704420,
                                                                         Fix16(175),
                                                                         kAng90_70420C,
@@ -508,22 +508,22 @@ EXPORT void __stdcall NoRefs_sub()
     gTestCar3 =
         gCarManager_6C->SpawnCarAtCorrectZ_Scaled(Fix16(97), Fix16(178), kAng90_70420C, car_model_enum::EDSELFBI, kFpOne_7043AC);
     gTestCar3->IncrementCarStats(car_kind::mission_car_8);
-    gWeapon_8->allocate_5E3D50(18, 99, gTestCar3);
-    gWeapon_8->allocate_5E3D50(15, 1, gTestCar3);
-    gWeapon_8->allocate_5E3D50(16, 99, gTestCar3);
-    gWeapon_8->allocate_5E3D50(17, 99, gTestCar3);
+    gWeapon_8->add_car_weapon(18, 99, gTestCar3);
+    gWeapon_8->add_car_weapon(15, 1, gTestCar3);
+    gWeapon_8->add_car_weapon(16, 99, gTestCar3);
+    gWeapon_8->add_car_weapon(17, 99, gTestCar3);
     gTestArrowCar =
         gCarManager_6C->SpawnCarAtCorrectZ_Scaled(Fix16(95), Fix16(178), kAng90_70420C, car_model_enum::TANK, kFpOne_7043AC);
     gTestArrowCar->IncrementCarStats(car_kind::mission_car_8);
     gTestCar3 =
         gCarManager_6C->SpawnCarAtCorrectZ_Scaled(Fix16(95), Fix16(180), kAng90_70420C, car_model_enum::MIURA, kFpOne_7043AC);
-    gWeapon_8->allocate_5E3D50(17, 99, gTestCar3);
+    gWeapon_8->add_car_weapon(17, 99, gTestCar3);
     gTestCar3->mCarSprite->SetRemap(14);
     gTestCar3->AttachGangIcon(2);
     gTestCar3->IncrementCarStats(car_kind::mission_car_8);
     gTestCar3 =
         gCarManager_6C->SpawnCarAtCorrectZ_Scaled(Fix16(95), Fix16(179), kAng90_70420C, car_model_enum::STINGRAY, kFpOne_7043AC);
-    gWeapon_8->allocate_5E3D50(16, 99, gTestCar3);
+    gWeapon_8->add_car_weapon(16, 99, gTestCar3);
     gTestCar3->mCarSprite->SetRemap(2);
     gTestCar3->AttachGangIcon(3);
     gTestCar3->IncrementCarStats(car_kind::mission_car_8);
@@ -1739,7 +1739,7 @@ void CC ImGuiDebugDraw()
                     // Spawns a cab and connected trailer, can spawn trains too apparently
                     gCarManager_6C->SpawnCabAndTrailer(xpos + xOff, ypos, 0, car_model_enum::TRUKCAB1, car_model_enum::TRUKTRNS);
 
-                    pNewCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
+                    pNewCar->SetupCarPhysicsAndSpriteBindingWithTrailer();
                     if (!pNewCar->mAI)
                     {
                         printf("Alloc AI (?)\n");
@@ -2209,7 +2209,7 @@ void CC ImGuiDebugDraw()
                     {
                         if (pPlayerPed->mCar)
                         {
-                            gWeapon_8->allocate_5E3D50(currentWeaponIndex, 20, pPlayerPed->mCar);
+                            gWeapon_8->add_car_weapon(currentWeaponIndex, 20, pPlayerPed->mCar);
                         }
                     }
                     if (ImGui::Button("Add player weapon"))
@@ -2920,7 +2920,7 @@ void CC ImGuiDebugDraw()
                     pParticle->mSubState = 0;
                     pParticle->mTimer = timer;
                     pParticle->mpOwnSprite->set_xyz_lazy_420600(pPlayerSprite->mXy.x, pPlayerSprite->mXy.y, pPlayerSprite->mZpos);
-                    gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+                    gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
                 }
             }
             

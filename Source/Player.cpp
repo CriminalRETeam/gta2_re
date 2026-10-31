@@ -247,12 +247,12 @@ void Player::SetKFCarWeapon(Car* pCar, s32 weapon_kind)
     Weapon* pWeapon = gWeapon_8->find(pCar, weapon_kind);
     if (pWeapon)
     {
-        this->mPreKfAmmo = pWeapon->get_ammo_4A4FE0();
+        this->mPreKfAmmo = pWeapon->get_ammo();
     }
     else
     {
         this->mPreKfAmmo = 0;
-        pWeapon = gWeapon_8->allocate_5E3CE0(weapon_kind, pCar, 0);
+        pWeapon = gWeapon_8->allocate_car_weapon(weapon_kind, pCar, 0);
     }
 
     this->mKfWeaponKind = weapon_kind;
@@ -277,7 +277,7 @@ void Player::SetKFWeapon(s32 weapon_idx)
 {
     this->mPreKfWeaponKind = this->mCurrWeaponIdx;
     this->mKfWeaponKind = weapon_idx;
-    this->mPreKfAmmo = this->mWeapons[weapon_idx]->get_ammo_4A4FE0();
+    this->mPreKfAmmo = this->mWeapons[weapon_idx]->get_ammo();
     this->mWeapons[weapon_idx]->set_infinite_ammo();
     this->mCurrWeaponIdx = this->mKfWeaponKind;
     EnableKFMode();
@@ -877,7 +877,7 @@ void Player::InitPlayerPed(Ped* pPed)
         {
             ammo = gWeapon_8->get_max_ammo_capacity(weapon_idx);
         }
-        mWeapons[weapon_idx] = gWeapon_8->allocate_5E3C10(weapon_idx, pPed, ammo);
+        mWeapons[weapon_idx] = gWeapon_8->allocate_ped_weapon(weapon_idx, pPed, ammo);
     }
 
     Player::ClearCarWeapons();
@@ -2753,7 +2753,7 @@ void Player::CopyPlayerDataToSave(SavedPlayerStats* pSave)
 
     for (u16 weapon_idx = 0; weapon_idx < 15; weapon_idx++)
     {
-        pSave->mWeaponAmmo[weapon_idx] = mWeapons[weapon_idx]->get_ammo_4A4FB0();
+        pSave->mWeaponAmmo[weapon_idx] = mWeapons[weapon_idx]->get_ammo_clips();
     }
 
     for (u16 crime_idx = 0; crime_idx < crime_stats_type::count_10; crime_idx++)
@@ -2990,13 +2990,13 @@ void DebugTest::DoTest(u16 action)
     switch (action)
     {
         case 3:
-            gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, "8011");
+            gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, "8011");
             break;
         case 4:
-            gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::now_3, "8012");
+            gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::now_3, "8012");
             break;
         case 5:
-            gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::now_3, "8013");
+            gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::now_3, "8013");
             break;
         case 6:
             gGame_0x40->mLocalPlayer->ChangeMultipliers(1);

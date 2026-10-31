@@ -342,7 +342,7 @@ SpriteMaskCache::~SpriteMaskCache()
 }
 
 MATCH_FUNC(0x48F820)
-void DamageAreaFlags::Delta_48F820(u16& sprite_idx, u8* pArray, u32& delta_mask, u8& width)
+void DamageAreaFlags::ApplyDamageDeltas(u16& sprite_idx, u8* pArray, u32& delta_mask, u8& width)
 {
     u32 remaining_mask = delta_mask;
     u32 delta_idx = 0;
@@ -355,7 +355,7 @@ void DamageAreaFlags::Delta_48F820(u16& sprite_idx, u8* pArray, u32& delta_mask,
                 sprite_delta* pDelta = gGtx_0x106C->get_delta(sprite_idx, delta_idx - 17);
                 if (pDelta)
                 {
-                    pDelta->Delta_5ABA40(pArray, width);
+                    pDelta->ApplyMirroredToPixels(pArray, width);
                 }
             }
             else
@@ -363,7 +363,7 @@ void DamageAreaFlags::Delta_48F820(u16& sprite_idx, u8* pArray, u32& delta_mask,
                 sprite_delta* pDelta = gGtx_0x106C->get_delta(sprite_idx, delta_idx);
                 if (pDelta)
                 {
-                    pDelta->Delta_5ABA00(pArray);
+                    pDelta->ApplyToPixels(pArray);
                 }
             }
             remaining_mask &= ~i;
@@ -378,7 +378,7 @@ inline u16 Sprite::GetTrueSpriteIdx()
 }
 
 MATCH_FUNC(0x48F8B0)
-s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette, const u32& bClearMask)
+s16 DamageAreaFlags::GetOrBuildDamageMask(u16& sprite_idx, u8& bRet, const u16& palette, const u32& bClearMask)
 {
     if (!m_var)
     {
@@ -393,7 +393,7 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette,
         {
             bRet = 1;
             u32 sub = m_var - pMask->mDeltaMask;
-            Delta_48F820(sprite_idx, pMask->mPixels, sub, pSpriteIndex->mWidth);
+            ApplyDamageDeltas(sprite_idx, pMask->mPixels, sub, pSpriteIndex->mWidth);
             pMask->SetKey(sprite_idx, m_var, palette);
         }
         else
@@ -414,7 +414,7 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette,
             pMask->ClearMask(pSpriteIndex->mWidth, pSpriteIndex->mHeight);
         }
         
-        Delta_48F820(sprite_idx, pMask->mPixels, m_var, pSpriteIndex->mWidth);
+        ApplyDamageDeltas(sprite_idx, pMask->mPixels, m_var, pSpriteIndex->mWidth);
         pMask->SetKey(sprite_idx, m_var, palette);
     }
     
@@ -692,7 +692,7 @@ void Sprite::ApplyScaleToDimensions(Fix16 scale, s32 bScaleCollisionShape)
 
 // https://decomp.me/scratch/GIpfM
 MATCH_FUNC(0x59E590)
-bool Sprite::CollisionCheck_59E590(Sprite* pOther)
+bool Sprite::CollidesWith(Sprite* pOther)
 {
     if (mpCollisionShape->mBoundingBox.AABB_Intersects(&pOther->mpCollisionShape->mBoundingBox))
     {
@@ -728,7 +728,7 @@ bool Sprite::CheckDirectionalSliceCollision(Fix16 sliceLen, Sprite* pSprite)
     sSprite->mXy.y = point.y + pSprite->mXy.y;
     sSprite->InvalidateZColAndBBoxes();
     sSprite->UpdateCollisionBoundsIfNeeded();
-    return CollisionCheck_59E590(sSprite);
+    return CollidesWith(sSprite);
 }
 
 MATCH_FUNC(0x59e7b0)
@@ -796,7 +796,7 @@ char_type Sprite::ShouldCollideWithSprite(Sprite* pSprite)
         case sprite_types_enum::object_1:
         case sprite_types_enum::code_obj1_4:
         case sprite_types_enum::map_obj_5:
-            return mObject2CPtr->ShouldCollideWithSprite_525370(pSprite);
+            return mObject2CPtr->CanObjectCollideWithSprite(pSprite);
         case sprite_types_enum::car_2:
             return mCarBcPtr->CanCarCollideWithSprite(pSprite);
         case sprite_types_enum::ped_3:
@@ -1167,7 +1167,7 @@ void Sprite::Draw()
             pCar->mDamagedAreas.ClearGlobalFlags();
         }
         u8 bRet;
-        u16 damage_mask_idx = pCar->mDamagedAreas.Delta_48F8B0(sprite_idx, bRet, Sprite::GetTruePalette(), false);
+        u16 damage_mask_idx = pCar->mDamagedAreas.GetOrBuildDamageMask(sprite_idx, bRet, Sprite::GetTruePalette(), false);
         if (damage_mask_idx != 0xFFFF)
         {
             if (bRet)
@@ -1233,7 +1233,7 @@ void Sprite::Draw()
         pCar->mDamagedAreas.MaskWithGlobalFlags();
 
         u8 bRet;
-        u16 damage_mask_idx = pCar->mDamagedAreas.Delta_48F8B0(sprite_idx, bRet, Sprite::GetTruePalette(), true);
+        u16 damage_mask_idx = pCar->mDamagedAreas.GetOrBuildDamageMask(sprite_idx, bRet, Sprite::GetTruePalette(), true);
         if (damage_mask_idx != 0xFFFF)
         {
             if (bRet)
@@ -1508,7 +1508,7 @@ char_type Sprite::FindOverlappingBoundingBoxCorners(Sprite* pOther, u8* pOut1, u
 }
 
 MATCH_FUNC(0x5a0320)
-char_type Sprite::CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2)
+char_type Sprite::CountCornersInRect(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2)
 {
     u8 overlapCount = 0;
     const Fix16_Point* pBoundingBox = &mpCollisionShape->mCorners[0];

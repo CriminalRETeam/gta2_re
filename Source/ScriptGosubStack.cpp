@@ -31,7 +31,7 @@ void ScriptGosubStack::add_503160(ScriptStackFrame* pFrame)
 }
 
 MATCH_FUNC(0x503180)
-ScriptStackFrame* ScriptGosubStack::remove_503180()
+ScriptStackFrame* ScriptGosubStack::PopFrame()
 {
     ScriptStackFrame* pOld = mCurrent;
     if (pOld)
@@ -57,10 +57,10 @@ void ScriptGosubStack::FreeFrame(ScriptStackFrame* pFrame)
 }
 
 MATCH_FUNC(0x5031E0)
-void ScriptGosubStack::remove_5031E0(u8 count)
+void ScriptGosubStack::PopToDepth(u8 count)
 {
     while (mCount > count)
     {
-        remove_503180();
+        PopFrame();
     }
 }

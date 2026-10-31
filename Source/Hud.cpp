@@ -164,7 +164,7 @@ void Hud_BriefSelector::ShowNextNumberedBrief()
         }
         sprintf(gTmpBuffer, "%d", mValue);
     } while (!gText_0x14->KeyExists(gTmpBuffer));
-    gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::now_3, gTmpBuffer);
+    gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::now_3, gTmpBuffer);
     swprintf(tmpBuff, L"%d", mValue);
     gHud_2B00->mMessage.ShowMessage(tmpBuff, hud_message_priority::important_3);
 }
@@ -181,7 +181,7 @@ void Hud_BriefSelector::ShowPrevNumberedBrief()
         }
         sprintf(gTmpBuffer, "%d", mValue);
     } while (!gText_0x14->KeyExists(gTmpBuffer));
-    gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::now_3, gTmpBuffer);
+    gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::now_3, gTmpBuffer);
     swprintf(tmpBuff, L"%d", mValue);
     gHud_2B00->mMessage.ShowMessage(tmpBuff, hud_message_priority::important_3);
 }
@@ -419,12 +419,12 @@ void Hud_GangRespectBars::DrawGangRespectBars()
 }
 
 MATCH_FUNC(0x5cfe20)
-void Hud_GangRespectBars::Empty_5CFE20()
+void Hud_GangRespectBars::UpdateGangRespectBars()
 {
 }
 
 MATCH_FUNC(0x5cfe30)
-void Hud_GangRespectBars::Empty_5CFE30()
+void Hud_GangRespectBars::InitGangRespectBars()
 {
 }
 
@@ -2301,7 +2301,7 @@ void Hud_Brief::DrawBrief()
 }
 
 MATCH_FUNC(0x5d3f10)
-void Hud_Brief::SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32 cost_param)
+void Hud_Brief::SetHudBriefWithCost(s32 priority, const char_type* pText, s32 cost_param)
 {
     Hud_BriefEntry* pNewBrief = AllocBrief();
     strcpy(pNewBrief->mBriefIdStr, pText);
@@ -2366,9 +2366,9 @@ inline void Hud_Arrow::SetMinRadiusPos(s32 steps)
 }
 
 MATCH_FUNC(0x5d4400)
-void Hud_Brief::SetHudBrief_5D4400(s32 priority, const char_type* pTextIdStr)
+void Hud_Brief::SetHudBrief(s32 priority, const char_type* pTextIdStr)
 {
-    SetHudBrief_5D3F10(priority, pTextIdStr, -1);
+    SetHudBriefWithCost(priority, pTextIdStr, -1);
 }
 
 MATCH_FUNC(0x5d44d0)
@@ -2901,7 +2901,7 @@ void Hud_PlayerStats::DrawPlayerStats()
     }
     else
     {
-        u8 ammo = pPlayer->mWeapons[ammo_idx]->get_ammo_4A4FB0();
+        u8 ammo = pPlayer->mWeapons[ammo_idx]->get_ammo_clips();
         DrawAmmo(ammo_idx, ammo);
     }
 
@@ -3398,7 +3398,7 @@ void Hud::UpdateHUD()
     mPagers.UpdatePagers();
     mTexts.RemoveExpired();
     mArrows.UpdateArrows();
-    mGangRespectBars.Empty_5CFE20();
+    mGangRespectBars.UpdateGangRespectBars();
     mMessage.DecrementTimeToShow();
     mMpMessage.DecrementTimer();
 }
@@ -3469,7 +3469,7 @@ void Hud::Init()
     GetTextSpeed();
     SetFontTypes();
     mZoneName.ResetTransparency();
-    mGangRespectBars.Empty_5CFE30();
+    mGangRespectBars.InitGangRespectBars();
     mWantedLevel.Init();
     mArrows.CreatePlayerArrows();
 }

@@ -218,7 +218,7 @@ void Garage::GaragesService()
                 mDriver = mParkingCar->GetDriver();
             }
 
-            u8 collision = mParkingCar->mCarSprite->CollisionCheck_5A0320(&mParkXMin, &mParkXMax, &corner1, &corner2);
+            u8 collision = mParkingCar->mCarSprite->CountCornersInRect(&mParkXMin, &mParkXMax, &corner1, &corner2);
             if (collision == 2)
             {
                 if (corner1 == 0)
@@ -290,7 +290,7 @@ void Garage::GaragesService()
         {
             if (!mParkingCar->mPhysics)
             {
-                mParkingCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
+                mParkingCar->SetupCarPhysicsAndSpriteBindingWithTrailer();
             }
             if (++mWaitTicks >= 300)
             {
@@ -302,7 +302,7 @@ void Garage::GaragesService()
                 mParkingCar->GetDriver()->SetObjective(objectives_enum::wait_in_car_27);
             }
 
-            if (mParkingCar->mCarSprite->CollisionCheck_5A0320(&mParkXMin, &mParkXMax, &corner1, &corner2) != 4 && !mInPosition)
+            if (mParkingCar->mCarSprite->CountCornersInRect(&mParkXMin, &mParkXMax, &corner1, &corner2) != 4 && !mInPosition)
             {
                 mParkingCar->mPhysics->StopMoving();
                 mParkingCar->mPhysics->ApplyForceScaledByMass(mPushDir);

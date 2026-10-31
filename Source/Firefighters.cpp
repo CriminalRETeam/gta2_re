@@ -172,7 +172,7 @@ void Firefighter::Update()
                     mPed->mObjectiveTargetZ = Fix16(mTargetCar->GetZ().ToUInt8());
                     mPed->mBf21C.bUseCarWeapon = 1;
                     mCar->ActivateEmergencyLights();
-                    mCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
+                    mCar->SetupCarPhysicsAndSpriteBindingWithTrailer();
                     mPed = mCar->GetDriver();
                     mNextStateTimer = 0;
                     mState = firefighter_state::drive_to_fire_2;

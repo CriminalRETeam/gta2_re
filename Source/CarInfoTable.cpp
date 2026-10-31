@@ -275,7 +275,7 @@ s32 __stdcall ParseTokenAndPush(char_type* pStr)
                 case DataType::byte:
                     if (bHex == 1)
                     {
-                        error_ret = CarInfoTable::HexStr2Int_430F30(pCurr, &parsed_short);
+                        error_ret = CarInfoTable::HexStr2Short(pCurr, &parsed_short);
                     }
                     else
                     {
@@ -311,7 +311,7 @@ s32 __stdcall ParseTokenAndPush(char_type* pStr)
                 case DataType::word:
                     if (bHex == 1)
                     {
-                        error_ret = CarInfoTable::HexStr2Int_430F30(pCurr, &parsed_short);
+                        error_ret = CarInfoTable::HexStr2Short(pCurr, &parsed_short);
                     }
                     else
                     {
@@ -340,7 +340,7 @@ s32 __stdcall ParseTokenAndPush(char_type* pStr)
                 case DataType::dword:
                     if (bHex == 1)
                     {
-                        error_ret = CarInfoTable::HexStr2Int_430EC0(pCurr, &parsed_value);
+                        error_ret = CarInfoTable::HexStr2Long(pCurr, &parsed_value);
                     }
                     else
                     {
@@ -408,7 +408,7 @@ s32 __stdcall CarInfoTable::PushData(void* pSrc, u32 size)
 }
 
 MATCH_FUNC(0x430EC0)
-s32 __stdcall CarInfoTable::HexStr2Int_430EC0(const char* pStr, s32* pOut)
+s32 __stdcall CarInfoTable::HexStr2Long(const char* pStr, s32* pOut)
 {
     *pOut = 0;
     s32 place_value = 1;
@@ -440,7 +440,7 @@ s32 __stdcall CarInfoTable::HexStr2Int_430EC0(const char* pStr, s32* pOut)
 }
 
 MATCH_FUNC(0x430f30)
-s32 __stdcall CarInfoTable::HexStr2Int_430F30(const char* pStr, s16* pOut)
+s32 __stdcall CarInfoTable::HexStr2Short(const char* pStr, s16* pOut)
 {
     *pOut = 0;
     s32 place_value = 1;

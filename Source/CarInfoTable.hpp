@@ -122,8 +122,8 @@ class CarInfoTable
     EXPORT static char* __stdcall SetErr(s32 error_code);
     EXPORT static s32 __stdcall ReadToken(char* pOut);
     EXPORT static s32 __stdcall PushData(void* pSrc, u32 size);
-    EXPORT static s32 __stdcall HexStr2Int_430EC0(const char* pStr, s32* pOut);
-    EXPORT static s32 __stdcall HexStr2Int_430F30(const char* pStr, s16* pOut);
+    EXPORT static s32 __stdcall HexStr2Long(const char* pStr, s32* pOut);
+    EXPORT static s32 __stdcall HexStr2Short(const char* pStr, s16* pOut);
     EXPORT static s32 __stdcall StrToInt_430FA0(const char* pStr, s32* pOut);
     EXPORT static s32 __stdcall FloatStrToFix16(char* pStr, Fix16& out);
     EXPORT static s32 __stdcall StrToInt_431080(const char* pStr, s16* pOut);

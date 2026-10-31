@@ -299,7 +299,7 @@ bool Object::ShouldCollideWith(Sprite* pSprite) const
 }
 
 MATCH_FUNC(0x522430)
-bool Object::ShouldCollideWithSprite_522430(Sprite* pSprite) const
+bool Object::ShouldCollideWithNonOwner(Sprite* pSprite) const
 {
     return (pSprite && ShouldCollideWith(pSprite) && !IsSpriteOwnerPed(pSprite)) ? true : false;
 }
@@ -311,7 +311,7 @@ bool Object::SelectCollisionSprite(Sprite* pProbe)
 
     Sprite* pSprite = pProbe->QuerySpriteCollision(sprite_types_enum::car_2);
     if (pSprite && sObject2CLastCollisionSprite && pSprite->GetType() == sprite_types_enum::car_2 // IsCar
-        || !ShouldCollideWithSprite_522430(pSprite) || pSprite == sObject2CLastCollisionSprite)
+        || !ShouldCollideWithNonOwner(pSprite) || pSprite == sObject2CLastCollisionSprite)
     {
         return false;
     }
@@ -595,7 +595,7 @@ void Object::HandleCollision(Fix16_Point* pPoint)
             Car* pCar = gCollisionTarget.mpHitSprite->AsCar();
             if (pCar)
             {
-                pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
+                pCar->SetupCarPhysicsAndSpriteBindingWithTrailer();
                 pCar->mPhysics->HandleObjectCollisionAt(this, hit_point, side_other);
             }
             else
@@ -1447,7 +1447,7 @@ bool Object::ShouldStopAtTrafficLight(Sprite* pSprite) const
 }
 
 MATCH_FUNC(0x525370)
-bool Object::ShouldCollideWithSprite_525370(Sprite* pSprite) const
+bool Object::CanObjectCollideWithSprite(Sprite* pSprite) const
 {
     switch (this->mModel)
     {
@@ -2135,7 +2135,7 @@ bool Object::UpdateMovementAndEffects(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 r
 
         if (mDefinition->mBehaviorType != object_behavior_type::light_11)
         {
-            gSpriteGrid_3->AddToSingleBucket_477AE0(mSprite);
+            gSpriteGrid_3->AddToSingleBucket(mSprite);
         }
         sInObjectMovementUpdate = 0;
         return false;
@@ -2190,7 +2190,7 @@ void Object::AssignToBucket()
     {
         case collision_bucket_category::sprite_grid_3_single_cell_0:
         case collision_bucket_category::sprite_grid_3_single_cell_1:
-            gSpriteGrid_3->AddToSingleBucket_477AE0(mSprite);
+            gSpriteGrid_3->AddToSingleBucket(mSprite);
             return;
         case collision_bucket_category::sprite_grid_2_region_3:
             sObjectCounterUnused++;
@@ -3289,7 +3289,7 @@ Object* Object_5C::NewWithPedRefIdx(s32 object_type, u32 ped_ref_idx, Fix16 xpos
 }
 
 MATCH_FUNC(0x529a40)
-Object* Object_5C::NewLight_529A40(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
+Object* Object_5C::NewLight(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
 {
     Object* pNewObj = CreateObject(objects::light_165, xpos, ypos, zpos, kZeroAng_6F8F68, false);
     if (pNewObj)
@@ -3300,7 +3300,7 @@ Object* Object_5C::NewLight_529A40(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb,
 }
 
 MATCH_FUNC(0x529ab0)
-Object* Object_5C::NewLight_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 argb, Fix16 radius, u8 intensity)
+Object* Object_5C::NewLightOfType(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 argb, Fix16 radius, u8 intensity)
 {
     Object* pNewObj = Object_5C::CreateObject(light_type, xpos, ypos, zpos, kZeroAng_6F8F68, false);
     if (pNewObj)
@@ -3719,7 +3719,7 @@ void Object::OnAttachedToSprite(Sprite* pSprite)
 
     if (mDefinition->mBehaviorType != object_behavior_type::light_11)
     {
-        gSpriteGrid_3->AddToSingleBucket_477AE0(mSprite);
+        gSpriteGrid_3->AddToSingleBucket(mSprite);
     }
 
     PoolTake();

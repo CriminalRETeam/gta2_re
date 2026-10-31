@@ -195,8 +195,8 @@ class CarPhysics
     EXPORT Fix16 ComputeSlopeCorrection(Fix16* pOutY);
     EXPORT void UpdateZPhysics(Fix16 dt);
     EXPORT void SyncZWithTrailer(Fix16 dt);
-    EXPORT void UpdateZPosition_55B4F0(Fix16 dt);
-    EXPORT void UpdateZPosition_55B7B0(Fix16 dt);
+    EXPORT void UpdateRailwayZPosition(Fix16 dt);
+    EXPORT void UpdateRailwayZPositionThunk(Fix16 dt);
     EXPORT void EmitImpactParticles(u8 apply_to_corners_mask);
     EXPORT char_type ProcessGroundCollisionAndSurfaceType(char_type* check_mask);
     EXPORT void ProcessGroundCollisionAndEmitImpactParticles();
@@ -222,12 +222,12 @@ class CarPhysics
     EXPORT void ApplyForceWithTrailerRedirect(Fix16_Point* pPoint, Fix16_Point* pForce);
     EXPORT void ApplyForceAndIntegrate(Fix16_Point* pPoint, Fix16_Point force);
     EXPORT void ApplyForceAtPoint(Fix16_Point* pPoint, Fix16_Point* pForce, s32 bRotate);
-    EXPORT void AccumulateImpulse_55F930(Fix16_Point* pPoint);
+    EXPORT void AccumulateImpulse(Fix16_Point* pPoint);
     EXPORT void ApplyAngularImpulse(Fix16 impulse);
     EXPORT void ApplyForceScaledByMass(Fix16_Point& force);
     EXPORT void ApplyImpulseWithTrailerRedirect(Fix16_Point* pPoint);
     EXPORT Fix16 ApplyImpactForcesAndDamage(Fix16_Point& PointOfForce, Fix16_Point& Impulse, s32 base_dmg);
-    EXPORT void AccumulateImpulse_55FC30(Fix16_Point& point, s32 base_dmg);
+    EXPORT void ApplyImpulseAndDamage(Fix16_Point& point, s32 base_dmg);
     EXPORT void HandleWorldCollision(Fix16_Point& relative_velocity);
     EXPORT void HandleCarCollision(Car* pOtherCar);
     EXPORT void HandleObjectCollision(Object* pObject, char_type damage_area);

@@ -228,7 +228,7 @@ class Sprite
     EXPORT void IncreaseZoom(char_type delta);
     EXPORT bool ShrinkSprite(Fix16 xoff, Fix16 yoff, s32 bShrinkCollisionShape);
     EXPORT void ApplyScaleToDimensions(Fix16 scale, s32 bScaleCollisionShape);
-    EXPORT bool CollisionCheck_59E590(Sprite* pOther);
+    EXPORT bool CollidesWith(Sprite* pOther);
     EXPORT bool CheckDirectionalSliceCollision(Fix16 sliceLen, Sprite* pSprite);
     EXPORT void InvalidateZColAndBBoxes();
     EXPORT Sprite* QuerySpriteCollision(s32 sprite_type);
@@ -250,7 +250,7 @@ class Sprite
     EXPORT void FreeShapes();
     EXPORT bool IntersectsRectSAT(Fix16_Rect* pOtherRect);
     EXPORT char_type FindOverlappingBoundingBoxCorners(Sprite* pOther, u8* pOut1, u8* pOut2);
-    EXPORT char_type CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2);
+    EXPORT char_type CountCornersInRect(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2);
     EXPORT bool RotatedRectCollisionSAT(Sprite* pOther);
     EXPORT bool CheckBBoxScanlineIntersection(Fix16 scanXMin, Fix16 scanXMax, Fix16 scanY);
     EXPORT bool GetNearestHorizontalEdgeToCoordinate(Fix16 line_y, Fix16_Point& point, u8& nearest_corner_idx);

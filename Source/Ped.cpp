@@ -2244,7 +2244,7 @@ bool Ped::AddWeaponWithAmmo(s32 weapon_kind, char_type ammo)
     {
         if (mCar)
         {
-            return gWeapon_8->allocate_5E3D50(weapon_kind, ammo, mCar);
+            return gWeapon_8->add_car_weapon(weapon_kind, ammo, mCar);
         }
         return false;
     }
@@ -11336,7 +11336,7 @@ void Ped::ForceWeapon(s32 weapon_kind)
     RemovePedWeapons();
     if (weapon_kind != 28)
     {
-        Weapon* pWeapon = gWeapon_8->allocate_5E3C10(weapon_kind, this, 99u);
+        Weapon* pWeapon = gWeapon_8->allocate_ped_weapon(weapon_kind, this, 99u);
         this->mSelectedWeapon = pWeapon;
         pWeapon->SetTargetHit(1);
         if (mSelectedWeapon->IsExplosiveWeapon())
@@ -11350,7 +11350,7 @@ MATCH_FUNC(0x46f650)
 void Ped::GiveWeapon(s32 weapon_kind)
 {
     RemoveSecondaryWeapon();
-    Weapon* pWeapon = gWeapon_8->allocate_5E3C10(weapon_kind, this, 99u);
+    Weapon* pWeapon = gWeapon_8->allocate_ped_weapon(weapon_kind, this, 99u);
     this->mpWeapon = pWeapon;
     pWeapon->SetTargetHit(1);
 }

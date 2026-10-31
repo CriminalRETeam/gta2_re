@@ -262,12 +262,12 @@ u16 RouteFinder::IsPointInJunctionBounds(u8 x, u8 y, u16 junc_idx1, u16 junc_idx
 MATCH_FUNC(0x588b30)
 void RouteFinder::Load_RGEN()
 {
-    File::Global_Read_4A71C0(mJunctions, 0x2210);
-    File::Global_Read_4A71C0(this->mHorzSegments, 0x1108);
-    File::Global_Read_4A71C0(this->mVertSegments, 0x1108);
-    File::Global_Read_4A71C0(&this->mUnused4, 2);
-    File::Global_Read_4A71C0(&this->mHorzSegmentCount, 2);
-    File::Global_Read_4A71C0(&this->mVertSegmentCount, 2);
+    File::Global_Read(mJunctions, 0x2210);
+    File::Global_Read(this->mHorzSegments, 0x1108);
+    File::Global_Read(this->mVertSegments, 0x1108);
+    File::Global_Read(&this->mUnused4, 2);
+    File::Global_Read(&this->mHorzSegmentCount, 2);
+    File::Global_Read(&this->mVertSegmentCount, 2);
     this->mRouteCount = 0;
 
     if (bLog_routefinder)

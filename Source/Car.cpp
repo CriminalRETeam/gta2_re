@@ -1328,7 +1328,7 @@ Car* CarManager::SpawnCarOnRoadNetwork(Fix16 xpos, Fix16 ypos, s32 road_directio
                 {
                     Car* pCar =
                         SpawnCar_426E10_v2(x, y, ground_z, ReturnAngleFromRoadDirection(road_direction), car_model_type);
-                    pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
+                    pCar->SetupCarPhysicsAndSpriteBindingWithTrailer();
                     pCar->AllocateAI_421510();
                     pCar->mAI->SetCar(pCar);
                     pCar->mAI->mRouteIdx = static_cast<char_type>(route_idx);
@@ -1421,7 +1421,7 @@ Car* CarManager::SpawnCarAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, 
 
     gSpriteGrid_1->AddToRegionBuckets(pCar->mCarSprite);
 
-    pCar->InitDoors_4435A0();
+    pCar->InitDoorsThunk();
 
     pCar->mAI = NULL;
     pCar->mpTrailer = NULL;
@@ -1438,7 +1438,7 @@ Car* CarManager::SpawnCarAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, 
     else if (pCar->IsFireTruck())
     {
         pCar->PutWaterCannonOnRoof();
-        gWeapon_8->allocate_5E3D50(weapon_type::fire_truck_gun, 50u, pCar);
+        gWeapon_8->add_car_weapon(weapon_type::fire_truck_gun, 50u, pCar);
 
         // shared flag set
         pCar->AddFlags(car_flag::ResistsPushWhenStopped);
@@ -1450,12 +1450,12 @@ Car* CarManager::SpawnCarAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, 
         pCar->SetBulletproof();
         pCar->SetFlameproof();
         pCar->SetNoCollisionDamage();
-        gWeapon_8->allocate_5E3D50(weapon_type::tank_main_gun, 20u, pCar);
+        gWeapon_8->add_car_weapon(weapon_type::tank_main_gun, 20u, pCar);
     }
     else if (pCar->IsGunJeep())
     {
         pCar->PutMachineGunOnRoof();
-        gWeapon_8->allocate_5E3D50(weapon_type::army_gun_jeep, 20u, pCar);
+        gWeapon_8->add_car_weapon(weapon_type::army_gun_jeep, 20u, pCar);
     }
     else if (pCar->IsTvVan())
     {
@@ -2322,7 +2322,7 @@ MATCH_FUNC(0x43aa60)
 void Car::Deactivate()
 {
     gSpriteGrid_1->RemoveFromRegionBuckets(mCarSprite);
-    gSpriteGrid_3->AddToSingleBucket_477AE0(mCarSprite);
+    gSpriteGrid_3->AddToSingleBucket(mCarSprite);
     gCar_BC_Pool->mPool.UnlinkFromActiveList(this);
     SetDeactivatedStatus();
 }
@@ -3019,7 +3019,7 @@ void Car::SpawnFire()
 }
 
 MATCH_FUNC(0x43bc30)
-void Car::SetupCarPhysicsAndSpriteBinding_43BC30()
+void Car::SetupOwnCarPhysicsAndSpriteBinding()
 {
     if (!mPhysics)
     {
@@ -3037,7 +3037,7 @@ void Car::SetupCarPhysicsAndSpriteBinding_43BC30()
 }
 
 MATCH_FUNC(0x43bca0)
-void Car::SetupCarPhysicsAndSpriteBinding_43BCA0()
+void Car::SetupCarPhysicsAndSpriteBindingWithTrailer()
 {
     if (mpTrailer)
     {
@@ -3045,12 +3045,12 @@ void Car::SetupCarPhysicsAndSpriteBinding_43BCA0()
     }
     else
     {
-        SetupCarPhysicsAndSpriteBinding_43BC30();
+        SetupOwnCarPhysicsAndSpriteBinding();
     }
 }
 
 MATCH_FUNC(0x43bd00)
-void Car::DeAllocateCarPhysics_43BD00()
+void Car::DeAllocateCarPhysicsWithTrailer()
 {
     if (mpTrailer)
     {
@@ -3058,7 +3058,7 @@ void Car::DeAllocateCarPhysics_43BD00()
     }
     else
     {
-        DeAllocateCarPhysics_441A10();
+        DeAllocateOwnCarPhysics();
     }
 }
 
@@ -3822,7 +3822,7 @@ void Car::DestroyWhileSinking()
         mAttachments.DestroyAllSprites();
         mCarSprite->set_z_lazy(gFix16_6777CC);
         MarkForDespawn();
-        DeAllocateCarPhysics_43BD00();
+        DeAllocateCarPhysicsWithTrailer();
     }
 }
 
@@ -4203,7 +4203,7 @@ char_type Car::GetMaxPassengers() const
 MATCH_FUNC(0x440590)
 void Car::InitCarAIControl()
 {
-    SetupCarPhysicsAndSpriteBinding_43BCA0();
+    SetupCarPhysicsAndSpriteBindingWithTrailer();
 
     mPhysics->SetHandBrakeOff_421260();
 
@@ -4973,7 +4973,7 @@ void Car::AllocCarPhysics()
 }
 
 MATCH_FUNC(0x441a10)
-void Car::DeAllocateCarPhysics_441A10()
+void Car::DeAllocateOwnCarPhysics()
 {
     if (mPhysics)
     {
@@ -4998,7 +4998,7 @@ bool Car::AreAllDoorsClosed()
 }
 
 MATCH_FUNC(0x441a70)
-void Car::InitDoors_441A70()
+void Car::InitDoors()
 {
     const u8* pDoorCount = gGtx_0x106C->get_car_door_data(mCarInfoIdx);
     u8 i;
@@ -5272,7 +5272,7 @@ void Car::ServicePhysics()
     {
         if (!this->mDriver)
         {
-            DeAllocateCarPhysics_43BD00();
+            DeAllocateCarPhysicsWithTrailer();
         }
     }
 }
@@ -5622,7 +5622,7 @@ void Car::TryHitchTrailer()
                     }
                     else
                     {
-                        pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
+                        pCar->SetupCarPhysicsAndSpriteBindingWithTrailer();
                         if (!pCar->mPhysics->IsDamageWindowOpen())
                         {
                             hitch_point = pCar->mCarSprite->get_x_y_443580().AddInl_40AC50(offset.NormalizeSafe().MultiplyInl_438FE0(kFpOne64th_677888));
@@ -5994,14 +5994,14 @@ bool Car::UpdateAttachedToSprite(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot)
         mAttachments.PropagateMaxZLayer(mCarSprite, false);
     }
 
-    gSpriteGrid_3->AddToSingleBucket_477AE0(mCarSprite);
+    gSpriteGrid_3->AddToSingleBucket(mCarSprite);
     return false;
 }
 
 MATCH_FUNC(0x4435a0)
-void Car::InitDoors_4435A0()
+void Car::InitDoorsThunk()
 {
-    InitDoors_441A70();
+    InitDoors();
 }
 
 MATCH_FUNC(0x4435b0)
@@ -6062,7 +6062,7 @@ void Car::ApplyExplosionImpulse(Fix16_Point* xy)
 
     if (!IsDeactivated())
     {
-        SetupCarPhysicsAndSpriteBinding_43BCA0();
+        SetupCarPhysicsAndSpriteBindingWithTrailer();
 
         hitch_point = mCarSprite->get_x_y();
         hitch_point.x += kFpQuarter_677208 * gCarManager_6C->mExplosionOffsetCycle - kFpHalf_6772D0;
@@ -6128,7 +6128,7 @@ void Car::BuyCarWeapon(s32 weapon_kind)
         // Ammo full
         if (pPlayer->IsUser())
         {
-            gHud_2B00->mBrief.SetHudBrief_5D4400(1, "arig");
+            gHud_2B00->mBrief.SetHudBrief(1, "arig");
         }
     }
     else
@@ -6144,7 +6144,7 @@ void Car::BuyCarWeapon(s32 weapon_kind)
         {
             if (pPlayer->IsUser())
             {
-                gHud_2B00->mBrief.SetHudBrief_5D3F10(1, "bdone", car_weapon_cost);
+                gHud_2B00->mBrief.SetHudBriefWithCost(1, "bdone", car_weapon_cost);
             }
 
             pPlayer->AddCash(-car_weapon_cost);
@@ -6156,7 +6156,7 @@ void Car::BuyCarWeapon(s32 weapon_kind)
             {
                 ammo_capacity = 10;
             }
-            gWeapon_8->allocate_5E3D50(weapon_kind, ammo_capacity, this);
+            gWeapon_8->add_car_weapon(weapon_kind, ammo_capacity, this);
             switch (weapon_kind)
             {
                 case weapon_type::car_bomb:
@@ -6189,7 +6189,7 @@ void __stdcall Car::ShowCantAffordMessage(Player* pPlayer, s32 weapon_cost)
 {
     if (pPlayer->IsUser())
     {
-        gHud_2B00->mBrief.SetHudBrief_5D3F10(1, "nspraya", weapon_cost);
+        gHud_2B00->mBrief.SetHudBriefWithCost(1, "nspraya", weapon_cost);
     }
 }
 
@@ -6204,11 +6204,11 @@ void Car::ResprayOrChangePlates(u8 remap)
         {
             if (remap == car_shop_type::change_plates_253) // clean plates only
             {
-                gHud_2B00->mBrief.SetHudBrief_5D3F10(1, "cdone", cost);
+                gHud_2B00->mBrief.SetHudBriefWithCost(1, "cdone", cost);
             }
             else
             {
-                gHud_2B00->mBrief.SetHudBrief_5D3F10(1, "sdone", cost);
+                gHud_2B00->mBrief.SetHudBriefWithCost(1, "sdone", cost);
             }
         }
 
@@ -6250,7 +6250,7 @@ void Car::ResprayOrCleanPlates(u8 remap)
     }
     else if (GetDriverPlayer()->IsUser())
     {
-        gHud_2B00->mBrief.SetHudBrief_5D4400(1, "nespray");
+        gHud_2B00->mBrief.SetHudBrief(1, "nespray");
     }
 }
 
@@ -6371,7 +6371,7 @@ void Car::ReassignAllocatedCarType(s32 car_kind)
 MATCH_FUNC(0x443f30)
 void Car::AttachLight(s32 object_type, s32 argb, s32 x_offset, s32 y_offset)
 {
-    Object* pObj = gObject_5C->NewLight_529AB0(object_type, 0, 0, 0, argb, kFpOneAndHalf_6772AC, 200);
+    Object* pObj = gObject_5C->NewLightOfType(object_type, 0, 0, 0, argb, kFpOneAndHalf_6772AC, 200);
     pObj->TurnOffLight();
     mCarSprite->AttachSprite(pObj->mSprite, (kFpOne64th_677888 * x_offset), (kFpOne64th_677888 * y_offset), kAngZero_67791C);
 }
@@ -6515,7 +6515,7 @@ void Car::PoolDeallocate()
 {
     this->mAttachments.DestroyAllSprites();
 
-    DeAllocateCarPhysics_441A10();
+    DeAllocateOwnCarPhysics();
 
     if (mCarSprite)
     {
@@ -6722,15 +6722,15 @@ bool Trailer::ServicePhysics()
 MATCH_FUNC(0x408190)
 void Trailer::SetupCarPhysicsAndSpriteBinding()
 {
-    mTruckCab->SetupCarPhysicsAndSpriteBinding_43BC30();
-    mTrailerCar->SetupCarPhysicsAndSpriteBinding_43BC30();
+    mTruckCab->SetupOwnCarPhysicsAndSpriteBinding();
+    mTrailerCar->SetupOwnCarPhysicsAndSpriteBinding();
 }
 
 MATCH_FUNC(0x4081b0)
 void Trailer::DeAllocateCarPhysics()
 {
-    mTruckCab->DeAllocateCarPhysics_441A10();
-    mTrailerCar->DeAllocateCarPhysics_441A10();
+    mTruckCab->DeAllocateOwnCarPhysics();
+    mTrailerCar->DeAllocateOwnCarPhysics();
 }
 
 MATCH_FUNC(0x4081d0)

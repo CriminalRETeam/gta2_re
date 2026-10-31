@@ -135,7 +135,7 @@ void ParticleManager::EmitBloodBurst(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
                 pBloodParticle->mpOwnSprite->SetType(sprite_types_enum::code_obj2_8);
                 pBloodParticle->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 16);
                 pBloodParticle->mpOwnSprite->set_xyz_lazy_420600(x, y, z);
-                gSpriteGrid_3->AddToSingleBucket_477AE0(pBloodParticle->mpOwnSprite);
+                gSpriteGrid_3->AddToSingleBucket(pBloodParticle->mpOwnSprite);
             }
         } while (--count);
     }
@@ -158,7 +158,7 @@ void ParticleManager::SpawnBlood(Fix16 xpos, Fix16 ypos, Fix16 zpos)
         pNewParticle->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 191);
         pNewParticle->mpOwnSprite->set_xyz_lazy_420600(xpos, ypos, zpos);
         pNewParticle->mpOwnSprite->SetDrawLayer(2);
-        gSpriteGrid_3->AddToSingleBucket_477AE0(pNewParticle->mpOwnSprite);
+        gSpriteGrid_3->AddToSingleBucket(pNewParticle->mpOwnSprite);
     }
 }
 
@@ -207,7 +207,7 @@ void ParticleManager::GunMuzzelFlash(Sprite* pSprite)
                 pParticle->mpSprite = pSprite;
                 pParticle->mpOwnSprite->set_ang_lazy(pSprite->mRotation);
                 pParticle->mpOwnSprite->set_xyz_lazy_420600(corner_1.x, corner_1.y, pSprite->mZpos);
-                gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+                gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
                 pParticle->mpOwnSprite->mBf2C.bNoLighting = true;
             }
 
@@ -233,7 +233,7 @@ void ParticleManager::GunMuzzelFlash(Sprite* pSprite)
                 pParticle->mpOwnSprite->set_ang_lazy(pSprite->mRotation);
                 pParticle->mpOwnSprite->set_xyz_lazy_420600(corner_2.x, corner_2.y, pSprite->mZpos);
                 pParticle->mpSprite = pSprite;
-                gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+                gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
                 pParticle->mpOwnSprite->mBf2C.bNoLighting = true;
             }
         }
@@ -263,7 +263,7 @@ void ParticleManager::GunMuzzelFlash(Sprite* pSprite)
                 pParticle->mpOwnSprite->set_ang_lazy(pSprite->mRotation);
                 pParticle->mpOwnSprite->set_xyz_lazy_420600(pSprite->mXy.x + ped_offset.x, pSprite->mXy.y + ped_offset.y, zpos);
                 pParticle->mpSprite = pSprite;
-                gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+                gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
                 pParticle->mpOwnSprite->mBf2C.bNoLighting = true;
             }
         }
@@ -322,7 +322,7 @@ void ParticleManager::EmitWaterSplash(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 
                 pWaterSplashParticle->mSubState = 0;
                 pWaterSplashParticle->mTimer = 6;
                 pWaterSplashParticle->mpOwnSprite->set_xyz_lazy_420600(xpos, ypos, zpos);
-                gSpriteGrid_3->AddToSingleBucket_477AE0(pWaterSplashParticle->mpOwnSprite);
+                gSpriteGrid_3->AddToSingleBucket(pWaterSplashParticle->mpOwnSprite);
             }
         }
     }
@@ -417,7 +417,7 @@ void ParticleManager::EmitFlameStreamSegment(Sprite* pSprt)
                 {
                     pParticle->mCounter = 0;
                 }
-                gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+                gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
                 pParticle->mpOwnSprite->mFlags = pParticle->mpOwnSprite->mFlags | 4;
             }
         }
@@ -481,7 +481,7 @@ void ParticleManager::EmitFireTruckSprayParticle(Sprite* pSprite)
             {
                 pParticle->mCounter = 0;
             }
-            gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
             pParticle->mpOwnSprite->mBf2C.bNoLighting = true;
         }
     }
@@ -535,7 +535,7 @@ void ParticleManager::EmitImpactParticles(Fix16 x, Fix16 y, Fix16 z, Fix16_Point
             pNewParticle->mpOwnSprite->set_xyz_lazy_420600(x, y, z);
             pNewParticle->mpOwnSprite->SetNoLighting();
 
-            gSpriteGrid_3->AddToSingleBucket_477AE0(pNewParticle->mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket(pNewParticle->mpOwnSprite);
         }
     }
 }
@@ -578,7 +578,7 @@ void ParticleManager::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos
             pNewParticle->mpOwnSprite->set_id_lazy(gRng.get_int(4) + gObjectDefinitions->mDef112BaseSpriteIdx + 175);
             pNewParticle->mpOwnSprite->SetBlendAndAlpha(2, 20);
             pNewParticle->mpOwnSprite->SetNoLighting();
-            gSpriteGrid_3->AddToSingleBucket_477AE0(pNewParticle->mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket(pNewParticle->mpOwnSprite);
         }
     }
 }
@@ -602,7 +602,7 @@ void ParticleManager::SpawnParticleSprite(Sprite* pSprite)
             pNewParticle->mpOwnSprite->SetNoLighting();
             pNewParticle->mpOwnSprite->set_xyz_lazy_420600(pSprite->mXy.x, pSprite->mXy.y, pSprite->mZpos);
 
-            gSpriteGrid_3->AddToSingleBucket_477AE0(pNewParticle->mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket(pNewParticle->mpOwnSprite);
         }
     }
 }
@@ -660,7 +660,7 @@ void ParticleManager::SpawnCigaretteSmokePuff(Sprite* pSprite, char_type bSmokeS
             pNewParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, pSprite->mZpos);
             pNewParticle->mpSprite = pSprite;
 
-            gSpriteGrid_3->AddToSingleBucket_477AE0(pNewParticle->mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket(pNewParticle->mpOwnSprite);
 
             if (bSmokeSource)
             {

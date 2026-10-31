@@ -331,7 +331,7 @@ bool AmbulanceTask::SpawnParamedicCrew()
     mParamedicsCrew->mPed = pPed1;
     mParamedicsCrew->mState = crew_state::update_6;
     mParamedicsCrew->mCar->SetDriverPedType(ped_type::special_ped_4);
-    mParamedicsCrew->mCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
+    mParamedicsCrew->mCar->SetupCarPhysicsAndSpriteBindingWithTrailer();
     mParamedicsCrew->mCar->InitCarAIControl();
     mParamedicsCrew->mCar->ResumeAIDriving();
     mParamedicsCrew->mGroup = pGroup;

@@ -1,6 +1,6 @@
 #pragma once
 
-// Hud_Brief::SetHudBrief_5D3F10 priority (mBriefPriority), as the script commands DISPLAY_BRIEF,
+// Hud_Brief::SetHudBriefWithCost priority (mBriefPriority), as the script commands DISPLAY_BRIEF,
 // DISPLAY_BRIEF_SOON and DISPLAY_BRIEF_NOW pass it: higher queues first, now_3 always replaces the shown brief.
 namespace hud_brief_priority
 {

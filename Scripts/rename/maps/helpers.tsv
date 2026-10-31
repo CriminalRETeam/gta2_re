@@ -534,6 +534,8 @@ ctor_462ED0	ctor
 decrement_ammo_4CCA30	decrement_ammo
 divideBy_40E640	divideBy
 get_accuracy_count_45B0A0	get_accuracy_count
+get_ammo_4A4FB0	get_ammo_clips
+get_ammo_4A4FE0	get_ammo
 get_arrow_blocker_zone_4C7340	get_arrow_blocker_zone
 get_base_42A830	get_base
 get_block_42A850	get_block

@@ -20,7 +20,7 @@ class Weapon
   public:
     STATIC_MEMBER(bool, sbAllowFlameSegment);
     // 9.6f 0x4A4FE0
-    inline u16 get_ammo_4A4FE0() const
+    inline u16 get_ammo() const
     {
         return mAmmo;
     }
@@ -91,7 +91,7 @@ class Weapon
     }
 
     // 9.6f inline 0x4A4FB0
-    u8 get_ammo_4A4FB0() const
+    u8 get_ammo_clips() const
     {
         if (is_infinite_ammo())
         {

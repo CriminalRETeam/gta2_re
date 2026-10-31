@@ -152,7 +152,7 @@ void Explosion::EmitRandomDiagonalParticle()
             pParticle->mpOwnSprite->SetType(sprite_types_enum::code_obj2_8);
             pParticle->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx);
             pParticle->mpOwnSprite->set_xyz_lazy_420600(mpObj2C->mSprite->mXy.x, mpObj2C->mSprite->mXy.y, mpObj2C->mSprite->mZpos);
-            gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
             this->mParticleCooldown = gRng.get_int(5);
         }
     }
@@ -193,7 +193,7 @@ void Explosion::EmitFireTrail_3_12(Ang16 ang, Fix16 speed)
             pParticle->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 96);
             pParticle->mpOwnSprite->SetNoLighting();
             pParticle->mpOwnSprite->set_xyz_lazy_420600(mpObj2C->mSprite->mXy.x, mpObj2C->mSprite->mXy.y, mpObj2C->mSprite->mZpos);
-            gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
             this->mParticleCooldown = gRng.get_int(2);
         }
     }
@@ -235,7 +235,7 @@ void Explosion::EmitFireTrail_4(Ang16 ang, Fix16 speed)
             pParticle->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx);
             pParticle->mpOwnSprite->SetNoLighting();
             pParticle->mpOwnSprite->set_xyz_lazy_420600(mpObj2C->mSprite->mXy.x, mpObj2C->mSprite->mXy.y, mpObj2C->mSprite->mZpos);
-            gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
             this->mParticleCooldown = gRng.get_int(2);
         }
     }
@@ -276,7 +276,7 @@ void Explosion::EmitFireTrail_13_14(Ang16 ang, Fix16 speed)
             pParticle->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx);
             pParticle->mpOwnSprite->SetNoLighting();
             pParticle->mpOwnSprite->set_xyz_lazy_420600(mpObj2C->mSprite->mXy.x, mpObj2C->mSprite->mXy.y, mpObj2C->mSprite->mZpos);
-            gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
             this->mParticleCooldown = gRng.get_int(2);
         }
     }
@@ -322,7 +322,7 @@ void Explosion::EmitFireTrail_5(Ang16 ang, Fix16 speed)
             pParticle->mpOwnSprite->set_xyz_lazy_420600(mpObj2C->mSprite->mXy.x,
                                                       mpObj2C->mSprite->mXy.y,
                                                       mpObj2C->mSprite->mZpos);
-            gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
             this->mParticleCooldown = gRng.get_int(2);
             pParticle->mpOwnSprite->SetBlendAndAlpha(2, 20);
             pParticle->mpOwnSprite->SetNoLighting();
@@ -404,7 +404,7 @@ void Explosion::SpawnFlashParticle()
             pNew->mpOwnSprite->set_xyz_lazy_420600(mpObj2C->mSprite->mXy.x,
                                                       mpObj2C->mSprite->mXy.y,
                                                       mpObj2C->mSprite->mZpos);
-            gSpriteGrid_3->AddToSingleBucket_477AE0(pNew->mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket(pNew->mpOwnSprite);
             pNew->mTimer = 10;
         }
     }
@@ -587,7 +587,7 @@ void Explosion::EmitExplosion_18_33()
                 pParticle->mpOwnSprite->SetNoLighting();
                 pParticle->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 20);
                 pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, mpObj2C->mSprite->mZpos);
-                gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+                gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
                 pParticle->mTimer = 1;
             }
             else
@@ -603,7 +603,7 @@ void Explosion::EmitExplosion_18_33()
                 pParticle->mpOwnSprite->SetNoLighting();
                 pParticle->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 20);
                 pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, mpObj2C->mSprite->mZpos);
-                gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+                gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
                 pParticle->mpOwnSprite->ApplyScaleToDimensions(kFP16Quarter_6FD2EC, 0);
                 pParticle->mTimer = 5;
             }
@@ -637,7 +637,7 @@ void Explosion::EmitExplosion_19_32()
             pParticle->mpExplosion = this;
             pParticle->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 20);
             pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, this->mpObj2C->mSprite->mZpos);
-            gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
             pParticle->mpOwnSprite->ApplyScaleToDimensions(kFP16Half_6FD39C + kFP16One_6FD4A0, 0);
             pParticle->mTimer = 1;
         }
@@ -654,7 +654,7 @@ void Explosion::EmitExplosion_19_32()
             pParticle->mpOwnSprite->SetNoLighting();
             pParticle->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 20);
             pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, mpObj2C->mSprite->mZpos);
-            gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
             pParticle->mTimer = 5;
         }
     }
@@ -685,7 +685,7 @@ void Explosion::EmitExplosion_20()
             pParticle->mpOwnSprite->SetNoLighting();
             pParticle->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 56);
             pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, mpObj2C->mSprite->mZpos);
-            gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
             pParticle->mTimer = 1;
         }
         else
@@ -701,7 +701,7 @@ void Explosion::EmitExplosion_20()
             pParticle->mpOwnSprite->SetNoLighting();
             pParticle->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 56);
             pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, mpObj2C->mSprite->mZpos);
-            gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
             pParticle->mTimer = 5;
         }
     }
@@ -762,7 +762,7 @@ void Explosion::UpdateExplosion_18_19_20_32_33()
                                                                              kFpPoint2_6FD2F0);
                     pDebris->mSprite->AttachSprite(pExplosionObj->mSprite, 0, 0, kAngZero_6FD5D4);
 
-                    Object* pLight = gObject_5C->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
+                    Object* pLight = gObject_5C->NewLight(94, 138, 2, 0xFF8000, 3, 255);
                     pDebris->mSprite->AttachSprite(pLight->mSprite, 0, 0, kAngZero_6FD5D4);
                 }
                 break;
@@ -906,7 +906,7 @@ void Explosion::EmitBuildingDebris_22_23_24_25(u8 direction_idx)
                 {
                     pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, mpObj2C->mSprite->mZpos + kFP16One_6FD4A0);
                 }
-                gSpriteGrid_3->AddToSingleBucket_477AE0(pParticle->mpOwnSprite);
+                gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
                 pParticle->mpOwnSprite->SetNoLighting();
             }
         }

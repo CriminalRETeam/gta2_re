@@ -152,6 +152,6 @@ class BitSet32
 
 struct DamageAreaFlags : BitSet32
 {
-    EXPORT s16 Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette, const u32& bClearMask);
-    EXPORT void Delta_48F820(u16& sprite_idx, u8* pArray, u32& delta_mask, u8& width);
+    EXPORT s16 GetOrBuildDamageMask(u16& sprite_idx, u8& bRet, const u16& palette, const u32& bClearMask);
+    EXPORT void ApplyDamageDeltas(u16& sprite_idx, u8* pArray, u32& delta_mask, u8& width);
 };

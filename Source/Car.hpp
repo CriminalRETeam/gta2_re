@@ -565,9 +565,9 @@ class Car
     // Called without this in SpawnDamageFireEffect: a static __stdcall
     EXPORT static s32 __stdcall GetFireExplosionType(u8 fire_level);
     EXPORT void SpawnFire();
-    EXPORT void SetupCarPhysicsAndSpriteBinding_43BC30();
-    EXPORT void SetupCarPhysicsAndSpriteBinding_43BCA0();
-    EXPORT void DeAllocateCarPhysics_43BD00();
+    EXPORT void SetupOwnCarPhysicsAndSpriteBinding();
+    EXPORT void SetupCarPhysicsAndSpriteBindingWithTrailer();
+    EXPORT void DeAllocateCarPhysicsWithTrailer();
     EXPORT void FlashHeadlights();
     EXPORT void BrakeLightsOn();
     EXPORT void BrakeLightsOff();
@@ -656,10 +656,10 @@ class Car
                                     char_type was_special_pressed,
                                     char_type attack);
     EXPORT void AllocCarPhysics();
-    EXPORT void DeAllocateCarPhysics_441A10();
+    EXPORT void DeAllocateOwnCarPhysics();
     EXPORT bool AreAllDoorsClosed();
   private:
-    EXPORT void InitDoors_441A70();
+    EXPORT void InitDoors();
     EXPORT void ServiceDoors();
     EXPORT void UpdateTaxiLight();
     EXPORT void UpdateRoofLightFlasher();
@@ -685,7 +685,7 @@ class Car
     EXPORT bool PoolUpdate();
     EXPORT void UpdateOnCraneHook();
     EXPORT bool UpdateAttachedToSprite(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot);
-    EXPORT void InitDoors_4435A0();
+    EXPORT void InitDoorsThunk();
     EXPORT s32 GetAttachedDrawLayer() const;
     EXPORT void UpdateDrawLayer();
     EXPORT void ApplyExplosionImpulse(Fix16_Point* xy);

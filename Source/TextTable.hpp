@@ -79,11 +79,11 @@ class TextTable
 
     EXPORT void TDAT_Offsets2Strings(u8* pDat);
 
-    EXPORT bool TKeyFind_5B59E0(const char_type* pIdStr) const;
+    EXPORT bool TKeyExists(const char_type* pIdStr) const;
 
     EXPORT static s32 __cdecl TKeySearch(const void* a, const void* b);
 
-    EXPORT wchar_t* TKeyFind_5B5A50(const char_type* pIdStr) const;
+    EXPORT wchar_t* TKeyFind(const char_type* pIdStr) const;
 
     EXPORT u16 ToUpper(wchar_t ch) const;
 

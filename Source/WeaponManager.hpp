@@ -17,11 +17,11 @@ class WeaponManager
         return weapon_kind >= 15;
     }
 
-    EXPORT Weapon* allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo);
+    EXPORT Weapon* allocate_ped_weapon(s32 weapon_kind, Ped* pPed, u8 ammo);
     EXPORT void deallocate(Weapon* pWeapon);
-    EXPORT Weapon* allocate_5E3CE0(s32 weapon_kind, Car* pCar, u8 ammo);
+    EXPORT Weapon* allocate_car_weapon(s32 weapon_kind, Car* pCar, u8 ammo);
     EXPORT Weapon* find(Car* pCar, s32 weapon_kind);
-    EXPORT bool allocate_5E3D50(s32 weapon_kind, u8 ammo, Car* pCar);
+    EXPORT bool add_car_weapon(s32 weapon_kind, u8 ammo, Car* pCar);
     EXPORT void dealloc_car_weapon(Car* pCar);
     EXPORT u8 get_max_ammo_capacity(s32 weapon_kind) const;
     EXPORT u8 get_defalt_ammo(s32 weapon_kind) const;

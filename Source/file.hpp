@@ -36,9 +36,9 @@ class File
 
     EXPORT static void __stdcall File_Error(s32 Code, s32 arg1, s32 arg2);
 
-    EXPORT static void __stdcall Global_Read_4A71C0(void* pBuffer, const u32& bufferSize);
+    EXPORT static void __stdcall Global_Read(void* pBuffer, const u32& bufferSize);
 
-    EXPORT static bool __stdcall Global_Read_4A7210(void* Buffer, u32* pSize);
+    EXPORT static bool __stdcall Global_TryRead(void* Buffer, u32* pSize);
 
     EXPORT static size_t __stdcall Global_ReadRemainder(void* Buffer, u32* pMaxFileSize);
 

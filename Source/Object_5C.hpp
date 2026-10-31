@@ -66,7 +66,7 @@ class Object
     EXPORT void PoolTake();
     EXPORT bool ShouldCollideWith(Sprite* pSprite) const;
     EXPORT bool ShouldStopAtTrafficLight(Sprite* pSprite) const;
-    EXPORT bool ShouldCollideWithSprite_522430(Sprite* pSprite) const;
+    EXPORT bool ShouldCollideWithNonOwner(Sprite* pSprite) const;
     EXPORT bool SelectCollisionSprite(Sprite* pProbe);
     EXPORT void SetMovementVector(Fix16_Point& speed);
     EXPORT void SetMovementVectorWithRandomState(Fix16_Point& point);
@@ -87,7 +87,7 @@ class Object
     EXPORT void OnExplosionNearby(u8 ped_ref_idx);
     EXPORT void UpdateAnimation();
     EXPORT bool DispatchFrameAction();
-    EXPORT bool ShouldCollideWithSprite_525370(Sprite* pSprite) const;
+    EXPORT bool CanObjectCollideWithSprite(Sprite* pSprite) const;
     EXPORT void CheckCollisionForModel_139_And_141();
     EXPORT void SpawnSpriteParticlesForRocketBullet();
     EXPORT bool CheckWaterDeath();
@@ -406,8 +406,8 @@ class Object_5C
     EXPORT Object* NewTouchPoint(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 depth);
     EXPORT Object* NewPhysicsObj(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
     EXPORT Object* NewWithPedRefIdx(s32 object_type, u32 ped_ref_idx, Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT Object* NewLight_529A40(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);
-    EXPORT Object* NewLight_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 argb, Fix16 radius, u8 intensity);
+    EXPORT Object* NewLight(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);
+    EXPORT Object* NewLightOfType(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 argb, Fix16 radius, u8 intensity);
     EXPORT Object* NewFlashingLight(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity, u8 on_time, u8 off_time, u8 shape);
     EXPORT Object* NewPhysicsObjUnlessBlocked(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
     EXPORT Object* CreateObject(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, bool fail_if_blocked);

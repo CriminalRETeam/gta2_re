@@ -186,8 +186,8 @@ struct NetPlay
                                          void* lpContext);
     EXPORT s32 SetProtoAndConnection(GUID* pProtocolGuid, Network_Buffer* pUseThisConnection);
     EXPORT void DirectPlayDestroy();
-    EXPORT s32 DirectPlayCreate_51DCD0();
-    EXPORT s32 DirectPlayCreate_51DED0();
+    EXPORT s32 CreateDirectPlayAndLobby();
+    EXPORT s32 EnumModems();
     EXPORT static BOOL PASCAL EnumAddress_cb(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpData, LPVOID lpContext);
     EXPORT s32 PushConnection(wchar_t* Source);
     EXPORT s32 CreateTcpIpAddress(wchar_t* pIpAddress, s32* ppAddress, size_t* pAddressLen);
@@ -246,8 +246,8 @@ struct NetPlay
     EXPORT void Remove(s32 idx);
     EXPORT bool ReceiveGameMessage(Network_Buffer* pOut, s32* pPlayerIdx, u32* packet_subtype);
     EXPORT void SendToAll(Network_Buffer* pSendData);
-    EXPORT s32 NoRefs_Send_521BE0(Network_Buffer* pSendData, s32 tick_delay);
-    EXPORT s32 NoRefs_Send_521C80(s32 pSendData);
+    EXPORT s32 NoRefs_SendToAllDelayed(Network_Buffer* pSendData, s32 tick_delay);
+    EXPORT s32 NoRefs_SendTickedStandardPacket(s32 pSendData);
     EXPORT s32 SendPlayerIsQuitting();
     EXPORT s32 SendGiveUp(s32 value);
     EXPORT s32 SendSyncCheckData(s32 pSendData);

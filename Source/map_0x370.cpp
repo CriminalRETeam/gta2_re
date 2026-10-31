@@ -4577,7 +4577,7 @@ void Map_0x370::load_mobj(size_t len)
 {
     gmp_map_object* pData = static_cast<gmp_map_object*>(Memory::malloc_4FE4D0(len));
     mpMapObjects = pData;
-    File::Global_Read_4A71C0(pData, len);
+    File::Global_Read(pData, len);
     mMapObjectCount = len / 6;
     if (static_cast<u32>(6 * mMapObjectCount) != len)
     {
@@ -4590,7 +4590,7 @@ void Map_0x370::load_lght(size_t size)
 {
     gmp_map_light* pData = static_cast<gmp_map_light*>(Memory::malloc_4FE4D0(size));
     mpLightData = pData;
-    File::Global_Read_4A71C0(pData, size);
+    File::Global_Read(pData, size);
     mNumLights = size >> 4;
     if (static_cast<u32>(16 * mNumLights) != size)
     {
@@ -4603,7 +4603,7 @@ void Map_0x370::load_zone(size_t size)
 {
     gmp_map_zone* pData = static_cast<gmp_map_zone*>(Memory::malloc_4FE4D0(size));
     mpZoneData = pData;
-    File::Global_Read_4A71C0(pData, size);
+    File::Global_Read(pData, size);
     build_zone_list(size);
 }
 
@@ -4612,7 +4612,7 @@ void Map_0x370::load_anim(size_t size)
 {
     gmp_tile_animation* pAlloc = static_cast<gmp_tile_animation*>(Memory::malloc_4FE4D0(size));
     mpTileAnimData = pAlloc;
-    File::Global_Read_4A71C0(pAlloc, size);
+    File::Global_Read(pAlloc, size);
     AddTileAnimations(size);
 }
 
@@ -4625,8 +4625,8 @@ void Map_0x370::load_dmap(u32 len)
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6147);
     }
 
-    File::Global_Read_4A71C0(&mpDmap->mBase[0][0], 0x40000);
-    File::Global_Read_4A71C0(&mpDmap->mColumnWords, sizeof(u32));
+    File::Global_Read(&mpDmap->mBase[0][0], 0x40000);
+    File::Global_Read(&mpDmap->mColumnWords, sizeof(u32));
 
     if ((mpDmap->mColumnWords + 1024) > 0x20000u)
     {
@@ -4643,12 +4643,12 @@ void Map_0x370::load_dmap(u32 len)
 
     mpDmap->mpColumn = static_cast<u16**>(Memory::malloc_4FE4D0(m_size));
 
-    File::Global_Read_4A71C0(mpDmap->mpColumn, column_data_size);
+    File::Global_Read(mpDmap->mpColumn, column_data_size);
 
     mColumnWords358 = mpDmap->mColumnWords;
     mColumnWords360 = mColumnWords358;
 
-    File::Global_Read_4A71C0(&mpDmap->mNumBlocks, 4);
+    File::Global_Read(&mpDmap->mNumBlocks, 4);
 
     if ((mpDmap->mNumBlocks + 200) > 0x20000u)
     {
@@ -4664,7 +4664,7 @@ void Map_0x370::load_dmap(u32 len)
 
     mpDmap->mBlock = static_cast<gmp_block_info*>(Memory::malloc_4FE4D0(m_size2));
 
-    File::Global_Read_4A71C0(mpDmap->mBlock, block_info_size);
+    File::Global_Read(mpDmap->mBlock, block_info_size);
 
     mNumBlocks34C = mpDmap->mNumBlocks;
     mNumBlocks354 = mNumBlocks34C;
@@ -4728,10 +4728,10 @@ void Map_0x370::LoadMap(const char_type* pGmpFileName)
 
     u32 len = sizeof(gmp_header);
     chunk_header chunkHeader;
-    File::Global_Read_4A71C0(&header, len);
+    File::Global_Read(&header, len);
 
     len = sizeof(chunk_header);
-    while (File::Global_Read_4A7210(&chunkHeader, &len))
+    while (File::Global_TryRead(&chunkHeader, &len))
     {
         if (chunkHeader.mSize != 0)
         {

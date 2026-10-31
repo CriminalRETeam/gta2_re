@@ -67,7 +67,7 @@ class SpriteGrid
 
     EXPORT void Empty();
     EXPORT void DrawSpritesClipped();
-    EXPORT void AddToSingleBucket_477AE0(Sprite* pSprite);
+    EXPORT void AddToSingleBucket(Sprite* pSprite);
     EXPORT void Remove(Sprite* pSprite);
     EXPORT void AddToRegionBuckets(Sprite* pSprite);
     EXPORT void RemoveFromRegionBuckets(Sprite* pSprite);
@@ -104,7 +104,7 @@ class SpriteGrid
 
   private:
     EXPORT void RemoveFromRowBuckets(s32 y_pos, Sprite* pSprite);
-    EXPORT void AddToSingleBucket_478440(s32 x_pos, s32 y_pos, Sprite* pSprite);
+    EXPORT void AddToSingleBucketAt(s32 x_pos, s32 y_pos, Sprite* pSprite);
     EXPORT void AddToRowBuckets(s32 y_pos, Sprite* pSprite);
     EXPORT GridCell* GetFirstXCellInRow(s32 y_pos) const;
     EXPORT bool CheckRowForRectCollisions(u32 y_pos, Fix16_Rect* pRect);

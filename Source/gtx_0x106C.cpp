@@ -522,7 +522,7 @@ MATCH_FUNC(0x5AAD50)
 void gtx_0x106C::load_car_info(u32 cari_chunk_size)
 {
     mCarInfo = static_cast<car_info**>(Memory::malloc_4FE4D0(cari_chunk_size));
-    File::Global_Read_4A71C0(mCarInfo, cari_chunk_size);
+    File::Global_Read(mCarInfo, cari_chunk_size);
 
     BuildCarInfoContainer(cari_chunk_size);
 }
@@ -531,7 +531,7 @@ MATCH_FUNC(0x5AAD80)
 void gtx_0x106C::load_delta_index(u32 delx_chunk_size)
 {
     this->mDeltaIndex = static_cast<delta_entry*>(Memory::malloc_4FE4D0(delx_chunk_size));
-    File::Global_Read_4A71C0(mDeltaIndex, delx_chunk_size);
+    File::Global_Read(mDeltaIndex, delx_chunk_size);
 
     load_delx(delx_chunk_size);
     build_delta_container();
@@ -544,14 +544,14 @@ MATCH_FUNC(0x5AADD0)
 void gtx_0x106C::load_delta_store(u32 dels_chunk_size)
 {
     mDeltaStore = static_cast<delta_store_entry*>(Memory::malloc_4FE4D0(dels_chunk_size));
-    File::Global_Read_4A71C0(mDeltaStore, dels_chunk_size);
+    File::Global_Read(mDeltaStore, dels_chunk_size);
 }
 
 MATCH_FUNC(0x5AADF0)
 void gtx_0x106C::load_tiles(u32 tile_chunk_len)
 {
     mTiles = static_cast<u8*>(Memory::Aligned_malloc(tile_chunk_len, &mTilesUnaligned));
-    File::Global_Read_4A71C0(mTiles, tile_chunk_len);
+    File::Global_Read(mTiles, tile_chunk_len);
     InitTileMapping();
 }
 
@@ -571,14 +571,14 @@ MATCH_FUNC(0x5AAE40)
 void gtx_0x106C::load_sprite_graphics(u32 sprg_chunk_len)
 {
     mSpriteGraphics = reinterpret_cast<u8*>(Memory::Aligned_malloc(sprg_chunk_len, &mSpriteGraphicsUnaligned));
-    File::Global_Read_4A71C0(mSpriteGraphics, sprg_chunk_len);
+    File::Global_Read(mSpriteGraphics, sprg_chunk_len);
 }
 
 MATCH_FUNC(0x5AAE70)
 void gtx_0x106C::load_physical_palettes(u32 ppal_chunk_size)
 {
     mPhysicalPalettes = Memory::Aligned_malloc(ppal_chunk_size, &mPhysicalPalettesUnaligned);
-    File::Global_Read_4A71C0(mPhysicalPalettes, ppal_chunk_size);
+    File::Global_Read(mPhysicalPalettes, ppal_chunk_size);
     mPhysicalPalettesLen = ppal_chunk_size >> 10;
 }
 
@@ -596,14 +596,14 @@ void gtx_0x106C::load_palette_index(u32 palx_chunk_len)
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1159);
     }
 
-    File::Global_Read_4A71C0(mPaletteIndex, palx_chunk_len);
+    File::Global_Read(mPaletteIndex, palx_chunk_len);
 }
 
 MATCH_FUNC(0x5AAF00)
 void gtx_0x106C::load_map_object_info(u32 obji_chunk_len)
 {
     mMapObjectInfo = static_cast<object_info*>(Memory::malloc_4FE4D0(obji_chunk_len));
-    File::Global_Read_4A71C0(mMapObjectInfo, obji_chunk_len);
+    File::Global_Read(mMapObjectInfo, obji_chunk_len);
     if (obji_chunk_len / 2 >= 0x10000)
     {
         FatalError_4A38C0(Gta2Error::TooManyLoadedObjectInfos, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1177, obji_chunk_len / 2);
@@ -620,7 +620,7 @@ MATCH_FUNC(0x5AAF80)
 void gtx_0x106C::load_sprite_index(u32 sprx_chunk_size)
 {
     mSpriteIndex = static_cast<sprite_index*>(Memory::malloc_4FE4D0(sprx_chunk_size + 8));
-    File::Global_Read_4A71C0(mSpriteIndex, sprx_chunk_size);
+    File::Global_Read(mSpriteIndex, sprx_chunk_size);
     if ((sprx_chunk_size & ~7u) > 524280)
     {
         FatalError_4A38C0(Gta2Error::TooManySprites, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1198, sprx_chunk_size >> 3);
@@ -676,7 +676,7 @@ void gtx_0x106C::load_font_base(u32 fonb_chunk_size)
     }
 
     mFontBase = static_cast<font_base*>(Memory::malloc_4FE4D0(fonb_chunk_size));
-    File::Global_Read_4A71C0(mFontBase, fonb_chunk_size);
+    File::Global_Read(mFontBase, fonb_chunk_size);
 
     u32 font_count = mFontBase->mFontCount;
     if (fonb_chunk_size != (font_count * 2) + 2)
@@ -742,7 +742,7 @@ void gtx_0x106C::load_sprite_base(u32 sprite_base_chunk_size)
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1293);
     }
 
-    File::Global_Read_4A71C0(mSpriteBase1, sprite_base_chunk_size);
+    File::Global_Read(mSpriteBase1, sprite_base_chunk_size);
 
     *mSpriteBase2 = *mSpriteBase1;
 
@@ -769,7 +769,7 @@ void gtx_0x106C::load_palete_base(u32 palette_base_chunk_len)
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1315);
     }
 
-    File::Global_Read_4A71C0(mPaletteBase1, palette_base_chunk_len);
+    File::Global_Read(mPaletteBase1, palette_base_chunk_len);
 
     *mPaletteBase2 = *mPaletteBase1;
 
@@ -801,7 +801,7 @@ void gtx_0x106C::load_car_recycling_info(u32 recy_chunk_size)
 {
     mCarRecyclingInfo = static_cast<u8*>(Memory::malloc_4FE4D0(recy_chunk_size));
     mRecyChunkSize = recy_chunk_size;
-    File::Global_Read_4A71C0(mCarRecyclingInfo, recy_chunk_size);
+    File::Global_Read(mCarRecyclingInfo, recy_chunk_size);
 }
 
 MATCH_FUNC(0x5AB3F0)
@@ -809,12 +809,12 @@ void gtx_0x106C::read_spec(u32 spec)
 {
     u16 index_to_set;
     u32 len = 2;
-    File::Global_Read_4A71C0(&index_to_set, len);
+    File::Global_Read(&index_to_set, len);
     while (index_to_set)
     {
         this->mSpec[index_to_set] = spec;
         s32 len2 = 2;
-        File::Global_Read_4A71C0(&index_to_set, len2);
+        File::Global_Read(&index_to_set, len2);
     }
 }
 
@@ -926,13 +926,13 @@ void gtx_0x106C::LoadSty(const char_type* pStyFileName)
 
     file_header styHeader;
     u32 len = sizeof(file_header);
-    File::Global_Read_4A71C0(styHeader.mType, len);
+    File::Global_Read(styHeader.mType, len);
 
     styHeader.verify_type("GBST");
     styHeader.verify_version(700);
 
     chunk_header chunkHeader;
-    for (len = sizeof(chunk_header); File::Global_Read_4A7210(&chunkHeader, &len); len = sizeof(chunk_header))
+    for (len = sizeof(chunk_header); File::Global_TryRead(&chunkHeader, &len); len = sizeof(chunk_header))
     {
         if (chunkHeader.mSize != 0)
         {
@@ -1107,7 +1107,7 @@ gtx_0x106C::~gtx_0x106C()
 
 // https://decomp.me/scratch/CjuP1
 MATCH_FUNC(0x5ABA00)
-void sprite_delta::Delta_5ABA00(u8* pArray)
+void sprite_delta::ApplyToPixels(u8* pArray)
 {
     // Inline asm in the original (lodsw, rep movsb). Each entry is a u16 offset from the end
     // of the previous run, a u8 length and that many bytes.
@@ -1138,7 +1138,7 @@ void sprite_delta::Delta_5ABA00(u8* pArray)
 
 // https://decomp.me/scratch/Cc0Dx Not fully working
 MATCH_FUNC(0x5ABA40)
-void sprite_delta::Delta_5ABA40(u8* pArray, u32 width)
+void sprite_delta::ApplyMirroredToPixels(u8* pArray, u32 width)
 {
     // Inline asm in the original (lodsw / loop)
     // Each entry: u16 offset, u8 len, then len bytes written backwards from the end of the row

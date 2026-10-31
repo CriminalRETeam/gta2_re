@@ -348,7 +348,7 @@ void PlyDat::LoadPlySlotDat(u16 slotIdx)
     for (s32 i = 0; i < 9; i++)
     {
         u32 len_read = 2;
-        File::Global_Read_4A71C0(&pSlot->mstrPlayerName[i], len_read);
+        File::Global_Read(&pSlot->mstrPlayerName[i], len_read);
     }
 
     for (s32 k = 0; k < 3; k++)
@@ -356,13 +356,13 @@ void PlyDat::LoadPlySlotDat(u16 slotIdx)
         for (s32 j = 0; j < 4; j++)
         {
             u32 len_read = 1;
-            File::Global_Read_4A71C0(&mPlyrStats[slotIdx].mPlyrStageStats[k][j].mIsStageUnlocked, len_read);
+            File::Global_Read(&mPlyrStats[slotIdx].mPlyrStageStats[k][j].mIsStageUnlocked, len_read);
 
             len_read = 4;
-            File::Global_Read_4A71C0(&mPlyrStats[slotIdx].mPlyrStageStats[k][j].mStageBestScore, len_read);
+            File::Global_Read(&mPlyrStats[slotIdx].mPlyrStageStats[k][j].mStageBestScore, len_read);
 
             len_read = 4;
-            File::Global_Read_4A71C0(&mPlyrStats[slotIdx].mPlyrStageStats[k][j].mStageLatestScore, len_read);
+            File::Global_Read(&mPlyrStats[slotIdx].mPlyrStageStats[k][j].mStageLatestScore, len_read);
         }
     }
     File::Global_Close();
@@ -518,20 +518,20 @@ void PlyDat::LoadHiScores()
     GetHiScoreHscFileName(FileName);
     File::Global_Open(FileName);
 
-    File::Global_Read_4A71C0(&mTotalScores.mScoreTableLine, 240);
+    File::Global_Read(&mTotalScores.mScoreTableLine, 240);
 
     for (s32 k3Counter = 0; k3Counter < 3; k3Counter++)
     {
         for (s32 k4Counter = 0; k4Counter < 4; k4Counter++)
         {
-            File::Global_Read_4A71C0(&mStageScores[k3Counter][k4Counter], 240);
+            File::Global_Read(&mStageScores[k3Counter][k4Counter], 240);
         }
 
-        File::Global_Read_4A71C0(&mBestStats[k3Counter], 40); // 3 40 byte objs
+        File::Global_Read(&mBestStats[k3Counter], 40); // 3 40 byte objs
 
-        File::Global_Read_4A71C0(&mBestCarDamageCost[k3Counter], 4);
+        File::Global_Read(&mBestCarDamageCost[k3Counter], 4);
 
-        File::Global_Read_4A71C0(&mBestEvasionRating[k3Counter], 4);
+        File::Global_Read(&mBestEvasionRating[k3Counter], 4);
     }
 
     File::Global_Close();

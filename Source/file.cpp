@@ -302,7 +302,7 @@ void __stdcall File::File_Error(s32 Code, s32 arg1, s32 arg2)
 }
 
 MATCH_FUNC(0x4A71C0)
-void __stdcall File::Global_Read_4A71C0(void* pBuffer, const u32& bufferSize)
+void __stdcall File::Global_Read(void* pBuffer, const u32& bufferSize)
 {
     if (!sbGlobalFileOpen)
     {
@@ -316,7 +316,7 @@ void __stdcall File::Global_Read_4A71C0(void* pBuffer, const u32& bufferSize)
 }
 
 MATCH_FUNC(0x4A7210)
-bool __stdcall File::Global_Read_4A7210(void* Buffer, u32* pSize)
+bool __stdcall File::Global_TryRead(void* Buffer, u32* pSize)
 {
     if (!sbGlobalFileOpen)
     {

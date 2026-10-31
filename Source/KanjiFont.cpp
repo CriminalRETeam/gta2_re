@@ -23,7 +23,7 @@ void KanjiFont::LoadChunks(const char_type* pChunkId, u32 chunk_len)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\kanji.cpp", 142);
         }
-        File::Global_Read_4A71C0(mpKidX, chunk_len);
+        File::Global_Read(mpKidX, chunk_len);
     }
     else if (!strncmp(pChunkId, "KBIT", 4u))
     {
@@ -32,7 +32,7 @@ void KanjiFont::LoadChunks(const char_type* pChunkId, u32 chunk_len)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\kanji.cpp", 148);
         }
-        File::Global_Read_4A71C0(mpKBIT, chunk_len);
+        File::Global_Read(mpKBIT, chunk_len);
     }
     else
     {
@@ -47,13 +47,13 @@ void KanjiFont::Load_kanji_dat()
 
     file_header header;
     u32 readSize = sizeof(file_header);
-    File::Global_Read_4A71C0(&header, readSize);
+    File::Global_Read(&header, readSize);
 
     header.verify_type("KANJ");
     header.verify_version(100);
 
     chunk_header chunkHeader;
-    for (readSize = sizeof(chunkHeader); File::Global_Read_4A7210(&chunkHeader, &readSize); readSize = sizeof(chunkHeader))
+    for (readSize = sizeof(chunkHeader); File::Global_TryRead(&chunkHeader, &readSize); readSize = sizeof(chunkHeader))
     {
         if (chunkHeader.mSize)
         {

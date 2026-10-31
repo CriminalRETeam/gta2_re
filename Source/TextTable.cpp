@@ -91,7 +91,7 @@ void TextTable::TKEY_Load(u32 chunk_size)
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\text.cpp", 218);
     }
 
-    File::Global_Read_4A71C0(mTKey.mTKey, chunk_size);
+    File::Global_Read(mTKey.mTKey, chunk_size);
 }
 
 MATCH_FUNC(0x5B59B0)
@@ -109,7 +109,7 @@ void TextTable::TDAT_Offsets2Strings(u8* pDat)
 }
 
 MATCH_FUNC(0x5B59E0)
-bool TextTable::TKeyFind_5B59E0(const char_type* pIdStr) const
+bool TextTable::TKeyExists(const char_type* pIdStr) const
 {
     return bsearch(pIdStr, // search key
                    mTKey.mTKey, // array to search
@@ -129,7 +129,7 @@ s32 __cdecl TextTable::TKeySearch(const void* a, const void* b)
 }
 
 MATCH_FUNC(0x5B5A50)
-wchar_t* TextTable::TKeyFind_5B5A50(const char_type* pIdStr) const
+wchar_t* TextTable::TKeyFind(const char_type* pIdStr) const
 {
     TextKeyEntry* pFound = static_cast<TextKeyEntry*>(bsearch(pIdStr, // key
                                           mTKey.mTKey, // array
@@ -157,7 +157,7 @@ void text_tdat::TDAT_Load(u32 size)
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\text.cpp", 378);
     }
 
-    File::Global_Read_4A71C0(mData, size);
+    File::Global_Read(mData, size);
 }
 
 MATCH_FUNC(0x5B5AD0)
@@ -363,12 +363,12 @@ void TextTable::Load()
 
     file_header gxtHeader;
     u32 len = sizeof(file_header);
-    File::Global_Read_4A71C0(&gxtHeader, len);
+    File::Global_Read(&gxtHeader, len);
 
     gxtHeader.verify_type(expected_code);
     gxtHeader.verify_version(100);
 
-    for (len = sizeof(chunk_header); File::Global_Read_4A7210(&chunkHeader, &len); len = sizeof(chunk_header))
+    for (len = sizeof(chunk_header); File::Global_TryRead(&chunkHeader, &len); len = sizeof(chunk_header))
     {
         if (chunkHeader.mSize != 0)
         {
@@ -382,13 +382,13 @@ void TextTable::Load()
 MATCH_FUNC(0x5B5F90)
 wchar_t* TextTable::Find(const char_type* pIdStr) const
 {
-    return TKeyFind_5B5A50(pIdStr);
+    return TKeyFind(pIdStr);
 }
 
 MATCH_FUNC(0x5B5FA0)
 bool TextTable::KeyExists(const char_type* pIdStr) const
 {
-    return TKeyFind_5B59E0(pIdStr);
+    return TKeyExists(pIdStr);
 }
 
 MATCH_FUNC(0x5B5FB0)

@@ -78,8 +78,8 @@ class MapRenderer
     EXPORT void DrawDiagonalUpRightFace(u16& right_word);
     EXPORT void DrawDiagonalDownLeftFace(u16& left_word);
     EXPORT void DrawDiagonalDownRightFace(u16& right_word);
-    EXPORT void draw_bottom_4ED290(u16& bottom_word);
-    EXPORT void draw_lid_4EE130();
+    EXPORT void draw_bottom(u16& bottom_word);
+    EXPORT void draw_lid();
 
     // Note: These are func chunks
     void DrawDiagonalWallUpLeft();
@@ -114,8 +114,8 @@ class MapRenderer
     EXPORT void draw_left(u16& side_word, Fix16& x_off, Fix16& y_off_a, Fix16& y_off_b);
     EXPORT void draw_right(u16& side_word, Fix16& x_off, Fix16& y_off_a, Fix16& y_off_b);
     EXPORT void draw_top(u16& side_word, Fix16& x_off_a, Fix16& x_off_b, Fix16& y_off);
-    EXPORT void draw_bottom_4F49B0(u16& side_word, Fix16& x_off_a, Fix16& x_off_b, Fix16& y_off);
-    EXPORT void draw_lid_4F4D60(Fix16& x_min, Fix16& x_max, Fix16& y_min, Fix16& y_max);
+    EXPORT void draw_partial_bottom(u16& side_word, Fix16& x_off_a, Fix16& x_off_b, Fix16& y_off);
+    EXPORT void draw_partial_lid(Fix16& x_min, Fix16& x_max, Fix16& y_min, Fix16& y_max);
     EXPORT void DrawPartialBlocks();
     EXPORT void DrawGradientSlope();
     EXPORT void RenderFlatBlock();

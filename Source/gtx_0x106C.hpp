@@ -167,8 +167,8 @@ struct delta_store_entry
 
 struct sprite_delta
 {
-    EXPORT void Delta_5ABA00(u8* pArray);
-    EXPORT void Delta_5ABA40(u8* pArray, u32 width);
+    EXPORT void ApplyToPixels(u8* pArray);
+    EXPORT void ApplyMirroredToPixels(u8* pArray, u32 width);
 
     delta_store_entry* mpData; // 0x0
     u16 mLen; // 0x4

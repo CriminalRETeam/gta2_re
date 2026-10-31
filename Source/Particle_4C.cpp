@@ -184,7 +184,7 @@ bool Particle_4C::UpdateFloatingParticle_state_6_15_16_17()
         }
     }
 
-    gSpriteGrid_3->AddToSingleBucket_477AE0(mpOwnSprite);
+    gSpriteGrid_3->AddToSingleBucket(mpOwnSprite);
     return false;
 }
 
@@ -358,7 +358,7 @@ bool Particle_4C::UpdateDirectedProjectile_state_3_12()
     {
         mpOwnSprite->ResolveZOrder(mpExplosion->mpObj2C->mSprite);
     }
-    gSpriteGrid_3->AddToSingleBucket_477AE0(mpOwnSprite);
+    gSpriteGrid_3->AddToSingleBucket(mpOwnSprite);
 
     if (++mSubState > 8)
     {
@@ -382,7 +382,7 @@ bool Particle_4C::UpdateBeamSegment_state_43()
 
     this->mpOwnSprite->SetBlendAndAlpha(2, 20);
     this->mpOwnSprite->SetNoLighting();
-    gSpriteGrid_3->AddToSingleBucket_477AE0(this->mpOwnSprite);
+    gSpriteGrid_3->AddToSingleBucket(this->mpOwnSprite);
     return false;
 }
 
@@ -463,7 +463,7 @@ bool Particle_4C::UpdateObjectBeamLink_state_38()
                     pSegment->mpOwnSprite->set_xyz_lazy_420600(mid.x, mid.y, mpOwnSprite->mZpos);
                     pSegment->mpOwnSprite->SetBlendAndAlpha(2, 20);
                     pSegment->mpOwnSprite->SetNoLighting();
-                    gSpriteGrid_3->AddToSingleBucket_477AE0(pSegment->mpOwnSprite);
+                    gSpriteGrid_3->AddToSingleBucket(pSegment->mpOwnSprite);
                 }
                 prev = cur;
             }
@@ -502,7 +502,7 @@ bool Particle_4C::UpdateObjectBeamLink_state_38()
             mpOwnSprite->SetBlendAndAlpha(2, 20);
             mpOwnSprite->SetNoLighting();
             mpOwnSprite->set_xyz_lazy_420600(dst.x, dst.y, mpOwnSprite->mZpos);
-            gSpriteGrid_3->AddToSingleBucket_477AE0(mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket(mpOwnSprite);
             return false;
         }
     }
@@ -611,7 +611,7 @@ bool Particle_4C::UpdateDirectedBurstSweep_state_4()
             {
                 mpOwnSprite->ResolveZOrder(mpExplosion->mpObj2C->mSprite);
             }
-            gSpriteGrid_3->AddToSingleBucket_477AE0(mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket(mpOwnSprite);
             return false;
         }
     }
@@ -719,7 +719,7 @@ bool Particle_4C::UpdateDirectedBurst_state_13_14_36()
             {
                 mpOwnSprite->ResolveZOrder(mpExplosion->mpObj2C->mSprite);
             }
-            gSpriteGrid_3->AddToSingleBucket_477AE0(mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket(mpOwnSprite);
             return false;
         }
     }
@@ -863,7 +863,7 @@ bool Particle_4C::UpdateCircularBurst_state_5()
                     pSmoke->mpOwnSprite->set_xyz_lazy_420600(mpOwnSprite->mXy.x,
                                                                 mpOwnSprite->mXy.y,
                                                                 mpOwnSprite->mZpos);
-                    gSpriteGrid_3->AddToSingleBucket_477AE0(pSmoke->mpOwnSprite);
+                    gSpriteGrid_3->AddToSingleBucket(pSmoke->mpOwnSprite);
                 }
             }
             break;
@@ -912,7 +912,7 @@ bool Particle_4C::UpdateCircularBurst_state_5()
 
     mpOwnSprite->mFlags = 0xA2;
     mpOwnSprite->SetNoLighting();
-    gSpriteGrid_3->AddToSingleBucket_477AE0(mpOwnSprite);
+    gSpriteGrid_3->AddToSingleBucket(mpOwnSprite);
 
     if (++mSubState > 8)
     {
@@ -946,7 +946,7 @@ bool Particle_4C::UpdateStaticAnim_state_39()
     }
 
     mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + this->mSubState + 191);
-    gSpriteGrid_3->AddToSingleBucket_477AE0(this->mpOwnSprite);
+    gSpriteGrid_3->AddToSingleBucket(this->mpOwnSprite);
     return false;
 }
 
@@ -1025,7 +1025,7 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41()
         mpOwnSprite->set_ang_lazy(mpSprite->mRotation);
         mpOwnSprite->set_xyz_lazy_420600(corner.x, corner.y, mpSprite->mZpos);
         mpOwnSprite->SetNoLighting();
-        gSpriteGrid_3->AddToSingleBucket_477AE0(mpOwnSprite);
+        gSpriteGrid_3->AddToSingleBucket(mpOwnSprite);
         return false;
     }
     else
@@ -1060,7 +1060,7 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41()
                                             mpSprite->mXy.y + offset.y,
                                             mpSprite->mZpos);
         mpOwnSprite->SetNoLighting();
-        gSpriteGrid_3->AddToSingleBucket_477AE0(mpOwnSprite);
+        gSpriteGrid_3->AddToSingleBucket(mpOwnSprite);
         return false;
     }
 }
@@ -1111,7 +1111,7 @@ bool Particle_4C::UpdateSimpleBallisticMotion_state_1()
 
     this->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, new_z);
 
-    gSpriteGrid_3->AddToSingleBucket_477AE0(this->mpOwnSprite);
+    gSpriteGrid_3->AddToSingleBucket(this->mpOwnSprite);
 
     return false;
 }
@@ -1153,7 +1153,7 @@ bool Particle_4C::UpdateLargeBallisticDebris_state_35()
     }
     mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + mSubState + 131);
     mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, zpos);
-    gSpriteGrid_3->AddToSingleBucket_477AE0(mpOwnSprite);
+    gSpriteGrid_3->AddToSingleBucket(mpOwnSprite);
     mpOwnSprite->mFlags = 0xA2;
     return false;
 }
@@ -1220,7 +1220,7 @@ bool Particle_4C::UpdateDebrisArc_state_7()
         zpos = kMaxZ;
     }
     mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, zpos);
-    gSpriteGrid_3->AddToSingleBucket_477AE0(mpOwnSprite);
+    gSpriteGrid_3->AddToSingleBucket(mpOwnSprite);
     return false;
 }
 
@@ -1249,7 +1249,7 @@ bool Particle_4C::UpdateShortAnim_state_37()
     }
 
     this->mpOwnSprite->SetNoLighting();
-    gSpriteGrid_3->AddToSingleBucket_477AE0(this->mpOwnSprite);
+    gSpriteGrid_3->AddToSingleBucket(this->mpOwnSprite);
     return false;
 }
 
@@ -1338,7 +1338,7 @@ bool Particle_4C::UpdateAttachedEmitter_state_9_10()
         zpos = kMaxZ;
     }
     mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, zpos);
-    gSpriteGrid_3->AddToSingleBucket_477AE0(mpOwnSprite);
+    gSpriteGrid_3->AddToSingleBucket(mpOwnSprite);
     return false;
 }
 
@@ -1383,7 +1383,7 @@ bool Particle_4C::UpdateBurstAnimation_state_29_30()
     }
 
     mpOwnSprite->set_id(idx + gObjectDefinitions->mDef112BaseSpriteIdx + 37);
-    gSpriteGrid_3->AddToSingleBucket_477AE0(mpOwnSprite);
+    gSpriteGrid_3->AddToSingleBucket(mpOwnSprite);
     mpOwnSprite->SetBlendAndAlpha(2, 10);
     mpOwnSprite->SetNoLighting();
     mpOwnSprite->ApplyScaleToDimensions(kFP16One_6FD4A0 + scale_related * Fix16(mSubState), 0);
@@ -1605,7 +1605,7 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34()
             mSubState = 10;
         }
     }
-    gSpriteGrid_3->AddToSingleBucket_477AE0(mpOwnSprite);
+    gSpriteGrid_3->AddToSingleBucket(mpOwnSprite);
     return false;
 }
 
@@ -1651,7 +1651,7 @@ bool Particle_4C::PoolUpdate()
                                                         mpOwnSprite->mZpos + kFpPoint1_6FD2E8);
                 }
 
-                gSpriteGrid_3->AddToSingleBucket_477AE0(this->mpOwnSprite);
+                gSpriteGrid_3->AddToSingleBucket(this->mpOwnSprite);
                 if (this->mSubState == 2)
                 {
                     this->mpOwnSprite->SetBlendAndAlpha(2, 20);
@@ -1693,7 +1693,7 @@ bool Particle_4C::PoolUpdate()
                     mpOwnSprite->set_xyz_lazy_420600(mpOwnSprite->mXy.x, mpOwnSprite->mXy.y, mpOwnSprite->mZpos + kFpPoint1_6FD2E8);
                 }
 
-                gSpriteGrid_3->AddToSingleBucket_477AE0(this->mpOwnSprite);
+                gSpriteGrid_3->AddToSingleBucket(this->mpOwnSprite);
                 if (this->mSubState == 2)
                 {
                     this->mpOwnSprite->mFlags = 0xA2;
@@ -1737,7 +1737,7 @@ bool Particle_4C::PoolUpdate()
                                                         mpOwnSprite->mZpos + kFpPoint1_6FD2E8);
                 }
 
-                gSpriteGrid_3->AddToSingleBucket_477AE0(this->mpOwnSprite);
+                gSpriteGrid_3->AddToSingleBucket(this->mpOwnSprite);
                 if (this->mSubState == 2)
                 {
                     this->mpOwnSprite->SetBlendAndAlpha(2, 20);
@@ -1790,7 +1790,7 @@ bool Particle_4C::PoolUpdate()
                 mpOwnSprite->set_z_lazy(kMaxZ);
             }
 
-            gSpriteGrid_3->AddToSingleBucket_477AE0(this->mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket(this->mpOwnSprite);
             mpOwnSprite->SetBlendAndAlpha(2, 10);
             mpOwnSprite->mBf2C.bNoLighting = true;
             return false;
@@ -1842,7 +1842,7 @@ bool Particle_4C::PoolUpdate()
                 return true;
             }
             mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx);
-            gSpriteGrid_3->AddToSingleBucket_477AE0(this->mpOwnSprite);
+            gSpriteGrid_3->AddToSingleBucket(this->mpOwnSprite);
             mpOwnSprite->mBf2C.bNoLighting = true;
             return false;
 

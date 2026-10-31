@@ -22,7 +22,7 @@ u8 default_ammo_5FF778[40] = {10u, 10u, 5u,  20u, 5u, 5u, 10u, 20u, 20u, 10u, 10
                       50u, 20u, 50u, 1u,  0u, 0u, 0u,  0u,  0u,  0u,  0u,  0u, 80u, 69u, 82u, 84u, 251u, 33u, 9u,  64u};
 
 MATCH_FUNC(0x5e3c10)
-Weapon* WeaponManager::allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo)
+Weapon* WeaponManager::allocate_ped_weapon(s32 weapon_kind, Ped* pPed, u8 ammo)
 {
     Weapon* pNewWeap = gWeapon_30_Pool->AllocateUnlinked();
     pNewWeap->init();
@@ -44,7 +44,7 @@ void WeaponManager::deallocate(Weapon* pWeapon)
 }
 
 MATCH_FUNC(0x5e3ce0)
-Weapon* WeaponManager::allocate_5E3CE0(s32 weapon_kind, Car* pCar, u8 ammo)
+Weapon* WeaponManager::allocate_car_weapon(s32 weapon_kind, Car* pCar, u8 ammo)
 {
     Weapon* pWeapon = gWeapon_30_Pool->Allocate();
     pWeapon->init();
@@ -75,7 +75,7 @@ Weapon* WeaponManager::find(Car* pCar, s32 weapon_kind)
 }
 
 MATCH_FUNC(0x5e3d50)
-bool WeaponManager::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car* pCar)
+bool WeaponManager::add_car_weapon(s32 weapon_kind, u8 ammo, Car* pCar)
 {
     bool bAddedAmmo;
 
@@ -86,7 +86,7 @@ bool WeaponManager::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car* pCar)
     }
     else
     {
-        pWeapon = allocate_5E3CE0(weapon_kind, pCar, ammo);
+        pWeapon = allocate_car_weapon(weapon_kind, pCar, ammo);
         bAddedAmmo = true;
     }
 
@@ -103,7 +103,7 @@ bool WeaponManager::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car* pCar)
     {
         if (pCar->mDriver)
         {
-            pCar->mDriver->mCarWeapon = gWeapon_8->allocate_5E3C10(weapon_kind, pCar->mDriver, 99u);
+            pCar->mDriver->mCarWeapon = gWeapon_8->allocate_ped_weapon(weapon_kind, pCar->mDriver, 99u);
             pCar->mDriver->mCarWeapon->mCar = pCar;
         }
     }

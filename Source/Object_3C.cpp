@@ -664,7 +664,7 @@ void SpriteList::PruneNonCollidingSprites(Sprite* pSprite)
 
     while (pNext)
     {
-        if (pSprite->CollisionCheck_59E590(pNext->mpSprite))
+        if (pSprite->CollidesWith(pNext->mpSprite))
         {
             pLast = pNext;
             pNext = pNext->mpNext;

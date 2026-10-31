@@ -412,24 +412,24 @@ void ScriptManager::LoadSave(const char_type* pFileName)
     gMap_0x370->GetModifiedMapData(&pColData, &colDataLen, &pBlockInfo, &blockInfoLen, &pMapSub, reinterpret_cast<s32*>(&mapSubLen));
     File::Global_Open(pFileName);
 
-    File::Global_Read_4A71C0(&gGameSave, sizeof(gGameSave));
+    File::Global_Read(&gGameSave, sizeof(gGameSave));
 
-    File::Global_Read_4A71C0(&colDataLen, 4);
+    File::Global_Read(&colDataLen, 4);
     if (colDataLen > 0)
     {
-        File::Global_Read_4A71C0(pColData, colDataLen);
+        File::Global_Read(pColData, colDataLen);
     }
 
-    File::Global_Read_4A71C0(&blockInfoLen, 4);
+    File::Global_Read(&blockInfoLen, 4);
     if (blockInfoLen > 0)
     {
-        File::Global_Read_4A71C0(pBlockInfo, blockInfoLen);
+        File::Global_Read(pBlockInfo, blockInfoLen);
     }
 
-    File::Global_Read_4A71C0(&mapSubLen, 4);
+    File::Global_Read(&mapSubLen, 4);
     if (mapSubLen > 0)
     {
-        File::Global_Read_4A71C0(pMapSub, mapSubLen);
+        File::Global_Read(pMapSub, mapSubLen);
     }
     gMap_0x370->OnModifiedMapDataLoaded(colDataLen, blockInfoLen, mapSubLen);
     File::Global_Close();
@@ -570,12 +570,12 @@ void ScriptManager::Load(const char_type* pScrName)
         Error_SetName(mFullScrFileName);
         File::Global_Open(mFullScrFileName);
         u32 len = sizeof(mBasePointers);
-        File::Global_Read_4A71C0(mBasePointers, len);
+        File::Global_Read(mBasePointers, len);
         len = sizeof(mScriptData);
-        File::Global_Read_4A71C0(mScriptData, len);
+        File::Global_Read(mScriptData, len);
         u16 tableSize;
         len = sizeof(tableSize);
-        File::Global_Read_4A71C0(&tableSize, len);
+        File::Global_Read(&tableSize, len);
         len = 5118;
         File::Global_ReadRemainder(mStrings, &len);
         File::Global_Close();
@@ -596,10 +596,10 @@ u16 ScriptManager::LoadMissionScript(const char_type* pScriptName, u16* pStartCm
         strcat(gTmpBuffer, pScriptName);
         Error_SetName(gTmpBuffer);
         File::Global_Open(gTmpBuffer);
-        File::Global_Read_4A71C0(&base_ptr_idx, 2);
-        File::Global_Read_4A71C0(pStartCmd, 2);
-        File::Global_Read_4A71C0(&remainder, 4);
-        File::Global_Read_4A71C0(&mBasePointers[base_ptr_idx], 0xC00);
+        File::Global_Read(&base_ptr_idx, 2);
+        File::Global_Read(pStartCmd, 2);
+        File::Global_Read(&remainder, 4);
+        File::Global_Read(&mBasePointers[base_ptr_idx], 0xC00);
         File::Global_ReadRemainder(&mScriptData[mBasePointers[base_ptr_idx]], &remainder);
         File::Global_Close();
     }
@@ -642,14 +642,14 @@ void ScriptManager::LoadSubScripts()
                 strncat(gTmpBuffer, pEntry->get_name(), pEntry->mLength);
                 File::Global_Open(gTmpBuffer);
 
-                File::Global_Read_4A71C0(&value, 2);
+                File::Global_Read(&value, 2);
                 mMissionBasePtrIdx[mission_idx] = value;
-                File::Global_Read_4A71C0(&value, 2);
+                File::Global_Read(&value, 2);
                 mMissionStartCmd[mission_idx] = value;
-                File::Global_Read_4A71C0(&data_len, 4);
+                File::Global_Read(&data_len, 4);
                 mMissionScriptDataLen[mission_idx] = data_len;
 
-                File::Global_Read_4A71C0(&mMissionBasePointers[3072 * mission_idx], 3072);
+                File::Global_Read(&mMissionBasePointers[3072 * mission_idx], 3072);
                 File::Global_ReadRemainder(&mMissionScriptData[20000 * mission_idx], &mMissionScriptDataLen[mission_idx]);
 
                 File::Global_Close();

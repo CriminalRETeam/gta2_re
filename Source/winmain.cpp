@@ -265,8 +265,8 @@ void force_link()
 
     ScriptGosubStack miss2;
     miss2.add_503160(NULL);
-    miss2.remove_503180();
-    miss2.remove_5031E0(0);
+    miss2.PopFrame();
+    miss2.PopToDepth(0);
 
     InputRecorder_67F8B0 input_recorder;
     input_recorder.StaticShutdown();
@@ -295,7 +295,7 @@ void force_link()
 
     MapRenderer nano;
     u16 zero = 0;
-    nano.draw_bottom_4ED290(zero);
+    nano.draw_bottom(zero);
 
     SpriteRenderer sprite_renderer;
     sprite_renderer.ResetAll();

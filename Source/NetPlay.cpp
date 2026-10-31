@@ -216,14 +216,14 @@ s32 NetPlay::SetProtoAndConnection(GUID* pProtocolGuid, Network_Buffer* pUseThis
     }
 
     mEnumedConnections.mEnumedConnections = new EnumeratedConnection[8];
-    if (NetPlay::DirectPlayCreate_51DCD0())
+    if (NetPlay::CreateDirectPlayAndLobby())
     {
         if (isIpx)
         {
             if (SUCCEEDED(mpDPlay3->EnumConnections(&kGta2_DP_Guid, NetPlay::EnumConnections_cb, this, 1)))
             {
                 mEnumedConnections.mEnumSuccess = 1;
-                if (NetPlay::DirectPlayCreate_51DED0())
+                if (NetPlay::EnumModems())
                 {
                     mEnumedConnections.mDplaySuccess = 1;
                 }
@@ -279,7 +279,7 @@ void NetPlay::DirectPlayDestroy()
 }
 
 MATCH_FUNC(0x51dcd0)
-s32 NetPlay::DirectPlayCreate_51DCD0()
+s32 NetPlay::CreateDirectPlayAndLobby()
 {
     IDirectPlayLobby* pIDirectPlayLobby;
 
@@ -296,7 +296,7 @@ s32 NetPlay::DirectPlayCreate_51DCD0()
 }
 
 MATCH_FUNC(0x51ded0)
-s32 NetPlay::DirectPlayCreate_51DED0()
+s32 NetPlay::EnumModems()
 {
     GUID guid_DPSPGUID_MODEM = DPSPGUID_MODEM;
     this->mEnumedConnections.mModemNames = new Network_IpAddress[8];
@@ -2244,7 +2244,7 @@ void NetPlay::SendToAll(Network_Buffer* pSendData)
 }
 
 MATCH_FUNC(0x521be0)
-s32 NetPlay::NoRefs_Send_521BE0(Network_Buffer* pSendData, s32 tick_delay)
+s32 NetPlay::NoRefs_SendToAllDelayed(Network_Buffer* pSendData, s32 tick_delay)
 {
     u32 dataLen;
     s32 pData;
@@ -2262,7 +2262,7 @@ s32 NetPlay::NoRefs_Send_521BE0(Network_Buffer* pSendData, s32 tick_delay)
 }
 
 MATCH_FUNC(0x521c80)
-s32 NetPlay::NoRefs_Send_521C80(s32 pSendData)
+s32 NetPlay::NoRefs_SendTickedStandardPacket(s32 pSendData)
 {
     u32 dataLen;
     s32 pData;

@@ -1212,7 +1212,7 @@ void CarPhysics::SyncZWithTrailer(Fix16 dt)
 }
 
 MATCH_FUNC(0x55b4f0)
-void CarPhysics::UpdateZPosition_55B4F0(Fix16 dt)
+void CarPhysics::UpdateRailwayZPosition(Fix16 dt)
 {
     Fix16 slope_y;
     Fix16 new_z;
@@ -1266,9 +1266,9 @@ void CarPhysics::UpdateZPosition_55B4F0(Fix16 dt)
 }
 
 MATCH_FUNC(0x55B7B0)
-void CarPhysics::UpdateZPosition_55B7B0(Fix16 dt)
+void CarPhysics::UpdateRailwayZPositionThunk(Fix16 dt)
 {
-    UpdateZPosition_55B4F0(dt);
+    UpdateRailwayZPosition(dt);
 }
 
 MATCH_FUNC(0x55B7E0)
@@ -2333,7 +2333,7 @@ void CarPhysics::ApplyForceAtPoint(Fix16_Point* pPoint, Fix16_Point* pForce, s32
 }
 
 MATCH_FUNC(0x55f930)
-void CarPhysics::AccumulateImpulse_55F930(Fix16_Point* pPoint)
+void CarPhysics::AccumulateImpulse(Fix16_Point* pPoint)
 {
     mForceAccum += (*pPoint * gCarInfo_48->mMass);
 }
@@ -2366,12 +2366,12 @@ void CarPhysics::ApplyImpulseWithTrailerRedirect(Fix16_Point* pPoint)
         // We are on the trailer so apply impulse to the truck cab instead
         CarPhysics* pPhysics = mpCar->mpTrailer->mTruckCab->mPhysics;
         pPhysics->SetCurrentCarInfoAndModelPhysics();
-        pPhysics->AccumulateImpulse_55F930(pPoint);
+        pPhysics->AccumulateImpulse(pPoint);
         SetCurrentCarInfoAndModelPhysics();
     }
     else
     {
-        AccumulateImpulse_55F930(pPoint);
+        AccumulateImpulse(pPoint);
     }
 }
 
@@ -2432,7 +2432,7 @@ static inline Fix16 __stdcall Square_49E0E0(const Fix16& value)
 }
 
 MATCH_FUNC(0x55fc30)
-void CarPhysics::AccumulateImpulse_55FC30(Fix16_Point& point, s32 base_dmg)
+void CarPhysics::ApplyImpulseAndDamage(Fix16_Point& point, s32 base_dmg)
 {
 
     Fix16_Point impulse;
@@ -2519,7 +2519,7 @@ void CarPhysics::HandleCarCollision(Car* pOtherCar)
     Fix16_Point ImpulseForce;
 
     Fix16 ThisCarMass = CalculateMass();
-    pOtherCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
+    pOtherCar->SetupCarPhysicsAndSpriteBindingWithTrailer();
 
     CarPhysics* OtherCarPhysics = pOtherCar->mPhysics;
     Car* pThisCar;
@@ -2567,8 +2567,8 @@ void CarPhysics::HandleCarCollision(Car* pOtherCar)
         }
         else
         {
-            AccumulateImpulse_55FC30(DirectionBetweenCoMs_Scaled, 50);
-            OtherCarPhysics->AccumulateImpulse_55FC30(DirectionBetweenCoMs_Scaled.Negate_40ACB0(), 50);
+            ApplyImpulseAndDamage(DirectionBetweenCoMs_Scaled, 50);
+            OtherCarPhysics->ApplyImpulseAndDamage(DirectionBetweenCoMs_Scaled.Negate_40ACB0(), 50);
         }
 
         sCollisionDamage = (ThisCarMass * Fix16::Abs(mZVel)) * 50;
@@ -2741,7 +2741,7 @@ void CarPhysics::HandleObjectCollision(Object* pObject, char_type damage_area)
             mAirZVel = kFP16Zero_6FE20C;
         }
         push_impulse = (CoM - ObjPos).NormalizeSafe().DivideInl_55F9E0(10);
-        AccumulateImpulse_55FC30(push_impulse, 50);
+        ApplyImpulseAndDamage(push_impulse, 50);
         if (pObject->CanBePushed())
         {
             pObject->SetMovementVectorWithRandomState(push_impulse.Negate_40ACB0());
@@ -2894,7 +2894,7 @@ void CarPhysics::ApplyMovementStep(Fix16 time_scale)
 
         if (mpCar->IsTrainModel())
         {
-            UpdateZPosition_55B7B0(time_scale);
+            UpdateRailwayZPositionThunk(time_scale);
             UpdateCarAndTrailerSpriteFromPhysics();
             return;
         }

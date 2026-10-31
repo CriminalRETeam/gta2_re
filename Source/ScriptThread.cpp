@@ -132,7 +132,7 @@ void ScriptThread::MissionFailOnDeathOrArrest()
             return;
         }
 
-        mGosubStack->remove_5031E0(2);
+        mGosubStack->PopToDepth(2);
         Handle_RETURN();
 
         s32 msg_offset;
@@ -168,7 +168,7 @@ void ScriptThread::MissionFailOnDeathOrArrest()
 
         gHud_2B00->mBrief.ClearAllBriefsWithPriority(hud_brief_priority::normal_1);
         gHud_2B00->mBrief.ClearAllBriefsWithPriority(hud_brief_priority::now_3);
-        gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+        gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         gHud_2B00->mMessage.ShowMessage(gText_0x14->Find("mfail"), hud_message_priority::important_3);
         gRoot_sound.PlayVoice(voice_line::jobfail_23);
 
@@ -1790,7 +1790,7 @@ void ScriptThread::Handle_GOSUB()
 MATCH_FUNC(0x506b80)
 void ScriptThread::Handle_RETURN() // MISSIONEND
 {
-    ScriptStackFrame* pFrame = mGosubStack->remove_503180();
+    ScriptStackFrame* pFrame = mGosubStack->PopFrame();
 
     if (pFrame == NULL)
     {
@@ -2517,13 +2517,13 @@ void ScriptThread::Handle_DISPLAY_MESSAGE()
             gHud_2B00->mMessage.ShowMessage(gText_0x14->Find(gTmpBuffer), hud_message_priority::important_3);
             break;
         case SCRCMD_DISPLAY_BRIEF:
-            gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+            gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
             break;
         case SCRCMD_DISPLAY_BRIEF_NOW:
-            gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::now_3, gTmpBuffer);
+            gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::now_3, gTmpBuffer);
             break;
         case SCRCMD_DISPLAY_BRIEF_SOON:
-            gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::soon_2, gTmpBuffer);
+            gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::soon_2, gTmpBuffer);
             break;
         default:
             break;
@@ -2638,7 +2638,7 @@ void ScriptThread::SCRCMD_GIVE_WEAPON()
     else
     {
         // Always 50 ammo for cars
-        gWeapon_8->allocate_5E3D50(pCmd->mSigned2, 50, pPointer->mCar);
+        gWeapon_8->add_car_weapon(pCmd->mSigned2, 50, pPointer->mCar);
     }
     ScriptThread::Next(gBasePtr);
 }
@@ -4870,7 +4870,7 @@ void ScriptThread::Handle_PHONE_TEMPLATE()
         // Not enough respect.
         s32 brief_id = pCmd->mBriefId - 7;
         sprintf(gTmpBuffer, "%d", brief_id);
-        gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+        gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         ScriptThread::Next(gBasePtr);
         return;
     }
@@ -4895,7 +4895,7 @@ void ScriptThread::Handle_PHONE_TEMPLATE()
         // Not enough respect.
         s32 brief_id = pCmd->mBriefId - 7;
         sprintf(gTmpBuffer, "%d", brief_id);
-        gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+        gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         ScriptThread::Next(gBasePtr);
         return;
     }
@@ -4905,7 +4905,7 @@ void ScriptThread::Handle_PHONE_TEMPLATE()
     {
         s32 brief_id = pCmd->mBriefId - 5;
         sprintf(gTmpBuffer, "%d", brief_id);
-        gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+        gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         ScriptThread::Next(gBasePtr);
         return;
     }
@@ -4915,7 +4915,7 @@ void ScriptThread::Handle_PHONE_TEMPLATE()
     {
         s32 brief_id = pCmd->mBriefId - 2;
         sprintf(gTmpBuffer, "%d", brief_id);
-        gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+        gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         ScriptThread::Next(gBasePtr);
         return;
     }
@@ -4925,7 +4925,7 @@ void ScriptThread::Handle_PHONE_TEMPLATE()
     {
         s32 brief_id = pCmd->mBriefId - 1;
         sprintf(gTmpBuffer, "%d", brief_id);
-        gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+        gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         ScriptThread::Next(gBasePtr);
         return;
     }
@@ -4935,7 +4935,7 @@ void ScriptThread::Handle_PHONE_TEMPLATE()
     {
         s32 brief_id = pCmd->mBriefId;
         sprintf(gTmpBuffer, "%d", brief_id);
-        gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+        gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         ScriptThread::Next(gBasePtr);
         return;
     }
@@ -4945,7 +4945,7 @@ void ScriptThread::Handle_PHONE_TEMPLATE()
     {
         s32 brief_id = pCmd->mBriefId + 1;
         sprintf(gTmpBuffer, "%d", brief_id);
-        gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+        gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         ScriptThread::Next(gBasePtr);
         return;
     }
@@ -4970,7 +4970,7 @@ void ScriptThread::Handle_PHONE_TEMPLATE()
     {
         s32 brief_id = pCmd->mBriefId - 6;
         sprintf(gTmpBuffer, "%d", brief_id);
-        gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+        gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         ScriptThread::Next(gBasePtr);
         return;
     }
@@ -4982,14 +4982,14 @@ void ScriptThread::Handle_PHONE_TEMPLATE()
     {
         s32 brief_id = pCmd->mBriefId - 4;
         sprintf(gTmpBuffer, "%d", brief_id);
-        gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+        gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         ScriptThread::Next(gBasePtr);
     }
     else // Positive respect, but not enough.
     {
         s32 brief_id = pCmd->mBriefId - 7;
         sprintf(gTmpBuffer, "%d", brief_id);
-        gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+        gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         ScriptThread::Next(gBasePtr);
     }
 }
@@ -5057,7 +5057,7 @@ void ScriptThread::Handle_DO_SAVE_GAME()
                 }
             }
 
-            gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+            gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         }
 
         mCmdInitialised = true;
@@ -5901,7 +5901,7 @@ void ScriptThread::Handle_DO_EASY_PHONE() //  EASY_PHONE_TEMPLATE
     {
         s32 brief_id = pCmd->mBriefId - 5;
         sprintf(gTmpBuffer, "%d", brief_id);
-        gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+        gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         ScriptThread::Next(gBasePtr);
         return;
     }
@@ -5909,7 +5909,7 @@ void ScriptThread::Handle_DO_EASY_PHONE() //  EASY_PHONE_TEMPLATE
     {
         s32 brief_id = pCmd->mBriefId - 2;
         sprintf(gTmpBuffer, "%d", brief_id);
-        gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+        gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         ScriptThread::Next(gBasePtr);
         return;
     }
@@ -5917,7 +5917,7 @@ void ScriptThread::Handle_DO_EASY_PHONE() //  EASY_PHONE_TEMPLATE
     {
         s32 brief_id = pCmd->mBriefId - 1;
         sprintf(gTmpBuffer, "%d", brief_id);
-        gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+        gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         ScriptThread::Next(gBasePtr);
         return;
     }
@@ -5926,7 +5926,7 @@ void ScriptThread::Handle_DO_EASY_PHONE() //  EASY_PHONE_TEMPLATE
         //  not used in original levels, since phones are disabled after finishing mission
         s32 brief_id = pCmd->mBriefId;
         sprintf(gTmpBuffer, "%d", brief_id);
-        gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+        gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         ScriptThread::Next(gBasePtr);
         return;
     }
@@ -5935,7 +5935,7 @@ void ScriptThread::Handle_DO_EASY_PHONE() //  EASY_PHONE_TEMPLATE
         //  not used in the game as you can repeat a failed mission in GTA2
         s32 brief_id = pCmd->mBriefId + 1;
         sprintf(gTmpBuffer, "%d", brief_id);
-        gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+        gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         ScriptThread::Next(gBasePtr);
         return;
     }
@@ -5955,7 +5955,7 @@ void ScriptThread::Handle_DO_EASY_PHONE() //  EASY_PHONE_TEMPLATE
     {
         s32 brief_id = pCmd->mBriefId - 6;
         sprintf(gTmpBuffer, "%d", brief_id);
-        gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+        gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         ScriptThread::Next(gBasePtr);
         return;
     }
@@ -5965,7 +5965,7 @@ void ScriptThread::Handle_DO_EASY_PHONE() //  EASY_PHONE_TEMPLATE
     {
         s32 brief_id = pCmd->mBriefId - 4;
         sprintf(gTmpBuffer, "%d", brief_id);
-        gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+        gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         ScriptThread::Next(gBasePtr);
     }
     else
@@ -5973,7 +5973,7 @@ void ScriptThread::Handle_DO_EASY_PHONE() //  EASY_PHONE_TEMPLATE
         //  In this case, the player has positive respect but not enough to launch the mission
         s32 brief_id = pCmd->mBriefId - 7;
         sprintf(gTmpBuffer, "%d", brief_id);
-        gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+        gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         ScriptThread::Next(gBasePtr);
     }
 }
@@ -6012,7 +6012,7 @@ void ScriptThread::Handle_CHAR_INTO_CAR()
         pCar->AllocateAI_421510();
 
         pCarPointer->mCar->mAI->SetCar(pCarPointer->mCar);
-        pCarPointer->mCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
+        pCarPointer->mCar->SetupCarPhysicsAndSpriteBindingWithTrailer();
     }
 
     ScriptThread::Next(gBasePtr);
@@ -6642,7 +6642,7 @@ void ScriptThread::Handle_START_BASIC_KF() // START_BASIC_KF_TEMPLATE
             ScriptThread::DeallocOrDeleteItem(pCmd->mObjname); // Delete skull icon?
         }
         sprintf(gTmpBuffer, "%d", pCmd->mBriefId);
-        gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer);
+        gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, gTmpBuffer);
         SCR_POINTER* pPlayerPedPtr = static_cast<SCR_POINTER*>(gScriptManager->GetBasePointer(pCmd->mPlayername));
         u8 weapon_idx = static_cast<u8>(pCmd->mWeapon);
         if (weapon_idx < weapon_type::car_bomb || weapon_idx > 27)

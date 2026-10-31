@@ -70,9 +70,9 @@ void SpriteGrid::DrawSpritesClipped()
 }
 
 MATCH_FUNC(0x477ae0)
-void SpriteGrid::AddToSingleBucket_477AE0(Sprite* pSprite)
+void SpriteGrid::AddToSingleBucket(Sprite* pSprite)
 {
-    AddToSingleBucket_478440(pSprite->mXy.x.ToInt(), pSprite->mXy.y.ToInt(), pSprite);
+    AddToSingleBucketAt(pSprite->mXy.x.ToInt(), pSprite->mXy.y.ToInt(), pSprite);
 }
 
 MATCH_FUNC(0x477b00)
@@ -555,7 +555,7 @@ void SpriteGrid::RemoveFromRowBuckets(s32 y_pos, Sprite* pSprite)
 }
 
 MATCH_FUNC(0x478440)
-void SpriteGrid::AddToSingleBucket_478440(s32 x_pos, s32 y_pos, Sprite* pSprite)
+void SpriteGrid::AddToSingleBucketAt(s32 x_pos, s32 y_pos, Sprite* pSprite)
 {
     GridSpriteLink* pNewCollide = gGridSpriteLink_Pool->Allocate();
 
@@ -741,7 +741,7 @@ bool SpriteGrid::CheckAndHandleCollisionsInStrip(u32 y_pos, Sprite* pSprite)
             if (!pLinkIter->mpSprite->mpCollisionShape->CollisionIdIs_446930(gCollisionCounters->mQueryId))
             {
                 gCollisionCounters->mTestCount++;
-                if (pSprite->CollisionCheck_59E590(pLinkIter->mpSprite))
+                if (pSprite->CollidesWith(pLinkIter->mpSprite))
                 {
                     bRet = true;
                     pLinkIter->mpSprite->HandleObjectCollision(pSprite);
@@ -773,7 +773,7 @@ bool SpriteGrid::CheckAndHandleRowCollisionsForSprite(u32 y_pos, Sprite* pSprite
             {
                 gCollisionCounters->mTestCount++;
 
-                if (pSprite->CollisionCheck_59E590(pLinkIter->mpSprite))
+                if (pSprite->CollidesWith(pLinkIter->mpSprite))
                 {
                     bRet = true;
                     pLinkIter->mpSprite->ProcessCarToCarImpactIfCar(pSprite);
@@ -811,7 +811,7 @@ Sprite* SpriteGrid::FindCollidingSpriteInRow(u32 y_pos, Sprite* pSprite)
 
             gCollisionCounters->mTestCount++;
 
-            if (pSprite->CollisionCheck_59E590(pObj->mpSprite))
+            if (pSprite->CollidesWith(pObj->mpSprite))
             {
                 if (!pObj->mpSprite->TypeIs(sSpriteGridPreferredType))
                 {

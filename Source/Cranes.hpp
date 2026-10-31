@@ -28,7 +28,7 @@ class Crane
 
     EXPORT ~Crane();
     EXPORT Crane();
-    EXPORT void ComputeHookPos_47E620(Fix16 radius, Ang16 ang, Fix16_Point* pOutPoint);
+    EXPORT void ComputeHookPos(Fix16 radius, Ang16 ang, Fix16_Point* pOutPoint);
     EXPORT void ComputeHookPos_47E730(Ang16 radius, Fix16 ang, Fix16_Point* pOutPoint);
     EXPORT void ComputeHookOffset(Ang16 ang, Fix16_Point* pOutPoint);
     EXPORT bool IsDropPositionClear();

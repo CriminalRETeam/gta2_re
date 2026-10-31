@@ -35,7 +35,7 @@ void test_file()
     File::Global_Close_UnChecked();
     File::Global_Seek(0);
     File::File_Error(0, 0, 0);
-    File::Global_Read_4A71C0(0, 0);
+    File::Global_Read(0, 0);
     File::Global_ReadRemainder(0, 0);
     File::SkipWhitespace(0);
 }

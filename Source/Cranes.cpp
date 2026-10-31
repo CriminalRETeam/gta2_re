@@ -89,7 +89,7 @@ Crane::Crane()
 }
 
 MATCH_FUNC(0x47e620)
-void Crane::ComputeHookPos_47E620(Fix16 radius, Ang16 ang, Fix16_Point* pOutPoint)
+void Crane::ComputeHookPos(Fix16 radius, Ang16 ang, Fix16_Point* pOutPoint)
 {
     pOutPoint->SetXY(kZero_679E70, radius);
 
@@ -136,7 +136,7 @@ MATCH_FUNC(0x47e920)
 bool Crane::IsDropPositionClear()
 {
     Fix16_Point pos;
-    ComputeHookPos_47E620(mDropRadius, Ang16::Fix16_To_Ang16_40F540(mDropAngle), &pos);
+    ComputeHookPos(mDropRadius, Ang16::Fix16_To_Ang16_40F540(mDropAngle), &pos);
     pos += mDropOffset;
 
     mProbeSprite->set_xyz_lazy_420600(pos.x, pos.y, this->mGroundZ - this->mDropHookDepth);
@@ -151,7 +151,7 @@ MATCH_FUNC(0x47eb00)
 bool Crane::IsTarget1PositionClear()
 {
     Fix16_Point hookPos;
-    ComputeHookPos_47E620(mTarget1Radius, Ang16::Fix16_To_Ang16_40F540(mTarget1Angle), &hookPos);
+    ComputeHookPos(mTarget1Radius, Ang16::Fix16_To_Ang16_40F540(mTarget1Angle), &hookPos);
     hookPos += mTarget1Offset;
 
     mProbeSprite->set_xyz_lazy_420600(hookPos.x, hookPos.y, mGroundZ - mTarget1HookDepth);
@@ -166,7 +166,7 @@ void Crane::DropHookedCar()
     Car* pCar = mpSpriteOnHook->AsCar();
     gSpriteGrid_1->AddToRegionBuckets(mpSpriteOnHook);
     pCar->UpdateDrawLayer();
-    pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
+    pCar->SetupCarPhysicsAndSpriteBindingWithTrailer();
     gCar_BC_Pool->UpdateNextPrev(pCar);
     pCar->ResetDespawnStatus();
 
@@ -268,7 +268,7 @@ void Crane::HookPickupCar()
     gCar_BC_Pool->mPool.UnlinkFromActiveList(pCar);
 
     pCar->SetDeactivatedStatus();
-    pCar->DeAllocateCarPhysics_43BD00();
+    pCar->DeAllocateCarPhysicsWithTrailer();
     gSpriteGrid_1->RemoveFromRegionBuckets(mPickupCar);
 
     this->mpSpriteOnHook = this->mPickupCar;
@@ -602,7 +602,7 @@ void Crane::PickUpCar(Car* pCar)
                         Trailer* pTrailer = pCar->mpTrailer;
                         if (!pTrailer || pTrailer->mTrailerCar == NULL || !pTrailer->mTrailerCar->IsTruckTransport())
                         {
-                            gHud_2B00->mBrief.SetHudBrief_5D4400(hud_brief_priority::normal_1, "nespray");
+                            gHud_2B00->mBrief.SetHudBrief(hud_brief_priority::normal_1, "nespray");
                             mStrct4.AddSprite(pCar->mCarSprite);
                             mStrct4.TagSpriteWithRng(pCar->mCarSprite);
                         }
@@ -771,7 +771,7 @@ void Crane::UpdateCraneSprites()
     mCounterweightObj->mSprite->set_ang_lazy(crane_angle);
     mCounterweightObj->mSprite->set_xy_lazy(pos.x, pos.y);
 
-    ComputeHookPos_47E620(mHookRadius, crane_angle, &pos);
+    ComputeHookPos(mHookRadius, crane_angle, &pos);
     mPartObj8->mSprite->set_xy_lazy(pos.x, pos.y);
 
     mHookObj->mSprite->set_xyz_lazy_420600(pos.x, pos.y, mGroundZ - mHookDepth);
@@ -821,7 +821,7 @@ void Crane::Service()
 
     if (mpSpriteOnHook)
     {
-        gSpriteGrid_3->AddToSingleBucket_477AE0(mpSpriteOnHook);
+        gSpriteGrid_3->AddToSingleBucket(mpSpriteOnHook);
     }
 }
 
@@ -945,7 +945,7 @@ void Crane::SetTarget1(Fix16 xpos, Fix16 ypos, Ang16 ang)
         mCraneMode = 1;
     }
 
-    ComputeHookPos_47E620(mTarget1Radius, Ang16::Fix16_To_Ang16_40F540(mTarget1Angle), &t);
+    ComputeHookPos(mTarget1Radius, Ang16::Fix16_To_Ang16_40F540(mTarget1Angle), &t);
     mTarget1Offset = target_pos - t;
 
     mTarget1HookDepth = mGroundZ - gMap_0x370->FindGroundZForCoord(xpos, ypos);
@@ -971,7 +971,7 @@ void Crane::SetTarget2(Fix16 xpos, Fix16 ypos, Ang16 ang)
         mLoadPhase = 2;
     }
 
-    ComputeHookPos_47E620(mTarget2Radius, Ang16::Fix16_To_Ang16_40F540(mTarget2Angle), &t);
+    ComputeHookPos(mTarget2Radius, Ang16::Fix16_To_Ang16_40F540(mTarget2Angle), &t);
     mTarget2Offset = target_pos - t;
 
     mTarget2HookDepth = mGroundZ - gMap_0x370->FindGroundZForCoord(xpos, ypos);

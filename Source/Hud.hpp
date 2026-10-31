@@ -194,8 +194,8 @@ class Hud_GangRespectBars
 {
   public:
     EXPORT void DrawGangRespectBars();
-    EXPORT void Empty_5CFE20();
-    EXPORT void Empty_5CFE30();
+    EXPORT void UpdateGangRespectBars();
+    EXPORT void InitGangRespectBars();
     char_type mGangRespectBars; // 0x107C
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Hud_GangRespectBars, 0x1);
@@ -653,8 +653,8 @@ class Hud_Brief
     EXPORT size_t FormatCurrentBrief();
     EXPORT void StartCurrentBrief();
     EXPORT void DrawBrief();
-    EXPORT void SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32 cost_param);
-    EXPORT void SetHudBrief_5D4400(s32 priority, const char_type* pTextIdStr);
+    EXPORT void SetHudBriefWithCost(s32 priority, const char_type* pText, s32 cost_param);
+    EXPORT void SetHudBrief(s32 priority, const char_type* pTextIdStr);
     EXPORT void UpdateBrief();
     EXPORT void ShowBrief();
     EXPORT void ClearAllBriefsWithPriority(s32 priority);

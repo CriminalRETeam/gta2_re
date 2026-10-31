@@ -790,7 +790,7 @@ void PublicTransport::SpawnTrainsFromStations()
                     pTrain->mCarriages[0]->mAI->SetCar(pTrain->mCarriages[0]);
                     pTrain->mCarriages[0]->SpawnDriverPed();
                     pTrain->mCarriages[0]->SetDriverPedType(ped_type::script_created_5);
-                    Object* pLight = gObject_5C->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
+                    Object* pLight = gObject_5C->NewLight(94, 138, 2, 0xFF8000, 3, 255);
                     pTrain->mCarriages[0]->mAttachments.PushAttachedSprite(pLight->mSprite, 0, 2, kAng0_6FF1BC);
                     pTrain->mCarriages[0]->LockPermanently();
 
@@ -798,7 +798,7 @@ void PublicTransport::SpawnTrainsFromStations()
                     {
                         pTrain->mCarriages[j + 1]->SpawnDriverPed();
                         pTrain->mCarriages[j + 1]->SetDriverPedType(ped_type::script_created_5);
-                        pTrain->mCarriages[j + 1]->SetupCarPhysicsAndSpriteBinding_43BCA0();
+                        pTrain->mCarriages[j + 1]->SetupCarPhysicsAndSpriteBindingWithTrailer();
                         pTrain->mCarriages[j + 1]->StartEngine();
                         if (pTrain->mCarriages[j + 1]->mCarInfoIdx == car_model_enum::TRAINFB)
                         {

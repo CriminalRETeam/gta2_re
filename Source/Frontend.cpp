@@ -5056,7 +5056,7 @@ void Frontend::LoadMapFilenamesFromSvg()
     SaveSlotInfo svg;
     {
         u32 len = sizeof(SaveSlotInfo);
-        File::Global_Read_4A71C0(&svg, len);
+        File::Global_Read(&svg, len);
     }
 
     File::Global_Close();
@@ -5336,7 +5336,7 @@ void SaveSlotSummary::LoadPlySlotSvg(const char_type* FileName)
 
     SaveSlotInfo svg;
     u32 len = sizeof(SaveSlotInfo);
-    File::Global_Read_4A71C0(&svg, len);
+    File::Global_Read(&svg, len);
 
     File::Global_Close();
 

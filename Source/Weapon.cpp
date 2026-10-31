@@ -650,7 +650,7 @@ void Weapon::throwable(s32 obj_idx, s32 throw_strength, s32 throw_charge)
                             }
                             if (obj_idx == objects::moving_molotov_138)
                             {
-                                Object* pLightObj = gObject_5C->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
+                                Object* pLightObj = gObject_5C->NewLight(94, 138, 2, 0xFF8000, 3, 255);
                                 pProjectile->mSprite->AttachSprite(pLightObj->mSprite, 0, 0, kAngZero_707006);
                                 Object* pExplosionObj =
                                     gObject_5C->CreateExplosion(Fix16(113), Fix16(145), 2, kAngZero_707006, explosion_type::molotov_fire_5, mpPed->mId);
@@ -1669,7 +1669,7 @@ void Weapon::oil_stain()
     Sprite* pCarSprite = mCar->GetSprite();
     vector.y = (-(pCarSprite->mpCollisionShape->GetHeight() + kFpThreeEighths)) / kFP16Two_706EC0;
 
-    if (get_ammo_4A4FB0() % 2 != 0)
+    if (get_ammo_clips() % 2 != 0)
     {
         vector.x = -kFpFiveThirtySeconds;
     }

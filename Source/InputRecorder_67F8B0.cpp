@@ -794,7 +794,7 @@ void InputRecorder_67F8B0::LoadReplayHeader(bool bLoadDebug)
 {
     u32 header_size = sizeof(ReplayHeader);
     ReplayHeader header;
-    File::Global_Read_4A71C0(&header, header_size);
+    File::Global_Read(&header, header_size);
 
     if (!bIgnore_replay_header)
     {
