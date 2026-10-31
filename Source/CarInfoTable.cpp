@@ -31,8 +31,6 @@ DEFINE_GLOBAL_INIT(Fix16, kOne_677F54, Fix16(1), 0x677F54);
 DEFINE_GLOBAL_INIT(Fix16, kQuarter_677D78, Fix16(0x1000, 0), 0x677D78);
 DEFINE_GLOBAL_INIT(Fix16, kOneTenth_677D74, Fix16(0x666, 0), 0x677D74);
 DEFINE_GLOBAL_INIT(Fix16, kZero_6761A4, Fix16(0), 0x6761a4);
-DEFINE_GLOBAL_ARRAY(char, Buffer_675FD4, 80, 0x675FD4);
-DEFINE_GLOBAL_ARRAY(char, token_buffer_676024, 256, 0x676024);
 DEFINE_GLOBAL_ARRAY_INIT(char*,
                          error_table_61A6D4,
                          13,
@@ -82,6 +80,7 @@ char* __stdcall CarInfoTable::parse_gci_file_430A30(void* pGciData,
                                                    size_t modelPhyArrLen,
                                                    u32* next_position)
 {
+    LOCAL_STATIC_ARRAY(char, sTokenBuffer, 256, 0x676024);
     input_data_676170 = static_cast<u8*>(pGciData);
     line_number_676258 = 1;
     processedGciData_676260 = 0;
@@ -94,13 +93,13 @@ char* __stdcall CarInfoTable::parse_gci_file_430A30(void* pGciData,
     s32 token_result = k_gci_ok;
     while (token_result == k_gci_ok)
     {
-        token_result = ReadToken_430B10(token_buffer_676024);
+        token_result = ReadToken_430B10(sTokenBuffer);
         if (token_result < 0)
         {
             return SetErr_430AC0(token_result);
         }
 
-        parse_result = ParseTokenAndPush_430C70(token_buffer_676024);
+        parse_result = ParseTokenAndPush_430C70(sTokenBuffer);
         if (parse_result < 0)
         {
             return SetErr_430AC0(parse_result);
@@ -114,6 +113,7 @@ char* __stdcall CarInfoTable::parse_gci_file_430A30(void* pGciData,
 MATCH_FUNC(0x430AC0)
 char* __stdcall CarInfoTable::SetErr_430AC0(s32 error_code)
 {
+    LOCAL_STATIC_ARRAY(char, sBuffer, 80, 0x675FD4);
     if (error_code > 0 || error_code < -GTA2_COUNTOF_S(error_table_61A6D4) + 1)
     {
         // The original uses -13 despite having only 13 entries (indices 0..12).
@@ -121,8 +121,8 @@ char* __stdcall CarInfoTable::SetErr_430AC0(s32 error_code)
         error_code = -GTA2_COUNTOF_S(error_table_61A6D4);
     }
 
-    sprintf(Buffer_675FD4, "%s at line %d", error_table_61A6D4[-error_code], line_number_676258);
-    return Buffer_675FD4;
+    sprintf(sBuffer, "%s at line %d", error_table_61A6D4[-error_code], line_number_676258);
+    return sBuffer;
 }
 
 MATCH_FUNC(0x430b10)
