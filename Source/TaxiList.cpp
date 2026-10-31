@@ -3,13 +3,13 @@
 #include "error.hpp"
 #include "Car.hpp"
 
-DEFINE_GLOBAL(TaxiListPool*, gTaxi_4_Pool_6783F8, 0x6783F8);
+DEFINE_STATIC_MEMBER(TaxiListPool*, TaxiList, sTaxi4Pool, 0x6783F8);
 DEFINE_GLOBAL(TaxiList*, gTaxi_4_704130, 0x704130);
 
 MATCH_FUNC(0x457ba0)
 void TaxiList::PushTaxi_457BA0(Car* pCar)
 {
-    TaxiListNode* pNode = gTaxi_4_Pool_6783F8->Allocate();
+    TaxiListNode* pNode = sTaxi4Pool->Allocate();
     pNode->field_0_pCar = pCar;
     pNode->mpNext = this->field_0_pFirst;
     this->field_0_pFirst = pNode;
@@ -23,7 +23,7 @@ void TaxiList::PopAll_457BC0()
     {
         TaxiListNode* pOldIter = pIter;
         pIter = pIter->mpNext;
-        gTaxi_4_Pool_6783F8->DeAllocate(pOldIter);
+        sTaxi4Pool->DeAllocate(pOldIter);
     }
     this->field_0_pFirst = NULL;
 }
@@ -59,10 +59,10 @@ TaxiList::TaxiList()
 {
     Init_4C09B0();
 
-    if (!gTaxi_4_Pool_6783F8)
+    if (!sTaxi4Pool)
     {
-        gTaxi_4_Pool_6783F8 = new TaxiListPool();
-        if (!gTaxi_4_Pool_6783F8)
+        sTaxi4Pool = new TaxiListPool();
+        if (!sTaxi4Pool)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\taxi.cpp", 29);
         }
@@ -72,8 +72,8 @@ TaxiList::TaxiList()
 MATCH_FUNC(0x5ae0d0)
 TaxiList::~TaxiList()
 {
-    if (gTaxi_4_Pool_6783F8)
+    if (sTaxi4Pool)
     {
-        GTA2_DELETE_AND_NULL(gTaxi_4_Pool_6783F8);
+        GTA2_DELETE_AND_NULL(sTaxi4Pool);
     }
 }

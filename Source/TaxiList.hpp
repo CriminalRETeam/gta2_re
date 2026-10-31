@@ -54,6 +54,7 @@ class TaxiList
     }
 
   public:
+    STATIC_MEMBER(TaxiListPool*, sTaxi4Pool);
     // 9.6f 0x434970
     inline bool IsEmpty_434970() const
     {
