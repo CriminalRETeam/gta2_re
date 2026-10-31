@@ -41,7 +41,6 @@ EXTERN_GLOBAL(Fix16, kFpPoint02_6FD9AC);
 EXTERN_GLOBAL(Fix16, kFpPoint3_6FD830);
 
 DEFINE_GLOBAL(s8, gCharB4_UpdateCounter_6FDB48, 0x6FDB48);
-DEFINE_GLOBAL(s8, gCharB4_Unused_6FDB49, 0x6FDB49);
 DEFINE_GLOBAL(u32, gB4_id_6FDB4C, 0x6FDB4C);
 
 DEFINE_GLOBAL_INIT(s32, gCharB4_PathDirection_623F44, path_direction::up_1, 0x623F44);
@@ -6814,8 +6813,9 @@ void Char::HandleGenericImpact_553E00(Ang16 ang, Fix16 impact_x, Fix16 impact_z,
 MATCH_FUNC(0x553F90)
 void __stdcall ResetCharStatics_553F90()
 {
+    LOCAL_STATIC(s8, sCharB4Unused, 0x6FDB49);
     gCharB4_UpdateCounter_6FDB48 = 0;
-    gCharB4_Unused_6FDB49 = 0;
+    sCharB4Unused = 0;
     gB4_id_6FDB4C = 0;
 }
 
