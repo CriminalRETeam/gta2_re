@@ -491,7 +491,7 @@ EXPORT void __stdcall NoRefs_sub_5B1170()
         gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(98), Fix16(180), kAng90_70420C, car_model_enum::GT24640, kFpHalf_7042A4);
     gTestCar1_704418->LockPermanently_475C30();
     gTestCar1_704418->IncrementCarStats_443D70(car_kind::mission_car_8);
-    gTestCar1_704418->SetFlag4_476270();
+    gTestCar1_704418->SetMiniCar_476270();
     gTestCar1_704418->UpdateDrawLayer_4435F0();
     gWeapon_8_707018->allocate_5E3D50(23, 1, gTestCar1_704418);
     gTestCar1_704418->IsBeingCrushed_43DD50();

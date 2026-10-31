@@ -1448,7 +1448,7 @@ Car* CarManager::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rot
         pCar->PutTankCannonOnRoof_440B10();
         pCar->SetBulletproof_4218C0();
         pCar->SetFlameproof_4218D0();
-        pCar->SetFlag3_4218A0();
+        pCar->SetNoCollisionDamage_4218A0();
         gWeapon_8_707018->allocate_5E3D50(weapon_type::tank_main_gun, 20u, pCar);
     }
     else if (pCar->IsGunJeep_411910())
@@ -1463,7 +1463,7 @@ Car* CarManager::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rot
     else if (pCar->IsTrainModel_403BA0())
     {
         pCar->AddFlags_421890(car_flag::NoCollide);
-        pCar->SetFlag6_4218B0();
+        pCar->SetTrain_4218B0();
     }
     else if (pCar->IsGt24640_4217D0())
     {
@@ -1865,7 +1865,7 @@ EXPORT s16 Car::ApplyImpactDamage_43D5D0(Fix16 damage)
         field_4_passengers_list.ForceTaxiPassengersToExit_471680();
     }
 
-    if (!IsFlagSet_411930(car_flag::Flag3))
+    if (!IsFlagSet_411930(car_flag::NoCollisionDamage))
     {
 
         return AccumulateDamage_43DA90((damage * 200).ToInt(), &kZeroPoint_6778A8);
@@ -2354,12 +2354,12 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
 
                 const u16 our_flags = this->field_78_flags;
                 const u16 their_flags = pCar->field_78_flags;
-                if ((static_cast<u8>(their_flags) & car_flag::Flag4) != (static_cast<u8>(our_flags) & car_flag::Flag4))
+                if ((static_cast<u8>(their_flags) & car_flag::MiniCar) != (static_cast<u8>(our_flags) & car_flag::MiniCar))
                 {
                     return false;
                 }
-                if ((their_flags & car_flag::Flag6) != 0 && this->IsMaxDamage_40F890() && (our_flags & car_flag::Flag6) == 0 ||
-                    (our_flags & car_flag::Flag6) != 0 && pCar->IsMaxDamage_40F890() && (their_flags & car_flag::Flag6) == 0)
+                if ((their_flags & car_flag::Train) != 0 && this->IsMaxDamage_40F890() && (our_flags & car_flag::Train) == 0 ||
+                    (our_flags & car_flag::Train) != 0 && pCar->IsMaxDamage_40F890() && (their_flags & car_flag::Train) == 0)
                 {
                     return false;
                 }
@@ -3457,7 +3457,7 @@ bool Car::IsAreaDamaged_43D1C0(s32 damage_area)
 MATCH_FUNC(0x43d2c0)
 void Car::TryDamageArea_43D2C0(u8 damage_area, s32 damageAmount)
 {
-    if (!IsMaxDamage_40F890() && !(field_78_flags & car_flag::Flag3) && (GetAntiStrength_43A1D0() * Fix16(damageAmount, 0)) >= kFP16One_6777D0)
+    if (!IsMaxDamage_40F890() && !(field_78_flags & car_flag::NoCollisionDamage) && (GetAntiStrength_43A1D0() * Fix16(damageAmount, 0)) >= kFP16One_6777D0)
     {
         switch (damage_area)
         {
@@ -4954,7 +4954,7 @@ void Car::HandleUserInput_4418D0(char_type forward_gas_on,
     }
 
     // 9.6f: Car::sub_425780 (field_78_flags & 0x1000 through sub_411930), as a bool helper it changes the code
-    if ((this->field_78_flags & car_flag::Flag12))
+    if ((this->field_78_flags & car_flag::JammedAccelerator))
     {
         forward_gas_on = 1;
     }
@@ -6005,12 +6005,12 @@ void Car::InitDoors_4435A0()
 MATCH_FUNC(0x4435b0)
 s32 Car::GetAttachedDrawLayer_4435B0() const
 {
-    if (IsFlagSet_411930(car_flag::Flag4))
+    if (IsFlagSet_411930(car_flag::MiniCar))
     {
         return 14;
     }
 
-    if (IsFlagSet_411930(car_flag::Flag6))
+    if (IsFlagSet_411930(car_flag::Train))
     {
         return 20;
     }
@@ -6031,11 +6031,11 @@ void Car::UpdateDrawLayer_4435F0()
     }
     else
     {
-        if (IsFlagSet_411930(car_flag::Flag4))
+        if (IsFlagSet_411930(car_flag::MiniCar))
         {
             this->field_50_car_sprite->SetDrawLayer_40F7B0(13);
         }
-        else if (IsFlagSet_411930(car_flag::Flag6))
+        else if (IsFlagSet_411930(car_flag::Train))
         {
             this->field_50_car_sprite->SetDrawLayer_40F7B0(19);
         }

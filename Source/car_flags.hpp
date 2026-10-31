@@ -2,7 +2,7 @@
 
 #include "types.hpp"
 
-// Car::field_78_flags masks. Flags named FlagN are used but their meaning is not understood yet. Car::IsFlagSet_411930
+// Car::field_78_flags masks. Flags named FlagN are not used. Car::IsFlagSet_411930
 // and AddFlags_421890 (9.6f inlines) take the mask as an argument, so the original treats this as a plain flag word.
 namespace car_flag
 {
@@ -11,16 +11,16 @@ enum
     TrailerDetached = 0x1,
     NoCollide = 0x2,
     NoPassengers = 0x4,
-    Flag3 = 0x8,
-    Flag4 = 0x10,
+    NoCollisionDamage = 0x8,
+    MiniCar = 0x10,
     Flag5 = 0x20,
-    Flag6 = 0x40,
+    Train = 0x40,
     CarAlarm = 0x80,
     Bulletproof = 0x100,
     Rocketproof = 0x200,
     Flameproof = 0x400,
     Jammed = 0x800,
-    Flag12 = 0x1000,
+    JammedAccelerator = 0x1000,
     Crushing = 0x2000, // set by SetCrushFlag_49EFC0
     Flag14 = 0x4000,
     Flag15 = 0x8000,

@@ -261,7 +261,7 @@ void Garage::GaragesService_5349D0()
 
         park:
             field_0_parking_car->SetNoCollide_44A3E0();
-            field_0_parking_car->SetFlag3_4218A0();
+            field_0_parking_car->SetNoCollisionDamage_4218A0();
             if (field_0_parking_car->IsDrivenByPlayer_4118D0())
             {
                 field_0_parking_car->GetDriverPlayer_421870()->DisableAllControls_569FF0();
@@ -326,7 +326,7 @@ void Garage::GaragesService_5349D0()
             {
                 // 9.6f: Car 0x476230/0x4895E0 (clear f78 bits 2 and 8, inlined)
                 field_0_parking_car->field_78_flags &= static_cast<u16>(~car_flag::NoCollide);
-                field_0_parking_car->field_78_flags &= static_cast<u16>(~car_flag::Flag3);
+                field_0_parking_car->field_78_flags &= static_cast<u16>(~car_flag::NoCollisionDamage);
                 field_10_door->CloseDoors_476A30();
                 field_10_door->ClearF2C_4895F0();
                 field_0_parking_car->LockPermanently_475C30();

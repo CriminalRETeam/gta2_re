@@ -502,7 +502,7 @@ void ScriptThread::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER*
         if (pPointer->field_8_car != NULL)
         {
             pPointer->field_8_car->LockPermanently_475C30();
-            pPointer->field_8_car->SetFlag4_476270();
+            pPointer->field_8_car->SetMiniCar_476270();
             pPointer->field_8_car->UpdateDrawLayer_4435F0();
         }
     }
@@ -6386,11 +6386,11 @@ void ScriptThread::SCRCMD_SET_CAR_JAMMED_50FA70()
     {
         if (pCmd->field_A_status == 1)
         {
-            pCar->field_78_flags |= car_flag::Flag12;
+            pCar->field_78_flags |= car_flag::JammedAccelerator;
         }
         else
         {
-            pCar->field_78_flags &= static_cast<u16>(~car_flag::Flag12);
+            pCar->field_78_flags &= static_cast<u16>(~car_flag::JammedAccelerator);
         }
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
