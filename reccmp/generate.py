@@ -9,6 +9,11 @@ r_global            = re.compile(r"DEFINE_GLOBAL\([^\s,]+,\s*(?P<var_name>[^\s,]
 r_global_array      = re.compile(r"DEFINE_GLOBAL_ARRAY\([^\s,]+,\s*(?P<var_name>[^\s,]+),\s*\d+,\s*(?P<addr>0x[0-9A-Fa-f]{6})\);")
 r_global_init       = re.compile(r"DEFINE_GLOBAL_INIT\([^\s,]+,\s*(?P<var_name>[^\s,]+),.+(?P<addr>0x[0-9A-Fa-f]{6})\);")
 r_global_array_init = re.compile(r"DEFINE_GLOBAL_ARRAY_INIT\([^\s,]+,\s*(?P<var_name>[^\s,]+),\s*\d+,\s*(?P<addr>0x[0-9A-Fa-f]{6})")
+# Statics: file (DEFINE_STATIC_GLOBAL*), function (LOCAL_STATIC*) and class (DEFINE_STATIC_MEMBER*, as Class::name)
+r_static            = re.compile(r"\b(?:DEFINE_STATIC_GLOBAL|LOCAL_STATIC)(?:_INIT)?\([^\s,]+,\s*(?P<var_name>[^\s,]+),.*?(?P<addr>0x[0-9A-Fa-f]{6})\);")
+r_static_array      = re.compile(r"\b(?:DEFINE_STATIC_GLOBAL|LOCAL_STATIC)_ARRAY(?:_INIT)?\([^\s,]+,\s*(?P<var_name>[^\s,]+),\s*[^,]+,\s*(?P<addr>0x[0-9A-Fa-f]{6})")
+r_static_member     = re.compile(r"\bDEFINE_STATIC_MEMBER(?:_INIT)?\([^\s,]+,\s*(?P<cls>[^\s,]+),\s*(?P<var_name>[^\s,]+),.*?(?P<addr>0x[0-9A-Fa-f]{6})\);")
+r_static_member_arr = re.compile(r"\bDEFINE_STATIC_MEMBER_ARRAY(?:_INIT)?\([^\s,]+,\s*(?P<cls>[^\s,]+),\s*(?P<var_name>[^\s,]+),\s*[^,]+,\s*(?P<addr>0x[0-9A-Fa-f]{6})")
 
 
 reccmp_dir = Path(__file__).parent
@@ -44,6 +49,10 @@ for path in source_dir.glob("*.cpp"):
         variables.extend((addr.lower(), name) for name, addr in r_global_array.findall(text))
         variables.extend((addr.lower(), name) for name, addr in r_global_init.findall(text))
         variables.extend((addr.lower(), name) for name, addr in r_global_array_init.findall(text))
+        variables.extend((addr.lower(), name) for name, addr in r_static.findall(text))
+        variables.extend((addr.lower(), name) for name, addr in r_static_array.findall(text))
+        variables.extend((addr.lower(), cls + "::" + name) for cls, name, addr in r_static_member.findall(text))
+        variables.extend((addr.lower(), cls + "::" + name) for cls, name, addr in r_static_member_arr.findall(text))
 
 functions.sort(key=lambda v: v[0])
 variables.sort(key=lambda v: v[0])
