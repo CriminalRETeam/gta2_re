@@ -310,7 +310,7 @@ class Ped
     EXPORT void FleeFromPedAlways_46AAE0();
     EXPORT void CheckFollowTargetPedStillValid_46AB50();
     EXPORT void FollowTargetStateMachine_46AC20();
-    EXPORT void ChaseTargetStateMachine_46B170();
+    EXPORT void StayCloseToTargetPed_46B170();
     EXPORT void PullDriverOutOfCarStateMachine_46B2F0();
     EXPORT void MeleeAttackStateMachine_46B670();
     EXPORT void WaitOnFoot_46BD30();

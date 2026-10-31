@@ -5183,7 +5183,7 @@ void Ped::ProcessInternalObjective_463FB0()
                 Ped::FollowTargetStateMachine_46AC20();
                 break;
             case objectives_enum::objective_11:
-                Ped::ChaseTargetStateMachine_46B170();
+                Ped::StayCloseToTargetPed_46B170();
                 break;
             case objectives_enum::pull_driver_out_32:
                 Ped::PullDriverOutOfCarStateMachine_46B2F0();
@@ -9203,7 +9203,7 @@ void Ped::FollowTargetStateMachine_46AC20()
 }
 
 MATCH_FUNC(0x46b170)
-void Ped::ChaseTargetStateMachine_46B170()
+void Ped::StayCloseToTargetPed_46B170()
 {
     if (!field_14C_internal_target_ped->isDead_403B60() && field_14C_internal_target_ped->IsActive_433B40())
     {

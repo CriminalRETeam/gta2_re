@@ -816,7 +816,7 @@ Ped::FleeFromPedTillSafe_46A9C0,0x46a9c0,0x6a9c0,0x94
 Ped::FleeFromPedAlways_46AAE0,0x46aae0,0x6aae0,0x66
 Ped::CheckFollowTargetPedStillValid_46AB50,0x46ab50,0x6ab50,0xc1
 Ped::FollowTargetStateMachine_46AC20,0x46ac20,0x6ac20,0x545
-Ped::ChaseTargetStateMachine_46B170,0x46b170,0x6b170,0x178
+Ped::StayCloseToTargetPed_46B170,0x46b170,0x6b170,0x178
 Ped::PullDriverOutOfCarStateMachine_46B2F0,0x46b2f0,0x6b2f0,0x373
 Ped::MeleeAttackStateMachine_46B670,0x46b670,0x6b670,0x6b7
 Ped::WaitOnFoot_46BD30,0x46bd30,0x6bd30,0x12
