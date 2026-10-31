@@ -1,6 +1,6 @@
 #pragma once
 
-// A face of a gmp block, numbered in gmp_block_info order (Door field_8_face, Map_0x370::ChangeBlock_4E8620 1-5).
+// A face of a gmp block, numbered in gmp_block_info order (Door mFace, Map_0x370::ChangeBlock_4E8620 1-5).
 namespace block_side
 {
 enum

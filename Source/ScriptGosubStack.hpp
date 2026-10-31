@@ -20,7 +20,7 @@ class ScriptGosubStack
 
     EXPORT void remove_5031E0(u8 count);
 
-    ScriptStackFrame* field_0_current; // 0x0
-    u8 field_4_count; // 0x4
+    ScriptStackFrame* mCurrent; // 0x0
+    u8 mCount; // 0x4
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ScriptGosubStack, 0x8)

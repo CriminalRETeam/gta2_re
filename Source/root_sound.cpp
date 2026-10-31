@@ -11,13 +11,13 @@ MATCH_FUNC(0x40EF40)
 SoundObject* root_sound::CreateSoundObject_40EF40(void* pObject, s32 objectType)
 {
     SoundObject* pCurrent = PopFree_410730();
-    pCurrent->field_C_pAny.pAny = pObject;
-    pCurrent->field_4_bStatus = false;
-    pCurrent->field_0_object_type = objectType;
+    pCurrent->mpAny.pAny = pObject;
+    pCurrent->mbStatus = false;
+    pCurrent->mObjectType = objectType;
 
     if (!bSkip_audio_67D6BE)
     {
-        pCurrent->field_8_sound_entry = gRoot_sound_66B038.AddSoundObject_40EFB0(pCurrent);
+        pCurrent->mSoundEntry = gRoot_sound_66B038.AddSoundObject_40EFB0(pCurrent);
     }
 
     return pCurrent;
@@ -146,19 +146,19 @@ char_type root_sound::Get3DSound_40F180()
 MATCH_FUNC(0x411E30)
 root_sound::root_sound()
 {
-    SoundObject* pIter = field_4_pool;
+    SoundObject* pIter = mPool;
     for (s32 i = 0; i < 999; i++)
     {
-        pIter->field_C_pAny.pNextFree = pIter + 1;
+        pIter->mpAny.pNextFree = pIter + 1;
         pIter++;
     }
 
-    field_0_pFreeList = field_4_pool;
-    field_4_pool[999].field_C_pAny.pNextFree = NULL;
+    mpFreeList = mPool;
+    mPool[999].mpAny.pNextFree = NULL;
 }
 
 MATCH_FUNC(0x411E60)
 root_sound::~root_sound()
 {
-    field_0_pFreeList = NULL;
+    mpFreeList = NULL;
 }

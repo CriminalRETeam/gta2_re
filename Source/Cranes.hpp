@@ -17,13 +17,13 @@ class Crane
     // 9.6f 0x447F60
     inline void SetDisabled_447F60(s32 v)
     {
-        field_148_disabled = v;
+        mDisabled = v;
     }
 
     // 9.6f 0x476900
     inline void SetHomeCrane_476900(Crane* v)
     {
-        field_78_home_crane = v;
+        mHomeCrane = v;
     }
 
     EXPORT ~Crane();
@@ -61,112 +61,112 @@ class Crane
 
     inline void SetHomeRotation_4768E0(Ang16 rotation)
     {
-        field_A8_home_angle = Ang16::Ang16_to_Fix16(rotation);
+        mHomeAngle = Ang16::Ang16_to_Fix16(rotation);
     }
 
     // 9.6f 0x411A00
     inline Sprite* GetRotorSprite_411A00() const
     {
-        return field_2C_rotor_obj->field_4_sprite;
+        return mRotorObj->mSprite;
     }
 
     // FUNCTION: 96f 0x447f40
     inline s32 IsAtHomeAngle_447F40() const
     {
-        return field_8C_crane_angle == field_A8_home_angle;
+        return mCraneAngle == mHomeAngle;
     }
 
-    Fix16_Point field_0_hooked_sprite_offset_target; // 0x0
-    Fix16_Point field_8_drop_offset; // 0x8
-    Fix16_Point field_10_hooked_sprite_offset; // 0x10
-    Fix16_Point field_18_target1_offset; // 0x18
-    Fix16_Point field_20_target2_offset; // 0x20
-    SpriteList field_28_strct4; // 0x28
-    Object* field_2C_rotor_obj; // 0x2C
-    Object* field_30_part_obj_0; // 0x30
-    Object* field_34_part_obj_1; // 0x34
-    Object* field_38_part_obj_2; // 0x38
-    Object* field_3C_part_obj_3; // 0x3C
-    Object* field_40_part_obj_4; // 0x40
-    Object* field_44_part_obj_5; // 0x44
-    Object* field_48_part_obj_6; // 0x48
-    Object* field_4C_part_obj_7; // 0x4C
-    Object* field_50_part_obj_8; // 0x50
-    Object* field_54_hook_obj; // 0x54
-    Object* field_58_crane_base_obj; // 0x58
-    Object* field_5C_counterweight_obj; // 0x5C
-    Sprite* field_60_probe_sprite; // 0x60
-    Sprite* field_64_drop_transporter; // 0x64
-    Sprite* field_68_pickup_car; // 0x68
-    Sprite* field_6C_transporter_cargo; // 0x6C
-    Sprite* field_70_cargo_transporter; // 0x70
-    Sprite* field_74_pSprite_on_hook; // 0x74
-    Crane* field_78_home_crane; // 0x78
-    SoundObject* field_7C_sound; // 0x7C
-    Fix16 field_80_ground_z; // 0x80
-    Fix16 field_84_hook_depth; // 0x84
-    Fix16 field_88_hook_depth_speed; // 0x88
-    Fix16 field_8C_crane_angle; // 0x8C:  It's not Ang16, maybe Ang32
-    Fix16 field_90_hook_radius; // 0x90:  Radial distance
-    Fix16 field_94_hook_radius_speed; // 0x94
-    Fix16 field_98_crane_angle_speed; // 0x98
-    Fix16 field_9C_unused; // 0x9C
-    Fix16 field_A0_hook_axial_angle;  // 0xA0: The angle in its own rotation axis, e.g. the angle of the lifted car
-    Fix16 field_A4_hook_axial_angle_speed; // 0xA4
-    Fix16 field_A8_home_angle; // 0xA8
-    Fix16 field_AC_crane_angle_target;  // 0xAC: the crane will rotate until match this angle
-    Fix16 field_B0_hook_radius_target; // 0xB0
-    Fix16 field_B4_hook_angle_target; // 0xB4
-    Fix16 field_B8_hook_depth_target; // 0xB8
-    Fix16 field_BC_drop_transporter_radius; // 0xBC
-    Fix16 field_C0_drop_transporter_angle; // 0xC0
-    Fix16_Point_POD field_C4_drop_transporter_pos; // 0xC4
-    Fix16 field_CC_drop_transporter_z; // 0xCC
-    Fix16 field_D0_drop_transporter_rot; // 0xD0
-    Fix16 field_D4_drop_transporter_hook_depth; // 0xD4
-    Fix16 field_D8_pickup_car_radius; // 0xD8
-    Fix16 field_DC_pickup_car_angle; // 0xDC
-    Fix16 field_E0_pickup_car_x; // 0xE0
-    Fix16 field_E4_pickup_car_y; // 0xE4
-    Fix16 field_E8_pickup_car_z; // 0xE8
-    Fix16 field_EC_pickup_car_rot; // 0xEC
-    Fix16 field_F0_pickup_car_hook_depth; // 0xF0
-    Fix16 field_F4_transporter_cargo_radius; // 0xF4
-    Fix16 field_F8_transporter_cargo_angle; // 0xF8
-    Fix16 field_FC_transporter_cargo_x; // 0xFC
-    Fix16 field_100_transporter_cargo_y; // 0x100
-    Fix16 field_104_transporter_cargo_z; // 0x104
-    Fix16 field_108_transporter_cargo_rot; // 0x108
-    Fix16 field_10C_transporter_cargo_hook_depth; // 0x10C
-    Fix16 field_110_drop_angle;  // 0x110: something to do with the crane angle
-    Fix16 field_114_drop_radius;  // 0x114: something to do with the hook radius
-    Fix16 field_118_drop_rot; // 0x118
-    Fix16 field_11C_drop_hook_depth; // 0x11C
-    Fix16 field_120_target1_radius; // 0x120
-    Fix16 field_124_target1_angle; // 0x124
-    Fix16 field_128_target1_rot; // 0x128
-    Fix16 field_12C_target1_hook_depth; // 0x12C
-    Fix16 field_130_target2_radius; // 0x130
-    Fix16 field_134_target2_angle; // 0x134
-    Fix16 field_138_target2_rot; // 0x138
-    Fix16 field_13C_target2_hook_depth; // 0x13C
-    s16 field_140_powerup_cmd; // 0x140
-    s16 field_142_unused; // 0x142
-    s32 field_144_crane_mode; // 0x144
-    s32 field_148_disabled; // 0x148
-    char_type field_14C_return_delay; // 0x14C
-    bool field_14D_is_busy; // 0x14D
-    char_type field_14E_unused; // 0x14E
-    char_type field_14F_unused; // 0x14F
-    s32 field_150_hook_job; // 0x150
-    char_type field_154_unused; // 0x154
-    char_type field_155_load_phase; // 0x155
-    char_type field_156_is_rotating; // 0x156
-    char_type field_157_is_radius_changing; // 0x157
-    char_type field_158_is_hook_depth_changing; // 0x158
-    bool field_159_hooked_car_this_frame; // 0x159
-    char_type field_15A_unused; // 0x15A
-    char_type field_15B_unused; // 0x15B
+    Fix16_Point mHookedSpriteOffsetTarget; // 0x0
+    Fix16_Point mDropOffset; // 0x8
+    Fix16_Point mHookedSpriteOffset; // 0x10
+    Fix16_Point mTarget1Offset; // 0x18
+    Fix16_Point mTarget2Offset; // 0x20
+    SpriteList mStrct4; // 0x28
+    Object* mRotorObj; // 0x2C
+    Object* mPartObj0; // 0x30
+    Object* mPartObj1; // 0x34
+    Object* mPartObj2; // 0x38
+    Object* mPartObj3; // 0x3C
+    Object* mPartObj4; // 0x40
+    Object* mPartObj5; // 0x44
+    Object* mPartObj6; // 0x48
+    Object* mPartObj7; // 0x4C
+    Object* mPartObj8; // 0x50
+    Object* mHookObj; // 0x54
+    Object* mCraneBaseObj; // 0x58
+    Object* mCounterweightObj; // 0x5C
+    Sprite* mProbeSprite; // 0x60
+    Sprite* mDropTransporter; // 0x64
+    Sprite* mPickupCar; // 0x68
+    Sprite* mTransporterCargo; // 0x6C
+    Sprite* mCargoTransporter; // 0x70
+    Sprite* mpSpriteOnHook; // 0x74
+    Crane* mHomeCrane; // 0x78
+    SoundObject* mSound; // 0x7C
+    Fix16 mGroundZ; // 0x80
+    Fix16 mHookDepth; // 0x84
+    Fix16 mHookDepthSpeed; // 0x88
+    Fix16 mCraneAngle; // 0x8C:  It's not Ang16, maybe Ang32
+    Fix16 mHookRadius; // 0x90:  Radial distance
+    Fix16 mHookRadiusSpeed; // 0x94
+    Fix16 mCraneAngleSpeed; // 0x98
+    Fix16 mUnused9C; // 0x9C
+    Fix16 mHookAxialAngle;  // 0xA0: The angle in its own rotation axis, e.g. the angle of the lifted car
+    Fix16 mHookAxialAngleSpeed; // 0xA4
+    Fix16 mHomeAngle; // 0xA8
+    Fix16 mCraneAngleTarget;  // 0xAC: the crane will rotate until match this angle
+    Fix16 mHookRadiusTarget; // 0xB0
+    Fix16 mHookAngleTarget; // 0xB4
+    Fix16 mHookDepthTarget; // 0xB8
+    Fix16 mDropTransporterRadius; // 0xBC
+    Fix16 mDropTransporterAngle; // 0xC0
+    Fix16_Point_POD mDropTransporterPos; // 0xC4
+    Fix16 mDropTransporterZ; // 0xCC
+    Fix16 mDropTransporterRot; // 0xD0
+    Fix16 mDropTransporterHookDepth; // 0xD4
+    Fix16 mPickupCarRadius; // 0xD8
+    Fix16 mPickupCarAngle; // 0xDC
+    Fix16 mPickupCarX; // 0xE0
+    Fix16 mPickupCarY; // 0xE4
+    Fix16 mPickupCarZ; // 0xE8
+    Fix16 mPickupCarRot; // 0xEC
+    Fix16 mPickupCarHookDepth; // 0xF0
+    Fix16 mTransporterCargoRadius; // 0xF4
+    Fix16 mTransporterCargoAngle; // 0xF8
+    Fix16 mTransporterCargoX; // 0xFC
+    Fix16 mTransporterCargoY; // 0x100
+    Fix16 mTransporterCargoZ; // 0x104
+    Fix16 mTransporterCargoRot; // 0x108
+    Fix16 mTransporterCargoHookDepth; // 0x10C
+    Fix16 mDropAngle;  // 0x110: something to do with the crane angle
+    Fix16 mDropRadius;  // 0x114: something to do with the hook radius
+    Fix16 mDropRot; // 0x118
+    Fix16 mDropHookDepth; // 0x11C
+    Fix16 mTarget1Radius; // 0x120
+    Fix16 mTarget1Angle; // 0x124
+    Fix16 mTarget1Rot; // 0x128
+    Fix16 mTarget1HookDepth; // 0x12C
+    Fix16 mTarget2Radius; // 0x130
+    Fix16 mTarget2Angle; // 0x134
+    Fix16 mTarget2Rot; // 0x138
+    Fix16 mTarget2HookDepth; // 0x13C
+    s16 mPowerupCmd; // 0x140
+    s16 mUnused142; // 0x142
+    s32 mCraneMode; // 0x144
+    s32 mDisabled; // 0x148
+    char_type mReturnDelay; // 0x14C
+    bool mIsBusy; // 0x14D
+    char_type mUnused14E; // 0x14E
+    char_type mUnused14F; // 0x14F
+    s32 mHookJob; // 0x150
+    char_type mUnused154; // 0x154
+    char_type mLoadPhase; // 0x155
+    char_type mIsRotating; // 0x156
+    char_type mIsRadiusChanging; // 0x157
+    char_type mIsHookDepthChanging; // 0x158
+    bool mHookedCarThisFrame; // 0x159
+    char_type mUnused15A; // 0x15A
+    char_type mUnused15B; // 0x15B
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Crane, 0x15C);
 
@@ -179,8 +179,8 @@ class CranePool
     EXPORT CranePool();
     EXPORT ~CranePool();
 
-    Crane field_0_cranes[10]; // 0x0
-    s32 field_D98_count; // 0xD98
+    Crane mCranes[10]; // 0x0
+    s32 mCount; // 0xD98
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CranePool, 0xD9C);
 

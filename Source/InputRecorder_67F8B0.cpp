@@ -611,33 +611,33 @@ void InputRecorder_67F8B0::StaticShutdown_4CDCD0()
 MATCH_FUNC(0x4cdce0)
 void InputRecorder_67F8B0::clear_inputs_4CDCE0()
 {
-    field_4_input_bits &= ~0xFFFFF000;
+    mInputBits &= ~0xFFFFF000;
 }
 
 MATCH_FUNC(0x4cdcf0)
 void InputRecorder_67F8B0::set_input_4CDCF0(s32 mask_idx)
 {
-    field_4_input_bits |= field_8_input_masks[mask_idx];
+    mInputBits |= mInputMasks[mask_idx];
 }
 
 MATCH_FUNC(0x4cdd10)
 void InputRecorder_67F8B0::clear_input_4CDD10(s32 mask_idx)
 {
-    field_4_input_bits &= ~field_8_input_masks[mask_idx];
+    mInputBits &= ~mInputMasks[mask_idx];
 }
 
 MATCH_FUNC(0x4cdd30)
 InputRecorder_67F8B0::InputRecorder_67F8B0()
 {
-    field_0_bShutDown = false;
-    field_4_input_bits = 0;
-    field_75344_bInputEnabled = true;
-    field_38_replay_state = Disabled_2;
-    field_75345_attract_idx = 0;
-    memset(field_8_input_masks, 0, sizeof(field_8_input_masks));
-    memset(field_3C_rec_buff, 0, sizeof(field_3C_rec_buff));
-    field_7533C_used_recs_count = 205;
-    field_75340_rec_buf_idx = 205;
+    mbShutDown = false;
+    mInputBits = 0;
+    mbInputEnabled = true;
+    mReplayState = Disabled_2;
+    mAttractIdx = 0;
+    memset(mInputMasks, 0, sizeof(mInputMasks));
+    memset(mRecBuff, 0, sizeof(mRecBuff));
+    mUsedRecsCount = 205;
+    mRecBufIdx = 205;
     VerifyAttractFilesExist_4CE650();
 }
 
@@ -669,20 +669,20 @@ void InputRecorder_67F8B0::save_replay_record_4CDE20(u32 inputs)
 
     if (inputs)
     {
-        if (field_75340_rec_buf_idx < k_max_records && field_38_replay_state == Live_0)
+        if (mRecBufIdx < k_max_records && mReplayState == Live_0)
         {
-            field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs = inputs;
-            field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx = gpRng_67AB34->get_cur_rng_41CFE0();
-            field_3C_rec_buff[field_75340_rec_buf_idx].field_8_rng_rnd = gpRng_67AB34->get_rnd_45F9E0();
+            mRecBuff[mRecBufIdx].mInputs = inputs;
+            mRecBuff[mRecBufIdx].mRngIdx = gpRng_67AB34->get_cur_rng_41CFE0();
+            mRecBuff[mRecBufIdx].mRngRnd = gpRng_67AB34->get_rnd_45F9E0();
 
             if (bConstant_replay_save_67D5C4 == 1)
             {
-                const s32 rec_idx = this->field_75340_rec_buf_idx;
+                const s32 rec_idx = this->mRecBufIdx;
                 u32 rec_len = sizeof(InputRecord);
-                File::AppendBufferToFile_4A6F50("test\\replay.rep", &field_3C_rec_buff[rec_idx], &rec_len);
+                File::AppendBufferToFile_4A6F50("test\\replay.rep", &mRecBuff[rec_idx], &rec_len);
             }
 
-            field_75340_rec_buf_idx++;
+            mRecBufIdx++;
         }
     }
 }
@@ -690,11 +690,11 @@ void InputRecorder_67F8B0::save_replay_record_4CDE20(u32 inputs)
 MATCH_FUNC(0x4cded0)
 void InputRecorder_67F8B0::SaveReplay_4CDED0()
 {
-    if (bConstant_replay_save_67D5C4 != 1 && bDo_release_replay_67D4EB && field_38_replay_state != Disabled_2 && field_75340_rec_buf_idx > 0 &&
+    if (bConstant_replay_save_67D5C4 != 1 && bDo_release_replay_67D4EB && mReplayState != Disabled_2 && mRecBufIdx > 0 &&
         !IsPlayingBack_4CEDF0())
     {
-        size_t len = sizeof(InputRecord) * field_75340_rec_buf_idx;
-        File::AppendBufferToFile_4A6F50("test\\replay.rep", field_3C_rec_buff, &len);
+        size_t len = sizeof(InputRecord) * mRecBufIdx;
+        File::AppendBufferToFile_4A6F50("test\\replay.rep", mRecBuff, &len);
     }
 }
 
@@ -705,22 +705,22 @@ void InputRecorder_67F8B0::modify_inputs_4CDF30(s32 match_mask)
 
     for (s32 i = 0; i < 12; i++)
     {
-        if ((field_8_input_masks[i] & match_mask) != 0)
+        if ((mInputMasks[i] & match_mask) != 0)
         {
-            if ((field_8_input_masks[i] & field_4_input_bits) != 0)
+            if ((mInputMasks[i] & mInputBits) != 0)
             {
-                field_4_input_bits &= ~field_8_input_masks[i];
+                mInputBits &= ~mInputMasks[i];
             }
             else
             {
-                field_4_input_bits |= field_8_input_masks[i];
+                mInputBits |= mInputMasks[i];
             }
         }
     }
 
     if (static_cast<s32>(match_mask & 0xFFFFF000) != 0)
     {
-        this->field_4_input_bits |= match_mask & 0xFFFFF000;
+        this->mInputBits |= match_mask & 0xFFFFF000;
     }
 }
 
@@ -731,59 +731,59 @@ void InputRecorder_67F8B0::AppendReplayHeader_4CDF70()
 
     memset(&header, 0, sizeof(header));
     DWORD computer_name_size = 29;
-    sprintf(header.field_0_version, "v%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMinor_708284);
+    sprintf(header.mVersion, "v%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMinor_708284);
 
     time_t now = time(NULL);
     char_type* pDate = ctime(&now);
     pDate[strlen(pDate) - 1] = 0;
-    sprintf(header.field_8_date, pDate);
+    sprintf(header.mDate, pDate);
 
-    GetUserNameA(header.field_26_computer_name, &computer_name_size);
-    strcpy(header.field_44_map_name, gGameSession_67E8E0.GetMapName_4C5940());
-    strcpy(header.field_6C_style_name, gGameSession_67E8E0.GetStyleName_4C5950());
-    strcpy(header.field_94_script_name, gGameSession_67E8E0.GetScriptName_4C5960());
-    strcpy(header.field_BC_debug_str, gGameSession_67E8E0.GetSaveFileName_4C5970());
+    GetUserNameA(header.mComputerName, &computer_name_size);
+    strcpy(header.mMapName, gGameSession_67E8E0.GetMapName_4C5940());
+    strcpy(header.mStyleName, gGameSession_67E8E0.GetStyleName_4C5950());
+    strcpy(header.mScriptName, gGameSession_67E8E0.GetScriptName_4C5960());
+    strcpy(header.mDebugStr, gGameSession_67E8E0.GetSaveFileName_4C5970());
 
-    header.field_0_version[7] = '\n';
-    header.field_8_date[29] = '\n';
-    header.field_26_computer_name[29] = '\n';
-    header.field_44_map_name[39] = '\n';
-    header.field_6C_style_name[39] = '\n';
-    header.field_94_script_name[39] = '\n';
-    header.field_BC_debug_str[39] = '\n';
-    header.field_E4_flags[39] = '\n';
+    header.mVersion[7] = '\n';
+    header.mDate[29] = '\n';
+    header.mComputerName[29] = '\n';
+    header.mMapName[39] = '\n';
+    header.mStyleName[39] = '\n';
+    header.mScriptName[39] = '\n';
+    header.mDebugStr[39] = '\n';
+    header.mFlags[39] = '\n';
 
-    header.field_E4_flags[0] = bSkip_dummies_67D4EF ? '1' : '0';
-    header.field_E4_flags[1] = bDo_test_67D4F8 ? '1' : '0';
-    header.field_E4_flags[2] = bSkip_mission_67D4E5 ? '1' : '0';
-    header.field_E4_flags[3] = bDo_brian_test_67D544 ? '1' : '0';
-    header.field_E4_flags[4] = bDo_iain_test_67D4E9 ? '1' : '0';
-    header.field_E4_flags[5] = bSkip_traffic_lights_67D4EC ? '1' : '0';
-    header.field_E4_flags[6] = bSkip_recycling_67D575 ? '1' : '0';
-    header.field_E4_flags[7] = bLimit_recycling_67D4CA ? '1' : '0';
-    header.field_E4_flags[8] = bNo_annoying_chars_67D586 ? '1' : '0';
-    header.field_E4_flags[9] = bDo_mike_67D5CC ? '1' : '0';
-    header.field_E4_flags[10] = bDo_kill_phones_on_answer_67D6E8 ? '1' : '0';
-    header.field_E4_flags[11] = bGet_all_weapons_67D684 ? '1' : '0';
-    header.field_E4_flags[12] = bDont_get_car_back_67D4F5 ? '1' : '0';
-    header.field_E4_flags[13] = bSkip_ambulance_67D6C9 ? '1' : '0';
-    header.field_E4_flags[14] = bSkip_police_67D4F9 ? '1' : '0';
-    header.field_E4_flags[15] = bDo_invulnerable_67D4CB ? '1' : '0';
-    header.field_E4_flags[16] = bDo_free_shopping_67D6CD ? '1' : '0';
-    header.field_E4_flags[17] = bKeep_weapons_after_death_67D54D ? '1' : '0';
-    header.field_E4_flags[18] = bSkip_skidmarks_67D585 ? '1' : '0';
-    header.field_E4_flags[19] = bExplodingScoresOff_67D4FB ? '1' : '0';
-    header.field_E4_flags[20] = gDo_infinite_lives_67D4C9 ? '1' : '0';
-    header.field_E4_flags[21] = bDo_blood_67D5C5 ? '1' : '0';
-    header.field_E4_flags[22] = bDo_load_savegame_67D4F0 ? '1' : '0';
-    header.field_E4_flags[23] = bSkip_audio_67D6BE ? '1' : '0';
-    header.field_E4_flags[24] = bDo_debug_keys_67D6CF ? '1' : '0';
-    header.field_E4_flags[25] = bSkip_trains_67D550 ? '1' : '0';
-    header.field_E4_flags[26] = bSkip_buses_67D558 ? '1' : '0';
-    header.field_E4_flags[27] = bSkip_fire_engines_67D53A ? '1' : '0';
-    header.field_E4_flags[28] = bDo_police_1_67D568 ? '1' : '0';
-    header.field_E4_flags[29] = bDo_police_2_67D569 ? '1' : '0';
-    header.field_E4_flags[30] = bDo_police_3_67D56A ? '1' : '0';
+    header.mFlags[0] = bSkip_dummies_67D4EF ? '1' : '0';
+    header.mFlags[1] = bDo_test_67D4F8 ? '1' : '0';
+    header.mFlags[2] = bSkip_mission_67D4E5 ? '1' : '0';
+    header.mFlags[3] = bDo_brian_test_67D544 ? '1' : '0';
+    header.mFlags[4] = bDo_iain_test_67D4E9 ? '1' : '0';
+    header.mFlags[5] = bSkip_traffic_lights_67D4EC ? '1' : '0';
+    header.mFlags[6] = bSkip_recycling_67D575 ? '1' : '0';
+    header.mFlags[7] = bLimit_recycling_67D4CA ? '1' : '0';
+    header.mFlags[8] = bNo_annoying_chars_67D586 ? '1' : '0';
+    header.mFlags[9] = bDo_mike_67D5CC ? '1' : '0';
+    header.mFlags[10] = bDo_kill_phones_on_answer_67D6E8 ? '1' : '0';
+    header.mFlags[11] = bGet_all_weapons_67D684 ? '1' : '0';
+    header.mFlags[12] = bDont_get_car_back_67D4F5 ? '1' : '0';
+    header.mFlags[13] = bSkip_ambulance_67D6C9 ? '1' : '0';
+    header.mFlags[14] = bSkip_police_67D4F9 ? '1' : '0';
+    header.mFlags[15] = bDo_invulnerable_67D4CB ? '1' : '0';
+    header.mFlags[16] = bDo_free_shopping_67D6CD ? '1' : '0';
+    header.mFlags[17] = bKeep_weapons_after_death_67D54D ? '1' : '0';
+    header.mFlags[18] = bSkip_skidmarks_67D585 ? '1' : '0';
+    header.mFlags[19] = bExplodingScoresOff_67D4FB ? '1' : '0';
+    header.mFlags[20] = gDo_infinite_lives_67D4C9 ? '1' : '0';
+    header.mFlags[21] = bDo_blood_67D5C5 ? '1' : '0';
+    header.mFlags[22] = bDo_load_savegame_67D4F0 ? '1' : '0';
+    header.mFlags[23] = bSkip_audio_67D6BE ? '1' : '0';
+    header.mFlags[24] = bDo_debug_keys_67D6CF ? '1' : '0';
+    header.mFlags[25] = bSkip_trains_67D550 ? '1' : '0';
+    header.mFlags[26] = bSkip_buses_67D558 ? '1' : '0';
+    header.mFlags[27] = bSkip_fire_engines_67D53A ? '1' : '0';
+    header.mFlags[28] = bDo_police_1_67D568 ? '1' : '0';
+    header.mFlags[29] = bDo_police_2_67D569 ? '1' : '0';
+    header.mFlags[30] = bDo_police_3_67D56A ? '1' : '0';
 
     size_t header_size = sizeof(header);
     File::AppendBufferToFile_4A6F50("test\\replay.rep", &header, &header_size);
@@ -800,45 +800,45 @@ void InputRecorder_67F8B0::LoadReplayHeader_4CE380(bool bLoadDebug)
     {
         s32 major;
         s32 minor;
-        sscanf(header.field_0_version, "v%d.%d", &major, &minor);
-        gGameSession_67E8E0.SetMapName_4C5870(header.field_44_map_name);
-        gGameSession_67E8E0.SetStyleName_4C5890(header.field_6C_style_name);
-        gGameSession_67E8E0.SetScriptName_4C58B0(header.field_94_script_name);
-        gGameSession_67E8E0.SetSaveFileName_4C58D0(header.field_BC_debug_str);
+        sscanf(header.mVersion, "v%d.%d", &major, &minor);
+        gGameSession_67E8E0.SetMapName_4C5870(header.mMapName);
+        gGameSession_67E8E0.SetStyleName_4C5890(header.mStyleName);
+        gGameSession_67E8E0.SetScriptName_4C58B0(header.mScriptName);
+        gGameSession_67E8E0.SetSaveFileName_4C58D0(header.mDebugStr);
 
         if (bLoadDebug)
         {
-        bSkip_dummies_67D4EF = header.field_E4_flags[0] == '1';
-        bDo_test_67D4F8 = header.field_E4_flags[1] == '1';
-        bSkip_mission_67D4E5 = header.field_E4_flags[2] == '1';
-        bDo_brian_test_67D544 = header.field_E4_flags[3] == '1';
-        bDo_iain_test_67D4E9 = header.field_E4_flags[4] == '1';
-        bSkip_traffic_lights_67D4EC = header.field_E4_flags[5] == '1';
-        bSkip_recycling_67D575 = header.field_E4_flags[6] == '1';
-        bLimit_recycling_67D4CA = header.field_E4_flags[7] == '1';
-        bNo_annoying_chars_67D586 = header.field_E4_flags[8] == '1';
-        bDo_mike_67D5CC = header.field_E4_flags[9] == '1';
-        bDo_kill_phones_on_answer_67D6E8 = header.field_E4_flags[10] == '1';
-        bGet_all_weapons_67D684 = header.field_E4_flags[11] == '1';
-        bDont_get_car_back_67D4F5 = header.field_E4_flags[12] == '1';
-        bSkip_ambulance_67D6C9 = header.field_E4_flags[13] == '1';
-        bSkip_police_67D4F9 = header.field_E4_flags[14] == '1';
-        bDo_invulnerable_67D4CB = header.field_E4_flags[15] == '1';
-        bDo_free_shopping_67D6CD = header.field_E4_flags[16] == '1';
-        bKeep_weapons_after_death_67D54D = header.field_E4_flags[17] == '1';
-        bSkip_skidmarks_67D585 = header.field_E4_flags[18] == '1';
-        bExplodingScoresOff_67D4FB = header.field_E4_flags[19] == '1';
-        gDo_infinite_lives_67D4C9 = header.field_E4_flags[20] == '1';
-        bDo_blood_67D5C5 = header.field_E4_flags[21] == '1';
-        bDo_load_savegame_67D4F0 = header.field_E4_flags[22] == '1';
-        bSkip_audio_67D6BE = header.field_E4_flags[23] == '1';
-        bDo_debug_keys_67D6CF = header.field_E4_flags[24] == '1';
-        bSkip_trains_67D550 = header.field_E4_flags[25] == '1';
-        bSkip_buses_67D558 = header.field_E4_flags[26] == '1';
-        bSkip_fire_engines_67D53A = header.field_E4_flags[27] == '1';
-        bDo_police_1_67D568 = header.field_E4_flags[28] == '1';
-        bDo_police_2_67D569 = header.field_E4_flags[29] == '1';
-        bDo_police_3_67D56A = header.field_E4_flags[30] == '1';
+        bSkip_dummies_67D4EF = header.mFlags[0] == '1';
+        bDo_test_67D4F8 = header.mFlags[1] == '1';
+        bSkip_mission_67D4E5 = header.mFlags[2] == '1';
+        bDo_brian_test_67D544 = header.mFlags[3] == '1';
+        bDo_iain_test_67D4E9 = header.mFlags[4] == '1';
+        bSkip_traffic_lights_67D4EC = header.mFlags[5] == '1';
+        bSkip_recycling_67D575 = header.mFlags[6] == '1';
+        bLimit_recycling_67D4CA = header.mFlags[7] == '1';
+        bNo_annoying_chars_67D586 = header.mFlags[8] == '1';
+        bDo_mike_67D5CC = header.mFlags[9] == '1';
+        bDo_kill_phones_on_answer_67D6E8 = header.mFlags[10] == '1';
+        bGet_all_weapons_67D684 = header.mFlags[11] == '1';
+        bDont_get_car_back_67D4F5 = header.mFlags[12] == '1';
+        bSkip_ambulance_67D6C9 = header.mFlags[13] == '1';
+        bSkip_police_67D4F9 = header.mFlags[14] == '1';
+        bDo_invulnerable_67D4CB = header.mFlags[15] == '1';
+        bDo_free_shopping_67D6CD = header.mFlags[16] == '1';
+        bKeep_weapons_after_death_67D54D = header.mFlags[17] == '1';
+        bSkip_skidmarks_67D585 = header.mFlags[18] == '1';
+        bExplodingScoresOff_67D4FB = header.mFlags[19] == '1';
+        gDo_infinite_lives_67D4C9 = header.mFlags[20] == '1';
+        bDo_blood_67D5C5 = header.mFlags[21] == '1';
+        bDo_load_savegame_67D4F0 = header.mFlags[22] == '1';
+        bSkip_audio_67D6BE = header.mFlags[23] == '1';
+        bDo_debug_keys_67D6CF = header.mFlags[24] == '1';
+        bSkip_trains_67D550 = header.mFlags[25] == '1';
+        bSkip_buses_67D558 = header.mFlags[26] == '1';
+        bSkip_fire_engines_67D53A = header.mFlags[27] == '1';
+        bDo_police_1_67D568 = header.mFlags[28] == '1';
+        bDo_police_2_67D569 = header.mFlags[29] == '1';
+        bDo_police_3_67D56A = header.mFlags[30] == '1';
         }
     }
 }
@@ -850,10 +850,10 @@ void InputRecorder_67F8B0::VerifyAttractFilesExist_4CE650()
     for (s32 i = 0; i < ATTRACT_COUNT; i++)
     {
         struct _finddata_t fileInfo;
-        long hFind = _findfirst(pAttractFile->field_0_path, &fileInfo);
+        long hFind = _findfirst(pAttractFile->mPath, &fileInfo);
         if (hFind == -1)
         {
-            strcpy(gErrStr_67C29C, pAttractFile->field_0_path);
+            strcpy(gErrStr_67C29C, pAttractFile->mPath);
             FatalError_4A38C0(Gta2Error::CouldntFindAttractModeFile, "C:\\Splitting\\Gta2\\Source\\input.cpp", 524);
         }
         _findclose(hFind);
@@ -864,11 +864,11 @@ void InputRecorder_67F8B0::VerifyAttractFilesExist_4CE650()
 MATCH_FUNC(0x4ce6e0)
 void InputRecorder_67F8B0::GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut)
 {
-    strcpy(pAttrPathOut, attractFiles_62083C[field_75345_attract_idx].field_0_path);
+    strcpy(pAttrPathOut, attractFiles_62083C[mAttractIdx].mPath);
 
-    if (++field_75345_attract_idx >= ATTRACT_COUNT)
+    if (++mAttractIdx >= ATTRACT_COUNT)
     {
-        field_75345_attract_idx = 0;
+        mAttractIdx = 0;
     }
 }
 
@@ -877,39 +877,39 @@ void InputRecorder_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
 {
     char_type FileName[256];
 
-    this->field_0_bShutDown = false;
+    this->mbShutDown = false;
     InputRecorder_67F8B0::GetNextAttrReplay_4CE6E0(FileName);
-    this->field_8_input_masks[0] = input_bit::Forward;
-    this->field_8_input_masks[1] = input_bit::Backward;
-    this->field_8_input_masks[2] = input_bit::Left;
-    this->field_8_input_masks[3] = input_bit::Right;
-    this->field_8_input_masks[4] = input_bit::Attack;
-    this->field_8_input_masks[5] = input_bit::EnterExit;
-    this->field_8_input_masks[6] = input_bit::HandbrakeJump;
-    this->field_8_input_masks[7] = input_bit::PrevWeapon;
-    this->field_8_input_masks[8] = input_bit::NextWeapon;
-    this->field_8_input_masks[9] = input_bit::Special1;
-    this->field_8_input_masks[10] = input_bit::Special2;
-    this->field_8_input_masks[11] = input_bit::Special3;
-    this->field_4_input_bits = 0;
-    this->field_38_replay_state = Attract_3;
+    this->mInputMasks[0] = input_bit::Forward;
+    this->mInputMasks[1] = input_bit::Backward;
+    this->mInputMasks[2] = input_bit::Left;
+    this->mInputMasks[3] = input_bit::Right;
+    this->mInputMasks[4] = input_bit::Attack;
+    this->mInputMasks[5] = input_bit::EnterExit;
+    this->mInputMasks[6] = input_bit::HandbrakeJump;
+    this->mInputMasks[7] = input_bit::PrevWeapon;
+    this->mInputMasks[8] = input_bit::NextWeapon;
+    this->mInputMasks[9] = input_bit::Special1;
+    this->mInputMasks[10] = input_bit::Special2;
+    this->mInputMasks[11] = input_bit::Special3;
+    this->mInputBits = 0;
+    this->mReplayState = Attract_3;
     gInputDevices_67B990->input_devices_init_498C40(hInstance);
-    memset(this->field_3C_rec_buff, 0, sizeof(this->field_3C_rec_buff));
-    this->field_75340_rec_buf_idx = 0;
+    memset(this->mRecBuff, 0, sizeof(this->mRecBuff));
+    this->mRecBufIdx = 0;
     bConstant_replay_save_67D5C4 = false;
     File::Global_Open_4A7060(FileName);
     LoadReplayHeader_4CE380(false);
 
-    u32 bufLen = sizeof(field_3C_rec_buff);
-    const u32 remainderSize = File::Global_ReadRemainder_4A7250(this->field_3C_rec_buff, &bufLen);
+    u32 bufLen = sizeof(mRecBuff);
+    const u32 remainderSize = File::Global_ReadRemainder_4A7250(this->mRecBuff, &bufLen);
     File::Global_Close_4A70C0();
-    this->field_7533C_used_recs_count = remainderSize / sizeof(InputRecord);
+    this->mUsedRecsCount = remainderSize / sizeof(InputRecord);
     if (sizeof(InputRecord) * (remainderSize / sizeof(InputRecord)) != remainderSize)
     {
         FatalError_4A38C0(Gta2Error::ReplayFileTooLarge, "C:\\Splitting\\Gta2\\Source\\input.cpp", 616, remainderSize);
     }
 
-    if (this->field_7533C_used_recs_count == 0)
+    if (this->mUsedRecsCount == 0)
     {
         FatalError_4A38C0(Gta2Error::EmptyReplayFile, "C:\\Splitting\\Gta2\\Source\\input.cpp", 621);
     }
@@ -918,21 +918,21 @@ void InputRecorder_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
 MATCH_FUNC(0x4ce880)
 void InputRecorder_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
 {
-    field_0_bShutDown = false;
-    field_8_input_masks[0] = input_bit::Forward;
-    field_8_input_masks[1] = input_bit::Backward;
-    field_8_input_masks[2] = input_bit::Left;
-    field_8_input_masks[3] = input_bit::Right;
-    field_8_input_masks[4] = input_bit::Attack;
-    field_8_input_masks[5] = input_bit::EnterExit;
-    field_8_input_masks[6] = input_bit::HandbrakeJump;
-    field_8_input_masks[7] = input_bit::PrevWeapon;
-    field_8_input_masks[8] = input_bit::NextWeapon;
-    field_8_input_masks[9] = input_bit::Special1;
-    field_8_input_masks[10] = input_bit::Special2;
-    field_8_input_masks[11] = input_bit::Special3;
-    field_4_input_bits = 0;
-    field_38_replay_state = Live_0;
+    mbShutDown = false;
+    mInputMasks[0] = input_bit::Forward;
+    mInputMasks[1] = input_bit::Backward;
+    mInputMasks[2] = input_bit::Left;
+    mInputMasks[3] = input_bit::Right;
+    mInputMasks[4] = input_bit::Attack;
+    mInputMasks[5] = input_bit::EnterExit;
+    mInputMasks[6] = input_bit::HandbrakeJump;
+    mInputMasks[7] = input_bit::PrevWeapon;
+    mInputMasks[8] = input_bit::NextWeapon;
+    mInputMasks[9] = input_bit::Special1;
+    mInputMasks[10] = input_bit::Special2;
+    mInputMasks[11] = input_bit::Special3;
+    mInputBits = 0;
+    mReplayState = Live_0;
 
     gInputDevices_67B990 = new InputDevices();
     if (!gInputDevices_67B990)
@@ -941,24 +941,24 @@ void InputRecorder_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
     }
 
     gInputDevices_67B990->input_devices_init_498C40(hInstance);
-    memset(field_3C_rec_buff, 0, sizeof(field_3C_rec_buff));
+    memset(mRecBuff, 0, sizeof(mRecBuff));
 
-    field_75340_rec_buf_idx = 0;
+    mRecBufIdx = 0;
 
     if (bPlay_replay_67D4F4 == 1)
     {
         bConstant_replay_save_67D5C4 = false;
         File::Global_Open_4A7060("test\\replay.rep");
         InputRecorder_67F8B0::LoadReplayHeader_4CE380(true);
-        u32 size = sizeof(field_3C_rec_buff);
-        size_t remainderSize = File::Global_ReadRemainder_4A7250(field_3C_rec_buff, &size);
+        u32 size = sizeof(mRecBuff);
+        size_t remainderSize = File::Global_ReadRemainder_4A7250(mRecBuff, &size);
         File::Global_Close_4A70C0();
-        field_7533C_used_recs_count = remainderSize / sizeof(InputRecord);
+        mUsedRecsCount = remainderSize / sizeof(InputRecord);
         if (sizeof(InputRecord) * (remainderSize / sizeof(InputRecord)) != remainderSize)
         {
             FatalError_4A38C0(Gta2Error::ReplayFileTooLarge, "C:\\Splitting\\Gta2\\Source\\input.cpp", 702, remainderSize);
         }
-        field_38_replay_state = field_7533C_used_recs_count != 0;
+        mReplayState = mUsedRecsCount != 0;
     }
     else
     {
@@ -967,7 +967,7 @@ void InputRecorder_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
             File::CreateFile_4A7000("test\\replay.rep");
             InputRecorder_67F8B0::AppendReplayHeader_4CDF70();
         }
-        field_38_replay_state = Live_0;
+        mReplayState = Live_0;
     }
     if (bConstant_replay_save_67D5C4)
     {
@@ -985,9 +985,9 @@ void InputRecorder_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
 MATCH_FUNC(0x4cea00)
 void InputRecorder_67F8B0::Shutdown_4CEA00()
 {
-    if (!field_0_bShutDown)
+    if (!mbShutDown)
     {
-        field_0_bShutDown = true;
+        mbShutDown = true;
         gInputDevices_67B990->free_input_devices_4987A0();
         SaveReplay_4CDED0();
         GTA2_DELETE_AND_NULL(gInputDevices_67B990);
@@ -999,7 +999,7 @@ void InputRecorder_67F8B0::replay_save_4CEA40(u32* input_bits)
 {
     if ((*input_bits & 0xFFFFF000) == 0x37000)
     {
-        field_38_replay_state = Live_0;
+        mReplayState = Live_0;
 
         if (bDo_release_replay_67D4EB)
         {
@@ -1008,9 +1008,9 @@ void InputRecorder_67F8B0::replay_save_4CEA40(u32* input_bits)
         }
 
         // Clear out the unused records
-        memset(&this->field_3C_rec_buff[this->field_75340_rec_buf_idx],
+        memset(&this->mRecBuff[this->mRecBufIdx],
                0,
-               sizeof(InputRecord) * ((GTA2_COUNTOF(field_3C_rec_buff) - field_75340_rec_buf_idx)));
+               sizeof(InputRecord) * ((GTA2_COUNTOF(mRecBuff) - mRecBufIdx)));
         if (bConstant_replay_save_67D5C4)
         {
             SaveReplay_4CDED0();
@@ -1023,11 +1023,11 @@ MATCH_FUNC(0x4ceac0)
 u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
 {
     s32 inputs;
-    u32 saved_input = field_4_input_bits;
-    u32* control_status = reinterpret_cast<u32*>(&field_4_input_bits);
+    u32 saved_input = mInputBits;
+    u32* control_status = reinterpret_cast<u32*>(&mInputBits);
     InputRecorder_67F8B0::clear_inputs_4CDCE0();
 
-    s32 replay_state = field_38_replay_state;
+    s32 replay_state = mReplayState;
 
     *control_status &= ~input_bit::KeyDown;
     u32 remove_bit = *control_status;
@@ -1035,11 +1035,11 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
     switch (replay_state)
     {
         case Playback_1:
-            if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0()) >= static_cast<u32>(field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx))
+            if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0()) >= static_cast<u32>(mRecBuff[mRecBufIdx].mRngIdx))
             {
-                inputs = field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs;
-                field_75340_rec_buf_idx++;
-                if (field_75340_rec_buf_idx >= static_cast<u32>(field_7533C_used_recs_count))
+                inputs = mRecBuff[mRecBufIdx].mInputs;
+                mRecBufIdx++;
+                if (mRecBufIdx >= static_cast<u32>(mUsedRecsCount))
                 {
                     if (bDo_exit_after_replay_67D6E4)
                     {
@@ -1052,21 +1052,21 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
                             File::CreateFile_4A7000("test\\replay.rep");
                             InputRecorder_67F8B0::AppendReplayHeader_4CDF70();
                         }
-                        field_38_replay_state = Live_0;
+                        mReplayState = Live_0;
                     }
                 }
 
-                if (field_75340_rec_buf_idx < 2)
+                if (mRecBufIdx < 2)
                 {
                     saved_input = 0;
                 }
                 else
                 {
-                    saved_input = field_8_input_masks[3 * field_75340_rec_buf_idx + 8];
+                    saved_input = mInputMasks[3 * mRecBufIdx + 8];
                 }
                 InputRecorder_67F8B0::modify_inputs_4CDF30(inputs);
             }
-            if (field_75344_bInputEnabled)
+            if (mbInputEnabled)
             {
                 saved_input = *control_status;
                 // saved_input equals *control_status here; the original tests both (je/jne pair in the asm)
@@ -1081,26 +1081,26 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
             break;
 
         case Attract_3:
-            if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0()) >= static_cast<u32>(field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx))
+            if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0()) >= static_cast<u32>(mRecBuff[mRecBufIdx].mRngIdx))
             {
-                inputs = field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs;
-                field_75340_rec_buf_idx++;
-                if (field_75340_rec_buf_idx >= static_cast<u32>(field_7533C_used_recs_count))
+                inputs = mRecBuff[mRecBufIdx].mInputs;
+                mRecBufIdx++;
+                if (mRecBufIdx >= static_cast<u32>(mUsedRecsCount))
                 {
                     gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::ReplayExit_6);
                 }
 
-                if (field_75340_rec_buf_idx < 2)
+                if (mRecBufIdx < 2)
                 {
                     saved_input = 0;
                 }
                 else
                 {
-                    saved_input = field_8_input_masks[3 * field_75340_rec_buf_idx + 8];
+                    saved_input = mInputMasks[3 * mRecBufIdx + 8];
                 }
                 InputRecorder_67F8B0::modify_inputs_4CDF30(inputs);
             }
-            if (field_75344_bInputEnabled)
+            if (mbInputEnabled)
             {
                 saved_input = *control_status;
                 // Same double test as above
@@ -1119,7 +1119,7 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
             break;
 
         case Live_0:
-            if (field_75344_bInputEnabled)
+            if (mbInputEnabled)
             {
                 if (!gGame_0x40_67E008->IsPaused_416BC0())
                 {
@@ -1206,7 +1206,7 @@ void InputRecorder_67F8B0::save_replay_inputs_4CED00(s32 input_old, s32 input_ne
         }
         if ((input_old & input_bit::KeyBits) != 0)
         {
-            calc_inputs |= field_4_input_bits & 0xFFFFF000;
+            calc_inputs |= mInputBits & 0xFFFFF000;
         }
         if (calc_inputs)
         {
@@ -1222,10 +1222,10 @@ void InputRecorder_67F8B0::DisplayInputBits_4CED90()
     s32 bit_idx = 0;
     do
     {
-        if (((1 << bit_idx) & field_4_input_bits) != 0)
+        if (((1 << bit_idx) & mInputBits) != 0)
         {
             swprintf(tmpBuff_67BD9C, L"Control %d", bit_idx);
-            gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 10, 16 * (i + 1), gDebugFont_706600, 1);
+            gHud_2B00_706620->mTexts.DisplayText_5D1F50(tmpBuff_67BD9C, 10, 16 * (i + 1), gDebugFont_706600, 1);
         }
         ++i;
         ++bit_idx;
@@ -1235,7 +1235,7 @@ void InputRecorder_67F8B0::DisplayInputBits_4CED90()
 MATCH_FUNC(0x4cedf0)
 bool InputRecorder_67F8B0::IsPlayingBack_4CEDF0() const
 {
-    if (field_38_replay_state == Playback_1 || field_38_replay_state == Attract_3)
+    if (mReplayState == Playback_1 || mReplayState == Attract_3)
     {
         return true;
     }
@@ -1247,11 +1247,11 @@ void InputRecorder_67F8B0::ShowInput_4CEE10()
 {
     if (IsPlayingBack_4CEDF0())
     {
-        gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(L"PLAYBACK", -1, 0, gDebugFont_706600, 1);
+        gHud_2B00_706620->mTexts.DisplayText_5D1F50(L"PLAYBACK", -1, 0, gDebugFont_706600, 1);
     }
     else
     {
-        gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(L"RECORDING", -1, 0, gDebugFont_706600, 1);
+        gHud_2B00_706620->mTexts.DisplayText_5D1F50(L"RECORDING", -1, 0, gDebugFont_706600, 1);
     }
     DisplayInputBits_4CED90();
 }

@@ -57,7 +57,7 @@ DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint8, Fix16(0x3333, 0), 0x6FD218);
 // Car::IsLongerThanOneBlock_447ED0 (9.6f), with this file's copy of the 1.0 constant
 static inline bool IsLongerThanOneBlock_447ED0(Car* pCar)
 {
-    if (pCar->field_50_car_sprite->GetHeight_447E70() > kFpOne_6FD124)
+    if (pCar->mCarSprite->GetHeight_447E70() > kFpOne_6FD124)
     {
         return true;
     }
@@ -70,22 +70,22 @@ void Garage::ValidateParkCommand_534650()
 {
     // The result is unused (the out-of-line Add_408660 on a const Fix16)
     {
-        const Fix16 door_z(this->field_10_door->field_0_primary_door_data->field_6_z);
+        const Fix16 door_z(this->mDoor->mPrimaryDoorData->mZ);
         door_z.Add_408660(kFpEighth);
     }
 
-    if (gMap_0x370_6F6268->HasWallInArea_4E18A0(field_18_park_x_min.ToInt(),
-                                      (field_20_park_x_max - kFpOne64th_6FD1D8).ToInt(),
-                                      field_1C_park_y_min.ToInt(),
-                                      (field_24_park_y_max - kFpOne64th_6FD1D8).ToInt(),
-                                      field_10_door->field_0_primary_door_data->get_z_489640()))
+    if (gMap_0x370_6F6268->HasWallInArea_4E18A0(mParkXMin.ToInt(),
+                                      (mParkXMax - kFpOne64th_6FD1D8).ToInt(),
+                                      mParkYMin.ToInt(),
+                                      (mParkYMax - kFpOne64th_6FD1D8).ToInt(),
+                                      mDoor->mPrimaryDoorData->get_z_489640()))
     {
         FatalError_4A38C0(Gta2Error::ErrorInSetupOfParkCommand,
                           "C:\\Splitting\\Gta2\\Source\\park.cpp",
                           62,
-                          this->field_10_door->field_0_primary_door_data->get_x_489620(),
-                          this->field_10_door->field_0_primary_door_data->get_y_489630(),
-                          this->field_10_door->field_0_primary_door_data->get_z_489640());
+                          this->mDoor->mPrimaryDoorData->get_x_489620(),
+                          this->mDoor->mPrimaryDoorData->get_y_489630(),
+                          this->mDoor->mPrimaryDoorData->get_z_489640());
     }
 }
 
@@ -100,32 +100,32 @@ DEFINE_GLOBAL_INIT(Ang16, kAng0_6FD25C, Ang16(0), 0x6FD25C);
 MATCH_FUNC(0x534700)
 u8 Garage::ParkCarAtDoor_534700(Car* pCar, Door* pDoor)
 {
-    field_0_parking_car = pCar;
-    field_44_wait_ticks = 0;
-    field_10_door = pDoor;
-    field_C_state = garage_state::waiting_for_car_1;
-    field_14_driver = NULL;
-    field_3C_settle_ticks = 30;
-    field_3D_in_position = false;
-    if (field_3E_park_ticket == 255)
+    mParkingCar = pCar;
+    mWaitTicks = 0;
+    mDoor = pDoor;
+    mState = garage_state::waiting_for_car_1;
+    mDriver = NULL;
+    mSettleTicks = 30;
+    mInPosition = false;
+    if (mParkTicket == 255)
     {
-        field_3E_park_ticket = 1;
+        mParkTicket = 1;
     }
     else
     {
-        field_3E_park_ticket++;
+        mParkTicket++;
     }
 
-    field_40_long_car = IsLongerThanOneBlock_447ED0(pCar);
+    mLongCar = IsLongerThanOneBlock_447ED0(pCar);
 
     u8 x;
     u8 y;
     u8 z;
-    field_10_door->get_door_xyz_face_49CEE0(&x, &y, &z, reinterpret_cast<u32*>(&field_38_door_face));
+    mDoor->get_door_xyz_face_49CEE0(&x, &y, &z, reinterpret_cast<u32*>(&mDoorFace));
 
     Fix16 w1;
     Fix16 w2;
-    if (field_40_long_car)
+    if (mLongCar)
     {
         // Assigned separately: `w2 = w1` lets VC6 merge the two and lose the second register (ebp)
         w1 = kFpTwo_6FD128;
@@ -141,60 +141,60 @@ u8 Garage::ParkCarAtDoor_534700(Car* pCar, Door* pDoor)
     // VC6's operand order and register choices.
     // 9.6f: the park rectangle corners (field_18/1C, field_20/24) and the target (field_30/34) are
     // Fix16 pairs set with Fix16_Point_POD::SetXY_432860
-    switch (field_38_door_face)
+    switch (mDoorFace)
     {
         case block_side::left_1:
-            if (field_10_door->IsDoubleDoor_489600())
+            if (mDoor->IsDoubleDoor_489600())
             {
-                reinterpret_cast<Fix16_Point_POD*>(&field_18_park_x_min)->SetXY_432860(Fix16(x), Fix16(y) - w1 - kFpOne_6FD124);
+                reinterpret_cast<Fix16_Point_POD*>(&mParkXMin)->SetXY_432860(Fix16(x), Fix16(y) - w1 - kFpOne_6FD124);
             }
             else
             {
-                reinterpret_cast<Fix16_Point_POD*>(&field_18_park_x_min)->SetXY_432860(Fix16(x), Fix16(y) - w1);
+                reinterpret_cast<Fix16_Point_POD*>(&mParkXMin)->SetXY_432860(Fix16(x), Fix16(y) - w1);
             }
-            reinterpret_cast<Fix16_Point_POD*>(&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpOne_6FD124 + w2, Fix16(y) + w1 + kFpOne_6FD124);
-            reinterpret_cast<Fix16_Point_POD*>(&field_30_target_x)->SetXY_432860(Fix16(x) - kFpPoint8, Fix16(y) + kFpHalf_6FCF98);
+            reinterpret_cast<Fix16_Point_POD*>(&mParkXMax)->SetXY_432860(Fix16(x) + kFpOne_6FD124 + w2, Fix16(y) + w1 + kFpOne_6FD124);
+            reinterpret_cast<Fix16_Point_POD*>(&mTargetX)->SetXY_432860(Fix16(x) - kFpPoint8, Fix16(y) + kFpHalf_6FCF98);
             break;
         case block_side::right_2:
-            reinterpret_cast<Fix16_Point_POD*>(&field_18_park_x_min)->SetXY_432860(Fix16(x) - w2, Fix16(y) - w1);
-            if (field_10_door->IsDoubleDoor_489600())
+            reinterpret_cast<Fix16_Point_POD*>(&mParkXMin)->SetXY_432860(Fix16(x) - w2, Fix16(y) - w1);
+            if (mDoor->IsDoubleDoor_489600())
             {
-                reinterpret_cast<Fix16_Point_POD*>(&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpOne_6FD124, Fix16(y) + w1 + kFpTwo_6FD128);
+                reinterpret_cast<Fix16_Point_POD*>(&mParkXMax)->SetXY_432860(Fix16(x) + kFpOne_6FD124, Fix16(y) + w1 + kFpTwo_6FD128);
             }
             else
             {
-                reinterpret_cast<Fix16_Point_POD*>(&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpOne_6FD124, Fix16(y) + w1 + kFpOne_6FD124);
+                reinterpret_cast<Fix16_Point_POD*>(&mParkXMax)->SetXY_432860(Fix16(x) + kFpOne_6FD124, Fix16(y) + w1 + kFpOne_6FD124);
             }
-            reinterpret_cast<Fix16_Point_POD*>(&field_30_target_x)->SetXY_432860(Fix16(x) + kFpOne_6FD124 + kFpPoint8, Fix16(y) + kFpHalf_6FCF98);
+            reinterpret_cast<Fix16_Point_POD*>(&mTargetX)->SetXY_432860(Fix16(x) + kFpOne_6FD124 + kFpPoint8, Fix16(y) + kFpHalf_6FCF98);
             break;
         case block_side::top_3:
-            reinterpret_cast<Fix16_Point_POD*>(&field_18_park_x_min)->SetXY_432860(Fix16(x) - w1, Fix16(y));
-            if (field_10_door->IsDoubleDoor_489600())
+            reinterpret_cast<Fix16_Point_POD*>(&mParkXMin)->SetXY_432860(Fix16(x) - w1, Fix16(y));
+            if (mDoor->IsDoubleDoor_489600())
             {
-                reinterpret_cast<Fix16_Point_POD*>(&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpTwo_6FD128 + w1, Fix16(y) + w2 + kFpOne_6FD124);
+                reinterpret_cast<Fix16_Point_POD*>(&mParkXMax)->SetXY_432860(Fix16(x) + kFpTwo_6FD128 + w1, Fix16(y) + w2 + kFpOne_6FD124);
             }
             else
             {
-                reinterpret_cast<Fix16_Point_POD*>(&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpOne_6FD124 + w1, Fix16(y) + w2 + kFpOne_6FD124);
+                reinterpret_cast<Fix16_Point_POD*>(&mParkXMax)->SetXY_432860(Fix16(x) + kFpOne_6FD124 + w1, Fix16(y) + w2 + kFpOne_6FD124);
             }
-            reinterpret_cast<Fix16_Point_POD*>(&field_30_target_x)->SetXY_432860(Fix16(x) + kFpHalf_6FCF98, Fix16(y) - kFpPoint8);
+            reinterpret_cast<Fix16_Point_POD*>(&mTargetX)->SetXY_432860(Fix16(x) + kFpHalf_6FCF98, Fix16(y) - kFpPoint8);
             break;
         case block_side::bottom_4:
-            if (field_10_door->IsDoubleDoor_489600())
+            if (mDoor->IsDoubleDoor_489600())
             {
-                reinterpret_cast<Fix16_Point_POD*>(&field_18_park_x_min)->SetXY_432860(Fix16(x) - kFpOne_6FD124 - w1, Fix16(y) - w2);
+                reinterpret_cast<Fix16_Point_POD*>(&mParkXMin)->SetXY_432860(Fix16(x) - kFpOne_6FD124 - w1, Fix16(y) - w2);
             }
             else
             {
-                reinterpret_cast<Fix16_Point_POD*>(&field_18_park_x_min)->SetXY_432860(Fix16(x) - w1, Fix16(y) - w2);
+                reinterpret_cast<Fix16_Point_POD*>(&mParkXMin)->SetXY_432860(Fix16(x) - w1, Fix16(y) - w2);
             }
-            reinterpret_cast<Fix16_Point_POD*>(&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpOne_6FD124 + w1, Fix16(y) + kFpOne_6FD124);
-            reinterpret_cast<Fix16_Point_POD*>(&field_30_target_x)->SetXY_432860(Fix16(x) + kFpHalf_6FCF98, Fix16(y) + kFpOne_6FD124 + kFpPoint8);
+            reinterpret_cast<Fix16_Point_POD*>(&mParkXMax)->SetXY_432860(Fix16(x) + kFpOne_6FD124 + w1, Fix16(y) + kFpOne_6FD124);
+            reinterpret_cast<Fix16_Point_POD*>(&mTargetX)->SetXY_432860(Fix16(x) + kFpHalf_6FCF98, Fix16(y) + kFpOne_6FD124 + kFpPoint8);
             break;
     }
 
     ValidateParkCommand_534650();
-    return field_3E_park_ticket;
+    return mParkTicket;
 }
 
 MATCH_FUNC(0x5349d0)
@@ -204,21 +204,21 @@ void Garage::GaragesService_5349D0()
     u8 corner2;
     Fix16_Point car_pos;
 
-    switch (field_C_state)
+    switch (mState)
     {
         case garage_state::waiting_for_car_1:
         {
-            if (!field_0_parking_car->field_50_car_sprite)
+            if (!mParkingCar->mCarSprite)
             {
-                field_C_state = garage_state::park_finished_3;
+                mState = garage_state::park_finished_3;
                 return;
             }
-            if (field_0_parking_car->GetDriver_4118B0() && field_0_parking_car->field_54_driver != field_14_driver)
+            if (mParkingCar->GetDriver_4118B0() && mParkingCar->mDriver != mDriver)
             {
-                field_14_driver = field_0_parking_car->GetDriver_4118B0();
+                mDriver = mParkingCar->GetDriver_4118B0();
             }
 
-            u8 collision = field_0_parking_car->field_50_car_sprite->CollisionCheck_5A0320(&field_18_park_x_min, &field_20_park_x_max, &corner1, &corner2);
+            u8 collision = mParkingCar->mCarSprite->CollisionCheck_5A0320(&mParkXMin, &mParkXMax, &corner1, &corner2);
             if (collision == 2)
             {
                 if (corner1 == 0)
@@ -250,7 +250,7 @@ void Garage::GaragesService_5349D0()
             {
                 if (collision >= 4)
                 {
-                    field_C_state = garage_state::pushing_2;
+                    mState = garage_state::pushing_2;
                     return;
                 }
             }
@@ -260,105 +260,105 @@ void Garage::GaragesService_5349D0()
             }
 
         park:
-            field_0_parking_car->SetNoCollide_44A3E0();
-            field_0_parking_car->SetNoCollisionDamage_4218A0();
-            if (field_0_parking_car->IsDrivenByPlayer_4118D0())
+            mParkingCar->SetNoCollide_44A3E0();
+            mParkingCar->SetNoCollisionDamage_4218A0();
+            if (mParkingCar->IsDrivenByPlayer_4118D0())
             {
-                field_0_parking_car->GetDriverPlayer_421870()->DisableAllControls_569FF0();
+                mParkingCar->GetDriverPlayer_421870()->DisableAllControls_569FF0();
             }
-            field_0_parking_car->LockUnlessPermanent_475C10();
-            field_0_parking_car->field_58_physics->StopMoving_4895D0();
+            mParkingCar->LockUnlessPermanent_475C10();
+            mParkingCar->mPhysics->StopMoving_4895D0();
 
-            car_pos.SetXY_432860(field_0_parking_car->GetX_41E430(), field_0_parking_car->GetY_41E440());
-            SpriteShape* pBox = field_0_parking_car->field_50_car_sprite->field_C_pCollisionShape;
-            field_28_push_dir = (pBox->field_C_corners[corner1] + pBox->field_C_corners[corner2]).Divide_442CB0(kFpTwo_6FD128) - car_pos;
-            if (field_28_push_dir.x == kFpZero_6FD120 && field_28_push_dir.y == kFpZero_6FD120)
+            car_pos.SetXY_432860(mParkingCar->GetX_41E430(), mParkingCar->GetY_41E440());
+            SpriteShape* pBox = mParkingCar->mCarSprite->mpCollisionShape;
+            mPushDir = (pBox->mCorners[corner1] + pBox->mCorners[corner2]).Divide_442CB0(kFpTwo_6FD128) - car_pos;
+            if (mPushDir.x == kFpZero_6FD120 && mPushDir.y == kFpZero_6FD120)
             {
-                field_3D_in_position = true;
-                field_C_state = garage_state::pushing_2;
+                mInPosition = true;
+                mState = garage_state::pushing_2;
             }
             else
             {
-                field_28_push_dir = field_28_push_dir.NormalizeSafe_442AD0().Multiply_438FE0(kFpPoint1);
+                mPushDir = mPushDir.NormalizeSafe_442AD0().Multiply_438FE0(kFpPoint1);
             }
-            field_0_parking_car->field_58_physics->ApplyForceScaledByMass_55F9A0(field_28_push_dir);
-            field_C_state = garage_state::pushing_2;
+            mParkingCar->mPhysics->ApplyForceScaledByMass_55F9A0(mPushDir);
+            mState = garage_state::pushing_2;
             break;
         }
 
         case garage_state::pushing_2:
         {
-            if (!field_0_parking_car->field_58_physics)
+            if (!mParkingCar->mPhysics)
             {
-                field_0_parking_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
+                mParkingCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
             }
-            if (++field_44_wait_ticks >= 300)
+            if (++mWaitTicks >= 300)
             {
-                field_C_state = garage_state::park_finished_3;
+                mState = garage_state::park_finished_3;
                 return;
             }
-            if (field_0_parking_car->GetDriver_4118B0() && !field_0_parking_car->IsDrivenByPlayer_4118D0())
+            if (mParkingCar->GetDriver_4118B0() && !mParkingCar->IsDrivenByPlayer_4118D0())
             {
-                field_0_parking_car->GetDriver_4118B0()->SetObjective(objectives_enum::wait_in_car_27);
+                mParkingCar->GetDriver_4118B0()->SetObjective(objectives_enum::wait_in_car_27);
             }
 
-            if (field_0_parking_car->field_50_car_sprite->CollisionCheck_5A0320(&field_18_park_x_min, &field_20_park_x_max, &corner1, &corner2) != 4 && !field_3D_in_position)
+            if (mParkingCar->mCarSprite->CollisionCheck_5A0320(&mParkXMin, &mParkXMax, &corner1, &corner2) != 4 && !mInPosition)
             {
-                field_0_parking_car->field_58_physics->StopMoving_4895D0();
-                field_0_parking_car->field_58_physics->ApplyForceScaledByMass_55F9A0(field_28_push_dir);
+                mParkingCar->mPhysics->StopMoving_4895D0();
+                mParkingCar->mPhysics->ApplyForceScaledByMass_55F9A0(mPushDir);
                 return;
             }
 
-            field_3D_in_position = true;
-            --field_3C_settle_ticks;
-            field_0_parking_car->field_58_physics->StopMoving_4895D0();
-            if (field_3C_settle_ticks == 0)
+            mInPosition = true;
+            --mSettleTicks;
+            mParkingCar->mPhysics->StopMoving_4895D0();
+            if (mSettleTicks == 0)
             {
-                field_C_state = garage_state::park_finished_3;
-                field_0_parking_car->field_58_physics->StopMoving_4895D0();
+                mState = garage_state::park_finished_3;
+                mParkingCar->mPhysics->StopMoving_4895D0();
             }
             break;
         }
 
         case garage_state::park_finished_3:
         {
-            if (field_0_parking_car->field_50_car_sprite)
+            if (mParkingCar->mCarSprite)
             {
                 // 9.6f: Car 0x476230/0x4895E0 (clear f78 bits 2 and 8, inlined)
-                field_0_parking_car->field_78_flags &= static_cast<u16>(~car_flag::NoCollide);
-                field_0_parking_car->field_78_flags &= static_cast<u16>(~car_flag::NoCollisionDamage);
-                field_10_door->CloseDoors_476A30();
-                field_10_door->ClearF2C_4895F0();
-                field_0_parking_car->LockPermanently_475C30();
-                field_0_parking_car->PrepareForExplosion_43C1C0();
-                field_0_parking_car->field_4_passengers_list.KillAndClearAllPeds_4715A0();
-                if (field_0_parking_car->IsDrivenByPlayer_4118D0())
+                mParkingCar->mFlags &= static_cast<u16>(~car_flag::NoCollide);
+                mParkingCar->mFlags &= static_cast<u16>(~car_flag::NoCollisionDamage);
+                mDoor->CloseDoors_476A30();
+                mDoor->ClearF2C_4895F0();
+                mParkingCar->LockPermanently_475C30();
+                mParkingCar->PrepareForExplosion_43C1C0();
+                mParkingCar->mPassengersList.KillAndClearAllPeds_4715A0();
+                if (mParkingCar->IsDrivenByPlayer_4118D0())
                 {
-                    field_0_parking_car->GetDriver_4118B0()->field_15C_player->EnableAllControls_56A000();
+                    mParkingCar->GetDriver_4118B0()->mPlayer->EnableAllControls_56A000();
                 }
-                if (!field_3F_no_respawn)
+                if (!mNoRespawn)
                 {
-                    Ped* pDriver = field_0_parking_car->GetDriver_4118B0();
+                    Ped* pDriver = mParkingCar->GetDriver_4118B0();
                     if (pDriver)
                     {
-                        pDriver->StartPedWalking_470200(field_30_target_x, field_34_target_y, field_0_parking_car->GetZ_41E450());
-                        field_0_parking_car->ClearDriver_4407F0();
-                        pDriver->SetRotation_433C00(GetHeadingForDoorFace_5345E0(field_38_door_face));
-                        field_0_parking_car->field_54_driver = NULL;
-                        pDriver->field_168_game_object->field_5C_jump_over_timer = 20;
+                        pDriver->StartPedWalking_470200(mTargetX, mTargetY, mParkingCar->GetZ_41E450());
+                        mParkingCar->ClearDriver_4407F0();
+                        pDriver->SetRotation_433C00(GetHeadingForDoorFace_5345E0(mDoorFace));
+                        mParkingCar->mDriver = NULL;
+                        pDriver->mGameObject->mJumpOverTimer = 20;
                     }
-                    else if (field_14_driver && field_14_driver->get_cam_x() >= field_18_park_x_min && field_14_driver->get_cam_x() <= field_20_park_x_max &&
-                             field_14_driver->get_cam_y() >= field_1C_park_y_min && field_14_driver->get_cam_y() <= field_24_park_y_max)
+                    else if (mDriver && mDriver->get_cam_x() >= mParkXMin && mDriver->get_cam_x() <= mParkXMax &&
+                             mDriver->get_cam_y() >= mParkYMin && mDriver->get_cam_y() <= mParkYMax)
                     {
-                        field_14_driver->StartPedWalking_470200(field_30_target_x, field_34_target_y, field_0_parking_car->GetZ_41E450());
-                        field_14_driver->SetRotation_433C00(GetHeadingForDoorFace_5345E0(field_38_door_face));
+                        mDriver->StartPedWalking_470200(mTargetX, mTargetY, mParkingCar->GetZ_41E450());
+                        mDriver->SetRotation_433C00(GetHeadingForDoorFace_5345E0(mDoorFace));
                     }
                 }
-                field_0_parking_car->SetDespawn3IfNot5_421490();
+                mParkingCar->SetDespawn3IfNot5_421490();
             }
-            field_4_parked_car = field_0_parking_car;
-            field_8_parked_car_id = field_4_parked_car->field_6C_car_id;
-            field_0_parking_car = NULL;
+            mParkedCar = mParkingCar;
+            mParkedCarId = mParkedCar->mCarId;
+            mParkingCar = NULL;
             Reset_489650();
             break;
         }
@@ -368,24 +368,24 @@ void Garage::GaragesService_5349D0()
 MATCH_FUNC(0x534e80)
 Garage::Garage()
 {
-    field_0_parking_car = NULL;
-    field_10_door = NULL;
-    field_14_driver = NULL;
-    field_C_state = garage_state::idle_0;
-    field_28_push_dir.x = 0;
-    field_28_push_dir.y = 0;
-    field_18_park_x_min = 0;
-    field_1C_park_y_min = 0;
-    field_20_park_x_max = 0;
-    field_24_park_y_max = 0;
-    field_38_door_face = 0;
-    field_30_target_x = 0;
-    field_34_target_y = 0;
-    field_3C_settle_ticks = 30;
-    field_3D_in_position = false;
-    field_3E_park_ticket = 0;
-    field_3F_no_respawn = false;
-    field_40_long_car = false;
-    field_4_parked_car = NULL;
-    field_8_parked_car_id = 0;
+    mParkingCar = NULL;
+    mDoor = NULL;
+    mDriver = NULL;
+    mState = garage_state::idle_0;
+    mPushDir.x = 0;
+    mPushDir.y = 0;
+    mParkXMin = 0;
+    mParkYMin = 0;
+    mParkXMax = 0;
+    mParkYMax = 0;
+    mDoorFace = 0;
+    mTargetX = 0;
+    mTargetY = 0;
+    mSettleTicks = 30;
+    mInPosition = false;
+    mParkTicket = 0;
+    mNoRespawn = false;
+    mLongCar = false;
+    mParkedCar = NULL;
+    mParkedCarId = 0;
 }

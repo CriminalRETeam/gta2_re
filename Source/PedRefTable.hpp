@@ -7,8 +7,8 @@
 class PedRef
 {
   public:
-    s32 field_0_ped_id; // 0x0
-    u8 field_4_ref_count; // 0x4
+    s32 mPedId; // 0x0
+    u8 mRefCount; // 0x4
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PedRef, 0x8);
 
@@ -23,16 +23,16 @@ class PedRefTable
 
     inline void Clear_434070(u8 idx)
     {
-        field_0_entries[idx].field_0_ped_id = 0;
-        field_0_entries[idx].field_4_ref_count = 0;
+        mEntries[idx].mPedId = 0;
+        mEntries[idx].mRefCount = 0;
     }
 
     s32 GetPedId_420F10(u8 idx) const
     {
-        return field_0_entries[idx].field_0_ped_id;
+        return mEntries[idx].mPedId;
     }
 
-    PedRef field_0_entries[255]; // 0x0
+    PedRef mEntries[255]; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PedRefTable, 0x7F8);
 

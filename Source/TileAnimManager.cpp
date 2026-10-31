@@ -13,36 +13,36 @@ DEFINE_GLOBAL(TileAnimPool*, gTileAnimPool_7052C8, 0x7052C8);
 MATCH_FUNC(0x5bc130)
 void TileAnim::PoolAllocate()
 {
-    field_12_anim_idx = gTileAnim_2_7052C4->field_0_count++;
+    mAnimIdx = gTileAnim_2_7052C4->mCount++;
 }
 
 MATCH_FUNC(0x5bc150)
 void TileAnim::ApplyCurrentFrame_5BC150()
 {
-    if (field_C_ptr != NULL)
+    if (mPtr != NULL)
     {
-        gGtx_0x106C_703DD4->SetTileRemap_5AA930(field_10_base, field_C_ptr->field_6_tiles[field_8_current_frame]);
+        gGtx_0x106C_703DD4->SetTileRemap_5AA930(mBase, mPtr->mTiles[mCurrentFrame]);
         return;
     }
-    gGtx_0x106C_703DD4->SetTileRemap_5AA930(field_10_base, field_8_current_frame);
+    gGtx_0x106C_703DD4->SetTileRemap_5AA930(mBase, mCurrentFrame);
 }
 
 MATCH_FUNC(0x5bc190)
 void TileAnim::InitFromGmpAnim_5BC190(const gmp_tile_animation* pAnimation)
 {
-    field_C_ptr = pAnimation;
-    field_4_frame_rate = pAnimation->field_2_frame_rate;
-    field_6_repeat = pAnimation->field_3_repeat;
-    field_10_base = pAnimation->field_0_base;
-    field_2_anim_length = pAnimation->field_4_anim_length - 1;
-    field_0_start_frame = 0;
+    mPtr = pAnimation;
+    mFrameRate = pAnimation->mFrameRate;
+    mRepeat = pAnimation->mRepeat;
+    mBase = pAnimation->mBase;
+    mAnimLength = pAnimation->mAnimLength - 1;
+    mStartFrame = 0;
 }
 
 MATCH_FUNC(0x5bc1d0)
 void TileAnim::Start_5BC1D0()
 {
-    field_A_frame_timer = field_4_frame_rate;
-    field_8_current_frame = field_0_start_frame;
+    mFrameTimer = mFrameRate;
+    mCurrentFrame = mStartFrame;
     ApplyCurrentFrame_5BC150();
 }
 
@@ -51,29 +51,29 @@ bool TileAnim::PoolUpdate()
 {
     bool bAtEnd;
 
-    field_A_frame_timer--;
-    if (field_A_frame_timer == 0)
+    mFrameTimer--;
+    if (mFrameTimer == 0)
     {
-        if (field_2_anim_length < field_0_start_frame)
+        if (mAnimLength < mStartFrame)
         {
-            field_8_current_frame--;
-            bAtEnd = field_8_current_frame < field_2_anim_length;
+            mCurrentFrame--;
+            bAtEnd = mCurrentFrame < mAnimLength;
         }
         else
         {
-            field_8_current_frame++;
-            bAtEnd = field_8_current_frame > field_2_anim_length;
+            mCurrentFrame++;
+            bAtEnd = mCurrentFrame > mAnimLength;
         }
         if (bAtEnd)
         {
-            if (field_6_repeat > 0 && --field_6_repeat == 0)
+            if (mRepeat > 0 && --mRepeat == 0)
             {
                 return true;
             }
-            field_8_current_frame = field_0_start_frame;
+            mCurrentFrame = mStartFrame;
         }
         ApplyCurrentFrame_5BC150();
-        field_A_frame_timer = field_4_frame_rate;
+        mFrameTimer = mFrameRate;
     }
     return false;
 }
@@ -102,7 +102,7 @@ void TileAnimManager::Empty_5BC300()
 MATCH_FUNC(0x5bc310)
 void TileAnimManager::UpdateTileAnimations_5BC310()
 {
-    gTileAnimPool_7052C8->field_0_pool.UpdatePool();
+    gTileAnimPool_7052C8->mPool.UpdatePool();
 }
 
 MATCH_FUNC(0x5bc3a0)
@@ -116,7 +116,7 @@ TileAnimManager::TileAnimManager()
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\tileanim.cpp", 220);
         }
     }
-    field_0_count = 1;
+    mCount = 1;
 }
 
 MATCH_FUNC(0x5bc470)
@@ -137,21 +137,21 @@ TileAnimPool::~TileAnimPool()
 MATCH_FUNC(0x5beba0)
 TileAnim::TileAnim()
 {
-    field_0_start_frame = 0;
-    field_2_anim_length = 0;
-    field_4_frame_rate = 0;
-    field_6_repeat = 0;
-    field_8_current_frame = 0;
-    field_A_frame_timer = 0;
-    field_C_ptr = NULL;
-    field_10_base = 0;
-    field_12_anim_idx = 0;
+    mStartFrame = 0;
+    mAnimLength = 0;
+    mFrameRate = 0;
+    mRepeat = 0;
+    mCurrentFrame = 0;
+    mFrameTimer = 0;
+    mPtr = NULL;
+    mBase = 0;
+    mAnimIdx = 0;
     mpNext = NULL;
 }
 
 MATCH_FUNC(0x5bebd0)
 TileAnim::~TileAnim()
 {
-    field_C_ptr = NULL;
+    mPtr = NULL;
     mpNext = NULL;
 }

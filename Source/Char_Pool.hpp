@@ -19,10 +19,10 @@ class CharPool
     // inline 0x4355C0
     void DeAllocate(Char* pChar)
     {
-        field_0_pool.DeAllocate(pChar);
+        mPool.DeAllocate(pChar);
     }
 
-    PoolBasic<Char, 400> field_0_pool; // 0x0
+    PoolBasic<Char, 400> mPool; // 0x0
 };
 
 class PedListNode
@@ -31,7 +31,7 @@ class PedListNode
     // 9.6f 0x420EA0
     inline bool no_char_ped_420EA0() const
     {
-        return field_0_char_ped == NULL;
+        return mCharPed == NULL;
     }
 
     void PoolAllocate()
@@ -42,7 +42,7 @@ class PedListNode
     {
     }
 
-    Ped* field_0_char_ped; // 0x0
+    Ped* mCharPed; // 0x0
     PedListNode* mpNext;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PedListNode, 0x8);
@@ -50,23 +50,23 @@ GTA2_ASSERT_SIZEOF_ALWAYS(PedListNode, 0x8);
 class PedListNodePool
 {
   public:
-    PoolBasic<PedListNode, 100> field_0_pool; // 0x0
+    PoolBasic<PedListNode, 100> mPool; // 0x0
 
     ~PedListNodePool()
     {
-        field_0_pool.field_0_pHead = NULL;
+        mPool.mpHead = NULL;
     }
 
     // 9.6f 0x445EF0
     inline PedListNode* Allocate_445EF0()
     {
-        return field_0_pool.Allocate();
+        return mPool.Allocate();
     }
 
     // 9.6f 0x445F00
     inline void DeAllocate_445F00(PedListNode* pItem)
     {
-        field_0_pool.DeAllocate(pItem);
+        mPool.DeAllocate(pItem);
     }
 
     __forceinline PedListNodePool()
@@ -103,14 +103,14 @@ class PedManager
     EXPORT void Dummies_470330();
 
   public:
-    s16 field_0_max_dummy_chars; // 0x0
-    char_type field_2_num_dummy_chars; // 0x2
-    char_type field_3_num_peds_updated; // 0x3
-    char_type field_4_num_script_created_peds; // 0x4
-    u8 field_5_fbi_army_count; // 0x5
-    char_type field_6_num_peds_on_screen; // 0x6
-    char_type field_7_make_all_muggers; // 0x7
-    Sprite* field_8_spawn_probe_sprite; // 0x8
+    s16 mMaxDummyChars; // 0x0
+    char_type mNumDummyChars; // 0x2
+    char_type mNumPedsUpdated; // 0x3
+    char_type mNumScriptCreatedPeds; // 0x4
+    u8 mFbiArmyCount; // 0x5
+    char_type mNumPedsOnScreen; // 0x6
+    char_type mMakeAllMuggers; // 0x7
+    Sprite* mSpawnProbeSprite; // 0x8
 };
 
 class PedPool
@@ -127,21 +127,21 @@ class PedPool
     // 9.6f 0x403890
     Ped* Allocate()
     {
-        return field_0_pool.Allocate();
+        return mPool.Allocate();
     }
 
     // 9.6f 0x445960
     // Pool::UpdatePool with the next item stored in both branches
     void UpdatePool_445960()
     {
-        field_0_pool.field_X_count = 0;
+        mPool.field_X_count = 0;
 
         Ped* pPreviousItem = NULL;
-        Ped* pCurrItem = field_0_pool.field_4_pPrev;
+        Ped* pCurrItem = mPool.mpPrev;
 
         while (pCurrItem)
         {
-            ++field_0_pool.field_X_count;
+            ++mPool.field_X_count;
 
             Ped* pNext = pCurrItem->mpNext;
 
@@ -160,13 +160,13 @@ class PedPool
                 }
                 else
                 {
-                    if (field_0_pool.field_4_pPrev == pCurrItem)
+                    if (mPool.mpPrev == pCurrItem)
                     {
-                        field_0_pool.field_4_pPrev = pCurrItem->mpNext;
+                        mPool.mpPrev = pCurrItem->mpNext;
                     }
                     else
                     {
-                        pPreviousItem = field_0_pool.field_4_pPrev;
+                        pPreviousItem = mPool.mpPrev;
                         while (pPreviousItem->mpNext != pCurrItem)
                         {
                             pPreviousItem = pPreviousItem->mpNext;
@@ -175,8 +175,8 @@ class PedPool
                     }
                 }
 
-                pCurrItem->mpNext = field_0_pool.field_0_pStart;
-                field_0_pool.field_0_pStart = pCurrItem;
+                pCurrItem->mpNext = mPool.mpStart;
+                mPool.mpStart = pCurrItem;
                 pCurrItem = pNext;
             }
             else
@@ -190,10 +190,10 @@ class PedPool
     // 9.6f 0x435530
     inline Ped* GetFirstPed_435530() const
     {
-        return field_0_pool.field_4_pPrev;
+        return mPool.mpPrev;
     }
 
-    Pool<Ped, 200> field_0_pool; // 0x0
+    Pool<Ped, 200> mPool; // 0x0
 };
 
 EXTERN_GLOBAL(PedManager*, gPedManager_6787BC);

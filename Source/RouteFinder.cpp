@@ -25,14 +25,14 @@ bool Junction::IsUsableWithArrowType_588580(s32 arrow_type) const
 {
     if (arrow_type == red_2)
     {
-        if (this->field_8_type != 1)
+        if (this->mType != 1)
         {
             return true;
         }
     }
     else if (arrow_type == green_1)
     {
-        if (this->field_8_type != 2)
+        if (this->mType != 2)
         {
             return true;
         }
@@ -49,15 +49,15 @@ u16 Junction::GetDirectionToJunction_5885C0(u16 junction_idx) const
 {
     if (junction_idx != 0)
     {
-        if (field_0_n.GetIndex_0040CE90() == junction_idx)
+        if (mN.GetIndex_0040CE90() == junction_idx)
         {
             return 1;
         }
-        if (field_2_s.GetIndex_0040CE90() == junction_idx)
+        if (mS.GetIndex_0040CE90() == junction_idx)
         {
             return 2;
         }
-        if (field_4_e.GetIndex_0040CE90() != junction_idx)
+        if (mE.GetIndex_0040CE90() != junction_idx)
         {
             return 3;
         }
@@ -68,36 +68,36 @@ u16 Junction::GetDirectionToJunction_5885C0(u16 junction_idx) const
     }
     else
     {
-        return gRouteFinder_6FFDC8->field_2_no_junction_direction;
+        return gRouteFinder_6FFDC8->mNoJunctionDirection;
     }
 }
 
 MATCH_FUNC(0x588620)
 void RouteFinder::ShowJunctionIds_588620()
 {
-    Junction* pJunction = &field_8_junctions[1];
-    for (u16 i = 1; i < GTA2_COUNTOF(field_8_junctions); i++, pJunction++)
+    Junction* pJunction = &mJunctions[1];
+    for (u16 i = 1; i < GTA2_COUNTOF(mJunctions); i++, pJunction++)
     {
-        if (!pJunction->field_C_min_x)
+        if (!pJunction->mMinX)
         {
             break;
         }
 
-        if (gGame_0x40_67E008->field_38_local_player->field_14C_view_camera.IsPointInBoundaries_58CF10(pJunction->field_C_min_x,
-                                                                                              static_cast<s32>(pJunction->field_D_min_y)))
+        if (gGame_0x40_67E008->mLocalPlayer->mViewCamera.IsPointInBoundaries_58CF10(pJunction->mMinX,
+                                                                                              static_cast<s32>(pJunction->mMinY)))
         {
             Fix16 screen_x;
             Fix16 screen_y;
-            WorldToScreen_RouteFinder_40CFC0(&gGame_0x40_67E008->field_38_local_player->field_14C_view_camera,
-                                             Fix16(pJunction->field_C_min_x),
-                                             Fix16(pJunction->field_D_min_y),
-                                             gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(Fix16(pJunction->field_C_min_x),
-                                                                                           Fix16(pJunction->field_D_min_y)),
+            WorldToScreen_RouteFinder_40CFC0(&gGame_0x40_67E008->mLocalPlayer->mViewCamera,
+                                             Fix16(pJunction->mMinX),
+                                             Fix16(pJunction->mMinY),
+                                             gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(Fix16(pJunction->mMinX),
+                                                                                           Fix16(pJunction->mMinY)),
                                              &screen_x,
                                              &screen_y);
 
             swprintf(tmpBuff_67BD9C, L"%d", i);
-            gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, screen_x.ToInt(), screen_y.ToInt(), gStyleTextFont_703BAA, 1);
+            gHud_2B00_706620->mTexts.DisplayText_5D1F50(tmpBuff_67BD9C, screen_x.ToInt(), screen_y.ToInt(), gStyleTextFont_703BAA, 1);
         }
     }
 }
@@ -107,10 +107,10 @@ void RouteFinder::ShowJunctionIds_588620()
 // be used here
 static inline void WorldToScreen_RouteFinder_40CFC0(Camera* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
 {
-    Fix16 u = pCam->field_98_cur_pos.field_8_z - z;
+    Fix16 u = pCam->mCurPos.mZ - z;
     Fix16 t(kFpOne_6FFC7C / Fix16(u.mValue + kFpEight_6FFC9C.mValue, 0));
-    *pOutX = (((x - pCam->field_98_cur_pos.field_0_x) * pCam->field_60_screen_scale.y) * t) + Fix16(320);
-    *pOutY = (((y - pCam->field_98_cur_pos.field_4_y) * pCam->field_60_screen_scale.y) * t) + Fix16(240);
+    *pOutX = (((x - pCam->mCurPos.mX) * pCam->mScreenScale.y) * t) + Fix16(320);
+    *pOutY = (((y - pCam->mCurPos.mY) * pCam->mScreenScale.y) * t) + Fix16(240);
 }
 
 MATCH_FUNC(0x588810)
@@ -120,17 +120,17 @@ void RouteFinder::RoadOff_588810(u8 x, u8 y, u8 z)
     const u16 r2 = RouteFinder::FindHorzSegmentJunction_588E60(x, y, z, true, green_or_red_3);
     if (r1 && r2)
     {
-        Junction* j1 = &field_8_junctions[r1];
-        Junction* j2 = &field_8_junctions[r2];
-        if ((j1->field_4_e.GetIndex_0040CE90()) == r2)
+        Junction* j1 = &mJunctions[r1];
+        Junction* j2 = &mJunctions[r2];
+        if ((j1->mE.GetIndex_0040CE90()) == r2)
         {
-            j1->field_4_e.Disable_40CEC0();
-            j2->field_6_w.Disable_40CEC0();
+            j1->mE.Disable_40CEC0();
+            j2->mW.Disable_40CEC0();
         }
-        else if ((j1->field_6_w.GetIndex_0040CE90()) == r2)
+        else if ((j1->mW.GetIndex_0040CE90()) == r2)
         {
-            j1->field_6_w.Disable_40CEC0();
-            j2->field_4_e.Disable_40CEC0();
+            j1->mW.Disable_40CEC0();
+            j2->mE.Disable_40CEC0();
         }
     }
     else
@@ -139,18 +139,18 @@ void RouteFinder::RoadOff_588810(u8 x, u8 y, u8 z)
         const u16 r4 = RouteFinder::FindVertSegmentJunction_588F30(x, y, z, true, green_or_red_3);
         if (r3 && r4)
         {
-            Junction* j1 = &field_8_junctions[r3];
-            Junction* j2 = &field_8_junctions[r4];
+            Junction* j1 = &mJunctions[r3];
+            Junction* j2 = &mJunctions[r4];
 
-            if ((j1->field_2_s.GetIndex_0040CE90()) == r4)
+            if ((j1->mS.GetIndex_0040CE90()) == r4)
             {
-                j1->field_2_s.Disable_40CEC0();
-                j2->field_0_n.Disable_40CEC0();
+                j1->mS.Disable_40CEC0();
+                j2->mN.Disable_40CEC0();
             }
-            else if ((j1->field_0_n.GetIndex_0040CE90()) == r4)
+            else if ((j1->mN.GetIndex_0040CE90()) == r4)
             {
-                j1->field_0_n.Disable_40CEC0();
-                j2->field_2_s.Disable_40CEC0();
+                j1->mN.Disable_40CEC0();
+                j2->mS.Disable_40CEC0();
             }
         }
     }
@@ -164,17 +164,17 @@ void RouteFinder::RoadOn_588950(u8 x, u8 y, u8 z)
     const u16 r2 = RouteFinder::FindHorzSegmentJunction_588E60(x, y, z, true, green_or_red_3);
     if (r1 && r2)
     {
-        Junction* j1 = &field_8_junctions[r1];
-        Junction* j2 = &field_8_junctions[r2];
-        if ((j1->field_4_e.GetIndex_0040CE90()) == r2)
+        Junction* j1 = &mJunctions[r1];
+        Junction* j2 = &mJunctions[r2];
+        if ((j1->mE.GetIndex_0040CE90()) == r2)
         {
-            j1->field_4_e.Enable_40CEB0();
-            j2->field_6_w.Enable_40CEB0();
+            j1->mE.Enable_40CEB0();
+            j2->mW.Enable_40CEB0();
         }
-        else if ((j1->field_6_w.GetIndex_0040CE90()) == r2)
+        else if ((j1->mW.GetIndex_0040CE90()) == r2)
         {
-            j1->field_6_w.Enable_40CEB0();
-            j2->field_4_e.Enable_40CEB0();
+            j1->mW.Enable_40CEB0();
+            j2->mE.Enable_40CEB0();
         }
     }
 
@@ -182,25 +182,25 @@ void RouteFinder::RoadOn_588950(u8 x, u8 y, u8 z)
     const u16 r4 = RouteFinder::FindVertSegmentJunction_588F30(x, y, z, true, green_or_red_3);
     if (r3 && r4)
     {
-        Junction* j1 = &field_8_junctions[r3];
-        Junction* j2 = &field_8_junctions[r4];
+        Junction* j1 = &mJunctions[r3];
+        Junction* j2 = &mJunctions[r4];
 
-        if ((j1->field_2_s.GetIndex_0040CE90()) == r4)
+        if ((j1->mS.GetIndex_0040CE90()) == r4)
         {
-            j1->field_2_s.Enable_40CEB0();
+            j1->mS.Enable_40CEB0();
         }
-        else if ((j1->field_0_n.GetIndex_0040CE90()) == r4)
+        else if ((j1->mN.GetIndex_0040CE90()) == r4)
         {
-            j1->field_0_n.Enable_40CEB0();
+            j1->mN.Enable_40CEB0();
         }
 
-        if ((j2->field_2_s.GetIndex_0040CE90()) == r3)
+        if ((j2->mS.GetIndex_0040CE90()) == r3)
         {
-            j2->field_2_s.Enable_40CEB0();
+            j2->mS.Enable_40CEB0();
         }
-        else if ((j2->field_0_n.GetIndex_0040CE90()) == r3)
+        else if ((j2->mN.GetIndex_0040CE90()) == r3)
         {
-            j2->field_0_n.Enable_40CEB0();
+            j2->mN.Enable_40CEB0();
         }
     }
 }
@@ -213,43 +213,43 @@ u16 RouteFinder::IsPointInJunctionBounds_588AA0(u8 x, u8 y, u16 junc_idx1, u16 j
     u8 y2;
     u8 x2;
 
-    Junction* pJ1 = &this->field_8_junctions[junc_idx1];
-    Junction* pJ2 = &this->field_8_junctions[junc_idx2];
+    Junction* pJ1 = &this->mJunctions[junc_idx1];
+    Junction* pJ2 = &this->mJunctions[junc_idx2];
 
-    if (pJ1->field_C_min_x <= pJ2->field_C_min_x)
+    if (pJ1->mMinX <= pJ2->mMinX)
     {
-        x1 = pJ1->field_C_min_x;
+        x1 = pJ1->mMinX;
     }
     else
     {
-        x1 = pJ2->field_C_min_x;
+        x1 = pJ2->mMinX;
     }
 
-    if (pJ1->field_E_max_x > pJ2->field_E_max_x)
+    if (pJ1->mMaxX > pJ2->mMaxX)
     {
-        x2 = pJ1->field_E_max_x;
+        x2 = pJ1->mMaxX;
     }
     else
     {
-        x2 = pJ2->field_E_max_x;
+        x2 = pJ2->mMaxX;
     }
 
-    if (pJ1->field_D_min_y <= pJ2->field_D_min_y)
+    if (pJ1->mMinY <= pJ2->mMinY)
     {
-        y1 = pJ1->field_D_min_y;
+        y1 = pJ1->mMinY;
     }
     else
     {
-        y1 = pJ2->field_D_min_y;
+        y1 = pJ2->mMinY;
     }
 
-    if (pJ1->field_F_max_y > pJ2->field_F_max_y)
+    if (pJ1->mMaxY > pJ2->mMaxY)
     {
-        y2 = pJ1->field_F_max_y;
+        y2 = pJ1->mMaxY;
     }
     else
     {
-        y2 = pJ2->field_F_max_y;
+        y2 = pJ2->mMaxY;
     }
 
     if (x >= x1 && x <= x2 && y >= y1 && y <= y2)
@@ -262,13 +262,13 @@ u16 RouteFinder::IsPointInJunctionBounds_588AA0(u8 x, u8 y, u16 junc_idx1, u16 j
 MATCH_FUNC(0x588b30)
 void RouteFinder::Load_RGEN_588B30()
 {
-    File::Global_Read_4A71C0(field_8_junctions, 0x2210);
-    File::Global_Read_4A71C0(this->field_A830_horz_segments, 0x1108);
-    File::Global_Read_4A71C0(this->field_B938_vert_segments, 0x1108);
-    File::Global_Read_4A71C0(&this->field_4_unused, 2);
-    File::Global_Read_4A71C0(&this->field_CC62_horz_segment_count, 2);
-    File::Global_Read_4A71C0(&this->field_CC64_vert_segment_count, 2);
-    this->field_0_route_count = 0;
+    File::Global_Read_4A71C0(mJunctions, 0x2210);
+    File::Global_Read_4A71C0(this->mHorzSegments, 0x1108);
+    File::Global_Read_4A71C0(this->mVertSegments, 0x1108);
+    File::Global_Read_4A71C0(&this->mUnused4, 2);
+    File::Global_Read_4A71C0(&this->mHorzSegmentCount, 2);
+    File::Global_Read_4A71C0(&this->mVertSegmentCount, 2);
+    this->mRouteCount = 0;
 
     if (bLog_routefinder_67D6D1)
     {
@@ -278,15 +278,15 @@ void RouteFinder::Load_RGEN_588B30()
             sprintf(gTmpBuffer_67C598,
                     "Junc: %d (%d, %d) n %d s %d w %d e %d",
                     junction_idx,
-                    field_8_junctions[junction_idx].field_C_min_x,
-                    field_8_junctions[junction_idx].field_D_min_y,
-                    field_8_junctions[junction_idx].field_0_n.GetIndex_0040CE90(),
-                    field_8_junctions[junction_idx].field_2_s.GetIndex_0040CE90(),
-                    field_8_junctions[junction_idx].field_6_w.GetIndex_0040CE90(),
-                    field_8_junctions[junction_idx].field_4_e.GetIndex_0040CE90());
+                    mJunctions[junction_idx].mMinX,
+                    mJunctions[junction_idx].mMinY,
+                    mJunctions[junction_idx].mN.GetIndex_0040CE90(),
+                    mJunctions[junction_idx].mS.GetIndex_0040CE90(),
+                    mJunctions[junction_idx].mW.GetIndex_0040CE90(),
+                    mJunctions[junction_idx].mE.GetIndex_0040CE90());
             gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
 
-            if (junction_idx > 0 && field_8_junctions[junction_idx].field_C_min_x == 0 && field_8_junctions[junction_idx].field_D_min_y == 0)
+            if (junction_idx > 0 && mJunctions[junction_idx].mMinX == 0 && mJunctions[junction_idx].mMinY == 0)
             {
                 break;
             }
@@ -300,9 +300,9 @@ void RouteFinder::Load_RGEN_588B30()
 MATCH_FUNC(0x588c60)
 void RouteFinder::Reset_588C60()
 {
-    memset(this->field_CA40_visited, 0, sizeof(this->field_CA40_visited));
-    memset(this->field_861C_nodes, 0, sizeof(this->field_861C_nodes));
-    memset(this->field_2218_routes, 0, sizeof(this->field_2218_routes));
+    memset(this->mVisited, 0, sizeof(this->mVisited));
+    memset(this->mNodes, 0, sizeof(this->mNodes));
+    memset(this->mRoutes, 0, sizeof(this->mRoutes));
 }
 
 MATCH_FUNC(0x588ca0)
@@ -315,19 +315,19 @@ bool RouteFinder::HasBlockDesiredArrow_588CA0(const gmp_block_info* block, s32 a
             switch (arrow_type)
             {
                 case green_1:
-                    if ((block->field_A_arrows & block_arrow::green_up_4) != 0)
+                    if ((block->mArrows & block_arrow::green_up_4) != 0)
                     {
                         return true;
                     }
                     break;
                 case red_2:
-                    if ((block->field_A_arrows & block_arrow::red_up_40) != 0)
+                    if ((block->mArrows & block_arrow::red_up_40) != 0)
                     {
                         return true;
                     }
                     break;
                 case green_or_red_3:
-                    if ((block->field_A_arrows & (block_arrow::green_up_4 | block_arrow::red_up_40)) != 0)
+                    if ((block->mArrows & (block_arrow::green_up_4 | block_arrow::red_up_40)) != 0)
                     {
                         return true;
                     }
@@ -339,19 +339,19 @@ bool RouteFinder::HasBlockDesiredArrow_588CA0(const gmp_block_info* block, s32 a
             switch (arrow_type)
             {
                 case green_1:
-                    if ((block->field_A_arrows & block_arrow::green_down_8) != 0)
+                    if ((block->mArrows & block_arrow::green_down_8) != 0)
                     {
                         return true;
                     }
                     break;
                 case red_2:
-                    if ((block->field_A_arrows & block_arrow::red_down_80) != 0)
+                    if ((block->mArrows & block_arrow::red_down_80) != 0)
                     {
                         return true;
                     }
                     break;
                 case green_or_red_3:
-                    if ((block->field_A_arrows & (block_arrow::green_down_8 | block_arrow::red_down_80)) != 0)
+                    if ((block->mArrows & (block_arrow::green_down_8 | block_arrow::red_down_80)) != 0)
                     {
                         return true;
                     }
@@ -363,19 +363,19 @@ bool RouteFinder::HasBlockDesiredArrow_588CA0(const gmp_block_info* block, s32 a
             switch (arrow_type)
             {
                 case green_1:
-                    if ((block->field_A_arrows & block_arrow::green_left_1) != 0)
+                    if ((block->mArrows & block_arrow::green_left_1) != 0)
                     {
                         return true;
                     }
                     break;
                 case red_2:
-                    if ((block->field_A_arrows & block_arrow::red_left_10) != 0)
+                    if ((block->mArrows & block_arrow::red_left_10) != 0)
                     {
                         return true;
                     }
                     break;
                 case green_or_red_3:
-                    if ((block->field_A_arrows & block_arrow::left_mask) != 0)
+                    if ((block->mArrows & block_arrow::left_mask) != 0)
                     {
                         return true;
                     }
@@ -387,19 +387,19 @@ bool RouteFinder::HasBlockDesiredArrow_588CA0(const gmp_block_info* block, s32 a
             switch (arrow_type)
             {
                 case green_1:
-                    if ((block->field_A_arrows & block_arrow::green_right_2) != 0)
+                    if ((block->mArrows & block_arrow::green_right_2) != 0)
                     {
                         return true;
                     }
                     break;
                 case red_2:
-                    if ((block->field_A_arrows & block_arrow::red_right_20) != 0)
+                    if ((block->mArrows & block_arrow::red_right_20) != 0)
                     {
                         return true;
                     }
                     break;
                 case green_or_red_3:
-                    if ((block->field_A_arrows & block_arrow::right_mask) != 0)
+                    if ((block->mArrows & block_arrow::right_mask) != 0)
                     {
                         return true;
                     }
@@ -436,13 +436,13 @@ bool RouteFinder::HasBlockArrowInRoadDirection_588DE0(const gmp_block_info* pBlo
 MATCH_FUNC(0x588e60)
 u16 RouteFinder::FindHorzSegmentJunction_588E60(u8 x, u8 y, u8 z, bool bIsDest, s32 arrow_type)
 {
-    JunctionSegment* pSegment = field_A830_horz_segments;
+    JunctionSegment* pSegment = mHorzSegments;
     gmp_block_info* pBlockAtPos = gMap_0x370_6F6268->GetBlock_4DFE10(x, y, z);
 
     if (pBlockAtPos != NULL)
     {
         bool bHasArrow = RouteFinder::HasBlockDesiredArrow_588CA0(pBlockAtPos, arrow_type, LEFT_3);
-        for (s16 junc_idx = 0; junc_idx < field_CC62_horz_segment_count; pSegment++, junc_idx++)
+        for (s16 junc_idx = 0; junc_idx < mHorzSegmentCount; pSegment++, junc_idx++)
         {
             if (pSegment->ContainsPoint_40CF20(x, y))
             {
@@ -450,22 +450,22 @@ u16 RouteFinder::FindHorzSegmentJunction_588E60(u8 x, u8 y, u8 z, bool bIsDest, 
                 {
                     if (bHasArrow == 1)
                     {
-                        return pSegment->field_0_junction_num1;
+                        return pSegment->mJunctionNum1;
                     }
                     else
                     {
-                        return pSegment->field_2_junction_num2;
+                        return pSegment->mJunctionNum2;
                     }
                 }
                 else
                 {
                     if (bHasArrow == 1)
                     {
-                        return pSegment->field_2_junction_num2;
+                        return pSegment->mJunctionNum2;
                     }
                     else
                     {
-                        return pSegment->field_0_junction_num1;
+                        return pSegment->mJunctionNum1;
                     }
                 }
             }
@@ -477,13 +477,13 @@ u16 RouteFinder::FindHorzSegmentJunction_588E60(u8 x, u8 y, u8 z, bool bIsDest, 
 MATCH_FUNC(0x588f30)
 u16 RouteFinder::FindVertSegmentJunction_588F30(u8 x, u8 y, u8 z, bool bIsDest, s32 arrow_type)
 {
-    JunctionSegment* pSegment = field_B938_vert_segments;
+    JunctionSegment* pSegment = mVertSegments;
     gmp_block_info* pBlockAtPos = gMap_0x370_6F6268->GetBlock_4DFE10(x, y, z);
 
     if (pBlockAtPos != NULL)
     {
         bool bHasArrow = RouteFinder::HasBlockDesiredArrow_588CA0(pBlockAtPos, arrow_type, UP_1);
-        for (s16 junc_idx = 0; junc_idx < field_CC64_vert_segment_count; pSegment++, junc_idx++)
+        for (s16 junc_idx = 0; junc_idx < mVertSegmentCount; pSegment++, junc_idx++)
         {
             if (pSegment->ContainsPoint_40CF20(x, y))
             {
@@ -491,22 +491,22 @@ u16 RouteFinder::FindVertSegmentJunction_588F30(u8 x, u8 y, u8 z, bool bIsDest, 
                 {
                     if (bHasArrow == 1)
                     {
-                        return pSegment->field_0_junction_num1;
+                        return pSegment->mJunctionNum1;
                     }
                     else
                     {
-                        return pSegment->field_2_junction_num2;
+                        return pSegment->mJunctionNum2;
                     }
                 }
                 else
                 {
                     if (bHasArrow == 1)
                     {
-                        return pSegment->field_2_junction_num2;
+                        return pSegment->mJunctionNum2;
                     }
                     else
                     {
-                        return pSegment->field_0_junction_num1;
+                        return pSegment->mJunctionNum1;
                     }
                 }
             }
@@ -537,9 +537,9 @@ u16 RouteFinder::FindSegmentJunction_589000(u8 x_coord, u8 y_coord, u8 z_coord, 
 MATCH_FUNC(0x5890d0)
 void RouteFinder::FindArrowBlockInJunction_5890D0(u16 junction_idx, s32 direction, u8* xpos, u8* ypos)
 {
-    for (u8 y = field_8_junctions[junction_idx].field_D_min_y; y <= field_8_junctions[junction_idx].field_F_max_y; y++)
+    for (u8 y = mJunctions[junction_idx].mMinY; y <= mJunctions[junction_idx].mMaxY; y++)
     {
-        for (u8 x = field_8_junctions[junction_idx].field_C_min_x; x <= field_8_junctions[junction_idx].field_E_max_x; x++)
+        for (u8 x = mJunctions[junction_idx].mMinX; x <= mJunctions[junction_idx].mMaxX; x++)
         {
             s32 z;
             gmp_block_info* block = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x, y, &z);
@@ -552,9 +552,9 @@ void RouteFinder::FindArrowBlockInJunction_5890D0(u16 junction_idx, s32 directio
         }
     }
 
-    for (u8 y_pos = field_8_junctions[junction_idx].field_D_min_y; y_pos <= field_8_junctions[junction_idx].field_F_max_y; y_pos++)
+    for (u8 y_pos = mJunctions[junction_idx].mMinY; y_pos <= mJunctions[junction_idx].mMaxY; y_pos++)
     {
-        for (u8 x_pos = field_8_junctions[junction_idx].field_C_min_x; x_pos <= field_8_junctions[junction_idx].field_E_max_x; x_pos++)
+        for (u8 x_pos = mJunctions[junction_idx].mMinX; x_pos <= mJunctions[junction_idx].mMaxX; x_pos++)
         {
             s32 z;
             gmp_block_info* block = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x_pos, y_pos, &z);
@@ -571,7 +571,7 @@ void RouteFinder::FindArrowBlockInJunction_5890D0(u16 junction_idx, s32 directio
 MATCH_FUNC(0x589210)
 s32 RouteFinder::NoRefs_589210(u8 x, u8 y, s32, u8 direction, s32, u16 junction_idx)
 {
-    Junction* pJunction = &field_8_junctions[junction_idx];
+    Junction* pJunction = &mJunctions[junction_idx];
     s32 dy;
     s16 dx;
     switch (direction)
@@ -608,28 +608,28 @@ s32 RouteFinder::NoRefs_589210(u8 x, u8 y, s32, u8 direction, s32, u16 junction_
 MATCH_FUNC(0x5892d0)
 RouteSearchNode::RouteSearchNode()
 {
-    field_0_junction_idx = 0;
-    field_2_cost = -1;
-    field_4_expanded = 0;
-    field_8_pParent = NULL;
-    field_C_pNext = NULL;
+    mJunctionIdx = 0;
+    mCost = -1;
+    mExpanded = 0;
+    mpParent = NULL;
+    mpNext = NULL;
 }
 #pragma warning(pop)
 
 MATCH_FUNC(0x5892f0)
 RouteSearchNode* RouteFinder::NewChildNode_5892F0(RouteSearchNode* pParent, u16 idx, s16 step_cost)
 {
-    RouteSearchNode* pNode = &this->field_861C_nodes[this->field_CC66_545_count++];
+    RouteSearchNode* pNode = &this->mNodes[this->m545Count++];
 
-    s32 dy = abs(static_cast<u8>(field_8_junctions[idx].field_D_min_y) - static_cast<u8>(field_8_junctions[field_861A_dest_idx].field_D_min_y));
-    s32 dx = abs(static_cast<u8>(field_8_junctions[idx].field_C_min_x) - static_cast<u8>(field_8_junctions[field_861A_dest_idx].field_C_min_x));
+    s32 dy = abs(static_cast<u8>(mJunctions[idx].mMinY) - static_cast<u8>(mJunctions[mDestIdx].mMinY));
+    s32 dx = abs(static_cast<u8>(mJunctions[idx].mMinX) - static_cast<u8>(mJunctions[mDestIdx].mMinX));
     s16 dist = dy + dx;
-    s16 cost = pParent->field_2_cost + step_cost;
+    s16 cost = pParent->mCost + step_cost;
 
-    pNode->field_0_junction_idx = idx;
-    pNode->field_2_cost = cost + dist;
-    pNode->field_8_pParent = pParent;
-    pNode->field_C_pNext = NULL;
+    pNode->mJunctionIdx = idx;
+    pNode->mCost = cost + dist;
+    pNode->mpParent = pParent;
+    pNode->mpNext = NULL;
 
     return pNode;
 }
@@ -637,72 +637,72 @@ RouteSearchNode* RouteFinder::NewChildNode_5892F0(RouteSearchNode* pParent, u16 
 MATCH_FUNC(0x589390)
 RouteSearchNode* RouteFinder::NewStartNode_589390(u16 junction_idx)
 {
-    RouteSearchNode* pNode = &field_861C_nodes[field_CC66_545_count++];
-    s32 distance = abs(field_8_junctions[junction_idx].field_C_min_x - field_8_junctions[field_861A_dest_idx].field_C_min_x) +
-        abs(field_8_junctions[junction_idx].field_D_min_y - field_8_junctions[field_861A_dest_idx].field_D_min_y);
+    RouteSearchNode* pNode = &mNodes[m545Count++];
+    s32 distance = abs(mJunctions[junction_idx].mMinX - mJunctions[mDestIdx].mMinX) +
+        abs(mJunctions[junction_idx].mMinY - mJunctions[mDestIdx].mMinY);
 
-    pNode->field_2_cost = distance;
-    pNode->field_0_junction_idx = junction_idx;
-    pNode->field_4_expanded = 0;
+    pNode->mCost = distance;
+    pNode->mJunctionIdx = junction_idx;
+    pNode->mExpanded = 0;
     // field_6 is preserved by the original function.
-    pNode->field_8_pParent = NULL;
-    pNode->field_C_pNext = NULL;
+    pNode->mpParent = NULL;
+    pNode->mpNext = NULL;
     return pNode;
 }
 
 MATCH_FUNC(0x589420)
 void RouteFinder::InsertIntoOpenList_589420(RouteSearchNode* pNode)
 {
-    field_CA40_visited[pNode->field_0_junction_idx] = true;
+    mVisited[pNode->mJunctionIdx] = true;
 
-    if (pNode->field_2_cost < field_A82C_open_list->field_2_cost)
+    if (pNode->mCost < mOpenList->mCost)
     {
-        pNode->field_C_pNext = field_A82C_open_list;
-        field_A82C_open_list = pNode;
+        pNode->mpNext = mOpenList;
+        mOpenList = pNode;
     }
     else
     {
         RouteSearchNode* pInsertAfter;
-        for (pInsertAfter = field_A82C_open_list; pInsertAfter->field_C_pNext != NULL && pInsertAfter->field_C_pNext->field_2_cost < pNode->field_2_cost; pInsertAfter = pInsertAfter->field_C_pNext)
+        for (pInsertAfter = mOpenList; pInsertAfter->mpNext != NULL && pInsertAfter->mpNext->mCost < pNode->mCost; pInsertAfter = pInsertAfter->mpNext)
         {
         }
-        pNode->field_C_pNext = pInsertAfter->field_C_pNext;
-        pInsertAfter->field_C_pNext = pNode;
+        pNode->mpNext = pInsertAfter->mpNext;
+        pInsertAfter->mpNext = pNode;
     }
 }
 
 MATCH_FUNC(0x589480)
 bool RouteFinder::InitSearch_589480(u8 start_x, u8 start_y, u8 start_z, u8 dest_x, u8 dest_y, u8 dest_z, s32 arrow_type)
 {
-    field_CC66_545_count = 0;
-    memset(field_CA40_visited, 0, sizeof(field_CA40_visited));
-    memset(field_861C_nodes, 0, sizeof(field_861C_nodes));
+    m545Count = 0;
+    memset(mVisited, 0, sizeof(mVisited));
+    memset(mNodes, 0, sizeof(mNodes));
 
-    field_8618_start_idx = FindSegmentJunction_589000(start_x, start_y, start_z, false, arrow_type);
-    if (field_8618_start_idx == 0)
+    mStartIdx = FindSegmentJunction_589000(start_x, start_y, start_z, false, arrow_type);
+    if (mStartIdx == 0)
     {
-        field_8618_start_idx = FindSegmentJunction_589000(start_x, start_y, start_z, true, arrow_type);
+        mStartIdx = FindSegmentJunction_589000(start_x, start_y, start_z, true, arrow_type);
     }
 
-    u16 initialIdx = field_8618_start_idx;
-    Junction* pJunction = &field_8_junctions[initialIdx];
-    if (start_x < pJunction->field_C_min_x || start_x > pJunction->field_E_max_x || start_y < pJunction->field_D_min_y || start_y > pJunction->field_F_max_y)
+    u16 initialIdx = mStartIdx;
+    Junction* pJunction = &mJunctions[initialIdx];
+    if (start_x < pJunction->mMinX || start_x > pJunction->mMaxX || start_y < pJunction->mMinY || start_y > pJunction->mMaxY)
     {
-        field_8618_start_idx = FindSegmentJunction_589000(start_x, start_y, start_z, true, arrow_type);
+        mStartIdx = FindSegmentJunction_589000(start_x, start_y, start_z, true, arrow_type);
     }
 
-    field_861A_dest_idx = FindSegmentJunction_589000(dest_x, dest_y, dest_z, true, arrow_type);
-    if (field_861A_dest_idx == field_8618_start_idx)
+    mDestIdx = FindSegmentJunction_589000(dest_x, dest_y, dest_z, true, arrow_type);
+    if (mDestIdx == mStartIdx)
     {
-        field_8618_start_idx = initialIdx;
+        mStartIdx = initialIdx;
     }
 
-    if (field_8618_start_idx != 0 && field_861A_dest_idx != 0)
+    if (mStartIdx != 0 && mDestIdx != 0)
     {
-        NewStartNode_589390(field_8618_start_idx);
-        field_CA40_visited[0] = true;
-        field_A82C_open_list = field_861C_nodes;
-        field_CA40_visited[field_8618_start_idx] = true;
+        NewStartNode_589390(mStartIdx);
+        mVisited[0] = true;
+        mOpenList = mNodes;
+        mVisited[mStartIdx] = true;
         return true;
     }
     return false;
@@ -711,124 +711,124 @@ bool RouteFinder::InitSearch_589480(u8 start_x, u8 start_y, u8 start_z, u8 dest_
 MATCH_FUNC(0x5895c0)
 bool RouteFinder::InitSearchWithDirection_5895C0(u8 x, u8 y, u8 z, s32 arrow_type, s32 direction)
 {
-    field_CC66_545_count = 0;
-    memset(field_CA40_visited, 0, sizeof(field_CA40_visited));
-    RouteSearchNode* pStart = field_861C_nodes;
-    memset(pStart, 0, sizeof(field_861C_nodes));
+    m545Count = 0;
+    memset(mVisited, 0, sizeof(mVisited));
+    RouteSearchNode* pStart = mNodes;
+    memset(pStart, 0, sizeof(mNodes));
 
-    field_8618_start_idx = FindSegmentJunction_589000(x, y, z, false, arrow_type);
-    if (field_8618_start_idx == 0)
+    mStartIdx = FindSegmentJunction_589000(x, y, z, false, arrow_type);
+    if (mStartIdx == 0)
     {
-        field_8618_start_idx = FindSegmentJunction_589000(x, y, z, true, arrow_type);
+        mStartIdx = FindSegmentJunction_589000(x, y, z, true, arrow_type);
     }
 
-    if (field_8618_start_idx != 0)
+    if (mStartIdx != 0)
     {
-        Junction* pJunction = &field_8_junctions[field_8618_start_idx];
-        if (x < pJunction->field_C_min_x || x > pJunction->field_E_max_x || y < pJunction->field_D_min_y ||
-            y > pJunction->field_F_max_y)
+        Junction* pJunction = &mJunctions[mStartIdx];
+        if (x < pJunction->mMinX || x > pJunction->mMaxX || y < pJunction->mMinY ||
+            y > pJunction->mMaxY)
         {
-            field_8618_start_idx = FindSegmentJunction_589000(x, y, z, true, arrow_type);
+            mStartIdx = FindSegmentJunction_589000(x, y, z, true, arrow_type);
         }
 
-        if (field_8618_start_idx != 0)
+        if (mStartIdx != 0)
         {
-            NewStartNode_589390(field_8618_start_idx);
-            field_A82C_open_list = pStart;
-            field_CA40_visited[0] = true;
-            field_CA40_visited[field_8618_start_idx] = true;
+            NewStartNode_589390(mStartIdx);
+            mOpenList = pStart;
+            mVisited[0] = true;
+            mVisited[mStartIdx] = true;
 
-            pJunction = &field_8_junctions[field_8618_start_idx];
-            u16 north = pJunction->field_0_n.GetIndex_0040CE90();
-            u16 south = pJunction->field_2_s.GetIndex_0040CE90();
-            u16 east = pJunction->field_4_e.GetIndex_0040CE90();
-            u16 west = pJunction->field_6_w.GetIndex_0040CE90();
-            pStart->field_4_expanded = 1;
+            pJunction = &mJunctions[mStartIdx];
+            u16 north = pJunction->mN.GetIndex_0040CE90();
+            u16 south = pJunction->mS.GetIndex_0040CE90();
+            u16 east = pJunction->mE.GetIndex_0040CE90();
+            u16 west = pJunction->mW.GetIndex_0040CE90();
+            pStart->mExpanded = 1;
 
             switch (direction)
             {
                 case 1:
-                    if (!pJunction->field_2_s.GetIndex_0040CE90())
+                    if (!pJunction->mS.GetIndex_0040CE90())
                     {
                         if (east)
                         {
-                            AddChildNode_589990(pStart, east, pJunction->field_4_e.GetLength());
+                            AddChildNode_589990(pStart, east, pJunction->mE.GetLength());
                         }
                         else if (west)
                         {
-                            AddChildNode_589990(pStart, west, pJunction->field_6_w.GetLength());
+                            AddChildNode_589990(pStart, west, pJunction->mW.GetLength());
                         }
                         else
                         {
-                            AddChildNode_589990(pStart, north, pJunction->field_0_n.GetLength());
+                            AddChildNode_589990(pStart, north, pJunction->mN.GetLength());
                         }
                     }
                     else
                     {
-                        AddChildNode_589990(pStart, pJunction->field_2_s.GetIndex_0040CE90(), pJunction->field_2_s.GetLength());
+                        AddChildNode_589990(pStart, pJunction->mS.GetIndex_0040CE90(), pJunction->mS.GetLength());
                     }
                     break;
                 case 2:
-                    if (!pJunction->field_0_n.GetIndex_0040CE90())
+                    if (!pJunction->mN.GetIndex_0040CE90())
                     {
                         if (east)
                         {
-                            AddChildNode_589990(pStart, east, pJunction->field_4_e.GetLength());
+                            AddChildNode_589990(pStart, east, pJunction->mE.GetLength());
                         }
                         else if (west)
                         {
-                            AddChildNode_589990(pStart, west, pJunction->field_6_w.GetLength());
+                            AddChildNode_589990(pStart, west, pJunction->mW.GetLength());
                         }
                         else
                         {
-                            AddChildNode_589990(pStart, south, pJunction->field_2_s.GetLength());
+                            AddChildNode_589990(pStart, south, pJunction->mS.GetLength());
                         }
                     }
                     else
                     {
-                        AddChildNode_589990(pStart, pJunction->field_0_n.GetIndex_0040CE90(), pJunction->field_0_n.GetLength());
+                        AddChildNode_589990(pStart, pJunction->mN.GetIndex_0040CE90(), pJunction->mN.GetLength());
                     }
                     break;
                 case 3:
-                    if (!pJunction->field_6_w.GetIndex_0040CE90())
+                    if (!pJunction->mW.GetIndex_0040CE90())
                     {
                         if (south)
                         {
-                            AddChildNode_589990(pStart, south, pJunction->field_2_s.GetLength());
+                            AddChildNode_589990(pStart, south, pJunction->mS.GetLength());
                         }
                         else if (north)
                         {
-                            AddChildNode_589990(pStart, north, pJunction->field_0_n.GetLength());
+                            AddChildNode_589990(pStart, north, pJunction->mN.GetLength());
                         }
                         else
                         {
-                            AddChildNode_589990(pStart, east, pJunction->field_4_e.GetLength());
+                            AddChildNode_589990(pStart, east, pJunction->mE.GetLength());
                         }
                     }
                     else
                     {
-                        AddChildNode_589990(pStart, pJunction->field_6_w.GetIndex_0040CE90(), pJunction->field_6_w.GetLength());
+                        AddChildNode_589990(pStart, pJunction->mW.GetIndex_0040CE90(), pJunction->mW.GetLength());
                     }
                     break;
                 case 4:
-                    if (!pJunction->field_4_e.GetIndex_0040CE90())
+                    if (!pJunction->mE.GetIndex_0040CE90())
                     {
                         if (south)
                         {
-                            AddChildNode_589990(pStart, south, pJunction->field_2_s.GetLength());
+                            AddChildNode_589990(pStart, south, pJunction->mS.GetLength());
                         }
                         else if (north)
                         {
-                            AddChildNode_589990(pStart, north, pJunction->field_0_n.GetLength());
+                            AddChildNode_589990(pStart, north, pJunction->mN.GetLength());
                         }
                         else
                         {
-                            AddChildNode_589990(pStart, west, pJunction->field_6_w.GetLength());
+                            AddChildNode_589990(pStart, west, pJunction->mW.GetLength());
                         }
                     }
                     else
                     {
-                        AddChildNode_589990(pStart, pJunction->field_4_e.GetIndex_0040CE90(), pJunction->field_4_e.GetLength());
+                        AddChildNode_589990(pStart, pJunction->mE.GetIndex_0040CE90(), pJunction->mE.GetLength());
                     }
                     break;
             }
@@ -841,10 +841,10 @@ bool RouteFinder::InitSearchWithDirection_5895C0(u8 x, u8 y, u8 z, s32 arrow_typ
 MATCH_FUNC(0x589930)
 void RouteFinder::CancelRoute_589930(s16 route_idx)
 {
-    this->field_2218_routes[route_idx].field_0_junctions[0] = 0;
-    if (this->field_0_route_count > 0)
+    this->mRoutes[route_idx].mJunctions[0] = 0;
+    if (this->mRouteCount > 0)
     {
-        --this->field_0_route_count;
+        --this->mRouteCount;
     }
 }
 
@@ -852,11 +852,11 @@ MATCH_FUNC(0x589960)
 s16 RouteFinder::GetFreeRouteIdx_589960()
 {
     s16 route_idx = 1;
-    if (this->field_0_route_count < 50)
+    if (this->mRouteCount < 50)
     {
         while (route_idx < 50)
         {
-            if (field_2218_routes[route_idx++].field_0_junctions[0] == 0)
+            if (mRoutes[route_idx++].mJunctions[0] == 0)
             {
                 return route_idx - 1;
             }
@@ -870,37 +870,37 @@ u16 RouteFinder::AddChildNode_589990(RouteSearchNode* pParent, u16 junction_idx,
 {
     RouteSearchNode* pChild = NewChildNode_5892F0(pParent, junction_idx, step_cost);
     InsertIntoOpenList_589420(pChild);
-    return pChild->field_0_junction_idx;
+    return pChild->mJunctionIdx;
 }
 
 // Returns true if a neighbour of the node's junction that hasn't been visited yet completes the route
 MATCH_FUNC(0x5899c0)
 bool RouteFinder::ExpandNode_5899C0(RouteSearchNode* pNode, s32 arrow_type)
 {
-    Junction* pJunction = &field_8_junctions[pNode->field_0_junction_idx];
-    u16 north = pJunction->field_0_n.GetIndex_0040CE90();
-    u16 west = pJunction->field_6_w.GetIndex_0040CE90();
-    u16 south = pJunction->field_2_s.GetIndex_0040CE90();
-    u16 east = pJunction->field_4_e.GetIndex_0040CE90();
-    pNode->field_4_expanded = 1;
+    Junction* pJunction = &mJunctions[pNode->mJunctionIdx];
+    u16 north = pJunction->mN.GetIndex_0040CE90();
+    u16 west = pJunction->mW.GetIndex_0040CE90();
+    u16 south = pJunction->mS.GetIndex_0040CE90();
+    u16 east = pJunction->mE.GetIndex_0040CE90();
+    pNode->mExpanded = 1;
 
-    if (!field_CA40_visited[north] && pJunction->field_0_n.IsEnabled() && field_8_junctions[north].IsUsableWithArrowType_588580(arrow_type) &&
-        AddChildNode_589990(pNode, north, pJunction->field_0_n.GetLength()) == field_861A_dest_idx)
+    if (!mVisited[north] && pJunction->mN.IsEnabled() && mJunctions[north].IsUsableWithArrowType_588580(arrow_type) &&
+        AddChildNode_589990(pNode, north, pJunction->mN.GetLength()) == mDestIdx)
     {
         return true;
     }
-    if (!field_CA40_visited[south] && pJunction->field_2_s.IsEnabled() && field_8_junctions[south].IsUsableWithArrowType_588580(arrow_type) &&
-        AddChildNode_589990(pNode, south, pJunction->field_2_s.GetLength()) == field_861A_dest_idx)
+    if (!mVisited[south] && pJunction->mS.IsEnabled() && mJunctions[south].IsUsableWithArrowType_588580(arrow_type) &&
+        AddChildNode_589990(pNode, south, pJunction->mS.GetLength()) == mDestIdx)
     {
         return true;
     }
-    if (!field_CA40_visited[west] && pJunction->field_6_w.IsEnabled() && field_8_junctions[west].IsUsableWithArrowType_588580(arrow_type) &&
-        AddChildNode_589990(pNode, west, pJunction->field_6_w.GetLength()) == field_861A_dest_idx)
+    if (!mVisited[west] && pJunction->mW.IsEnabled() && mJunctions[west].IsUsableWithArrowType_588580(arrow_type) &&
+        AddChildNode_589990(pNode, west, pJunction->mW.GetLength()) == mDestIdx)
     {
         return true;
     }
-    if (!field_CA40_visited[east] && pJunction->field_4_e.IsEnabled() && field_8_junctions[east].IsUsableWithArrowType_588580(arrow_type) &&
-        AddChildNode_589990(pNode, east, pJunction->field_4_e.GetLength()) == field_861A_dest_idx)
+    if (!mVisited[east] && pJunction->mE.IsEnabled() && mJunctions[east].IsUsableWithArrowType_588580(arrow_type) &&
+        AddChildNode_589990(pNode, east, pJunction->mE.GetLength()) == mDestIdx)
     {
         return true;
     }
@@ -910,36 +910,36 @@ bool RouteFinder::ExpandNode_5899C0(RouteSearchNode* pNode, s32 arrow_type)
 MATCH_FUNC(0x589bb0)
 bool RouteFinder::ExpandNodeUnlessOffScreen_589BB0(RouteSearchNode* pNode, s32 arrow_type)
 {
-    Junction* pJunction = &field_8_junctions[pNode->field_0_junction_idx];
-    if (!gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_C_min_x, pJunction->field_D_min_y) &&
-        !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_E_max_x, pJunction->field_D_min_y) &&
-        !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_C_min_x, pJunction->field_F_max_y) &&
-        !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_E_max_x, pJunction->field_F_max_y))
+    Junction* pJunction = &mJunctions[pNode->mJunctionIdx];
+    if (!gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->mMinX, pJunction->mMinY) &&
+        !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->mMaxX, pJunction->mMinY) &&
+        !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->mMinX, pJunction->mMaxY) &&
+        !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->mMaxX, pJunction->mMaxY))
     {
         return true;
     }
 
-    u16 north = pJunction->field_0_n.GetIndex_0040CE90();
-    u16 south = pJunction->field_2_s.GetIndex_0040CE90();
-    u16 west = pJunction->field_6_w.GetIndex_0040CE90();
-    u16 east = pJunction->field_4_e.GetIndex_0040CE90();
-    pNode->field_4_expanded = 1;
+    u16 north = pJunction->mN.GetIndex_0040CE90();
+    u16 south = pJunction->mS.GetIndex_0040CE90();
+    u16 west = pJunction->mW.GetIndex_0040CE90();
+    u16 east = pJunction->mE.GetIndex_0040CE90();
+    pNode->mExpanded = 1;
 
-    if (!field_CA40_visited[north] && pJunction->field_0_n.IsEnabled() && field_8_junctions[north].IsUsableWithArrowType_588580(arrow_type))
+    if (!mVisited[north] && pJunction->mN.IsEnabled() && mJunctions[north].IsUsableWithArrowType_588580(arrow_type))
     {
-        AddChildNode_589990(pNode, north, pJunction->field_0_n.GetLength());
+        AddChildNode_589990(pNode, north, pJunction->mN.GetLength());
     }
-    if (!field_CA40_visited[south] && pJunction->field_2_s.IsEnabled() && field_8_junctions[south].IsUsableWithArrowType_588580(arrow_type))
+    if (!mVisited[south] && pJunction->mS.IsEnabled() && mJunctions[south].IsUsableWithArrowType_588580(arrow_type))
     {
-        AddChildNode_589990(pNode, south, pJunction->field_2_s.GetLength());
+        AddChildNode_589990(pNode, south, pJunction->mS.GetLength());
     }
-    if (!field_CA40_visited[west] && pJunction->field_6_w.IsEnabled() && field_8_junctions[west].IsUsableWithArrowType_588580(arrow_type))
+    if (!mVisited[west] && pJunction->mW.IsEnabled() && mJunctions[west].IsUsableWithArrowType_588580(arrow_type))
     {
-        AddChildNode_589990(pNode, west, pJunction->field_6_w.GetLength());
+        AddChildNode_589990(pNode, west, pJunction->mW.GetLength());
     }
-    if (!field_CA40_visited[east] && pJunction->field_4_e.IsEnabled() && field_8_junctions[east].IsUsableWithArrowType_588580(arrow_type))
+    if (!mVisited[east] && pJunction->mE.IsEnabled() && mJunctions[east].IsUsableWithArrowType_588580(arrow_type))
     {
-        AddChildNode_589990(pNode, east, pJunction->field_4_e.GetLength());
+        AddChildNode_589990(pNode, east, pJunction->mE.GetLength());
     }
     return false;
 }
@@ -949,7 +949,7 @@ RouteSearchNode* RouteFinder::GetFirstUnexpandedNode_589E00()
 {
     RouteSearchNode* pNode;
 
-    for (pNode = field_A82C_open_list; pNode != NULL && pNode->field_4_expanded != 0; pNode = pNode->field_C_pNext)
+    for (pNode = mOpenList; pNode != NULL && pNode->mExpanded != 0; pNode = pNode->mpNext)
         ;
     return pNode;
 }
@@ -958,8 +958,8 @@ MATCH_FUNC(0x589e20)
 bool RouteFinder::SearchToDest_589E20(s32 arrow_type)
 {
     bool bRet = false;
-    RouteSearchNode* pOpenList = this->field_A82C_open_list;
-    if (pOpenList->field_0_junction_idx == this->field_861A_dest_idx)
+    RouteSearchNode* pOpenList = this->mOpenList;
+    if (pOpenList->mJunctionIdx == this->mDestIdx)
     {
         return true;
     }
@@ -989,7 +989,7 @@ MATCH_FUNC(0x589e70)
 bool RouteFinder::SearchUntilOffScreen_589E70(s32 arrow_type)
 {
     bool result = false;
-    if (this->field_A82C_open_list != NULL)
+    if (this->mOpenList != NULL)
     {
         while (true)
         {
@@ -1013,12 +1013,12 @@ MATCH_FUNC(0x589eb0)
 s16 RouteFinder::StoreRoute_589EB0()
 {
     u16 count = 0;
-    if (field_CC66_545_count == 0)
+    if (m545Count == 0)
     {
         return -1;
     }
 
-    RouteSearchNode* pNode = &field_861C_nodes[field_CC66_545_count - 1];
+    RouteSearchNode* pNode = &mNodes[m545Count - 1];
     s16 route_idx = GetFreeRouteIdx_589960();
     if (route_idx == -1)
     {
@@ -1027,23 +1027,23 @@ s16 RouteFinder::StoreRoute_589EB0()
 
     while (pNode != NULL)
     {
-        pNode = pNode->field_8_pParent;
+        pNode = pNode->mpParent;
         count++;
     }
     sLastRouteLength = count;
 
-    pNode = &field_861C_nodes[field_CC66_545_count - 1];
+    pNode = &mNodes[m545Count - 1];
 
     if (pNode != NULL)
     {
         do
         {
-            field_2218_routes[route_idx].field_0_junctions[--count] = pNode->field_0_junction_idx;
-            pNode = pNode->field_8_pParent;
+            mRoutes[route_idx].mJunctions[--count] = pNode->mJunctionIdx;
+            pNode = pNode->mpParent;
         } while (pNode != NULL);
     }
-    field_2218_routes[route_idx].field_0_junctions[sLastRouteLength] = 0;
-    field_0_route_count++;
+    mRoutes[route_idx].mJunctions[sLastRouteLength] = 0;
+    mRouteCount++;
     return route_idx;
 }
 
@@ -1052,12 +1052,12 @@ s16 RouteFinder::StoreRouteReversed_589F70()
 {
     s16 length = 0;
     u8 out_idx = 0;
-    if (field_CC66_545_count == 0)
+    if (m545Count == 0)
     {
         return -1;
     }
 
-    RouteSearchNode* pNode = &field_861C_nodes[field_CC66_545_count - 1];
+    RouteSearchNode* pNode = &mNodes[m545Count - 1];
     s16 route_idx = GetFreeRouteIdx_589960();
     if (route_idx == -1)
     {
@@ -1066,24 +1066,24 @@ s16 RouteFinder::StoreRouteReversed_589F70()
 
     while (pNode != NULL)
     {
-        pNode = pNode->field_8_pParent;
+        pNode = pNode->mpParent;
         length++;
     }
     sLastRouteLength = length;
 
-    pNode = &field_861C_nodes[field_CC66_545_count - 1];
+    pNode = &mNodes[m545Count - 1];
 
     if (pNode != NULL)
     {
         do
         {
-            field_2218_routes[route_idx].field_0_junctions[out_idx] = pNode->field_0_junction_idx;
-            pNode = pNode->field_8_pParent;
+            mRoutes[route_idx].mJunctions[out_idx] = pNode->mJunctionIdx;
+            pNode = pNode->mpParent;
             out_idx++;
 
         } while (pNode != NULL);
     }
-    field_0_route_count++;
+    mRouteCount++;
     return route_idx;
 }
 
@@ -1091,27 +1091,27 @@ MATCH_FUNC(0x58a020)
 void RouteFinder::DebugPrintRoute_58A020(char_type route_idx)
 {
     s32 route_pos = 0;
-    u16 i = this->field_2218_routes[route_idx].field_0_junctions[static_cast<u16>(route_pos)];
+    u16 i = this->mRoutes[route_idx].mJunctions[static_cast<u16>(route_pos)];
     while (i)
     {
-        Junction* pJunc = &this->field_8_junctions[i];
+        Junction* pJunc = &this->mJunctions[i];
         sprintf(gTmpBuffer_67C598,
                 "Junc: %d : (%d, %d)(%d, %d)",
                 i,
-                pJunc->field_C_min_x,
-                pJunc->field_D_min_y,
-                pJunc->field_E_max_x,
-                pJunc->field_F_max_y);
+                pJunc->mMinX,
+                pJunc->mMinY,
+                pJunc->mMaxX,
+                pJunc->mMaxY);
         gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
         ++route_pos;
-        i = this->field_2218_routes[route_idx].field_0_junctions[static_cast<u16>(route_pos)];
+        i = this->mRoutes[route_idx].mJunctions[static_cast<u16>(route_pos)];
     }
 }
 
 MATCH_FUNC(0x58a0b0)
 Junction* RouteFinder::GetJunction_58A0B0(u16 junction_idx)
 {
-    return &field_8_junctions[junction_idx];
+    return &mJunctions[junction_idx];
 }
 
 MATCH_FUNC(0x58a0d0)
@@ -1151,19 +1151,19 @@ u16 RouteFinder::StartRoute_58A190(u8 x1, u8 y1, u8 z1, u8 x2, u8 y2, u8 z2, s32
 MATCH_FUNC(0x58a1c0)
 RouteFinder::RouteFinder()
 {
-    field_0_route_count = 0;
-    field_2_no_junction_direction = 0;
-    field_4_unused = 0;
-    memset(field_8_junctions, 0, sizeof(field_8_junctions));
-    memset(field_2218_routes, 0, sizeof(field_2218_routes));
-    field_8618_start_idx = 0;
-    field_861A_dest_idx = 0;
-    memset(field_861C_nodes, 0, sizeof(field_861C_nodes));
-    field_A82C_open_list = NULL;
-    memset(field_A830_horz_segments, 0, sizeof(field_A830_horz_segments));
-    memset(field_B938_vert_segments, 0, sizeof(field_B938_vert_segments));
-    memset(field_CA40_visited, 0, sizeof(field_CA40_visited));
-    field_CC62_horz_segment_count = 0;
-    field_CC64_vert_segment_count = 0;
-    field_CC66_545_count = 0;
+    mRouteCount = 0;
+    mNoJunctionDirection = 0;
+    mUnused4 = 0;
+    memset(mJunctions, 0, sizeof(mJunctions));
+    memset(mRoutes, 0, sizeof(mRoutes));
+    mStartIdx = 0;
+    mDestIdx = 0;
+    memset(mNodes, 0, sizeof(mNodes));
+    mOpenList = NULL;
+    memset(mHorzSegments, 0, sizeof(mHorzSegments));
+    memset(mVertSegments, 0, sizeof(mVertSegments));
+    memset(mVisited, 0, sizeof(mVisited));
+    mHorzSegmentCount = 0;
+    mVertSegmentCount = 0;
+    m545Count = 0;
 }

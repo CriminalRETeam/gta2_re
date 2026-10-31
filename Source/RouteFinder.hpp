@@ -10,32 +10,32 @@ class Link
     // 9.6f 0x40CE90
     inline u16 GetIndex_0040CE90() const
     {
-        return field_0_packed & 0x1ff;
+        return mPacked & 0x1ff;
     }
 
     // 9.6f 0x40CED0
     inline u8 IsEnabled() const
     {
-        return field_0_packed >> 15;
+        return mPacked >> 15;
     }
 
     // 9.6f 0x40CEA0
     inline u16 GetLength() const
     {
-        return (field_0_packed >> 9) & 0x3F;
+        return (mPacked >> 9) & 0x3F;
     }
 
     inline void Disable_40CEC0()
     {
-        field_0_packed &= ~0x8000u;
+        mPacked &= ~0x8000u;
     }
 
     inline void Enable_40CEB0()
     {
-        field_0_packed |= 0x8000u;
+        mPacked |= 0x8000u;
     }
 
-    u16 field_0_packed; // 0x0
+    u16 mPacked; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Link, 0x2);
 
@@ -48,18 +48,18 @@ class Junction
     // 9.6f 0x40CEE0
     inline bool ContainsPoint(s16 x, s16 y) const
     {
-        return x >= field_C_min_x && x <= field_E_max_x && y >= field_D_min_y && y <= field_F_max_y;
+        return x >= mMinX && x <= mMaxX && y >= mMinY && y <= mMaxY;
     }
 
-    Link field_0_n; // 0x0
-    Link field_2_s; // 0x2
-    Link field_4_e; // 0x4
-    Link field_6_w; // 0x6
-    s32 field_8_type; // 0x8
-    u8 field_C_min_x; // 0xC
-    u8 field_D_min_y; // 0xD
-    u8 field_E_max_x; // 0xE
-    u8 field_F_max_y; // 0xF
+    Link mN; // 0x0
+    Link mS; // 0x2
+    Link mE; // 0x4
+    Link mW; // 0x6
+    s32 mType; // 0x8
+    u8 mMinX; // 0xC
+    u8 mMinY; // 0xD
+    u8 mMaxX; // 0xE
+    u8 mMaxY; // 0xF
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Junction, 0x10);
 
@@ -67,14 +67,14 @@ struct JunctionSegment
 {
     inline bool ContainsPoint_40CF20(s16 x, s16 y) const
     {
-        return x >= field_4_min_x && x <= field_6_max_x && y >= field_5_min_y && y <= field_7_max_y;
+        return x >= mMinX && x <= mMaxX && y >= mMinY && y <= mMaxY;
     }
-    u16 field_0_junction_num1; // 0x0
-    u16 field_2_junction_num2; // 0x2
-    u8 field_4_min_x; // 0x4
-    u8 field_5_min_y; // 0x5
-    u8 field_6_max_x; // 0x6
-    u8 field_7_max_y; // 0x7
+    u16 mJunctionNum1; // 0x0
+    u16 mJunctionNum2; // 0x2
+    u8 mMinX; // 0x4
+    u8 mMinY; // 0x5
+    u8 mMaxX; // 0x6
+    u8 mMaxY; // 0x7
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(JunctionSegment, 0x8);
 
@@ -82,19 +82,19 @@ class RouteSearchNode
 {
   public:
     EXPORT RouteSearchNode();
-    u16 field_0_junction_idx; // 0x0
-    u16 field_2_cost; // 0x2
-    s16 field_4_expanded; // 0x4
-    s16 field_6_unused; // 0x6
-    RouteSearchNode* field_8_pParent; // 0x8
-    RouteSearchNode* field_C_pNext; // 0xC
+    u16 mJunctionIdx; // 0x0
+    u16 mCost; // 0x2
+    s16 mExpanded; // 0x4
+    s16 mUnused6; // 0x6
+    RouteSearchNode* mpParent; // 0x8
+    RouteSearchNode* mpNext; // 0xC
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(RouteSearchNode, 0x10);
 
 class JunctionRoute
 {
   public:
-    u16 field_0_junctions[256]; // 0x0
+    u16 mJunctions[256]; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(JunctionRoute, 0x200);
 
@@ -149,23 +149,23 @@ class RouteFinder
     EXPORT u16 StartRoute_58A190(u8 x1, u8 y1, u8 z1, u8 x2, u8 y2, u8 z2, s32 arrow_type);
     EXPORT RouteFinder();
 
-    u16 field_0_route_count; // 0x0
-    u8 field_2_no_junction_direction; // 0x2
-    char_type field_3_unused; // 0x3
-    s16 field_4_unused; // 0x4
-    s16 field_6_unused; // 0x6
-    Junction field_8_junctions[545]; // 0x8
-    JunctionRoute field_2218_routes[50]; // 0x2218
-    u16 field_8618_start_idx; // 0x8618
-    u16 field_861A_dest_idx; // 0x861A
-    RouteSearchNode field_861C_nodes[545]; // 0x861C
-    RouteSearchNode* field_A82C_open_list; // 0xA82C
-    JunctionSegment field_A830_horz_segments[545]; // 0xA830
-    JunctionSegment field_B938_vert_segments[545]; // 0xB938
-    bool field_CA40_visited[545]; // 0xCA40
-    u16 field_CC62_horz_segment_count; // 0xCC62
-    u16 field_CC64_vert_segment_count; // 0xCC64
-    u16 field_CC66_545_count; // 0xCC66
+    u16 mRouteCount; // 0x0
+    u8 mNoJunctionDirection; // 0x2
+    char_type mUnused3; // 0x3
+    s16 mUnused4; // 0x4
+    s16 mUnused6; // 0x6
+    Junction mJunctions[545]; // 0x8
+    JunctionRoute mRoutes[50]; // 0x2218
+    u16 mStartIdx; // 0x8618
+    u16 mDestIdx; // 0x861A
+    RouteSearchNode mNodes[545]; // 0x861C
+    RouteSearchNode* mOpenList; // 0xA82C
+    JunctionSegment mHorzSegments[545]; // 0xA830
+    JunctionSegment mVertSegments[545]; // 0xB938
+    bool mVisited[545]; // 0xCA40
+    u16 mHorzSegmentCount; // 0xCC62
+    u16 mVertSegmentCount; // 0xCC64
+    u16 m545Count; // 0xCC66
 };
 
 EXTERN_GLOBAL(RouteFinder*, gRouteFinder_6FFDC8);

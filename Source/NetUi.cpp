@@ -17,915 +17,915 @@ struct Network_UI_Control_Data_Array
     {
         // Window 0
 
-        data[NETWORK_MENU_0][0].field_0_windowParams.field_0_x = 10;
-        data[NETWORK_MENU_0][0].field_0_windowParams.field_4_y = 10;
-        data[NETWORK_MENU_0][0].field_0_windowParams.field_8_w = 300;
-        data[NETWORK_MENU_0][0].field_0_windowParams.field_C_h = 300;
-        data[NETWORK_MENU_0][0].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LISTBOX_ALL_NET_GAMES_1000);
-        data[NETWORK_MENU_0][0].field_0_windowParams.field_14_style = 0x40010001;
-        data[NETWORK_MENU_0][0].field_0_windowParams.field_18_exStyle = 0x200;
-        strcpy(data[NETWORK_MENU_0][0].field_1C_window_class_name, "LISTBOX");
-        strcpy(data[NETWORK_MENU_0][0].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][0].mWindowParams.mX = 10;
+        data[NETWORK_MENU_0][0].mWindowParams.mY = 10;
+        data[NETWORK_MENU_0][0].mWindowParams.mW = 300;
+        data[NETWORK_MENU_0][0].mWindowParams.mH = 300;
+        data[NETWORK_MENU_0][0].mWindowParams.mhMenu = reinterpret_cast<HMENU>(LISTBOX_ALL_NET_GAMES_1000);
+        data[NETWORK_MENU_0][0].mWindowParams.mStyle = 0x40010001;
+        data[NETWORK_MENU_0][0].mWindowParams.mExStyle = 0x200;
+        strcpy(data[NETWORK_MENU_0][0].mWindowClassName, "LISTBOX");
+        strcpy(data[NETWORK_MENU_0][0].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][1].field_0_windowParams.field_0_x = 10;
-        data[NETWORK_MENU_0][1].field_0_windowParams.field_4_y = 320;
-        data[NETWORK_MENU_0][1].field_0_windowParams.field_8_w = 100;
-        data[NETWORK_MENU_0][1].field_0_windowParams.field_C_h = 30;
-        data[NETWORK_MENU_0][1].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(BUTTON_JOIN_GAME_1001);
-        data[NETWORK_MENU_0][1].field_0_windowParams.field_14_style = 0x48030001;
-        data[NETWORK_MENU_0][1].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][1].field_1C_window_class_name, "BUTTON");
-        strcpy(data[NETWORK_MENU_0][1].field_6C_gtx_string_name, "netui01");
+        data[NETWORK_MENU_0][1].mWindowParams.mX = 10;
+        data[NETWORK_MENU_0][1].mWindowParams.mY = 320;
+        data[NETWORK_MENU_0][1].mWindowParams.mW = 100;
+        data[NETWORK_MENU_0][1].mWindowParams.mH = 30;
+        data[NETWORK_MENU_0][1].mWindowParams.mhMenu = reinterpret_cast<HMENU>(BUTTON_JOIN_GAME_1001);
+        data[NETWORK_MENU_0][1].mWindowParams.mStyle = 0x48030001;
+        data[NETWORK_MENU_0][1].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][1].mWindowClassName, "BUTTON");
+        strcpy(data[NETWORK_MENU_0][1].mGtxStringName, "netui01");
 
-        data[NETWORK_MENU_0][2].field_0_windowParams.field_0_x = 110;
-        data[NETWORK_MENU_0][2].field_0_windowParams.field_4_y = 320;
-        data[NETWORK_MENU_0][2].field_0_windowParams.field_8_w = 100;
-        data[NETWORK_MENU_0][2].field_0_windowParams.field_C_h = 30;
-        data[NETWORK_MENU_0][2].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(BUTTON_CREATE_GAME_1002);
-        data[NETWORK_MENU_0][2].field_0_windowParams.field_14_style = 0x40010000;
-        data[NETWORK_MENU_0][2].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][2].field_1C_window_class_name, "BUTTON");
-        strcpy(data[NETWORK_MENU_0][2].field_6C_gtx_string_name, "netui02");
+        data[NETWORK_MENU_0][2].mWindowParams.mX = 110;
+        data[NETWORK_MENU_0][2].mWindowParams.mY = 320;
+        data[NETWORK_MENU_0][2].mWindowParams.mW = 100;
+        data[NETWORK_MENU_0][2].mWindowParams.mH = 30;
+        data[NETWORK_MENU_0][2].mWindowParams.mhMenu = reinterpret_cast<HMENU>(BUTTON_CREATE_GAME_1002);
+        data[NETWORK_MENU_0][2].mWindowParams.mStyle = 0x40010000;
+        data[NETWORK_MENU_0][2].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][2].mWindowClassName, "BUTTON");
+        strcpy(data[NETWORK_MENU_0][2].mGtxStringName, "netui02");
 
-        data[NETWORK_MENU_0][3].field_0_windowParams.field_0_x = 210;
-        data[NETWORK_MENU_0][3].field_0_windowParams.field_4_y = 320;
-        data[NETWORK_MENU_0][3].field_0_windowParams.field_8_w = 100;
-        data[NETWORK_MENU_0][3].field_0_windowParams.field_C_h = 30;
-        data[NETWORK_MENU_0][3].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(IDCANCEL);
-        data[NETWORK_MENU_0][3].field_0_windowParams.field_14_style = 0x40010000;
-        data[NETWORK_MENU_0][3].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][3].field_1C_window_class_name, "BUTTON");
-        strcpy(data[NETWORK_MENU_0][3].field_6C_gtx_string_name, "netui03");
+        data[NETWORK_MENU_0][3].mWindowParams.mX = 210;
+        data[NETWORK_MENU_0][3].mWindowParams.mY = 320;
+        data[NETWORK_MENU_0][3].mWindowParams.mW = 100;
+        data[NETWORK_MENU_0][3].mWindowParams.mH = 30;
+        data[NETWORK_MENU_0][3].mWindowParams.mhMenu = reinterpret_cast<HMENU>(IDCANCEL);
+        data[NETWORK_MENU_0][3].mWindowParams.mStyle = 0x40010000;
+        data[NETWORK_MENU_0][3].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][3].mWindowClassName, "BUTTON");
+        strcpy(data[NETWORK_MENU_0][3].mGtxStringName, "netui03");
 
-        data[NETWORK_MENU_0][4].field_0_windowParams.field_0_x = 320;
-        data[NETWORK_MENU_0][4].field_0_windowParams.field_4_y = 10;
-        data[NETWORK_MENU_0][4].field_0_windowParams.field_8_w = 50;
-        data[NETWORK_MENU_0][4].field_0_windowParams.field_C_h = 30;
-        data[NETWORK_MENU_0][4].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_PLAYER_NAME_1003);
-        data[NETWORK_MENU_0][4].field_0_windowParams.field_14_style = 0x40000000;
-        data[NETWORK_MENU_0][4].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][4].field_1C_window_class_name, "STATIC");
-        strcpy(data[NETWORK_MENU_0][4].field_6C_gtx_string_name, "netui04");
+        data[NETWORK_MENU_0][4].mWindowParams.mX = 320;
+        data[NETWORK_MENU_0][4].mWindowParams.mY = 10;
+        data[NETWORK_MENU_0][4].mWindowParams.mW = 50;
+        data[NETWORK_MENU_0][4].mWindowParams.mH = 30;
+        data[NETWORK_MENU_0][4].mWindowParams.mhMenu = reinterpret_cast<HMENU>(LABEL_PLAYER_NAME_1003);
+        data[NETWORK_MENU_0][4].mWindowParams.mStyle = 0x40000000;
+        data[NETWORK_MENU_0][4].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][4].mWindowClassName, "STATIC");
+        strcpy(data[NETWORK_MENU_0][4].mGtxStringName, "netui04");
 
-        data[NETWORK_MENU_0][5].field_0_windowParams.field_0_x = 380;
-        data[NETWORK_MENU_0][5].field_0_windowParams.field_4_y = 10;
-        data[NETWORK_MENU_0][5].field_0_windowParams.field_8_w = 100;
-        data[NETWORK_MENU_0][5].field_0_windowParams.field_C_h = 25;
-        data[NETWORK_MENU_0][5].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(TEXTBOX_PLAYER_NAME_1004);
-        data[NETWORK_MENU_0][5].field_0_windowParams.field_14_style = 0x40010000;
-        data[NETWORK_MENU_0][5].field_0_windowParams.field_18_exStyle = 0x200;
-        strcpy(data[NETWORK_MENU_0][5].field_1C_window_class_name, "EDIT");
-        strcpy(data[NETWORK_MENU_0][5].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][5].mWindowParams.mX = 380;
+        data[NETWORK_MENU_0][5].mWindowParams.mY = 10;
+        data[NETWORK_MENU_0][5].mWindowParams.mW = 100;
+        data[NETWORK_MENU_0][5].mWindowParams.mH = 25;
+        data[NETWORK_MENU_0][5].mWindowParams.mhMenu = reinterpret_cast<HMENU>(TEXTBOX_PLAYER_NAME_1004);
+        data[NETWORK_MENU_0][5].mWindowParams.mStyle = 0x40010000;
+        data[NETWORK_MENU_0][5].mWindowParams.mExStyle = 0x200;
+        strcpy(data[NETWORK_MENU_0][5].mWindowClassName, "EDIT");
+        strcpy(data[NETWORK_MENU_0][5].mGtxStringName, "");
 
         // Clear remaining array for windows 0:
 
-        data[NETWORK_MENU_0][6].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][6].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][6].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][6].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][6].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][6].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][6].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][6].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][6].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][6].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][6].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][6].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][6].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][6].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][6].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][6].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][6].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][6].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][7].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][7].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][7].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][7].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][7].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][7].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][7].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][7].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][7].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][7].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][7].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][7].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][7].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][7].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][7].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][7].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][7].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][7].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][8].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][8].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][8].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][8].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][8].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][8].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][8].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][8].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][8].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][8].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][8].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][8].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][8].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][8].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][8].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][8].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][8].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][8].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][9].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][9].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][9].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][9].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][9].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][9].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][9].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][9].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][9].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][9].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][9].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][9].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][9].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][9].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][9].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][9].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][9].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][9].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][10].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][10].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][10].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][10].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][10].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][10].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][10].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][10].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][10].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][10].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][10].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][10].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][10].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][10].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][10].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][10].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][10].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][10].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][11].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][11].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][11].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][11].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][11].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][11].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][11].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][11].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][11].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][11].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][11].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][11].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][11].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][11].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][11].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][11].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][11].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][11].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][12].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][12].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][12].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][12].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][12].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][12].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][12].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][12].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][12].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][12].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][12].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][12].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][12].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][12].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][12].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][12].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][12].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][12].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][13].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][13].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][13].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][13].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][13].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][13].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][13].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][13].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][13].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][13].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][13].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][13].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][13].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][13].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][13].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][13].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][13].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][13].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][14].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][14].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][14].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][14].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][14].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][14].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][14].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][14].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][14].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][14].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][14].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][14].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][14].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][14].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][14].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][14].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][14].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][14].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][15].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][15].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][15].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][15].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][15].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][15].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][15].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][15].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][15].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][15].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][15].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][15].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][15].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][15].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][15].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][15].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][15].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][15].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][16].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][16].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][16].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][16].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][16].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][16].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][16].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][16].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][16].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][16].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][16].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][16].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][16].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][16].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][16].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][16].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][16].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][16].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][17].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][17].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][17].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][17].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][17].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][17].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][17].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][17].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][17].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][17].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][17].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][17].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][17].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][17].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][17].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][17].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][17].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][17].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][18].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][18].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][18].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][18].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][18].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][18].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][18].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][18].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][18].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][18].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][18].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][18].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][18].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][18].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][18].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][18].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][18].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][18].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][19].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][19].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][19].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][19].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][19].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][19].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][19].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][19].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][19].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][19].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][19].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][19].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][19].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][19].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][19].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][19].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][19].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][19].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][20].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][20].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][20].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][20].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][20].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][20].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][20].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][20].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][20].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][20].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][20].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][20].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][20].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][20].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][20].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][20].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][20].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][20].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][21].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][21].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][21].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][21].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][21].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][21].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][21].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][21].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][21].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][21].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][21].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][21].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][21].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][21].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][21].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][21].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][21].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][21].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][22].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][22].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][22].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][22].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][22].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][22].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][22].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][22].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][22].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][22].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][22].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][22].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][22].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][22].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][22].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][22].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][22].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][22].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][23].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][23].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][23].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][23].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][23].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][23].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][23].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][23].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][23].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][23].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][23].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][23].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][23].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][23].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][23].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][23].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][23].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][23].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][24].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][24].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][24].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][24].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][24].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][24].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][24].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][24].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][24].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][24].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][24].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][24].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][24].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][24].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][24].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][24].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][24].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][24].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][25].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][25].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][25].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][25].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][25].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][25].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][25].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][25].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][25].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][25].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][25].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][25].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][25].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][25].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][25].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][25].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][25].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][25].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][26].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][26].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][26].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][26].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][26].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][26].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][26].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][26].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][26].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][26].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][26].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][26].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][26].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][26].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][26].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][26].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][26].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][26].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][27].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][27].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][27].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][27].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][27].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][27].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][27].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][27].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][27].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][27].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][27].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][27].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][27].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][27].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][27].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][27].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][27].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][27].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][28].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][28].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][28].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][28].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][28].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][28].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][28].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][28].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][28].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][28].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][28].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][28].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][28].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][28].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][28].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][28].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][28].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][28].mGtxStringName, "");
 
-        data[NETWORK_MENU_0][29].field_0_windowParams.field_0_x = 0;
-        data[NETWORK_MENU_0][29].field_0_windowParams.field_4_y = 0;
-        data[NETWORK_MENU_0][29].field_0_windowParams.field_8_w = 0;
-        data[NETWORK_MENU_0][29].field_0_windowParams.field_C_h = 0;
-        data[NETWORK_MENU_0][29].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[NETWORK_MENU_0][29].field_0_windowParams.field_14_style = 0x0;
-        data[NETWORK_MENU_0][29].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[NETWORK_MENU_0][29].field_1C_window_class_name, "");
-        strcpy(data[NETWORK_MENU_0][29].field_6C_gtx_string_name, "");
+        data[NETWORK_MENU_0][29].mWindowParams.mX = 0;
+        data[NETWORK_MENU_0][29].mWindowParams.mY = 0;
+        data[NETWORK_MENU_0][29].mWindowParams.mW = 0;
+        data[NETWORK_MENU_0][29].mWindowParams.mH = 0;
+        data[NETWORK_MENU_0][29].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[NETWORK_MENU_0][29].mWindowParams.mStyle = 0x0;
+        data[NETWORK_MENU_0][29].mWindowParams.mExStyle = 0x0;
+        strcpy(data[NETWORK_MENU_0][29].mWindowClassName, "");
+        strcpy(data[NETWORK_MENU_0][29].mGtxStringName, "");
 
         // Window 1
 
-        data[HOST_LOBBY_1][0].field_0_windowParams.field_0_x = 10;
-        data[HOST_LOBBY_1][0].field_0_windowParams.field_4_y = 10;
-        data[HOST_LOBBY_1][0].field_0_windowParams.field_8_w = 210;
-        data[HOST_LOBBY_1][0].field_0_windowParams.field_C_h = 130;
-        data[HOST_LOBBY_1][0].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LISTVIEW_HOST_PLAYERS_1024);
-        data[HOST_LOBBY_1][0].field_0_windowParams.field_14_style = 0x40008005;
-        data[HOST_LOBBY_1][0].field_0_windowParams.field_18_exStyle = 0x200;
-        strcpy(data[HOST_LOBBY_1][0].field_1C_window_class_name, "SysListView32");
-        strcpy(data[HOST_LOBBY_1][0].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][0].mWindowParams.mX = 10;
+        data[HOST_LOBBY_1][0].mWindowParams.mY = 10;
+        data[HOST_LOBBY_1][0].mWindowParams.mW = 210;
+        data[HOST_LOBBY_1][0].mWindowParams.mH = 130;
+        data[HOST_LOBBY_1][0].mWindowParams.mhMenu = reinterpret_cast<HMENU>(LISTVIEW_HOST_PLAYERS_1024);
+        data[HOST_LOBBY_1][0].mWindowParams.mStyle = 0x40008005;
+        data[HOST_LOBBY_1][0].mWindowParams.mExStyle = 0x200;
+        strcpy(data[HOST_LOBBY_1][0].mWindowClassName, "SysListView32");
+        strcpy(data[HOST_LOBBY_1][0].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][1].field_0_windowParams.field_0_x = 230;
-        data[HOST_LOBBY_1][1].field_0_windowParams.field_4_y = 10;
-        data[HOST_LOBBY_1][1].field_0_windowParams.field_8_w = 270;
-        data[HOST_LOBBY_1][1].field_0_windowParams.field_C_h = 130;
-        data[HOST_LOBBY_1][1].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(CHATBOX_HOST_1022);
-        data[HOST_LOBBY_1][1].field_0_windowParams.field_14_style = 0x400018c4;
-        data[HOST_LOBBY_1][1].field_0_windowParams.field_18_exStyle = 0x200;
-        strcpy(data[HOST_LOBBY_1][1].field_1C_window_class_name, "EDIT");
-        strcpy(data[HOST_LOBBY_1][1].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][1].mWindowParams.mX = 230;
+        data[HOST_LOBBY_1][1].mWindowParams.mY = 10;
+        data[HOST_LOBBY_1][1].mWindowParams.mW = 270;
+        data[HOST_LOBBY_1][1].mWindowParams.mH = 130;
+        data[HOST_LOBBY_1][1].mWindowParams.mhMenu = reinterpret_cast<HMENU>(CHATBOX_HOST_1022);
+        data[HOST_LOBBY_1][1].mWindowParams.mStyle = 0x400018c4;
+        data[HOST_LOBBY_1][1].mWindowParams.mExStyle = 0x200;
+        strcpy(data[HOST_LOBBY_1][1].mWindowClassName, "EDIT");
+        strcpy(data[HOST_LOBBY_1][1].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][2].field_0_windowParams.field_0_x = 10;
-        data[HOST_LOBBY_1][2].field_0_windowParams.field_4_y = 170;
-        data[HOST_LOBBY_1][2].field_0_windowParams.field_8_w = 100;
-        data[HOST_LOBBY_1][2].field_0_windowParams.field_C_h = 30;
-        data[HOST_LOBBY_1][2].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(BUTTON_REJECT_PLAYER_1020);
-        data[HOST_LOBBY_1][2].field_0_windowParams.field_14_style = 0x48030000;
-        data[HOST_LOBBY_1][2].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][2].field_1C_window_class_name, "BUTTON");
-        strcpy(data[HOST_LOBBY_1][2].field_6C_gtx_string_name, "netui05");
+        data[HOST_LOBBY_1][2].mWindowParams.mX = 10;
+        data[HOST_LOBBY_1][2].mWindowParams.mY = 170;
+        data[HOST_LOBBY_1][2].mWindowParams.mW = 100;
+        data[HOST_LOBBY_1][2].mWindowParams.mH = 30;
+        data[HOST_LOBBY_1][2].mWindowParams.mhMenu = reinterpret_cast<HMENU>(BUTTON_REJECT_PLAYER_1020);
+        data[HOST_LOBBY_1][2].mWindowParams.mStyle = 0x48030000;
+        data[HOST_LOBBY_1][2].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][2].mWindowClassName, "BUTTON");
+        strcpy(data[HOST_LOBBY_1][2].mGtxStringName, "netui05");
 
-        data[HOST_LOBBY_1][3].field_0_windowParams.field_0_x = 10;
-        data[HOST_LOBBY_1][3].field_0_windowParams.field_4_y = 210;
-        data[HOST_LOBBY_1][3].field_0_windowParams.field_8_w = 100;
-        data[HOST_LOBBY_1][3].field_0_windowParams.field_C_h = 30;
-        data[HOST_LOBBY_1][3].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(BUTTON_START_GAME_1021);
-        data[HOST_LOBBY_1][3].field_0_windowParams.field_14_style = 0x48010000;
-        data[HOST_LOBBY_1][3].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][3].field_1C_window_class_name, "BUTTON");
-        strcpy(data[HOST_LOBBY_1][3].field_6C_gtx_string_name, "netui06");
+        data[HOST_LOBBY_1][3].mWindowParams.mX = 10;
+        data[HOST_LOBBY_1][3].mWindowParams.mY = 210;
+        data[HOST_LOBBY_1][3].mWindowParams.mW = 100;
+        data[HOST_LOBBY_1][3].mWindowParams.mH = 30;
+        data[HOST_LOBBY_1][3].mWindowParams.mhMenu = reinterpret_cast<HMENU>(BUTTON_START_GAME_1021);
+        data[HOST_LOBBY_1][3].mWindowParams.mStyle = 0x48010000;
+        data[HOST_LOBBY_1][3].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][3].mWindowClassName, "BUTTON");
+        strcpy(data[HOST_LOBBY_1][3].mGtxStringName, "netui06");
 
-        data[HOST_LOBBY_1][4].field_0_windowParams.field_0_x = 10;
-        data[HOST_LOBBY_1][4].field_0_windowParams.field_4_y = 250;
-        data[HOST_LOBBY_1][4].field_0_windowParams.field_8_w = 100;
-        data[HOST_LOBBY_1][4].field_0_windowParams.field_C_h = 30;
-        data[HOST_LOBBY_1][4].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(IDCANCEL);
-        data[HOST_LOBBY_1][4].field_0_windowParams.field_14_style = 0x40010000;
-        data[HOST_LOBBY_1][4].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][4].field_1C_window_class_name, "BUTTON");
-        strcpy(data[HOST_LOBBY_1][4].field_6C_gtx_string_name, "netui03");
+        data[HOST_LOBBY_1][4].mWindowParams.mX = 10;
+        data[HOST_LOBBY_1][4].mWindowParams.mY = 250;
+        data[HOST_LOBBY_1][4].mWindowParams.mW = 100;
+        data[HOST_LOBBY_1][4].mWindowParams.mH = 30;
+        data[HOST_LOBBY_1][4].mWindowParams.mhMenu = reinterpret_cast<HMENU>(IDCANCEL);
+        data[HOST_LOBBY_1][4].mWindowParams.mStyle = 0x40010000;
+        data[HOST_LOBBY_1][4].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][4].mWindowClassName, "BUTTON");
+        strcpy(data[HOST_LOBBY_1][4].mGtxStringName, "netui03");
 
-        data[HOST_LOBBY_1][5].field_0_windowParams.field_0_x = 230;
-        data[HOST_LOBBY_1][5].field_0_windowParams.field_4_y = 150;
-        data[HOST_LOBBY_1][5].field_0_windowParams.field_8_w = 270;
-        data[HOST_LOBBY_1][5].field_0_windowParams.field_C_h = 30;
-        data[HOST_LOBBY_1][5].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(TEXTFIELD_CHAT_HOST_1025);
-        data[HOST_LOBBY_1][5].field_0_windowParams.field_14_style = 0x40031080;
-        data[HOST_LOBBY_1][5].field_0_windowParams.field_18_exStyle = 0x200;
-        strcpy(data[HOST_LOBBY_1][5].field_1C_window_class_name, "EDIT");
-        strcpy(data[HOST_LOBBY_1][5].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][5].mWindowParams.mX = 230;
+        data[HOST_LOBBY_1][5].mWindowParams.mY = 150;
+        data[HOST_LOBBY_1][5].mWindowParams.mW = 270;
+        data[HOST_LOBBY_1][5].mWindowParams.mH = 30;
+        data[HOST_LOBBY_1][5].mWindowParams.mhMenu = reinterpret_cast<HMENU>(TEXTFIELD_CHAT_HOST_1025);
+        data[HOST_LOBBY_1][5].mWindowParams.mStyle = 0x40031080;
+        data[HOST_LOBBY_1][5].mWindowParams.mExStyle = 0x200;
+        strcpy(data[HOST_LOBBY_1][5].mWindowClassName, "EDIT");
+        strcpy(data[HOST_LOBBY_1][5].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][6].field_0_windowParams.field_0_x = 230;
-        data[HOST_LOBBY_1][6].field_0_windowParams.field_4_y = 190;
-        data[HOST_LOBBY_1][6].field_0_windowParams.field_8_w = 270;
-        data[HOST_LOBBY_1][6].field_0_windowParams.field_C_h = 30;
-        data[HOST_LOBBY_1][6].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(BUTTON_SEND_CHAT_MESSAGE_HOST_1023);
-        data[HOST_LOBBY_1][6].field_0_windowParams.field_14_style = 0x40010000;
-        data[HOST_LOBBY_1][6].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][6].field_1C_window_class_name, "BUTTON");
-        strcpy(data[HOST_LOBBY_1][6].field_6C_gtx_string_name, "netui07");
+        data[HOST_LOBBY_1][6].mWindowParams.mX = 230;
+        data[HOST_LOBBY_1][6].mWindowParams.mY = 190;
+        data[HOST_LOBBY_1][6].mWindowParams.mW = 270;
+        data[HOST_LOBBY_1][6].mWindowParams.mH = 30;
+        data[HOST_LOBBY_1][6].mWindowParams.mhMenu = reinterpret_cast<HMENU>(BUTTON_SEND_CHAT_MESSAGE_HOST_1023);
+        data[HOST_LOBBY_1][6].mWindowParams.mStyle = 0x40010000;
+        data[HOST_LOBBY_1][6].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][6].mWindowClassName, "BUTTON");
+        strcpy(data[HOST_LOBBY_1][6].mGtxStringName, "netui07");
 
-        data[HOST_LOBBY_1][7].field_0_windowParams.field_0_x = 230;
-        data[HOST_LOBBY_1][7].field_0_windowParams.field_4_y = 230;
-        data[HOST_LOBBY_1][7].field_0_windowParams.field_8_w = 270;
-        data[HOST_LOBBY_1][7].field_0_windowParams.field_C_h = 130;
-        data[HOST_LOBBY_1][7].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(COMBO_MAP_LIST_1026);
-        data[HOST_LOBBY_1][7].field_0_windowParams.field_14_style = 0x40210243;
-        data[HOST_LOBBY_1][7].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][7].field_1C_window_class_name, "COMBOBOX");
-        strcpy(data[HOST_LOBBY_1][7].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][7].mWindowParams.mX = 230;
+        data[HOST_LOBBY_1][7].mWindowParams.mY = 230;
+        data[HOST_LOBBY_1][7].mWindowParams.mW = 270;
+        data[HOST_LOBBY_1][7].mWindowParams.mH = 130;
+        data[HOST_LOBBY_1][7].mWindowParams.mhMenu = reinterpret_cast<HMENU>(COMBO_MAP_LIST_1026);
+        data[HOST_LOBBY_1][7].mWindowParams.mStyle = 0x40210243;
+        data[HOST_LOBBY_1][7].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][7].mWindowClassName, "COMBOBOX");
+        strcpy(data[HOST_LOBBY_1][7].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][8].field_0_windowParams.field_0_x = 230;
-        data[HOST_LOBBY_1][8].field_0_windowParams.field_4_y = 260;
-        data[HOST_LOBBY_1][8].field_0_windowParams.field_8_w = 200;
-        data[HOST_LOBBY_1][8].field_0_windowParams.field_C_h = 30;
-        data[HOST_LOBBY_1][8].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_PLAYERS_REQUIRED_1033);
-        data[HOST_LOBBY_1][8].field_0_windowParams.field_14_style = 0x40000000;
-        data[HOST_LOBBY_1][8].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][8].field_1C_window_class_name, "STATIC");
-        strcpy(data[HOST_LOBBY_1][8].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][8].mWindowParams.mX = 230;
+        data[HOST_LOBBY_1][8].mWindowParams.mY = 260;
+        data[HOST_LOBBY_1][8].mWindowParams.mW = 200;
+        data[HOST_LOBBY_1][8].mWindowParams.mH = 30;
+        data[HOST_LOBBY_1][8].mWindowParams.mhMenu = reinterpret_cast<HMENU>(LABEL_PLAYERS_REQUIRED_1033);
+        data[HOST_LOBBY_1][8].mWindowParams.mStyle = 0x40000000;
+        data[HOST_LOBBY_1][8].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][8].mWindowClassName, "STATIC");
+        strcpy(data[HOST_LOBBY_1][8].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][9].field_0_windowParams.field_0_x = 10;
-        data[HOST_LOBBY_1][9].field_0_windowParams.field_4_y = 300;
-        data[HOST_LOBBY_1][9].field_0_windowParams.field_8_w = 200;
-        data[HOST_LOBBY_1][9].field_0_windowParams.field_C_h = 30;
-        data[HOST_LOBBY_1][9].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(TRACKBAR_GAME_SPEED_1031);
-        data[HOST_LOBBY_1][9].field_0_windowParams.field_14_style = 0x40000001;
-        data[HOST_LOBBY_1][9].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][9].field_1C_window_class_name, "msctls_trackbar32");
-        strcpy(data[HOST_LOBBY_1][9].field_6C_gtx_string_name, "netui09");
+        data[HOST_LOBBY_1][9].mWindowParams.mX = 10;
+        data[HOST_LOBBY_1][9].mWindowParams.mY = 300;
+        data[HOST_LOBBY_1][9].mWindowParams.mW = 200;
+        data[HOST_LOBBY_1][9].mWindowParams.mH = 30;
+        data[HOST_LOBBY_1][9].mWindowParams.mhMenu = reinterpret_cast<HMENU>(TRACKBAR_GAME_SPEED_1031);
+        data[HOST_LOBBY_1][9].mWindowParams.mStyle = 0x40000001;
+        data[HOST_LOBBY_1][9].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][9].mWindowClassName, "msctls_trackbar32");
+        strcpy(data[HOST_LOBBY_1][9].mGtxStringName, "netui09");
 
-        data[HOST_LOBBY_1][10].field_0_windowParams.field_0_x = 10;
-        data[HOST_LOBBY_1][10].field_0_windowParams.field_4_y = 340;
-        data[HOST_LOBBY_1][10].field_0_windowParams.field_8_w = 200;
-        data[HOST_LOBBY_1][10].field_0_windowParams.field_C_h = 30;
-        data[HOST_LOBBY_1][10].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_GAME_SPEED_TEXT_1032);
-        data[HOST_LOBBY_1][10].field_0_windowParams.field_14_style = 0x40000000;
-        data[HOST_LOBBY_1][10].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][10].field_1C_window_class_name, "STATIC");
-        strcpy(data[HOST_LOBBY_1][10].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][10].mWindowParams.mX = 10;
+        data[HOST_LOBBY_1][10].mWindowParams.mY = 340;
+        data[HOST_LOBBY_1][10].mWindowParams.mW = 200;
+        data[HOST_LOBBY_1][10].mWindowParams.mH = 30;
+        data[HOST_LOBBY_1][10].mWindowParams.mhMenu = reinterpret_cast<HMENU>(LABEL_GAME_SPEED_TEXT_1032);
+        data[HOST_LOBBY_1][10].mWindowParams.mStyle = 0x40000000;
+        data[HOST_LOBBY_1][10].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][10].mWindowClassName, "STATIC");
+        strcpy(data[HOST_LOBBY_1][10].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][11].field_0_windowParams.field_0_x = 230;
-        data[HOST_LOBBY_1][11].field_0_windowParams.field_4_y = 290;
-        data[HOST_LOBBY_1][11].field_0_windowParams.field_8_w = 130;
-        data[HOST_LOBBY_1][11].field_0_windowParams.field_C_h = 130;
-        data[HOST_LOBBY_1][11].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(COMBO_GAME_TYPE_1036);
-        data[HOST_LOBBY_1][11].field_0_windowParams.field_14_style = 0x40210243;
-        data[HOST_LOBBY_1][11].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][11].field_1C_window_class_name, "COMBOBOX");
-        strcpy(data[HOST_LOBBY_1][11].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][11].mWindowParams.mX = 230;
+        data[HOST_LOBBY_1][11].mWindowParams.mY = 290;
+        data[HOST_LOBBY_1][11].mWindowParams.mW = 130;
+        data[HOST_LOBBY_1][11].mWindowParams.mH = 130;
+        data[HOST_LOBBY_1][11].mWindowParams.mhMenu = reinterpret_cast<HMENU>(COMBO_GAME_TYPE_1036);
+        data[HOST_LOBBY_1][11].mWindowParams.mStyle = 0x40210243;
+        data[HOST_LOBBY_1][11].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][11].mWindowClassName, "COMBOBOX");
+        strcpy(data[HOST_LOBBY_1][11].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][12].field_0_windowParams.field_0_x = 230;
-        data[HOST_LOBBY_1][12].field_0_windowParams.field_4_y = 330;
-        data[HOST_LOBBY_1][12].field_0_windowParams.field_8_w = 60;
-        data[HOST_LOBBY_1][12].field_0_windowParams.field_C_h = 26;
-        data[HOST_LOBBY_1][12].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(TEXTBOX_FRAG_LIMIT_NUMBER_1059);
-        data[HOST_LOBBY_1][12].field_0_windowParams.field_14_style = 0x40033000;
-        data[HOST_LOBBY_1][12].field_0_windowParams.field_18_exStyle = 0x1200;
-        strcpy(data[HOST_LOBBY_1][12].field_1C_window_class_name, "EDIT");
-        strcpy(data[HOST_LOBBY_1][12].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][12].mWindowParams.mX = 230;
+        data[HOST_LOBBY_1][12].mWindowParams.mY = 330;
+        data[HOST_LOBBY_1][12].mWindowParams.mW = 60;
+        data[HOST_LOBBY_1][12].mWindowParams.mH = 26;
+        data[HOST_LOBBY_1][12].mWindowParams.mhMenu = reinterpret_cast<HMENU>(TEXTBOX_FRAG_LIMIT_NUMBER_1059);
+        data[HOST_LOBBY_1][12].mWindowParams.mStyle = 0x40033000;
+        data[HOST_LOBBY_1][12].mWindowParams.mExStyle = 0x1200;
+        strcpy(data[HOST_LOBBY_1][12].mWindowClassName, "EDIT");
+        strcpy(data[HOST_LOBBY_1][12].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][13].field_0_windowParams.field_0_x = 300;
-        data[HOST_LOBBY_1][13].field_0_windowParams.field_4_y = 330;
-        data[HOST_LOBBY_1][13].field_0_windowParams.field_8_w = 200;
-        data[HOST_LOBBY_1][13].field_0_windowParams.field_C_h = 30;
-        data[HOST_LOBBY_1][13].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_FRAG_LIMIT_TEXT_1035);
-        data[HOST_LOBBY_1][13].field_0_windowParams.field_14_style = 0x40000000;
-        data[HOST_LOBBY_1][13].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][13].field_1C_window_class_name, "STATIC");
-        strcpy(data[HOST_LOBBY_1][13].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][13].mWindowParams.mX = 300;
+        data[HOST_LOBBY_1][13].mWindowParams.mY = 330;
+        data[HOST_LOBBY_1][13].mWindowParams.mW = 200;
+        data[HOST_LOBBY_1][13].mWindowParams.mH = 30;
+        data[HOST_LOBBY_1][13].mWindowParams.mhMenu = reinterpret_cast<HMENU>(LABEL_FRAG_LIMIT_TEXT_1035);
+        data[HOST_LOBBY_1][13].mWindowParams.mStyle = 0x40000000;
+        data[HOST_LOBBY_1][13].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][13].mWindowClassName, "STATIC");
+        strcpy(data[HOST_LOBBY_1][13].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][14].field_0_windowParams.field_0_x = 230;
-        data[HOST_LOBBY_1][14].field_0_windowParams.field_4_y = 370;
-        data[HOST_LOBBY_1][14].field_0_windowParams.field_8_w = 60;
-        data[HOST_LOBBY_1][14].field_0_windowParams.field_C_h = 26;
-        data[HOST_LOBBY_1][14].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(TEXTBOX_GAME_TIME_LIMIT_1038);
-        data[HOST_LOBBY_1][14].field_0_windowParams.field_14_style = 0x40033000;
-        data[HOST_LOBBY_1][14].field_0_windowParams.field_18_exStyle = 0x1200;
-        strcpy(data[HOST_LOBBY_1][14].field_1C_window_class_name, "EDIT");
-        strcpy(data[HOST_LOBBY_1][14].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][14].mWindowParams.mX = 230;
+        data[HOST_LOBBY_1][14].mWindowParams.mY = 370;
+        data[HOST_LOBBY_1][14].mWindowParams.mW = 60;
+        data[HOST_LOBBY_1][14].mWindowParams.mH = 26;
+        data[HOST_LOBBY_1][14].mWindowParams.mhMenu = reinterpret_cast<HMENU>(TEXTBOX_GAME_TIME_LIMIT_1038);
+        data[HOST_LOBBY_1][14].mWindowParams.mStyle = 0x40033000;
+        data[HOST_LOBBY_1][14].mWindowParams.mExStyle = 0x1200;
+        strcpy(data[HOST_LOBBY_1][14].mWindowClassName, "EDIT");
+        strcpy(data[HOST_LOBBY_1][14].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][15].field_0_windowParams.field_0_x = 300;
-        data[HOST_LOBBY_1][15].field_0_windowParams.field_4_y = 370;
-        data[HOST_LOBBY_1][15].field_0_windowParams.field_8_w = 200;
-        data[HOST_LOBBY_1][15].field_0_windowParams.field_C_h = 30;
-        data[HOST_LOBBY_1][15].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_TIME_LIMIT_MINUTES_1037);
-        data[HOST_LOBBY_1][15].field_0_windowParams.field_14_style = 0x40000000;
-        data[HOST_LOBBY_1][15].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][15].field_1C_window_class_name, "STATIC");
-        strcpy(data[HOST_LOBBY_1][15].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][15].mWindowParams.mX = 300;
+        data[HOST_LOBBY_1][15].mWindowParams.mY = 370;
+        data[HOST_LOBBY_1][15].mWindowParams.mW = 200;
+        data[HOST_LOBBY_1][15].mWindowParams.mH = 30;
+        data[HOST_LOBBY_1][15].mWindowParams.mhMenu = reinterpret_cast<HMENU>(LABEL_TIME_LIMIT_MINUTES_1037);
+        data[HOST_LOBBY_1][15].mWindowParams.mStyle = 0x40000000;
+        data[HOST_LOBBY_1][15].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][15].mWindowClassName, "STATIC");
+        strcpy(data[HOST_LOBBY_1][15].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][16].field_0_windowParams.field_0_x = 230;
-        data[HOST_LOBBY_1][16].field_0_windowParams.field_4_y = 400;
-        data[HOST_LOBBY_1][16].field_0_windowParams.field_8_w = 20;
-        data[HOST_LOBBY_1][16].field_0_windowParams.field_C_h = 30;
-        data[HOST_LOBBY_1][16].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(CHECKBOX_POLICE_ENABLED_1027);
-        data[HOST_LOBBY_1][16].field_0_windowParams.field_14_style = 0x40000003;
-        data[HOST_LOBBY_1][16].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][16].field_1C_window_class_name, "BUTTON");
-        strcpy(data[HOST_LOBBY_1][16].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][16].mWindowParams.mX = 230;
+        data[HOST_LOBBY_1][16].mWindowParams.mY = 400;
+        data[HOST_LOBBY_1][16].mWindowParams.mW = 20;
+        data[HOST_LOBBY_1][16].mWindowParams.mH = 30;
+        data[HOST_LOBBY_1][16].mWindowParams.mhMenu = reinterpret_cast<HMENU>(CHECKBOX_POLICE_ENABLED_1027);
+        data[HOST_LOBBY_1][16].mWindowParams.mStyle = 0x40000003;
+        data[HOST_LOBBY_1][16].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][16].mWindowClassName, "BUTTON");
+        strcpy(data[HOST_LOBBY_1][16].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][17].field_0_windowParams.field_0_x = 250;
-        data[HOST_LOBBY_1][17].field_0_windowParams.field_4_y = 405;
-        data[HOST_LOBBY_1][17].field_0_windowParams.field_8_w = 200;
-        data[HOST_LOBBY_1][17].field_0_windowParams.field_C_h = 30;
-        data[HOST_LOBBY_1][17].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_COPS_1028);
-        data[HOST_LOBBY_1][17].field_0_windowParams.field_14_style = 0x40000000;
-        data[HOST_LOBBY_1][17].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][17].field_1C_window_class_name, "STATIC");
-        strcpy(data[HOST_LOBBY_1][17].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][17].mWindowParams.mX = 250;
+        data[HOST_LOBBY_1][17].mWindowParams.mY = 405;
+        data[HOST_LOBBY_1][17].mWindowParams.mW = 200;
+        data[HOST_LOBBY_1][17].mWindowParams.mH = 30;
+        data[HOST_LOBBY_1][17].mWindowParams.mhMenu = reinterpret_cast<HMENU>(LABEL_COPS_1028);
+        data[HOST_LOBBY_1][17].mWindowParams.mStyle = 0x40000000;
+        data[HOST_LOBBY_1][17].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][17].mWindowClassName, "STATIC");
+        strcpy(data[HOST_LOBBY_1][17].mGtxStringName, "");
 
         // Clear remaining array for windows 1:
 
-        data[HOST_LOBBY_1][18].field_0_windowParams.field_0_x = 0;
-        data[HOST_LOBBY_1][18].field_0_windowParams.field_4_y = 0;
-        data[HOST_LOBBY_1][18].field_0_windowParams.field_8_w = 0;
-        data[HOST_LOBBY_1][18].field_0_windowParams.field_C_h = 0;
-        data[HOST_LOBBY_1][18].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[HOST_LOBBY_1][18].field_0_windowParams.field_14_style = 0x0;
-        data[HOST_LOBBY_1][18].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][18].field_1C_window_class_name, "");
-        strcpy(data[HOST_LOBBY_1][18].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][18].mWindowParams.mX = 0;
+        data[HOST_LOBBY_1][18].mWindowParams.mY = 0;
+        data[HOST_LOBBY_1][18].mWindowParams.mW = 0;
+        data[HOST_LOBBY_1][18].mWindowParams.mH = 0;
+        data[HOST_LOBBY_1][18].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[HOST_LOBBY_1][18].mWindowParams.mStyle = 0x0;
+        data[HOST_LOBBY_1][18].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][18].mWindowClassName, "");
+        strcpy(data[HOST_LOBBY_1][18].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][19].field_0_windowParams.field_0_x = 0;
-        data[HOST_LOBBY_1][19].field_0_windowParams.field_4_y = 0;
-        data[HOST_LOBBY_1][19].field_0_windowParams.field_8_w = 0;
-        data[HOST_LOBBY_1][19].field_0_windowParams.field_C_h = 0;
-        data[HOST_LOBBY_1][19].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[HOST_LOBBY_1][19].field_0_windowParams.field_14_style = 0x0;
-        data[HOST_LOBBY_1][19].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][19].field_1C_window_class_name, "");
-        strcpy(data[HOST_LOBBY_1][19].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][19].mWindowParams.mX = 0;
+        data[HOST_LOBBY_1][19].mWindowParams.mY = 0;
+        data[HOST_LOBBY_1][19].mWindowParams.mW = 0;
+        data[HOST_LOBBY_1][19].mWindowParams.mH = 0;
+        data[HOST_LOBBY_1][19].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[HOST_LOBBY_1][19].mWindowParams.mStyle = 0x0;
+        data[HOST_LOBBY_1][19].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][19].mWindowClassName, "");
+        strcpy(data[HOST_LOBBY_1][19].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][20].field_0_windowParams.field_0_x = 0;
-        data[HOST_LOBBY_1][20].field_0_windowParams.field_4_y = 0;
-        data[HOST_LOBBY_1][20].field_0_windowParams.field_8_w = 0;
-        data[HOST_LOBBY_1][20].field_0_windowParams.field_C_h = 0;
-        data[HOST_LOBBY_1][20].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[HOST_LOBBY_1][20].field_0_windowParams.field_14_style = 0x0;
-        data[HOST_LOBBY_1][20].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][20].field_1C_window_class_name, "");
-        strcpy(data[HOST_LOBBY_1][20].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][20].mWindowParams.mX = 0;
+        data[HOST_LOBBY_1][20].mWindowParams.mY = 0;
+        data[HOST_LOBBY_1][20].mWindowParams.mW = 0;
+        data[HOST_LOBBY_1][20].mWindowParams.mH = 0;
+        data[HOST_LOBBY_1][20].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[HOST_LOBBY_1][20].mWindowParams.mStyle = 0x0;
+        data[HOST_LOBBY_1][20].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][20].mWindowClassName, "");
+        strcpy(data[HOST_LOBBY_1][20].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][21].field_0_windowParams.field_0_x = 0;
-        data[HOST_LOBBY_1][21].field_0_windowParams.field_4_y = 0;
-        data[HOST_LOBBY_1][21].field_0_windowParams.field_8_w = 0;
-        data[HOST_LOBBY_1][21].field_0_windowParams.field_C_h = 0;
-        data[HOST_LOBBY_1][21].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[HOST_LOBBY_1][21].field_0_windowParams.field_14_style = 0x0;
-        data[HOST_LOBBY_1][21].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][21].field_1C_window_class_name, "");
-        strcpy(data[HOST_LOBBY_1][21].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][21].mWindowParams.mX = 0;
+        data[HOST_LOBBY_1][21].mWindowParams.mY = 0;
+        data[HOST_LOBBY_1][21].mWindowParams.mW = 0;
+        data[HOST_LOBBY_1][21].mWindowParams.mH = 0;
+        data[HOST_LOBBY_1][21].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[HOST_LOBBY_1][21].mWindowParams.mStyle = 0x0;
+        data[HOST_LOBBY_1][21].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][21].mWindowClassName, "");
+        strcpy(data[HOST_LOBBY_1][21].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][22].field_0_windowParams.field_0_x = 0;
-        data[HOST_LOBBY_1][22].field_0_windowParams.field_4_y = 0;
-        data[HOST_LOBBY_1][22].field_0_windowParams.field_8_w = 0;
-        data[HOST_LOBBY_1][22].field_0_windowParams.field_C_h = 0;
-        data[HOST_LOBBY_1][22].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[HOST_LOBBY_1][22].field_0_windowParams.field_14_style = 0x0;
-        data[HOST_LOBBY_1][22].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][22].field_1C_window_class_name, "");
-        strcpy(data[HOST_LOBBY_1][22].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][22].mWindowParams.mX = 0;
+        data[HOST_LOBBY_1][22].mWindowParams.mY = 0;
+        data[HOST_LOBBY_1][22].mWindowParams.mW = 0;
+        data[HOST_LOBBY_1][22].mWindowParams.mH = 0;
+        data[HOST_LOBBY_1][22].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[HOST_LOBBY_1][22].mWindowParams.mStyle = 0x0;
+        data[HOST_LOBBY_1][22].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][22].mWindowClassName, "");
+        strcpy(data[HOST_LOBBY_1][22].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][23].field_0_windowParams.field_0_x = 0;
-        data[HOST_LOBBY_1][23].field_0_windowParams.field_4_y = 0;
-        data[HOST_LOBBY_1][23].field_0_windowParams.field_8_w = 0;
-        data[HOST_LOBBY_1][23].field_0_windowParams.field_C_h = 0;
-        data[HOST_LOBBY_1][23].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[HOST_LOBBY_1][23].field_0_windowParams.field_14_style = 0x0;
-        data[HOST_LOBBY_1][23].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][23].field_1C_window_class_name, "");
-        strcpy(data[HOST_LOBBY_1][23].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][23].mWindowParams.mX = 0;
+        data[HOST_LOBBY_1][23].mWindowParams.mY = 0;
+        data[HOST_LOBBY_1][23].mWindowParams.mW = 0;
+        data[HOST_LOBBY_1][23].mWindowParams.mH = 0;
+        data[HOST_LOBBY_1][23].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[HOST_LOBBY_1][23].mWindowParams.mStyle = 0x0;
+        data[HOST_LOBBY_1][23].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][23].mWindowClassName, "");
+        strcpy(data[HOST_LOBBY_1][23].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][24].field_0_windowParams.field_0_x = 0;
-        data[HOST_LOBBY_1][24].field_0_windowParams.field_4_y = 0;
-        data[HOST_LOBBY_1][24].field_0_windowParams.field_8_w = 0;
-        data[HOST_LOBBY_1][24].field_0_windowParams.field_C_h = 0;
-        data[HOST_LOBBY_1][24].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[HOST_LOBBY_1][24].field_0_windowParams.field_14_style = 0x0;
-        data[HOST_LOBBY_1][24].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][24].field_1C_window_class_name, "");
-        strcpy(data[HOST_LOBBY_1][24].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][24].mWindowParams.mX = 0;
+        data[HOST_LOBBY_1][24].mWindowParams.mY = 0;
+        data[HOST_LOBBY_1][24].mWindowParams.mW = 0;
+        data[HOST_LOBBY_1][24].mWindowParams.mH = 0;
+        data[HOST_LOBBY_1][24].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[HOST_LOBBY_1][24].mWindowParams.mStyle = 0x0;
+        data[HOST_LOBBY_1][24].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][24].mWindowClassName, "");
+        strcpy(data[HOST_LOBBY_1][24].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][25].field_0_windowParams.field_0_x = 0;
-        data[HOST_LOBBY_1][25].field_0_windowParams.field_4_y = 0;
-        data[HOST_LOBBY_1][25].field_0_windowParams.field_8_w = 0;
-        data[HOST_LOBBY_1][25].field_0_windowParams.field_C_h = 0;
-        data[HOST_LOBBY_1][25].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[HOST_LOBBY_1][25].field_0_windowParams.field_14_style = 0x0;
-        data[HOST_LOBBY_1][25].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][25].field_1C_window_class_name, "");
-        strcpy(data[HOST_LOBBY_1][25].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][25].mWindowParams.mX = 0;
+        data[HOST_LOBBY_1][25].mWindowParams.mY = 0;
+        data[HOST_LOBBY_1][25].mWindowParams.mW = 0;
+        data[HOST_LOBBY_1][25].mWindowParams.mH = 0;
+        data[HOST_LOBBY_1][25].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[HOST_LOBBY_1][25].mWindowParams.mStyle = 0x0;
+        data[HOST_LOBBY_1][25].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][25].mWindowClassName, "");
+        strcpy(data[HOST_LOBBY_1][25].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][26].field_0_windowParams.field_0_x = 0;
-        data[HOST_LOBBY_1][26].field_0_windowParams.field_4_y = 0;
-        data[HOST_LOBBY_1][26].field_0_windowParams.field_8_w = 0;
-        data[HOST_LOBBY_1][26].field_0_windowParams.field_C_h = 0;
-        data[HOST_LOBBY_1][26].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[HOST_LOBBY_1][26].field_0_windowParams.field_14_style = 0x0;
-        data[HOST_LOBBY_1][26].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][26].field_1C_window_class_name, "");
-        strcpy(data[HOST_LOBBY_1][26].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][26].mWindowParams.mX = 0;
+        data[HOST_LOBBY_1][26].mWindowParams.mY = 0;
+        data[HOST_LOBBY_1][26].mWindowParams.mW = 0;
+        data[HOST_LOBBY_1][26].mWindowParams.mH = 0;
+        data[HOST_LOBBY_1][26].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[HOST_LOBBY_1][26].mWindowParams.mStyle = 0x0;
+        data[HOST_LOBBY_1][26].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][26].mWindowClassName, "");
+        strcpy(data[HOST_LOBBY_1][26].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][27].field_0_windowParams.field_0_x = 0;
-        data[HOST_LOBBY_1][27].field_0_windowParams.field_4_y = 0;
-        data[HOST_LOBBY_1][27].field_0_windowParams.field_8_w = 0;
-        data[HOST_LOBBY_1][27].field_0_windowParams.field_C_h = 0;
-        data[HOST_LOBBY_1][27].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[HOST_LOBBY_1][27].field_0_windowParams.field_14_style = 0x0;
-        data[HOST_LOBBY_1][27].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][27].field_1C_window_class_name, "");
-        strcpy(data[HOST_LOBBY_1][27].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][27].mWindowParams.mX = 0;
+        data[HOST_LOBBY_1][27].mWindowParams.mY = 0;
+        data[HOST_LOBBY_1][27].mWindowParams.mW = 0;
+        data[HOST_LOBBY_1][27].mWindowParams.mH = 0;
+        data[HOST_LOBBY_1][27].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[HOST_LOBBY_1][27].mWindowParams.mStyle = 0x0;
+        data[HOST_LOBBY_1][27].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][27].mWindowClassName, "");
+        strcpy(data[HOST_LOBBY_1][27].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][28].field_0_windowParams.field_0_x = 0;
-        data[HOST_LOBBY_1][28].field_0_windowParams.field_4_y = 0;
-        data[HOST_LOBBY_1][28].field_0_windowParams.field_8_w = 0;
-        data[HOST_LOBBY_1][28].field_0_windowParams.field_C_h = 0;
-        data[HOST_LOBBY_1][28].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[HOST_LOBBY_1][28].field_0_windowParams.field_14_style = 0x0;
-        data[HOST_LOBBY_1][28].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][28].field_1C_window_class_name, "");
-        strcpy(data[HOST_LOBBY_1][28].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][28].mWindowParams.mX = 0;
+        data[HOST_LOBBY_1][28].mWindowParams.mY = 0;
+        data[HOST_LOBBY_1][28].mWindowParams.mW = 0;
+        data[HOST_LOBBY_1][28].mWindowParams.mH = 0;
+        data[HOST_LOBBY_1][28].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[HOST_LOBBY_1][28].mWindowParams.mStyle = 0x0;
+        data[HOST_LOBBY_1][28].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][28].mWindowClassName, "");
+        strcpy(data[HOST_LOBBY_1][28].mGtxStringName, "");
 
-        data[HOST_LOBBY_1][29].field_0_windowParams.field_0_x = 0;
-        data[HOST_LOBBY_1][29].field_0_windowParams.field_4_y = 0;
-        data[HOST_LOBBY_1][29].field_0_windowParams.field_8_w = 0;
-        data[HOST_LOBBY_1][29].field_0_windowParams.field_C_h = 0;
-        data[HOST_LOBBY_1][29].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[HOST_LOBBY_1][29].field_0_windowParams.field_14_style = 0x0;
-        data[HOST_LOBBY_1][29].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[HOST_LOBBY_1][29].field_1C_window_class_name, "");
-        strcpy(data[HOST_LOBBY_1][29].field_6C_gtx_string_name, "");
+        data[HOST_LOBBY_1][29].mWindowParams.mX = 0;
+        data[HOST_LOBBY_1][29].mWindowParams.mY = 0;
+        data[HOST_LOBBY_1][29].mWindowParams.mW = 0;
+        data[HOST_LOBBY_1][29].mWindowParams.mH = 0;
+        data[HOST_LOBBY_1][29].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[HOST_LOBBY_1][29].mWindowParams.mStyle = 0x0;
+        data[HOST_LOBBY_1][29].mWindowParams.mExStyle = 0x0;
+        strcpy(data[HOST_LOBBY_1][29].mWindowClassName, "");
+        strcpy(data[HOST_LOBBY_1][29].mGtxStringName, "");
 
         // Window 2
 
-        data[GUEST_LOBBY_2][0].field_0_windowParams.field_0_x = 10;
-        data[GUEST_LOBBY_2][0].field_0_windowParams.field_4_y = 10;
-        data[GUEST_LOBBY_2][0].field_0_windowParams.field_8_w = 210;
-        data[GUEST_LOBBY_2][0].field_0_windowParams.field_C_h = 130;
-        data[GUEST_LOBBY_2][0].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LISTVIEW_JOINED_PLAYERS_1050);
-        data[GUEST_LOBBY_2][0].field_0_windowParams.field_14_style = 0x40008005;
-        data[GUEST_LOBBY_2][0].field_0_windowParams.field_18_exStyle = 0x200;
-        strcpy(data[GUEST_LOBBY_2][0].field_1C_window_class_name, "SysListView32");
-        strcpy(data[GUEST_LOBBY_2][0].field_6C_gtx_string_name, "");
+        data[GUEST_LOBBY_2][0].mWindowParams.mX = 10;
+        data[GUEST_LOBBY_2][0].mWindowParams.mY = 10;
+        data[GUEST_LOBBY_2][0].mWindowParams.mW = 210;
+        data[GUEST_LOBBY_2][0].mWindowParams.mH = 130;
+        data[GUEST_LOBBY_2][0].mWindowParams.mhMenu = reinterpret_cast<HMENU>(LISTVIEW_JOINED_PLAYERS_1050);
+        data[GUEST_LOBBY_2][0].mWindowParams.mStyle = 0x40008005;
+        data[GUEST_LOBBY_2][0].mWindowParams.mExStyle = 0x200;
+        strcpy(data[GUEST_LOBBY_2][0].mWindowClassName, "SysListView32");
+        strcpy(data[GUEST_LOBBY_2][0].mGtxStringName, "");
 
-        data[GUEST_LOBBY_2][1].field_0_windowParams.field_0_x = 230;
-        data[GUEST_LOBBY_2][1].field_0_windowParams.field_4_y = 10;
-        data[GUEST_LOBBY_2][1].field_0_windowParams.field_8_w = 270;
-        data[GUEST_LOBBY_2][1].field_0_windowParams.field_C_h = 130;
-        data[GUEST_LOBBY_2][1].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(CHATBOX_GUEST_1051);
-        data[GUEST_LOBBY_2][1].field_0_windowParams.field_14_style = 0x400018c4;
-        data[GUEST_LOBBY_2][1].field_0_windowParams.field_18_exStyle = 0x200;
-        strcpy(data[GUEST_LOBBY_2][1].field_1C_window_class_name, "EDIT");
-        strcpy(data[GUEST_LOBBY_2][1].field_6C_gtx_string_name, "");
+        data[GUEST_LOBBY_2][1].mWindowParams.mX = 230;
+        data[GUEST_LOBBY_2][1].mWindowParams.mY = 10;
+        data[GUEST_LOBBY_2][1].mWindowParams.mW = 270;
+        data[GUEST_LOBBY_2][1].mWindowParams.mH = 130;
+        data[GUEST_LOBBY_2][1].mWindowParams.mhMenu = reinterpret_cast<HMENU>(CHATBOX_GUEST_1051);
+        data[GUEST_LOBBY_2][1].mWindowParams.mStyle = 0x400018c4;
+        data[GUEST_LOBBY_2][1].mWindowParams.mExStyle = 0x200;
+        strcpy(data[GUEST_LOBBY_2][1].mWindowClassName, "EDIT");
+        strcpy(data[GUEST_LOBBY_2][1].mGtxStringName, "");
 
-        data[GUEST_LOBBY_2][2].field_0_windowParams.field_0_x = 10;
-        data[GUEST_LOBBY_2][2].field_0_windowParams.field_4_y = 170;
-        data[GUEST_LOBBY_2][2].field_0_windowParams.field_8_w = 150;
-        data[GUEST_LOBBY_2][2].field_0_windowParams.field_C_h = 30;
-        data[GUEST_LOBBY_2][2].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(IDCANCEL);
-        data[GUEST_LOBBY_2][2].field_0_windowParams.field_14_style = 0x40000000;
-        data[GUEST_LOBBY_2][2].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][2].field_1C_window_class_name, "BUTTON");
-        strcpy(data[GUEST_LOBBY_2][2].field_6C_gtx_string_name, "netui03");
+        data[GUEST_LOBBY_2][2].mWindowParams.mX = 10;
+        data[GUEST_LOBBY_2][2].mWindowParams.mY = 170;
+        data[GUEST_LOBBY_2][2].mWindowParams.mW = 150;
+        data[GUEST_LOBBY_2][2].mWindowParams.mH = 30;
+        data[GUEST_LOBBY_2][2].mWindowParams.mhMenu = reinterpret_cast<HMENU>(IDCANCEL);
+        data[GUEST_LOBBY_2][2].mWindowParams.mStyle = 0x40000000;
+        data[GUEST_LOBBY_2][2].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][2].mWindowClassName, "BUTTON");
+        strcpy(data[GUEST_LOBBY_2][2].mGtxStringName, "netui03");
 
-        data[GUEST_LOBBY_2][3].field_0_windowParams.field_0_x = 230;
-        data[GUEST_LOBBY_2][3].field_0_windowParams.field_4_y = 150;
-        data[GUEST_LOBBY_2][3].field_0_windowParams.field_8_w = 270;
-        data[GUEST_LOBBY_2][3].field_0_windowParams.field_C_h = 30;
-        data[GUEST_LOBBY_2][3].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(TEXTFIELD_CHAT_GUEST_1053);
-        data[GUEST_LOBBY_2][3].field_0_windowParams.field_14_style = 0x40000080;
-        data[GUEST_LOBBY_2][3].field_0_windowParams.field_18_exStyle = 0x200;
-        strcpy(data[GUEST_LOBBY_2][3].field_1C_window_class_name, "EDIT");
-        strcpy(data[GUEST_LOBBY_2][3].field_6C_gtx_string_name, "");
+        data[GUEST_LOBBY_2][3].mWindowParams.mX = 230;
+        data[GUEST_LOBBY_2][3].mWindowParams.mY = 150;
+        data[GUEST_LOBBY_2][3].mWindowParams.mW = 270;
+        data[GUEST_LOBBY_2][3].mWindowParams.mH = 30;
+        data[GUEST_LOBBY_2][3].mWindowParams.mhMenu = reinterpret_cast<HMENU>(TEXTFIELD_CHAT_GUEST_1053);
+        data[GUEST_LOBBY_2][3].mWindowParams.mStyle = 0x40000080;
+        data[GUEST_LOBBY_2][3].mWindowParams.mExStyle = 0x200;
+        strcpy(data[GUEST_LOBBY_2][3].mWindowClassName, "EDIT");
+        strcpy(data[GUEST_LOBBY_2][3].mGtxStringName, "");
 
-        data[GUEST_LOBBY_2][4].field_0_windowParams.field_0_x = 230;
-        data[GUEST_LOBBY_2][4].field_0_windowParams.field_4_y = 190;
-        data[GUEST_LOBBY_2][4].field_0_windowParams.field_8_w = 270;
-        data[GUEST_LOBBY_2][4].field_0_windowParams.field_C_h = 30;
-        data[GUEST_LOBBY_2][4].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(BUTTON_SEND_CHAT_MESSAGE_GUEST_1052);
-        data[GUEST_LOBBY_2][4].field_0_windowParams.field_14_style = 0x40000000;
-        data[GUEST_LOBBY_2][4].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][4].field_1C_window_class_name, "BUTTON");
-        strcpy(data[GUEST_LOBBY_2][4].field_6C_gtx_string_name, "netui07");
+        data[GUEST_LOBBY_2][4].mWindowParams.mX = 230;
+        data[GUEST_LOBBY_2][4].mWindowParams.mY = 190;
+        data[GUEST_LOBBY_2][4].mWindowParams.mW = 270;
+        data[GUEST_LOBBY_2][4].mWindowParams.mH = 30;
+        data[GUEST_LOBBY_2][4].mWindowParams.mhMenu = reinterpret_cast<HMENU>(BUTTON_SEND_CHAT_MESSAGE_GUEST_1052);
+        data[GUEST_LOBBY_2][4].mWindowParams.mStyle = 0x40000000;
+        data[GUEST_LOBBY_2][4].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][4].mWindowClassName, "BUTTON");
+        strcpy(data[GUEST_LOBBY_2][4].mGtxStringName, "netui07");
 
-        data[GUEST_LOBBY_2][5].field_0_windowParams.field_0_x = 230;
-        data[GUEST_LOBBY_2][5].field_0_windowParams.field_4_y = 230;
-        data[GUEST_LOBBY_2][5].field_0_windowParams.field_8_w = 270;
-        data[GUEST_LOBBY_2][5].field_0_windowParams.field_C_h = 30;
-        data[GUEST_LOBBY_2][5].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_JOINED_GAME_MAP_1054);
-        data[GUEST_LOBBY_2][5].field_0_windowParams.field_14_style = 0x40000000;
-        data[GUEST_LOBBY_2][5].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][5].field_1C_window_class_name, "STATIC");
-        strcpy(data[GUEST_LOBBY_2][5].field_6C_gtx_string_name, "");
+        data[GUEST_LOBBY_2][5].mWindowParams.mX = 230;
+        data[GUEST_LOBBY_2][5].mWindowParams.mY = 230;
+        data[GUEST_LOBBY_2][5].mWindowParams.mW = 270;
+        data[GUEST_LOBBY_2][5].mWindowParams.mH = 30;
+        data[GUEST_LOBBY_2][5].mWindowParams.mhMenu = reinterpret_cast<HMENU>(LABEL_JOINED_GAME_MAP_1054);
+        data[GUEST_LOBBY_2][5].mWindowParams.mStyle = 0x40000000;
+        data[GUEST_LOBBY_2][5].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][5].mWindowClassName, "STATIC");
+        strcpy(data[GUEST_LOBBY_2][5].mGtxStringName, "");
 
-        data[GUEST_LOBBY_2][6].field_0_windowParams.field_0_x = 230;
-        data[GUEST_LOBBY_2][6].field_0_windowParams.field_4_y = 260;
-        data[GUEST_LOBBY_2][6].field_0_windowParams.field_8_w = 270;
-        data[GUEST_LOBBY_2][6].field_0_windowParams.field_C_h = 30;
-        data[GUEST_LOBBY_2][6].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_JOINED_GAME_TYPE_1057);
-        data[GUEST_LOBBY_2][6].field_0_windowParams.field_14_style = 0x40000000;
-        data[GUEST_LOBBY_2][6].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][6].field_1C_window_class_name, "STATIC");
-        strcpy(data[GUEST_LOBBY_2][6].field_6C_gtx_string_name, "");
+        data[GUEST_LOBBY_2][6].mWindowParams.mX = 230;
+        data[GUEST_LOBBY_2][6].mWindowParams.mY = 260;
+        data[GUEST_LOBBY_2][6].mWindowParams.mW = 270;
+        data[GUEST_LOBBY_2][6].mWindowParams.mH = 30;
+        data[GUEST_LOBBY_2][6].mWindowParams.mhMenu = reinterpret_cast<HMENU>(LABEL_JOINED_GAME_TYPE_1057);
+        data[GUEST_LOBBY_2][6].mWindowParams.mStyle = 0x40000000;
+        data[GUEST_LOBBY_2][6].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][6].mWindowClassName, "STATIC");
+        strcpy(data[GUEST_LOBBY_2][6].mGtxStringName, "");
 
-        data[GUEST_LOBBY_2][7].field_0_windowParams.field_0_x = 230;
-        data[GUEST_LOBBY_2][7].field_0_windowParams.field_4_y = 290;
-        data[GUEST_LOBBY_2][7].field_0_windowParams.field_8_w = 270;
-        data[GUEST_LOBBY_2][7].field_0_windowParams.field_C_h = 30;
-        data[GUEST_LOBBY_2][7].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_JOINED_GAME_FRAG_LIMIT_1058);
-        data[GUEST_LOBBY_2][7].field_0_windowParams.field_14_style = 0x40000000;
-        data[GUEST_LOBBY_2][7].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][7].field_1C_window_class_name, "STATIC");
-        strcpy(data[GUEST_LOBBY_2][7].field_6C_gtx_string_name, "");
+        data[GUEST_LOBBY_2][7].mWindowParams.mX = 230;
+        data[GUEST_LOBBY_2][7].mWindowParams.mY = 290;
+        data[GUEST_LOBBY_2][7].mWindowParams.mW = 270;
+        data[GUEST_LOBBY_2][7].mWindowParams.mH = 30;
+        data[GUEST_LOBBY_2][7].mWindowParams.mhMenu = reinterpret_cast<HMENU>(LABEL_JOINED_GAME_FRAG_LIMIT_1058);
+        data[GUEST_LOBBY_2][7].mWindowParams.mStyle = 0x40000000;
+        data[GUEST_LOBBY_2][7].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][7].mWindowClassName, "STATIC");
+        strcpy(data[GUEST_LOBBY_2][7].mGtxStringName, "");
 
-        data[GUEST_LOBBY_2][8].field_0_windowParams.field_0_x = 230;
-        data[GUEST_LOBBY_2][8].field_0_windowParams.field_4_y = 320;
-        data[GUEST_LOBBY_2][8].field_0_windowParams.field_8_w = 270;
-        data[GUEST_LOBBY_2][8].field_0_windowParams.field_C_h = 30;
-        data[GUEST_LOBBY_2][8].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_JOINED_GAME_POLICE_ENABLED_1056);
-        data[GUEST_LOBBY_2][8].field_0_windowParams.field_14_style = 0x40000000;
-        data[GUEST_LOBBY_2][8].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][8].field_1C_window_class_name, "STATIC");
-        strcpy(data[GUEST_LOBBY_2][8].field_6C_gtx_string_name, "");
+        data[GUEST_LOBBY_2][8].mWindowParams.mX = 230;
+        data[GUEST_LOBBY_2][8].mWindowParams.mY = 320;
+        data[GUEST_LOBBY_2][8].mWindowParams.mW = 270;
+        data[GUEST_LOBBY_2][8].mWindowParams.mH = 30;
+        data[GUEST_LOBBY_2][8].mWindowParams.mhMenu = reinterpret_cast<HMENU>(LABEL_JOINED_GAME_POLICE_ENABLED_1056);
+        data[GUEST_LOBBY_2][8].mWindowParams.mStyle = 0x40000000;
+        data[GUEST_LOBBY_2][8].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][8].mWindowClassName, "STATIC");
+        strcpy(data[GUEST_LOBBY_2][8].mGtxStringName, "");
 
-        data[GUEST_LOBBY_2][9].field_0_windowParams.field_0_x = 230;
-        data[GUEST_LOBBY_2][9].field_0_windowParams.field_4_y = 350;
-        data[GUEST_LOBBY_2][9].field_0_windowParams.field_8_w = 270;
-        data[GUEST_LOBBY_2][9].field_0_windowParams.field_C_h = 30;
-        data[GUEST_LOBBY_2][9].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_GAME_SPEED_1055);
-        data[GUEST_LOBBY_2][9].field_0_windowParams.field_14_style = 0x40000000;
-        data[GUEST_LOBBY_2][9].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][9].field_1C_window_class_name, "STATIC");
-        strcpy(data[GUEST_LOBBY_2][9].field_6C_gtx_string_name, "");
+        data[GUEST_LOBBY_2][9].mWindowParams.mX = 230;
+        data[GUEST_LOBBY_2][9].mWindowParams.mY = 350;
+        data[GUEST_LOBBY_2][9].mWindowParams.mW = 270;
+        data[GUEST_LOBBY_2][9].mWindowParams.mH = 30;
+        data[GUEST_LOBBY_2][9].mWindowParams.mhMenu = reinterpret_cast<HMENU>(LABEL_GAME_SPEED_1055);
+        data[GUEST_LOBBY_2][9].mWindowParams.mStyle = 0x40000000;
+        data[GUEST_LOBBY_2][9].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][9].mWindowClassName, "STATIC");
+        strcpy(data[GUEST_LOBBY_2][9].mGtxStringName, "");
 
-        data[GUEST_LOBBY_2][10].field_0_windowParams.field_0_x = 230;
-        data[GUEST_LOBBY_2][10].field_0_windowParams.field_4_y = 380;
-        data[GUEST_LOBBY_2][10].field_0_windowParams.field_8_w = 270;
-        data[GUEST_LOBBY_2][10].field_0_windowParams.field_C_h = 30;
-        data[GUEST_LOBBY_2][10].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_JOINED_GAME_TIME_LIMIT_1060);
-        data[GUEST_LOBBY_2][10].field_0_windowParams.field_14_style = 0x40000000;
-        data[GUEST_LOBBY_2][10].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][10].field_1C_window_class_name, "STATIC");
-        strcpy(data[GUEST_LOBBY_2][10].field_6C_gtx_string_name, "");
+        data[GUEST_LOBBY_2][10].mWindowParams.mX = 230;
+        data[GUEST_LOBBY_2][10].mWindowParams.mY = 380;
+        data[GUEST_LOBBY_2][10].mWindowParams.mW = 270;
+        data[GUEST_LOBBY_2][10].mWindowParams.mH = 30;
+        data[GUEST_LOBBY_2][10].mWindowParams.mhMenu = reinterpret_cast<HMENU>(LABEL_JOINED_GAME_TIME_LIMIT_1060);
+        data[GUEST_LOBBY_2][10].mWindowParams.mStyle = 0x40000000;
+        data[GUEST_LOBBY_2][10].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][10].mWindowClassName, "STATIC");
+        strcpy(data[GUEST_LOBBY_2][10].mGtxStringName, "");
 
         // Clear remaining array for windows 2:
 
-        data[GUEST_LOBBY_2][11].field_0_windowParams.field_0_x = 0;
-        data[GUEST_LOBBY_2][11].field_0_windowParams.field_4_y = 0;
-        data[GUEST_LOBBY_2][11].field_0_windowParams.field_8_w = 0;
-        data[GUEST_LOBBY_2][11].field_0_windowParams.field_C_h = 0;
-        data[GUEST_LOBBY_2][11].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[GUEST_LOBBY_2][11].field_0_windowParams.field_14_style = 0x0;
-        data[GUEST_LOBBY_2][11].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][11].field_1C_window_class_name, "0");
-        strcpy(data[GUEST_LOBBY_2][11].field_6C_gtx_string_name, "0");
+        data[GUEST_LOBBY_2][11].mWindowParams.mX = 0;
+        data[GUEST_LOBBY_2][11].mWindowParams.mY = 0;
+        data[GUEST_LOBBY_2][11].mWindowParams.mW = 0;
+        data[GUEST_LOBBY_2][11].mWindowParams.mH = 0;
+        data[GUEST_LOBBY_2][11].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[GUEST_LOBBY_2][11].mWindowParams.mStyle = 0x0;
+        data[GUEST_LOBBY_2][11].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][11].mWindowClassName, "0");
+        strcpy(data[GUEST_LOBBY_2][11].mGtxStringName, "0");
 
-        data[GUEST_LOBBY_2][12].field_0_windowParams.field_0_x = 0;
-        data[GUEST_LOBBY_2][12].field_0_windowParams.field_4_y = 0;
-        data[GUEST_LOBBY_2][12].field_0_windowParams.field_8_w = 0;
-        data[GUEST_LOBBY_2][12].field_0_windowParams.field_C_h = 0;
-        data[GUEST_LOBBY_2][12].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[GUEST_LOBBY_2][12].field_0_windowParams.field_14_style = 0x0;
-        data[GUEST_LOBBY_2][12].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][12].field_1C_window_class_name, "0");
-        strcpy(data[GUEST_LOBBY_2][12].field_6C_gtx_string_name, "0");
+        data[GUEST_LOBBY_2][12].mWindowParams.mX = 0;
+        data[GUEST_LOBBY_2][12].mWindowParams.mY = 0;
+        data[GUEST_LOBBY_2][12].mWindowParams.mW = 0;
+        data[GUEST_LOBBY_2][12].mWindowParams.mH = 0;
+        data[GUEST_LOBBY_2][12].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[GUEST_LOBBY_2][12].mWindowParams.mStyle = 0x0;
+        data[GUEST_LOBBY_2][12].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][12].mWindowClassName, "0");
+        strcpy(data[GUEST_LOBBY_2][12].mGtxStringName, "0");
 
-        data[GUEST_LOBBY_2][13].field_0_windowParams.field_0_x = 0;
-        data[GUEST_LOBBY_2][13].field_0_windowParams.field_4_y = 0;
-        data[GUEST_LOBBY_2][13].field_0_windowParams.field_8_w = 0;
-        data[GUEST_LOBBY_2][13].field_0_windowParams.field_C_h = 0;
-        data[GUEST_LOBBY_2][13].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[GUEST_LOBBY_2][13].field_0_windowParams.field_14_style = 0x0;
-        data[GUEST_LOBBY_2][13].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][13].field_1C_window_class_name, "0");
-        strcpy(data[GUEST_LOBBY_2][13].field_6C_gtx_string_name, "0");
+        data[GUEST_LOBBY_2][13].mWindowParams.mX = 0;
+        data[GUEST_LOBBY_2][13].mWindowParams.mY = 0;
+        data[GUEST_LOBBY_2][13].mWindowParams.mW = 0;
+        data[GUEST_LOBBY_2][13].mWindowParams.mH = 0;
+        data[GUEST_LOBBY_2][13].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[GUEST_LOBBY_2][13].mWindowParams.mStyle = 0x0;
+        data[GUEST_LOBBY_2][13].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][13].mWindowClassName, "0");
+        strcpy(data[GUEST_LOBBY_2][13].mGtxStringName, "0");
 
-        data[GUEST_LOBBY_2][14].field_0_windowParams.field_0_x = 0;
-        data[GUEST_LOBBY_2][14].field_0_windowParams.field_4_y = 0;
-        data[GUEST_LOBBY_2][14].field_0_windowParams.field_8_w = 0;
-        data[GUEST_LOBBY_2][14].field_0_windowParams.field_C_h = 0;
-        data[GUEST_LOBBY_2][14].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[GUEST_LOBBY_2][14].field_0_windowParams.field_14_style = 0x0;
-        data[GUEST_LOBBY_2][14].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][14].field_1C_window_class_name, "0");
-        strcpy(data[GUEST_LOBBY_2][14].field_6C_gtx_string_name, "0");
+        data[GUEST_LOBBY_2][14].mWindowParams.mX = 0;
+        data[GUEST_LOBBY_2][14].mWindowParams.mY = 0;
+        data[GUEST_LOBBY_2][14].mWindowParams.mW = 0;
+        data[GUEST_LOBBY_2][14].mWindowParams.mH = 0;
+        data[GUEST_LOBBY_2][14].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[GUEST_LOBBY_2][14].mWindowParams.mStyle = 0x0;
+        data[GUEST_LOBBY_2][14].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][14].mWindowClassName, "0");
+        strcpy(data[GUEST_LOBBY_2][14].mGtxStringName, "0");
 
-        data[GUEST_LOBBY_2][15].field_0_windowParams.field_0_x = 0;
-        data[GUEST_LOBBY_2][15].field_0_windowParams.field_4_y = 0;
-        data[GUEST_LOBBY_2][15].field_0_windowParams.field_8_w = 0;
-        data[GUEST_LOBBY_2][15].field_0_windowParams.field_C_h = 0;
-        data[GUEST_LOBBY_2][15].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[GUEST_LOBBY_2][15].field_0_windowParams.field_14_style = 0x0;
-        data[GUEST_LOBBY_2][15].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][15].field_1C_window_class_name, "0");
-        strcpy(data[GUEST_LOBBY_2][15].field_6C_gtx_string_name, "0");
+        data[GUEST_LOBBY_2][15].mWindowParams.mX = 0;
+        data[GUEST_LOBBY_2][15].mWindowParams.mY = 0;
+        data[GUEST_LOBBY_2][15].mWindowParams.mW = 0;
+        data[GUEST_LOBBY_2][15].mWindowParams.mH = 0;
+        data[GUEST_LOBBY_2][15].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[GUEST_LOBBY_2][15].mWindowParams.mStyle = 0x0;
+        data[GUEST_LOBBY_2][15].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][15].mWindowClassName, "0");
+        strcpy(data[GUEST_LOBBY_2][15].mGtxStringName, "0");
 
-        data[GUEST_LOBBY_2][16].field_0_windowParams.field_0_x = 0;
-        data[GUEST_LOBBY_2][16].field_0_windowParams.field_4_y = 0;
-        data[GUEST_LOBBY_2][16].field_0_windowParams.field_8_w = 0;
-        data[GUEST_LOBBY_2][16].field_0_windowParams.field_C_h = 0;
-        data[GUEST_LOBBY_2][16].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[GUEST_LOBBY_2][16].field_0_windowParams.field_14_style = 0x0;
-        data[GUEST_LOBBY_2][16].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][16].field_1C_window_class_name, "0");
-        strcpy(data[GUEST_LOBBY_2][16].field_6C_gtx_string_name, "0");
+        data[GUEST_LOBBY_2][16].mWindowParams.mX = 0;
+        data[GUEST_LOBBY_2][16].mWindowParams.mY = 0;
+        data[GUEST_LOBBY_2][16].mWindowParams.mW = 0;
+        data[GUEST_LOBBY_2][16].mWindowParams.mH = 0;
+        data[GUEST_LOBBY_2][16].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[GUEST_LOBBY_2][16].mWindowParams.mStyle = 0x0;
+        data[GUEST_LOBBY_2][16].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][16].mWindowClassName, "0");
+        strcpy(data[GUEST_LOBBY_2][16].mGtxStringName, "0");
 
-        data[GUEST_LOBBY_2][17].field_0_windowParams.field_0_x = 0;
-        data[GUEST_LOBBY_2][17].field_0_windowParams.field_4_y = 0;
-        data[GUEST_LOBBY_2][17].field_0_windowParams.field_8_w = 0;
-        data[GUEST_LOBBY_2][17].field_0_windowParams.field_C_h = 0;
-        data[GUEST_LOBBY_2][17].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[GUEST_LOBBY_2][17].field_0_windowParams.field_14_style = 0x0;
-        data[GUEST_LOBBY_2][17].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][17].field_1C_window_class_name, "0");
-        strcpy(data[GUEST_LOBBY_2][17].field_6C_gtx_string_name, "0");
+        data[GUEST_LOBBY_2][17].mWindowParams.mX = 0;
+        data[GUEST_LOBBY_2][17].mWindowParams.mY = 0;
+        data[GUEST_LOBBY_2][17].mWindowParams.mW = 0;
+        data[GUEST_LOBBY_2][17].mWindowParams.mH = 0;
+        data[GUEST_LOBBY_2][17].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[GUEST_LOBBY_2][17].mWindowParams.mStyle = 0x0;
+        data[GUEST_LOBBY_2][17].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][17].mWindowClassName, "0");
+        strcpy(data[GUEST_LOBBY_2][17].mGtxStringName, "0");
 
-        data[GUEST_LOBBY_2][18].field_0_windowParams.field_0_x = 0;
-        data[GUEST_LOBBY_2][18].field_0_windowParams.field_4_y = 0;
-        data[GUEST_LOBBY_2][18].field_0_windowParams.field_8_w = 0;
-        data[GUEST_LOBBY_2][18].field_0_windowParams.field_C_h = 0;
-        data[GUEST_LOBBY_2][18].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[GUEST_LOBBY_2][18].field_0_windowParams.field_14_style = 0x0;
-        data[GUEST_LOBBY_2][18].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][18].field_1C_window_class_name, "0");
-        strcpy(data[GUEST_LOBBY_2][18].field_6C_gtx_string_name, "0");
+        data[GUEST_LOBBY_2][18].mWindowParams.mX = 0;
+        data[GUEST_LOBBY_2][18].mWindowParams.mY = 0;
+        data[GUEST_LOBBY_2][18].mWindowParams.mW = 0;
+        data[GUEST_LOBBY_2][18].mWindowParams.mH = 0;
+        data[GUEST_LOBBY_2][18].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[GUEST_LOBBY_2][18].mWindowParams.mStyle = 0x0;
+        data[GUEST_LOBBY_2][18].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][18].mWindowClassName, "0");
+        strcpy(data[GUEST_LOBBY_2][18].mGtxStringName, "0");
 
-        data[GUEST_LOBBY_2][19].field_0_windowParams.field_0_x = 0;
-        data[GUEST_LOBBY_2][19].field_0_windowParams.field_4_y = 0;
-        data[GUEST_LOBBY_2][19].field_0_windowParams.field_8_w = 0;
-        data[GUEST_LOBBY_2][19].field_0_windowParams.field_C_h = 0;
-        data[GUEST_LOBBY_2][19].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[GUEST_LOBBY_2][19].field_0_windowParams.field_14_style = 0x0;
-        data[GUEST_LOBBY_2][19].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][19].field_1C_window_class_name, "0");
-        strcpy(data[GUEST_LOBBY_2][19].field_6C_gtx_string_name, "0");
+        data[GUEST_LOBBY_2][19].mWindowParams.mX = 0;
+        data[GUEST_LOBBY_2][19].mWindowParams.mY = 0;
+        data[GUEST_LOBBY_2][19].mWindowParams.mW = 0;
+        data[GUEST_LOBBY_2][19].mWindowParams.mH = 0;
+        data[GUEST_LOBBY_2][19].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[GUEST_LOBBY_2][19].mWindowParams.mStyle = 0x0;
+        data[GUEST_LOBBY_2][19].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][19].mWindowClassName, "0");
+        strcpy(data[GUEST_LOBBY_2][19].mGtxStringName, "0");
 
-        data[GUEST_LOBBY_2][20].field_0_windowParams.field_0_x = 0;
-        data[GUEST_LOBBY_2][20].field_0_windowParams.field_4_y = 0;
-        data[GUEST_LOBBY_2][20].field_0_windowParams.field_8_w = 0;
-        data[GUEST_LOBBY_2][20].field_0_windowParams.field_C_h = 0;
-        data[GUEST_LOBBY_2][20].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[GUEST_LOBBY_2][20].field_0_windowParams.field_14_style = 0x0;
-        data[GUEST_LOBBY_2][20].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][20].field_1C_window_class_name, "0");
-        strcpy(data[GUEST_LOBBY_2][20].field_6C_gtx_string_name, "0");
+        data[GUEST_LOBBY_2][20].mWindowParams.mX = 0;
+        data[GUEST_LOBBY_2][20].mWindowParams.mY = 0;
+        data[GUEST_LOBBY_2][20].mWindowParams.mW = 0;
+        data[GUEST_LOBBY_2][20].mWindowParams.mH = 0;
+        data[GUEST_LOBBY_2][20].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[GUEST_LOBBY_2][20].mWindowParams.mStyle = 0x0;
+        data[GUEST_LOBBY_2][20].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][20].mWindowClassName, "0");
+        strcpy(data[GUEST_LOBBY_2][20].mGtxStringName, "0");
 
-        data[GUEST_LOBBY_2][21].field_0_windowParams.field_0_x = 0;
-        data[GUEST_LOBBY_2][21].field_0_windowParams.field_4_y = 0;
-        data[GUEST_LOBBY_2][21].field_0_windowParams.field_8_w = 0;
-        data[GUEST_LOBBY_2][21].field_0_windowParams.field_C_h = 0;
-        data[GUEST_LOBBY_2][21].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[GUEST_LOBBY_2][21].field_0_windowParams.field_14_style = 0x0;
-        data[GUEST_LOBBY_2][21].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][21].field_1C_window_class_name, "0");
-        strcpy(data[GUEST_LOBBY_2][21].field_6C_gtx_string_name, "0");
+        data[GUEST_LOBBY_2][21].mWindowParams.mX = 0;
+        data[GUEST_LOBBY_2][21].mWindowParams.mY = 0;
+        data[GUEST_LOBBY_2][21].mWindowParams.mW = 0;
+        data[GUEST_LOBBY_2][21].mWindowParams.mH = 0;
+        data[GUEST_LOBBY_2][21].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[GUEST_LOBBY_2][21].mWindowParams.mStyle = 0x0;
+        data[GUEST_LOBBY_2][21].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][21].mWindowClassName, "0");
+        strcpy(data[GUEST_LOBBY_2][21].mGtxStringName, "0");
 
-        data[GUEST_LOBBY_2][22].field_0_windowParams.field_0_x = 0;
-        data[GUEST_LOBBY_2][22].field_0_windowParams.field_4_y = 0;
-        data[GUEST_LOBBY_2][22].field_0_windowParams.field_8_w = 0;
-        data[GUEST_LOBBY_2][22].field_0_windowParams.field_C_h = 0;
-        data[GUEST_LOBBY_2][22].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[GUEST_LOBBY_2][22].field_0_windowParams.field_14_style = 0x0;
-        data[GUEST_LOBBY_2][22].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][22].field_1C_window_class_name, "0");
-        strcpy(data[GUEST_LOBBY_2][22].field_6C_gtx_string_name, "0");
+        data[GUEST_LOBBY_2][22].mWindowParams.mX = 0;
+        data[GUEST_LOBBY_2][22].mWindowParams.mY = 0;
+        data[GUEST_LOBBY_2][22].mWindowParams.mW = 0;
+        data[GUEST_LOBBY_2][22].mWindowParams.mH = 0;
+        data[GUEST_LOBBY_2][22].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[GUEST_LOBBY_2][22].mWindowParams.mStyle = 0x0;
+        data[GUEST_LOBBY_2][22].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][22].mWindowClassName, "0");
+        strcpy(data[GUEST_LOBBY_2][22].mGtxStringName, "0");
 
-        data[GUEST_LOBBY_2][23].field_0_windowParams.field_0_x = 0;
-        data[GUEST_LOBBY_2][23].field_0_windowParams.field_4_y = 0;
-        data[GUEST_LOBBY_2][23].field_0_windowParams.field_8_w = 0;
-        data[GUEST_LOBBY_2][23].field_0_windowParams.field_C_h = 0;
-        data[GUEST_LOBBY_2][23].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[GUEST_LOBBY_2][23].field_0_windowParams.field_14_style = 0x0;
-        data[GUEST_LOBBY_2][23].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][23].field_1C_window_class_name, "0");
-        strcpy(data[GUEST_LOBBY_2][23].field_6C_gtx_string_name, "0");
+        data[GUEST_LOBBY_2][23].mWindowParams.mX = 0;
+        data[GUEST_LOBBY_2][23].mWindowParams.mY = 0;
+        data[GUEST_LOBBY_2][23].mWindowParams.mW = 0;
+        data[GUEST_LOBBY_2][23].mWindowParams.mH = 0;
+        data[GUEST_LOBBY_2][23].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[GUEST_LOBBY_2][23].mWindowParams.mStyle = 0x0;
+        data[GUEST_LOBBY_2][23].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][23].mWindowClassName, "0");
+        strcpy(data[GUEST_LOBBY_2][23].mGtxStringName, "0");
 
-        data[GUEST_LOBBY_2][24].field_0_windowParams.field_0_x = 0;
-        data[GUEST_LOBBY_2][24].field_0_windowParams.field_4_y = 0;
-        data[GUEST_LOBBY_2][24].field_0_windowParams.field_8_w = 0;
-        data[GUEST_LOBBY_2][24].field_0_windowParams.field_C_h = 0;
-        data[GUEST_LOBBY_2][24].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[GUEST_LOBBY_2][24].field_0_windowParams.field_14_style = 0x0;
-        data[GUEST_LOBBY_2][24].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][24].field_1C_window_class_name, "0");
-        strcpy(data[GUEST_LOBBY_2][24].field_6C_gtx_string_name, "0");
+        data[GUEST_LOBBY_2][24].mWindowParams.mX = 0;
+        data[GUEST_LOBBY_2][24].mWindowParams.mY = 0;
+        data[GUEST_LOBBY_2][24].mWindowParams.mW = 0;
+        data[GUEST_LOBBY_2][24].mWindowParams.mH = 0;
+        data[GUEST_LOBBY_2][24].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[GUEST_LOBBY_2][24].mWindowParams.mStyle = 0x0;
+        data[GUEST_LOBBY_2][24].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][24].mWindowClassName, "0");
+        strcpy(data[GUEST_LOBBY_2][24].mGtxStringName, "0");
 
-        data[GUEST_LOBBY_2][25].field_0_windowParams.field_0_x = 0;
-        data[GUEST_LOBBY_2][25].field_0_windowParams.field_4_y = 0;
-        data[GUEST_LOBBY_2][25].field_0_windowParams.field_8_w = 0;
-        data[GUEST_LOBBY_2][25].field_0_windowParams.field_C_h = 0;
-        data[GUEST_LOBBY_2][25].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[GUEST_LOBBY_2][25].field_0_windowParams.field_14_style = 0x0;
-        data[GUEST_LOBBY_2][25].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][25].field_1C_window_class_name, "0");
-        strcpy(data[GUEST_LOBBY_2][25].field_6C_gtx_string_name, "0");
+        data[GUEST_LOBBY_2][25].mWindowParams.mX = 0;
+        data[GUEST_LOBBY_2][25].mWindowParams.mY = 0;
+        data[GUEST_LOBBY_2][25].mWindowParams.mW = 0;
+        data[GUEST_LOBBY_2][25].mWindowParams.mH = 0;
+        data[GUEST_LOBBY_2][25].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[GUEST_LOBBY_2][25].mWindowParams.mStyle = 0x0;
+        data[GUEST_LOBBY_2][25].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][25].mWindowClassName, "0");
+        strcpy(data[GUEST_LOBBY_2][25].mGtxStringName, "0");
 
-        data[GUEST_LOBBY_2][26].field_0_windowParams.field_0_x = 0;
-        data[GUEST_LOBBY_2][26].field_0_windowParams.field_4_y = 0;
-        data[GUEST_LOBBY_2][26].field_0_windowParams.field_8_w = 0;
-        data[GUEST_LOBBY_2][26].field_0_windowParams.field_C_h = 0;
-        data[GUEST_LOBBY_2][26].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[GUEST_LOBBY_2][26].field_0_windowParams.field_14_style = 0x0;
-        data[GUEST_LOBBY_2][26].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][26].field_1C_window_class_name, "0");
-        strcpy(data[GUEST_LOBBY_2][26].field_6C_gtx_string_name, "0");
+        data[GUEST_LOBBY_2][26].mWindowParams.mX = 0;
+        data[GUEST_LOBBY_2][26].mWindowParams.mY = 0;
+        data[GUEST_LOBBY_2][26].mWindowParams.mW = 0;
+        data[GUEST_LOBBY_2][26].mWindowParams.mH = 0;
+        data[GUEST_LOBBY_2][26].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[GUEST_LOBBY_2][26].mWindowParams.mStyle = 0x0;
+        data[GUEST_LOBBY_2][26].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][26].mWindowClassName, "0");
+        strcpy(data[GUEST_LOBBY_2][26].mGtxStringName, "0");
 
-        data[GUEST_LOBBY_2][27].field_0_windowParams.field_0_x = 0;
-        data[GUEST_LOBBY_2][27].field_0_windowParams.field_4_y = 0;
-        data[GUEST_LOBBY_2][27].field_0_windowParams.field_8_w = 0;
-        data[GUEST_LOBBY_2][27].field_0_windowParams.field_C_h = 0;
-        data[GUEST_LOBBY_2][27].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[GUEST_LOBBY_2][27].field_0_windowParams.field_14_style = 0x0;
-        data[GUEST_LOBBY_2][27].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][27].field_1C_window_class_name, "0");
-        strcpy(data[GUEST_LOBBY_2][27].field_6C_gtx_string_name, "0");
+        data[GUEST_LOBBY_2][27].mWindowParams.mX = 0;
+        data[GUEST_LOBBY_2][27].mWindowParams.mY = 0;
+        data[GUEST_LOBBY_2][27].mWindowParams.mW = 0;
+        data[GUEST_LOBBY_2][27].mWindowParams.mH = 0;
+        data[GUEST_LOBBY_2][27].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[GUEST_LOBBY_2][27].mWindowParams.mStyle = 0x0;
+        data[GUEST_LOBBY_2][27].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][27].mWindowClassName, "0");
+        strcpy(data[GUEST_LOBBY_2][27].mGtxStringName, "0");
 
-        data[GUEST_LOBBY_2][28].field_0_windowParams.field_0_x = 0;
-        data[GUEST_LOBBY_2][28].field_0_windowParams.field_4_y = 0;
-        data[GUEST_LOBBY_2][28].field_0_windowParams.field_8_w = 0;
-        data[GUEST_LOBBY_2][28].field_0_windowParams.field_C_h = 0;
-        data[GUEST_LOBBY_2][28].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[GUEST_LOBBY_2][28].field_0_windowParams.field_14_style = 0x0;
-        data[GUEST_LOBBY_2][28].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][28].field_1C_window_class_name, "0");
-        strcpy(data[GUEST_LOBBY_2][28].field_6C_gtx_string_name, "0");
+        data[GUEST_LOBBY_2][28].mWindowParams.mX = 0;
+        data[GUEST_LOBBY_2][28].mWindowParams.mY = 0;
+        data[GUEST_LOBBY_2][28].mWindowParams.mW = 0;
+        data[GUEST_LOBBY_2][28].mWindowParams.mH = 0;
+        data[GUEST_LOBBY_2][28].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[GUEST_LOBBY_2][28].mWindowParams.mStyle = 0x0;
+        data[GUEST_LOBBY_2][28].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][28].mWindowClassName, "0");
+        strcpy(data[GUEST_LOBBY_2][28].mGtxStringName, "0");
 
-        data[GUEST_LOBBY_2][29].field_0_windowParams.field_0_x = 0;
-        data[GUEST_LOBBY_2][29].field_0_windowParams.field_4_y = 0;
-        data[GUEST_LOBBY_2][29].field_0_windowParams.field_8_w = 0;
-        data[GUEST_LOBBY_2][29].field_0_windowParams.field_C_h = 0;
-        data[GUEST_LOBBY_2][29].field_0_windowParams.field_10_hMenu = static_cast<HMENU>(NULL);
-        data[GUEST_LOBBY_2][29].field_0_windowParams.field_14_style = 0x0;
-        data[GUEST_LOBBY_2][29].field_0_windowParams.field_18_exStyle = 0x0;
-        strcpy(data[GUEST_LOBBY_2][29].field_1C_window_class_name, "0");
-        strcpy(data[GUEST_LOBBY_2][29].field_6C_gtx_string_name, "0");
+        data[GUEST_LOBBY_2][29].mWindowParams.mX = 0;
+        data[GUEST_LOBBY_2][29].mWindowParams.mY = 0;
+        data[GUEST_LOBBY_2][29].mWindowParams.mW = 0;
+        data[GUEST_LOBBY_2][29].mWindowParams.mH = 0;
+        data[GUEST_LOBBY_2][29].mWindowParams.mhMenu = static_cast<HMENU>(NULL);
+        data[GUEST_LOBBY_2][29].mWindowParams.mStyle = 0x0;
+        data[GUEST_LOBBY_2][29].mWindowParams.mExStyle = 0x0;
+        strcpy(data[GUEST_LOBBY_2][29].mWindowClassName, "0");
+        strcpy(data[GUEST_LOBBY_2][29].mGtxStringName, "0");
     }
     Network_UI_Control_Data data[3][30];
 };
@@ -1023,22 +1023,22 @@ void NetUi::GetString_519A50(wchar_t* Dest, char_type* Source, size_t MaxCount)
 MATCH_FUNC(0x519a90)
 NetUi::NetUi()
 {
-    this->field_20320_hInstance = NULL;
-    this->field_2031C_dlg_hwnd = NULL;
-    this->field_20318_unused = 0;
-    this->field_20310_showing_specific_window_idx = 0;
-    this->field_20314_last_showing_specific_window_idx = 3;
-    this->field_20084_unused = 0;
-    this->field_1FD6C_count = 0;
-    this->field_1FD64_total_map_count = 0;
-    this->field_1FD68_bEndDialog = 0;
-    this->field_20088_game_settings.field_2019C_tick_count = GetTickCount();
-    this->field_20088_game_settings.field_20198_game_type = 1;
-    this->field_20088_game_settings.field_20194_frag_limit = 1;
-    this->field_20088_game_settings.field_2018C_map_idx = 0;
-    this->field_20088_game_settings.field_201A0_police_on = 0;
-    this->field_20088_game_settings.field_201A4_game_time_limit = 0;
-    memset(field_4_maps, 0, sizeof(field_4_maps));
+    this->mhInstance = NULL;
+    this->mDlgHwnd = NULL;
+    this->mUnused20318 = 0;
+    this->mShowingSpecificWindowIdx = 0;
+    this->mLastShowingSpecificWindowIdx = 3;
+    this->mUnused20084 = 0;
+    this->mCount = 0;
+    this->mTotalMapCount = 0;
+    this->mbEndDialog = 0;
+    this->mGameSettings.mTickCount = GetTickCount();
+    this->mGameSettings.mGameType = 1;
+    this->mGameSettings.mFragLimit = 1;
+    this->mGameSettings.mMapIdx = 0;
+    this->mGameSettings.mPoliceOn = 0;
+    this->mGameSettings.mGameTimeLimit = 0;
+    memset(mMaps, 0, sizeof(mMaps));
     gtext_0x14_6F87F0 = new TextTable();
     gtext_0x14_6F87F0->Load_5B5E90();
     LoadPlayerNameFromRegistry_51BC90();
@@ -1058,7 +1058,7 @@ NetUi::~NetUi()
 MATCH_FUNC(0x519bd0)
 s32 NetUi::ShowNetworkUiBlocking_519BD0(HINSTANCE hInstance)
 {
-    field_20320_hInstance = hInstance;
+    mhInstance = hInstance;
     gNetPlay_7071E8.Set15_51ECD0(reinterpret_cast<int>(NetUi::cb_FillSessionList_519D30), this);
     gNetPlay_7071E8.Set6_520530(static_cast<void*>(NetUi::cb_AddPlayerToList_519E30), static_cast<void*>(this));
     gNetPlay_7071E8.Set9_520E60(reinterpret_cast<int>(NetUi::cb_RemovePlayerFromList_51ACD0), reinterpret_cast<int>(this));
@@ -1067,7 +1067,7 @@ s32 NetUi::ShowNetworkUiBlocking_519BD0(HINSTANCE hInstance)
     gNetPlay_7071E8.Set21_5210D0(reinterpret_cast<int>(NetUi::cb_AddChatMessage_51B2F0), reinterpret_cast<int>(this));
     gNetPlay_7071E8.Set24_521140(reinterpret_cast<int>(NetUi::cb_GameSettingsChanged_51B7E0), reinterpret_cast<int>(this));
     gNetPlay_7071E8.Set27SavePlayerName_5211F0(reinterpret_cast<int>(NetUi::cb_SavePlayerName_51BC00), reinterpret_cast<int>(this));
-    return DialogBoxParamA(field_20320_hInstance,
+    return DialogBoxParamA(mhInstance,
                            reinterpret_cast<LPCSTR>(103), // probably IDD_NETWORK_DIALOG
                            NULL,
                            NetUi::DialogFunc,
@@ -1122,9 +1122,9 @@ s32 NetUi::cb_FillSessionList_519D30(NetUi* pThis, Network_NameList* pSessions)
     char_type name[260];
 
     SendDlgItemMessageA(pThis->Get_2031C_HWND_519E20(), LISTBOX_ALL_NET_GAMES_1000, LB_RESETCONTENT, 0, 0);
-    for (u32 i = 0; i < pSessions->field_40_count; i++)
+    for (u32 i = 0; i < pSessions->mCount; i++)
     {
-        wcstombs(name, pSessions->field_0_names[i], sizeof(name));
+        wcstombs(name, pSessions->mNames[i], sizeof(name));
         LRESULT item = SendDlgItemMessageA(pThis->Get_2031C_HWND_519E20(), LISTBOX_ALL_NET_GAMES_1000, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(name));
         if (item != LB_ERR && item != LB_ERRSPACE)
         {
@@ -1132,7 +1132,7 @@ s32 NetUi::cb_FillSessionList_519D30(NetUi* pThis, Network_NameList* pSessions)
         }
     }
 
-    if (pSessions->field_40_count > 0 || gNetPlay_7071E8.field_4_bModem)
+    if (pSessions->mCount > 0 || gNetPlay_7071E8.mbModem)
     {
         return EnableWindow(GetDlgItem(pThis->Get_2031C_HWND_519E20(), BUTTON_JOIN_GAME_1001), TRUE);
     }
@@ -1142,13 +1142,13 @@ s32 NetUi::cb_FillSessionList_519D30(NetUi* pThis, Network_NameList* pSessions)
 MATCH_FUNC(0x519e10)
 void NetUi::SetDlgHwnd_519E10(HWND hDlg)
 {
-    field_2031C_dlg_hwnd = hDlg;
+    mDlgHwnd = hDlg;
 }
 
 MATCH_FUNC(0x519e20)
 HWND NetUi::Get_2031C_HWND_519E20()
 {
-    return field_2031C_dlg_hwnd;
+    return mDlgHwnd;
 }
 
 MATCH_FUNC(0x519e30)
@@ -1230,23 +1230,23 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
     switch (id)
     {
         case BUTTON_JOIN_GAME_1001: // "Join" button
-            if (gNetPlay_7071E8.field_4_bModem)
+            if (gNetPlay_7071E8.mbModem)
             {
                 gNetPlay_7071E8.EnumSessions_51E650();
                 wchar_t playerNameW[260];
-                playerData.field_0_data = NULL;
-                playerData.field_4_len = 0;
-                groupData.field_0_data = NULL;
-                groupData.field_4_len = 0;
+                playerData.mData = NULL;
+                playerData.mLen = 0;
+                groupData.mData = NULL;
+                groupData.mLen = 0;
                 GetDlgItemTextA(hDlg, TEXTBOX_PLAYER_NAME_1004, playerName, 259);
                 NetUi::GetString_519A50(playerNameW, playerName, 260);
                 NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
                 pThis->SetPlayNameAndSaveToRegistry_51BD40(playerNameW, playerName);
-                if (gNetPlay_7071E8.field_C4_sessions.field_5C4_session_count > 0)
+                if (gNetPlay_7071E8.mSessions.mSessionCount > 0)
                 {
                     if (gNetPlay_7071E8.JoinSession_520570(0, playerNameW, &playerData, &groupData))
                     {
-                        pThis->ApplyHostGameSettings_51B810(static_cast<const char_type*>(groupData.field_0_data));
+                        pThis->ApplyHostGameSettings_51B810(static_cast<const char_type*>(groupData.mData));
                         pThis->ShowSpecificWindow_51ABF0(2);
                     }
                 }
@@ -1254,10 +1254,10 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
             else
             {
                 wchar_t playerNameW[260];
-                playerData.field_0_data = NULL;
-                playerData.field_4_len = 0;
-                groupData.field_0_data = NULL;
-                groupData.field_4_len = 0;
+                playerData.mData = NULL;
+                playerData.mLen = 0;
+                groupData.mData = NULL;
+                groupData.mLen = 0;
                 GetDlgItemTextA(hDlg, TEXTBOX_PLAYER_NAME_1004, playerName, 259);
                 NetUi::GetString_519A50(playerNameW, playerName, 260);
                 NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
@@ -1268,7 +1268,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
                     LRESULT idx = SendDlgItemMessageA(hDlg, LISTBOX_ALL_NET_GAMES_1000, LB_GETITEMDATA, sel, 0);
                     if (gNetPlay_7071E8.JoinSession_520570(idx, playerNameW, &playerData, &groupData))
                     {
-                        pThis->ApplyHostGameSettings_51B810(static_cast<const char_type*>(groupData.field_0_data));
+                        pThis->ApplyHostGameSettings_51B810(static_cast<const char_type*>(groupData.mData));
                         pThis->ShowSpecificWindow_51ABF0(2);
                     }
                 }
@@ -1279,10 +1279,10 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
             if (notify == LBN_DBLCLK)   // Double click on the network game session
             {
                 wchar_t playerNameW[260];
-                playerData.field_0_data = NULL;
-                playerData.field_4_len = 0;
-                groupData.field_0_data = NULL;
-                groupData.field_4_len = 0;
+                playerData.mData = NULL;
+                playerData.mLen = 0;
+                groupData.mData = NULL;
+                groupData.mLen = 0;
                 GetDlgItemTextA(hDlg, TEXTBOX_PLAYER_NAME_1004, playerName, 259);
                 NetUi::GetString_519A50(playerNameW, playerName, 260);
                 NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
@@ -1331,11 +1331,11 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
         case BUTTON_CREATE_GAME_1002: // "Create" button
         {
             NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
-            NetworkGameSettings settings = pThis->field_20088_game_settings;
-            groupData.field_0_data = &settings;
-            groupData.field_4_len = sizeof(NetworkGameSettings);
-            playerData.field_0_data = NULL;
-            playerData.field_4_len = 0;
+            NetworkGameSettings settings = pThis->mGameSettings;
+            groupData.mData = &settings;
+            groupData.mLen = sizeof(NetworkGameSettings);
+            playerData.mData = NULL;
+            playerData.mLen = 0;
             GetDlgItemTextA(hDlg, TEXTBOX_PLAYER_NAME_1004, playerName, 259);
             sprintf(sessionName, "%s's Game", playerName);
             NetUi::GetString_519A50(hostPlayerNameW, playerName, 260);
@@ -1344,8 +1344,8 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
             {
                 pThis->SetPlayNameAndSaveToRegistry_51BD40(hostPlayerNameW, playerName);
                 pThis->ShowSpecificWindow_51ABF0(1);
-                pThis->SetFragsNumberAndLabel_51CDC0(pThis->field_20088_game_settings.field_20198_game_type,
-                                                     pThis->field_20088_game_settings.field_20194_frag_limit,
+                pThis->SetFragsNumberAndLabel_51CDC0(pThis->mGameSettings.mGameType,
+                                                     pThis->mGameSettings.mFragLimit,
                                                      hDlg);
             }
             break;
@@ -1427,7 +1427,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
                     NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
                     s32 gameType = SendDlgItemMessageA(hDlg, COMBO_GAME_TYPE_1036, CB_GETCURSEL, 0, 0) + 1;
                     pThis->SetSetting_51B9C0(3, gameType);
-                    pThis->SetFragsNumberAndLabel_51CDC0(gameType, pThis->field_20088_game_settings.field_20194_frag_limit, hDlg);
+                    pThis->SetFragsNumberAndLabel_51CDC0(gameType, pThis->mGameSettings.mFragLimit, hDlg);
                     break;
                 }
             }
@@ -1526,26 +1526,26 @@ void NetUi::CreateMainUi_51AA90(HWND hWndParent)
         for (u32 j = 0; j < 30; j++)
         {
             char* pNewWindowStr;
-            if (gUiControlDefinitions_621430.data[i][j].field_6C_gtx_string_name[0])
+            if (gUiControlDefinitions_621430.data[i][j].mGtxStringName[0])
             {
-                pNewWindowStr = GetString_519A00(gUiControlDefinitions_621430.data[i][j].field_6C_gtx_string_name);
+                pNewWindowStr = GetString_519A00(gUiControlDefinitions_621430.data[i][j].mGtxStringName);
             }
             else
             {
                 pNewWindowStr = ""; // the original's empty string literal at 0x67DC88
             }
 
-            field_201A8_ui_control_hwnds[i][j] = CreateWindowExA(gUiControlDefinitions_621430.data[i][j].field_0_windowParams.field_18_exStyle,
-                                                                 gUiControlDefinitions_621430.data[i][j].field_1C_window_class_name,
+            mUiControlHwnds[i][j] = CreateWindowExA(gUiControlDefinitions_621430.data[i][j].mWindowParams.mExStyle,
+                                                                 gUiControlDefinitions_621430.data[i][j].mWindowClassName,
                                                                  pNewWindowStr,
-                                                                 gUiControlDefinitions_621430.data[i][j].field_0_windowParams.field_14_style,
-                                                                 gUiControlDefinitions_621430.data[i][j].field_0_windowParams.field_0_x,
-                                                                 gUiControlDefinitions_621430.data[i][j].field_0_windowParams.field_4_y,
-                                                                 gUiControlDefinitions_621430.data[i][j].field_0_windowParams.field_8_w,
-                                                                 gUiControlDefinitions_621430.data[i][j].field_0_windowParams.field_C_h,
+                                                                 gUiControlDefinitions_621430.data[i][j].mWindowParams.mStyle,
+                                                                 gUiControlDefinitions_621430.data[i][j].mWindowParams.mX,
+                                                                 gUiControlDefinitions_621430.data[i][j].mWindowParams.mY,
+                                                                 gUiControlDefinitions_621430.data[i][j].mWindowParams.mW,
+                                                                 gUiControlDefinitions_621430.data[i][j].mWindowParams.mH,
                                                                  hWndParent,
-                                                                 gUiControlDefinitions_621430.data[i][j].field_0_windowParams.field_10_hMenu,
-                                                                 this->field_20320_hInstance,
+                                                                 gUiControlDefinitions_621430.data[i][j].mWindowParams.mhMenu,
+                                                                 this->mhInstance,
                                                                  NULL);
         }
     }
@@ -1553,8 +1553,8 @@ void NetUi::CreateMainUi_51AA90(HWND hWndParent)
     SetWindowTextA(hWndParent, GetString_519A00("netui08")); // "Network GTA2"
 
     // Subclass to handle enter key pressing
-    field_1FD70_old_proc = reinterpret_cast<WNDPROC>(GetWindowLongA(GetDlgItem(hWndParent, TEXTFIELD_CHAT_GUEST_1053), GWL_WNDPROC));
-    field_1FD74_old_proc = reinterpret_cast<WNDPROC>(GetWindowLongA(GetDlgItem(hWndParent, TEXTFIELD_CHAT_HOST_1025), GWL_WNDPROC));
+    mOldProc1FD70 = reinterpret_cast<WNDPROC>(GetWindowLongA(GetDlgItem(hWndParent, TEXTFIELD_CHAT_GUEST_1053), GWL_WNDPROC));
+    mOldProc1FD74 = reinterpret_cast<WNDPROC>(GetWindowLongA(GetDlgItem(hWndParent, TEXTFIELD_CHAT_HOST_1025), GWL_WNDPROC));
     SetWindowLongA(GetDlgItem(hWndParent, TEXTFIELD_CHAT_GUEST_1053), GWL_WNDPROC, reinterpret_cast<LONG>(NetUi::subclass_proc_51BDD0));
     SetWindowLongA(GetDlgItem(hWndParent, TEXTFIELD_CHAT_HOST_1025), GWL_WNDPROC, reinterpret_cast<LONG>(NetUi::subclass_proc_51BDD0));
 
@@ -1564,7 +1564,7 @@ void NetUi::CreateMainUi_51AA90(HWND hWndParent)
     SetDlgItemTextA(hWndParent, LABEL_COPS_1028, GetString_519A00("netui14")); // "Cops"
     SetDlgItemTextA(hWndParent, LABEL_TIME_LIMIT_MINUTES_1037, GetString_519A00("netui21")); // "Time Limit (Minutes)"
     NetUi::SetPlayerCountText_51CB30(0, hWndParent);
-    if (gNetPlay_7071E8.field_4_bModem)
+    if (gNetPlay_7071E8.mbModem)
     {
         EnableWindow(GetDlgItem(hWndParent, BUTTON_JOIN_GAME_1001), 1);
     }
@@ -1578,17 +1578,17 @@ void NetUi::ShowSpecificWindow_51ABF0(s32 showing_specific_window_idx)
     // Hide old
     for (i = 0; i < 30; ++i)
     {
-        ShowWindow(this->field_201A8_ui_control_hwnds[this->field_20310_showing_specific_window_idx][i], SW_HIDE);
+        ShowWindow(this->mUiControlHwnds[this->mShowingSpecificWindowIdx][i], SW_HIDE);
     }
 
     // Show new (using param, not the mem var)
     for (i = 0; i < 30; ++i)
     {
-        ShowWindow(this->field_201A8_ui_control_hwnds[showing_specific_window_idx][i], SW_SHOW);
+        ShowWindow(this->mUiControlHwnds[showing_specific_window_idx][i], SW_SHOW);
     }
 
-    this->field_20314_last_showing_specific_window_idx = this->field_20310_showing_specific_window_idx;
-    this->field_20310_showing_specific_window_idx = showing_specific_window_idx;
+    this->mLastShowingSpecificWindowIdx = this->mShowingSpecificWindowIdx;
+    this->mShowingSpecificWindowIdx = showing_specific_window_idx;
 }
 
 MATCH_FUNC(0x51ac60)
@@ -1607,7 +1607,7 @@ s32 NetUi::OnInitDialog_51AC60(HWND hWnd, s32 lParam, NetUi* thisPtr)
 MATCH_FUNC(0x51acc0)
 s32 NetUi::Get_20310_showing_window_idx_51ACC0()
 {
-    return field_20310_showing_specific_window_idx;
+    return mShowingSpecificWindowIdx;
 }
 
 MATCH_FUNC(0x51acd0)
@@ -1665,7 +1665,7 @@ void NetUi::cb_Disconnect_51ADE0(NetUi* pNetUi)
 MATCH_FUNC(0x51ae20)
 void NetUi::ClearListView_51AE20(s32 nIDDlgItem)
 {
-    HWND hwndDlg = this->field_2031C_dlg_hwnd;
+    HWND hwndDlg = this->mDlgHwnd;
     if (hwndDlg)
     {
         SendDlgItemMessageA(hwndDlg, nIDDlgItem, LVM_DELETEALLITEMS, 0, 0);
@@ -1682,14 +1682,14 @@ s32 NetUi::cb_SetPlayerPing_51AE50(NetUi* pNetUi, Network_PlayerPing* pPing)
     char_type pingText[260];
     char_type name[260];
 
-    wcstombs(name, pPing->field_0_name, 260u);
+    wcstombs(name, pPing->mName, 260u);
 
     switch (pNetUi->Get_20310_showing_window_idx_51ACC0())
     {
         case 1:
         {
             memset(&findInfo, 0, sizeof(findInfo));
-            sprintf(pingText, "%d", pPing->field_208_avg_ping);
+            sprintf(pingText, "%d", pPing->mAvgPing);
             HWND hItem = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), LISTVIEW_HOST_PLAYERS_1024);
             findInfo.flags = LVFI_STRING;
             findInfo.psz = name;
@@ -1702,7 +1702,7 @@ s32 NetUi::cb_SetPlayerPing_51AE50(NetUi* pNetUi, Network_PlayerPing* pPing)
         case 2:
         {
             memset(&findInfo, 0, sizeof(findInfo));
-            sprintf(pingText, "%d", pPing->field_208_avg_ping);
+            sprintf(pingText, "%d", pPing->mAvgPing);
             HWND hItem = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), LISTVIEW_JOINED_PLAYERS_1050);
             findInfo.flags = LVFI_STRING;
             findInfo.psz = name;
@@ -1722,57 +1722,57 @@ void NetUi::PopulateMainUI_51AFA0()
     LPARAM columnInfo[8];
     memset(columnInfo, 0, sizeof(columnInfo));
 
-    u16 colWidth = 3 * (gUiControlDefinitions_621430.data[HOST_LOBBY_1][0].field_0_windowParams.field_8_w >> 2);
+    u16 colWidth = 3 * (gUiControlDefinitions_621430.data[HOST_LOBBY_1][0].mWindowParams.mW >> 2);
 
     columnInfo[0] = 36;
     columnInfo[3] = reinterpret_cast<LPARAM>("Player Name");
     columnInfo[7] = 0;
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, LISTVIEW_HOST_PLAYERS_1024, 0x101B, 0, reinterpret_cast<LPARAM>(columnInfo)); // 0x101B = LVM_INSERTCOLUMNA
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, LISTVIEW_HOST_PLAYERS_1024, 0x101E, 0, colWidth); // 0x101E = LVM_SETCOLUMNWIDTH
+    SendDlgItemMessageA(mDlgHwnd, LISTVIEW_HOST_PLAYERS_1024, 0x101B, 0, reinterpret_cast<LPARAM>(columnInfo)); // 0x101B = LVM_INSERTCOLUMNA
+    SendDlgItemMessageA(mDlgHwnd, LISTVIEW_HOST_PLAYERS_1024, 0x101E, 0, colWidth); // 0x101E = LVM_SETCOLUMNWIDTH
     memset(columnInfo, 0, sizeof(columnInfo));
     columnInfo[0] = 37;
     columnInfo[1] = 0;
     columnInfo[3] = reinterpret_cast<LPARAM>("Ping");
     columnInfo[7] = 1;
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, LISTVIEW_HOST_PLAYERS_1024, 0x101B, 1u, reinterpret_cast<LPARAM>(columnInfo));
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, LISTVIEW_HOST_PLAYERS_1024, 0x101E, 1u, 65534);
+    SendDlgItemMessageA(mDlgHwnd, LISTVIEW_HOST_PLAYERS_1024, 0x101B, 1u, reinterpret_cast<LPARAM>(columnInfo));
+    SendDlgItemMessageA(mDlgHwnd, LISTVIEW_HOST_PLAYERS_1024, 0x101E, 1u, 65534);
     memset(columnInfo, 0, sizeof(columnInfo));
     columnInfo[0] = 36;
     columnInfo[3] = reinterpret_cast<LPARAM>("Player Name");
-    u16 col_width = 3 * (gUiControlDefinitions_621430.data[GUEST_LOBBY_2][0].field_0_windowParams.field_8_w >> 2);
+    u16 col_width = 3 * (gUiControlDefinitions_621430.data[GUEST_LOBBY_2][0].mWindowParams.mW >> 2);
     columnInfo[7] = 0;
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, LISTVIEW_JOINED_PLAYERS_1050, 0x101B, 0, reinterpret_cast<LPARAM>(columnInfo));
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, LISTVIEW_JOINED_PLAYERS_1050, 0x101Eu, 0, col_width);
+    SendDlgItemMessageA(mDlgHwnd, LISTVIEW_JOINED_PLAYERS_1050, 0x101B, 0, reinterpret_cast<LPARAM>(columnInfo));
+    SendDlgItemMessageA(mDlgHwnd, LISTVIEW_JOINED_PLAYERS_1050, 0x101Eu, 0, col_width);
     memset(columnInfo, 0, sizeof(columnInfo));
     columnInfo[0] = 37;
     columnInfo[1] = 0;
     columnInfo[3] = reinterpret_cast<LPARAM>("Ping");
     columnInfo[7] = 1;
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, LISTVIEW_JOINED_PLAYERS_1050, 0x101B, 1u, reinterpret_cast<LPARAM>(columnInfo));
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, LISTVIEW_JOINED_PLAYERS_1050, 0x101E, 1u, 65534);
+    SendDlgItemMessageA(mDlgHwnd, LISTVIEW_JOINED_PLAYERS_1050, 0x101B, 1u, reinterpret_cast<LPARAM>(columnInfo));
+    SendDlgItemMessageA(mDlgHwnd, LISTVIEW_JOINED_PLAYERS_1050, 0x101E, 1u, 65534);
 
-    for (u32 map_idx = 0; map_idx < static_cast<u32>(field_1FD64_total_map_count); map_idx++)
+    for (u32 map_idx = 0; map_idx < static_cast<u32>(mTotalMapCount); map_idx++)
     {
-        LRESULT item_idx = SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_MAP_LIST_1026, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(field_4_maps[map_idx].field_30C_description));
-        SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_MAP_LIST_1026, CB_SETITEMDATA, item_idx, map_idx);
+        LRESULT item_idx = SendDlgItemMessageA(mDlgHwnd, COMBO_MAP_LIST_1026, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(mMaps[map_idx].mDescription));
+        SendDlgItemMessageA(mDlgHwnd, COMBO_MAP_LIST_1026, CB_SETITEMDATA, item_idx, map_idx);
     }
 
-    LRESULT item_a = SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_GAME_TYPE_1036, 323u, 0, reinterpret_cast<LPARAM>(GetString_519A00("netui19")));
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_GAME_TYPE_1036, CB_SETITEMDATA, item_a, 0);
-    LRESULT item_b = SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_GAME_TYPE_1036, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(GetString_519A00("netui20")));
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_GAME_TYPE_1036, CB_SETITEMDATA, item_b, 1);
-    LRESULT item_c = SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_GAME_TYPE_1036, 0x143u, 0, reinterpret_cast<LPARAM>(GetString_519A00("netui22")));
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_GAME_TYPE_1036, CB_SETITEMDATA, item_c, 2);
+    LRESULT item_a = SendDlgItemMessageA(mDlgHwnd, COMBO_GAME_TYPE_1036, 323u, 0, reinterpret_cast<LPARAM>(GetString_519A00("netui19")));
+    SendDlgItemMessageA(mDlgHwnd, COMBO_GAME_TYPE_1036, CB_SETITEMDATA, item_a, 0);
+    LRESULT item_b = SendDlgItemMessageA(mDlgHwnd, COMBO_GAME_TYPE_1036, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(GetString_519A00("netui20")));
+    SendDlgItemMessageA(mDlgHwnd, COMBO_GAME_TYPE_1036, CB_SETITEMDATA, item_b, 1);
+    LRESULT item_c = SendDlgItemMessageA(mDlgHwnd, COMBO_GAME_TYPE_1036, 0x143u, 0, reinterpret_cast<LPARAM>(GetString_519A00("netui22")));
+    SendDlgItemMessageA(mDlgHwnd, COMBO_GAME_TYPE_1036, CB_SETITEMDATA, item_c, 2);
     NetUi::LoadGameSettingsFromRegistry_51C830();
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_MAP_LIST_1026, CB_SETCURSEL, field_20088_game_settings.field_2018C_map_idx, 0);
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_GAME_TYPE_1036, CB_SETCURSEL, field_20088_game_settings.field_20198_game_type - 1, 0);
-    NetUi::SetPlayerCountText_51CB30(field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514_player_count, field_2031C_dlg_hwnd);
-    NetUi::SetPoliceEnabledCheckBox_51CCB0(field_20088_game_settings.field_201A0_police_on, field_2031C_dlg_hwnd);
-    NetUi::SetFragsNumberAndLabel_51CDC0(field_20088_game_settings.field_20198_game_type,
-                                                 field_20088_game_settings.field_20194_frag_limit,
-                                                 field_2031C_dlg_hwnd);
-    NetUi::SetGameSpeedTextLabelAndSlider_51CFC0(field_20088_game_settings.field_20190_game_speed, field_2031C_dlg_hwnd);
-    NetUi::SetGameTimeLimitTextBox_51D3B0(field_20088_game_settings.field_201A4_game_time_limit, field_2031C_dlg_hwnd);
+    SendDlgItemMessageA(mDlgHwnd, COMBO_MAP_LIST_1026, CB_SETCURSEL, mGameSettings.mMapIdx, 0);
+    SendDlgItemMessageA(mDlgHwnd, COMBO_GAME_TYPE_1036, CB_SETCURSEL, mGameSettings.mGameType - 1, 0);
+    NetUi::SetPlayerCountText_51CB30(mMaps[mGameSettings.mMapIdx].mPlayerCount, mDlgHwnd);
+    NetUi::SetPoliceEnabledCheckBox_51CCB0(mGameSettings.mPoliceOn, mDlgHwnd);
+    NetUi::SetFragsNumberAndLabel_51CDC0(mGameSettings.mGameType,
+                                                 mGameSettings.mFragLimit,
+                                                 mDlgHwnd);
+    NetUi::SetGameSpeedTextLabelAndSlider_51CFC0(mGameSettings.mGameSpeed, mDlgHwnd);
+    NetUi::SetGameTimeLimitTextBox_51D3B0(mGameSettings.mGameTimeLimit, mDlgHwnd);
 }
 
 #pragma warning(push)
@@ -1786,8 +1786,8 @@ LRESULT NetUi::cb_AddChatMessage_51B2F0(NetUi* pNetUi, Network_ChatMessage* pMsg
     char_type text[2048];
     char_type newText[2048];
 
-    wcstombs(message, pMsg->field_0_message, 260u);
-    wcstombs(name, pMsg->field_100_name, 260u);
+    wcstombs(message, pMsg->mMessage, 260u);
+    wcstombs(name, pMsg->mName, 260u);
     sprintf(line, "%s : %s", name, message);
 
     switch (pNetUi->Get_20310_showing_window_idx_51ACC0())
@@ -1847,7 +1847,7 @@ s32 NetUi::AppendChatMessage_51B4F0(s32 hmenu, const char_type* pMsg)
     sprintf(line, "%s : %s", name, pMsg);
     sChatLineCount++;
 
-    switch (field_20310_showing_specific_window_idx)
+    switch (mShowingSpecificWindowIdx)
     {
         case GUEST_LOBBY_2: // Guest
         {
@@ -1922,7 +1922,7 @@ s32 NetUi::AppendChatMessage_51B4F0(s32 hmenu, const char_type* pMsg)
 MATCH_FUNC(0x51b7c0)
 void NetUi::SetPlayerNameText_51B7C0()
 {
-    SetDlgItemTextA(field_2031C_dlg_hwnd, TEXTBOX_PLAYER_NAME_1004, field_1FF80_player_name);
+    SetDlgItemTextA(mDlgHwnd, TEXTBOX_PLAYER_NAME_1004, mPlayerName);
 }
 
 MATCH_FUNC(0x51b7e0)
@@ -1947,25 +1947,25 @@ void NetUi::ApplyHostGameSettings_51B810(const char_type* pData)
     const NetworkGameSettings* pSettings = reinterpret_cast<const NetworkGameSettings*>(pData);
     if (pSettings)
     {
-        field_20088_game_settings = *pSettings;
+        mGameSettings = *pSettings;
 
         u32 i = 0;
         while (1)
         {
-            if (i < static_cast<u32>(field_1FD64_total_map_count))
+            if (i < static_cast<u32>(mTotalMapCount))
             {
-                if (!strcmp(field_4_maps[i].field_410_mmp_name, pSettings->field_20088_default_map))
+                if (!strcmp(mMaps[i].mMmpName, pSettings->mDefaultMap))
                 {
-                    field_20088_game_settings = *pSettings;
-                    field_20088_game_settings.field_2018C_map_idx = i;
-                    SetDlgItemTextA(field_2031C_dlg_hwnd, LABEL_JOINED_GAME_MAP_1054, field_4_maps[i].field_30C_description);
+                    mGameSettings = *pSettings;
+                    mGameSettings.mMapIdx = i;
+                    SetDlgItemTextA(mDlgHwnd, LABEL_JOINED_GAME_MAP_1054, mMaps[i].mDescription);
                     break;
                 }
                 i++;
             }
             else
             {
-                sprintf(msg, "### ERROR ### \r\r\nDo Not Have Map %s", pSettings->field_20088_default_map);
+                sprintf(msg, "### ERROR ### \r\r\nDo Not Have Map %s", pSettings->mDefaultMap);
                 GetString_519A50(wmsg, msg, 260);
                 gNetPlay_7071E8.SendChatMessage_521060(wmsg, -1);
                 AppendChatMessage_51B4F0(CHATBOX_HOST_1022, msg);
@@ -1973,7 +1973,7 @@ void NetUi::ApplyHostGameSettings_51B810(const char_type* pData)
             }
         }
 
-        switch (pSettings->field_20190_game_speed)
+        switch (pSettings->mGameSpeed)
         {
             case 2:
                 pSpeedText = GetString_519A00("netui12");
@@ -1985,13 +1985,13 @@ void NetUi::ApplyHostGameSettings_51B810(const char_type* pData)
                 pSpeedText = GetString_519A00("netui10");
                 break;
         }
-        SetDlgItemTextA(field_2031C_dlg_hwnd, LABEL_GAME_SPEED_1055, pSpeedText);
+        SetDlgItemTextA(mDlgHwnd, LABEL_GAME_SPEED_1055, pSpeedText);
 
-        SetJoinedGamePoliceEnabledText_51CD30(field_20088_game_settings.field_201A0_police_on, field_2031C_dlg_hwnd);
-        SetJoinedGameTypeAndFragLimitText_51D0C0(field_20088_game_settings.field_20198_game_type,
-                                                 field_20088_game_settings.field_20194_frag_limit,
-                                                 field_2031C_dlg_hwnd);
-        SetJoinedGameTimeLimitText_51D2F0(field_20088_game_settings.field_201A4_game_time_limit, field_2031C_dlg_hwnd);
+        SetJoinedGamePoliceEnabledText_51CD30(mGameSettings.mPoliceOn, mDlgHwnd);
+        SetJoinedGameTypeAndFragLimitText_51D0C0(mGameSettings.mGameType,
+                                                 mGameSettings.mFragLimit,
+                                                 mDlgHwnd);
+        SetJoinedGameTimeLimitText_51D2F0(mGameSettings.mGameTimeLimit, mDlgHwnd);
     }
 }
 #pragma warning(pop)
@@ -2007,48 +2007,48 @@ void NetUi::SetSetting_51B9C0(s32 setting, s32 value)
     switch (setting)
     {
         case 1:
-            field_20088_game_settings.field_2018C_map_idx = value;
-            strcpy(field_20088_game_settings.field_20088_default_map, field_4_maps[value].field_410_mmp_name);
-            SetPlayerCountText_51CB30(field_4_maps[value].field_514_player_count, field_2031C_dlg_hwnd);
+            mGameSettings.mMapIdx = value;
+            strcpy(mGameSettings.mDefaultMap, mMaps[value].mMmpName);
+            SetPlayerCountText_51CB30(mMaps[value].mPlayerCount, mDlgHwnd);
             gRegistry_6FF968.Set_Network_Setting_587730("map_index", value);
             break;
 
         case 2:
-            field_20088_game_settings.field_20194_frag_limit = value;
-            if (field_20088_game_settings.field_20198_game_type == 1)
+            mGameSettings.mFragLimit = value;
+            if (mGameSettings.mGameType == 1)
             {
                 gRegistry_6FF968.Set_Network_Setting_587730("f_limit", value);
             }
-            else if (field_20088_game_settings.field_20198_game_type == 2)
+            else if (mGameSettings.mGameType == 2)
             {
                 gRegistry_6FF968.Set_Network_Setting_587730("s_limit", value);
             }
             break;
 
         case 3:
-            field_20088_game_settings.field_20198_game_type = value;
+            mGameSettings.mGameType = value;
             gRegistry_6FF968.Set_Network_Setting_587730("game_type", value);
-            if (field_20088_game_settings.field_20198_game_type == 1)
+            if (mGameSettings.mGameType == 1)
             {
-                field_20088_game_settings.field_20194_frag_limit = gRegistry_6FF968.Get_Network_Setting_587690("f_limit", 3);
+                mGameSettings.mFragLimit = gRegistry_6FF968.Get_Network_Setting_587690("f_limit", 3);
             }
-            else if (field_20088_game_settings.field_20198_game_type == 2)
+            else if (mGameSettings.mGameType == 2)
             {
-                field_20088_game_settings.field_20194_frag_limit = gRegistry_6FF968.Get_Network_Setting_587690("s_limit", 10000);
+                mGameSettings.mFragLimit = gRegistry_6FF968.Get_Network_Setting_587690("s_limit", 10000);
             }
             break;
 
         case 6: // 10.5.exe's jump table: 6 is the police flag, 4 the tick count
-            field_20088_game_settings.field_201A0_police_on = value;
+            mGameSettings.mPoliceOn = value;
             gRegistry_6FF968.Set_Network_Setting_587730("police", value);
             break;
 
         case 4:
-            field_20088_game_settings.field_2019C_tick_count = value;
+            mGameSettings.mTickCount = value;
             break;
 
         case 5:
-            field_20088_game_settings.field_20190_game_speed = value;
+            mGameSettings.mGameSpeed = value;
             switch (value)
             {
                 case 2:
@@ -2061,18 +2061,18 @@ void NetUi::SetSetting_51B9C0(s32 setting, s32 value)
                     pSpeedText = GetString_519A00("netui10");
                     break;
             }
-            SetDlgItemTextA(field_2031C_dlg_hwnd, LABEL_GAME_SPEED_TEXT_1032, pSpeedText);
+            SetDlgItemTextA(mDlgHwnd, LABEL_GAME_SPEED_TEXT_1032, pSpeedText);
             gRegistry_6FF968.Set_Network_Setting_587730("game_speed", value);
             break;
 
         case 7:
-            field_20088_game_settings.field_201A4_game_time_limit = value;
+            mGameSettings.mGameTimeLimit = value;
             gRegistry_6FF968.Set_Network_Setting_587730("game_time_limit", value);
             break;
     }
 
-    data.field_0_data = &field_20088_game_settings;
-    data.field_4_len = sizeof(field_20088_game_settings);
+    data.mData = &mGameSettings;
+    data.mLen = sizeof(mGameSettings);
     gNetPlay_7071E8.SetGameSettings_521170(&data);
 }
 #pragma warning(pop)
@@ -2080,25 +2080,25 @@ void NetUi::SetSetting_51B9C0(s32 setting, s32 value)
 MATCH_FUNC(0x51bbc0)
 void NetUi::IncCount_51BBC0()
 {
-    field_1FD6C_count++;
+    mCount++;
 }
 
 MATCH_FUNC(0x51bbd0)
 u32 NetUi::GetCount_51BBD0()
 {
-    return field_1FD6C_count;
+    return mCount;
 }
 
 MATCH_FUNC(0x51bbe0)
 void NetUi::DecCount_51BBE0()
 {
-    field_1FD6C_count--;
+    mCount--;
 }
 
 MATCH_FUNC(0x51bbf0)
 void NetUi::ResetCount_51BBF0()
 {
-    field_1FD6C_count = 0;
+    mCount = 0;
 }
 
 MATCH_FUNC(0x51bc00)
@@ -2116,13 +2116,13 @@ void NetUi::cb_SavePlayerName_51BC00(NetUi* pThis)
 MATCH_FUNC(0x51bc70)
 void NetUi::SetEndDialog_51BC70(s32 bEnd)
 {
-    field_1FD68_bEndDialog = bEnd;
+    mbEndDialog = bEnd;
 }
 
 MATCH_FUNC(0x51bc80)
 s32 NetUi::GetEndDialog_51BC80()
 {
-    return field_1FD68_bEndDialog;
+    return mbEndDialog;
 }
 
 #pragma function(strcpy)
@@ -2151,8 +2151,8 @@ void NetUi::LoadPlayerNameFromRegistry_51BC90()
 
         if (RegQueryValueExA(phkResult, "PlayerName", NULL, &Type, Data, &cbData) == ERROR_SUCCESS)
         {
-            strcpy(field_1FF80_player_name, reinterpret_cast<char*>(Data));
-            GetString_519A50(field_1FD78_player_name_2, reinterpret_cast<char*>(Data), GTA2_COUNTOF(field_1FD78_player_name_2));
+            strcpy(mPlayerName, reinterpret_cast<char*>(Data));
+            GetString_519A50(mPlayerName2, reinterpret_cast<char*>(Data), GTA2_COUNTOF(mPlayerName2));
         }
         RegCloseKey(phkResult);
     }
@@ -2161,8 +2161,8 @@ void NetUi::LoadPlayerNameFromRegistry_51BC90()
 MATCH_FUNC(0x51bd40)
 void NetUi::SetPlayNameAndSaveToRegistry_51BD40(const wchar_t* pPlayerNameW, const char* pPlayerNameA)
 {
-    strcpy(field_1FF80_player_name, pPlayerNameA);
-    wcscpy(field_1FD78_player_name_2, pPlayerNameW);
+    strcpy(mPlayerName, pPlayerNameA);
+    wcscpy(mPlayerName2, pPlayerNameW);
 
     HKEY hKey;
     DWORD dwDisposition;
@@ -2205,9 +2205,9 @@ LRESULT __stdcall NetUi::subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam
         switch (pThis->Get_20310_showing_window_idx_51ACC0())
         {
             case 2:
-                return CallWindowProcA(pThis->field_1FD70_old_proc, hWnd, Msg, wParam, lParam);
+                return CallWindowProcA(pThis->mOldProc1FD70, hWnd, Msg, wParam, lParam);
             case 1:
-                return CallWindowProcA(pThis->field_1FD74_old_proc, hWnd, Msg, wParam, lParam);
+                return CallWindowProcA(pThis->mOldProc1FD74, hWnd, Msg, wParam, lParam);
         }
     }
     return 0;
@@ -2218,10 +2218,10 @@ void NetUi::OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 hmenu)
 {
     char_type String[128];
     wchar_t Dest[260];
-    GetDlgItemTextA(field_2031C_dlg_hwnd, nIDDlgItem, String, 127);
+    GetDlgItemTextA(mDlgHwnd, nIDDlgItem, String, 127);
     NetUi::GetString_519A50(Dest, String, 260);
     gNetPlay_7071E8.SendChatMessage_521060(Dest, -1);
-    SetDlgItemTextA(field_2031C_dlg_hwnd, nIDDlgItem, "");
+    SetDlgItemTextA(mDlgHwnd, nIDDlgItem, "");
     NetUi::AppendChatMessage_51B4F0(hmenu, String);
 }
 
@@ -2243,14 +2243,14 @@ void NetUi::EnumerateMaps_51BFA0()
     if (hFindFile != INVALID_HANDLE_VALUE)
     {
         map_count = 1;
-        strcpy(maps[0].field_410_mmp_name, findFileData.cFileName);
+        strcpy(maps[0].mMmpName, findFileData.cFileName);
         while (FindNextFileA(hFindFile, &findFileData))
         {
             if (map_count >= 100)
             {
                 break;
             }
-            strcpy(maps[map_count].field_410_mmp_name, findFileData.cFileName);
+            strcpy(maps[map_count].mMmpName, findFileData.cFileName);
             map_count++;
         }
         FindClose(hFindFile);
@@ -2259,39 +2259,39 @@ void NetUi::EnumerateMaps_51BFA0()
     for (u32 i = 0; i < map_count; i++)
     {
         strcpy(FileName, "data\\");
-        strcat(FileName, maps[i].field_410_mmp_name);
-        GetPrivateProfileStringA("MapFiles", "GMPFile", "", maps[i].field_0_map_name, 0x103u, FileName);
-        GetPrivateProfileStringA("MapFiles", "STYFile", "", maps[i].field_104_style_name, 0x103u, FileName);
-        GetPrivateProfileStringA("MapFiles", "SCRFile", "", maps[i].field_208_script_name, 0x103u, FileName);
-        GetPrivateProfileStringA("MapFiles", "Description", "", maps[i].field_30C_description, 0x103u, FileName);
+        strcat(FileName, maps[i].mMmpName);
+        GetPrivateProfileStringA("MapFiles", "GMPFile", "", maps[i].mMapName, 0x103u, FileName);
+        GetPrivateProfileStringA("MapFiles", "STYFile", "", maps[i].mStyleName, 0x103u, FileName);
+        GetPrivateProfileStringA("MapFiles", "SCRFile", "", maps[i].mScriptName, 0x103u, FileName);
+        GetPrivateProfileStringA("MapFiles", "Description", "", maps[i].mDescription, 0x103u, FileName);
         GetPrivateProfileStringA("MapFiles", "PlayerCount", "", gTmpBuffer_67C598, 2u, FileName);
-        maps[i].field_514_player_count = atoi(gTmpBuffer_67C598);
+        maps[i].mPlayerCount = atoi(gTmpBuffer_67C598);
 
         // Only keep maps whose files all exist
         _chdir("data");
-        if (GetFileAttributesA(maps[i].field_0_map_name) != -1)
+        if (GetFileAttributesA(maps[i].mMapName) != -1)
         {
-            if (GetFileAttributesA(maps[i].field_104_style_name) != -1)
+            if (GetFileAttributesA(maps[i].mStyleName) != -1)
             {
-                if (GetFileAttributesA(maps[i].field_208_script_name) != -1)
+                if (GetFileAttributesA(maps[i].mScriptName) != -1)
                 {
-                    OutputDebugStringA(field_4_maps[i].field_0_map_name);
-                    memcpy(&field_4_maps[field_1FD64_total_map_count], &maps[i], sizeof(Network_Enumerated_Map));
-                    field_1FD64_total_map_count++;
+                    OutputDebugStringA(mMaps[i].mMapName);
+                    memcpy(&mMaps[mTotalMapCount], &maps[i], sizeof(Network_Enumerated_Map));
+                    mTotalMapCount++;
                 }
                 else
                 {
-                    NetUi::ShowUnableToOpenFileError_51CAD0(maps[i].field_410_mmp_name, maps[i].field_208_script_name);
+                    NetUi::ShowUnableToOpenFileError_51CAD0(maps[i].mMmpName, maps[i].mScriptName);
                 }
             }
             else
             {
-                NetUi::ShowUnableToOpenFileError_51CAD0(maps[i].field_410_mmp_name, maps[i].field_104_style_name);
+                NetUi::ShowUnableToOpenFileError_51CAD0(maps[i].mMmpName, maps[i].mStyleName);
             }
         }
         else
         {
-            NetUi::ShowUnableToOpenFileError_51CAD0(maps[i].field_410_mmp_name, maps[i].field_0_map_name);
+            NetUi::ShowUnableToOpenFileError_51CAD0(maps[i].mMmpName, maps[i].mMapName);
         }
         _chdir("..");
     }
@@ -2306,11 +2306,11 @@ void NetUi::EnumerateMaps_51BFA0()
             bSwapped = 0;
             for (u16 j = 0; j < last; j++)
             {
-                if (_strcmpi(field_4_maps[j].field_30C_description, field_4_maps[j + 1].field_30C_description) > 0)
+                if (_strcmpi(mMaps[j].mDescription, mMaps[j + 1].mDescription) > 0)
                 {
-                    memcpy(&tmp, &field_4_maps[j], sizeof(Network_Enumerated_Map));
-                    memcpy(&field_4_maps[j], &field_4_maps[j + 1], sizeof(Network_Enumerated_Map));
-                    memcpy(&field_4_maps[j + 1], &tmp, sizeof(Network_Enumerated_Map));
+                    memcpy(&tmp, &mMaps[j], sizeof(Network_Enumerated_Map));
+                    memcpy(&mMaps[j], &mMaps[j + 1], sizeof(Network_Enumerated_Map));
+                    memcpy(&mMaps[j + 1], &tmp, sizeof(Network_Enumerated_Map));
                     bSwapped = 1;
                 }
             }
@@ -2350,52 +2350,52 @@ void NetUi::CopyGameSettings_51C7F0(NetworkGameSettings* pSettings)
 {
     if (pSettings)
     {
-        memcpy(pSettings, &field_20088_game_settings, sizeof(NetworkGameSettings));
+        memcpy(pSettings, &mGameSettings, sizeof(NetworkGameSettings));
     }
 }
 
 MATCH_FUNC(0x51c830)
 void NetUi::LoadGameSettingsFromRegistry_51C830()
 {
-    field_20088_game_settings.field_2018C_map_idx = gRegistry_6FF968.Get_Network_Setting_587690("map_index", 0);
-    if (field_20088_game_settings.field_2018C_map_idx >= static_cast<u32>(field_1FD64_total_map_count))
+    mGameSettings.mMapIdx = gRegistry_6FF968.Get_Network_Setting_587690("map_index", 0);
+    if (mGameSettings.mMapIdx >= static_cast<u32>(mTotalMapCount))
     {
-        field_20088_game_settings.field_2018C_map_idx = 0;
+        mGameSettings.mMapIdx = 0;
     }
-    field_20088_game_settings.field_201A4_game_time_limit = gRegistry_6FF968.Get_Network_Setting_587690("game_time_limit", 1);
-    field_20088_game_settings.field_20190_game_speed = gRegistry_6FF968.Get_Network_Setting_587690("game_speed", 1);
-    field_20088_game_settings.field_20198_game_type = gRegistry_6FF968.Get_Network_Setting_587690("game_type", 1);
-    field_20088_game_settings.field_201A0_police_on = gRegistry_6FF968.Get_Network_Setting_587690("police", 0);
+    mGameSettings.mGameTimeLimit = gRegistry_6FF968.Get_Network_Setting_587690("game_time_limit", 1);
+    mGameSettings.mGameSpeed = gRegistry_6FF968.Get_Network_Setting_587690("game_speed", 1);
+    mGameSettings.mGameType = gRegistry_6FF968.Get_Network_Setting_587690("game_type", 1);
+    mGameSettings.mPoliceOn = gRegistry_6FF968.Get_Network_Setting_587690("police", 0);
 
-    if (field_20088_game_settings.field_20198_game_type == 1)
+    if (mGameSettings.mGameType == 1)
     {
-        field_20088_game_settings.field_20194_frag_limit = gRegistry_6FF968.Get_Network_Setting_587690("f_limit", 3);
+        mGameSettings.mFragLimit = gRegistry_6FF968.Get_Network_Setting_587690("f_limit", 3);
     }
     else
     {
-        field_20088_game_settings.field_20194_frag_limit = gRegistry_6FF968.Get_Network_Setting_587690("s_limit", 10000);
+        mGameSettings.mFragLimit = gRegistry_6FF968.Get_Network_Setting_587690("s_limit", 10000);
     }
 
-    strcpy(field_20088_game_settings.field_20088_default_map,
-           field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_410_mmp_name);
+    strcpy(mGameSettings.mDefaultMap,
+           mMaps[mGameSettings.mMapIdx].mMmpName);
 }
 
 MATCH_FUNC(0x51ca10)
 char_type* NetUi::GetMapName_51CA10()
 {
-    return field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_0_map_name;
+    return mMaps[mGameSettings.mMapIdx].mMapName;
 }
 
 MATCH_FUNC(0x51ca50)
 char_type* NetUi::GetMapStyName_51CA50()
 {
-    return field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_104_style_name;
+    return mMaps[mGameSettings.mMapIdx].mStyleName;
 }
 
 MATCH_FUNC(0x51ca90)
 char_type* NetUi::GetMapScrName_51CA90()
 {
-    return field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_208_script_name;
+    return mMaps[mGameSettings.mMapIdx].mScriptName;
 }
 
 MATCH_FUNC(0x51cad0)
@@ -2418,7 +2418,7 @@ void NetUi::SetPlayerCountText_51CB30(s32 count, HWND hDlg)
 MATCH_FUNC(0x51cbc0)
 void NetUi::UpdateButtonsEnabledState_51CBC0()
 {
-    if (NetUi::GetCount_51BBD0() == field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514_player_count)
+    if (NetUi::GetCount_51BBD0() == mMaps[mGameSettings.mMapIdx].mPlayerCount)
     {
         EnableWindow(GetDlgItem(NetUi::Get_2031C_HWND_519E20(), BUTTON_START_GAME_1021), true);
     }

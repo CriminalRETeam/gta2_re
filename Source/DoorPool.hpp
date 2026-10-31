@@ -11,7 +11,7 @@ class SpriteShape;
 class Ped;
 class Car;
 
-// DoorData::field_0_state
+// DoorData::mState
 namespace door_state
 {
 enum
@@ -32,45 +32,45 @@ class DoorData // Contains only position, face and DoorInfo id
 
     u8 get_z_489640() const
     {
-        return field_6_z;
+        return mZ;
     }
 
     u8 get_y_489630() const
     {
-        return field_5_y;
+        return mY;
     }
 
     u8 get_x_489620() const
     {
-        return field_4_x;
+        return mX;
     }
 
-    s32 field_0_state; // 0x0
-    u8 field_4_x; // 0x4
-    u8 field_5_y; // 0x5
-    u8 field_6_z; // 0x6
-    u8 field_7_gr_id; // 0x7
-    s32 field_8_face; // 0x8
+    s32 mState; // 0x0
+    u8 mX; // 0x4
+    u8 mY; // 0x5
+    u8 mZ; // 0x6
+    u8 mGrId; // 0x7
+    s32 mFace; // 0x8
     DoorData* mpNext;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(DoorData, 0x10);
 
 inline bool Door::IsOpen_44C860() const
 {
-    return field_0_primary_door_data->field_0_state == door_state::open_2;
+    return mPrimaryDoorData->mState == door_state::open_2;
 }
 
 inline void Door::CloseDoors_476A30()
 {
-    if (field_28_bClosing)
+    if (mbClosing)
     {
-        if (field_0_primary_door_data)
+        if (mPrimaryDoorData)
         {
-            field_0_primary_door_data->Close_49C590(0);
+            mPrimaryDoorData->Close_49C590(0);
         }
-        if (field_4_secondary_door_data)
+        if (mSecondaryDoorData)
         {
-            field_4_secondary_door_data->Close_49C590(field_2A_bDoFlip);
+            mSecondaryDoorData->Close_49C590(mbDoFlip);
         }
     }
 }
@@ -81,8 +81,8 @@ class DoorDataPool
     // inlined 0x44c830
     DoorData* Allocate()
     {
-        DoorData* pNew = field_0_pool.field_0_pHead;
-        field_0_pool.field_0_pHead = pNew->mpNext;
+        DoorData* pNew = mPool.mpHead;
+        mPool.mpHead = pNew->mpNext;
         pNew->PoolAllocate();
         return pNew;
     }
@@ -95,10 +95,10 @@ class DoorDataPool
     // 9.6f 0x44C7F0
     ~DoorDataPool()
     {
-        field_0_pool.field_0_pHead = NULL;
+        mPool.mpHead = NULL;
     }
 
-    PoolBasic<DoorData, 44> field_0_pool; // 0x0
+    PoolBasic<DoorData, 44> mPool; // 0x0
 };
 
 class DoorPool
@@ -141,9 +141,9 @@ class DoorPool
     EXPORT DoorPool();
     EXPORT ~DoorPool();
 
-    Door field_0_doors[22]; // 0x0
-    u16 field_4D0_count; // 0x4D0
-    s16 field_4D2_unused; // 0x4D2
+    Door mDoors[22]; // 0x0
+    u16 mCount; // 0x4D0
+    s16 mUnused4D2; // 0x4D2
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(DoorPool, 0x4D4);
 

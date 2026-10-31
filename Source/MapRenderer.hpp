@@ -13,10 +13,10 @@ class DrawListBlock
   public:
     inline bool IsEqual_46BB60(const DrawListBlock* other) const
     {
-        return field_0_x == other->field_0_x && field_4_y == other->field_4_y;
+        return mX == other->mX && mY == other->mY;
     }
-    s32 field_0_x; // 0x0
-    s32 field_4_y; // 0x4
+    s32 mX; // 0x0
+    s32 mY; // 0x4
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(DrawListBlock, 0x8);
 
@@ -54,11 +54,11 @@ class MapRenderer
     STATIC_MEMBER(u16, sBlockBottom);
     MapRenderer()
     {
-        field_0_ambient = kInitialAmbient_67DCCC;
-        field_4_target_ambient = kInitialAmbient_67DCCC;
-        field_8_ambient_step.mValue = 0;
-        field_2F00_drawn_tile_count = 0;
-        field_2EFC_curr_draw_layer_size = 0;
+        mAmbient = kInitialAmbient_67DCCC;
+        mTargetAmbient = kInitialAmbient_67DCCC;
+        mAmbientStep.mValue = 0;
+        mDrawnTileCount = 0;
+        mCurrDrawLayerSize = 0;
         set_shading_lev_4E9DB0(15u);
     }
 
@@ -124,10 +124,10 @@ class MapRenderer
 
     inline u32 update_and_get_gradient_direction(u32 idx)
     {
-        gGradientSize_6F6480 = gGmpSlopes_6F5BA8[idx].field_1_gradient_size;
-        gGradientLevel_6F647C = gGmpSlopes_6F5BA8[idx].field_2_gradient_level;
-        gCurrentSlope_6F646C.field_0_gradient_direction = gGmpSlopes_6F5BA8[idx].field_0_gradient_direction;
-        return gCurrentSlope_6F646C.field_0_gradient_direction;
+        gGradientSize_6F6480 = gGmpSlopes_6F5BA8[idx].mGradientSize;
+        gGradientLevel_6F647C = gGmpSlopes_6F5BA8[idx].mGradientLevel;
+        gCurrentSlope_6F646C.mGradientDirection = gGmpSlopes_6F5BA8[idx].mGradientDirection;
+        return gCurrentSlope_6F646C.mGradientDirection;
     }
 
     inline u8 GetColour_46B5E0(s32 light_level)
@@ -138,13 +138,13 @@ class MapRenderer
                 return -1;
                 break;
             case 1u:
-                return field_C_colour_t1;
+                return mColourT1;
                 break;
             case 2u:
-                return field_E_colour_t2;
+                return mColourT2;
                 break;
             case 3u:
-                return field_F_colour_t3;
+                return mColourT3;
                 break;
             default:
                 return 0;
@@ -154,48 +154,48 @@ class MapRenderer
 
     inline void AddToDrawList_46BB90(s32& x, s32& y)
     {
-        DrawListBlock* pPos = &field_1C_draw_list[field_2EFC_curr_draw_layer_size];
-        pPos->field_0_x = x;
-        pPos->field_4_y = y;
+        DrawListBlock* pPos = &mDrawList[mCurrDrawLayerSize];
+        pPos->mX = x;
+        pPos->mY = y;
         
-        DrawListBlock* pIter = &field_1C_draw_list[field_2EFC_curr_draw_layer_size-1];
-        for (s32 i = field_2EFC_curr_draw_layer_size - 1; i >= 0; i--, pIter--)
+        DrawListBlock* pIter = &mDrawList[mCurrDrawLayerSize-1];
+        for (s32 i = mCurrDrawLayerSize - 1; i >= 0; i--, pIter--)
         {
             if (pIter->IsEqual_46BB60(pPos))
             {
                 return;
             }
         }
-        ++field_2EFC_curr_draw_layer_size;
+        ++mCurrDrawLayerSize;
     }
 
     inline void ResetCount_45B040()
     {
-        field_2EFC_curr_draw_layer_size = 0;
+        mCurrDrawLayerSize = 0;
     }
 
-    Fix16 field_0_ambient; // 0x0
-    Fix16 field_4_target_ambient; // 0x4
-    Fix16 field_8_ambient_step; // 0x8
-    u8 field_C_colour_t1; // 0xC
-    u8 field_D_right_colour; // 0xD
-    u8 field_E_colour_t2; // 0xE
-    u8 field_F_colour_t3; // 0xF
-    u8 field_10_diag_up_left_colour; // 0x10
-    u8 field_11_diag_up_right_colour; // 0x11
-    u8 field_12_diag_down_left_colour; // 0x12
-    u8 field_13_diag_down_right_colour; // 0x13
-    u8 field_14_dcolour; // 0x14
-    u8 field_15_slope_south_colour; // 0x15
-    u8 field_16_slope_west_colour; // 0x16
-    u8 field_17_slope_east_colour; // 0x17
-    u8 field_18_color; // 0x18
-    u8 field_19_tri_diag_up_right_colour; // 0x19
-    u8 field_1A_tri_diag_down_left_colour; // 0x1A
-    u8 field_1B_tri_diag_down_right_colour; // 0x1B
-    DrawListBlock field_1C_draw_list[1500]; // 0x1C
-    s32 field_2EFC_curr_draw_layer_size; // 0x2EFC
-    s32 field_2F00_drawn_tile_count; // 0x2F00
+    Fix16 mAmbient; // 0x0
+    Fix16 mTargetAmbient; // 0x4
+    Fix16 mAmbientStep; // 0x8
+    u8 mColourT1; // 0xC
+    u8 mRightColour; // 0xD
+    u8 mColourT2; // 0xE
+    u8 mColourT3; // 0xF
+    u8 mDiagUpLeftColour; // 0x10
+    u8 mDiagUpRightColour; // 0x11
+    u8 mDiagDownLeftColour; // 0x12
+    u8 mDiagDownRightColour; // 0x13
+    u8 mDcolour; // 0x14
+    u8 mSlopeSouthColour; // 0x15
+    u8 mSlopeWestColour; // 0x16
+    u8 mSlopeEastColour; // 0x17
+    u8 mColor; // 0x18
+    u8 mTriDiagUpRightColour; // 0x19
+    u8 mTriDiagDownLeftColour; // 0x1A
+    u8 mTriDiagDownRightColour; // 0x1B
+    DrawListBlock mDrawList[1500]; // 0x1C
+    s32 mCurrDrawLayerSize; // 0x2EFC
+    s32 mDrawnTileCount; // 0x2F00
 };
 
 EXPORT void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts);

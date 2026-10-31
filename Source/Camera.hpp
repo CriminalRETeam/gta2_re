@@ -29,18 +29,18 @@ enum
 
 struct CameraPos
 {
-    Fix16 field_0_x; // 0x0
-    Fix16 field_4_y; // 0x4
-    Fix16 field_8_z; // 0x8
-    Fix16 field_C_zoom; // 0xC
+    Fix16 mX; // 0x0
+    Fix16 mY; // 0x4
+    Fix16 mZ; // 0x8
+    Fix16 mZoom; // 0xC
 };
 
 struct WorldRect
 {
-    Fix16 field_0_left; // 0x0
-    Fix16 field_4_right; // 0x4
-    Fix16 field_8_top; // 0x8
-    Fix16 field_C_bottom; // 0xC
+    Fix16 mLeft; // 0x0
+    Fix16 mRight; // 0x4
+    Fix16 mTop; // 0x8
+    Fix16 mBottom; // 0xC
 };
 
 class Camera
@@ -49,7 +49,7 @@ class Camera
     // 9.6f 0x416B70
     inline Ped* GetFollowedPed_416B70() const
     {
-        return field_34_target_ped;
+        return mTargetPed;
     }
 
     EXPORT bool IsSpriteTheCameraSubject_4355D0(Sprite* pSprite) const;
@@ -85,43 +85,43 @@ class Camera
 
     void ProjectWorldToScreen_4B90E0(Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
     {
-        Fix16 scale = kFpOne_702DE4 / ((kFpEight_702E04 - z) + field_98_cur_pos.field_8_z);
-        *pOutX = (((x - field_98_cur_pos.field_0_x) * field_60_screen_scale.x) * scale) + Fix16(field_70_screen_px_center_x);
-        *pOutY = (((y - field_98_cur_pos.field_4_y) * field_60_screen_scale.x) * scale) + Fix16(field_74_screen_px_center_y);
+        Fix16 scale = kFpOne_702DE4 / ((kFpEight_702E04 - z) + mCurPos.mZ);
+        *pOutX = (((x - mCurPos.mX) * mScreenScale.x) * scale) + Fix16(mScreenPxCenterX);
+        *pOutY = (((y - mCurPos.mY) * mScreenScale.x) * scale) + Fix16(mScreenPxCenterY);
     }
 
     // ProjectWorldToScreen_4B90E0 with the out-of-line Fix16 helpers (ExplodingScore::DrawNumbers_596C90)
     void ProjectWorldToScreen_OutOfLine_4B90E0(Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
     {
-        Fix16 scale = kFpOne_702DE4.Divide_436A20((field_98_cur_pos.field_8_z - z) + kFpEight_702E04);
+        Fix16 scale = kFpOne_702DE4.Divide_436A20((mCurPos.mZ - z) + kFpEight_702E04);
 
-        *pOutX = (x.Subtract_436A00(field_98_cur_pos.field_0_x).Multiply_408680(field_60_screen_scale.x).Multiply_408680(scale))
-                     .Add_408660(Fix16(field_70_screen_px_center_x));
+        *pOutX = (x.Subtract_436A00(mCurPos.mX).Multiply_408680(mScreenScale.x).Multiply_408680(scale))
+                     .Add_408660(Fix16(mScreenPxCenterX));
 
-        *pOutY = (y.Subtract_436A00(field_98_cur_pos.field_4_y).Multiply_408680(field_60_screen_scale.x).Multiply_408680(scale))
-                     .Add_408660(Fix16(field_74_screen_px_center_y));
+        *pOutY = (y.Subtract_436A00(mCurPos.mY).Multiply_408680(mScreenScale.x).Multiply_408680(scale))
+                     .Add_408660(Fix16(mScreenPxCenterY));
     }
 
     inline void SetSmoothFollow_475B60()
     {
-        field_3C_follow_mode = camera_follow_mode::smooth_1;
+        mFollowMode = camera_follow_mode::smooth_1;
     }
 
     // 9.6f 0x4A5070
     inline void SetSnapFollow_4A5070()
     {
-        field_3C_follow_mode = camera_follow_mode::snap_2;
+        mFollowMode = camera_follow_mode::snap_2;
     }
 
     // FUNCTION: 96f 0x40cfc0
     inline Fix16_Point_POD WorldToScreen_40CFC0(Fix16 x, Fix16 y, Fix16 z)
     {
         Fix16_Point_POD screen_pos;
-        Fix16 u = field_98_cur_pos.field_8_z - z;
+        Fix16 u = mCurPos.mZ - z;
         Fix16 t(kOne_67681C / Fix16(u.mValue + kFpEight_676840.mValue, 0));
 
-        screen_pos.x = (((x - field_98_cur_pos.field_0_x) * field_60_screen_scale.y) * t) + Fix16(320);
-        screen_pos.y = (((y - field_98_cur_pos.field_4_y) * field_60_screen_scale.y) * t) + Fix16(240);
+        screen_pos.x = (((x - mCurPos.mX) * mScreenScale.y) * t) + Fix16(320);
+        screen_pos.y = (((y - mCurPos.mY) * mScreenScale.y) * t) + Fix16(240);
 
         return screen_pos;
     }
@@ -129,90 +129,90 @@ class Camera
     // 9.6f 0x45AEA0
     inline bool IsSpriteInBounds_45AEA0(Sprite* pSprite, Fix16 margin)
     {
-        return pSprite->field_14_xy.x >= field_20_padded_view_bounds.field_0_left - margin &&
-            pSprite->field_14_xy.x <= field_20_padded_view_bounds.field_4_right + margin &&
-            pSprite->field_14_xy.y >= field_20_padded_view_bounds.field_8_top - margin &&
-            pSprite->field_14_xy.y <= field_20_padded_view_bounds.field_C_bottom + margin;
+        return pSprite->mXy.x >= mPaddedViewBounds.mLeft - margin &&
+            pSprite->mXy.x <= mPaddedViewBounds.mRight + margin &&
+            pSprite->mXy.y >= mPaddedViewBounds.mTop - margin &&
+            pSprite->mXy.y <= mPaddedViewBounds.mBottom + margin;
     }
 
     // 9.6f 0x45AF40
     inline bool IsRectInBounds_45AF40(Fix16_Rect* pRect)
     {
-        return pRect->get_top_45ADD0() <= field_20_padded_view_bounds.field_C_bottom &&
-            pRect->get_bottom_45ADC0() >= field_20_padded_view_bounds.field_8_top &&
-            pRect->get_left_45ADB0() <= field_20_padded_view_bounds.field_4_right &&
-            pRect->get_right_45ADA0() >= field_20_padded_view_bounds.field_0_left;
+        return pRect->get_top_45ADD0() <= mPaddedViewBounds.mBottom &&
+            pRect->get_bottom_45ADC0() >= mPaddedViewBounds.mTop &&
+            pRect->get_left_45ADB0() <= mPaddedViewBounds.mRight &&
+            pRect->get_right_45ADA0() >= mPaddedViewBounds.mLeft;
     }
 
     // 9.6f 0x40CF60
     inline bool IsPointInViewBounds_40CF60(Fix16 x, Fix16 y) const
     {
-        return x >= field_78_view_bounds.field_0_left && x <= field_78_view_bounds.field_4_right &&
-            y >= field_78_view_bounds.field_8_top && y <= field_78_view_bounds.field_C_bottom;
+        return x >= mViewBounds.mLeft && x <= mViewBounds.mRight &&
+            y >= mViewBounds.mTop && y <= mViewBounds.mBottom;
     }
 
     inline void CommitPendingTarget_41E410()
     {
-        field_0_target_pos = field_10_pending_target_pos;
+        mTargetPos = mPendingTargetPos;
     }
 
     inline void ResetPendingTarget()
     {
-        field_10_pending_target_pos = field_0_target_pos;
+        mPendingTargetPos = mTargetPos;
     }
 
     // 9.6f inline 0x433E90
     inline bool HasFollowTarget_433E90() const
     {
-        return field_34_target_ped || field_38_target_car;
+        return mTargetPed || mTargetCar;
     }
 
     inline void SetPendingTarget_41E3D0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16 zoom)
     {
-        field_10_pending_target_pos.field_0_x = xpos;
-        field_10_pending_target_pos.field_4_y = ypos;
-        field_10_pending_target_pos.field_8_z = zpos + field_40_target_elevation;
-        field_10_pending_target_pos.field_C_zoom = zoom;
+        mPendingTargetPos.mX = xpos;
+        mPendingTargetPos.mY = ypos;
+        mPendingTargetPos.mZ = zpos + mTargetElevation;
+        mPendingTargetPos.mZoom = zoom;
     }
 
     Fix16 GetPaddedViewBoundsWidth_4B3110() const
     {
-        return field_20_padded_view_bounds.field_4_right - field_20_padded_view_bounds.field_0_left;
+        return mPaddedViewBounds.mRight - mPaddedViewBounds.mLeft;
     }
 
     Fix16 GetPaddedViewBoundsHeight_4B3130() const
     {
-        return field_20_padded_view_bounds.field_C_bottom - field_20_padded_view_bounds.field_8_top;
+        return mPaddedViewBounds.mBottom - mPaddedViewBounds.mTop;
     }
 
-    CameraPos field_0_target_pos; // 0x0
-    CameraPos field_10_pending_target_pos; // 0x10
-    WorldRect field_20_padded_view_bounds; // 0x20
-    Fix16 field_30_shake_amount; // 0x30
-    Ped* field_34_target_ped; // 0x34
-    Car* field_38_target_car; // 0x38
-    s32 field_3C_follow_mode; // 0x3C
-    Fix16 field_40_target_elevation; // 0x40
-    u8 field_44_suspicion; // 0x44
-    char_type field_45_unused; // 0x45
-    char_type field_46_unused; // 0x46
-    char_type field_47_unused; // 0x47
-    Fix16 field_48_pan_x; // 0x48
-    Fix16 field_4C_pan_y; // 0x4C
-    Fix16 field_50_pan_speed_up; // 0x50
-    Fix16 field_54_pan_speed_down; // 0x54
-    Fix16 field_58_pan_speed_left; // 0x58
-    Fix16 field_5C_pan_speed_right; // 0x5C
-    Fix16_Point field_60_screen_scale; // 0x60: x: screen width * zoom, y: 640 * zoom
-    s32 field_68_screen_px_width; // 0x68
-    s32 field_6C_screen_px_height; // 0x6C
-    s32 field_70_screen_px_center_x; // 0x70
-    s32 field_74_screen_px_center_y; // 0x74
-    WorldRect field_78_view_bounds; // 0x78
-    CameraPos field_88_prev_pos; // 0x88
-    CameraPos field_98_cur_pos; // 0x98
-    Fix16 field_A8_ui_scale; // 0xA8
-    CameraPos field_AC_cam_velocity; // 0xAC
+    CameraPos mTargetPos; // 0x0
+    CameraPos mPendingTargetPos; // 0x10
+    WorldRect mPaddedViewBounds; // 0x20
+    Fix16 mShakeAmount; // 0x30
+    Ped* mTargetPed; // 0x34
+    Car* mTargetCar; // 0x38
+    s32 mFollowMode; // 0x3C
+    Fix16 mTargetElevation; // 0x40
+    u8 mSuspicion; // 0x44
+    char_type mUnused45; // 0x45
+    char_type mUnused46; // 0x46
+    char_type mUnused47; // 0x47
+    Fix16 mPanX; // 0x48
+    Fix16 mPanY; // 0x4C
+    Fix16 mPanSpeedUp; // 0x50
+    Fix16 mPanSpeedDown; // 0x54
+    Fix16 mPanSpeedLeft; // 0x58
+    Fix16 mPanSpeedRight; // 0x5C
+    Fix16_Point mScreenScale; // 0x60: x: screen width * zoom, y: 640 * zoom
+    s32 mScreenPxWidth; // 0x68
+    s32 mScreenPxHeight; // 0x6C
+    s32 mScreenPxCenterX; // 0x70
+    s32 mScreenPxCenterY; // 0x74
+    WorldRect mViewBounds; // 0x78
+    CameraPos mPrevPos; // 0x88
+    CameraPos mCurPos; // 0x98
+    Fix16 mUiScale; // 0xA8
+    CameraPos mCamVelocity; // 0xAC
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Camera, 0xBC)
 

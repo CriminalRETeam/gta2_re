@@ -54,7 +54,7 @@ class Object
     // 9.6f 0x4C4F10
     inline void SetThreadTriggerIdx_4C4F10(char_type v)
     {
-        field_27_thread_trigger_idx = v;
+        mThreadTriggerIdx = v;
     }
 
     EXPORT Object();
@@ -138,9 +138,9 @@ class Object
     // out of line (SetMovementVector_5224E0)
     inline Fix16_Point GetSpeedVector_482C50() const
     {
-        if (field_10_obj_3c)
+        if (mObj3c)
         {
-            return field_10_obj_3c->GetSpeedVector_482BA0();
+            return mObj3c->GetSpeedVector_482BA0();
         }
         return gZeroVector_6F8EF0;
     }
@@ -158,25 +158,25 @@ class Object
     // 9.6f 0x475A70
     inline bool IsStaticCollisionCheck_475A70() const
     {
-        return field_8_definition->field_34_behavior_type == object_behavior_type::static_collision_check_1;
+        return mDefinition->mBehaviorType == object_behavior_type::static_collision_check_1;
     }
 
     // 9.6f 0x475A60
     inline bool IsShop_475A60() const
     {
-        s32 behavior_type = field_8_definition->field_34_behavior_type;
+        s32 behavior_type = mDefinition->mBehaviorType;
         return behavior_type == object_behavior_type::shop_10;
     }
 
     bool IsAnimatedBehavior_475A80() const
     {
-        s32 behavior_type = this->field_8_definition->field_34_behavior_type;
+        s32 behavior_type = this->mDefinition->mBehaviorType;
         return behavior_type == object_behavior_type::animated_2 || behavior_type == object_behavior_type::physics_animated_4 || behavior_type == object_behavior_type::pickup_animated_8 || behavior_type == object_behavior_type::pickup_physics_animated_9;
     }
 
     inline bool IsDestroyedPowergen_434140() const
     {
-        if (field_18_model == objects::destroyed_invisible_powergen_285 || field_18_model == objects::destroyed_powergen_282)
+        if (mModel == objects::destroyed_invisible_powergen_285 || mModel == objects::destroyed_powergen_282)
         {
             return true;
         }
@@ -185,9 +185,9 @@ class Object
 
     bool CanBePushed_482C90() const
     {
-        s32 behavior_type = field_8_definition->field_34_behavior_type;
+        s32 behavior_type = mDefinition->mBehaviorType;
         if (behavior_type == object_behavior_type::physics_3 || behavior_type == object_behavior_type::physics_animated_4 ||
-            ((behavior_type == object_behavior_type::static_object_0 || behavior_type == object_behavior_type::static_collision_check_1 || behavior_type == object_behavior_type::animated_2) && field_8_definition->field_44_touch_behavior == 2))
+            ((behavior_type == object_behavior_type::static_object_0 || behavior_type == object_behavior_type::static_collision_check_1 || behavior_type == object_behavior_type::animated_2) && mDefinition->mTouchBehavior == 2))
         {
             return true;
         }
@@ -196,7 +196,7 @@ class Object
 
     bool UsesParamAsPedRef_421080() const
     {
-        s32 type = this->field_8_definition->field_34_behavior_type;
+        s32 type = this->mDefinition->mBehaviorType;
         return type != object_behavior_type::pickup_6 && type != object_behavior_type::pickup_physics_7 &&
             type != object_behavior_type::pickup_animated_8 && type != object_behavior_type::pickup_physics_animated_9 &&
             type != object_behavior_type::shop_10 && type != object_behavior_type::static_collision_check_1 &&
@@ -205,108 +205,108 @@ class Object
 
     bool IsOwnedByPedRef_4973E0(u8 ped_ref_idx) const
     {
-        return UsesParamAsPedRef_421080() && field_26_ped_ref_idx == ped_ref_idx;
+        return UsesParamAsPedRef_421080() && mPedRefIdx == ped_ref_idx;
     }
 
     bool IsSpriteGrid2Region3_4210B0() const
     {
-        return field_8_definition->field_40_collision_bucket_category == collision_bucket_category::sprite_grid_2_region_3;
+        return mDefinition->mCollisionBucketCategory == collision_bucket_category::sprite_grid_2_region_3;
     }
 
     // Inlined on version 9.6f 0x447e90 (also 9.6f copies 0x45E0A0 and 0x482C00)
     inline void SetParam_447E90(u8 v)
     {
-        field_26_ped_ref_idx = v;
+        mPedRefIdx = v;
     }
 
     // Inlined on version 9.6f 0x420FF0
     inline u8 GetPedRefIdx_420FF0() const
     {
-        return field_26_ped_ref_idx;
+        return mPedRefIdx;
     }
 
     // 9.6f 0x421050
     inline u8 GetParam_421050() const
     {
-        return field_26_ped_ref_idx;
+        return mPedRefIdx;
     }
 
     // 9.6f 0x4340A0
     inline u8 GetAmmo_4340A0() const
     {
-        return field_26_ped_ref_idx;
+        return mPedRefIdx;
     }
 
     // 9.6f 0x434130
     inline void SetO8Timer_434130(s16 timer)
     {
-        field_C_pAny.o8->field_4_timer = timer;
+        mpAny.o8->mTimer = timer;
     }
 
     // 9.6f 0x40FEF0
     s32 GetModel_40FEF0() const
     {
-        return field_18_model;
+        return mModel;
     }
 
     // 9.6f 0x40FF00
     inline char_type MakesCollisionSound_40FF00() const
     {
-        return field_8_definition->field_63_makes_collision_sound;
+        return mDefinition->mMakesCollisionSound;
     }
 
     // 9.6f 0x475AA0
     inline bool IsModel176To181_475AA0() const
     {
-        s32 model = field_18_model;
+        s32 model = mModel;
         return model == 176 || model == 177 || model == 178 || model == 179 || model == 180 || model == 181;
     }
 
     bool IsPickup_421060() const
     {
-        return field_8_definition->field_34_behavior_type == object_behavior_type::pickup_6 ||
-            field_8_definition->field_34_behavior_type == object_behavior_type::pickup_physics_7 ||
-            field_8_definition->field_34_behavior_type == object_behavior_type::pickup_animated_8 ||
-            field_8_definition->field_34_behavior_type == object_behavior_type::pickup_physics_animated_9;
+        return mDefinition->mBehaviorType == object_behavior_type::pickup_6 ||
+            mDefinition->mBehaviorType == object_behavior_type::pickup_physics_7 ||
+            mDefinition->mBehaviorType == object_behavior_type::pickup_animated_8 ||
+            mDefinition->mBehaviorType == object_behavior_type::pickup_physics_animated_9;
     }
 
     // 9.6f 0x482490
     inline void PoolAllocate()
     {
-        field_14_id = gObj2C_id_623EC0++;
-        field_25_removal_state = object_removal_state::none_0;
-        field_26_ped_ref_idx = 99;
-        field_10_obj_3c = NULL;
-        field_C_pAny.o8 = NULL;
-        field_1C_has_explosion = false;
-        field_4_sprite = NULL;
-        field_18_model = 0;
+        mId = gObj2C_id_623EC0++;
+        mRemovalState = object_removal_state::none_0;
+        mPedRefIdx = 99;
+        mObj3c = NULL;
+        mpAny.o8 = NULL;
+        mHasExplosion = false;
+        mSprite = NULL;
+        mModel = 0;
     }
 
     inline Fix16 GetX_4340D0() const
     {
-        return field_4_sprite->field_14_xy.x;
+        return mSprite->mXy.x;
     }
 
     inline Fix16 GetY_4340E0() const
     {
-        return field_4_sprite->field_14_xy.y;
+        return mSprite->mXy.y;
     }
 
     inline Fix16 GetZ_4340F0() const
     {
-        return field_4_sprite->field_1C_zpos;
+        return mSprite->mZpos;
     }
 
     // 9.6f 0x4BE850
     bool IsGangIcon_4BE850() const
     {
-        return field_18_model >= objects::loonies_icon_287 && field_18_model <= objects::russian_mafia_icon_293;
+        return mModel >= objects::loonies_icon_287 && mModel <= objects::russian_mafia_icon_293;
     }
 
     bool IsFlameObject_4BE830() const
     {
-        if (this->field_18_model == objects::fire_197)
+        if (this->mModel == objects::fire_197)
         {
             return true;
         }
@@ -328,12 +328,12 @@ class Object
     // 9.6f 0x482C80
     inline Fix16 GetMass_482C80() const
     {
-        return field_8_definition->field_18_mass;
+        return mDefinition->mMass;
     }
 
     void ApplyDefinitionDrawLayer_482BE0()
     {
-        field_4_sprite->SetDrawLayer_40F7B0(field_8_definition->field_2C_draw_layer);
+        mSprite->SetDrawLayer_40F7B0(mDefinition->mDrawLayer);
     }
 
     // 9.6f 0x482C10, defined in Object_5C.cpp (needs Object_8)
@@ -348,35 +348,35 @@ class Object
     // 9.6f 0x482BF0
     void SetTopDrawLayer_482BF0()
     {
-        field_4_sprite->SetDrawLayer_40F7B0(29);
+        mSprite->SetDrawLayer_40F7B0(29);
     }
 
     Object* mpNext;
-    Sprite* field_4_sprite; // 0x4
-    ObjectDefinition* field_8_definition; // 0x8
+    Sprite* mSprite; // 0x4
+    ObjectDefinition* mDefinition; // 0x8
     union TAny
     {
         Explosion* pExplosion;
         Object_8* o8;
         Light* pLight;
     };
-    TAny field_C_pAny; // 0xC
-    Object_3C* field_10_obj_3c; // 0x10
-    s32 field_14_id; // 0x14
-    s32 field_18_model; // 0x18
-    bool field_1C_has_explosion; // 0x1C
-    char_type field_1D_unused; // 0x1D
-    char_type field_1E_unused; // 0x1E
-    char_type field_1F_unused; // 0x1F
-    s32 field_20_pool_list_state; // 0x20
-    u8 field_24_touched_result; // 0x24
-    u8 field_25_removal_state; // 0x25
-    u8 field_26_ped_ref_idx; // 0x26: Seems to be a generic index. Sometimes it's the current idx of its object type. For many objects, it's unused (equal to 99).
-    char_type field_27_thread_trigger_idx; // 0x27
-    char_type field_28_unused; // 0x28
-    char_type field_29_unused; // 0x29
-    char_type field_2A_unused; // 0x2A
-    char_type field_2B_unused; // 0x2B
+    TAny mpAny; // 0xC
+    Object_3C* mObj3c; // 0x10
+    s32 mId; // 0x14
+    s32 mModel; // 0x18
+    bool mHasExplosion; // 0x1C
+    char_type mUnused1D; // 0x1D
+    char_type mUnused1E; // 0x1E
+    char_type mUnused1F; // 0x1F
+    s32 mPoolListState; // 0x20
+    u8 mTouchedResult; // 0x24
+    u8 mRemovalState; // 0x25
+    u8 mPedRefIdx; // 0x26: Seems to be a generic index. Sometimes it's the current idx of its object type. For many objects, it's unused (equal to 99).
+    char_type mThreadTriggerIdx; // 0x27
+    char_type mUnused28; // 0x28
+    char_type mUnused29; // 0x29
+    char_type mUnused2A; // 0x2A
+    char_type mUnused2B; // 0x2B
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Object, 0x2C);
 
@@ -434,20 +434,20 @@ class Object_5C
     EXPORT void RestoreObjects_52A590(SavedObjectData* pData);
     EXPORT void RemoveAndFree_52A610(Object* pObject);
 
-    Object* field_0_diagonal_wall_ang315; // 0x0
-    Object* field_4_diagonal_wall_ang135; // 0x4
-    Object* field_8_diagonal_wall_ang225; // 0x8
-    Object* field_C_diagonal_wall_ang45; // 0xC
-    s32 field_10_limited_object_count; // 0x10
-    s32 field_14_listed_sprite_count; // 0x14
-    u8 field_18_pending_damage_owner; // 0x18
-    u8 field_19_unused; // 0x19
-    u16 field_1A_unused; // 0x1A
-    SpriteList field_1C_sprite_list; // 0x1C
-    bool field_20_uncollected_tokens[50]; // 0x20
-    u16 field_52_unused; // 0x52: pad?
-    s32 field_54_uncollected_token_index; // 0x54
-    Sprite* field_58_collision_probe_sprite; // 0x58
+    Object* mDiagonalWallAng315; // 0x0
+    Object* mDiagonalWallAng135; // 0x4
+    Object* mDiagonalWallAng225; // 0x8
+    Object* mDiagonalWallAng45; // 0xC
+    s32 mLimitedObjectCount; // 0x10
+    s32 mListedSpriteCount; // 0x14
+    u8 mPendingDamageOwner; // 0x18
+    u8 mUnused19; // 0x19
+    u16 mUnused1A; // 0x1A
+    SpriteList mSpriteList; // 0x1C
+    bool mUncollectedTokens[50]; // 0x20
+    u16 mUnused52; // 0x52: pad?
+    s32 mUncollectedTokenIndex; // 0x54
+    Sprite* mCollisionProbeSprite; // 0x58
 };
 
 EXTERN_GLOBAL(Object_5C*, gObject_5C_6F8F84);

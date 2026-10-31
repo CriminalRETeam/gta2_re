@@ -9,29 +9,29 @@
 // game, data files and settings
 struct SyncCheckData
 {
-    u8 field_0_type; // 0x0: 5
-    u32 field_1_flags; // 0x1: 1: log random extra, 2: sync check, 4: log random
-    s32 field_5_map_size; // 0x5
-    s32 field_9_unused; // 0x9: not used
-    s32 field_D_script_sum; // 0xD
-    s32 field_11_exe_a; // 0x11
-    s32 field_15_exe_b; // 0x15
-    s32 field_19_gci_sum; // 0x19
-    u8 field_1D_bFrench; // 0x1D
-    u8 field_1E_player_idx; // 0x1E
+    u8 mType; // 0x0: 5
+    u32 mFlags; // 0x1: 1: log random extra, 2: sync check, 4: log random
+    s32 mMapSize; // 0x5
+    s32 mUnused9; // 0x9: not used
+    s32 mScriptSum; // 0xD
+    s32 mExeA; // 0x11
+    s32 mExeB; // 0x15
+    s32 mGciSum; // 0x19
+    u8 mbFrench; // 0x1D
+    u8 mPlayerIdx; // 0x1E
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SyncCheckData, 0x1F);
 
 
 struct SPacket
 {
-    u8 field_0_subtype; // 0x0
-    void* field_1_pData; // 0x1
+    u8 mSubtype; // 0x0
+    void* mpData; // 0x1
 };
 
 struct Network_PlayerInputs
 {
-    Network_InputData field_0_inputs[MAX_PLAYERS]; // 0x0
+    Network_InputData mInputs[MAX_PLAYERS]; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Network_PlayerInputs, 0x30);
 

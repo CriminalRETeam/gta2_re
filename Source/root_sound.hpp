@@ -8,26 +8,26 @@
 class root_sound
 {
   public:
-    SoundObject* field_0_pFreeList; // 0x0
-    SoundObject field_4_pool[999 + 1]; // 0x4
+    SoundObject* mpFreeList; // 0x0
+    SoundObject mPool[999 + 1]; // 0x4
 
     SoundObject* DestroySoundObj_40FE60(SoundObject* pSoundObj) // inline
     {
         pSoundObj->Release_40EF20();
-        SoundObject* result = field_0_pFreeList;
-        pSoundObj->field_C_pAny.pNextFree = field_0_pFreeList;
-        field_0_pFreeList = pSoundObj;
+        SoundObject* result = mpFreeList;
+        pSoundObj->mpAny.pNextFree = mpFreeList;
+        mpFreeList = pSoundObj;
         return result;
     }
 
     // 9.6f 0x410730
     inline SoundObject* PopFree_410730()
     {
-        SoundObject* pCurrent = field_0_pFreeList;
-        field_0_pFreeList = pCurrent->field_C_pAny.pNextFree;
+        SoundObject* pCurrent = mpFreeList;
+        mpFreeList = pCurrent->mpAny.pNextFree;
         // 9.6f calls a SoundObject reset here (0x4106D0: bStatus true, entry and type 0); as a new inline
         // name it changes ImGuiDebugDraw and the DLLs
-        pCurrent->field_8_sound_entry = 0;
+        pCurrent->mSoundEntry = 0;
         return pCurrent;
     }
 

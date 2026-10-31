@@ -6,7 +6,7 @@
 class Car;
 class Ped;
 
-// Firefighter::field_8_state (stored as s32)
+// Firefighter::mState (stored as s32)
 namespace firefighter_state
 {
 enum
@@ -27,12 +27,12 @@ class Firefighter
     // inline
     void Clear_450C10()
     {
-        field_C_target_car = NULL;
-        field_8_state = firefighter_state::idle_0;
-        field_4_bActive = 0;
-        field_1C_car = NULL;
-        field_20_ped = NULL;
-        field_24_next_state_timer = 0;
+        mTargetCar = NULL;
+        mState = firefighter_state::idle_0;
+        mbActive = 0;
+        mCar = NULL;
+        mPed = NULL;
+        mNextStateTimer = 0;
     }
 
     EXPORT bool CheckAbortConditions_4A7FC0();
@@ -41,18 +41,18 @@ class Firefighter
     EXPORT void init_4A85C0();
     EXPORT void Reset_4A85E0();
 
-    s16 field_0_id; // 0x0
-    s16 field_2_unused; // 0x2
-    s32 field_4_bActive; // 0x4
-    s32 field_8_state; // 0x8: firefighter_state
-    Car* field_C_target_car; // 0xC
-    Fix16 field_10_xpos; // 0x10
-    Fix16 field_14_ypos; // 0x14
-    Fix16 field_18_zpos; // 0x18
-    Car* field_1C_car; // 0x1C
-    Ped* field_20_ped; // 0x20
-    u16 field_24_next_state_timer; // 0x24
-    s16 field_26_unused; // 0x26
+    s16 mId; // 0x0
+    s16 mUnused2; // 0x2
+    s32 mbActive; // 0x4
+    s32 mState; // 0x8: firefighter_state
+    Car* mTargetCar; // 0xC
+    Fix16 mXpos; // 0x10
+    Fix16 mYpos; // 0x14
+    Fix16 mZpos; // 0x18
+    Car* mCar; // 0x1C
+    Ped* mPed; // 0x20
+    u16 mNextStateTimer; // 0x24
+    s16 mUnused26; // 0x26
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Firefighter, 0x28);
 
@@ -63,7 +63,7 @@ class FirefighterPool
     {
         for (s32 i = 0; i < 2; i++)
         {
-            field_0_firefighters[i].init_4A85C0();
+            mFirefighters[i].init_4A85C0();
         }
         ResetCount_4A88D0();
     }
@@ -79,9 +79,9 @@ class FirefighterPool
     EXPORT bool IsFireEngineSentToCar_4A8890(Car* pFireEngine, Car* pTargetCar) const;
     EXPORT void ResetCount_4A88D0();
 
-    Firefighter field_0_firefighters[2]; // 0x0
-    s16 field_50_count; // 0x50
-    s16 field_52_unused; // 0x52
+    Firefighter mFirefighters[2]; // 0x0
+    s16 mCount; // 0x50
+    s16 mUnused52; // 0x52
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(FirefighterPool, 0x54);
 

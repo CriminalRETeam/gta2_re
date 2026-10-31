@@ -15,26 +15,26 @@ class BonusRule
     EXPORT void Reset_431DA0();
     EXPORT void Deactivate_431DB0();
 
-    gmp_map_zone* field_0_pZone; // 0x0
-    s16 field_4_event_type; // 0x4
-    s32 field_8_car_model; // 0x8
-    s32 field_C_occupation; // 0xC
-    s16 field_10_gang_idx; // 0x10
-    s16 field_12_remap; // 0x12
-    s32 field_14_death_cause; // 0x14
-    s32 field_18_alt_car_model; // 0x18
-    s32 field_1C_time_limit; // 0x1C: -1: no limit
-    s32 field_20_start_time; // 0x20
-    char_type field_24_check_mode; // 0x24: 1: a non matching event cancels the rule, otherwise it is ignored
-    u8 field_25_target_count; // 0x25
-    u8 field_26_progress_count; // 0x26
-    u16 field_28_reward; // 0x28
-    bool field_2A_bUsed; // 0x2A
-    bool field_2B_bActive; // 0x2B
+    gmp_map_zone* mpZone; // 0x0
+    s16 mEventType; // 0x4
+    s32 mCarModel; // 0x8
+    s32 mOccupation; // 0xC
+    s16 mGangIdx; // 0x10
+    s16 mRemap; // 0x12
+    s32 mDeathCause; // 0x14
+    s32 mAltCarModel; // 0x18
+    s32 mTimeLimit; // 0x1C: -1: no limit
+    s32 mStartTime; // 0x20
+    char_type mCheckMode; // 0x24: 1: a non matching event cancels the rule, otherwise it is ignored
+    u8 mTargetCount; // 0x25
+    u8 mProgressCount; // 0x26
+    u16 mReward; // 0x28
+    bool mbUsed; // 0x2A
+    bool mbActive; // 0x2B
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(BonusRule, 0x2C);
 
-// The rules of one player's score tracker (PlayerScoreTracker::field_1A8_bonuses)
+// The rules of one player's score tracker (PlayerScoreTracker::mBonuses)
 class BonusTracker
 {
   public:
@@ -46,13 +46,13 @@ class BonusTracker
     // 9.6f 0x476660
     inline u8 GetProgressCount_476660(u16 idx) const
     {
-        return field_0_bonuses[idx].field_26_progress_count;
+        return mBonuses[idx].mProgressCount;
     }
 
     // 9.6f 0x476680
     inline void DeactivateBonus_476680(u16 idx)
     {
-        field_0_bonuses[idx].Deactivate_431DB0();
+        mBonuses[idx].Deactivate_431DB0();
     }
 
     EXPORT BonusTracker(); // 0x431DC0
@@ -85,8 +85,8 @@ class BonusTracker
     EXPORT bool IsOccupationInGroup_432240(s32 occupation, s32 rule_occupation) const;
     EXPORT bool AreCarModelsEquivalent_432300(s32 car_model_1, s32 car_model_2) const;
 
-    BonusRule field_0_bonuses[k_max_rules]; // 0x0
-    class PlayerScoreTracker* field_1B8_pScores; // 0x1B8
-    s32 field_1BC_cur_time; // 0x1BC
+    BonusRule mBonuses[k_max_rules]; // 0x0
+    class PlayerScoreTracker* mpScores; // 0x1B8
+    s32 mCurTime; // 0x1BC
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(BonusTracker, 0x1C0);

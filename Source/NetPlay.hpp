@@ -15,158 +15,158 @@ class NetUi;
 class PacketHeader
 {
   public:
-    s32 field_0_type; // 0x0
-    s32 field_4_sub_type; // 0x4
+    s32 mType; // 0x0
+    s32 mSubType; // 0x4
 };
 
 class Packet_Ping
 {
   public:
-    s32 field_0_sender_player_id; // 0x0
-    s32 field_4_receiver_player_id; // 0x4
-    s32 field_8_time; // 0x8
+    s32 mSenderPlayerId; // 0x0
+    s32 mReceiverPlayerId; // 0x4
+    s32 mTime; // 0x8
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Packet_Ping, 0xC);
 
 class Standard_Packet
 {
   public:
-    char_type field_0_std_packet_subtype; // 0x0
-    s32 field_1_unused; // 0x1
+    char_type mStdPacketSubtype; // 0x0
+    s32 mUnused1; // 0x1
 };
 
 class Packet_SubType_3
 {
   public:
     PacketHeader header;
-    u8 field_8_seq; // 0x8: mod 256
-    s32 field_9_bLoadData; // 0x9
-    void* field_D_data; // 0xD
-    s32 field_11_len; // 0x11
+    u8 mSeq; // 0x8: mod 256
+    s32 mbLoadData; // 0x9
+    void* mData; // 0xD
+    s32 mLen; // 0x11
 };
 #pragma pack(pop)
 
 class Network_Player
 {
   public:
-    s32 field_0_in_use; // 0x0
-    s32 field_4_num_ping_samples; // 0x4
-    s32 field_8_average_ping; // 0x8
-    s32 field_C_ping_sum; // 0xC
-    s32 field_10_player_id; // 0x10
-    u32 field_14_dpname; // 0x14
-    s32 field_18_not_used; // 0x18
-    wchar_t* field_1C_player_name; // 0x1C
-    s32 field_20_not_used; // 0x20: not used
-    void* field_24_pData; // 0x24
-    s32 field_28_data_len; // 0x28
+    s32 mInUse; // 0x0
+    s32 mNumPingSamples; // 0x4
+    s32 mAveragePing; // 0x8
+    s32 mPingSum; // 0xC
+    s32 mPlayerId; // 0x10
+    u32 mDpname; // 0x14
+    s32 mNotUsed18; // 0x18
+    wchar_t* mPlayerName; // 0x1C
+    s32 mNotUsed20; // 0x20: not used
+    void* mpData; // 0x24
+    s32 mDataLen; // 0x28
 };
 
 struct Network_Data
 {
-    u8 field_0_packet_type; // 0x0
-    u8 field_1_tick; // 0x1
-    u8 field_2_msg_size; // 0x2: field_4_length + 2
-    u8 field_3_type; // 0x3
-    u8 field_4_length; // 0x4
-    void* field_5_data; // 0x5
+    u8 mPacketType; // 0x0
+    u8 mTick; // 0x1
+    u8 mMsgSize; // 0x2: mLength + 2
+    u8 mType; // 0x3
+    u8 mLength; // 0x4
+    void* mData; // 0x5
 };
 
 class Network_Game_Session
 {
   public:
-    s32 field_0_group_id; // 0x0
-    u32 field_4_players_count; // 0x4
-    u8 field_8_packet_game_tick[MAX_PLAYERS]; // 0x8
-    u16 field_E_not_used; // 0xE
-    Network_Player field_10_players[MAX_PLAYERS]; // 0x10
-    u8* field_118_game_settings; // 0x118
-    s32 field_11C_group_data_len; // 0x11C
-    DPSESSIONDESC2 field_120_session_desc; // 0x120
+    s32 mGroupId; // 0x0
+    u32 mPlayersCount; // 0x4
+    u8 mPacketGameTick[MAX_PLAYERS]; // 0x8
+    u16 mNotUsedE; // 0xE
+    Network_Player mPlayers[MAX_PLAYERS]; // 0x10
+    u8* mGameSettings; // 0x118
+    s32 mGroupDataLen; // 0x11C
+    DPSESSIONDESC2 mSessionDesc; // 0x120
 };
 
 class EnumeratedConnection
 {
   public:
-    GUID field_0_sp_guid; // 0x0
-    wchar_t* field_10_pConnectionName; // 0x10
-    void* field_14_pConnection; // 0x14
-    s32 field_18_connection_len; // 0x18
+    GUID mSpGuid; // 0x0
+    wchar_t* mpConnectionName; // 0x10
+    void* mpConnection; // 0x14
+    s32 mConnectionLen; // 0x18
 };
 
 struct Network_NameList
 {
-    wchar_t* field_0_names[16]; // 0x0
-    u32 field_40_count; // 0x40
+    wchar_t* mNames[16]; // 0x0
+    u32 mCount; // 0x40
 };
 
 struct Network_ChatMessage
 {
-    wchar_t field_0_message[128]; // 0x0
-    wchar_t field_100_name[16]; // 0x100
+    wchar_t mMessage[128]; // 0x0
+    wchar_t mName[16]; // 0x100
 };
 
 struct Network_PlayerPing
 {
-    wchar_t field_0_name[260]; // 0x0
-    s32 field_208_avg_ping; // 0x208
+    wchar_t mName[260]; // 0x0
+    s32 mAvgPing; // 0x208
 };
 
 struct Network_IpAddress
 {
-    wchar_t* field_0_allocated_str; // 0x0
+    wchar_t* mAllocatedStr; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Network_IpAddress, 0x4);
 
 struct Network_ConnectionList
 {
-    EnumeratedConnection* field_0_enumed_connections; // 0x0
-    Network_IpAddress* field_4_modem_names; // 0x4
-    u32 field_8_connections_count; // 0x8
-    u32 field_C_modem_count; // 0xC
-    s32 field_10_enum_success; // 0x10
-    s32 field_14_dplay_success; // 0x14
+    EnumeratedConnection* mEnumedConnections; // 0x0
+    Network_IpAddress* mModemNames; // 0x4
+    u32 mConnectionsCount; // 0x8
+    u32 mModemCount; // 0xC
+    s32 mEnumSuccess; // 0x10
+    s32 mDplaySuccess; // 0x14
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Network_ConnectionList, 0x18);
 
 struct Network_SessionList
 {
-    DPSESSIONDESC2 field_C4_sessions[16]; // 0xC4
-    u32 field_5C4_session_count; // 0x5C4
+    DPSESSIONDESC2 mSessions[16]; // 0xC4
+    u32 mSessionCount; // 0x5C4
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Network_SessionList, 0x504);
 
 struct Network_Buffer
 {
-    void* field_0_data; // 0x0
-    s32 field_4_len; // 0x4
+    void* mData; // 0x0
+    s32 mLen; // 0x4
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Network_Buffer, 0x8);
 
 struct Network_InputData
 {
-    u32 field_0_Inputs; // 0x0
-    u32 field_4_rng; // 0x4
+    u32 mInputs; // 0x0
+    u32 mRng; // 0x4
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Network_InputData, 0x8);
 
 struct Network_InputPacket
 {
-    Network_InputData field_0_inputs; // 0x0
-    s32 field_8_id; // 0x8
-    s32 field_C_len; // 0xC
-    u8 field_10_used; // 0x10
-    char_type field_11_game_tick; // 0x11: mod 256
-    char_type field_12_unused; // 0x12
-    char_type field_13_unused; // 0x13
+    Network_InputData mInputs; // 0x0
+    s32 mId; // 0x8
+    s32 mLen; // 0xC
+    u8 mUsed; // 0x10
+    char_type mGameTick; // 0x11: mod 256
+    char_type mUnused12; // 0x12
+    char_type mUnused13; // 0x13
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Network_InputPacket, 0x14);
 
 struct PacketHandlerSlot
 {
-    void* field_0_param_fn_callback; // 0x0: fn ptr
-    void* field_4_param_context; // 0x4: this ptr
-    s32 field_8_fn_type; // 0x8
+    void* mParamFnCallback; // 0x0: fn ptr
+    void* mParamContext; // 0x4: this ptr
+    s32 mFnType; // 0x8
 };
 
 struct NetPlay
@@ -256,52 +256,52 @@ struct NetPlay
     // 9.6f 0x461DA0
     inline u32 GetPlayerCount_461DA0()
     {
-        return field_758_n2.field_4_players_count;
+        return mN2.mPlayersCount;
     }
 
     // 9.6f 0x409C40
     inline s32 GetPlayerIdx_409C40()
     {
-        return field_5D4_player_idx;
+        return mPlayerIdx;
     }
 
-    char_type field_4_bModem; // 0x4
-    char_type field_5_modem_num; // 0x5
-    char_type field_6_unused; // 0x6
-    char_type field_7_unused; // 0x7
-    GUID field_8_ip_or_ipx_guid; // 0x8
-    s32 field_18_unused; // 0x18
-    s32 field_1C_unused; // 0x1C
-    s32 field_20_unused; // 0x20
-    s32 field_24_unused; // 0x24
-    s32 field_28_unused; // 0x28
-    s32 field_2C_ptrs; // 0x2C
-    Network_ConnectionList field_30_enumed_connections; // 0x30
-    s32 field_48_net_state; // 0x48
-    PacketHandlerSlot field_4C_func_ptrs_and_params[10]; // 0x4C
-    Network_SessionList field_C4_sessions; // 0xC4
-    s32 field_5C8_not_used; // 0x5C8
-    s32 field_5CC_bIsHost; // 0x5CC
-    s32 field_5D0_player_og_idx; // 0x5D0: Only set for the host, but it's not used
-    s32 field_5D4_player_idx; // 0x5D4: 1, 2, ..., MAX_PLAYERS
-    s32 field_5D8_player_id; // 0x5D8: From DPMSG_ADDPLAYERTOGROUP::dpIdPlayer
-    HANDLE field_5DC_handle; // 0x5DC
-    IDirectPlayLobby2* field_5E0_pDPlayLobby2; // 0x5E0
-    IDirectPlay3* field_5E4_pDPlay3; // 0x5E4
-    Network_Game_Session field_5E8_n1; // 0x5E8
-    Network_Game_Session field_758_n2; // 0x758
-    NetPlayerBuffer_0x800* field_8C8_not_used[MAX_PLAYERS]; // 0x8C8
-    s32 field_8E0_pSendDataBuffer; // 0x8E0: 0x1800 of alloc size
-    s32 field_8E4_pReceivedDataBuffer; // 0x8E4: 0x1800 of alloc size
-    s32 field_8E8_time; // 0x8E8
-    s32 field_8EC_unused; // 0x8EC
-    char_type field_8F0_receive_disabled; // 0x8F0: Receive_51F010 and ReceiveGameMessage_521890 always returns false if this var is true
-    char_type field_8F1_unused; // 0x8F1
-    char_type field_8F2_unused; // 0x8F2
-    char_type field_8F3_unused; // 0x8F3
-    s32 field_8F4_time_diff; // 0x8F4
-    Network_InputPacket field_8F8_packets[48]; // 0x8F8
-    s32 field_CB8_count; // 0xCB8
+    char_type mbModem; // 0x4
+    char_type mModemNum; // 0x5
+    char_type mUnused6; // 0x6
+    char_type mUnused7; // 0x7
+    GUID mIpOrIpxGuid; // 0x8
+    s32 mUnused18; // 0x18
+    s32 mUnused1C; // 0x1C
+    s32 mUnused20; // 0x20
+    s32 mUnused24; // 0x24
+    s32 mUnused28; // 0x28
+    s32 mPtrs; // 0x2C
+    Network_ConnectionList mEnumedConnections; // 0x30
+    s32 mNetState; // 0x48
+    PacketHandlerSlot mFuncPtrsAndParams[10]; // 0x4C
+    Network_SessionList mSessions; // 0xC4
+    s32 mNotUsed5C8; // 0x5C8
+    s32 mbIsHost; // 0x5CC
+    s32 mPlayerOgIdx; // 0x5D0: Only set for the host, but it's not used
+    s32 mPlayerIdx; // 0x5D4: 1, 2, ..., MAX_PLAYERS
+    s32 mPlayerId; // 0x5D8: From DPMSG_ADDPLAYERTOGROUP::dpIdPlayer
+    HANDLE mHandle; // 0x5DC
+    IDirectPlayLobby2* mpDPlayLobby2; // 0x5E0
+    IDirectPlay3* mpDPlay3; // 0x5E4
+    Network_Game_Session mN1; // 0x5E8
+    Network_Game_Session mN2; // 0x758
+    NetPlayerBuffer_0x800* mNotUsed8C8[MAX_PLAYERS]; // 0x8C8
+    s32 mpSendDataBuffer; // 0x8E0: 0x1800 of alloc size
+    s32 mpReceivedDataBuffer; // 0x8E4: 0x1800 of alloc size
+    s32 mTime; // 0x8E8
+    s32 mUnused8EC; // 0x8EC
+    char_type mReceiveDisabled; // 0x8F0: Receive_51F010 and ReceiveGameMessage_521890 always returns false if this var is true
+    char_type mUnused8F1; // 0x8F1
+    char_type mUnused8F2; // 0x8F2
+    char_type mUnused8F3; // 0x8F3
+    s32 mTimeDiff; // 0x8F4
+    Network_InputPacket mPackets[48]; // 0x8F8
+    s32 mCount; // 0xCB8
 };
 
 EXTERN_GLOBAL(NetPlay, gNetPlay_7071E8);

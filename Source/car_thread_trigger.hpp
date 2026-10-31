@@ -1,6 +1,6 @@
 #pragma once
 
-// CarThreadTrigger::field_8_type: what has to enter the touch point (checked in CarThreadTriggers::CheckThreadTrigger_5C8780).
+// CarThreadTrigger::mType: what has to enter the touch point (checked in CarThreadTriggers::CheckThreadTrigger_5C8780).
 namespace car_thread_trigger_type
 {
 enum
@@ -17,7 +17,7 @@ enum
 };
 } // namespace car_thread_trigger_type
 
-// CarThreadTrigger::field_C_action: what happens once the trigger fires.
+// CarThreadTrigger::mAction: what happens once the trigger fires.
 namespace car_thread_trigger_action
 {
 enum
@@ -28,7 +28,7 @@ enum
 };
 } // namespace car_thread_trigger_action
 
-// CarThreadTrigger::field_14_enable_state
+// CarThreadTrigger::mEnableState
 namespace car_thread_trigger_state
 {
 enum

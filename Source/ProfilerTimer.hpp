@@ -10,8 +10,8 @@ class ProfilerTimer
     EXPORT ProfilerTimer();
     EXPORT ~ProfilerTimer();
 
-    s32 field_0_time_percent; // 0x0
-    s32 field_4_start_time; // 0x4
-    s32 field_8_accum_time; // 0x8
+    s32 mTimePercent; // 0x0
+    s32 mStartTime; // 0x4
+    s32 mAccumTime; // 0x8
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ProfilerTimer, 0xC);

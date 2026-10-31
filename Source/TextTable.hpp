@@ -5,10 +5,10 @@
 
 struct TextKeyEntry
 {
-    wchar_t* field_0_pwstr; // 0x0
-    // The TKEY record's 8 char key is stored inline in field_4_key and field_8_key_tail, not through a pointer
-    const char_type* field_4_key; // 0x4
-    s32 field_8_key_tail; // 0x8
+    wchar_t* mPwstr; // 0x0
+    // The TKEY record's 8 char key is stored inline in mKey and mKeyTail, not through a pointer
+    const char_type* mKey; // 0x4
+    s32 mKeyTail; // 0x8
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TextKeyEntry, 0xC);
 
@@ -17,20 +17,20 @@ class text_tdat
   public:
     text_tdat() // inline 0x4C2420
     {
-        field_0_data = NULL;
-        field_4_len = 0;
+        mData = NULL;
+        mLen = 0;
     }
 
     ~text_tdat() // inline 0x4C2430
     {
-        if (field_0_data)
+        if (mData)
         {
-            delete[] field_0_data;
+            delete[] mData;
         }
-        field_0_data = NULL;
+        mData = NULL;
     }
-    u8* field_0_data; // 0x0
-    s32 field_4_len; // 0x4
+    u8* mData; // 0x0
+    s32 mLen; // 0x4
     EXPORT void TDAT_Load_5B5A80(u32 size);
 };
 
@@ -39,20 +39,20 @@ class text_tkey
 public:
     text_tkey() // inline 4C23F0
     {
-        field_0_tKey = NULL;
-        field_4_tKey_count = 0;
+        mTKey = NULL;
+        mTKeyCount = 0;
     }
 
     ~text_tkey() // inline 0x4C2400
     {
-        if (field_0_tKey)
+        if (mTKey)
         {
-            delete[] field_0_tKey;
+            delete[] mTKey;
         }
-        field_0_tKey = NULL;
+        mTKey = NULL;
     }
-    TextKeyEntry* field_0_tKey; // 0x0
-    s32 field_4_tKey_count; // 0x4
+    TextKeyEntry* mTKey; // 0x0
+    s32 mTKeyCount; // 0x4
 };
 
 
@@ -62,12 +62,12 @@ class TextTable
     // 9.6f 0x452E60
     inline bool LangIsJapanese_452E60() const
     {
-        return field_10_lang_code == 'j';
+        return mLangCode == 'j';
     }
 
-    text_tkey field_0_tKey; // 0x0
-    text_tdat field_8_tDat; // 0x8
-    char_type field_10_lang_code; // 0x10
+    text_tkey mTKey; // 0x0
+    text_tdat mTDat; // 0x8
+    char_type mLangCode; // 0x10
 
     EXPORT u16 RemapExtendedChar_5B58D0(u16 ch) const;
 

@@ -17,7 +17,7 @@ struct TaxiListNode
     {
     }
 
-    Car* field_0_pCar; // 0x0
+    Car* mpCar; // 0x0
     TaxiListNode* mpNext;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TaxiListNode, 0x8);
@@ -33,7 +33,7 @@ public:
     
     ~TaxiListPool()
     {
-        this->field_0_pHead = NULL;
+        this->mpHead = NULL;
     }
 };
 
@@ -50,7 +50,7 @@ class TaxiList
     // inlined
     void ClearList_4C0980()
     {
-        field_0_pFirst = NULL;
+        mpFirst = NULL;
     }
 
   public:
@@ -58,7 +58,7 @@ class TaxiList
     // 9.6f 0x434970
     inline bool IsEmpty_434970() const
     {
-        return field_0_pFirst == NULL;
+        return mpFirst == NULL;
     }
 
     EXPORT void PushTaxi_457BA0(Car* pCar);
@@ -68,7 +68,7 @@ class TaxiList
     EXPORT ~TaxiList();
 
   private:
-    TaxiListNode* field_0_pFirst; // 0x0
+    TaxiListNode* mpFirst; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TaxiList, 0x4);
 

@@ -24,39 +24,39 @@ class RollingDigitCounter
     // 9.6f 0x4A50B0
     inline void SetValueClamped_4A50B0(s32 value)
     {
-        if (value < -field_30_max_value)
+        if (value < -mMaxValue)
         {
-            field_0_value = -field_30_max_value;
+            mValue = -mMaxValue;
         }
-        else if (value > field_30_max_value)
+        else if (value > mMaxValue)
         {
-            field_0_value = field_30_max_value;
+            mValue = mMaxValue;
         }
         else
         {
-            field_0_value = value;
+            mValue = value;
         }
     }
 
     // 9.6f 0x41DC30
     inline s32 get_value() const
     {
-        return field_0_value;
+        return mValue;
     }
 
-    s32 field_0_value; // 0x0
-    s32 field_4_target_value; // 0x4
-    bool field_8_bRollingUp; // 0x8
-    char_type field_9_shown_digits[10]; // 0x9
-    s8 field_13_scroll_offsets[10]; // 0x13
-    char_type field_1D_target_digits[10]; // 0x1D
-    u8 field_27_sprite_w; // 0x27
-    u8 field_28_sprite_h_calc; // 0x28
-    s16 field_2A_max_num_of_digits; // 0x2A
-    s16 field_2C_digit_transition_speed; // 0x2C
-    u16 field_2E_non_used_digits; // 0x2E
-    s32 field_30_max_value; // 0x30
-    s16 field_34_first_digit_texture_idx; // 0x34
-    s16 field_36_sprite_idx; // 0x36
+    s32 mValue; // 0x0
+    s32 mTargetValue; // 0x4
+    bool mbRollingUp; // 0x8
+    char_type mShownDigits[10]; // 0x9
+    s8 mScrollOffsets[10]; // 0x13
+    char_type mTargetDigits[10]; // 0x1D
+    u8 mSpriteW; // 0x27
+    u8 mSpriteHCalc; // 0x28
+    s16 mMaxNumOfDigits; // 0x2A
+    s16 mDigitTransitionSpeed; // 0x2C
+    u16 mNonUsedDigits; // 0x2E
+    s32 mMaxValue; // 0x30
+    s16 mFirstDigitTextureIdx; // 0x34
+    s16 mSpriteIdx; // 0x36
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(RollingDigitCounter, 0x38);

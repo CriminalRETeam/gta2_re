@@ -33,9 +33,9 @@ class PlayerCrimeStats
     EXPORT void AddEvasionRating_484FB0(s32 amount);
 
   public:
-    u32 field_0_crime_count_list[crime_stats_type::count_10]; // 0x0: indexed by crime_stats_type
-    bool field_28_bCountAllowed[crime_stats_type::count_10]; // 0x28
-    s32 field_34_car_damage_cost; // 0x34
-    s32 field_38_evasion_rating; // 0x38
+    u32 mCrimeCountList[crime_stats_type::count_10]; // 0x0: indexed by crime_stats_type
+    bool mbCountAllowed[crime_stats_type::count_10]; // 0x28
+    s32 mCarDamageCost; // 0x34
+    s32 mEvasionRating; // 0x38
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PlayerCrimeStats, 0x3C);

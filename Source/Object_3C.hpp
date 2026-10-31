@@ -23,7 +23,7 @@ class SpriteList
 
     void ResetHead_4207E0() // inline
     {
-        field_0_p18 = NULL;
+        mP18 = NULL;
     }
 
     EXPORT AttachedSprite* GetSpriteForModel_5A6A50(s32 obj_type) const;
@@ -58,7 +58,7 @@ class SpriteList
     EXPORT bool AnySpriteHasSlopeTopInFootprint_5A7310() const;
 
   public:
-    AttachedSprite* field_0_p18; // 0x0
+    AttachedSprite* mP18; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpriteList, 0x4);
 
@@ -72,15 +72,15 @@ class Object_3C
     void PoolAllocate()
     {
         ++gObj3C_live_count_6F8E54;
-        field_C_speed = 0;
-        field_4_angle = kZeroAng_6F8F68;
-        field_18_friction = Fix16(0);
-        field_28_next_definition_timer = 0;
-        field_38_conveyor_speed = 0;
-        field_34_sprite_collide_mode = 2;
-        field_24_unused = 0;
-        field_2F_bOnSlope = false;
-        field_30_bSkipAnim = false;
+        mSpeed = 0;
+        mAngle = kZeroAng_6F8F68;
+        mFriction = Fix16(0);
+        mNextDefinitionTimer = 0;
+        mConveyorSpeed = 0;
+        mSpriteCollideMode = 2;
+        mUnused24 = 0;
+        mbOnSlope = false;
+        mbSkipAnim = false;
     }
 
     // 9.6f 0x482B80
@@ -92,7 +92,7 @@ class Object_3C
 
     void ClearConveyorSpeed_482BD0()
     {
-        field_38_conveyor_speed = 0;
+        mConveyorSpeed = 0;
     }
 
     EXPORT Fix16_Point GetSpeedVector_52ADF0() const;
@@ -103,36 +103,36 @@ class Object_3C
     inline Fix16_Point GetSpeedVector_482BA0() const
     {
         Fix16_Point p;
-        p.FromPolar_41E210(field_C_speed, field_4_angle);
+        p.FromPolar_41E210(mSpeed, mAngle);
         return p;
     }
 
     EXPORT void GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle);
 
-    SpriteList field_0_attached_sprites; // 0x0
-    Ang16 field_4_angle; // 0x4
-    s16 field_6_unused; // 0x6
+    SpriteList mAttachedSprites; // 0x0
+    Ang16 mAngle; // 0x4
+    s16 mUnused6; // 0x6
     Object_3C* mpNext;
-    Fix16 field_C_speed; // 0xC
-    Fix16 field_10_z_speed; // 0x10
-    Fix16 field_14_saved_speed; // 0x14
-    Fix16 field_18_friction; // 0x18
-    Fix16 field_1C_z_accel; // 0x1C
-    s32 field_20_obj2c_id; // 0x20
-    s32 field_24_unused; // 0x24
-    s16 field_28_next_definition_timer; // 0x28
-    s16 field_2A_bAirborne; // 0x2A
-    s16 field_2C_unused; // 0x2C
-    char_type field_2E_unused; // 0x2E
-    char_type field_2F_bOnSlope; // 0x2F
-    bool field_30_bSkipAnim; // 0x30
-    u8 field_31_unused; // 0x31
-    u16 field_32_unused; // 0x32
-    s32 field_34_sprite_collide_mode; // 0x34: 2 collides with sprites, 1 passes over them (draw layer 29), 0 under (layer 6)
-    char_type field_38_conveyor_speed; // 0x38
-    char_type field_39_unused; // 0x39
-    char_type field_3A_unused; // 0x3A
-    char_type field_3B_unused; // 0x3B
+    Fix16 mSpeed; // 0xC
+    Fix16 mZSpeed; // 0x10
+    Fix16 mSavedSpeed; // 0x14
+    Fix16 mFriction; // 0x18
+    Fix16 mZAccel; // 0x1C
+    s32 mObj2cId; // 0x20
+    s32 mUnused24; // 0x24
+    s16 mNextDefinitionTimer; // 0x28
+    s16 mbAirborne; // 0x2A
+    s16 mUnused2C; // 0x2C
+    char_type mUnused2E; // 0x2E
+    char_type mbOnSlope; // 0x2F
+    bool mbSkipAnim; // 0x30
+    u8 mUnused31; // 0x31
+    u16 mUnused32; // 0x32
+    s32 mSpriteCollideMode; // 0x34: 2 collides with sprites, 1 passes over them (draw layer 29), 0 under (layer 6)
+    char_type mConveyorSpeed; // 0x38
+    char_type mUnused39; // 0x39
+    char_type mUnused3A; // 0x3A
+    char_type mUnused3B; // 0x3B
 };
 
 EXTERN_GLOBAL(SpriteList, gTrailerHitchCandidates_67727C);

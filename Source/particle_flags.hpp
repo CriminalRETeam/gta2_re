@@ -2,7 +2,7 @@
 
 #include "types.hpp"
 
-// Particle_4C::field_4_bf (aliases field_4_flags). Bit 0 is set on shot particles and cleared again once the driver
+// Particle_4C::mBf4 (aliases mFlags). Bit 0 is set on shot particles and cleared again once the driver
 // stops attacking; bits named bFlagN are not used.
 struct ParticleFlags32
 {

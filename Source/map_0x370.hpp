@@ -12,13 +12,13 @@ class Fix16_Rect;
 
 struct gmp_col_info
 {
-    u8 field_0_height; // 0x0
-    u8 field_1_offset; // 0x1
-    s16 field_2_pad; // 0x2
-    s32 field_4_blockd[2]; // 0x4
+    u8 mHeight; // 0x0
+    u8 mOffset; // 0x1
+    s16 mPad2; // 0x2
+    s32 mBlockd[2]; // 0x4
 };
 
-// gmp_block_info::field_A_arrows bits: the low nibble is the green arrows, the high nibble the red ones
+// gmp_block_info::mArrows bits: the low nibble is the green arrows, the high nibble the red ones
 namespace block_arrow
 {
 enum
@@ -45,22 +45,22 @@ struct gmp_block_info
     // 9.6f 0x44C840
     inline void init_44C840()
     {
-        field_0_left = 0;
-        field_2_right = 0;
-        field_4_top = 0;
-        field_6_bottom = 0;
-        field_8_lid = 0;
-        field_A_arrows = 0;
-        field_B_slope_type = 0;
+        mLeft = 0;
+        mRight = 0;
+        mTop = 0;
+        mBottom = 0;
+        mLid = 0;
+        mArrows = 0;
+        mSlopeType = 0;
     }
 
-    u16 field_0_left; // 0x0
-    u16 field_2_right; // 0x2
-    u16 field_4_top; // 0x4
-    u16 field_6_bottom; // 0x6
-    u16 field_8_lid; // 0x8
-    u8 field_A_arrows; // 0xA
-    u8 field_B_slope_type; // 0xB
+    u16 mLeft; // 0x0
+    u16 mRight; // 0x2
+    u16 mTop; // 0x4
+    u16 mBottom; // 0x6
+    u16 mLid; // 0x8
+    u8 mArrows; // 0xA
+    u8 mSlopeType; // 0xB
 };
 
 enum gmp_slope_type
@@ -119,8 +119,8 @@ enum MapSlopes
 
 struct gmp_header
 {
-    char_type field_0_file_type[4]; // 0x0
-    s16 field_4_version; // 0x4
+    char_type mFileType[4]; // 0x0
+    s16 mVersion; // 0x4
 };
 
 struct DmapInfoList;
@@ -132,26 +132,26 @@ struct gmp_compressed_map_32
     // 9.6f 0x4630B0
     gmp_compressed_map_32()
     {
-        field_40008_pColumn = NULL;
-        field_4000C_block = NULL;
-        field_40004_num_blocks = 0;
-        field_40000_column_words = 0;
+        mpColumn = NULL;
+        mBlock = NULL;
+        mNumBlocks = 0;
+        mColumnWords = 0;
     }
 
-    u32 field_0_base[256][256]; // 0x0
-    s32 field_40000_column_words; // 0x40000
-    s32 field_40004_num_blocks; // 0x40004
-    u16** field_40008_pColumn; // 0x40008
-    gmp_block_info* field_4000C_block; // 0x4000C
+    u32 mBase[256][256]; // 0x0
+    s32 mColumnWords; // 0x40000
+    s32 mNumBlocks; // 0x40004
+    u16** mpColumn; // 0x40008
+    gmp_block_info* mBlock; // 0x4000C
 
     gmp_block_info* get_block(u32 block)
     {
-        return &field_4000C_block[block];
+        return &mBlock[block];
     }
 
     u32* get_base_42A830(s32 y, s32 x)
     {
-        return &field_0_base[y][x];
+        return &mBase[y][x];
     }
 };
 
@@ -159,15 +159,15 @@ struct gmp_dmap_info
 {
     inline void set_data_463080(u8 x, u8 y, u32 column_idx)
     {
-        field_4_x = x;
-        field_5_y = y;
-        field_0_column_idx = column_idx;
+        mX = x;
+        mY = y;
+        mColumnIdx = column_idx;
     }
 
-    u32 field_0_column_idx; // 0x0
-    u8 field_4_x; // 0x4
-    u8 field_5_y; // 0x5
-    u16 field_6_unused; // 0x6
+    u32 mColumnIdx; // 0x0
+    u8 mX; // 0x4
+    u8 mY; // 0x5
+    u16 mUnused6; // 0x6
 };
 
 struct DmapInfoList
@@ -175,25 +175,25 @@ struct DmapInfoList
     // 9.6f 0x4630A0
     DmapInfoList()
     {
-        field_320_max_idx = 0;
+        mMaxIdx = 0;
     }
 
     EXPORT void AddOrUpdateDmapInfo_4E80E0(u8 x, u8 y, u32 column_idx);
 
-    gmp_dmap_info field_0_dmap_infos[100]; // 0x0
-    s32 field_320_max_idx; // 0x320
+    gmp_dmap_info mDmapInfos[100]; // 0x0
+    s32 mMaxIdx; // 0x320
 };
 
 class gmp_map_zone
 {
   public:
-    u8 field_0_zone_type; // 0x0
-    u8 field_1_x; // 0x1
-    u8 field_2_y; // 0x2
-    u8 field_3_w; // 0x3
-    u8 field_4_h; // 0x4
-    u8 field_5_name_length; // 0x5
-    char_type field_6_name[2]; // 0x6
+    u8 mZoneType; // 0x0
+    u8 mX; // 0x1
+    u8 mY; // 0x2
+    u8 mW; // 0x3
+    u8 mH; // 0x4
+    u8 mNameLength; // 0x5
+    char_type mName[2]; // 0x6
 
     EXPORT bool IsZoneVisibleToAnyPlayer_4DEF40() const;
     EXPORT wchar_t* get_zone_str_4DEF00();
@@ -201,55 +201,55 @@ class gmp_map_zone
     // 9.6f 0x463020
     inline bool ContainsPoint_463020(u8 x, u8 y) const
     {
-        return x >= field_1_x && y >= field_2_y && x < field_1_x + field_3_w && y < field_2_y + field_4_h;
+        return x >= mX && y >= mY && x < mX + mW && y < mY + mH;
     }
 };
 
 struct gmp_zone_info
 {
-    u16 field_0_car_density; // 0x0
-    s16 field_2_goodcar_ratio; // 0x2
-    s16 field_4_badcar_ratio; // 0x4
-    s16 field_6_policecar_ratio; // 0x6
-    s16 field_8_gangcar_ratio; // 0x8
-    s16 field_A_ped_density; // 0xA
-    s16 field_C_mugger_ratio; // 0xC
-    s16 field_E_carthief_ratio; // 0xE
-    s16 field_10_elvis_ratio; // 0x10
-    s16 field_12_gangchar_ratio; // 0x12
-    s16 field_14_policeped_ratio; // 0x14
+    u16 mCarDensity; // 0x0
+    s16 mGoodcarRatio; // 0x2
+    s16 mBadcarRatio; // 0x4
+    s16 mPolicecarRatio; // 0x6
+    s16 mGangcarRatio; // 0x8
+    s16 mPedDensity; // 0xA
+    s16 mMuggerRatio; // 0xC
+    s16 mCarthiefRatio; // 0xE
+    s16 mElvisRatio; // 0x10
+    s16 mGangcharRatio; // 0x12
+    s16 mPolicepedRatio; // 0x14
 };
 
 struct gmp_map_object
 {
-    u16 field_0_x; // 0x0
-    u16 field_2_y; // 0x2
-    Ang8 field_4_rotation; // 0x4
-    u8 field_5_object_type; // 0x5
+    u16 mX; // 0x0
+    u16 mY; // 0x2
+    Ang8 mRotation; // 0x4
+    u8 mObjectType; // 0x5
 };
 
 struct gmp_map_light
 {
-    s32 field_0_argb; // 0x0
-    s16 field_4_x; // 0x4
-    s16 field_6_y; // 0x6
-    s16 field_8_z; // 0x8
-    s16 field_A_radius; // 0xA
-    u8 field_C_intensity; // 0xC
-    u8 field_D_shape; // 0xD
-    u8 field_E_on_time; // 0xE
-    u8 field_F_off_time; // 0xF
+    s32 mArgb; // 0x0
+    s16 mX; // 0x4
+    s16 mY; // 0x6
+    s16 mZ; // 0x8
+    s16 mRadius; // 0xA
+    u8 mIntensity; // 0xC
+    u8 mShape; // 0xD
+    u8 mOnTime; // 0xE
+    u8 mOffTime; // 0xF
 };
 
 struct gmp_tile_animation
 {
-    u16 field_0_base; // 0x0: The base tile of the animation. This marks the tile as an animating tile.
-    u8 field_2_frame_rate; // 0x2: The number of game frames that each frame of the animation is displayed for.
-    u8 field_3_repeat; // 0x3: The number of times the animation will be played. 0 means play forever.
-    u8 field_4_anim_length; // 0x4: The number of tiles in the animation
-    u8 field_5_unused; // 0x5
+    u16 mBase; // 0x0: The base tile of the animation. This marks the tile as an animating tile.
+    u8 mFrameRate; // 0x2: The number of game frames that each frame of the animation is displayed for.
+    u8 mRepeat; // 0x3: The number of times the animation will be played. 0 means play forever.
+    u8 mAnimLength; // 0x4: The number of tiles in the animation
+    u8 mUnused5; // 0x5
     // NOTE: Size set to 1 to shutup a warning
-    u16 field_6_tiles[1]; // 0x6: Size given by field_4_anim_length
+    u16 mTiles[1]; // 0x6: Size given by mAnimLength
 };
 
 struct gmp_map_slope
@@ -260,12 +260,12 @@ struct gmp_map_slope
     {
     }
 
-    u8 field_0_gradient_direction; // 0x0: the direction the slope level increases. E.g. "direction north" means it increases the level from south to north
-    u8 field_1_gradient_size; // 0x1: 1 = 45 degree; 2 = 26 degree; 8 = 7 degree slope
-    u8 field_2_gradient_level; // 0x2: 0 = highest slope of the gradient, it increases as going lower
-    u8 field_3_padding; // 0x3
-    Fix16 field_4_zpos_lower; // 0x4: relative z coordinate from the lowest point of the slope
-    Fix16 field_8_zpos_higher; // 0x8: relative z coordinate from the highest point of the slope
+    u8 mGradientDirection; // 0x0: the direction the slope level increases. E.g. "direction north" means it increases the level from south to north
+    u8 mGradientSize; // 0x1: 1 = 45 degree; 2 = 26 degree; 8 = 7 degree slope
+    u8 mGradientLevel; // 0x2: 0 = highest slope of the gradient, it increases as going lower
+    u8 mPadding3; // 0x3
+    Fix16 mZposLower; // 0x4: relative z coordinate from the lowest point of the slope
+    Fix16 mZposHigher; // 0x8: relative z coordinate from the highest point of the slope
 };
 
 enum gmp_gradient_slope_direction // direction: low to high
@@ -347,9 +347,9 @@ EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32& road_direction);
 
 struct gmp_zone_list
 {
-    u16 field_0_num_zones; // 0x0
-    u16 field_2_pad; // 0x2
-    gmp_map_zone* field_4_zone_array[2]; // 0x4
+    u16 mNumZones; // 0x0
+    u16 mPad2; // 0x2
+    gmp_map_zone* mZoneArray[2]; // 0x4
 };
 
 class Map_0x370
@@ -493,7 +493,7 @@ class Map_0x370
     inline gmp_block_info* GetRoadBlockAt_4E6660(Fix16& x, Fix16& y, Fix16& z)
     {
         gmp_block_info* pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
-        return IS_SLOPE_IN_BLOCK_ABOVE(pBlock->field_B_slope_type) ? GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt()) : pBlock;
+        return IS_SLOPE_IN_BLOCK_ABOVE(pBlock->mSlopeType) ? GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt()) : pBlock;
     }
 
     // As GetRoadBlockAt_4E6660, writing straight into pBlock (the original keeps pBlock in a register
@@ -501,7 +501,7 @@ class Map_0x370
     inline void SetRoadBlockAt_4E6660(gmp_block_info*& pBlock, Fix16& x, Fix16& y, Fix16& z)
     {
         pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
-        if (IS_SLOPE_IN_BLOCK_ABOVE(pBlock->field_B_slope_type))
+        if (IS_SLOPE_IN_BLOCK_ABOVE(pBlock->mSlopeType))
         {
             pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
         }
@@ -511,7 +511,7 @@ class Map_0x370
     inline void SetRoadBlockAtOrNull_4E7190(gmp_block_info*& pBlock, Fix16& x, Fix16& y, Fix16& z)
     {
         pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
-        if (pBlock && IS_SLOPE_IN_BLOCK_ABOVE(pBlock->field_B_slope_type))
+        if (pBlock && IS_SLOPE_IN_BLOCK_ABOVE(pBlock->mSlopeType))
         {
             pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
         }
@@ -521,7 +521,7 @@ class Map_0x370
     inline gmp_block_info* GetRoadBlockAtOrNull_4E7190(Fix16& x, Fix16& y, Fix16& z)
     {
         gmp_block_info* pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
-        return (pBlock && IS_SLOPE_IN_BLOCK_ABOVE(pBlock->field_B_slope_type)) ? GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt()) : pBlock;
+        return (pBlock && IS_SLOPE_IN_BLOCK_ABOVE(pBlock->mSlopeType)) ? GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt()) : pBlock;
     }
 
     // Move up to one block along direction, using up dist
@@ -592,7 +592,7 @@ class Map_0x370
     inline bool IsWaterBlockAt_4B9F40(s32 x, s32 y, s32 z)
     {
         gmp_block_info* pBlock = GetBlock_4DFE10(x, y, z);
-        return pBlock && gGtx_0x106C_703DD4->IsRemappedWaterTile_49E540(pBlock->field_8_lid & 0x3FF);
+        return pBlock && gGtx_0x106C_703DD4->IsRemappedWaterTile_49E540(pBlock->mLid & 0x3FF);
     }
 
     // 9.6f inline 0x4634E0
@@ -618,20 +618,20 @@ class Map_0x370
 
     gmp_block_info* get_block_42A850(u8 x, u8 y, u8 z)
     {
-        u32 col_idx = *field_0_pDmap->get_base_42A830(y, x);
+        u32 col_idx = *mpDmap->get_base_42A830(y, x);
         gmp_col_info* pCol =
-            reinterpret_cast<gmp_col_info*>(&field_0_pDmap->field_40008_pColumn[col_idx]);
-        if (z >= pCol->field_0_height || z < pCol->field_1_offset)
+            reinterpret_cast<gmp_col_info*>(&mpDmap->mpColumn[col_idx]);
+        if (z >= pCol->mHeight || z < pCol->mOffset)
         {
             return NULL;
         }
-        return &field_0_pDmap->field_4000C_block[pCol->field_4_blockd[z - pCol->field_1_offset]];
+        return &mpDmap->mBlock[pCol->mBlockd[z - pCol->mOffset]];
     }
 
     bool IsBlockPavementType_42A8C0(u8 x, u8 y, u8 z)
     {
         gmp_block_info* pBlock = GetBlockOrNull_452980(x, y, z);
-        if (pBlock && GET_BLOCK_TYPE(pBlock->field_B_slope_type) == PAVEMENT)
+        if (pBlock && GET_BLOCK_TYPE(pBlock->mSlopeType) == PAVEMENT)
         {
             return true;
         }
@@ -643,7 +643,7 @@ class Map_0x370
         gmp_block_info* pBlock = get_block_42A850(x, y, z);
         if (pBlock)
         {
-            return GET_BLOCK_TYPE(pBlock->field_B_slope_type) == PAVEMENT;
+            return GET_BLOCK_TYPE(pBlock->mSlopeType) == PAVEMENT;
         }
         return false;
     }
@@ -654,7 +654,7 @@ class Map_0x370
         gmp_block_info* pBlock = GetBlockOrNull_452980(x, y, z);
         if (pBlock)
         {
-            return GET_BLOCK_TYPE(pBlock->field_B_slope_type) == PAVEMENT;
+            return GET_BLOCK_TYPE(pBlock->mSlopeType) == PAVEMENT;
         }
         return false;
     }
@@ -664,7 +664,7 @@ class Map_0x370
         gmp_block_info* pBlock = GetBlockOrNull_452980(x, y, z);
         if (pBlock)
         {
-            return GET_BLOCK_TYPE(pBlock->field_B_slope_type) == ROAD;
+            return GET_BLOCK_TYPE(pBlock->mSlopeType) == ROAD;
         }
         return false;
     }
@@ -675,7 +675,7 @@ class Map_0x370
         gmp_block_info* pBlock = get_block_42A850(x, y, z);
         if (pBlock)
         {
-            return GET_BLOCK_TYPE(pBlock->field_B_slope_type) == ROAD;
+            return GET_BLOCK_TYPE(pBlock->mSlopeType) == ROAD;
         }
         return false;
     }
@@ -686,7 +686,7 @@ class Map_0x370
         gmp_block_info* pBlock = GetBlock_4DFE10(xpos, ypos, zpos);
         if (pBlock)
         {
-            return GET_BLOCK_TYPE(pBlock->field_B_slope_type);
+            return GET_BLOCK_TYPE(pBlock->mSlopeType);
         }
         return 0;
     }
@@ -697,7 +697,7 @@ class Map_0x370
         gmp_block_info* pBlock = GetBlock_4DFE10(xpos, ypos, zpos);
         if (pBlock)
         {
-            u32 slope_type = GET_SLOPE_BITS(pBlock->field_B_slope_type);
+            u32 slope_type = GET_SLOPE_BITS(pBlock->mSlopeType);
             if (slope_type >= DIAGONAL_WALL_UP_LEFT && slope_type <= TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT)
             {
                 return true;
@@ -709,8 +709,8 @@ class Map_0x370
     inline bool IsGradientSlopeAt_466CF0(s32 xpos, s32 ypos, s32 zpos)
     {
         gmp_block_info* pBlockAtPos = GetBlock_4DFE10(xpos, ypos, zpos);
-        if (pBlockAtPos && IS_GRADIENT_SLOPE(pBlockAtPos->field_B_slope_type)
-            && !IS_AIR_TYPE(pBlockAtPos->field_B_slope_type))
+        if (pBlockAtPos && IS_GRADIENT_SLOPE(pBlockAtPos->mSlopeType)
+            && !IS_AIR_TYPE(pBlockAtPos->mSlopeType))
         {
             return true;
         }
@@ -720,19 +720,19 @@ class Map_0x370
     inline bool HasBlockAnyArrows_492140(s32 xpos, s32 ypos, s32 zpos)
     {
         gmp_block_info* pBlock = GetBlock_4DFE10(xpos, ypos, zpos);
-        return pBlock && pBlock->field_A_arrows;
+        return pBlock && pBlock->mArrows;
     }
 
     inline void ClearBlockedByTerrain_492130()
     {
-        field_36E_bBlockedByTerrain = false;
+        mbBlockedByTerrain = false;
     }
 
     bool IsNorthOrSouthGradSlope_4634B0(gmp_block_info* pBlock) 
     {
-        gmp_map_slope* gradient_slope = &gGmpSlopes_6F5BA8[pBlock->field_B_slope_type >> 2];
-        if (gradient_slope->field_0_gradient_direction == NORTH_1 
-            || gradient_slope->field_0_gradient_direction == SOUTH_2)
+        gmp_map_slope* gradient_slope = &gGmpSlopes_6F5BA8[pBlock->mSlopeType >> 2];
+        if (gradient_slope->mGradientDirection == NORTH_1 
+            || gradient_slope->mGradientDirection == SOUTH_2)
         {
             return true;
         }
@@ -742,9 +742,9 @@ class Map_0x370
     // 9.6f 0x463480 (the name's 0x4634B0 is the north/south one)
     bool IsWestOrEastGradSlope_4634B0(gmp_block_info* pBlock) 
     {
-        gmp_map_slope* gradient_slope = &gGmpSlopes_6F5BA8[pBlock->field_B_slope_type >> 2];
-        if (gradient_slope->field_0_gradient_direction == WEST_3 
-            || gradient_slope->field_0_gradient_direction == EAST_4)
+        gmp_map_slope* gradient_slope = &gGmpSlopes_6F5BA8[pBlock->mSlopeType >> 2];
+        if (gradient_slope->mGradientDirection == WEST_3 
+            || gradient_slope->mGradientDirection == EAST_4)
         {
             return true;
         }
@@ -756,7 +756,7 @@ class Map_0x370
         gmp_block_info* pBlock = GetBlockOrNull_452980(x, y - 1, z);
         if (pBlock)
         {
-            return GET_BLOCK_TYPE(pBlock->field_B_slope_type) == ROAD;
+            return GET_BLOCK_TYPE(pBlock->mSlopeType) == ROAD;
         }
         return false;
     }
@@ -766,7 +766,7 @@ class Map_0x370
         gmp_block_info* pBlock = GetBlockOrNull_452980(x + 1, y, z);
         if (pBlock)
         {
-            return GET_BLOCK_TYPE(pBlock->field_B_slope_type) == ROAD;
+            return GET_BLOCK_TYPE(pBlock->mSlopeType) == ROAD;
         }
         return false;
     }
@@ -776,7 +776,7 @@ class Map_0x370
         gmp_block_info* pBlock = get_block_42A850(x, y + 1, z);
         if (pBlock)
         {
-            return GET_BLOCK_TYPE(pBlock->field_B_slope_type) == ROAD;
+            return GET_BLOCK_TYPE(pBlock->mSlopeType) == ROAD;
         }
         return false;
     }
@@ -786,7 +786,7 @@ class Map_0x370
         gmp_block_info* pBlock = get_block_42A850(x - 1, y, z);
         if (pBlock)
         {
-            return GET_BLOCK_TYPE(pBlock->field_B_slope_type) == ROAD;
+            return GET_BLOCK_TYPE(pBlock->mSlopeType) == ROAD;
         }
         return false;
     }
@@ -796,39 +796,39 @@ class Map_0x370
         gmp_block_info* pBlock = GetBlockOrNull_452980(x, y, z);
         if (pBlock)
         {
-            return GET_BLOCK_TYPE(pBlock->field_B_slope_type) != AIR;
+            return GET_BLOCK_TYPE(pBlock->mSlopeType) != AIR;
         }
         return false;
     }
 
   public:
-    gmp_compressed_map_32* field_0_pDmap; // 0x0
-    DmapInfoList field_4_obj; // 0x4
-    gmp_map_zone* field_328_pZoneData; // 0x328
-    gmp_zone_list* field_32C_pZones; // 0x32C
-    u8* field_330_pZoneArray; // 0x330
-    gmp_zone_info* field_334_pZoneInfo; // 0x334
-    gmp_map_object* field_338_pMapObjects; // 0x338
-    gmp_map_light* field_33C_pLightData; // 0x33C
-    gmp_tile_animation* field_340_pTileAnimData; // 0x340
-    s32 field_344_map_object_count; // 0x344
-    s32 field_348_num_lights; // 0x348
-    s32 field_34C_num_blocks; // 0x34C
-    s32 field_350_num_blocks_extra; // 0x350
-    u32 field_354_num_blocks; // 0x354: u32: OnModifiedMapDataLoaded_4E8C00 matches only with these two unsigned
-    s32 field_358_column_words; // 0x358
-    s32 field_35C_column_word_extra; // 0x35C
-    u32 field_360_column_words; // 0x360
-    u16 field_364_cur_zone_idx; // 0x364
-    s16 field_366_unused; // 0x366
-    u8 field_368_zone_type; // 0x368
-    u8 field_369_unused; // 0x369
-    u8 field_36A_zone_x; // 0x36A
-    u8 field_36B_zone_y; // 0x36B
-    bool field_36C_bMatchPos; // 0x36C
-    char_type field_36D_unused; // 0x36D
-    bool field_36E_bBlockedByTerrain; // 0x36E
-    bool field_36F_bLowerBlockHasArrows; // 0x36F
+    gmp_compressed_map_32* mpDmap; // 0x0
+    DmapInfoList mObj; // 0x4
+    gmp_map_zone* mpZoneData; // 0x328
+    gmp_zone_list* mpZones; // 0x32C
+    u8* mpZoneArray; // 0x330
+    gmp_zone_info* mpZoneInfo; // 0x334
+    gmp_map_object* mpMapObjects; // 0x338
+    gmp_map_light* mpLightData; // 0x33C
+    gmp_tile_animation* mpTileAnimData; // 0x340
+    s32 mMapObjectCount; // 0x344
+    s32 mNumLights; // 0x348
+    s32 mNumBlocks34C; // 0x34C
+    s32 mNumBlocksExtra; // 0x350
+    u32 mNumBlocks354; // 0x354: u32: OnModifiedMapDataLoaded_4E8C00 matches only with these two unsigned
+    s32 mColumnWords358; // 0x358
+    s32 mColumnWordExtra; // 0x35C
+    u32 mColumnWords360; // 0x360
+    u16 mCurZoneIdx; // 0x364
+    s16 mUnused366; // 0x366
+    u8 mZoneType; // 0x368
+    u8 mUnused369; // 0x369
+    u8 mZoneX; // 0x36A
+    u8 mZoneY; // 0x36B
+    bool mbMatchPos; // 0x36C
+    char_type mUnused36D; // 0x36D
+    bool mbBlockedByTerrain; // 0x36E
+    bool mbLowerBlockHasArrows; // 0x36F
 };
 
 EXTERN_GLOBAL(Map_0x370*, gMap_0x370_6F6268);

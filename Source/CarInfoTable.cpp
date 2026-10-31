@@ -562,31 +562,31 @@ void CarInfo_2C::CalculateCarInfo_4542A0(s32 idx)
 {
     car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(idx);
     ModelPhysics* pModelPhysics = gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(idx);
-    Fix16 gear2_speed = pModelPhysics->field_40_gear2_speed;
-    Fix16 gear3_speed = pModelPhysics->field_44_gear3_speed;
+    Fix16 gear2_speed = pModelPhysics->mGear2Speed;
+    Fix16 gear3_speed = pModelPhysics->mGear3Speed;
     Fix16 max_speed;
-    if (gear2_speed > gear3_speed || (max_speed = pModelPhysics->field_28_max_speed, gear3_speed > max_speed) || gear2_speed > max_speed)
+    if (gear2_speed > gear3_speed || (max_speed = pModelPhysics->mMaxSpeed, gear3_speed > max_speed) || gear2_speed > max_speed)
     {
         FatalError_4A38C0(Gta2Error::InvalidCarModelGearSpeeds, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 91, static_cast<u8>(idx));
     }
 
-    this->field_4_front_wheel_offset = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pCarInfo->front_wheel_offset);
-    this->field_8_rear_wheel_offset = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pCarInfo->rear_wheel_offset);
+    this->mFrontWheelOffset = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pCarInfo->front_wheel_offset);
+    this->mRearWheelOffset = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pCarInfo->rear_wheel_offset);
     Fix16 com_offset_y;
-    this->field_0_moment_of_inertia = ComputeCarMassAndInertia_454410(gPixelsToFix16_6F6850.list[pCarInfo->w],
+    this->mMomentOfInertia = ComputeCarMassAndInertia_454410(gPixelsToFix16_6F6850.list[pCarInfo->w],
                                                                       gPixelsToFix16_6F6850.list[pCarInfo->h],
-                                                                      pModelPhysics->field_4_mass,
-                                                                      pModelPhysics->field_C_front_mass_bias,
+                                                                      pModelPhysics->mMass,
+                                                                      pModelPhysics->mFrontMassBias,
                                                                       &com_offset_y);
-    this->field_C_center_of_mass_offset.x = 0;
-    this->field_C_center_of_mass_offset.y = com_offset_y;
-    this->field_14_half_thrust = pModelPhysics->field_24_thrust / 2;
-    this->field_18_fith_thrust = pModelPhysics->field_24_thrust / 5;
-    this->field_1C_max_thrust_with_turbo =
-        ComputeThrustWithTurbo_5618F0(field_14_half_thrust, field_18_fith_thrust, pModelPhysics->field_1_turbo);
-    this->field_20_rear_drive_bias = kOne_677F54 - pModelPhysics->field_8_front_drive_bias;
-    this->field_24_skid_threshhold_1 = (pModelPhysics->field_30_sked_threshold * (kOne_677F54 - kOneTenth_677D74));
-    this->field_28_skid_threshhold_2 = (pModelPhysics->field_30_sked_threshold * (kOne_677F54 + kOneTenth_677D74));
+    this->mCenterOfMassOffset.x = 0;
+    this->mCenterOfMassOffset.y = com_offset_y;
+    this->mHalfThrust = pModelPhysics->mThrust / 2;
+    this->mFithThrust = pModelPhysics->mThrust / 5;
+    this->mMaxThrustWithTurbo =
+        ComputeThrustWithTurbo_5618F0(mHalfThrust, mFithThrust, pModelPhysics->mTurbo);
+    this->mRearDriveBias = kOne_677F54 - pModelPhysics->mFrontDriveBias;
+    this->mSkidThreshhold1 = (pModelPhysics->mSkedThreshold * (kOne_677F54 - kOneTenth_677D74));
+    this->mSkidThreshhold2 = (pModelPhysics->mSkedThreshold * (kOne_677F54 + kOneTenth_677D74));
 }
 
 MATCH_FUNC(0x454410)
@@ -618,13 +618,13 @@ EXPORT Fix16 __stdcall ComputeCarMassAndInertia_454410(Fix16 width, Fix16 height
 MATCH_FUNC(0x454680)
 void ModelPhysics::ConvertMass_454680()
 {
-    field_4_mass = field_4_mass * (kOneTenth_677D74 + kOne_677F54);
+    mMass = mMass * (kOneTenth_677D74 + kOne_677F54);
 }
 
 MATCH_FUNC(0x4546b0)
 ModelPhysics* CarInfoTable::GetModelPhysicsFromIdx_4546B0(u8 model_idx) const
 {
-    return field_404_model_physics_array[model_idx];
+    return mModelPhysicsArray[model_idx];
 }
 
 MATCH_FUNC(0x4546d0)
@@ -635,11 +635,11 @@ void CarInfoTable::LoadModelPhysics_4546D0()
     size_t file_size;
     void* file_content = File::ReadFileToBuffer_4A6C80(sFileName, &file_size);
 
-    field_804_raw_data = new ModelPhysics[number_of_cars];
+    mRawData804 = new ModelPhysics[number_of_cars];
 
     char* pErrorMsg = CarInfoTable::parse_gci_file_430A30(file_content,
                                                          file_size,
-                                                         field_804_raw_data,
+                                                         mRawData804,
                                                          number_of_cars * sizeof(ModelPhysics),
                                                          &data_size);
 
@@ -670,29 +670,29 @@ void CarInfoTable::LoadModelPhysics_4546D0()
 
     for (u32 i = 0; i < number_of_cars; i++)
     {
-        ModelPhysics* pPhysics = &field_804_raw_data[i];
-        field_404_model_physics_array[pPhysics->field_0_model] = pPhysics;
+        ModelPhysics* pPhysics = &mRawData804[i];
+        mModelPhysicsArray[pPhysics->mModel] = pPhysics;
     }
 }
 
 MATCH_FUNC(0x454840)
 CarInfo_2C* CarInfoTable::GetInfoAtIdx_454840(u8 idx) const
 {
-    return field_0_ptr_array[idx];
+    return mPtrArray[idx];
 }
 
 MATCH_FUNC(0x454850)
 void CarInfoTable::CalculateAllCarInfo_454850()
 {
     const u32 count = gGtx_0x106C_703DD4->get_number_of_cars();
-    field_400_raw_data = new CarInfo_2C[count];
+    mRawData400 = new CarInfo_2C[count];
 
     for (u32 i = 0, j = 0; i < 256; i++)
     {
         if (gGtx_0x106C_703DD4->does_car_exist(i))
         {
-            field_0_ptr_array[i] = &field_400_raw_data[j];
-            field_400_raw_data[j].CalculateCarInfo_4542A0(i);
+            mPtrArray[i] = &mRawData400[j];
+            mRawData400[j].CalculateCarInfo_4542A0(i);
             j++;
         }
     }
@@ -714,7 +714,7 @@ void CarInfoTable::ConvertAllMass_4549C0()
     u32 number_of_cars = gGtx_0x106C_703DD4->get_number_of_cars();
     for (u32 i = 0; i < number_of_cars; i++)
     {
-        field_804_raw_data[i].ConvertMass_454680();
+        mRawData804[i].ConvertMass_454680();
     }
 }
 
@@ -743,29 +743,29 @@ void CarInfoTable::Clear_454A80()
 {
     for (s32 i = 0; i < 0x100; i++)
     {
-        field_404_model_physics_array[i] = NULL;
-        field_0_ptr_array[i] = NULL;
+        mModelPhysicsArray[i] = NULL;
+        mPtrArray[i] = NULL;
     }
 }
 
 MATCH_FUNC(0x454aa0)
 void CarInfoTable::Free_454AA0()
 {
-    delete[] field_400_raw_data;
-    field_400_raw_data = NULL;
+    delete[] mRawData400;
+    mRawData400 = NULL;
 
-    if (field_804_raw_data)
+    if (mRawData804)
     {
-        delete[] field_804_raw_data;
+        delete[] mRawData804;
     }
-    field_804_raw_data = NULL;
+    mRawData804 = NULL;
 }
 
 MATCH_FUNC(0x454b00)
 CarInfoTable::CarInfoTable()
 {
-    field_400_raw_data = NULL;
-    field_804_raw_data = NULL;
+    mRawData400 = NULL;
+    mRawData804 = NULL;
     Clear_454A80();
 }
 

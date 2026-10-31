@@ -9,67 +9,67 @@ DEFINE_GLOBAL(Light**, gLightGrid_6F5400, 0x6F5400) ;
 MATCH_FUNC(0x4D6D20)
 Light::Light()
 {
-    field_0_intensity_radius.flag = 0x2A2A2A2A;
-    field_4_x = 0;
-    field_8_y = 0;
-    field_C_z = 0;
-    field_10_argb = 0xFFFFFF;
+    mIntensityRadius.flag = 0x2A2A2A2A;
+    mX = 0;
+    mY = 0;
+    mZ = 0;
+    mArgb = 0xFFFFFF;
     mpNext = NULL;
-    field_24_pGridPrev = NULL;
-    field_20_pGridNext = NULL;
-    field_14_on_time = 0;
-    field_15_off_time = 0;
-    field_16_flicker_range = 0;
-    field_17_timer = 0;
-    field_18_intensity = 0;
+    mpGridPrev = NULL;
+    mpGridNext = NULL;
+    mOnTime = 0;
+    mOffTime = 0;
+    mFlickerRange = 0;
+    mTimer = 0;
+    mIntensity = 0;
 }
 
 MATCH_FUNC(0x4D6D60)
 Light::~Light()
 {
     mpNext = NULL;
-    field_24_pGridPrev = NULL;
-    field_20_pGridNext = NULL;
+    mpGridPrev = NULL;
+    mpGridNext = NULL;
 }
 
 MATCH_FUNC(0x4D6D70)
 void Light::AddToGrid_4D6D70()
 {
-    u32 cell_idx = (field_4_x.ToInt() >> 2) + ((field_8_y.ToInt() >> 2) * 64);
+    u32 cell_idx = (mX.ToInt() >> 2) + ((mY.ToInt() >> 2) * 64);
     Light* pFirst = gLightGrid_6F5400[cell_idx];
     
     if (!pFirst)
     {
         gLightGrid_6F5400[cell_idx] = this;
-        field_20_pGridNext = NULL;
-        field_24_pGridPrev = NULL;
+        mpGridNext = NULL;
+        mpGridPrev = NULL;
     }
     else
     {
         gLightGrid_6F5400[cell_idx] = this;
-        field_24_pGridPrev = NULL;
-        field_20_pGridNext = pFirst;
-        pFirst->field_24_pGridPrev = this;
+        mpGridPrev = NULL;
+        mpGridNext = pFirst;
+        pFirst->mpGridPrev = this;
     }
 }
 
 MATCH_FUNC(0x4D6DC0)
 Light* Light::RemoveFromGrid_4D6DC0()
 {
-    Light* pPrev = field_24_pGridPrev;
+    Light* pPrev = mpGridPrev;
     if (pPrev)
     {
-        pPrev->field_20_pGridNext = field_20_pGridNext;
+        pPrev->mpGridNext = mpGridNext;
     }
     else
     {
-        *(&gLightGrid_6F5400[64 * (field_8_y.ToInt() >> 2)] + (field_4_x.ToInt() >> 2)) = field_20_pGridNext;
+        *(&gLightGrid_6F5400[64 * (mY.ToInt() >> 2)] + (mX.ToInt() >> 2)) = mpGridNext;
     }
 
-    Light* pNext = field_20_pGridNext;
+    Light* pNext = mpGridNext;
     if (pNext)
     {
-        pNext->field_24_pGridPrev = field_24_pGridPrev;
+        pNext->mpGridPrev = mpGridPrev;
     }
     return pNext;
 }
@@ -129,13 +129,13 @@ void __stdcall LightGrid::SubmitLightsInArea_4D6E50(s32 min_x, s32 min_y, s32 ma
             while (pLight)
             {
                 SLight sLight;
-                sLight.field_0 = pLight->field_0_intensity_radius.flag;
-                sLight.field_4_x = pLight->field_4_x.ToFloat();
-                sLight.field_8_y = pLight->field_8_y.ToFloat();
-                sLight.field_C_z = pLight->field_C_z.ToFloat();
-                sLight.field_10_colour = pLight->field_10_argb;
+                sLight.field_0 = pLight->mIntensityRadius.flag;
+                sLight.field_4_x = pLight->mX.ToFloat();
+                sLight.field_8_y = pLight->mY.ToFloat();
+                sLight.field_C_z = pLight->mZ.ToFloat();
+                sLight.field_10_colour = pLight->mArgb;
                 pgbh_AddLight(&sLight);
-                pLight = pLight->field_20_pGridNext;
+                pLight = pLight->mpGridNext;
             }
         }
     }

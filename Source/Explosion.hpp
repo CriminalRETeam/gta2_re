@@ -37,24 +37,24 @@ class Explosion
     // 9.6f 0x482A90
     inline void SetType_482A90(s32 type_or_state)
     {
-        field_10_type = type_or_state;
+        mType = type_or_state;
     }
 
-    s32 field_0_bIn20Pool; // 0x0
-    u8 field_4_pool_slot_idx; // 0x4
-    s16 field_6_id; // 0x6
-    Fix16 field_8_speed; // 0x8
-    Ang16 field_C_angle; // 0xC
-    s32 field_10_type; // 0x10
-    Object* field_14_pObj2C; // 0x14
-    s16 field_18_particle_cooldown; // 0x18
-    u16 field_1A_timer; // 0x1A
-    Sprite* field_1C_pAttachedSprite; // 0x1C
-    Ang16 field_20_unused; // 0x20
-    Ang16 field_22_spawn_angle; // 0x22
-    Fix16 field_24_particle_spread; // 0x24
-    Fix16 field_28_blast_radius; // 0x28
-    s32 field_2C_owner_ped_id; // 0x2C
+    s32 mbIn20Pool; // 0x0
+    u8 mPoolSlotIdx; // 0x4
+    s16 mId; // 0x6
+    Fix16 mSpeed8; // 0x8
+    Ang16 mAngle; // 0xC
+    s32 mType; // 0x10
+    Object* mpObj2C; // 0x14
+    s16 mParticleCooldown; // 0x18
+    u16 mTimer; // 0x1A
+    Sprite* mpAttachedSprite; // 0x1C
+    Ang16 mUnused20; // 0x20
+    Ang16 mSpawnAngle; // 0x22
+    Fix16 mParticleSpread; // 0x24
+    Fix16 mBlastRadius; // 0x28
+    s32 mOwnerPedId; // 0x2C
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Explosion, 0x30);
 
@@ -65,8 +65,8 @@ class ExplosionPool
     EXPORT Explosion* Allocate_543800();
     EXPORT ExplosionPool();
     EXPORT ~ExplosionPool();
-    Explosion field_0_explosions[40]; // 0x0
-    bool field_780_bUsed[40]; // 0x780
+    Explosion mExplosions[40]; // 0x0
+    bool mbUsed[40]; // 0x780
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ExplosionPool, 0x7A8);
 
@@ -76,8 +76,8 @@ class ExplosionPool_3D4
     EXPORT Explosion* Allocate_543900();
     EXPORT ExplosionPool_3D4();
     EXPORT ~ExplosionPool_3D4();
-    Explosion field_0_explosions[20]; // 0x0
-    bool field_3C0_bUsed[20]; // 0x3C0
+    Explosion mExplosions[20]; // 0x0
+    bool mbUsed[20]; // 0x3C0
 };
 
 EXTERN_GLOBAL(ExplosionPool*, gExplosionPool_7A8_6FD5F0);

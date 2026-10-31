@@ -42,31 +42,31 @@ class Game
     // 9.6f 0x4A4750
     inline void ToggleFastForward_4A4750()
     {
-        field_30_fast_forward = !field_30_fast_forward;
+        mFastForward = !mFastForward;
     }
 
     // 9.6f 0x416BC0
     inline bool IsPaused_416BC0() const
     {
-        return field_0_game_state == GameState::Paused_2;
+        return mGameState == GameState::Paused_2;
     }
 
     // 9.6f 0x4B7590
     inline bool IsExitTimerSet_4B7590() const
     {
-        return field_28_exit_timer != -1;
+        return mExitTimer != -1;
     }
 
     // 9.6f 0x476790
     inline u8 GetLocalPlayerIdx_476790() const
     {
-        return field_24_local_player_idx;
+        return mLocalPlayerIdx;
     }
 
     // 9.6f 0x4D09C0
     inline s32 GetExitType_4D09C0() const
     {
-        return field_2C_game_exit_type;
+        return mGameExitType;
     }
 
     EXPORT s32 GetFrameDurationMs_4B8BB0() const;
@@ -110,32 +110,32 @@ class Game
 
     Player* GetPlayer_4219E0(u8 idx) const
     {
-        return field_4_players[idx];
+        return mPlayers[idx];
     }
 
-    s32 field_0_game_state; // 0x0
-    Player* field_4_players[MAX_PLAYERS]; // 0x4
-    Player* field_1C_draw_player; // 0x1C: set to field_38_local_player in the ctor and never changed; only Draw_4B92D0 reads it (gViewCamera_676978)
-    u8 field_20_player_iter_idx; // 0x20
-    u8 field_21_camera_iter_idx; // 0x21
-    bool field_22_aux_cam_iterated; // 0x22
-    u8 field_23_num_players; // 0x23
-    u8 field_24_local_player_idx; // 0x24
-    char_type field_25_unused; // 0x25
-    char_type field_26_unused; // 0x26
-    char_type field_27_unused; // 0x27
-    s32 field_28_exit_timer; // 0x28
-    s32 field_2C_game_exit_type; // 0x2C
-    bool field_30_fast_forward; // 0x30
-    char_type field_31_unused; // 0x31
-    char_type field_32_unused; // 0x32
-    char_type field_33_unused; // 0x33
-    s32 field_34_network_frame_ms; // 0x34
-    Player* field_38_local_player; // 0x38: field_4_players[field_24_local_player_idx], the player controlled on this machine
-    bool field_3C_skip_police; // 0x3C
-    char_type field_3D_unused; // 0x3D
-    char_type field_3E_unused; // 0x3E
-    char_type field_3F_unused; // 0x3F
+    s32 mGameState; // 0x0
+    Player* mPlayers[MAX_PLAYERS]; // 0x4
+    Player* mDrawPlayer; // 0x1C: set to mLocalPlayer in the ctor and never changed; only Draw_4B92D0 reads it (gViewCamera_676978)
+    u8 mPlayerIterIdx; // 0x20
+    u8 mCameraIterIdx; // 0x21
+    bool mAuxCamIterated; // 0x22
+    u8 mNumPlayers; // 0x23
+    u8 mLocalPlayerIdx; // 0x24
+    char_type mUnused25; // 0x25
+    char_type mUnused26; // 0x26
+    char_type mUnused27; // 0x27
+    s32 mExitTimer; // 0x28
+    s32 mGameExitType; // 0x2C
+    bool mFastForward; // 0x30
+    char_type mUnused31; // 0x31
+    char_type mUnused32; // 0x32
+    char_type mUnused33; // 0x33
+    s32 mNetworkFrameMs; // 0x34
+    Player* mLocalPlayer; // 0x38: mPlayers[mLocalPlayerIdx], the player controlled on this machine
+    bool mSkipPolice; // 0x3C
+    char_type mUnused3D; // 0x3D
+    char_type mUnused3E; // 0x3E
+    char_type mUnused3F; // 0x3F
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Game, 0x40);
 

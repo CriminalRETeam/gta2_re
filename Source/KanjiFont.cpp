@@ -17,22 +17,22 @@ void KanjiFont::LoadChunks_4D1FC0(const char_type* pChunkId, u32 chunk_len)
 {
     if (!strncmp(pChunkId, "KIDX", 4u))
     {
-        field_8CC_kidx_size_words = chunk_len >> 1;
-        field_8C4_pKidX = new u16[field_8CC_kidx_size_words];
-        if (!field_8C4_pKidX)
+        mKidxSizeWords = chunk_len >> 1;
+        mpKidX = new u16[mKidxSizeWords];
+        if (!mpKidX)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\kanji.cpp", 142);
         }
-        File::Global_Read_4A71C0(field_8C4_pKidX, chunk_len);
+        File::Global_Read_4A71C0(mpKidX, chunk_len);
     }
     else if (!strncmp(pChunkId, "KBIT", 4u))
     {
-        field_8C8_pKBIT = new u8[chunk_len];
-        if (!field_8C8_pKBIT)
+        mpKBIT = new u8[chunk_len];
+        if (!mpKBIT)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\kanji.cpp", 148);
         }
-        File::Global_Read_4A71C0(field_8C8_pKBIT, chunk_len);
+        File::Global_Read_4A71C0(mpKBIT, chunk_len);
     }
     else
     {
@@ -55,15 +55,15 @@ void KanjiFont::Load_kanji_dat_4D2090()
     chunk_header chunkHeader;
     for (readSize = sizeof(chunkHeader); File::Global_Read_4A7210(&chunkHeader, &readSize); readSize = sizeof(chunkHeader))
     {
-        if (chunkHeader.field_4_size)
+        if (chunkHeader.mSize)
         {
-            LoadChunks_4D1FC0(chunkHeader.field_0_type, chunkHeader.field_4_size);
+            LoadChunks_4D1FC0(chunkHeader.mType, chunkHeader.mSize);
         }
     }
     File::Global_Close_4A70C0();
 }
 
-// Outlines the pixels of colour field_8E8_colour with colour field_8E9_outline_colour in a 256 wide sprite
+// Outlines the pixels of colour mColour with colour mOutlineColour in a 256 wide sprite
 MATCH_FUNC(0x4D2150)
 void KanjiFont::OutlineGlyph_4D2150(u8* pPixelData, u16 width, u16 height)
 {
@@ -72,23 +72,23 @@ void KanjiFont::OutlineGlyph_4D2150(u8* pPixelData, u16 width, u16 height)
     {
         for (s32 x = 0; x < width; x++)
         {
-            if (pPixels[y][x] == field_8E8_colour)
+            if (pPixels[y][x] == mColour)
             {
-                if (x > 0 && pPixels[y][x - 1] != field_8E8_colour)
+                if (x > 0 && pPixels[y][x - 1] != mColour)
                 {
-                    pPixels[y][x - 1] = field_8E9_outline_colour;
+                    pPixels[y][x - 1] = mOutlineColour;
                 }
-                if (x < width - 1 && pPixels[y][x + 1] != field_8E8_colour)
+                if (x < width - 1 && pPixels[y][x + 1] != mColour)
                 {
-                    pPixels[y][x + 1] = field_8E9_outline_colour;
+                    pPixels[y][x + 1] = mOutlineColour;
                 }
-                if (y > 0 && pPixels[y - 1][x] != field_8E8_colour)
+                if (y > 0 && pPixels[y - 1][x] != mColour)
                 {
-                    pPixels[y - 1][x] = field_8E9_outline_colour;
+                    pPixels[y - 1][x] = mOutlineColour;
                 }
-                if (y < height - 1 && pPixels[y + 1][x] != field_8E8_colour)
+                if (y < height - 1 && pPixels[y + 1][x] != mColour)
                 {
-                    pPixels[y + 1][x] = field_8E9_outline_colour;
+                    pPixels[y + 1][x] = mOutlineColour;
                 }
             }
         }
@@ -99,29 +99,29 @@ void KanjiFont::OutlineGlyph_4D2150(u8* pPixelData, u16 width, u16 height)
 MATCH_FUNC(0x4D2240)
 u8* KanjiFont::ExpandSmallGlyph_4D2240(const u8* pGlyph)
 {
-    u8* pDst = field_8D0_pSprtData;
+    u8* pDst = mpSprtData8D0;
     const u8* pBits = pGlyph;
     u8 bits;
     for (s32 row = 0; row < 16; row++)
     {
         bits = *pBits++;
-        *pDst++ = (bits & 0x80) ? field_8E8_colour : 0;
-        *pDst++ = (bits & 0x40) ? field_8E8_colour : 0;
-        *pDst++ = (bits & 0x20) ? field_8E8_colour : 0;
-        *pDst++ = (bits & 0x10) ? field_8E8_colour : 0;
-        *pDst++ = (bits & 0x8) ? field_8E8_colour : 0;
-        *pDst++ = (bits & 0x4) ? field_8E8_colour : 0;
-        *pDst++ = (bits & 0x2) ? field_8E8_colour : 0;
-        *pDst++ = (bits & 0x1) ? field_8E8_colour : 0;
+        *pDst++ = (bits & 0x80) ? mColour : 0;
+        *pDst++ = (bits & 0x40) ? mColour : 0;
+        *pDst++ = (bits & 0x20) ? mColour : 0;
+        *pDst++ = (bits & 0x10) ? mColour : 0;
+        *pDst++ = (bits & 0x8) ? mColour : 0;
+        *pDst++ = (bits & 0x4) ? mColour : 0;
+        *pDst++ = (bits & 0x2) ? mColour : 0;
+        *pDst++ = (bits & 0x1) ? mColour : 0;
         bits = *pBits++;
-        *pDst++ = (bits & 0x80) ? field_8E8_colour : 0;
-        *pDst++ = (bits & 0x40) ? field_8E8_colour : 0;
-        *pDst++ = (bits & 0x20) ? field_8E8_colour : 0;
-        *pDst++ = (bits & 0x10) ? field_8E8_colour : 0;
-        *pDst++ = (bits & 0x8) ? field_8E8_colour : 0;
-        *pDst++ = (bits & 0x4) ? field_8E8_colour : 0;
-        *pDst++ = (bits & 0x2) ? field_8E8_colour : 0;
-        *pDst++ = (bits & 0x1) ? field_8E8_colour : 0;
+        *pDst++ = (bits & 0x80) ? mColour : 0;
+        *pDst++ = (bits & 0x40) ? mColour : 0;
+        *pDst++ = (bits & 0x20) ? mColour : 0;
+        *pDst++ = (bits & 0x10) ? mColour : 0;
+        *pDst++ = (bits & 0x8) ? mColour : 0;
+        *pDst++ = (bits & 0x4) ? mColour : 0;
+        *pDst++ = (bits & 0x2) ? mColour : 0;
+        *pDst++ = (bits & 0x1) ? mColour : 0;
         pDst += 256 - 16;
     }
     return pDst;
@@ -131,105 +131,105 @@ u8* KanjiFont::ExpandSmallGlyph_4D2240(const u8* pGlyph)
 MATCH_FUNC(0x4D23B0)
 u8* KanjiFont::ExpandLargeGlyph_4D23B0(const u8* pGlyph)
 {
-    u8* pDst = field_8DC_pSprtData;
+    u8* pDst = mpSprtData8DC;
     const u8* pBits = pGlyph;
     u8 bits;
     u8 colour;
     for (s32 row = 0; row < 16; row++)
     {
         bits = *pBits++;
-        colour = (bits & 0x80) ? field_8E8_colour : 0;
+        colour = (bits & 0x80) ? mColour : 0;
         pDst[0] = colour;
         pDst[1] = colour;
         pDst[256] = colour;
         pDst[257] = colour;
         pDst += 2;
-        colour = (bits & 0x40) ? field_8E8_colour : 0;
+        colour = (bits & 0x40) ? mColour : 0;
         pDst[0] = colour;
         pDst[1] = colour;
         pDst[256] = colour;
         pDst[257] = colour;
         pDst += 2;
-        colour = (bits & 0x20) ? field_8E8_colour : 0;
+        colour = (bits & 0x20) ? mColour : 0;
         pDst[0] = colour;
         pDst[1] = colour;
         pDst[256] = colour;
         pDst[257] = colour;
         pDst += 2;
-        colour = (bits & 0x10) ? field_8E8_colour : 0;
+        colour = (bits & 0x10) ? mColour : 0;
         pDst[0] = colour;
         pDst[1] = colour;
         pDst[256] = colour;
         pDst[257] = colour;
         pDst += 2;
-        colour = (bits & 0x8) ? field_8E8_colour : 0;
+        colour = (bits & 0x8) ? mColour : 0;
         pDst[0] = colour;
         pDst[1] = colour;
         pDst[256] = colour;
         pDst[257] = colour;
         pDst += 2;
-        colour = (bits & 0x4) ? field_8E8_colour : 0;
+        colour = (bits & 0x4) ? mColour : 0;
         pDst[0] = colour;
         pDst[1] = colour;
         pDst[256] = colour;
         pDst[257] = colour;
         pDst += 2;
-        colour = (bits & 0x2) ? field_8E8_colour : 0;
+        colour = (bits & 0x2) ? mColour : 0;
         pDst[0] = colour;
         pDst[1] = colour;
         pDst[256] = colour;
         pDst[257] = colour;
         pDst += 2;
-        colour = (bits & 0x1) ? field_8E8_colour : 0;
+        colour = (bits & 0x1) ? mColour : 0;
         pDst[0] = colour;
         pDst[1] = colour;
         pDst[256] = colour;
         pDst[257] = colour;
         pDst += 2;
         bits = *pBits++;
-        colour = (bits & 0x80) ? field_8E8_colour : 0;
+        colour = (bits & 0x80) ? mColour : 0;
         pDst[0] = colour;
         pDst[1] = colour;
         pDst[256] = colour;
         pDst[257] = colour;
         pDst += 2;
-        colour = (bits & 0x40) ? field_8E8_colour : 0;
+        colour = (bits & 0x40) ? mColour : 0;
         pDst[0] = colour;
         pDst[1] = colour;
         pDst[256] = colour;
         pDst[257] = colour;
         pDst += 2;
-        colour = (bits & 0x20) ? field_8E8_colour : 0;
+        colour = (bits & 0x20) ? mColour : 0;
         pDst[0] = colour;
         pDst[1] = colour;
         pDst[256] = colour;
         pDst[257] = colour;
         pDst += 2;
-        colour = (bits & 0x10) ? field_8E8_colour : 0;
+        colour = (bits & 0x10) ? mColour : 0;
         pDst[0] = colour;
         pDst[1] = colour;
         pDst[256] = colour;
         pDst[257] = colour;
         pDst += 2;
-        colour = (bits & 0x8) ? field_8E8_colour : 0;
+        colour = (bits & 0x8) ? mColour : 0;
         pDst[0] = colour;
         pDst[1] = colour;
         pDst[256] = colour;
         pDst[257] = colour;
         pDst += 2;
-        colour = (bits & 0x4) ? field_8E8_colour : 0;
+        colour = (bits & 0x4) ? mColour : 0;
         pDst[0] = colour;
         pDst[1] = colour;
         pDst[256] = colour;
         pDst[257] = colour;
         pDst += 2;
-        colour = (bits & 0x2) ? field_8E8_colour : 0;
+        colour = (bits & 0x2) ? mColour : 0;
         pDst[0] = colour;
         pDst[1] = colour;
         pDst[256] = colour;
         pDst[257] = colour;
         pDst += 2;
-        colour = (bits & 0x1) ? field_8E8_colour : 0;
+        colour = (bits & 0x1) ? mColour : 0;
         pDst[0] = colour;
         pDst[1] = colour;
         pDst[256] = colour;
@@ -249,15 +249,15 @@ void KanjiFont::RenderSmallGlyph_4D2610(wchar_t text_char)
         kidx = text_char << 8;
     }
 
-    u16 glyph_idx = field_8C4_pKidX[kidx];
+    u16 glyph_idx = mpKidX[kidx];
     if (glyph_idx == 0xFFFF)
     {
-        glyph_idx = field_8C4_pKidX[8448];
+        glyph_idx = mpKidX[8448];
     }
-    pgbh_LockTexture(field_8D8_pTexture);
-    ExpandSmallGlyph_4D2240(&field_8C8_pKBIT[32 * glyph_idx]);
-    OutlineGlyph_4D2150(field_8D0_pSprtData, 16, 17);
-    pgbh_UnlockTexture(field_8D8_pTexture);
+    pgbh_LockTexture(mpTexture8D8);
+    ExpandSmallGlyph_4D2240(&mpKBIT[32 * glyph_idx]);
+    OutlineGlyph_4D2150(mpSprtData8D0, 16, 17);
+    pgbh_UnlockTexture(mpTexture8D8);
 }
 
 MATCH_FUNC(0x4D2690)
@@ -269,15 +269,15 @@ void KanjiFont::RenderLargeGlyph_4D2690(wchar_t text_char)
         kidx = text_char << 8;
     }
 
-    u16 glyph_idx = field_8C4_pKidX[kidx];
+    u16 glyph_idx = mpKidX[kidx];
     if (glyph_idx == 0xFFFF)
     {
-        glyph_idx = field_8C4_pKidX[8448];
+        glyph_idx = mpKidX[8448];
     }
-    pgbh_LockTexture(field_8E4_pTexture);
-    ExpandLargeGlyph_4D23B0(&field_8C8_pKBIT[32 * glyph_idx]);
-    OutlineGlyph_4D2150(field_8DC_pSprtData, 32, 34);
-    pgbh_UnlockTexture(field_8E4_pTexture);
+    pgbh_LockTexture(mpTexture8E4);
+    ExpandLargeGlyph_4D23B0(&mpKBIT[32 * glyph_idx]);
+    OutlineGlyph_4D2150(mpSprtData8DC, 32, 34);
+    pgbh_UnlockTexture(mpTexture8E4);
 }
 
 MATCH_FUNC(0x4D2710)
@@ -289,31 +289,31 @@ STexture* KanjiFont::GetSmallGlyphTexture_4D2710(wchar_t text_char)
 
     for (s32 i = 0; i < k_num_small_glyphs; i++)
     {
-        pCurrent = &field_0_small_glyphs[i];
-        if (pCurrent->field_2_text_char == text_char && pCurrent->field_0_colour == field_8E8_colour && pCurrent->field_1_outline_colour == field_8E9_outline_colour)
+        pCurrent = &mSmallGlyphs[i];
+        if (pCurrent->mTextChar == text_char && pCurrent->mColour == mColour && pCurrent->mOutlineColour == mOutlineColour)
         {
-            pCurrent->field_C_last_used = field_8C0_use_counter++;
-            return pCurrent->field_4_pTexture;
+            pCurrent->mLastUsed = mUseCounter++;
+            return pCurrent->mpTexture;
         }
 
-        if (pCurrent->field_C_last_used < oldest_last_used)
+        if (pCurrent->mLastUsed < oldest_last_used)
         {
-            oldest_last_used = pCurrent->field_C_last_used;
+            oldest_last_used = pCurrent->mLastUsed;
             pOldest = pCurrent;
         }
     }
 
-    field_8D0_pSprtData = pOldest->field_8_sprt_index->field_0_pData;
-    field_8D8_pTexture = pOldest->field_4_pTexture;
+    mpSprtData8D0 = pOldest->mSprtIndex->mpData;
+    mpTexture8D8 = pOldest->mpTexture;
 
-    pOldest->field_0_colour = field_8E8_colour;
-    pOldest->field_1_outline_colour = field_8E9_outline_colour;
-    pOldest->field_2_text_char = text_char;
-    pOldest->field_C_last_used = field_8C0_use_counter++;
+    pOldest->mColour = mColour;
+    pOldest->mOutlineColour = mOutlineColour;
+    pOldest->mTextChar = text_char;
+    pOldest->mLastUsed = mUseCounter++;
 
     RenderSmallGlyph_4D2610(text_char);
 
-    return field_8D8_pTexture;
+    return mpTexture8D8;
 }
 
 MATCH_FUNC(0x4D27D0)
@@ -325,31 +325,31 @@ STexture* KanjiFont::GetLargeGlyphTexture_4D27D0(wchar_t text_char)
 
     for (s32 i = 0; i < k_num_large_glyphs; i++)
     {
-        pCurrent = &field_780_large_glyphs[i];
-        if (pCurrent->field_2_text_char == text_char && pCurrent->field_0_colour == field_8E8_colour && pCurrent->field_1_outline_colour == field_8E9_outline_colour)
+        pCurrent = &mLargeGlyphs[i];
+        if (pCurrent->mTextChar == text_char && pCurrent->mColour == mColour && pCurrent->mOutlineColour == mOutlineColour)
         {
-            pCurrent->field_C_last_used = field_8C0_use_counter++;
-            return pCurrent->field_4_pTexture;
+            pCurrent->mLastUsed = mUseCounter++;
+            return pCurrent->mpTexture;
         }
 
-        if (pCurrent->field_C_last_used < oldest_last_used)
+        if (pCurrent->mLastUsed < oldest_last_used)
         {
-            oldest_last_used = pCurrent->field_C_last_used;
+            oldest_last_used = pCurrent->mLastUsed;
             pOldest = pCurrent;
         }
     }
 
-    field_8DC_pSprtData = pOldest->field_8_sprt_index->field_0_pData;
-    field_8E4_pTexture = pOldest->field_4_pTexture;
+    mpSprtData8DC = pOldest->mSprtIndex->mpData;
+    mpTexture8E4 = pOldest->mpTexture;
 
-    pOldest->field_0_colour = field_8E8_colour;
-    pOldest->field_1_outline_colour = field_8E9_outline_colour;
-    pOldest->field_2_text_char = text_char;
-    pOldest->field_C_last_used = field_8C0_use_counter++;
+    pOldest->mColour = mColour;
+    pOldest->mOutlineColour = mOutlineColour;
+    pOldest->mTextChar = text_char;
+    pOldest->mLastUsed = mUseCounter++;
 
     RenderLargeGlyph_4D2690(text_char);
 
-    return field_8E4_pTexture;
+    return mpTexture8E4;
 }
 
 MATCH_FUNC(0x4D28A0)
@@ -359,34 +359,34 @@ void KanjiFont::SetGlyphParamsFromFont_4D28A0(u16 font_type)
     {
         case 0x65u:
         case 0xC9u:
-            field_8E8_colour = 0xFC;
-            field_8E9_outline_colour = 0xFA;
+            mColour = 0xFC;
+            mOutlineColour = 0xFA;
             break;
         case 0x66u:
-            field_8E8_colour = 0x27;
-            field_8E9_outline_colour = 0x2C;
+            mColour = 0x27;
+            mOutlineColour = 0x2C;
             break;
         case 0x67u:
-            field_8E8_colour = 0xCB;
-            field_8E9_outline_colour = 0xCF;
+            mColour = 0xCB;
+            mOutlineColour = 0xCF;
             break;
         case 0x68u:
-            field_8E8_colour = 0x1C;
-            field_8E9_outline_colour = 0x18;
+            mColour = 0x1C;
+            mOutlineColour = 0x18;
             break;
         case 0x69u:
         case 0xCAu:
-            field_8E8_colour = 0xE9;
-            field_8E9_outline_colour = 0xEF;
+            mColour = 0xE9;
+            mOutlineColour = 0xEF;
             break;
         case 0x6Au:
-            field_8E8_colour = 0x89;
-            field_8E9_outline_colour = 0x8D;
+            mColour = 0x89;
+            mOutlineColour = 0x8D;
             break;
         case 0x6Bu:
         case 0xCBu:
-            field_8E8_colour = 0x48;
-            field_8E9_outline_colour = 0x4C;
+            mColour = 0x48;
+            mOutlineColour = 0x4C;
             break;
         default:
             return;
@@ -401,40 +401,40 @@ void KanjiFont::SetGlyphParamsFromRemap_4D29D0(u16 remap)
         switch (remap)
         {
             case 0:
-                field_8E8_colour = 0x89;
-                field_8E9_outline_colour = 0x8D;
+                mColour = 0x89;
+                mOutlineColour = 0x8D;
                 break;
             case 1:
-                field_8E8_colour = 0x99;
-                field_8E9_outline_colour = 0x9D;
+                mColour = 0x99;
+                mOutlineColour = 0x9D;
                 break;
             case 2:
-                field_8E8_colour = 0x69;
-                field_8E9_outline_colour = 0x6D;
+                mColour = 0x69;
+                mOutlineColour = 0x6D;
                 break;
             case 3:
-                field_8E8_colour = 0x79;
-                field_8E9_outline_colour = 0x7D;
+                mColour = 0x79;
+                mOutlineColour = 0x7D;
                 break;
             case 4:
-                field_8E8_colour = 0x35;
-                field_8E9_outline_colour = 0x3A;
+                mColour = 0x35;
+                mOutlineColour = 0x3A;
                 break;
             case 5:
-                field_8E8_colour = 0x27;
-                field_8E9_outline_colour = 0x2C;
+                mColour = 0x27;
+                mOutlineColour = 0x2C;
                 break;
             case 6:
-                field_8E8_colour = 0x1C;
-                field_8E9_outline_colour = 0x18;
+                mColour = 0x1C;
+                mOutlineColour = 0x18;
                 break;
             case 7:
-                field_8E8_colour = 0x48;
-                field_8E9_outline_colour = 0x4C;
+                mColour = 0x48;
+                mOutlineColour = 0x4C;
                 break;
             case 8:
-                field_8E8_colour = 0xFC;
-                field_8E9_outline_colour = 0xFA;
+                mColour = 0xFC;
+                mOutlineColour = 0xFA;
                 break;
         }
     }
@@ -445,40 +445,40 @@ void KanjiFont::SetGlyphParamsFromRemap_4D29D0(u16 remap)
             case 0:
             case 1:
             case 2:
-                field_8E8_colour = 0xE9;
-                field_8E9_outline_colour = 0xEF;
+                mColour = 0xE9;
+                mOutlineColour = 0xEF;
                 break;
             case 3:
-                field_8E8_colour = 0x89;
-                field_8E9_outline_colour = 0x8D;
+                mColour = 0x89;
+                mOutlineColour = 0x8D;
                 break;
             case 4:
-                field_8E8_colour = 0x27;
-                field_8E9_outline_colour = 0x2C;
+                mColour = 0x27;
+                mOutlineColour = 0x2C;
                 break;
             case 5:
-                field_8E8_colour = 0xFC;
-                field_8E9_outline_colour = 0xFA;
+                mColour = 0xFC;
+                mOutlineColour = 0xFA;
                 break;
             case 8:
-                field_8E8_colour = 0xF8;
-                field_8E9_outline_colour = 0xF5;
+                mColour = 0xF8;
+                mOutlineColour = 0xF5;
                 break;
             case 10:
-                field_8E8_colour = 0x27;
-                field_8E9_outline_colour = 0x23;
+                mColour = 0x27;
+                mOutlineColour = 0x23;
                 break;
             case 13:
-                field_8E8_colour = 0x89;
-                field_8E9_outline_colour = 0x8D;
+                mColour = 0x89;
+                mOutlineColour = 0x8D;
                 break;
             case 15:
-                field_8E8_colour = 0x48;
-                field_8E9_outline_colour = 0x4C;
+                mColour = 0x48;
+                mOutlineColour = 0x4C;
                 break;
             case 14:
-                field_8E8_colour = 0x69;
-                field_8E9_outline_colour = 0x6D;
+                mColour = 0x69;
+                mOutlineColour = 0x6D;
                 break;
         }
     }
@@ -489,66 +489,66 @@ void KanjiFont::InitGlyphCaches_4D2B40()
 {
     u16 base_font_idx = gGtx_0x106C_703DD4->GetSpriteIdxFromFont_5AA710(gKanjiSmallFont_703C3E, 0);
     u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::font_7, base_font_idx);
-    field_8D4_sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
+    mSpriteIndex8D4 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
 
-    for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_small_glyphs); i++)
+    for (s32 i = 0; i < GTA2_COUNTOF_S(mSmallGlyphs); i++)
     {
-        KanjiGlyph* pGlyph = &field_0_small_glyphs[i];
-        pGlyph->field_2_text_char = 0;
-        pGlyph->field_0_colour = 0;
-        pGlyph->field_1_outline_colour = 0;
-        pGlyph->field_C_last_used = 0;
+        KanjiGlyph* pGlyph = &mSmallGlyphs[i];
+        pGlyph->mTextChar = 0;
+        pGlyph->mColour = 0;
+        pGlyph->mOutlineColour = 0;
+        pGlyph->mLastUsed = 0;
 
         u16 font_idx = gGtx_0x106C_703DD4->GetSpriteIdxFromFont_5AA710(gKanjiSmallFont_703C3E, i);
         u16 true_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::font_7, font_idx);
-        pGlyph->field_8_sprt_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(true_idx);
-        pGlyph->field_4_pTexture = gTextureCache_15D8_705064->GetSpriteTexture_5B94F0(sprite_types_enum::font_7, font_idx, palette_types_enum::sprites_2, 0);
+        pGlyph->mSprtIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(true_idx);
+        pGlyph->mpTexture = gTextureCache_15D8_705064->GetSpriteTexture_5B94F0(sprite_types_enum::font_7, font_idx, palette_types_enum::sprites_2, 0);
     }
 
     u16 large_base_font_idx = gGtx_0x106C_703DD4->GetSpriteIdxFromFont_5AA710(gKanjiLargeFont_703D9A, 0);
     u16 large_sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::font_7, large_base_font_idx);
 
-    field_8E0_sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(large_sprite_idx);
+    mSpriteIndex8E0 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(large_sprite_idx);
 
-    for (s32 j = 0; j < GTA2_COUNTOF_S(field_780_large_glyphs); j++)
+    for (s32 j = 0; j < GTA2_COUNTOF_S(mLargeGlyphs); j++)
     {
-        KanjiGlyph* pGlyph = &field_780_large_glyphs[j];
-        pGlyph->field_2_text_char = 0;
-        pGlyph->field_0_colour = 0;
-        pGlyph->field_1_outline_colour = 0;
-        pGlyph->field_C_last_used = 0;
+        KanjiGlyph* pGlyph = &mLargeGlyphs[j];
+        pGlyph->mTextChar = 0;
+        pGlyph->mColour = 0;
+        pGlyph->mOutlineColour = 0;
+        pGlyph->mLastUsed = 0;
 
         u16 font_idx = gGtx_0x106C_703DD4->GetSpriteIdxFromFont_5AA710(gKanjiLargeFont_703D9A, j);
         u16 true_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::font_7, font_idx);
-        pGlyph->field_8_sprt_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(true_idx);
-        pGlyph->field_4_pTexture = gTextureCache_15D8_705064->GetSpriteTexture_5B94F0(sprite_types_enum::font_7, font_idx, palette_types_enum::sprites_2, 0);
+        pGlyph->mSprtIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(true_idx);
+        pGlyph->mpTexture = gTextureCache_15D8_705064->GetSpriteTexture_5B94F0(sprite_types_enum::font_7, font_idx, palette_types_enum::sprites_2, 0);
     }
 }
 
 MATCH_FUNC(0x4D2C80)
 KanjiFont::KanjiFont()
 {
-    field_8E8_colour = 0xFE;
-    field_8E9_outline_colour = 0xF7;
-    field_8C8_pKBIT = NULL;
-    field_8C4_pKidX = NULL;
-    field_8CC_kidx_size_words = 0;
-    field_8C0_use_counter = 0;
+    mColour = 0xFE;
+    mOutlineColour = 0xF7;
+    mpKBIT = NULL;
+    mpKidX = NULL;
+    mKidxSizeWords = 0;
+    mUseCounter = 0;
     Load_kanji_dat_4D2090();
 }
 
 MATCH_FUNC(0x4D2CC0)
 KanjiFont::~KanjiFont()
 {
-    if (field_8C8_pKBIT)
+    if (mpKBIT)
     {
-        delete[] field_8C8_pKBIT;
+        delete[] mpKBIT;
     }
 
-    if (field_8C4_pKidX)
+    if (mpKidX)
     {
-        delete[] field_8C4_pKidX;
+        delete[] mpKidX;
     }
 
-    field_8CC_kidx_size_words = 0;
+    mKidxSizeWords = 0;
 }

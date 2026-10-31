@@ -238,7 +238,7 @@ enum
 };
 } // namespace crew_type
 
-// Which kind of crew (or roadblock guard) is built: PoliceCrew::field_20_crew_kind and gCrewKind_6FEDB8
+// Which kind of crew (or roadblock guard) is built: PoliceCrew::mCrewKind and gCrewKind_6FEDB8
 namespace crew_kind
 {
 enum
@@ -266,7 +266,7 @@ enum
 };
 } // namespace palette_types_enum
 
-// Masks of PedFlags32 (Ped::field_21C_bf). Unused, but removing the enum changes the DLLs (VC6 name table)
+// Masks of PedFlags32 (Ped::mBf21C). Unused, but removing the enum changes the DLLs (VC6 name table)
 namespace ped_bit_status_enum
 {
 enum
@@ -887,7 +887,7 @@ namespace ped_type
 {
 enum
 {
-    none_0 = 0, // Car::field_7C_ped_type before a driver sets it (Car constructor)
+    none_0 = 0, // Car::mPedType before a driver sets it (Car constructor)
     unknown_1 = 1,
     player_2 = 2,
     dummy_3 = 3,

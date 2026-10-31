@@ -20,14 +20,14 @@ enum
 };
 } // namespace SoundObjectTypeEnum
 
-// A sound emitting object registered with root_sound (a pool of 1000). Its owner is in field_C_pAny; sound_obj
-// processes it each frame depending on field_0_object_type.
+// A sound emitting object registered with root_sound (a pool of 1000). Its owner is in mpAny; sound_obj
+// processes it each frame depending on mObjectType.
 class SoundObject
 {
   public:
-    s32 field_0_object_type; // 0x0: SoundObjectTypeEnum
-    bool field_4_bStatus; // 0x4
-    s32 field_8_sound_entry; // 0x8
+    s32 mObjectType; // 0x0: SoundObjectTypeEnum
+    bool mbStatus; // 0x4
+    s32 mSoundEntry; // 0x8
 
     union SoundObjectType
     {
@@ -42,8 +42,8 @@ class SoundObject
         void* pAny;
     };
 
-    // Type depends on what field_0_object_type is
-    SoundObjectType field_C_pAny; // 0xC
+    // Type depends on what mObjectType is
+    SoundObjectType mpAny; // 0xC
 
     EXPORT void Release_40EF20();
 };

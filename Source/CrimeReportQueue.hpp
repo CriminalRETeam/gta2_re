@@ -18,14 +18,14 @@ class CrimeReport
     EXPORT void SetReport(s32 crime_type, s32 ped_id);
     EXPORT void GetReport(s32* pCrimeType, Fix16* pXPos, Fix16* pYPos, Fix16* pZPos) const;
 
-    s32 field_0_crime_type; // 0x0: crime_stats_type
-    s32 field_4_ped_id; // 0x4
-    Fix16_Vec field_8_pos; // 0x8
+    s32 mCrimeType; // 0x0: crime_stats_type
+    s32 mPedId; // 0x4
+    Fix16_Vec mPos; // 0x8
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CrimeReport, 0x14);
 
 // Ring buffer of the last 10 reported crimes, drained by the police sound/AI code (TryPopOldestReport).
-// field_2_read_idx is the oldest report still queued, field_0_write_idx the next free slot.
+// mReadIdx is the oldest report still queued, mWriteIdx the next free slot.
 class CrimeReportQueue
 {
   public:
@@ -41,9 +41,9 @@ class CrimeReportQueue
     EXPORT bool ShouldReportCharCrime_4850F0(Char* pChar, Player* pPlayer);
     EXPORT bool ShouldReportPedCrime_485140(Ped* pPed, Player* pPlayer);
 
-    u16 field_0_write_idx; // 0x0
-    u16 field_2_read_idx; // 0x2
-    CrimeReport field_4_reports[10]; // 0x4
+    u16 mWriteIdx; // 0x0
+    u16 mReadIdx; // 0x2
+    CrimeReport mReports[10]; // 0x4
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CrimeReportQueue, 0xCC);
 

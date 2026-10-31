@@ -11,16 +11,16 @@ DEFINE_GLOBAL(GridCell_Pool*, gGridCell_Pool_679204, 0x679204);
 MATCH_FUNC(0x478a20)
 void CollisionCounters::ResetCount_478A20()
 {
-    field_0_test_count = 0;
+    mTestCount = 0;
 }
 
 MATCH_FUNC(0x478a30)
 CollisionCounters::CollisionCounters()
 {
-    field_0_test_count = 0;
-    field_4_query_id = 0;
+    mTestCount = 0;
+    mQueryId = 0;
     
-    field_8_bDoorAccessCheck = 0;
+    mbDoorAccessCheck = 0;
 
     gGridSpriteLink_Pool_679200 = new GridSpriteLink_Pool();
     if (!gGridSpriteLink_Pool_679200)

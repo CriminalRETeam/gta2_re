@@ -3,15 +3,15 @@
 MATCH_FUNC(0x4bc300)
 ScriptStackFramePool::~ScriptStackFramePool()
 {
-    field_0_pool.field_0_pHead = NULL;
+    mPool.mpHead = NULL;
 }
 
 MATCH_FUNC(0x4bea80)
 ScriptStackFrame::ScriptStackFrame()
 {
     mpNext = NULL;
-    field_0_cond_result = 125;
-    field_4_return_cmd = 205;
+    mCondResult = 125;
+    mReturnCmd = 205;
 }
 
 MATCH_FUNC(0x4beaa0)
@@ -23,7 +23,7 @@ ScriptStackFrame::~ScriptStackFrame()
 MATCH_FUNC(0x503110)
 void ScriptStackFrame::PoolAllocate()
 {
-    field_0_cond_result = 0;
-    field_4_return_cmd = 0;
+    mCondResult = 0;
+    mReturnCmd = 0;
     mpNext = NULL;
 }

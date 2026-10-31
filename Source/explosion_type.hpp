@@ -1,6 +1,6 @@
 #pragma once
 
-// Explosion::field_10_type: what kind of explosion/fire effect this is. Created by Object_5C::CreateExplosion_52A3D0
+// Explosion::mType: what kind of explosion/fire effect this is. Created by Object_5C::CreateExplosion_52A3D0
 // (a6), the script explosion commands pass small_18 / item_19 / large_20 / no_ring_32 and the building ones 22-25. Kept in
 // its own header, like car_despawn_status.hpp, so that the enum does not land in a header many TUs share.
 namespace explosion_type
@@ -8,7 +8,7 @@ namespace explosion_type
 enum
 {
     none_0 = 0,
-    blood_burst_1 = 1, // ParticleManager::EmitBloodBurst_53E450. 1, 29, 31, 34, 39: Particle_4C::field_38_state values, same numbering
+    blood_burst_1 = 1, // ParticleManager::EmitBloodBurst_53E450. 1, 29, 31, 34, 39: Particle_4C::mState values, same numbering
     unknown_2 = 2,
     fire_3 = 3, // 3, 4, 5, 12, 13, 14 are fires: a moving particle trail from the object's speed/angle (IsFireType_5435D0)
     car_fire_4 = 4, // Car::SpawnFire_43BBC0, a burning car
@@ -38,7 +38,7 @@ enum
 };
 } // namespace explosion_type
 
-// Explosion::field_1A_timer: counts down every update, the effect ends at 0
+// Explosion::mTimer: counts down every update, the effect ends at 0
 namespace explosion_timer
 {
 enum

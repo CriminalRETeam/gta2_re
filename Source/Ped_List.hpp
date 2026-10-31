@@ -41,16 +41,16 @@ class Ped_List
 
     void ClearList_420E90()
     {
-        field_0_pFirstPed = NULL;
+        mpFirstPed = NULL;
     }
 
     // 9.6f 0x420EA0
     bool IsEmpty_420EA0() const
     {
-        return field_0_pFirstPed == NULL;
+        return mpFirstPed == NULL;
     }
 
-    PedListNode* field_0_pFirstPed; // 0x0
+    PedListNode* mpFirstPed; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Ped_List, 0x4)
 

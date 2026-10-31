@@ -26,7 +26,7 @@ Weapon* WeaponManager::allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo)
 {
     Weapon* pNewWeap = gWeapon_30_Pool_707014->AllocateUnlinked_4CC9E0();
     pNewWeap->init_5DCD90();
-    field_4_ref_count++;
+    mRefCount++;
     pNewWeap->set_idx_4CCA00(weapon_kind);
     pNewWeap->set_pPed_4CCA10(pPed);
     pNewWeap->set_ammo_clips_5DCE20(ammo);
@@ -38,9 +38,9 @@ void WeaponManager::deallocate_5E3CB0(Weapon* pWeapon)
 {
     WeaponPool* pRoot = gWeapon_30_Pool_707014;
     pWeapon->PoolDeallocate();
-    pWeapon->mpNext = pRoot->field_0_pool.field_0_pStart;
-    pRoot->field_0_pool.field_0_pStart = pWeapon;
-    field_4_ref_count--;
+    pWeapon->mpNext = pRoot->mPool.mpStart;
+    pRoot->mPool.mpStart = pWeapon;
+    mRefCount--;
 }
 
 MATCH_FUNC(0x5e3ce0)
@@ -63,7 +63,7 @@ Weapon* WeaponManager::find_5E3D20(Car* pCar, s32 weapon_kind)
         return NULL;
     }
 
-    while (result->field_14_car != pCar || result->field_1C_weapon_type != weapon_kind)
+    while (result->mCar != pCar || result->mWeaponType != weapon_kind)
     {
         result = result->mpNext;
         if (!result)
@@ -94,17 +94,17 @@ bool WeaponManager::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car* pCar)
     {
         if (pCar->IsDrivenByPlayer_4118D0())
         {
-            pCar->field_54_driver->field_15C_player->SetWeapon_564910(pWeapon);
+            pCar->mDriver->mPlayer->SetWeapon_564910(pWeapon);
             return bAddedAmmo;
         }
     }
 
     if (bAddedAmmo)
     {
-        if (pCar->field_54_driver)
+        if (pCar->mDriver)
         {
-            pCar->field_54_driver->field_178_car_weapon = gWeapon_8_707018->allocate_5E3C10(weapon_kind, pCar->field_54_driver, 99u);
-            pCar->field_54_driver->field_178_car_weapon->field_14_car = pCar;
+            pCar->mDriver->mCarWeapon = gWeapon_8_707018->allocate_5E3C10(weapon_kind, pCar->mDriver, 99u);
+            pCar->mDriver->mCarWeapon->mCar = pCar;
         }
     }
 
@@ -117,7 +117,7 @@ void WeaponManager::dealloc_car_weapon_5E3DF0(Car* pCar)
     Weapon* pIter = gWeapon_30_Pool_707014->get_next_4CC9B0();
     while (pIter)
     {
-        if ( pIter->field_14_car == pCar )
+        if ( pIter->mCar == pCar )
         {
           Weapon* pOldIter = pIter;
           pIter = pIter->mpNext;
@@ -153,8 +153,8 @@ WeaponManager::WeaponManager()
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\weapon.cpp", 2428);
         }
     }
-    field_4_ref_count = 0;
-    field_0_hit_sprites.ResetHead_4207E0();
+    mRefCount = 0;
+    mHitSprites.ResetHead_4207E0();
 }
 
 MATCH_FUNC(0x5e3f60)

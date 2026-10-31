@@ -39,16 +39,16 @@ class ErrorLog
 #if !defined(__clang__) && (_MSC_VER <= 1200)
     // VC6: the real classic ofstream (0x3C bytes, checked with sizeof), so the constructor emits
     // the original's ??0ofstream@@QAE@XZ call and EH frame (ErrorLog::ErrorLog 0x4D94E0)
-    ofstream field_0_ofstr; // 0x0
+    ofstream mOfstr; // 0x0
 #else
     // Only keeps the 0x3C bytes (the globals registry checks sizes); never used as a stream
     struct fake_ofstream
     {
       char buffer[0x3C];
     };
-    fake_ofstream field_0_ofstr; // 0x0
+    fake_ofstream mOfstr; // 0x0
 #endif
-    u8* field_3C_pLen; // 0x3C
+    u8* mpLen; // 0x3C
 };
 
 EXPORT void __stdcall Error_SetName_4A0770(const char_type* pFileName);

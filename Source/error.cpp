@@ -24,7 +24,7 @@ void ErrorLog::Open_4D9470(const char_type* path, s32 truncate_mode)
     {
         fileNameLen = NULL;
     }
-    this->field_3C_pLen = fileNameLen;
+    this->mpLen = fileNameLen;
 
     s32 mode;
     switch (truncate_mode)
@@ -43,7 +43,7 @@ void ErrorLog::Open_4D9470(const char_type* path, s32 truncate_mode)
     }
 
 #if !defined(__clang__) && (_MSC_VER <= 1200)
-    static_cast<ofstream&>(field_0_ofstr).open(path, mode, filebuf::openprot);
+    static_cast<ofstream&>(mOfstr).open(path, mode, filebuf::openprot);
 #endif
 
     log_timestamp_4D9540();
@@ -70,7 +70,7 @@ MATCH_FUNC(0x4D9620)
 void ErrorLog::Write_4D9620(const char_type* pMsg)
 {
 #if !defined(__clang__) && (_MSC_VER <= 1200)
-    static_cast<ostream_type&>(this->field_0_ofstr) << pMsg << endl << flush;
+    static_cast<ostream_type&>(this->mOfstr) << pMsg << endl << flush;
 #endif
 }
 
@@ -78,7 +78,7 @@ MATCH_FUNC(0x4D9650)
 void ErrorLog::Write_Log_4D9650(const char_type* buffer)
 {
 #if !defined(__clang__) && (_MSC_VER <= 1200)
-    static_cast<ostream_type&>(this->field_0_ofstr) << buffer << flush;
+    static_cast<ostream_type&>(this->mOfstr) << buffer << flush;
 #endif
 }
 
@@ -105,9 +105,9 @@ ErrorLog::~ErrorLog()
 {
     log_intro_4D95A0();
 #if !defined(__clang__) && (_MSC_VER <= 1200)
-    field_0_ofstr.close();
+    mOfstr.close();
 #endif
-    delete field_3C_pLen;
+    delete mpLen;
 }
 
 MATCH_FUNC(0x4D95A0)

@@ -5,7 +5,7 @@
 MATCH_FUNC(0x483E70)
 CreditsText::CreditsText() // 483E70
 {
-    field_0_line_count = 0;
+    mLineCount = 0;
 }
 
 MATCH_FUNC(0x483EA0)
@@ -35,7 +35,7 @@ void CreditsText::LoadCredits_483F20()
 
     while (line_char != 0)
     {
-        CreditsLine* pLine = &this->field_2_lines[line_idx];
+        CreditsLine* pLine = &this->mLines[line_idx];
         if (line_char == '*')
         {
             y_gap += 20;
@@ -49,34 +49,34 @@ void CreditsText::LoadCredits_483F20()
                 {
                     if (tag_char == 'B')
                     {
-                        pLine->field_6_string_category = credits_line_category::dev_names_2;
+                        pLine->mStringCategory = credits_line_category::dev_names_2;
                     }
                     else if (tag_char == 'G')
                     {
-                        pLine->field_6_string_category = credits_line_category::department_3;
+                        pLine->mStringCategory = credits_line_category::department_3;
                     }
                     else if (tag_char == 'C')
                     {
-                        pLine->field_6_string_category = credits_line_category::game_name_4;
+                        pLine->mStringCategory = credits_line_category::game_name_4;
                     }
                     else
                     {
-                        pLine->field_6_string_category = credits_line_category::other_tag_1;
+                        pLine->mStringCategory = credits_line_category::other_tag_1;
                     }
                 }
                 else
                 {
-                    pLine->field_6_string_category = credits_line_category::normal_0;
+                    pLine->mStringCategory = credits_line_category::normal_0;
                 }
             }
             else
             {
                 read_pos--;
-                pLine->field_6_string_category = credits_line_category::normal_0;
+                pLine->mStringCategory = credits_line_category::normal_0;
             }
 
-            pLine->field_4_y_gap = y_gap;
-            pLine->field_2_unused = 300;
+            pLine->mYGap = y_gap;
+            pLine->mUnused2 = 300;
 
             u16 i = 0;
             while (1)
@@ -86,12 +86,12 @@ void CreditsText::LoadCredits_483F20()
                 {
                     break;
                 }
-                pLine->field_8_text[i++] = content_char;
+                pLine->mText[i++] = content_char;
             }
             read_pos--;
-            pLine->field_8_text[i] = 0;
-            pLine->field_0_bLoaded = true;
-            ++field_0_line_count;
+            pLine->mText[i] = 0;
+            pLine->mbLoaded = true;
+            ++mLineCount;
             y_gap = 0;
             line_idx++;
         }

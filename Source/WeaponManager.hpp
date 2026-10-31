@@ -27,9 +27,9 @@ class WeaponManager
     EXPORT u8 get_defalt_ammo_5E3E80(s32 weapon_kind) const;
     EXPORT WeaponManager();
     EXPORT ~WeaponManager();
-    SpriteList field_0_hit_sprites; // 0x0
-    s16 field_4_ref_count; // 0x4
-    s16 field_6_unused; // 0x6
+    SpriteList mHitSprites; // 0x0
+    s16 mRefCount; // 0x4
+    s16 mUnused6; // 0x6
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(WeaponManager, 0x8);
 
@@ -43,25 +43,25 @@ class WeaponPool
     // 9.6f 0x4CC9C0 (which also calls 0x4CC810, init_5DCD90 in 10.5)
     Weapon* Allocate()
     {
-        Weapon* pWeapon = field_0_pool.field_0_pStart;
-        field_0_pool.field_0_pStart = pWeapon->mpNext;
-        pWeapon->mpNext = field_0_pool.field_4_pPrev;
-        field_0_pool.field_4_pPrev = pWeapon;
+        Weapon* pWeapon = mPool.mpStart;
+        mPool.mpStart = pWeapon->mpNext;
+        pWeapon->mpNext = mPool.mpPrev;
+        mPool.mpPrev = pWeapon;
         return pWeapon;
     }
 
     // 9.6f 0x4CC9E0 (which also calls 0x4CC810, init_5DCD90 in 10.5)
     inline Weapon* AllocateUnlinked_4CC9E0()
     {
-        Weapon* pWeapon = field_0_pool.field_0_pStart;
-        field_0_pool.field_0_pStart = pWeapon->mpNext;
+        Weapon* pWeapon = mPool.mpStart;
+        mPool.mpStart = pWeapon->mpNext;
         pWeapon->mpNext = NULL;
         return pWeapon;
     }
 
     void DeAllocate_4A4F20(Weapon* pWeapon)
     {
-        Weapon* pIter = this->field_0_pool.field_4_pPrev;
+        Weapon* pIter = this->mPool.mpPrev;
         Weapon* pLastIter = NULL;
         while (pIter)
         {
@@ -74,10 +74,10 @@ class WeaponPool
                 }
                 else
                 {
-                    this->field_0_pool.field_4_pPrev = pIter->mpNext;
+                    this->mPool.mpPrev = pIter->mpNext;
                 }
-                pIter->mpNext = this->field_0_pool.field_0_pStart;
-                this->field_0_pool.field_0_pStart = pIter;
+                pIter->mpNext = this->mPool.mpStart;
+                this->mPool.mpStart = pIter;
                 break;
             }
             else
@@ -90,12 +90,12 @@ class WeaponPool
 
     Weapon* get_next_4CC9B0() const
     {
-        return this->field_0_pool.field_4_pPrev;
+        return this->mPool.mpPrev;
     }
 
     EXPORT ~WeaponPool();
 
-    Pool<Weapon, 255> field_0_pool; // 0x0
+    Pool<Weapon, 255> mPool; // 0x0
 };
 
 EXTERN_GLOBAL(WeaponPool*, gWeapon_30_Pool_707014);

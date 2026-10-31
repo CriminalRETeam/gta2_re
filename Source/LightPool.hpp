@@ -15,7 +15,7 @@ class LightBase
 
     void UpdatePool_45BF50()
     {
-        field_0_pool.UpdatePool();
+        mPool.UpdatePool();
     }
 
     void Service_45C1E0()
@@ -23,7 +23,7 @@ class LightBase
         UpdatePool_45BF50();
     }
 
-    Pool<Light, 3000> field_0_pool; // 0x0
+    Pool<Light, 3000> mPool; // 0x0
 };
 
 class LightPool : public LightBase
@@ -36,14 +36,14 @@ class LightPool : public LightBase
 
     inline void AddToUpdateList_464C60(Light* pLight)
     {
-        pLight->mpNext = field_0_pool.field_4_pPrev;
-        field_0_pool.field_4_pPrev = pLight;
+        pLight->mpNext = mPool.mpPrev;
+        mPool.mpPrev = pLight;
     }
 
     inline Light* Alloc_464C40()
     {
-        Light* pFirst = field_0_pool.field_0_pStart;
-        field_0_pool.field_0_pStart = field_0_pool.field_0_pStart->mpNext;
+        Light* pFirst = mPool.mpStart;
+        mPool.mpStart = mPool.mpStart->mpNext;
         pFirst->mpNext = NULL;
         pFirst->Reset_463F50();
         return pFirst;
@@ -51,10 +51,10 @@ class LightPool : public LightBase
 
     inline void SetFlashing_469070(Light* pLight, u8 on_time, u8 off_time, u8 shape)
     {
-        pLight->field_16_flicker_range = shape;
-        pLight->field_14_on_time = on_time;
-        pLight->field_15_off_time = off_time;
-        pLight->field_17_timer = off_time;
+        pLight->mFlickerRange = shape;
+        pLight->mOnTime = on_time;
+        pLight->mOffTime = off_time;
+        pLight->mTimer = off_time;
         pLight->SetCurrentIntensity_45B2D0(0);
         AddToUpdateList_464C60(pLight);
     }
@@ -62,14 +62,14 @@ class LightPool : public LightBase
     inline Light* Init_469010(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
     {
         Light* pLight = Alloc_464C40();
-        pLight->field_4_x = xpos;
-        pLight->field_8_y = ypos;
-        pLight->field_C_z = zpos;
-        pLight->field_10_argb = argb;
-        pLight->field_0_intensity_radius.flag = 0x10000;
-        pLight->field_0_intensity_radius.SetRadius_463F10(radius);
+        pLight->mX = xpos;
+        pLight->mY = ypos;
+        pLight->mZ = zpos;
+        pLight->mArgb = argb;
+        pLight->mIntensityRadius.flag = 0x10000;
+        pLight->mIntensityRadius.SetRadius_463F10(radius);
         pLight->SetCurrentIntensity_45B2D0(intensity);
-        pLight->field_18_intensity = intensity;
+        pLight->mIntensity = intensity;
         pLight->AddToGrid_4D6D70();
         return pLight;
     }
@@ -79,14 +79,14 @@ class LightPool : public LightBase
     inline Light* InitOutOfLine_469010(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
     {
         Light* pLight = Alloc_5C2B70();
-        pLight->field_4_x = xpos;
-        pLight->field_8_y = ypos;
-        pLight->field_C_z = zpos;
-        pLight->field_10_argb = argb;
-        pLight->field_0_intensity_radius.flag = 0x10000;
-        pLight->field_0_intensity_radius.SetRadius_5C5CD0(radius);
+        pLight->mX = xpos;
+        pLight->mY = ypos;
+        pLight->mZ = zpos;
+        pLight->mArgb = argb;
+        pLight->mIntensityRadius.flag = 0x10000;
+        pLight->mIntensityRadius.SetRadius_5C5CD0(radius);
         pLight->SetCurrentIntensity_45B2D0(intensity);
-        pLight->field_18_intensity = intensity;
+        pLight->mIntensity = intensity;
         pLight->AddToGrid_4D6D70();
         return pLight;
     }
@@ -94,8 +94,8 @@ class LightPool : public LightBase
     inline void Free_47F4B0(Light* pLight)
     {
         pLight->PoolDeallocate();
-        pLight->mpNext = field_0_pool.field_0_pStart;
-        field_0_pool.field_0_pStart = pLight;
+        pLight->mpNext = mPool.mpStart;
+        mPool.mpStart = pLight;
     }
 
     // matched https://decomp.me/scratch/cZQwK
@@ -103,7 +103,7 @@ class LightPool : public LightBase
     {
         Light* pPrevious = NULL;
 
-        for (Light* pCurr = field_0_pool.field_4_pPrev; pCurr; pPrevious = pCurr, pCurr = pCurr->mpNext)
+        for (Light* pCurr = mPool.mpPrev; pCurr; pPrevious = pCurr, pCurr = pCurr->mpNext)
         {
             if (pCurr == pLight)
             {
@@ -114,10 +114,10 @@ class LightPool : public LightBase
                 }
                 else
                 {
-                    field_0_pool.field_4_pPrev = pCurr->mpNext;
+                    mPool.mpPrev = pCurr->mpNext;
                 }
-                pCurr->mpNext = field_0_pool.field_0_pStart;
-                field_0_pool.field_0_pStart = pCurr;
+                pCurr->mpNext = mPool.mpStart;
+                mPool.mpStart = pCurr;
                 break;
             }
         }
@@ -126,13 +126,13 @@ class LightPool : public LightBase
     inline void DeallocLight_47F4F0(Light* pLight)
     {
         pLight->RemoveFromGrid_4D6DC0();
-        if (pLight->field_14_on_time)
+        if (pLight->mOnTime)
         {
-            field_0_pool.FindAndDeAllocate(pLight);
+            mPool.FindAndDeAllocate(pLight);
         }
         else
         {
-            field_0_pool.DeAllocate(pLight);
+            mPool.DeAllocate(pLight);
         }
     }
 

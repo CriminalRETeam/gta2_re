@@ -37,27 +37,27 @@ class Light
     // 0x45B330
     s32 PoolUpdate()
     {
-        field_17_timer--;
-        if (!field_17_timer)
+        mTimer--;
+        if (!mTimer)
         {
-            if (field_0_intensity_radius.flag & 0xff)
+            if (mIntensityRadius.flag & 0xff)
             {
-                field_0_intensity_radius.flag &= ~0xff;
-                field_17_timer = field_15_off_time;
-                if (field_16_flicker_range)
+                mIntensityRadius.flag &= ~0xff;
+                mTimer = mOffTime;
+                if (mFlickerRange)
                 {
-                    field_17_timer += gRng_6F6784.get_uint8_4F7B70(field_16_flicker_range);
+                    mTimer += gRng_6F6784.get_uint8_4F7B70(mFlickerRange);
                 }
             }
             else
             {
-                field_0_intensity_radius.flag &= ~0xff;
-                u8 intensity = field_18_intensity;
-                field_0_intensity_radius.flag |= intensity;
-                field_17_timer = field_14_on_time;
-                if (field_16_flicker_range)
+                mIntensityRadius.flag &= ~0xff;
+                u8 intensity = mIntensity;
+                mIntensityRadius.flag |= intensity;
+                mTimer = mOnTime;
+                if (mFlickerRange)
                 {
-                    field_17_timer += gRng_6F6784.get_uint8_4F7B70(field_16_flicker_range);
+                    mTimer += gRng_6F6784.get_uint8_4F7B70(mFlickerRange);
                 }
             }
         }
@@ -67,56 +67,56 @@ class Light
     // 0x45B320
     void PoolDeallocate()
     {
-        field_0_intensity_radius.flag = 0x2A2A2A2A;
+        mIntensityRadius.flag = 0x2A2A2A2A;
     }
 
     void Reset_463F50()
     {
-        field_0_intensity_radius.flag = 0;
-        field_14_on_time = 0;
+        mIntensityRadius.flag = 0;
+        mOnTime = 0;
     }
 
     void SetCurrentIntensity_45B2D0(u8 intensity)
     {
-        field_0_intensity_radius.flag = intensity | (field_0_intensity_radius.flag & ~0xFF);
+        mIntensityRadius.flag = intensity | (mIntensityRadius.flag & ~0xFF);
     }
 
     inline void SetColourRadiusIntensity_482D60(s32 argb, Fix16 radius, u8 intensity)
     {
-        field_10_argb = argb;
-        field_0_intensity_radius.SetRadius_463F10(radius);
+        mArgb = argb;
+        mIntensityRadius.SetRadius_463F10(radius);
         SetCurrentIntensity_45B2D0(intensity);
-        field_18_intensity = intensity;
+        mIntensity = intensity;
     }
 
     inline void SetIntensity_476AE0(u8 intensity)
     {
         SetCurrentIntensity_45B2D0(intensity);
-        field_18_intensity = intensity;
+        mIntensity = intensity;
     }
 
     void SetPosition_482D30(Fix16 x, Fix16 y, Fix16 z)
     {
         RemoveFromGrid_4D6DC0();
-        field_4_x = x;
-        field_8_y = y;
-        field_C_z = z;
+        mX = x;
+        mY = y;
+        mZ = z;
         AddToGrid_4D6D70();
     }
 
-    LightIntensityRadius field_0_intensity_radius; // 0x0: low byte: current intensity, second byte: radius
-    Fix16 field_4_x; // 0x4
-    Fix16 field_8_y; // 0x8
-    Fix16 field_C_z; // 0xC
-    s32 field_10_argb; // 0x10
-    char_type field_14_on_time; // 0x14
-    char_type field_15_off_time; // 0x15
-    u8 field_16_flicker_range; // 0x16
-    char_type field_17_timer; // 0x17
-    char_type field_18_intensity; // 0x18
+    LightIntensityRadius mIntensityRadius; // 0x0: low byte: current intensity, second byte: radius
+    Fix16 mX; // 0x4
+    Fix16 mY; // 0x8
+    Fix16 mZ; // 0xC
+    s32 mArgb; // 0x10
+    char_type mOnTime; // 0x14
+    char_type mOffTime; // 0x15
+    u8 mFlickerRange; // 0x16
+    char_type mTimer; // 0x17
+    char_type mIntensity; // 0x18
     Light* mpNext;
-    Light* field_20_pGridNext; // 0x20
-    Light* field_24_pGridPrev; // 0x24
+    Light* mpGridNext; // 0x20
+    Light* mpGridPrev; // 0x24
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Light, 0x28);
 

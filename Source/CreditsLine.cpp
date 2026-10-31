@@ -4,11 +4,11 @@
 MATCH_FUNC(0x483E30)
 CreditsLine::CreditsLine()
 {
-    field_0_bLoaded = false;
-    field_2_unused = 0;
-    field_4_y_gap = 0;
-    field_6_string_category = 0;
-    memset(field_8_text, 0, sizeof(field_8_text));
+    mbLoaded = false;
+    mUnused2 = 0;
+    mYGap = 0;
+    mStringCategory = 0;
+    memset(mText, 0, sizeof(mText));
 }
 
 MATCH_FUNC(0x483E60)

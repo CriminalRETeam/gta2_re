@@ -14,8 +14,8 @@ class CreditsText
     EXPORT wchar_t ReadNextNonBlankChar_483EC0(const wchar_t *pStr, u16 *pStartPos, bool bStopAtSpace) const;
     EXPORT void LoadCredits_483F20();
 
-    s16 field_0_line_count; // 0x0
-    CreditsLine field_2_lines[600]; // 0x2
+    s16 mLineCount; // 0x0
+    CreditsLine mLines[600]; // 0x2
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CreditsText, 0xFD22);
 #pragma pack(pop)

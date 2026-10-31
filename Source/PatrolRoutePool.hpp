@@ -10,9 +10,9 @@ class PatrolPoint
     EXPORT PatrolPoint();
     EXPORT ~PatrolPoint();
 
-    u8 field_0_x; // 0x0
-    u8 field_1_y; // 0x1
-    u8 field_2_z; // 0x2
+    u8 mX; // 0x0
+    u8 mY; // 0x1
+    u8 mZ; // 0x2
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PatrolPoint, 0x3);
 #pragma pack(pop)
@@ -30,7 +30,7 @@ class PatrolRoute
     EXPORT ~PatrolRoute();
     EXPORT void Init_543EC0();
     EXPORT PatrolRoute();
-    PatrolPoint field_0_points[k_max_points]; // 0x0
+    PatrolPoint mPoints[k_max_points]; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PatrolRoute, 0x96);
 
@@ -47,8 +47,8 @@ class PatrolRoutePool
     EXPORT ~PatrolRoutePool();
     EXPORT PatrolRoutePool();
     EXPORT PatrolRoute* AllocPatrolList_543F10(u8* pRouteIdx);
-    PatrolRoute field_0_routes[k_max_routes]; // 0x0
-    bool field_1D4C_bUsed[k_max_routes]; // 0x1D4C
+    PatrolRoute mRoutes[k_max_routes]; // 0x0
+    bool mbUsed[k_max_routes]; // 0x1D4C
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PatrolRoutePool, 0x1D7E);
 

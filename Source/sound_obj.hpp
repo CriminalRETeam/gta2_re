@@ -16,9 +16,9 @@ class SoundPos
 {
   public:
     // Compiler-generated constructor at 0x419DF0
-    Fix16 field_0_x; // 0x0
-    Fix16 field_4_y; // 0x4
-    Fix16 field_8_z; // 0x8
+    Fix16 mX; // 0x0
+    Fix16 mY; // 0x4
+    Fix16 mZ; // 0x8
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SoundPos, 0xC);
 
@@ -29,211 +29,211 @@ struct SoundPosEntry
     {
     }
 
-    Fix16 field_0_last_speed; // 0x0
-    Car* field_4_car; // 0x4
-    s16 field_8_unused; // 0x8
-    u8 field_A_horn_pattern_idx; // 0xA
-    char_type field_B_unused; // 0xB
+    Fix16 mLastSpeed; // 0x0
+    Car* mCar; // 0x4
+    s16 mUnused8; // 0x8
+    u8 mHornPatternIdx; // 0xA
+    char_type mUnusedB; // 0xB
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SoundPosEntry, 0xC);
 
 struct AudioEntity
 {
-    bool field_0_bUsed; // 0x0
-    u8 field_1_age; // 0x1
-    char_type field_2_unused; // 0x2
-    char_type field_3_unused; // 0x3
-    SoundObject* field_4_pObj; // 0x4
-    SoundPosEntry* field_8_pAlloc; // 0x8
+    bool mbUsed; // 0x0
+    u8 mAge; // 0x1
+    char_type mUnused2; // 0x2
+    char_type mUnused3; // 0x3
+    SoundObject* mpObj; // 0x4
+    SoundPosEntry* mpAlloc; // 0x8
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(AudioEntity, 0xC);
 
 struct SoundEntry
 {
-    bool field_0_fifth_frame_flag; // 0x0
-    char_type field_1_unused[3]; // 0x1
-    s32 field_4_entity_idx; // 0x4
-    SoundObject field_8_sound_obj; // 0x8
-    s32 field_18_pending_voice; // 0x18
+    bool mFifthFrameFlag; // 0x0
+    char_type mUnused1[3]; // 0x1
+    s32 mEntityIdx; // 0x4
+    SoundObject mSoundObj; // 0x8
+    s32 mPendingVoice; // 0x18
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SoundEntry, 0x1C);
 
 struct RadioStationEmitter
 {
-    bool field_0_bUsed; // 0x0
-    u8 field_1_unused; // 0x1
-    u8 field_2_unused; // 0x2
-    u8 field_3_unused; // 0x3
+    bool mbUsed; // 0x0
+    u8 mUnused1; // 0x1
+    u8 mUnused2; // 0x2
+    u8 mUnused3; // 0x3
     
-    Fix16 field_4_xpos; // 0x4
-    Fix16 field_8_ypos; // 0x8
+    Fix16 mXpos; // 0x4
+    Fix16 mYpos; // 0x8
 
-    s32 field_C_station_idx; // 0xC
-    s16 field_10_a_variant_radius; // 0x10
-    s16 field_12_main_radius; // 0x12
-    s32 field_14_elapsed_frames; // 0x14
-    s32 field_18_pos_ms; // 0x18
+    s32 mStationIdx; // 0xC
+    s16 mAVariantRadius; // 0x10
+    s16 mMainRadius; // 0x12
+    s32 mElapsedFrames; // 0x14
+    s32 mPosMs; // 0x18
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(RadioStationEmitter, 0x1C);
 
 struct sound_0x68
 {
-    s32 field_0_EntityIndex; // 0x0
-    char_type field_4_SampleIndex; // 0x4
-    char_type field_5_unused; // 0x5
-    char_type field_6_unused; // 0x6
-    char_type field_7_unused; // 0x7
-    SoundPos field_8_obj; // 0x8
-    u32 field_14_samp_idx; // 0x14
-    bool field_18_bIs2D; // 0x18
-    char_type field_19_unused; // 0x19
-    char_type field_1A_unused; // 0x1A
-    char_type field_1B_unused; // 0x1B
-    u32 field_1C_ReleasingVolumeModificator; // 0x1C
-    u32 field_20_rate; // 0x20
-    u8 field_24_nVolume; // 0x24
-    char_type field_25_unused; // 0x25
-    char_type field_26_unused; // 0x26
-    char_type field_27_unused; // 0x27
-    Fix16 field_28_distance; // 0x28
-    bool field_2C_bIsBeingPlayed; // 0x2C
-    bool field_2D_bIsPlayingFinished; // 0x2D
-    char_type field_2E_unused; // 0x2E
-    char_type field_2F_unused; // 0x2F
-    u32 field_30_loop_count; // 0x30
-    s32 field_34_loop_start; // 0x34
-    s32 field_38_loop_end; // 0x38
-    s32 field_3C_speed_multiplier; // 0x3C
-    char_type field_40_pan; // 0x40
-    char_type field_41_releasing_sound_flag; // 0x41
-    char_type field_42_unused; // 0x42
-    char_type field_43_unused; // 0x43
-    s32 field_44_frames_to_play; // 0x44
-    u32 field_48_nCalculatedVolume; // 0x48
-    u32 field_4C_releasing_volume_divider; // 0x4C
-    u8 field_50_volume_change; // 0x50
-    char_type field_51_unused; // 0x51
-    char_type field_52_unused; // 0x52
-    char_type field_53_unused; // 0x53
-    Fix16 field_54_sound_intensity; // 0x54
-    s32 field_58_type; // 0x58
-    sound_0x68* field_5C_pReleaseSource; // 0x5C
-    u8 field_60_nEmittingVolume; // 0x60
-    char_type field_61_unused; // 0x61
-    char_type field_62_unused; // 0x62
-    char_type field_63_unused; // 0x63
-    s32 field_64_max_distance; // 0x64
+    s32 mEntityIndex; // 0x0
+    char_type mSampleIndex; // 0x4
+    char_type mUnused5; // 0x5
+    char_type mUnused6; // 0x6
+    char_type mUnused7; // 0x7
+    SoundPos mObj; // 0x8
+    u32 mSampIdx; // 0x14
+    bool mbIs2D; // 0x18
+    char_type mUnused19; // 0x19
+    char_type mUnused1A; // 0x1A
+    char_type mUnused1B; // 0x1B
+    u32 mReleasingVolumeModificator; // 0x1C
+    u32 mRate; // 0x20
+    u8 mnVolume; // 0x24
+    char_type mUnused25; // 0x25
+    char_type mUnused26; // 0x26
+    char_type mUnused27; // 0x27
+    Fix16 mDistance; // 0x28
+    bool mbIsBeingPlayed; // 0x2C
+    bool mbIsPlayingFinished; // 0x2D
+    char_type mUnused2E; // 0x2E
+    char_type mUnused2F; // 0x2F
+    u32 mLoopCount; // 0x30
+    s32 mLoopStart; // 0x34
+    s32 mLoopEnd; // 0x38
+    s32 mSpeedMultiplier; // 0x3C
+    char_type mPan; // 0x40
+    char_type mReleasingSoundFlag; // 0x41
+    char_type mUnused42; // 0x42
+    char_type mUnused43; // 0x43
+    s32 mFramesToPlay; // 0x44
+    u32 mnCalculatedVolume; // 0x48
+    u32 mReleasingVolumeDivider; // 0x4C
+    u8 mVolumeChange; // 0x50
+    char_type mUnused51; // 0x51
+    char_type mUnused52; // 0x52
+    char_type mUnused53; // 0x53
+    Fix16 mSoundIntensity; // 0x54
+    s32 mType; // 0x58
+    sound_0x68* mpReleaseSource; // 0x5C
+    u8 mnEmittingVolume; // 0x60
+    char_type mUnused61; // 0x61
+    char_type mUnused62; // 0x62
+    char_type mUnused63; // 0x63
+    s32 mMaxDistance; // 0x64
 };
 
 struct Sound_Params
 {
-    Sprite* field_0_pObj; // 0x0
-    char_type field_4_bDrivenByPlayer; // 0x4
-    bool field_5_bHasSolidAbove; // 0x5
+    Sprite* mpObj; // 0x0
+    char_type mbDrivenByPlayer; // 0x4
+    bool mbHasSolidAbove; // 0x5
     // pad?
-    char_type field_6_unused; // 0x6
-    char_type field_7_unused; // 0x7
+    char_type mUnused6; // 0x6
+    char_type mUnused7; // 0x7
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Sound_Params, 0x8);
 
 class sound_obj
 {
   private:
-    bool field_0_bSoundInitialized; // 0x0
-    bool field_1_isPaused; // 0x1
-    bool field_2_service_enabled; // 0x2
-    char_type field_3_bFirstMenuStream; // 0x3: frontend music restarts d.wav (stream 0) while set, m.wav (stream 1) once cleared
-    s32 field_4_speed_of_sound; // 0x4
-    u8 field_8_frames_per_second; // 0x8
-    char_type field_9_unused; // 0x9
-    char_type field_A_unused; // 0xA
-    char_type field_B_unused; // 0xB
-    s32 field_C_doppler_divisor; // 0xC
-    u8 field_10_nActiveSamples; // 0x10
-    char_type field_11_unused; // 0x11
-    char_type field_12_unused; // 0x12
-    char_type field_13_unused; // 0x13
-    s32 field_14_sample_rate; // 0x14
-    char_type field_18_unused; // 0x18
-    char_type field_19_unused; // 0x19
-    bool field_1A_bDoubleVolume; // 0x1A
-    char_type field_1B_unused; // 0x1B
-    u8 field_1C_samp_count; // 0x1C
-    char_type field_1D_b3d_sound; // 0x1D
-    char_type field_1E_unused; // 0x1E
-    char_type field_1F_unused; // 0x1F
-    s32 field_20_unused; // 0x20
-    u8 field_24_sfx_vol; // 0x24
-    u8 field_25_cdVol; // 0x25
-    char_type field_26_unused; // 0x26
-    char_type field_27_unused; // 0x27
-    Fix16 field_28_dist_squared; // 0x28
-    bool field_2C_distCalculated; // 0x2C
-    char_type field_2D_unused; // 0x2D
-    char_type field_2E_unused; // 0x2E
-    char_type field_2F_unused; // 0x2F
-    sound_0x68 field_30_sQueueSample; // 0x30
-    u8 field_98_nActiveSampleQueue; // 0x98
-    sound_0x68 field_9C_asSamples[2][16]; // 0x9C
-    u8 field_D9C_abSampleQueueIndexTable[2][16]; // 0xD9C
-    u8 field_DBC_SampleRequestQueuesStatus[2]; // 0xDBC
-    s16 field_DBE_unused; // 0xDBE
-    sound_0x68 field_DC0_ActiveSamples[16]; // 0xDC0
-    s32 field_1440_unused; // 0x1440
-    char_type field_1444_unused; // 0x1444
-    char_type field_1445_unused; // 0x1445
-    char_type field_1446_unused; // 0x1446
-    char_type field_1447_unused; // 0x1447
-    s32 field_1448_unused; // 0x1448
-    s32 field_144C_unused; // 0x144C
-    char_type field_1450_unused; // 0x1450
-    char_type field_1451_unused; // 0x1451
-    char_type field_1452_unused; // 0x1452
-    char_type field_1453_unused; // 0x1453
-    u32 field_1454_anRandomTable[5]; // 0x1454
-    Fix16 field_1468_listener_x; // 0x1468
-    Fix16 field_146C_listener_y; // 0x146C
-    Fix16 field_1470_listener_z; // 0x1470
-    Ang16 field_1474_rotation; // 0x1474
-    char_type field_1476_unused; // 0x1476
-    char_type field_1477_unused; // 0x1477
-    s32 field_1478_type5Idx; // 0x1478
-    AudioEntity field_147C_audio_entities[1020]; // 0x147C
-    u32 field_444C_AudioEntityOrderList[1020]; // 0x444C
-    u32 field_543C_444C_nAudioEntitiesCount; // 0x543C
-    s32 field_5440_unused; // 0x5440
-    s32 field_5444_unused; // 0x5444
-    u32 field_5448_m_FrameCounter; // 0x5448
-    SoundEntry field_544C_vocals; // 0x544C
-    RadioStationEmitter field_5468_radio_emitters[5]; // 0x5468
-    u8 field_54F4_bWasInRadioCar; // 0x54F4
-    u8 field_54F5_bInRadioCar; // 0x54F5
-    u8 field_54F6_radio_volume; // 0x54F6
-    u8 field_54F7_active_emitter_idx[5]; // 0x54F7
-    s32 field_54FC_main_variant; // 0x54FC
-    s32 field_5500_prev_main_variant; // 0x5500
-    char_type field_5504_radio_station_change_mode; // 0x5504
-    char_type field_5505_unused; // 0x5505
-    char_type field_5506_mute_timer; // 0x5506
-    char_type field_5507_unused; // 0x5507
-    s32 field_5508_radio_entity_idx; // 0x5508
-    SoundObject field_550C_radio_entity; // 0x550C
-    s32 field_551C_fade_in_timer; // 0x551C
-    bool field_5520_bCanPlay; // 0x5520
-    u8 field_5521_radio_word; // 0x5521
-    s16 field_5522_wanted_star_count; // 0x5522
-    s32 field_5524_radio_word; // 0x5524
-    u8 field_5528_radio_word_read_idx; // 0x5528
-    u8 field_5529_radio_word_write_idx; // 0x5529
-    s32 field_552C_radio_word_queue[15]; // 0x552C
-    char_type field_5568_crime_xpos; // 0x5568
-    char_type field_5569_crime_ypos; // 0x5569
-    s16 field_556A_erv_en_route_timer; // 0x556A
-    s16 field_556C_timer; // 0x556C
-    s16 field_556E_timer; // 0x556E
-    s16 field_5570_timer; // 0x5570
-    s16 field_5572_unused; // 0x5572: pad?
-    s32 field_5574_car_info_idx; // 0x5574
+    bool mbSoundInitialized; // 0x0
+    bool mIsPaused; // 0x1
+    bool mServiceEnabled; // 0x2
+    char_type mbFirstMenuStream; // 0x3: frontend music restarts d.wav (stream 0) while set, m.wav (stream 1) once cleared
+    s32 mSpeedOfSound; // 0x4
+    u8 mFramesPerSecond; // 0x8
+    char_type mUnused9; // 0x9
+    char_type mUnusedA; // 0xA
+    char_type mUnusedB; // 0xB
+    s32 mDopplerDivisor; // 0xC
+    u8 mnActiveSamples; // 0x10
+    char_type mUnused11; // 0x11
+    char_type mUnused12; // 0x12
+    char_type mUnused13; // 0x13
+    s32 mSampleRate; // 0x14
+    char_type mUnused18; // 0x18
+    char_type mUnused19; // 0x19
+    bool mbDoubleVolume; // 0x1A
+    char_type mUnused1B; // 0x1B
+    u8 mSampCount; // 0x1C
+    char_type mB3dSound; // 0x1D
+    char_type mUnused1E; // 0x1E
+    char_type mUnused1F; // 0x1F
+    s32 mUnused20; // 0x20
+    u8 mSfxVol; // 0x24
+    u8 mCdVol; // 0x25
+    char_type mUnused26; // 0x26
+    char_type mUnused27; // 0x27
+    Fix16 mDistSquared; // 0x28
+    bool mDistCalculated; // 0x2C
+    char_type mUnused2D; // 0x2D
+    char_type mUnused2E; // 0x2E
+    char_type mUnused2F; // 0x2F
+    sound_0x68 msQueueSample; // 0x30
+    u8 mnActiveSampleQueue; // 0x98
+    sound_0x68 masSamples[2][16]; // 0x9C
+    u8 mabSampleQueueIndexTable[2][16]; // 0xD9C
+    u8 mSampleRequestQueuesStatus[2]; // 0xDBC
+    s16 mUnusedDBE; // 0xDBE
+    sound_0x68 mActiveSamples[16]; // 0xDC0
+    s32 mUnused1440; // 0x1440
+    char_type mUnused1444; // 0x1444
+    char_type mUnused1445; // 0x1445
+    char_type mUnused1446; // 0x1446
+    char_type mUnused1447; // 0x1447
+    s32 mUnused1448; // 0x1448
+    s32 mUnused144C; // 0x144C
+    char_type mUnused1450; // 0x1450
+    char_type mUnused1451; // 0x1451
+    char_type mUnused1452; // 0x1452
+    char_type mUnused1453; // 0x1453
+    u32 manRandomTable[5]; // 0x1454
+    Fix16 mListenerX; // 0x1468
+    Fix16 mListenerY; // 0x146C
+    Fix16 mListenerZ; // 0x1470
+    Ang16 mRotation; // 0x1474
+    char_type mUnused1476; // 0x1476
+    char_type mUnused1477; // 0x1477
+    s32 mType5Idx; // 0x1478
+    AudioEntity mAudioEntities[1020]; // 0x147C
+    u32 mAudioEntityOrderList[1020]; // 0x444C
+    u32 m444CNAudioEntitiesCount; // 0x543C
+    s32 mUnused5440; // 0x5440
+    s32 mUnused5444; // 0x5444
+    u32 mMFrameCounter; // 0x5448
+    SoundEntry mVocals; // 0x544C
+    RadioStationEmitter mRadioEmitters[5]; // 0x5468
+    u8 mbWasInRadioCar; // 0x54F4
+    u8 mbInRadioCar; // 0x54F5
+    u8 mRadioVolume; // 0x54F6
+    u8 mActiveEmitterIdx[5]; // 0x54F7
+    s32 mMainVariant; // 0x54FC
+    s32 mPrevMainVariant; // 0x5500
+    char_type mRadioStationChangeMode; // 0x5504
+    char_type mUnused5505; // 0x5505
+    char_type mMuteTimer; // 0x5506
+    char_type mUnused5507; // 0x5507
+    s32 mRadioEntityIdx; // 0x5508
+    SoundObject mRadioEntity; // 0x550C
+    s32 mFadeInTimer; // 0x551C
+    bool mbCanPlay; // 0x5520
+    u8 mRadioWord5521; // 0x5521
+    s16 mWantedStarCount; // 0x5522
+    s32 mRadioWord5524; // 0x5524
+    u8 mRadioWordReadIdx; // 0x5528
+    u8 mRadioWordWriteIdx; // 0x5529
+    s32 mRadioWordQueue[15]; // 0x552C
+    char_type mCrimeXpos; // 0x5568
+    char_type mCrimeYpos; // 0x5569
+    s16 mErvEnRouteTimer; // 0x556A
+    s16 mTimer556C; // 0x556C
+    s16 mTimer556E; // 0x556E
+    s16 mTimer5570; // 0x5570
+    s16 mUnused5572; // 0x5572: pad?
+    s32 mCarInfoIdx; // 0x5574
 
   public:
     STATIC_MEMBER(bool, sSoundVocalsInited);

@@ -7,13 +7,13 @@
 
 struct FragsByVictim
 {
-    s16 field_0_frags_on_victim[MAX_PLAYERS]; // 0x0
+    s16 mFragsOnVictim[MAX_PLAYERS]; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(FragsByVictim, 0xC);
 
 struct PlayerName
 {
-    wchar_t field_0_name[16]; // 0x0
+    wchar_t mName[16]; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PlayerName, 0x20);
 
@@ -24,19 +24,19 @@ struct GameSession
     // 9.6f 0x453A80
     inline s32 get_secret_tokens_collected_453A80() const
     {
-        return field_574_secret_tokens_collected;
+        return mSecretTokensCollected;
     }
 
     // 9.6f 0x476B10
     inline void set_secret_tokens_collected_476B10(s32 count)
     {
-        field_574_secret_tokens_collected = count;
+        mSecretTokensCollected = count;
     }
 
     // 9.6f 0x434A10
     inline void IncSecretTokensCollected_434A10()
     {
-        field_574_secret_tokens_collected++;
+        mSecretTokensCollected++;
     }
 
     // 9.6f 0x453A40
@@ -54,15 +54,15 @@ struct GameSession
         *pBonusStageIdx = stage & 0xF;
     }
 
-    char_type field_0_map_name[256]; // 0x0
-    char_type field_100_style_name[256]; // 0x100
-    char_type field_200_script_name[256]; // 0x200
-    char_type field_300_save_file_name[256]; // 0x300
-    char_type field_400_main_stage; // 0x400
-    char_type field_401_stage; // 0x401
-    char_type field_402_bonus_stage; // 0x402
-    u8 field_403_player_slot_idx; // 0x403
-    char_type field_404_level_finish_bonus_type; // 0x404
+    char_type mMapName[256]; // 0x0
+    char_type mStyleName[256]; // 0x100
+    char_type mScriptName[256]; // 0x200
+    char_type mSaveFileName[256]; // 0x300
+    char_type mMainStage; // 0x400
+    char_type mStage; // 0x401
+    char_type mBonusStage; // 0x402
+    u8 mPlayerSlotIdx; // 0x403
+    char_type mLevelFinishBonusType; // 0x404
     /*
     statistics:
     field_408[5] = vehicles hijacked
@@ -71,32 +71,32 @@ struct GameSession
     field_408[8] = lawmen killed
     field_408[9] = gang members killed
     */
-    s32 field_408_statistics[10]; // 0x408
-    s32 field_430_car_damage_cost; // 0x430
-    s32 field_434_evasion_rating; // 0x434
-    s16 field_438_bonus_rating_text_idx; // 0x438
-    bool field_43A_bStartedFromPlayBonusMenu; // 0x43A
-    char_type field_43B_game_type; // 0x43B
-    s32 field_43C_points_limit; // 0x43C
-    char_type field_440_user_player_idx; // 0x440
-    char_type field_441_max_players; // 0x441
-    char_type field_442_winner_player_idx; // 0x442
-    s32 field_444_game_time_limit; // 0x444
-    FragsByVictim field_448_frags_by_victim[MAX_PLAYERS]; // 0x448
-    s16 field_490_frags_list[MAX_PLAYERS]; // 0x490
-    s32 field_49C_points_list[MAX_PLAYERS]; // 0x49C
-    PlayerName field_4B4_player_names[MAX_PLAYERS]; // 0x4B4
-    s32 field_574_secret_tokens_collected; // 0x574
+    s32 mStatistics[10]; // 0x408
+    s32 mCarDamageCost; // 0x430
+    s32 mEvasionRating; // 0x434
+    s16 mBonusRatingTextIdx; // 0x438
+    bool mbStartedFromPlayBonusMenu; // 0x43A
+    char_type mGameType; // 0x43B
+    s32 mPointsLimit; // 0x43C
+    char_type mUserPlayerIdx; // 0x440
+    char_type mMaxPlayers; // 0x441
+    char_type mWinnerPlayerIdx; // 0x442
+    s32 mGameTimeLimit; // 0x444
+    FragsByVictim mFragsByVictim[MAX_PLAYERS]; // 0x448
+    s16 mFragsList[MAX_PLAYERS]; // 0x490
+    s32 mPointsList[MAX_PLAYERS]; // 0x49C
+    PlayerName mPlayerNames[MAX_PLAYERS]; // 0x4B4
+    s32 mSecretTokensCollected; // 0x574
 
     // 9.6f 0x45B420
     EXPORT void clear_secret_tokens_collected()
     {
-        field_574_secret_tokens_collected = 0;
+        mSecretTokensCollected = 0;
     }
 
     inline s32 GetTimeLimit_461DC0() const
     {
-        return field_444_game_time_limit;
+        return mGameTimeLimit;
     }
 
     EXPORT GameSession();

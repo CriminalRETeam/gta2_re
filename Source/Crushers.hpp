@@ -14,19 +14,19 @@ class Crusher
     // 9.6f 0x411A20
     inline Fix16 get_xpos_411A20() const
     {
-        return field_24_xpos;
+        return mXpos;
     }
 
     // 9.6f 0x411A30
     inline Fix16 get_ypos_411A30() const
     {
-        return field_28_ypos;
+        return mYpos;
     }
 
     // 9.6f 0x411A10
     inline s32 get_state_411A10() const
     {
-        return field_2C_state;
+        return mState;
     }
 
     enum CrusherStates
@@ -46,30 +46,30 @@ class Crusher
 
     Car* GetCarBeingCrushed() const 
     {
-      return field_14_pCarBeingCrushed;
+      return mpCarBeingCrushed;
     }
 
   private:
     // Each side of the crusher walls and some unknown object
-    Object* field_0_piston_top; // 0x0
-    Object* field_4_piston_right; // 0x4
-    Object* field_8_piston_bottom; // 0x8
-    Object* field_C_piston_left; // 0xC
-    Object* field_10_central_spot; // 0x10
+    Object* mPistonTop; // 0x0
+    Object* mPistonRight; // 0x4
+    Object* mPistonBottom; // 0x8
+    Object* mPistonLeft; // 0xC
+    Object* mCentralSpot; // 0x10
 
-    Car* field_14_pCarBeingCrushed; // 0x14
+    Car* mpCarBeingCrushed; // 0x14
 
-    SoundObject* field_18_sound; // 0x18
+    SoundObject* mSound; // 0x18
 
     // Target of crusher walls
-    Fix16 field_1C_w; // 0x1C
-    Fix16 field_20_h; // 0x20
+    Fix16 mW; // 0x1C
+    Fix16 mH; // 0x20
 public:
     // Location of the crusher
-    Fix16 field_24_xpos; // 0x24
-    Fix16 field_28_ypos; // 0x28
+    Fix16 mXpos; // 0x24
+    Fix16 mYpos; // 0x28
 
-    s32 field_2C_state; // 0x2C
+    s32 mState; // 0x2C
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Crusher, 0x30);
 
@@ -84,8 +84,8 @@ class CrusherPool
     EXPORT ~CrusherPool();
 
   private:
-    Crusher field_0_crushers[3]; // 0x0
-    s32 field_90_count; // 0x90
+    Crusher mCrushers[3]; // 0x0
+    s32 mCount; // 0x90
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CrusherPool, 0x94);
 EXTERN_GLOBAL(CrusherPool*, gCrusherPool_94_67A830);

@@ -48,13 +48,13 @@ class Fix16_Rect
     {
         Fix16 half_size =  offset / 2;
 
-        field_0_left = x - half_size;
-        field_4_right = x + half_size;
-        field_8_top = y - half_size;
-        field_C_bottom = y + half_size;
+        mLeft = x - half_size;
+        mRight = x + half_size;
+        mTop = y - half_size;
+        mBottom = y + half_size;
 
-        this->field_10_low_z = z - FIX16_RECT_HALF_HEIGHT;
-        this->field_14_high_z = z + FIX16_RECT_HALF_HEIGHT;
+        this->mLowZ = z - FIX16_RECT_HALF_HEIGHT;
+        this->mHighZ = z + FIX16_RECT_HALF_HEIGHT;
     }
 
     // Unused since ShockPedsAroundSprite_5DF270 calls ComputeCollisionPrism_4204D0 with FIX16_RECT_HALF_HEIGHT. Kept because removing
@@ -63,23 +63,23 @@ class Fix16_Rect
     {
         offset = offset / 2;
 
-        field_0_left = x.Subtract_436A00(offset);
-        field_4_right = x.Add_408660(offset);
-        field_8_top = y.Subtract_436A00(offset);
-        field_C_bottom = y.Add_408660(offset);
+        mLeft = x.Subtract_436A00(offset);
+        mRight = x.Add_408660(offset);
+        mTop = y.Subtract_436A00(offset);
+        mBottom = y.Add_408660(offset);
 
-        field_10_low_z = z.Subtract_436A00(half_z);
-        field_14_high_z = z.Add_408660(half_z);
+        mLowZ = z.Subtract_436A00(half_z);
+        mHighZ = z.Add_408660(half_z);
     }
 
     // 9.6f 0x41E350
     // https://decomp.me/scratch/HVOft
     void SetRect_41E350(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom)
     {
-        this->field_0_left = left;
-        this->field_4_right = right;
-        this->field_8_top = top;
-        this->field_C_bottom = bottom;
+        this->mLeft = left;
+        this->mRight = right;
+        this->mTop = top;
+        this->mBottom = bottom;
     }
 
     // Out-of-line copy of SetRect_41E350
@@ -89,13 +89,13 @@ class Fix16_Rect
     // 9.6f 0x433560
     inline bool OverlapsZ_433560(Fix16_Rect* pOther) const
     {
-        return IntervalsOverlap_41E160(field_10_low_z, field_14_high_z, pOther->field_10_low_z, pOther->field_14_high_z);
+        return IntervalsOverlap_41E160(mLowZ, mHighZ, pOther->mLowZ, pOther->mHighZ);
     }
 
     // 9.6f 0x463760
     inline s32 GetMidZ_463760() const
     {
-        return (field_10_low_z.Add_408660(field_14_high_z) / 2).ToInt();
+        return (mLowZ.Add_408660(mHighZ) / 2).ToInt();
     }
 
     // 9.6f 0x463690, defined in map_0x370.cpp
@@ -104,33 +104,33 @@ class Fix16_Rect
     // 9.6f 0x463710
     inline void SetFromPosSize_463710(Fix16 left, Fix16 top, Fix16 width, Fix16 height)
     {
-        field_0_left = left;
-        field_8_top = top;
-        field_4_right = left + width;
-        field_C_bottom = top + height;
+        mLeft = left;
+        mTop = top;
+        mRight = left + width;
+        mBottom = top + height;
     }
 
     void SetHiLowZ_41E370(Fix16 lowZ, Fix16 highZ)
     {
-        this->field_10_low_z = lowZ;
-        this->field_14_high_z = highZ;
+        this->mLowZ = lowZ;
+        this->mHighZ = highZ;
     }
 
     Fix16_Rect(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom, Fix16 z)
     {
         SetRect_41E350(left, right, top, bottom);
-        field_10_low_z = z - kCollisionPrismHalfHeight_6771E4;
-        field_14_high_z = z + kCollisionPrismHalfHeight_6771E4;
+        mLowZ = z - kCollisionPrismHalfHeight_6771E4;
+        mHighZ = z + kCollisionPrismHalfHeight_6771E4;
     }
 
     // Unused (SetFromPosSize_463710 does this), but removing it changes code elsewhere: see the shared
     // header names note in docs/matching_quirks.md
     Fix16_Rect(Fix16 x, Fix16 y, Fix16 w, Fix16 h)
     {
-        field_0_left = x;
-        field_8_top = y;
-        field_4_right = w + x;
-        field_C_bottom = h + y;
+        mLeft = x;
+        mTop = y;
+        mRight = w + x;
+        mBottom = h + y;
     }
 
     EXPORT void DoSetCurrentRect_59DD60();
@@ -143,7 +143,7 @@ class Fix16_Rect
     // 9.6f 0x4B9FD0
     inline bool IsPointInRect_4B9FD0(Fix16_Point* pPoint)
     {
-        return Fix16::IsBetween_4B9E10(field_0_left, field_4_right, pPoint->x) && Fix16::IsBetween_4B9E10(field_8_top, field_C_bottom, pPoint->y);
+        return Fix16::IsBetween_4B9E10(mLeft, mRight, pPoint->x) && Fix16::IsBetween_4B9E10(mTop, mBottom, pPoint->y);
     }
 
     // 9.6f 0x41E2F0
@@ -151,44 +151,44 @@ class Fix16_Rect
     bool AABB_Intersects_41E2F0(Fix16_Rect* pOther) const
     {
         // TODO: HACK - made 0x438FB0 a method of Fix16 to fix crazy compiler inlining behaviour/force it to do what we need
-        return field_0_left.IntervalIntersectsRange_438FB0_inline(this->field_4_right, pOther->field_0_left, pOther->field_4_right) &&
-                field_8_top.IntervalIntersectsRange_438FB0_inline(this->field_C_bottom, pOther->field_8_top, pOther->field_C_bottom) &&
-                field_10_low_z.IntervalIntersectsRange_438FB0_inline( this->field_14_high_z, pOther->field_10_low_z, pOther->field_14_high_z) ?
+        return mLeft.IntervalIntersectsRange_438FB0_inline(this->mRight, pOther->mLeft, pOther->mRight) &&
+                mTop.IntervalIntersectsRange_438FB0_inline(this->mBottom, pOther->mTop, pOther->mBottom) &&
+                mLowZ.IntervalIntersectsRange_438FB0_inline( this->mHighZ, pOther->mLowZ, pOther->mHighZ) ?
             true :
             false;
     }
 
     Fix16 get_top_45ADD0() const
     {
-        return field_8_top;
+        return mTop;
     }
 
     Fix16 get_left_45ADB0() const
     {
-        return field_0_left;
+        return mLeft;
     }
 
     Fix16 get_right_45ADA0() const
     {
-        return field_4_right;
+        return mRight;
     }
 
     Fix16 get_bottom_45ADC0() const
     {
-        return field_C_bottom;
+        return mBottom;
     }
 
     // 9.6f 0x4637A0
     Fix16 get_low_z_4637A0() const
     {
-        return field_10_low_z;
+        return mLowZ;
     }
 
-    Fix16 field_0_left; // 0x0
-    Fix16 field_4_right; // 0x4
-    Fix16 field_8_top; // 0x8
-    Fix16 field_C_bottom; // 0xC
+    Fix16 mLeft; // 0x0
+    Fix16 mRight; // 0x4
+    Fix16 mTop; // 0x8
+    Fix16 mBottom; // 0xC
 
-    Fix16 field_10_low_z; // 0x10
-    Fix16 field_14_high_z; // 0x14
+    Fix16 mLowZ; // 0x10
+    Fix16 mHighZ; // 0x14
 };

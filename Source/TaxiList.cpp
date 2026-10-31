@@ -10,22 +10,22 @@ MATCH_FUNC(0x457ba0)
 void TaxiList::PushTaxi_457BA0(Car* pCar)
 {
     TaxiListNode* pNode = sTaxi4Pool->Allocate();
-    pNode->field_0_pCar = pCar;
-    pNode->mpNext = this->field_0_pFirst;
-    this->field_0_pFirst = pNode;
+    pNode->mpCar = pCar;
+    pNode->mpNext = this->mpFirst;
+    this->mpFirst = pNode;
 }
 
 MATCH_FUNC(0x457bc0)
 void TaxiList::PopAll_457BC0()
 {
-    TaxiListNode* pIter = this->field_0_pFirst;
+    TaxiListNode* pIter = this->mpFirst;
     while (pIter)
     {
         TaxiListNode* pOldIter = pIter;
         pIter = pIter->mpNext;
         sTaxi4Pool->DeAllocate(pOldIter);
     }
-    this->field_0_pFirst = NULL;
+    this->mpFirst = NULL;
 }
 
 // https://decomp.me/scratch/tPr1q
@@ -35,16 +35,16 @@ Car* TaxiList::GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos)
     Car* pCarRet = NULL;
     Fix16 smallest(99999);
 
-    for (TaxiListNode* pIter = field_0_pFirst; pIter; pIter = pIter->mpNext)
+    for (TaxiListNode* pIter = mpFirst; pIter; pIter = pIter->mpNext)
     {
         // 9.6f passes references to the sprite position, not get_x/get_y copies
         Fix16 distance = Fix16::MaxAbsDistance_42A6B0(xpos,
                                                              ypos,
-                                                             pIter->field_0_pCar->field_50_car_sprite->field_14_xy.x,
-                                                             pIter->field_0_pCar->field_50_car_sprite->field_14_xy.y);
+                                                             pIter->mpCar->mCarSprite->mXy.x,
+                                                             pIter->mpCar->mCarSprite->mXy.y);
         if (distance < smallest)
         {
-            pCarRet = pIter->field_0_pCar;
+            pCarRet = pIter->mpCar;
             if (!pCarRet->IsDespawning_4215B0())
             {
                 smallest = distance;

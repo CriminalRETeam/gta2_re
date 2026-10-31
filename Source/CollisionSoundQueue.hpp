@@ -17,75 +17,75 @@ class CollisionTarget
 
     void Reset_4637B0()
     {
-        this->field_0_type = collision_target_type::none_0;
-        this->field_20_pHitSprite = NULL;
-        this->field_24_pSourceSprite = NULL;
+        this->mType = collision_target_type::none_0;
+        this->mpHitSprite = NULL;
+        this->mpSourceSprite = NULL;
     }
 
     // 9.6f 0x49EF10
     void SetSourceSprite_49EF10(Sprite* pSprite)
     {
-        this->field_24_pSourceSprite = pSprite;
+        this->mpSourceSprite = pSprite;
     }
 
     // 9.6f 0x482A70
     void SetFloorBelow_482A70()
     {
-        this->field_0_type = collision_target_type::floor_below_4;
-        this->field_20_pHitSprite = NULL;
+        this->mType = collision_target_type::floor_below_4;
+        this->mpHitSprite = NULL;
     }
 
     // 9.6f 0x482A80
     void SetBlockAtZ_482A80()
     {
-        this->field_0_type = collision_target_type::block_at_z_5;
-        this->field_20_pHitSprite = NULL;
+        this->mType = collision_target_type::block_at_z_5;
+        this->mpHitSprite = NULL;
     }
 
     void SetMapZ_4BA2B0(Fix16 z)
     {
-        this->field_1C_z = z;
+        this->mZ = z;
     }
 
     void SetVerticalSegment_4BA280(Fix16 y_min, Fix16 y_max, Fix16 x)
     {
-        this->field_C_vseg_y_min = y_min;
-        this->field_0_type = collision_target_type::vertical_edge_2;
-        this->field_10_vseg_y_max = y_max;
-        this->field_14_vseg_x = x;
-        this->field_20_pHitSprite = NULL;
+        this->mVsegYMin = y_min;
+        this->mType = collision_target_type::vertical_edge_2;
+        this->mVsegYMax = y_max;
+        this->mVsegX = x;
+        this->mpHitSprite = NULL;
     }
 
     void SetHorizontalSegment_4BA250(Fix16 x_min, Fix16 x_max, Fix16 y)
     {
-        this->field_4_hseg_x_min = x_min;
-        this->field_0_type = collision_target_type::horizontal_edge_1;
-        this->field_8_hseg_x_max = x_max;
-        this->field_18_hseg_y = y;
-        this->field_20_pHitSprite = NULL;
+        this->mHsegXMin = x_min;
+        this->mType = collision_target_type::horizontal_edge_1;
+        this->mHsegXMax = x_max;
+        this->mHsegY = y;
+        this->mpHitSprite = NULL;
     }
 
     bool IsCharB4_49EF20() const
     {
-        return this->field_0_type == collision_target_type::sprite_3 && field_20_pHitSprite->AsCharB4_40FEA0();
+        return this->mType == collision_target_type::sprite_3 && mpHitSprite->AsCharB4_40FEA0();
     }
 
     void SetSprite_40FEE0(Sprite* pSprite)
     {
-        field_0_type = collision_target_type::sprite_3;
-        field_20_pHitSprite = pSprite;
+        mType = collision_target_type::sprite_3;
+        mpHitSprite = pSprite;
     }
 
-    s32 field_0_type; // 0x0: collision_target_type
-    Fix16 field_4_hseg_x_min; // 0x4
-    Fix16 field_8_hseg_x_max; // 0x8
-    Fix16 field_C_vseg_y_min; // 0xC
-    Fix16 field_10_vseg_y_max; // 0x10
-    Fix16 field_14_vseg_x; // 0x14
-    Fix16 field_18_hseg_y; // 0x18
-    Fix16 field_1C_z; // 0x1C
-    Sprite* field_20_pHitSprite; // 0x20
-    Sprite* field_24_pSourceSprite; // 0x24: the car sprite that is being moved, set by CarPhysics
+    s32 mType; // 0x0: collision_target_type
+    Fix16 mHsegXMin; // 0x4
+    Fix16 mHsegXMax; // 0x8
+    Fix16 mVsegYMin; // 0xC
+    Fix16 mVsegYMax; // 0x10
+    Fix16 mVsegX; // 0x14
+    Fix16 mHsegY; // 0x18
+    Fix16 mZ; // 0x1C
+    Sprite* mpHitSprite; // 0x20
+    Sprite* mpSourceSprite; // 0x24: the car sprite that is being moved, set by CarPhysics
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CollisionTarget, 0x28);
 
@@ -100,19 +100,19 @@ class CollisionEvent
 
     void SetImpactStrength_40FF10(const Fix16& strength)
     {
-        this->field_24_impact_strength = strength;
+        this->mImpactStrength = strength;
     }
 
-    s32 field_0_type; // 0x0: collision_event_type
-    Fix16 field_4_x; // 0x4
-    Fix16 field_8_y; // 0x8
-    Fix16 field_C_z; // 0xC
-    Car* field_10_car; // 0x10
-    Car* field_14_other_car; // 0x14
-    s32 field_18_object_model; // 0x18: model of the object involved
-    s32 field_1C_other_object_model; // 0x1C: model of the other object collided with
-    s32 field_20_map_block_spec; // 0x20
-    Fix16 field_24_impact_strength; // 0x24
+    s32 mType; // 0x0: collision_event_type
+    Fix16 mX; // 0x4
+    Fix16 mY; // 0x8
+    Fix16 mZ; // 0xC
+    Car* mCar; // 0x10
+    Car* mOtherCar; // 0x14
+    s32 mObjectModel; // 0x18: model of the object involved
+    s32 mOtherObjectModel; // 0x1C: model of the other object collided with
+    s32 mMapBlockSpec; // 0x20
+    Fix16 mImpactStrength; // 0x24
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CollisionEvent, 0x28);
 
@@ -133,9 +133,9 @@ class CollisionSoundQueue
     EXPORT CollisionSoundQueue();
     EXPORT ~CollisionSoundQueue();
 
-    SoundObject* field_0_pSoundObj; // 0x0
-    CollisionEvent field_4_events[k_max_events]; // 0x4
-    s32 field_C84_count; // 0xC84
+    SoundObject* mpSoundObj; // 0x0
+    CollisionEvent mEvents[k_max_events]; // 0x4
+    s32 mCount; // 0xC84
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CollisionSoundQueue, 0xC88);
 

@@ -16,17 +16,17 @@ PlayerCrimeStats::~PlayerCrimeStats() // 0x484EE0
 MATCH_FUNC(0x484EF0)
 void PlayerCrimeStats::Reset_484EF0()
 {
-    bool* pByteIter = field_28_bCountAllowed;
-    u32* pIntIter = field_0_crime_count_list;
-    for (s32 i = GTA2_COUNTOF(field_28_bCountAllowed) - 1; i >= 0; i--)
+    bool* pByteIter = mbCountAllowed;
+    u32* pIntIter = mCrimeCountList;
+    for (s32 i = GTA2_COUNTOF(mbCountAllowed) - 1; i >= 0; i--)
     {
         *pIntIter = 0;
         *pByteIter = true;
         ++pIntIter;
         ++pByteIter;
     }
-    field_34_car_damage_cost = 0;
-    field_38_evasion_rating = 0;
+    mCarDamageCost = 0;
+    mEvasionRating = 0;
 }
 
 MATCH_FUNC(0x484F20)
@@ -40,7 +40,7 @@ void PlayerCrimeStats::ResetCrimeCountFlags_484F30()
 {
     for (u8 i = crime_stats_type::car_damaged_1; i < crime_stats_type::count_10; i++)
     {
-        field_28_bCountAllowed[i] = true;
+        mbCountAllowed[i] = true;
     }
 }
 
@@ -50,10 +50,10 @@ void PlayerCrimeStats::IncrementCrimeCount_484F50(s32 crime_type)
     switch (crime_type)
     {
         case crime_stats_type::weapon_fired_2:
-            if (field_28_bCountAllowed[crime_type])
+            if (mbCountAllowed[crime_type])
             {
-                field_0_crime_count_list[crime_type]++;
-                field_28_bCountAllowed[crime_type] = false;
+                mCrimeCountList[crime_type]++;
+                mbCountAllowed[crime_type] = false;
             }
             break;
         case crime_stats_type::car_damaged_1:
@@ -64,7 +64,7 @@ void PlayerCrimeStats::IncrementCrimeCount_484F50(s32 crime_type)
         case crime_stats_type::civilians_murdered_7:
         case crime_stats_type::lawmen_killed_8:
         case crime_stats_type::gang_members_killed_9:
-            field_0_crime_count_list[crime_type]++;
+            mCrimeCountList[crime_type]++;
             break;
 
         default:
@@ -75,11 +75,11 @@ void PlayerCrimeStats::IncrementCrimeCount_484F50(s32 crime_type)
 MATCH_FUNC(0x484FA0)
 void PlayerCrimeStats::AddCarDamageCost_484FA0(s32 cost)
 {
-    field_34_car_damage_cost += cost;
+    mCarDamageCost += cost;
 }
 
 MATCH_FUNC(0x484FB0)
 void PlayerCrimeStats::AddEvasionRating_484FB0(s32 amount)
 {
-    field_38_evasion_rating += amount;
+    mEvasionRating += amount;
 }

@@ -3,9 +3,9 @@
 inline s32 Ped::get_car_model() const
 {
     u32 m;
-    if (field_16C_car)
+    if (mCar)
     {
-        m = field_16C_car->field_84_car_info_idx;
+        m = mCar->mCarInfoIdx;
     }
     else
     {

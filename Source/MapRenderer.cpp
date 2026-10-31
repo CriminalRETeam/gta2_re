@@ -117,8 +117,8 @@ struct VertProjector
     inline void ProjectVertTop_46BD40(Fix16& x, Fix16& y, Vert* pVert)
     {
         set_vert_xyz_relative_to_cam_4EAD90(x, y, gZCoordTop_6F62B0, pVert);
-        pVert->x = x.ToFloat() * gScreenScaleTop_6F628C.ToFloat() + static_cast<u32>(gViewCamera_676978->field_70_screen_px_center_x);
-        pVert->y = y.ToFloat() * gScreenScaleTop_6F628C.ToFloat() + static_cast<u32>(gViewCamera_676978->field_74_screen_px_center_y);
+        pVert->x = x.ToFloat() * gScreenScaleTop_6F628C.ToFloat() + static_cast<u32>(gViewCamera_676978->mScreenPxCenterX);
+        pVert->y = y.ToFloat() * gScreenScaleTop_6F628C.ToFloat() + static_cast<u32>(gViewCamera_676978->mScreenPxCenterY);
         pVert->z = gInvDepthTop_6F656C.ToFloat();
     }
 
@@ -126,17 +126,17 @@ struct VertProjector
     {
         set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, gZCoord_6F63E0, pVert);
     
-        pVert->x = gScreenScaleBottom_6F633C.ToFloat() * xpos.ToFloat() + static_cast<u32>(gViewCamera_676978->field_70_screen_px_center_x);
-        pVert->y = gScreenScaleBottom_6F633C.ToFloat() * ypos.ToFloat() + static_cast<u32>(gViewCamera_676978->field_74_screen_px_center_y);
+        pVert->x = gScreenScaleBottom_6F633C.ToFloat() * xpos.ToFloat() + static_cast<u32>(gViewCamera_676978->mScreenPxCenterX);
+        pVert->y = gScreenScaleBottom_6F633C.ToFloat() * ypos.ToFloat() + static_cast<u32>(gViewCamera_676978->mScreenPxCenterY);
         pVert->z = gInvDepthBottom_6F6318.ToFloat();
     }
 
     inline void ProjectVert_46BC70(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
     {
         set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, zpos, pVert);
-        pVert->z = 1.0f / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
-        pVert->x = xpos.ToFloat() * Fix16ToFloat_Paren(gViewCamera_676978->field_60_screen_scale.x) * pVert->z + static_cast<u32>(gViewCamera_676978->field_70_screen_px_center_x);
-        pVert->y = ypos.ToFloat() * Fix16ToFloat_Paren(gViewCamera_676978->field_60_screen_scale.x) * pVert->z + static_cast<u32>(gViewCamera_676978->field_74_screen_px_center_y);
+        pVert->z = 1.0f / (gViewCamera_676978->mCurPos.mZ.ToFloat() + (8.0f - zpos.ToFloat()));
+        pVert->x = xpos.ToFloat() * Fix16ToFloat_Paren(gViewCamera_676978->mScreenScale.x) * pVert->z + static_cast<u32>(gViewCamera_676978->mScreenPxCenterX);
+        pVert->y = ypos.ToFloat() * Fix16ToFloat_Paren(gViewCamera_676978->mScreenScale.x) * pVert->z + static_cast<u32>(gViewCamera_676978->mScreenPxCenterY);
     }
 };
 
@@ -158,8 +158,8 @@ struct VertProjector2
     inline void ProjectVertTop_46BD40(Fix16& x, Fix16& y, Vert* pVert)
     {
         set_vert_xyz_relative_to_cam_4EAD90(x, y, gZCoordTop_6F62B0, pVert);
-        pVert->x = (((x.ToFloat())) * gScreenScaleTop_6F628C.ToFloat()) + static_cast<u32>(gViewCamera_676978->field_70_screen_px_center_x);
-        pVert->y = (((Fix16ToF32_Rounded(y)) * gScreenScaleTop_6F628C.ToFloat()) + static_cast<u32>(gViewCamera_676978->field_74_screen_px_center_y));
+        pVert->x = (((x.ToFloat())) * gScreenScaleTop_6F628C.ToFloat()) + static_cast<u32>(gViewCamera_676978->mScreenPxCenterX);
+        pVert->y = (((Fix16ToF32_Rounded(y)) * gScreenScaleTop_6F628C.ToFloat()) + static_cast<u32>(gViewCamera_676978->mScreenPxCenterY));
         pVert->z = gInvDepthTop_6F656C.ToFloat();
     }
 
@@ -167,17 +167,17 @@ struct VertProjector2
     {
         set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, gZCoord_6F63E0, pVert);
 
-        pVert->x = (gScreenScaleBottom_6F633C.ToFloat() * ((xpos.ToFloat()))) + static_cast<u32>(gViewCamera_676978->field_70_screen_px_center_x);
-        pVert->y = ((gScreenScaleBottom_6F633C.ToFloat() * (Fix16ToF32_Rounded(ypos))) + static_cast<u32>(gViewCamera_676978->field_74_screen_px_center_y));
+        pVert->x = (gScreenScaleBottom_6F633C.ToFloat() * ((xpos.ToFloat()))) + static_cast<u32>(gViewCamera_676978->mScreenPxCenterX);
+        pVert->y = ((gScreenScaleBottom_6F633C.ToFloat() * (Fix16ToF32_Rounded(ypos))) + static_cast<u32>(gViewCamera_676978->mScreenPxCenterY));
         pVert->z = gInvDepthBottom_6F6318.ToFloat();
     }
 
     inline void ProjectVert_46BC70(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
     {
         set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, zpos, pVert);
-        pVert->z = 1.0f / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
-        pVert->x = Fix16ToF32_Rounded3(xpos) * Fix16ToF32_Rounded2(gViewCamera_676978->field_60_screen_scale.x) * pVert->z + static_cast<u32>(gViewCamera_676978->field_70_screen_px_center_x);
-        pVert->y = Fix16ToF32_Rounded3(ypos) * Fix16ToF32_Rounded2(gViewCamera_676978->field_60_screen_scale.x) * pVert->z + static_cast<u32>(gViewCamera_676978->field_74_screen_px_center_y);
+        pVert->z = 1.0f / (gViewCamera_676978->mCurPos.mZ.ToFloat() + (8.0f - zpos.ToFloat()));
+        pVert->x = Fix16ToF32_Rounded3(xpos) * Fix16ToF32_Rounded2(gViewCamera_676978->mScreenScale.x) * pVert->z + static_cast<u32>(gViewCamera_676978->mScreenPxCenterX);
+        pVert->y = Fix16ToF32_Rounded3(ypos) * Fix16ToF32_Rounded2(gViewCamera_676978->mScreenScale.x) * pVert->z + static_cast<u32>(gViewCamera_676978->mScreenPxCenterY);
     }
 };
 
@@ -189,10 +189,10 @@ struct VertProjector3
     inline void ProjectVert_46BC70(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
     {
         set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, zpos, pVert);
-        pVert->z = 1.0f / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
-        pVert->x = Fix16ToF32_Rounded2(xpos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60_screen_scale.x) * pVert->z + static_cast<u32>(gViewCamera_676978->field_70_screen_px_center_x);
+        pVert->z = 1.0f / (gViewCamera_676978->mCurPos.mZ.ToFloat() + (8.0f - zpos.ToFloat()));
+        pVert->x = Fix16ToF32_Rounded2(xpos) * Fix16ToF32_Rounded3(gViewCamera_676978->mScreenScale.x) * pVert->z + static_cast<u32>(gViewCamera_676978->mScreenPxCenterX);
         // No f32 local for field_60 and a no-op after the product: S 8 -> 4, E 16 -> 8 (docs/match_attempts.md).
-        pVert->y = Fix16ToF32_Rounded2(ypos) * Fix16ToF32_P3(gViewCamera_676978->field_60_screen_scale.x) * (pVert->z) + static_cast<u32>(gViewCamera_676978->field_74_screen_px_center_y);
+        pVert->y = Fix16ToF32_Rounded2(ypos) * Fix16ToF32_P3(gViewCamera_676978->mScreenScale.x) * (pVert->z) + static_cast<u32>(gViewCamera_676978->mScreenPxCenterY);
     }
 };
 
@@ -214,9 +214,9 @@ struct VertProjector4
     inline void ProjectVert_46BC70(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
     {
         set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, zpos, pVert);
-        pVert->z = 1.0f / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
-        pVert->x = Fix16ToF32_Rounded2(xpos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60_screen_scale.x) * (pVert->z) + static_cast<u32>(gViewCamera_676978->field_70_screen_px_center_x);
-        pVert->y = (Fix16ToF32_Stored(gViewCamera_676978->field_60_screen_scale.x) * Fix16ToF32_Stored(ypos)) * (pVert->z) + static_cast<u32>(gViewCamera_676978->field_74_screen_px_center_y);
+        pVert->z = 1.0f / (gViewCamera_676978->mCurPos.mZ.ToFloat() + (8.0f - zpos.ToFloat()));
+        pVert->x = Fix16ToF32_Rounded2(xpos) * Fix16ToF32_Rounded3(gViewCamera_676978->mScreenScale.x) * (pVert->z) + static_cast<u32>(gViewCamera_676978->mScreenPxCenterX);
+        pVert->y = (Fix16ToF32_Stored(gViewCamera_676978->mScreenScale.x) * Fix16ToF32_Stored(ypos)) * (pVert->z) + static_cast<u32>(gViewCamera_676978->mScreenPxCenterY);
     }
 };
 
@@ -230,8 +230,8 @@ static inline void set_vert_xyz_relative_to_cam_inlined(Fix16 xCoord, Fix16 yCoo
 
     // Only ProjectVert_4EB940 inlines this copy. The f32 locals (Fix16ToF32_Rounded) move the index
     // computation's mov behind the z temp store, as in the original (22 -> 4 lines).
-    gTileVerts_6F65A8[next_idx].x = Fix16ToF32_Rounded(xCoord + pCam->field_98_cur_pos.field_0_x);
-    gTileVerts_6F65A8[next_idx].y = Fix16ToF32_Rounded(yCoord + pCam->field_98_cur_pos.field_4_y);
+    gTileVerts_6F65A8[next_idx].x = Fix16ToF32_Rounded(xCoord + pCam->mCurPos.mX);
+    gTileVerts_6F65A8[next_idx].y = Fix16ToF32_Rounded(yCoord + pCam->mCurPos.mY);
     gTileVerts_6F65A8[next_idx].z = z_val.ToFloat();
 }
 
@@ -359,16 +359,16 @@ static inline void TransformTriangleUVs_46B910(u16& rotation_and_flip)
 MATCH_FUNC(0x4e9d50)
 void MapRenderer::SetAmbientLevel_4E9D50(s32& target_level, u16& cycles)
 {
-    field_4_target_ambient = Fix16(target_level, 0);
+    mTargetAmbient = Fix16(target_level, 0);
 
     if (cycles > 0)
     {
-        field_8_ambient_step = (field_4_target_ambient - field_0_ambient) / Fix16(cycles);
+        mAmbientStep = (mTargetAmbient - mAmbient) / Fix16(cycles);
     }
     else
     {
-        field_0_ambient = field_4_target_ambient;
-        field_8_ambient_step = kZeroOnePoint_6F6484.x;
+        mAmbient = mTargetAmbient;
+        mAmbientStep = kZeroOnePoint_6F6484.x;
     }
 }
 
@@ -384,43 +384,43 @@ void MapRenderer::set_shading_lev_4E9DB0(u8 shading_lev)
     u8 lev_v6 = shading_leva - mid_shade;
     u8 lev_v6_2 = shading_leva - 2 * mid_shade;
 
-    field_C_colour_t1 = top_shade;
-    field_D_right_colour = shading_leva - 3 * mid_shade;
-    field_E_colour_t2 = base_shade;
-    field_F_colour_t3 = lev_v6;
-    field_10_diag_up_left_colour = base_shade;
-    field_11_diag_up_right_colour = lev_v6_2;
-    field_12_diag_down_left_colour = v2_v6;
-    field_13_diag_down_right_colour = lev_v6;
-    field_14_dcolour = v2_v6;
-    field_15_slope_south_colour = shading_leva;
-    field_16_slope_west_colour = lev_v6_2;
-    field_17_slope_east_colour = base_shade + 3 * mid_shade;
-    field_18_color = v2_v6;
-    field_19_tri_diag_up_right_colour = lev_v6;
-    field_1A_tri_diag_down_left_colour = top_shade;
-    field_1B_tri_diag_down_right_colour = shading_leva;
+    mColourT1 = top_shade;
+    mRightColour = shading_leva - 3 * mid_shade;
+    mColourT2 = base_shade;
+    mColourT3 = lev_v6;
+    mDiagUpLeftColour = base_shade;
+    mDiagUpRightColour = lev_v6_2;
+    mDiagDownLeftColour = v2_v6;
+    mDiagDownRightColour = lev_v6;
+    mDcolour = v2_v6;
+    mSlopeSouthColour = shading_leva;
+    mSlopeWestColour = lev_v6_2;
+    mSlopeEastColour = base_shade + 3 * mid_shade;
+    mColor = v2_v6;
+    mTriDiagUpRightColour = lev_v6;
+    mTriDiagDownLeftColour = top_shade;
+    mTriDiagDownRightColour = shading_leva;
 }
 
 MATCH_FUNC(0x4e9ea0)
 void MapRenderer::ambient_light_tick_4E9EA0()
 {
-    field_0_ambient = field_8_ambient_step + field_0_ambient;
+    mAmbient = mAmbientStep + mAmbient;
 
-    if (field_8_ambient_step > kZeroOnePoint_6F6484.x)
+    if (mAmbientStep > kZeroOnePoint_6F6484.x)
     {
-        if (field_0_ambient >= field_4_target_ambient)
+        if (mAmbient >= mTargetAmbient)
         {
-            field_8_ambient_step = kZeroOnePoint_6F6484.x;
-            field_0_ambient = field_4_target_ambient;
+            mAmbientStep = kZeroOnePoint_6F6484.x;
+            mAmbient = mTargetAmbient;
         }
     }
-    else if (field_8_ambient_step < kZeroOnePoint_6F6484.x)
+    else if (mAmbientStep < kZeroOnePoint_6F6484.x)
     {
-        if (field_0_ambient <= field_4_target_ambient)
+        if (mAmbient <= mTargetAmbient)
         {
-            field_8_ambient_step = kZeroOnePoint_6F6484.x;
-            field_0_ambient = field_4_target_ambient;
+            mAmbientStep = kZeroOnePoint_6F6484.x;
+            mAmbient = mTargetAmbient;
         }
     }
 }
@@ -447,7 +447,7 @@ void MapRenderer::draw_4E9EE0(u16& word_side, const bool& bFourSided, u8 colour)
                           gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           colour);
-        ++field_2F00_drawn_tile_count;
+        ++mDrawnTileCount;
     }
 }
 
@@ -580,7 +580,7 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
 {
     if (!bSkip_left_67D6BF)
     {
-        switch (gCurrentSlope_6F646C.field_0_gradient_direction)
+        switch (gCurrentSlope_6F646C.mGradientDirection)
         {
             case NORTH_1:
                 gVertProjector.ProjectVertBottom_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
@@ -709,8 +709,8 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
             pgbh_DrawTile(sTileDrawFlags | gLightingDrawFlag_7068F4,
                           gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
-                          field_C_colour_t1);
-            ++field_2F00_drawn_tile_count;
+                          mColourT1);
+            ++mDrawnTileCount;
         }
     }
 }
@@ -724,8 +724,8 @@ void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, F
 
     // Only ProjectVert_4EB940 inlines this copy. The f32 locals (Fix16ToF32_Rounded) move the index
     // computation's mov behind the z temp store, as in the original (22 -> 4 lines).
-    gTileVerts_6F65A8[next_idx].x = Fix16ToF32_Rounded(xCoord + pCam->field_98_cur_pos.field_0_x);
-    gTileVerts_6F65A8[next_idx].y = Fix16ToF32_Rounded(yCoord + pCam->field_98_cur_pos.field_4_y);
+    gTileVerts_6F65A8[next_idx].x = Fix16ToF32_Rounded(xCoord + pCam->mCurPos.mX);
+    gTileVerts_6F65A8[next_idx].y = Fix16ToF32_Rounded(yCoord + pCam->mCurPos.mY);
     gTileVerts_6F65A8[next_idx].z = z_val.ToFloat();
 }
 
@@ -735,8 +735,8 @@ void MapRenderer::ProjectVertTop_4EAE00(Fix16& xpos, Fix16& ypos, Vert* pVert)
 {
     set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, gZCoordTop_6F62B0, pVert);
     
-    pVert->x = xpos.ToFloat() * gScreenScaleTop_6F628C.ToFloat() + static_cast<u32>(gViewCamera_676978->field_70_screen_px_center_x);
-    pVert->y = ypos.ToFloat() * gScreenScaleTop_6F628C.ToFloat() + static_cast<u32>(gViewCamera_676978->field_74_screen_px_center_y);
+    pVert->x = xpos.ToFloat() * gScreenScaleTop_6F628C.ToFloat() + static_cast<u32>(gViewCamera_676978->mScreenPxCenterX);
+    pVert->y = ypos.ToFloat() * gScreenScaleTop_6F628C.ToFloat() + static_cast<u32>(gViewCamera_676978->mScreenPxCenterY);
     pVert->z = gInvDepthTop_6F656C.ToFloat();
 }
 
@@ -745,8 +745,8 @@ void MapRenderer::ProjectVertBottom_4EAEA0(Fix16& xCoord, Fix16& yCoord, Vert* p
 {
     set_vert_xyz_relative_to_cam_4EAD90(xCoord, yCoord, gZCoord_6F63E0, pVert);
 
-    pVert->x = static_cast<u32>(gViewCamera_676978->field_70_screen_px_center_x) + gScreenScaleBottom_6F633C.ToFloat() * xCoord.ToFloat();
-    pVert->y = static_cast<u32>(gViewCamera_676978->field_74_screen_px_center_y) + gScreenScaleBottom_6F633C.ToFloat() * yCoord.ToFloat();
+    pVert->x = static_cast<u32>(gViewCamera_676978->mScreenPxCenterX) + gScreenScaleBottom_6F633C.ToFloat() * xCoord.ToFloat();
+    pVert->y = static_cast<u32>(gViewCamera_676978->mScreenPxCenterY) + gScreenScaleBottom_6F633C.ToFloat() * yCoord.ToFloat();
     pVert->z = gInvDepthBottom_6F6318.ToFloat();
 }
 
@@ -759,7 +759,7 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
     Fix16 slope_z_4;
     if (!bSkip_right_67D4E4)
     {
-        switch (gCurrentSlope_6F646C.field_0_gradient_direction)
+        switch (gCurrentSlope_6F646C.mGradientDirection)
         {
             case NORTH_1:
                 gVertProjector.ProjectVertBottom_46BDF0(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
@@ -895,8 +895,8 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
             pgbh_DrawTile(sTileDrawFlags | gLightingDrawFlag_7068F4,
                           gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
-                          field_D_right_colour);
-            ++field_2F00_drawn_tile_count;
+                          mRightColour);
+            ++mDrawnTileCount;
         }
     }
 }
@@ -908,11 +908,11 @@ void MapRenderer::ProjectVert_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert
     set_vert_xyz_relative_to_cam_inlined(xpos, ypos, zpos, pVert);
 
     // The same conversion forms as VertProjector3::ProjectVert_46BC70 (field_60 is loaded first here too).
-    pVert->z = 1.0f / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
-    pVert->x = Fix16ToF32_Rounded2(xpos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60_screen_scale.x) * pVert->z + static_cast<u32>(gViewCamera_676978->field_70_screen_px_center_x);
+    pVert->z = 1.0f / (gViewCamera_676978->mCurPos.mZ.ToFloat() + (8.0f - zpos.ToFloat()));
+    pVert->x = Fix16ToF32_Rounded2(xpos) * Fix16ToF32_Rounded3(gViewCamera_676978->mScreenScale.x) * pVert->z + static_cast<u32>(gViewCamera_676978->mScreenPxCenterX);
     // The y line's parentheses are x87 no-op nodes: the one after the product delays `pop ebx` past
     // `fmuls 8(%ecx)` in the epilogue (see Scripts/x87_sched).
-    pVert->y = (Fix16ToF32_Rounded2(ypos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60_screen_scale.x)) * (pVert->z) + static_cast<u32>(gViewCamera_676978->field_74_screen_px_center_y);
+    pVert->y = (Fix16ToF32_Rounded2(ypos) * Fix16ToF32_Rounded3(gViewCamera_676978->mScreenScale.x)) * (pVert->z) + static_cast<u32>(gViewCamera_676978->mScreenPxCenterY);
 }
 
 // https://decomp.me/scratch/a6z18
@@ -921,7 +921,7 @@ void MapRenderer::DrawTopSide_4EBA60(u16& top_word)
 {
     if (!bSkip_top_67D574)
     {
-        switch (gCurrentSlope_6F646C.field_0_gradient_direction)
+        switch (gCurrentSlope_6F646C.mGradientDirection)
         {
             case WEST_3:
                 gVertProjector.ProjectVertBottom_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
@@ -1050,10 +1050,10 @@ void MapRenderer::DrawTopSide_4EBA60(u16& top_word)
                 sTileDrawFlags = sTileDrawFlags | 0x80;
             }
             pgbh_DrawTile(sTileDrawFlags | gLightingDrawFlag_7068F4,
-                          gTextureCache_15D8_705064->field_0_tile_textures[texture_idx],
+                          gTextureCache_15D8_705064->mTileTextures[texture_idx],
                           gTileVerts_6F65A8,
-                          field_F_colour_t3);
-            ++field_2F00_drawn_tile_count;
+                          mColourT3);
+            ++mDrawnTileCount;
         }
     }
 }
@@ -1081,8 +1081,8 @@ void MapRenderer::DrawDiagonalUpLeftFace_4EC450(u16& left_word)
             pgbh_DrawTile(sTileDrawFlags | gLightingDrawFlag_7068F4,
                           gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
-                          field_10_diag_up_left_colour);
-            ++field_2F00_drawn_tile_count;
+                          mDiagUpLeftColour);
+            ++mDrawnTileCount;
         }
     }
 }
@@ -1110,8 +1110,8 @@ void MapRenderer::DrawDiagonalUpRightFace_4EC7A0(u16& right_word)
             pgbh_DrawTile(sTileDrawFlags | gLightingDrawFlag_7068F4,
                           gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
-                          field_11_diag_up_right_colour);
-            ++field_2F00_drawn_tile_count;
+                          mDiagUpRightColour);
+            ++mDrawnTileCount;
         }
     }
 }
@@ -1139,8 +1139,8 @@ void MapRenderer::DrawDiagonalDownLeftFace_4ECAF0(u16& left_word)
             pgbh_DrawTile(sTileDrawFlags | gLightingDrawFlag_7068F4,
                           gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
-                          field_12_diag_down_left_colour);
-            ++field_2F00_drawn_tile_count;
+                          mDiagDownLeftColour);
+            ++mDrawnTileCount;
         }
     }
 }
@@ -1168,8 +1168,8 @@ void MapRenderer::DrawDiagonalDownRightFace_4ECE40(u16& right_word)
             pgbh_DrawTile(sTileDrawFlags | gLightingDrawFlag_7068F4,
                           gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
-                          field_13_diag_down_right_colour);
-            ++field_2F00_drawn_tile_count;
+                          mDiagDownRightColour);
+            ++mDrawnTileCount;
         }
     }
 }
@@ -1184,7 +1184,7 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
     Fix16 slope_z_4;
     if (!bSkip_bottom_67D4E7)
     {
-        switch (gCurrentSlope_6F646C.field_0_gradient_direction)
+        switch (gCurrentSlope_6F646C.mGradientDirection)
         {
             case WEST_3:
                 gVertProjector.ProjectVertBottom_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[3]);
@@ -1333,8 +1333,8 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
             pgbh_DrawTile(sTileDrawFlags | gLightingDrawFlag_7068F4,
                                  gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                                  gTileVerts_6F65A8,
-                                 field_E_colour_t2);
-            ++field_2F00_drawn_tile_count;
+                                 mColourT2);
+            ++mDrawnTileCount;
         }
     }
 }
@@ -1401,7 +1401,7 @@ void MapRenderer::draw_lid_4EE130()
                           gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           GetColour_46B5E0((sLidType >> 10) & 3));
-            ++field_2F00_drawn_tile_count;
+            ++mDrawnTileCount;
         }
     }
 }
@@ -1504,13 +1504,13 @@ void MapRenderer::Draw3SidedDiagonalUpLeft_4EEAF0()
 {
     if (gBlockRight_6F63C6)
     {
-        gCurrentSlope_6F646C.field_0_gradient_direction = SOUTH_2;
+        gCurrentSlope_6F646C.mGradientDirection = SOUTH_2;
         MapRenderer::DrawRightSide_4EAF40(gBlockRight_6F63C6);
     }
 
     if (sBlockBottom)
     {
-        gCurrentSlope_6F646C.field_0_gradient_direction = EAST_4;
+        gCurrentSlope_6F646C.mGradientDirection = EAST_4;
         MapRenderer::draw_bottom_4ED290(sBlockBottom);
     }
     
@@ -1525,7 +1525,7 @@ void MapRenderer::Draw3SidedDiagonalUpLeft_4EEAF0()
         gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[2]);
         gTileVerts_6F65A8[2].u = 0.0f;
         gTileVerts_6F65A8[2].v = 63.999901f;
-        draw_4E9EE0(gBlockLeft_6F62F6, false, field_18_color);
+        draw_4E9EE0(gBlockLeft_6F62F6, false, mColor);
     }
 }
 
@@ -1536,13 +1536,13 @@ void MapRenderer::Draw3SidedDiagonalUpRight_4EEE60()
     
     if (gBlockLeft_6F62F6)
     {
-        gCurrentSlope_6F646C.field_0_gradient_direction = SOUTH_2;
+        gCurrentSlope_6F646C.mGradientDirection = SOUTH_2;
         MapRenderer::DrawLeftSide_4EA390(gBlockLeft_6F62F6);
     }
 
     if (sBlockBottom)
     {
-        gCurrentSlope_6F646C.field_0_gradient_direction = WEST_3;
+        gCurrentSlope_6F646C.mGradientDirection = WEST_3;
         MapRenderer::draw_bottom_4ED290(sBlockBottom);
     }
 
@@ -1557,7 +1557,7 @@ void MapRenderer::Draw3SidedDiagonalUpRight_4EEE60()
         gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[2]);
         gTileVerts_6F65A8[2].u = 0.0f;
         gTileVerts_6F65A8[2].v = 63.999901f;
-        draw_4E9EE0(gBlockRight_6F63C6, false, field_19_tri_diag_up_right_colour);
+        draw_4E9EE0(gBlockRight_6F63C6, false, mTriDiagUpRightColour);
     }
 }
 
@@ -1568,13 +1568,13 @@ void MapRenderer::Draw3SidedDiagonalDownLeft_4EF1C0()
     
     if (gBlockRight_6F63C6)
     {
-        gCurrentSlope_6F646C.field_0_gradient_direction = NORTH_1;
+        gCurrentSlope_6F646C.mGradientDirection = NORTH_1;
         MapRenderer::DrawRightSide_4EAF40(gBlockRight_6F63C6);
     }
     
     if (sBlockTop)
     {
-        gCurrentSlope_6F646C.field_0_gradient_direction = EAST_4;
+        gCurrentSlope_6F646C.mGradientDirection = EAST_4;
         MapRenderer::DrawTopSide_4EBA60(sBlockTop);
     }
     
@@ -1589,7 +1589,7 @@ void MapRenderer::Draw3SidedDiagonalDownLeft_4EF1C0()
         gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[2]);
         gTileVerts_6F65A8[2].u = 0.0f;
         gTileVerts_6F65A8[2].v = 63.999901f;
-        draw_4E9EE0(gBlockLeft_6F62F6, false, field_1A_tri_diag_down_left_colour);
+        draw_4E9EE0(gBlockLeft_6F62F6, false, mTriDiagDownLeftColour);
     }
 }
 
@@ -1600,13 +1600,13 @@ void MapRenderer::Draw3SidedDiagonalDownRight_4EF520()
 
     if (gBlockLeft_6F62F6)
     {
-        gCurrentSlope_6F646C.field_0_gradient_direction = NORTH_1;
+        gCurrentSlope_6F646C.mGradientDirection = NORTH_1;
         MapRenderer::DrawLeftSide_4EA390(gBlockLeft_6F62F6);
     }
     
     if (sBlockTop)
     {
-        gCurrentSlope_6F646C.field_0_gradient_direction = WEST_3;
+        gCurrentSlope_6F646C.mGradientDirection = WEST_3;
         MapRenderer::DrawTopSide_4EBA60(sBlockTop);
     }
     
@@ -1621,7 +1621,7 @@ void MapRenderer::Draw3SidedDiagonalDownRight_4EF520()
         gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[2]);
         gTileVerts_6F65A8[2].u = 0.0f;
         gTileVerts_6F65A8[2].v = 63.999901f;
-        draw_4E9EE0(gBlockRight_6F63C6, false, field_1B_tri_diag_down_right_colour);
+        draw_4E9EE0(gBlockRight_6F63C6, false, mTriDiagDownRightColour);
     }
 }
 
@@ -1644,7 +1644,7 @@ void MapRenderer::Draw4SidedDiagonalUpLeft_4EF880()
         gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[2]);
         gTileVerts_6F65A8[2].u = 63.999901f;
         gTileVerts_6F65A8[2].v = 0.0f;
-        draw_4E9EE0(gBlockLeft_6F62F6, true, field_18_color);
+        draw_4E9EE0(gBlockLeft_6F62F6, true, mColor);
     }
     if (sBlockBottom)
     {
@@ -1677,7 +1677,7 @@ void MapRenderer::Draw4SidedDiagonalUpRight_4EFB20()
         gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[2]);
         gTileVerts_6F65A8[2].u = 63.999901f;
         gTileVerts_6F65A8[2].v = 0.0f;
-        draw_4E9EE0(gBlockRight_6F63C6, true, field_19_tri_diag_up_right_colour);
+        draw_4E9EE0(gBlockRight_6F63C6, true, mTriDiagUpRightColour);
     }
     if (sBlockBottom)
     {
@@ -1707,7 +1707,7 @@ void MapRenderer::Draw4SidedDiagonalDownLeft_4EFDB0()
         gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[2]);
         gTileVerts_6F65A8[2].u = 63.999901f;
         gTileVerts_6F65A8[2].v = 0.0f;
-        draw_4E9EE0(gBlockLeft_6F62F6, true, field_1A_tri_diag_down_left_colour);
+        draw_4E9EE0(gBlockLeft_6F62F6, true, mTriDiagDownLeftColour);
     }
     if (gBlockRight_6F63C6)
     {
@@ -1744,7 +1744,7 @@ void MapRenderer::Draw4SidedDiagonalDownRight_4F0030()
         gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[2]);
         gTileVerts_6F65A8[2].u = 63.999901f;
         gTileVerts_6F65A8[2].v = 0.0f;
-        draw_4E9EE0(gBlockRight_6F63C6, true, field_1B_tri_diag_down_right_colour);
+        draw_4E9EE0(gBlockRight_6F63C6, true, mTriDiagDownRightColour);
     }
     if (sBlockTop)
     {
@@ -1761,9 +1761,9 @@ void MapRenderer::Draw4SidedDiagonalDownRight_4F0030()
 MATCH_FUNC(0x4f02d0)
 void MapRenderer::DrawDiagonalWall_4F02D0()
 {
-    u8 field_B_slope_type = spBlock->field_B_slope_type;
-    gCurrentSlope_6F646C.field_0_gradient_direction = 0;
-    switch (GET_SLOPE_BITS(field_B_slope_type))
+    u8 mSlopeType = spBlock->mSlopeType;
+    gCurrentSlope_6F646C.mGradientDirection = 0;
+    switch (GET_SLOPE_BITS(mSlopeType))
     {
         case DIAGONAL_WALL_UP_LEFT:
             MapRenderer::DrawDiagonalWallUpLeft_4EE7D0();
@@ -1785,9 +1785,9 @@ void MapRenderer::DrawDiagonalWall_4F02D0()
 MATCH_FUNC(0x4f0340)
 void MapRenderer::DrawTriangularDiagonal_4F0340()
 {
-    u8 field_B_slope_type = spBlock->field_B_slope_type;
+    u8 mSlopeType = spBlock->mSlopeType;
     gGradientSize_6F6480 = 1;
-    s32 slope_type = GET_SLOPE_BITS(field_B_slope_type);
+    s32 slope_type = GET_SLOPE_BITS(mSlopeType);
     gGradientLevel_6F647C = 0;
     if (sLidType == 1023)
     {
@@ -1811,7 +1811,7 @@ void MapRenderer::DrawTriangularDiagonal_4F0340()
     }
     else
     {
-        gCurrentSlope_6F646C.field_0_gradient_direction = 0;
+        gCurrentSlope_6F646C.mGradientDirection = 0;
         switch (slope_type)
         {
             case TRIANGULAR_SIDES_DIAGONAL_UP_LEFT:
@@ -1948,7 +1948,7 @@ void MapRenderer::DrawGradientSlopeNorthwards_4F0420()
         u16 colour_sel = (sLidType >> 10) & 3;
         if (colour_sel == 0)
         {
-            colour = field_14_dcolour;
+            colour = mDcolour;
         }
         else
         {
@@ -1958,7 +1958,7 @@ void MapRenderer::DrawGradientSlopeNorthwards_4F0420()
                       gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                       gTileVerts_6F65A8,
                       colour);
-        ++field_2F00_drawn_tile_count;
+        ++mDrawnTileCount;
     }
 }
 
@@ -1970,11 +1970,11 @@ char_type MapRenderer::GetColour_4F0BD0(s32 lid_type)
         case 0:
             return -1;
         case 1:
-            return field_C_colour_t1;
+            return mColourT1;
         case 2:
-            return field_E_colour_t2;
+            return mColourT2;
         case 3:
-            return field_F_colour_t3;
+            return mColourT3;
         default:
             return 0;
     }
@@ -2094,7 +2094,7 @@ void MapRenderer::DrawGradientSlopeSouthwards_4F1660()
         u16 colour_sel = (sLidType >> 10) & 3;
         if (colour_sel == 0)
         {
-            colour = field_15_slope_south_colour;
+            colour = mSlopeSouthColour;
         }
         else
         {
@@ -2104,7 +2104,7 @@ void MapRenderer::DrawGradientSlopeSouthwards_4F1660()
                       gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                       gTileVerts_6F65A8,
                       colour);
-        ++field_2F00_drawn_tile_count;
+        ++mDrawnTileCount;
     }
 }
 
@@ -2220,7 +2220,7 @@ void MapRenderer::DrawGradientSlopeWestwards_4F22F0()
         u16 colour_sel = (sLidType >> 10) & 3;
         if (colour_sel == 0)
         {
-            colour = field_16_slope_west_colour;
+            colour = mSlopeWestColour;
         }
         else
         {
@@ -2230,7 +2230,7 @@ void MapRenderer::DrawGradientSlopeWestwards_4F22F0()
                       gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                       gTileVerts_6F65A8,
                       colour);
-        ++field_2F00_drawn_tile_count;
+        ++mDrawnTileCount;
     }
 }
 
@@ -2347,7 +2347,7 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
         u16 colour_sel = (sLidType >> 10) & 3;
         if (colour_sel == 0)
         {
-            colour = field_17_slope_east_colour;
+            colour = mSlopeEastColour;
         }
         else
         {
@@ -2357,7 +2357,7 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
                       gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                       gTileVerts_6F65A8,
                       colour);
-        ++field_2F00_drawn_tile_count;
+        ++mDrawnTileCount;
     }
 }
 
@@ -2394,8 +2394,8 @@ void MapRenderer::draw_left_4F3C00(u16& side_word, Fix16& x_off, Fix16& y_off_a,
             pgbh_DrawTile(sTileDrawFlags | gLightingDrawFlag_7068F4,
                           gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
-                          field_C_colour_t1);
-            ++field_2F00_drawn_tile_count;
+                          mColourT1);
+            ++mDrawnTileCount;
         }
     }
 }
@@ -2499,8 +2499,8 @@ void MapRenderer::draw_right_4F4250(u16& side_word, Fix16& x_off, Fix16& y_off_a
             pgbh_DrawTile(sTileDrawFlags | gLightingDrawFlag_7068F4,
                           gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
-                          field_D_right_colour);
-            ++field_2F00_drawn_tile_count;
+                          mRightColour);
+            ++mDrawnTileCount;
         }
     }
 }
@@ -2538,8 +2538,8 @@ void MapRenderer::draw_top_4F4600(u16& side_word, Fix16& x_off_a, Fix16& x_off_b
             pgbh_DrawTile(sTileDrawFlags | gLightingDrawFlag_7068F4,
                           gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
-                          field_F_colour_t3);
-            ++field_2F00_drawn_tile_count;
+                          mColourT3);
+            ++mDrawnTileCount;
         }
     }
 }
@@ -2577,8 +2577,8 @@ void MapRenderer::draw_bottom_4F49B0(u16& side_word, Fix16& x_off_a, Fix16& x_of
             pgbh_DrawTile(sTileDrawFlags | gLightingDrawFlag_7068F4,
                           gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
-                          field_E_colour_t2);
-            ++field_2F00_drawn_tile_count;
+                          mColourT2);
+            ++mDrawnTileCount;
         }
     }
 }
@@ -2619,13 +2619,13 @@ void MapRenderer::draw_lid_4F4D60(Fix16& x_min, Fix16& x_max, Fix16& y_min, Fix1
                     diffuse_color = -1;
                     break;
                 case 1:
-                    diffuse_color = field_C_colour_t1;
+                    diffuse_color = mColourT1;
                     break;
                 case 2:
-                    diffuse_color = field_E_colour_t2;
+                    diffuse_color = mColourT2;
                     break;
                 case 3:
-                    diffuse_color = field_F_colour_t3;
+                    diffuse_color = mColourT3;
                     break;
                 default:
                     diffuse_color = 0;
@@ -2635,7 +2635,7 @@ void MapRenderer::draw_lid_4F4D60(Fix16& x_min, Fix16& x_max, Fix16& y_min, Fix1
                           gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           diffuse_color);
-            ++field_2F00_drawn_tile_count;
+            ++mDrawnTileCount;
         }
     }
 }
@@ -3275,8 +3275,8 @@ void MapRenderer::DrawPartialCentreBlock_4F6350()
 MATCH_FUNC(0x4f6580)
 void MapRenderer::DrawPartialBlocks_4F6580()
 {
-    u8 slope_byte = spBlock->field_B_slope_type;
-    gCurrentSlope_6F646C.field_0_gradient_direction = NO_GRADIENT_SLOPE_0;
+    u8 slope_byte = spBlock->mSlopeType;
+    gCurrentSlope_6F646C.mGradientDirection = NO_GRADIENT_SLOPE_0;
     switch (GET_SLOPE_BITS(slope_byte))
     {
         case PARTIAL_BLOCK_LEFT: // 53
@@ -3315,7 +3315,7 @@ void MapRenderer::DrawPartialBlocks_4F6580()
 MATCH_FUNC(0x4f6630)
 void MapRenderer::DrawGradientSlope_4F6630()
 {
-    u32 slope_idx = (spBlock->field_B_slope_type >> 2);
+    u32 slope_idx = (spBlock->mSlopeType >> 2);
 
     if (!bSkip_slopes_67D505)
     {
@@ -3346,7 +3346,7 @@ MATCH_FUNC(0x4f66c0)
 void MapRenderer::RenderFlatBlock_4F66C0()
 {
     u16 side_word;
-    gCurrentSlope_6F646C.field_0_gradient_direction = 0;
+    gCurrentSlope_6F646C.mGradientDirection = 0;
 
     if (gBlockLeft_6F62F6 && gBlockRight_6F63C6)
     {
@@ -3416,17 +3416,17 @@ void MapRenderer::RenderBlockAt_4F6880(s32& xpos, s32& ypos)
     spBlock = pBlock;
     if (pBlock)
     {
-        gBlockLeft_6F62F6 = pBlock->field_0_left;
-        gBlockRight_6F63C6 = pBlock->field_2_right;
-        sBlockTop = pBlock->field_4_top;
-        sBlockBottom = pBlock->field_6_bottom;
+        gBlockLeft_6F62F6 = pBlock->mLeft;
+        gBlockRight_6F63C6 = pBlock->mRight;
+        sBlockTop = pBlock->mTop;
+        sBlockBottom = pBlock->mBottom;
 
-        u16 lid_idx = pBlock->field_8_lid;
+        u16 lid_idx = pBlock->mLid;
         sLidType = lid_idx;
 
         if (bShow_hidden_faces_67D5CD)
         {
-            if (!lid_idx && !IS_AIR_TYPE(pBlock->field_B_slope_type))
+            if (!lid_idx && !IS_AIR_TYPE(pBlock->mSlopeType))
             {
                 sLidType = 0x260;
             }
@@ -3447,10 +3447,10 @@ void MapRenderer::RenderBlockAt_4F6880(s32& xpos, s32& ypos)
                 sBlockBottom = sBlockBottom | 0x260;
             }
         }
-        gXCoord_6F63AC = Fix16(xpos) - gViewCamera_676978->field_98_cur_pos.field_0_x;
-        gYCoord_6F63B8 = Fix16(ypos) - gViewCamera_676978->field_98_cur_pos.field_4_y;
+        gXCoord_6F63AC = Fix16(xpos) - gViewCamera_676978->mCurPos.mX;
+        gYCoord_6F63B8 = Fix16(ypos) - gViewCamera_676978->mCurPos.mY;
 
-        u8 slope = GET_SLOPE_BITS(pBlock->field_B_slope_type);
+        u8 slope = GET_SLOPE_BITS(pBlock->mSlopeType);
 
         if (slope < DIAGONAL_WALL_UP_LEFT || slope > DIAGONAL_WALL_DOWN_RIGHT)
         {
@@ -3487,7 +3487,7 @@ void MapRenderer::RenderBlockAt_4F6880(s32& xpos, s32& ypos)
 MATCH_FUNC(0x4f6a10)
 void MapRenderer::ClearDrawnTileCount_4F6A10()
 {
-    field_2F00_drawn_tile_count = 0;
+    mDrawnTileCount = 0;
 }
 
 // AddToDrawList_46BB90 with by-value coordinates, for Draw_4F6A20: the original's block loops are
@@ -3497,19 +3497,19 @@ void MapRenderer::ClearDrawnTileCount_4F6A10()
 // can't take those rvalues.
 static inline void AddToDrawListByVal(MapRenderer* pThis, s32 x, s32 y)
 {
-    DrawListBlock* pPos = &pThis->field_1C_draw_list[pThis->field_2EFC_curr_draw_layer_size];
-    pPos->field_0_x = x;
-    pPos->field_4_y = y;
+    DrawListBlock* pPos = &pThis->mDrawList[pThis->mCurrDrawLayerSize];
+    pPos->mX = x;
+    pPos->mY = y;
 
-    DrawListBlock* pIter = &pThis->field_1C_draw_list[pThis->field_2EFC_curr_draw_layer_size - 1];
-    for (s32 i = pThis->field_2EFC_curr_draw_layer_size - 1; i >= 0; i--, pIter--)
+    DrawListBlock* pIter = &pThis->mDrawList[pThis->mCurrDrawLayerSize - 1];
+    for (s32 i = pThis->mCurrDrawLayerSize - 1; i >= 0; i--, pIter--)
     {
         if (pIter->IsEqual_46BB60(pPos))
         {
             return;
         }
     }
-    ++pThis->field_2EFC_curr_draw_layer_size;
+    ++pThis->mCurrDrawLayerSize;
 }
 
 // https://decomp.me/scratch/VJVUz
@@ -3519,7 +3519,7 @@ void MapRenderer::Draw_4F6A20()
     // set ambient level
     if (gLighting_626A09)
     {
-        pgbh_SetAmbient(field_0_ambient.ToFloat());
+        pgbh_SetAmbient(mAmbient.ToFloat());
         MapRenderer::ambient_light_tick_4E9EA0();
     }
 
@@ -3535,20 +3535,20 @@ void MapRenderer::Draw_4F6A20()
         if (!bSkip_tiles_67D655)
         {
             // compute tile rendering boundaries
-            Fix16 z_distance = gViewCamera_676978->field_98_cur_pos.field_8_z - Fix16(zLayer) + Fix16(8);
+            Fix16 z_distance = gViewCamera_676978->mCurPos.mZ - Fix16(zLayer) + Fix16(8);
             // Empty (debug) block: it keeps z_distance a variable, so VC6 loads the zoom before shifting z_distance
             if (bDo_show_camera_67D58A)
             {
             }
-            Fix16 layer_row_width = z_distance / gViewCamera_676978->field_98_cur_pos.field_C_zoom;
+            Fix16 layer_row_width = z_distance / gViewCamera_676978->mCurPos.mZoom;
 
             // narrow the y direction because of assymetric monitor resolution
             Fix16 layer_column_width = layer_row_width * kScreenAspectRatio;
 
             // compute x boundary
             Fix16 half_x = layer_row_width / 2;
-            s32 min_x = (gViewCamera_676978->field_98_cur_pos.field_0_x - half_x).ToInt();
-            s32 max_x = (gViewCamera_676978->field_98_cur_pos.field_0_x + half_x).ToInt();
+            s32 min_x = (gViewCamera_676978->mCurPos.mX - half_x).ToInt();
+            s32 max_x = (gViewCamera_676978->mCurPos.mX + half_x).ToInt();
 
             // 10.5: the half-widths grow by one when the range is even, and the loops below start at
             // half-width - 1 (an earlier version here left the increment out and started at half-width).
@@ -3560,8 +3560,8 @@ void MapRenderer::Draw_4F6A20()
 
             // compute y boundary
             Fix16 half_y = layer_column_width / 2;
-            s32 min_y = (gViewCamera_676978->field_98_cur_pos.field_4_y - half_y).ToInt();
-            s32 max_y = (gViewCamera_676978->field_98_cur_pos.field_4_y + half_y).ToInt();
+            s32 min_y = (gViewCamera_676978->mCurPos.mY - half_y).ToInt();
+            s32 max_y = (gViewCamera_676978->mCurPos.mY + half_y).ToInt();
 
             s32 y_semi_distance = (max_y - min_y + 1) / 2;
             if ((max_y - min_y) % 2 != 1)
@@ -3574,7 +3574,7 @@ void MapRenderer::Draw_4F6A20()
             // A multiply, not Fix16(zLayer): VC6 must not reuse the shift of the first Fix16(zLayer) here
             sZCoordFp = Fix16(zLayer * 16384, 0);
 
-            Fix16 depth_bottom = gViewCamera_676978->field_98_cur_pos.field_8_z - Fix16(zLayer) + Fix16(8);
+            Fix16 depth_bottom = gViewCamera_676978->mCurPos.mZ - Fix16(zLayer) + Fix16(8);
             Fix16 inv_depth_bottom;
             if (depth_bottom == kZeroOnePoint_6F6484.x)
             {
@@ -3586,12 +3586,12 @@ void MapRenderer::Draw_4F6A20()
             }
 
             gInvDepthBottom_6F6318 = inv_depth_bottom;
-            gScreenScaleBottom_6F633C = inv_depth_bottom * gViewCamera_676978->field_60_screen_scale.x;
+            gScreenScaleBottom_6F633C = inv_depth_bottom * gViewCamera_676978->mScreenScale.x;
             s32 top_layer = zLayer + 1;
             gZCoordTop_6F62B0 = top_layer;
 
             Fix16 inv_depth_top;
-            Fix16 depth_top = gViewCamera_676978->field_98_cur_pos.field_8_z - Fix16(top_layer) + Fix16(8);
+            Fix16 depth_top = gViewCamera_676978->mCurPos.mZ - Fix16(top_layer) + Fix16(8);
             if (depth_top == kZeroOnePoint_6F6484.x)
             {
                 inv_depth_top = kZeroOnePoint_6F6484.x;
@@ -3602,7 +3602,7 @@ void MapRenderer::Draw_4F6A20()
             }
 
             gInvDepthTop_6F656C = inv_depth_top;
-            gScreenScaleTop_6F628C = inv_depth_top * gViewCamera_676978->field_60_screen_scale.x;
+            gScreenScaleTop_6F628C = inv_depth_top * gViewCamera_676978->mScreenScale.x;
 
             // if zLayer = 0, reset lights
             if (zLayer == 0 && gLighting_626A09)
@@ -3631,11 +3631,11 @@ void MapRenderer::Draw_4F6A20()
             }
 
             // Now draw tiles in reverse order
-            s32 j = field_2EFC_curr_draw_layer_size - 1;
-            DrawListBlock* pIter = &field_1C_draw_list[field_2EFC_curr_draw_layer_size - 1];
+            s32 j = mCurrDrawLayerSize - 1;
+            DrawListBlock* pIter = &mDrawList[mCurrDrawLayerSize - 1];
             while (j >= 0)
             {
-                MapRenderer::RenderBlockAt_4F6880(pIter->field_0_x, pIter->field_4_y);
+                MapRenderer::RenderBlockAt_4F6880(pIter->mX, pIter->mY);
                 j--;
                 pIter--;
             }

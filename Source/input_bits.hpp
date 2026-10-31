@@ -1,7 +1,7 @@
 #pragma once
 
-// Input word of Player::field_4_inputs and InputRecorder_67F8B0::field_4_input_bits: one bit per game control
-// (InputRecorder_67F8B0::field_8_input_masks), then the DirectInput scan code of a key event and its key-down flag.
+// Input word of Player::mInputs and InputRecorder_67F8B0::mInputBits: one bit per game control
+// (InputRecorder_67F8B0::mInputMasks), then the DirectInput scan code of a key event and its key-down flag.
 namespace input_bit
 {
 enum

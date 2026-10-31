@@ -18,10 +18,10 @@ DEFINE_GLOBAL(s32, gNetTimeLimitEnabled_6F58A4, 0x6F58A4);
 MATCH_FUNC(0x516560)
 void TagGame::Init_516560() // For some reason, it's a function instead of a proper ctor
 {
-    field_0_fugitive = NULL;
-    field_1C_tick_timer = 0;
-    memset(field_4_it_time_secs, 0, sizeof(field_4_it_time_secs));
-    memset(field_20_bHasQuit, 0, sizeof(field_20_bHasQuit));
+    mFugitive = NULL;
+    mTickTimer = 0;
+    memset(mItTimeSecs, 0, sizeof(mItTimeSecs));
+    memset(mbHasQuit, 0, sizeof(mbHasQuit));
 }
 
 MATCH_FUNC(0x516590)
@@ -31,32 +31,32 @@ void TagGame::SetNewFugitive_516590(Player* pNewFugitive)
     {
         pNewFugitive = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
     }
-    field_0_fugitive = pNewFugitive;
-    gHud_2B00_706620->field_1F18_arrows.ReleaseAllArrows_5D10B0();
-    field_0_fugitive->UnloadCarWeapons_564C00();
-    field_0_fugitive->RemovePlayerWeapons_564C50();
-    field_0_fugitive->ClearPowerUps_564CC0();
+    mFugitive = pNewFugitive;
+    gHud_2B00_706620->mArrows.ReleaseAllArrows_5D10B0();
+    mFugitive->UnloadCarWeapons_564C00();
+    mFugitive->RemovePlayerWeapons_564C50();
+    mFugitive->ClearPowerUps_564CC0();
 
-    if (field_0_fugitive->GetPlayerPed_41D020() != NULL)
+    if (mFugitive->GetPlayerPed_41D020() != NULL)
     {
-        field_0_fugitive->GetPlayerPed_41D020()->SetVisible();
-        field_0_fugitive->GetPlayerPed_41D020()->ClearInvulnerable_45C050();
-        field_0_fugitive->GetPlayerPed_41D020()->ClearElectrofingers_482080();
+        mFugitive->GetPlayerPed_41D020()->SetVisible();
+        mFugitive->GetPlayerPed_41D020()->ClearInvulnerable_45C050();
+        mFugitive->GetPlayerPed_41D020()->ClearElectrofingers_482080();
     }
 
-    if (!field_0_fugitive->IsUser_41DC70())
+    if (!mFugitive->IsUser_41DC70())
     {
-        Hud_Arrow* pArrow = gHud_2B00_706620->field_1F18_arrows.AllocArrow_5D1050();
-        pArrow->field_18_targets.field_18_primary_target.SetTargetPlayer_4820A0(field_0_fugitive);
+        Hud_Arrow* pArrow = gHud_2B00_706620->mArrows.AllocArrow_5D1050();
+        pArrow->mTargets.mPrimaryTarget.SetTargetPlayer_4820A0(mFugitive);
 
-        if (field_0_fugitive->field_2C4_player_ped != NULL)
+        if (mFugitive->mPlayerPed != NULL)
         {
-            pArrow->SetPlayerArrowColour_5D0DC0(field_0_fugitive->field_2C4_player_ped);
+            pArrow->SetPlayerArrowColour_5D0DC0(mFugitive->mPlayerPed);
         }
     }
     else
     {
-        gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("yourit"), hud_message_priority::important_3);
+        gHud_2B00_706620->mMessage.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("yourit"), hud_message_priority::important_3);
     }
 }
 
@@ -71,24 +71,24 @@ void TagGame::ExecuteGamemodeTick_516660()
         case POINTS_GAME_2:
             return;
         case TAG_GAME_3:
-            field_1C_tick_timer++;
-            if (field_1C_tick_timer >= 30)
+            mTickTimer++;
+            if (mTickTimer >= 30)
             {
-                field_1C_tick_timer = 0;
-                if (field_0_fugitive && gNetTimeLimitEnabled_6F58A4 != 0)
+                mTickTimer = 0;
+                if (mFugitive && gNetTimeLimitEnabled_6F58A4 != 0)
                 {
-                    field_4_it_time_secs[field_0_fugitive->get_idx_4219D0()]++;
+                    mItTimeSecs[mFugitive->get_idx_4219D0()]++;
                 }
             }
-            if (!field_0_fugitive)
+            if (!mFugitive)
             {
                 SetNewFugitive_516590(NULL);
             }
 
-            if (field_0_fugitive && field_0_fugitive->field_2C4_player_ped &&
-                field_0_fugitive->field_2C4_player_ped->field_16C_car)
+            if (mFugitive && mFugitive->mPlayerPed &&
+                mFugitive->mPlayerPed->mCar)
             {
-                field_0_fugitive->GetPlayerPed_41D020()->get_car_416B60()->AccumulateDamage_43DA90(17, &kZeroPoint);
+                mFugitive->GetPlayerPed_41D020()->get_car_416B60()->AccumulateDamage_43DA90(17, &kZeroPoint);
             }
 
             break;
@@ -102,7 +102,7 @@ void TagGame::UpdateFugitive_516740(Player* pFormerPlayerFugitive, Player* pPlay
 {
     Fix16 threshold_distance(65535); // 65535.0 (raw 0x3FFFC000): start value of the nearest player search
     if (gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0() == TAG_GAME_3
-        && field_0_fugitive == pFormerPlayerFugitive)
+        && mFugitive == pFormerPlayerFugitive)
     {
         if (pPlayer_killer != NULL)
         {
@@ -112,16 +112,16 @@ void TagGame::UpdateFugitive_516740(Player* pFormerPlayerFugitive, Player* pPlay
         {
             Player* pIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
             Player* pChosenPlayer = NULL;
-            Fix16 fugitive_x = field_0_fugitive->field_2C4_player_ped->field_1AC_cam.x;
-            Fix16 fugitive_y = field_0_fugitive->field_2C4_player_ped->field_1AC_cam.y;
+            Fix16 fugitive_x = mFugitive->mPlayerPed->mCam.x;
+            Fix16 fugitive_y = mFugitive->mPlayerPed->mCam.y;
 
             for (; pIter != NULL; pIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
             {
-                if (pIter != field_0_fugitive)
+                if (pIter != mFugitive)
                 {
-                    Fix16 iter_y = pIter->field_2C4_player_ped->field_1AC_cam.y;
+                    Fix16 iter_y = pIter->mPlayerPed->mCam.y;
                     Fix16 y_abs = Fix16::Abs(iter_y - fugitive_y);
-                    Fix16 iter_x = pIter->field_2C4_player_ped->field_1AC_cam.x;
+                    Fix16 iter_x = pIter->mPlayerPed->mCam.x;
                     Fix16 x_abs = Fix16::Abs(iter_x - fugitive_x);
                     Fix16 taxicab_distance = x_abs + y_abs; //  taxicab geometry
                     if (taxicab_distance < threshold_distance)

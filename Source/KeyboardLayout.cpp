@@ -24,8 +24,8 @@ enum KeyboardLanguage
 MATCH_FUNC(0x4D5D70)
 KeyboardLayout::KeyboardLayout()
 {
-    field_200_keyBoardLayout = 0;
-    memset(field_0_keys, 0, sizeof(field_0_keys));
+    mKeyBoardLayout = 0;
+    memset(mKeys, 0, sizeof(mKeys));
 }
 
 MATCH_FUNC(0x4D5D90)
@@ -59,12 +59,12 @@ void KeyboardLayout::ReadCfg_4D5DA0(FILE* Stream, wchar_t* pOut)
 MATCH_FUNC(0x4D5E00)
 void KeyboardLayout::LoadKbCfg_4D5E00()
 {
-    field_200_keyBoardLayout = 0;
-    field_200_keyBoardLayout = GetLayout_4D6000();
+    mKeyBoardLayout = 0;
+    mKeyBoardLayout = GetLayout_4D6000();
 
     char_type FileName[128];
     const char_type* pKeyboardCfgFile;
-    switch (field_200_keyBoardLayout)
+    switch (mKeyBoardLayout)
     {
         case KbLang_English:
             pKeyboardCfgFile = "data\\keyboard\\eng_kb.cfg";
@@ -113,15 +113,15 @@ void KeyboardLayout::LoadKbCfg_4D5E00()
         ReadCfg_4D5DA0(hConfigFile, token);
         if (token[0] == '~')
         {
-            field_0_keys[i] = 0;
+            mKeys[i] = 0;
         }
         else if (token[0] != '`')
         {
-            field_0_keys[i] = 0;
+            mKeys[i] = 0;
         }
         else
         {
-            field_0_keys[i] = token[1];
+            mKeys[i] = token[1];
         }
     }
 
@@ -131,7 +131,7 @@ void KeyboardLayout::LoadKbCfg_4D5E00()
 MATCH_FUNC(0x4D5F40)
 wchar_t KeyboardLayout::GetKey_4D5F40(u16 key_idx)
 {
-    return field_0_keys[key_idx];
+    return mKeys[key_idx];
 }
 
 
@@ -165,7 +165,7 @@ void KeyboardLayout::RecreateIfLayoutChanged_4D5FD0()
 {
     if (gKeybrd_0x204_6F52F4)
     {
-        s32 curLayout = gKeybrd_0x204_6F52F4->field_200_keyBoardLayout;
+        s32 curLayout = gKeybrd_0x204_6F52F4->mKeyBoardLayout;
         if (curLayout == KeyboardLayout::GetLayout_4D6000())
         {
             return;

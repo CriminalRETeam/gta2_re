@@ -18,7 +18,7 @@ class GridSpriteLink
     {
     }
 
-    Sprite* field_0_pSprite; // 0x0
+    Sprite* mpSprite; // 0x0
     GridSpriteLink* mpNext;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(GridSpriteLink, 0x8);
@@ -33,7 +33,7 @@ class GridSpriteLink_Pool : public PoolBasic<GridSpriteLink, 4096>
 
     ~GridSpriteLink_Pool()
     {
-      this->field_0_pHead = NULL;
+      this->mpHead = NULL;
     }
 };
 
@@ -47,7 +47,7 @@ class GridCell_Pool : public PoolBasic<GridCell, 6000>
 
     ~GridCell_Pool()
     {
-      this->field_0_pHead = NULL;
+      this->mpHead = NULL;
     }
 };
 
@@ -57,9 +57,9 @@ class CollisionCounters
     EXPORT void ResetCount_478A20();
     EXPORT CollisionCounters();
     EXPORT ~CollisionCounters();
-    s32 field_0_test_count; // 0x0
-    s32 field_4_query_id; // 0x4
-    s32 field_8_bDoorAccessCheck; // 0x8
+    s32 mTestCount; // 0x0
+    s32 mQueryId; // 0x4
+    s32 mbDoorAccessCheck; // 0x8
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CollisionCounters, 0xC);
 

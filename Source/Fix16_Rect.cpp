@@ -9,26 +9,26 @@ DEFINE_GLOBAL_INIT(Fix16, kCollisionPrismHalfHeight_6771E4, Fix16(0x800, 0), 0x6
 MATCH_FUNC(0x4E6280)
 void Fix16_Rect::MakeRect_4E6280(Fix16 x, Fix16 y, Fix16 w, Fix16 h)
 {
-    field_0_left = x;
-    field_8_top = y;
-    field_4_right = x + w;
-    field_C_bottom = y + h;
+    mLeft = x;
+    mTop = y;
+    mRight = x + w;
+    mBottom = y + h;
 }
 
 MATCH_FUNC(0x59dd60)
 void Fix16_Rect::DoSetCurrentRect_59DD60()
 {
-    gSpriteGrid_left_6F5FD4 = field_0_left.ToInt();
-    gSpriteGrid_right_6F5B80 = field_4_right.ToInt();
-    gSpriteGrid_top_6F6108 = field_8_top.ToInt();
-    gSpriteGrid_bottom_6F5F38 = field_C_bottom.ToInt();
+    gSpriteGrid_left_6F5FD4 = mLeft.ToInt();
+    gSpriteGrid_right_6F5B80 = mRight.ToInt();
+    gSpriteGrid_top_6F6108 = mTop.ToInt();
+    gSpriteGrid_bottom_6F5F38 = mBottom.ToInt();
 }
 
 // 0x4BA6C0 9.6f
 MATCH_FUNC(0x59ddf0)
 bool Fix16_Rect::IntersectsSpriteRenderingRect_59DDF0(Sprite* pSprite)
 {
-    Fix16_Point* pCorners = pSprite->field_C_pCollisionShape->field_C_corners;
+    Fix16_Point* pCorners = pSprite->mpCollisionShape->mCorners;
 
     return (IsPointInRect_4B9FD0(&pCorners[0]) || IsPointInRect_4B9FD0(&pCorners[1]) 
         || IsPointInRect_4B9FD0(&pCorners[2]) || IsPointInRect_4B9FD0(&pCorners[3]));
@@ -38,36 +38,36 @@ MATCH_FUNC(0x59de80)
 char_type Fix16_Rect::IsRectBlockedByMap_59DE80()
 {
     DoSetCurrentRect_59DD60();
-    s32 x = ((this->field_0_left + this->field_4_right) / 2).ToInt();
-    s32 y = ((this->field_8_top + this->field_C_bottom) / 2).ToInt();
-    s32 z = ((this->field_10_low_z + this->field_14_high_z) / 2).ToInt();
+    s32 x = ((this->mLeft + this->mRight) / 2).ToInt();
+    s32 y = ((this->mTop + this->mBottom) / 2).ToInt();
+    s32 z = ((this->mLowZ + this->mHighZ) / 2).ToInt();
     return gMap_0x370_6F6268->IsMovementRegionBlocked_4E4460(x, y, z, NULL, 1024);
 }
 
 MATCH_FUNC(0x59dee0)
 void Fix16_Rect::ExpandToIncludePoint_59DEE0(Fix16 x, Fix16 y)
 {
-    if (x < field_0_left)
+    if (x < mLeft)
     {
-        field_0_left = x;
+        mLeft = x;
     }
     else
     {
-        if (x > field_4_right)
+        if (x > mRight)
         {
-            field_4_right = x;
+            mRight = x;
         }
     }
 
-    if (y < field_8_top)
+    if (y < mTop)
     {
-        field_8_top = y;
+        mTop = y;
     }
     else
     {
-        if (y > field_C_bottom)
+        if (y > mBottom)
         {
-            field_C_bottom = y;
+            mBottom = y;
         }
     }
 }
@@ -75,13 +75,13 @@ void Fix16_Rect::ExpandToIncludePoint_59DEE0(Fix16 x, Fix16 y)
 MATCH_FUNC(0x59df20)
 bool Fix16_Rect::RectOverlapsZone_59DF20(u8 zone_type)
 {
-    u8 zone_y = field_8_top.ToUInt8();
+    u8 zone_y = mTop.ToUInt8();
     u8 zone_x;
 
-    while (zone_y <= field_C_bottom.ToUInt8())
+    while (zone_y <= mBottom.ToUInt8())
     {
-        zone_x = field_0_left.ToUInt8();
-        while (zone_x <= field_4_right.ToUInt8())
+        zone_x = mLeft.ToUInt8();
+        while (zone_x <= mRight.ToUInt8())
         {
             if (gMap_0x370_6F6268->GetZoneAtPosOfType_4DF4D0(zone_x, zone_y, zone_type))
             {
@@ -97,38 +97,38 @@ bool Fix16_Rect::RectOverlapsZone_59DF20(u8 zone_type)
 MATCH_FUNC(0x59dfb0)
 bool Fix16_Rect::EveryTileMatchesArrowType_59DFB0(s32 arrow_type)
 {
-    u8 y_pos = field_8_top.ToUInt8();
+    u8 y_pos = mTop.ToUInt8();
     u8 x_pos;
 
     bool bMatches = true;
 
-    while (y_pos <= field_C_bottom.ToUInt8())
+    while (y_pos <= mBottom.ToUInt8())
     {
-        x_pos = field_0_left.ToUInt8();
-        while (x_pos <= field_4_right.ToUInt8())
+        x_pos = mLeft.ToUInt8();
+        while (x_pos <= mRight.ToUInt8())
         {
             if (!bMatches)
             {
                 return false;
             }
 
-            gmp_block_info* pBlockAtPos = gMap_0x370_6F6268->GetBlock_4DFE10(x_pos, y_pos, field_10_low_z.ToInt());
+            gmp_block_info* pBlockAtPos = gMap_0x370_6F6268->GetBlock_4DFE10(x_pos, y_pos, mLowZ.ToInt());
             if (pBlockAtPos)
             {
                 
                 switch (arrow_type)
                 {
                     case 1:
-                        bMatches = (pBlockAtPos->field_A_arrows & block_arrow::green_mask) == block_arrow::green_up_4;  //  green arrow up
+                        bMatches = (pBlockAtPos->mArrows & block_arrow::green_mask) == block_arrow::green_up_4;  //  green arrow up
                         break;
                     case 2:
-                        bMatches = (pBlockAtPos->field_A_arrows & block_arrow::green_mask) == block_arrow::green_down_8;  //  green arrow down
+                        bMatches = (pBlockAtPos->mArrows & block_arrow::green_mask) == block_arrow::green_down_8;  //  green arrow down
                         break;
                     case 3:
-                        bMatches = (pBlockAtPos->field_A_arrows & block_arrow::green_mask) == block_arrow::green_right_2;  //  green arrow right
+                        bMatches = (pBlockAtPos->mArrows & block_arrow::green_mask) == block_arrow::green_right_2;  //  green arrow right
                         break;
                     case 4:
-                        bMatches = (pBlockAtPos->field_A_arrows & block_arrow::green_mask) == block_arrow::green_left_1;  //  green arrow left
+                        bMatches = (pBlockAtPos->mArrows & block_arrow::green_mask) == block_arrow::green_left_1;  //  green arrow left
                         break;
                     default:
                         break;
@@ -148,8 +148,8 @@ bool Fix16_Rect::EveryTileMatchesArrowType_59DFB0(s32 arrow_type)
 MATCH_FUNC(0x5A5E30)
 void Fix16_Rect::SetRect_5A5E30(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom)
 {
-    this->field_0_left = left;
-    this->field_4_right = right;
-    this->field_8_top = top;
-    this->field_C_bottom = bottom;
+    this->mLeft = left;
+    this->mRight = right;
+    this->mTop = top;
+    this->mBottom = bottom;
 }

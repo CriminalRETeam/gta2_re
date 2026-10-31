@@ -27,7 +27,7 @@ EXTERN_GLOBAL(Fix16, kZero_679E70);
 class Fix16_Point;
 
 // A point without a destructor. 10.5 has points that don't take part in EH unwinding: struct members
-// (~Sprite is a bare jmp, the Char ctor's EH states leave out field_98_velocity_vector), a by-value
+// (~Sprite is a bare jmp, the Char ctor's EH states leave out mVelocityVector), a by-value
 // parameter the caller copies as two dwords (DrawElectricArc_5DE910) and a few locals (CarPhysics 0x55F280,
 // 0x55F800, Camera::WorldToScreen_40CFC0's result). Everything else is a Fix16_Point. It is a
 // separate type, not a base of Fix16_Point: 10.5 charges Fix16_Point's ctor as one size-42 inline

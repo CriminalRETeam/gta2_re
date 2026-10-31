@@ -4,13 +4,13 @@
 
 class Sprite;
 
-// Node of a binary tree of sprites sorted by depth: field_4_pLeft is drawn before the node, field_8_pRight after it
+// Node of a binary tree of sprites sorted by depth: mpLeft is drawn before the node, mpRight after it
 class SpriteTreeNode
 {
   public:
-    Sprite* field_0_pSprite; // 0x0
-    SpriteTreeNode* field_4_pLeft; // 0x4
-    SpriteTreeNode* field_8_pRight; // 0x8
+    Sprite* mpSprite; // 0x0
+    SpriteTreeNode* mpLeft; // 0x4
+    SpriteTreeNode* mpRight; // 0x8
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpriteTreeNode, 0xC);
 
@@ -28,7 +28,7 @@ class SpriteTreeStack
 
     SpriteTreeStack() // inlined 4C4BD0
     {
-        field_FA0_pTop = field_0_stack;
+        mpTop = mStack;
     }
 
     ~SpriteTreeStack()
@@ -38,26 +38,26 @@ class SpriteTreeStack
     // 9.6f inline
     void Push_4C4B80(SpriteTreeNode* pToPush)
     {
-        SpriteTreeNode*** ppTop = &this->field_FA0_pTop;
+        SpriteTreeNode*** ppTop = &this->mpTop;
         *(*ppTop)++ = pToPush;
     }
 
     // 9.6f inline
     bool IsEnd_4C4BC0() const
     {
-        return this->field_FA0_pTop == field_0_stack;
+        return this->mpTop == mStack;
     }
 
     // 9.6f inline
     SpriteTreeNode* Pop_4C4BA0()
     {
-        SpriteTreeNode*** ppTop = &gSpriteTreeStack_705BC0->field_FA0_pTop;
+        SpriteTreeNode*** ppTop = &gSpriteTreeStack_705BC0->mpTop;
         (*ppTop)--;
-        return *this->field_FA0_pTop;
+        return *this->mpTop;
     }
 
-    SpriteTreeNode* field_0_stack[k_max_nodes]; // 0x0
-    SpriteTreeNode** field_FA0_pTop; // 0xFA0
+    SpriteTreeNode* mStack[k_max_nodes]; // 0x0
+    SpriteTreeNode** mpTop; // 0xFA0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpriteTreeStack, 0xFA4);
 
@@ -68,14 +68,14 @@ class SpriteTreeNodePool
 
     inline SpriteTreeNode* Alloc_4C4B40()
     {
-        if (field_2EE0_next_free_idx >= SpriteTreeStack::k_max_nodes)
+        if (mNextFreeIdx >= SpriteTreeStack::k_max_nodes)
         {
             return NULL;
         }
         else
         {
-            SpriteTreeNode* pReturn = &field_0_entries[field_2EE0_next_free_idx];
-            field_2EE0_next_free_idx++;
+            SpriteTreeNode* pReturn = &mEntries[mNextFreeIdx];
+            mNextFreeIdx++;
             return pReturn;
         }
     }
@@ -83,13 +83,13 @@ class SpriteTreeNodePool
     // 9.6f 0x4C4B70
     inline void Reset_4C4B70()
     {
-        field_2EE0_next_free_idx = 0;
+        mNextFreeIdx = 0;
     }
 
     EXPORT SpriteTreeNodePool();
     EXPORT ~SpriteTreeNodePool();
-    SpriteTreeNode field_0_entries[SpriteTreeStack::k_max_nodes]; // 0x0
-    u32 field_2EE0_next_free_idx; // 0x2EE0
+    SpriteTreeNode mEntries[SpriteTreeStack::k_max_nodes]; // 0x0
+    u32 mNextFreeIdx; // 0x2EE0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpriteTreeNodePool, 0x2EE4);
 
@@ -102,7 +102,7 @@ class SpriteTree
     EXPORT void Reset_5C5E50();
     EXPORT SpriteTree();
     EXPORT ~SpriteTree();
-    SpriteTreeNode* field_0_pRoot; // 0x0
+    SpriteTreeNode* mpRoot; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpriteTree, 0x4);
 
@@ -121,7 +121,7 @@ class SpriteRenderer
     EXPORT void Draw_495560(s32 layer);
     EXPORT SpriteRenderer();
     EXPORT ~SpriteRenderer();
-    SpriteTree* field_0_layers[k_num_layers]; // 0x0
+    SpriteTree* mLayers[k_num_layers]; // 0x0
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpriteRenderer, 0x1C);
 

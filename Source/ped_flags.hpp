@@ -2,7 +2,7 @@
 
 #include "types.hpp"
 
-// Ped::field_21C_bf. Same layout as CompilerBitField32 (the bit field form is needed to match), with the meaning of
+// Ped::mBf21C. Same layout as CompilerBitField32 (the bit field form is needed to match), with the meaning of
 // each bit. "Unused" bits are only reset / copied.
 struct PedFlags32
 {
@@ -40,7 +40,7 @@ struct PedFlags32
     u32 bUnused31 : 1; // bit 31
 };
 
-// Ped::field_224_bf
+// Ped::mBf224
 struct PedFlags8
 {
     u8 bUnused0 : 1; // bit 0

@@ -2,7 +2,7 @@
 
 // Kept out of enums.hpp on purpose: a third enum there changes MapRenderer::Draw4SidedDiagonalUpLeft_4EF880
 // (see docs/matching_quirks.md)
-// Ped::field_290_death_cause: how the ped was last killed. Values 9..21 come from GetDeathCauseForObjectModel_48E780 (projectile model)
+// Ped::mDeathCause: how the ped was last killed. Values 9..21 come from GetDeathCauseForObjectModel_48E780 (projectile model)
 // or Car::field_90, which uses the same values.
 namespace ped_death_cause
 {

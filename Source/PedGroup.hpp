@@ -11,13 +11,13 @@ class PedGroup
     // 9.6f 0x4038E0
     inline void set_in_use_4038E0()
     {
-        field_40_in_use = true;
+        mInUse = true;
     }
 
     // 9.6f 0x4038F0
     inline bool get_in_use_4038F0() const
     {
-        return field_40_in_use;
+        return mInUse;
     }
 
   public:
@@ -84,31 +84,31 @@ class PedGroup
     // 9.6f 0x433360
     inline void SetCounts_433360(u8 count)
     {
-        field_36_count = count;
-        field_34_count = count;
+        mCount36 = count;
+        mCount34 = count;
     }
 
     inline s32 Get_F3C_433370() const
     {
-        return field_3C_is_leader_waiting;
+        return mIsLeaderWaiting;
     }
 
-    bool field_0_remove_dead_members; // 0x0
-    bool field_1_wait_for_members; // 0x1: while set, UpdateFormation makes the leader wait (objective 9) for a member who has fallen too far behind
-    char_type field_2_unused; // 0x2: padding
-    char_type field_3_unused; // 0x3: padding
-    Ped* field_4_ped_list[9]; // 0x4: the members, without gaps up to field_34_count: the loops over them don't check for NULL
-    s32 field_28_unused; // 0x28
-    Ped* field_2C_ped_leader; // 0x2C
-    s32 field_30_panicking; // 0x30: UpdateFormation recomputes it as "the leader or a member is panicking"; GroupAttackPed_4C9B60, a leader in state 3/5/10 and the paramedics' revive step also set it. A dword in the original, so not a bool
-    u8 field_34_count; // 0x34
-    char_type field_35_unused; // 0x35
-    char_type field_36_count; // 0x36
-    char_type field_37_unused; // 0x37
-    s32 field_38_group_type; // 0x38
-    s32 field_3C_is_leader_waiting; // 0x3C
-    bool field_40_in_use; // 0x40
-    char_type field_41_unused; // 0x41
-    char_type field_42_unused; // 0x42
-    char_type field_43_unused; // 0x43
+    bool mRemoveDeadMembers; // 0x0
+    bool mWaitForMembers; // 0x1: while set, UpdateFormation makes the leader wait (objective 9) for a member who has fallen too far behind
+    char_type mUnused2; // 0x2: padding
+    char_type mUnused3; // 0x3: padding
+    Ped* mPedList[9]; // 0x4: the members, without gaps up to mCount34: the loops over them don't check for NULL
+    s32 mUnused28; // 0x28
+    Ped* mPedLeader; // 0x2C
+    s32 mPanicking; // 0x30: UpdateFormation recomputes it as "the leader or a member is panicking"; GroupAttackPed_4C9B60, a leader in state 3/5/10 and the paramedics' revive step also set it. A dword in the original, so not a bool
+    u8 mCount34; // 0x34
+    char_type mUnused35; // 0x35
+    char_type mCount36; // 0x36
+    char_type mUnused37; // 0x37
+    s32 mGroupType; // 0x38
+    s32 mIsLeaderWaiting; // 0x3C
+    bool mInUse; // 0x40
+    char_type mUnused41; // 0x41
+    char_type mUnused42; // 0x42
+    char_type mUnused43; // 0x43
 };

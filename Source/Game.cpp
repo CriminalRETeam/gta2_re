@@ -95,19 +95,19 @@ s32 Game::GetFrameDurationMs_4B8BB0() const
 {
     if (bStartNetworkGame_7081F0 == false)
     {
-        return !field_30_fast_forward ? 33 : 11;
+        return !mFastForward ? 33 : 11;
     }
-    return field_34_network_frame_ms;
+    return mNetworkFrameMs;
 }
 
 MATCH_FUNC(0x4B8BD0)
 void Game::ExitGame_4B8BD0(s32 new_timer, s32 exit_type, s8 bonus_type)
 {
-    s32 timer = field_28_exit_timer;
+    s32 timer = mExitTimer;
     if (timer == -1 || timer > new_timer)
     {
-        field_28_exit_timer = new_timer;
-        field_2C_game_exit_type = exit_type;
+        mExitTimer = new_timer;
+        mGameExitType = exit_type;
         gGameSession_67E8E0.SetLevelFinishBonusType_4C5930(bonus_type);
     }
 }
@@ -121,14 +121,14 @@ void Game::ExitGameNoBonus_4B8C00(s32 new_timer, s32 exit_type)
 MATCH_FUNC(0x4B8C20)
 bool Game::UpdateExitTimer_4B8C20()
 {
-    if (field_28_exit_timer == 0)
+    if (mExitTimer == 0)
     {
         return true;
     }
 
-    if (field_28_exit_timer > 0)
+    if (mExitTimer > 0)
     {
-        field_28_exit_timer--;
+        mExitTimer--;
     }
 
     return false;
@@ -193,31 +193,31 @@ void Game::LoadGameFiles_4B8C40()
 MATCH_FUNC(0x4B8E00)
 void Game::SetScreenSize_4B8E00(u32 width, u32 height)
 {
-    field_38_local_player->field_90_game_camera.SetScreenSize_4361B0(width, height);
-    field_38_local_player->field_208_aux_game_camera.SetScreenSize_4361B0(width, height);
-    field_38_local_player->field_14C_view_camera.SetScreenSize_4361B0(width, height);
+    mLocalPlayer->mGameCamera.SetScreenSize_4361B0(width, height);
+    mLocalPlayer->mAuxGameCamera.SetScreenSize_4361B0(width, height);
+    mLocalPlayer->mViewCamera.SetScreenSize_4361B0(width, height);
     gHud_2B00_706620->RecalcTextLayout_5D6AB0();
 }
 
 MATCH_FUNC(0x4B8E50)
 void Game::ApplyNetworkGameSettings_4B8E50()
 {
-    switch (gNetworkGameSettings_707098.field_20190_game_speed)
+    switch (gNetworkGameSettings_707098.mGameSpeed)
     {
         case network_game_speed::slow_0:
-            field_34_network_frame_ms = 50;
+            mNetworkFrameMs = 50;
             break;
 
         case network_game_speed::normal_1:
-            field_34_network_frame_ms = 40;
+            mNetworkFrameMs = 40;
             break;
 
         case network_game_speed::fast_2:
-            field_34_network_frame_ms = 33;
+            mNetworkFrameMs = 33;
             break;
     }
 
-    bSkip_police_67D4F9 = gNetworkGameSettings_707098.field_201A0_police_on == 0;
+    bSkip_police_67D4F9 = gNetworkGameSettings_707098.mPoliceOn == 0;
 }
 
 // Gives the player a group of count peds with the given remap
@@ -225,21 +225,21 @@ MATCH_FUNC(0x46DD70)
 EXPORT void __stdcall SpawnTestGroup_46DD70(char_type remap, u8 count)
 {
     LOCAL_STATIC(Ped*, sLastTestPed, 0x6787E8);
-    Ped* pPlayerPed = gGame_0x40_67E008->field_38_local_player->GetPlayerPed_41D020();
+    Ped* pPlayerPed = gGame_0x40_67E008->mLocalPlayer->GetPlayerPed_41D020();
     PedGroup* pGroup = PedGroup::New_4CB0D0();
     pGroup->add_ped_leader_4C9B10(pPlayerPed);
     pGroup->SetCounts_433360(0);
-    pGroup->field_38_group_type = ped_group_type::normal_2;
+    pGroup->mGroupType = ped_group_type::normal_2;
 
     sLastTestPed = gPedPool_6787B8->Allocate();
     sLastTestPed->set_occupation_403970(ped_ocupation_enum::bank_robber);
     sLastTestPed->set_remap_433B90(remap);
-    sLastTestPed->field_26C_graphic_type = pPlayerPed->field_26C_graphic_type;
+    sLastTestPed->mGraphicType = pPlayerPed->mGraphicType;
     sLastTestPed->SetPedType_403920(ped_type::script_created_5);
-    if (!sLastTestPed->AllocCharB4_45C830(pPlayerPed->field_1AC_cam.x, pPlayerPed->field_1AC_cam.y, pPlayerPed->field_1AC_cam.z))
+    if (!sLastTestPed->AllocCharB4_45C830(pPlayerPed->mCam.x, pPlayerPed->mCam.y, pPlayerPed->mCam.z))
     // 9.6f: Ped::get_cam_x/get_cam_y/get_cam_z (inlined, using them changes the code)
     {
-        sLastTestPed->field_168_game_object->SetRemap_46DD50(sLastTestPed->get_remap_433BA0());
+        sLastTestPed->mGameObject->SetRemap_46DD50(sLastTestPed->get_remap_433BA0());
     }
     sLastTestPed->set_health_4039A0(100);
     sLastTestPed->SetPedClass_433BC0(ped_class::gang_member_1);
@@ -251,9 +251,9 @@ EXPORT void __stdcall SpawnTestGroup_46DD70(char_type remap, u8 count)
         Ped* pPed = gPedPool_6787B8->Allocate();
         pPed->set_occupation_403970(ped_ocupation_enum::bank_robber);
         pPed->set_remap_433B90(remap);
-        pPed->field_26C_graphic_type = pPlayerPed->field_26C_graphic_type;
+        pPed->mGraphicType = pPlayerPed->mGraphicType;
         pPed->SetPedType_403920(ped_type::script_created_5);
-        pPed->AllocCharB4_45C830(pPlayerPed->field_1AC_cam.x, pPlayerPed->field_1AC_cam.y, pPlayerPed->field_1AC_cam.z);
+        pPed->AllocCharB4_45C830(pPlayerPed->mCam.x, pPlayerPed->mCam.y, pPlayerPed->mCam.z);
         pPed->SetRemap_433C10(pPed->get_remap_433BA0());
         pPed->set_health_4039A0(100);
         pPed->SetPedClass_433BC0(ped_class::gang_member_1);
@@ -300,7 +300,7 @@ void Game::BootGame_4B8EB0()
     gMap_0x370_6F6268->AllocZones_4DFCA0();
     gHud_2B00_706620->Init_5D6BE0();
     gScriptManager_6F8060->StartLevelThread_512160(); // script
-    gGame_0x40_67E008->field_38_local_player->ApplyCheats_56A490();
+    gGame_0x40_67E008->mLocalPlayer->ApplyCheats_56A490();
     if (bDo_iain_test_67D4E9)
     {
         SpawnTestGroupDefault_46E370();
@@ -315,9 +315,9 @@ void Game::BootGame_4B8EB0()
     }
     gPublicTransport_181C_6FF1D4->SpawnTrainsFromStations_578860(); // trains?
 
-    for (s32 i = 0; i < field_23_num_players; i++)
+    for (s32 i = 0; i < mNumPlayers; i++)
     {
-        field_4_players[i]->InitializePlayerState_569CB0();
+        mPlayers[i]->InitializePlayerState_569CB0();
     }
 
     gPlyDat_6FEAC0->DoMuchCashCheat_56C250();
@@ -326,40 +326,40 @@ void Game::BootGame_4B8EB0()
 MATCH_FUNC(0x4B8FF0)
 void Game::ShowCounters_4B8FF0()
 {
-    swprintf(tmpBuff_67BD9C, L"recycled cars : %d", gCarManager_6C_677930->field_28_recycled_cars);
-    gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 32, gDebugFont_706600, 1);
+    swprintf(tmpBuff_67BD9C, L"recycled cars : %d", gCarManager_6C_677930->mRecycledCars);
+    gHud_2B00_706620->mTexts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 32, gDebugFont_706600, 1);
 
-    swprintf(tmpBuff_67BD9C, L"prot. recycled cars : %d", gCarManager_6C_677930->field_40_proto_recycled_cars);
-    gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 48, gDebugFont_706600, 1);
+    swprintf(tmpBuff_67BD9C, L"prot. recycled cars : %d", gCarManager_6C_677930->mProtoRecycledCars);
+    gHud_2B00_706620->mTexts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 48, gDebugFont_706600, 1);
 
-    swprintf(tmpBuff_67BD9C, L"mission cars : %d", gCarManager_6C_677930->field_3C_mission_cars);
-    gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 64, gDebugFont_706600, 1);
+    swprintf(tmpBuff_67BD9C, L"mission cars : %d", gCarManager_6C_677930->mMissionCars);
+    gHud_2B00_706620->mTexts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 64, gDebugFont_706600, 1);
 
-    swprintf(tmpBuff_67BD9C, L"unit cars : %d", gCarManager_6C_677930->field_34_unit_cars);
-    gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 80, gDebugFont_706600, 1);
+    swprintf(tmpBuff_67BD9C, L"unit cars : %d", gCarManager_6C_677930->mUnitCars);
+    gHud_2B00_706620->mTexts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 80, gDebugFont_706600, 1);
 
     swprintf(tmpBuff_67BD9C, L"cars:%d", gCar_BC_Pool_67792C->get_cars_count_45AD30());
-    gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 96, gDebugFont_706600, 1);
+    gHud_2B00_706620->mTexts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 96, gDebugFont_706600, 1);
 
-    swprintf(tmpBuff_67BD9C, L"dummy_chars : %d", static_cast<u8>(gPedManager_6787BC->field_2_num_dummy_chars));
-    gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 112, gDebugFont_706600, 1);
+    swprintf(tmpBuff_67BD9C, L"dummy_chars : %d", static_cast<u8>(gPedManager_6787BC->mNumDummyChars));
+    gHud_2B00_706620->mTexts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 112, gDebugFont_706600, 1);
 
-    Player* pLocalPlayer = gGame_0x40_67E008->field_38_local_player;
+    Player* pLocalPlayer = gGame_0x40_67E008->mLocalPlayer;
     if (pLocalPlayer)
     {
-        swprintf(tmpBuff_67BD9C, L"accuracy_count : %d", static_cast<u8>(pLocalPlayer->field_2D4_scores.get_accuracy_count_45B0A0()));
-        gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 128, gDebugFont_706600, 1);
+        swprintf(tmpBuff_67BD9C, L"accuracy_count : %d", static_cast<u8>(pLocalPlayer->mScores.get_accuracy_count_45B0A0()));
+        gHud_2B00_706620->mTexts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 128, gDebugFont_706600, 1);
 
-        swprintf(tmpBuff_67BD9C, L"reverse_count : %d", pLocalPlayer->field_2D4_scores.get_reverse_count_45B0B0());
-        gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 144, gDebugFont_706600, 1);
+        swprintf(tmpBuff_67BD9C, L"reverse_count : %d", pLocalPlayer->mScores.get_reverse_count_45B0B0());
+        gHud_2B00_706620->mTexts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 144, gDebugFont_706600, 1);
 
-        const u32 x = pLocalPlayer->field_2C4_player_ped->get_cam_x().ToInt();
-        const u32 y = pLocalPlayer->field_2C4_player_ped->get_cam_y().ToInt();
+        const u32 x = pLocalPlayer->mPlayerPed->get_cam_x().ToInt();
+        const u32 y = pLocalPlayer->mPlayerPed->get_cam_y().ToInt();
 
         gmp_zone_info* pNavZone = gMap_0x370_6F6268->GetZoneInfoAt_4DF890(x, y);
 
-        swprintf(tmpBuff_67BD9C, L"density:%d", pNavZone->field_0_car_density);
-        gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 160, gDebugFont_706600, 1);
+        swprintf(tmpBuff_67BD9C, L"density:%d", pNavZone->mCarDensity);
+        gHud_2B00_706620->mTexts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 160, gDebugFont_706600, 1);
     }
 }
 
@@ -371,9 +371,9 @@ void Game::ShowDebugOverlay_4B9270()
         ShowCounters_4B8FF0();
     }
 
-    if (field_30_fast_forward)
+    if (mFastForward)
     {
-        Hud_TextEntry* pTextEntry = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(L"FF", 0, 440, gDebugFont_706600, 1);
+        Hud_TextEntry* pTextEntry = gHud_2B00_706620->mTexts.DisplayText_5D1F50(L"FF", 0, 440, gDebugFont_706600, 1);
         pTextEntry->SetFontRemap_45AFD0(6);
     }
 }
@@ -381,7 +381,7 @@ void Game::ShowDebugOverlay_4B9270()
 MATCH_FUNC(0x4B92D0)
 void Game::Draw_4B92D0()
 {
-    gViewCamera_676978 = &field_1C_draw_player->field_14C_view_camera;
+    gViewCamera_676978 = &mDrawPlayer->mViewCamera;
 
     gpMapRenderer_6F66E4->ClearDrawnTileCount_4F6A10();
     gSpriteManager_703820->ResetDrawnSpriteCount_5A5860();
@@ -416,11 +416,11 @@ void Game::Draw_4B92D0()
 MATCH_FUNC(0x4B9380)
 void Game::UpdateAllPlayersControls_4B9380()
 {
-    Player** ppPlayersIterator = field_4_players;
+    Player** ppPlayersIterator = mPlayers;
     u32 idx = 0;
-    while (idx < field_23_num_players)
+    while (idx < mNumPlayers)
     {
-        if ((*ppPlayersIterator)->field_8E_in_use)
+        if ((*ppPlayersIterator)->mInUse)
         {
             (*ppPlayersIterator)->ControlInputs_566820();
         }
@@ -432,11 +432,11 @@ void Game::UpdateAllPlayersControls_4B9380()
 MATCH_FUNC(0x4B93C0)
 void Game::UpdatePaused_4B93C0()
 {
-    Player** pIter = field_4_players;
+    Player** pIter = mPlayers;
     u32 i = 0;
-    while (i < field_23_num_players)
+    while (i < mNumPlayers)
     {
-        if ((*pIter)->field_8E_in_use)
+        if ((*pIter)->mInUse)
         {
             (*pIter)->UpdatePaused_569410();
         }
@@ -455,11 +455,11 @@ void Game::UpdatePaused_4B93C0()
 MATCH_FUNC(0x4B9410)
 void Game::UpdateGame_4B9410()
 {
-    Player** ppPlayerIter = field_4_players;
+    Player** ppPlayerIter = mPlayers;
     u32 i = 0;
-    while (i < field_23_num_players)
+    while (i < mNumPlayers)
     {
-        if ((*ppPlayerIter)->field_8E_in_use)
+        if ((*ppPlayerIter)->mInUse)
         {
             (*ppPlayerIter)->Service_5687F0();
         }
@@ -550,7 +550,7 @@ bool Game::ExecuteGame_4B9640()
 {
     UpdateAllPlayersControls_4B9380();
 
-    switch (field_0_game_state)
+    switch (mGameState)
     {
         case GameState::ExecuteFrameAndPause_0:
             UpdateGame_4B9410();
@@ -559,7 +559,7 @@ bool Game::ExecuteGame_4B9640()
             {
                 gRoot_sound_66B038.Service_40EFA0();
             }
-            field_0_game_state = GameState::Paused_2;
+            mGameState = GameState::Paused_2;
             break;
 
         case GameState::Running_1:
@@ -588,30 +588,30 @@ MATCH_FUNC(0x4B96B0)
 void Game::Pause_4B96B0()
 {
     // Singleplayer or playing alone on multiplayer?
-    if (field_23_num_players == 1)
+    if (mNumPlayers == 1)
     {
-        field_0_game_state = GameState::Paused_2;
+        mGameState = GameState::Paused_2;
     }
 }
 
 MATCH_FUNC(0x4B96C0)
 void Game::Unpause_4B96C0()
 {
-    if (field_23_num_players == 1)
+    if (mNumPlayers == 1)
     {
-        field_0_game_state = GameState::Running_1;
+        mGameState = GameState::Running_1;
 
         if (gInputDevices_67B990)
         {
             gInputDevices_67B990->flush_keyboard_and_gamepad_498CC0();
         }
 
-        Player* pPlayer = this->field_38_local_player;
+        Player* pPlayer = this->mLocalPlayer;
         if (pPlayer)
         {
             pPlayer->DisableInputs_569F40();
-            field_38_local_player->ClearInputs_56A6D0();
-            gInputRecorder_67F8B0.field_4_input_bits &= ~0xFFFu;
+            mLocalPlayer->ClearInputs_56A6D0();
+            gInputRecorder_67F8B0.mInputBits &= ~0xFFFu;
         }
     }
 }
@@ -619,7 +619,7 @@ void Game::Unpause_4B96C0()
 MATCH_FUNC(0x4B9700)
 void Game::TogglePause_4B9700()
 {
-    if (field_0_game_state == GameState::Running_1)
+    if (mGameState == GameState::Running_1)
     {
         Pause_4B96B0();
     }
@@ -632,18 +632,18 @@ void Game::TogglePause_4B9700()
 MATCH_FUNC(0x4B9710)
 void Game::SinglePlayerStepFrame_4B9710()
 {
-    if (field_23_num_players == 1)
+    if (mNumPlayers == 1)
     {
-        field_0_game_state = GameState::ExecuteFrameAndPause_0;
+        mGameState = GameState::ExecuteFrameAndPause_0;
     }
 }
 
 MATCH_FUNC(0x4B9720)
 void Game::ReinitAfterVideoModeChange_4B9720()
 {
-    if (field_38_local_player)
+    if (mLocalPlayer)
     {
-        field_38_local_player->OnVideoModeChange_565460();
+        mLocalPlayer->OnVideoModeChange_565460();
     }
 
     ResetFrameTimer_4DA830();
@@ -657,11 +657,11 @@ void Game::ReinitAfterVideoModeChange_4B9720()
 MATCH_FUNC(0x4B9750)
 Player* Game::GetFirstPlayerWithoutPed_4B9750()
 {
-    for (s32 i = 0; i < field_23_num_players; i++)
+    for (s32 i = 0; i < mNumPlayers; i++)
     {
-        if (field_4_players[i]->field_8E_in_use && !field_4_players[i]->has_player_ped_45B0C0())
+        if (mPlayers[i]->mInUse && !mPlayers[i]->has_player_ped_45B0C0())
         {
-            return field_4_players[i];
+            return mPlayers[i];
         }
     }
     return NULL;
@@ -684,7 +684,7 @@ void Game::ShakeCamerasAtPos_4B9790(Fix16 amount, Fix16 x, Fix16 y)
 MATCH_FUNC(0x4B97E0)
 bool Game::IsSpriteInAnyPlayerBounds_4B97E0(Sprite* pSprite, Fix16 margin) const
 {
-    for (u8 i = 0; i < field_23_num_players; i++)
+    for (u8 i = 0; i < mNumPlayers; i++)
     {
         if (IsSpriteInPlayerBounds_4B9950(pSprite, i, margin))
         {
@@ -697,7 +697,7 @@ bool Game::IsSpriteInAnyPlayerBounds_4B97E0(Sprite* pSprite, Fix16 margin) const
 MATCH_FUNC(0x4B9830)
 bool Game::IsSpriteInBoundsOrFollowedByAnyPlayer_4B9830(Sprite* pSprite, Fix16 margin) const
 {
-    for (u8 i = 0; i < field_23_num_players; i++)
+    for (u8 i = 0; i < mNumPlayers; i++)
     {
         if (IsSpriteInPlayerBounds_4B9950(pSprite, i, margin) || IsSpriteCameraSubjectForPlayer_4B9A10(pSprite, i))
         {
@@ -710,7 +710,7 @@ bool Game::IsSpriteInBoundsOrFollowedByAnyPlayer_4B9830(Sprite* pSprite, Fix16 m
 MATCH_FUNC(0x4B9890)
 bool Game::IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 wide_view) const
 {
-    for (u8 i = 0; i < field_23_num_players; i++)
+    for (u8 i = 0; i < mNumPlayers; i++)
     {
         if (IsSpriteInPlayerView_4B98E0(pSprite, i, wide_view))
         {
@@ -723,13 +723,13 @@ bool Game::IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 wide_view) const
 MATCH_FUNC(0x4B98E0)
 bool Game::IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 player_idx, s32 wide_view) const
 {
-    if (field_4_players[player_idx]->field_8E_in_use)
+    if (mPlayers[player_idx]->mInUse)
     {
-        if (field_4_players[player_idx]->field_90_game_camera.IsSpriteInView_435630(pSprite, wide_view))
+        if (mPlayers[player_idx]->mGameCamera.IsSpriteInView_435630(pSprite, wide_view))
         {
             return true;
         }
-        return field_4_players[player_idx]->field_2D0_aux_cam_active && field_4_players[player_idx]->field_208_aux_game_camera.IsSpriteInView_435630(pSprite, wide_view) ? true :
+        return mPlayers[player_idx]->mAuxCamActive && mPlayers[player_idx]->mAuxGameCamera.IsSpriteInView_435630(pSprite, wide_view) ? true :
                                                                                                                                    false;
     }
     return false;
@@ -738,18 +738,18 @@ bool Game::IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 player_idx, s32 wide_
 MATCH_FUNC(0x4B9950)
 bool Game::IsSpriteInPlayerBounds_4B9950(Sprite* pSprite, u8 player_idx, Fix16 margin) const
 {
-    Player* const& pPlayer = this->field_4_players[player_idx]; // a reference: 9.6f keeps the slot address too
-    if (!pPlayer->field_8E_in_use)
+    Player* const& pPlayer = this->mPlayers[player_idx]; // a reference: 9.6f keeps the slot address too
+    if (!pPlayer->mInUse)
     {
         return false;
     }
 
-    if (pPlayer->field_90_game_camera.IsSpriteInBounds_45AEA0(pSprite, margin))
+    if (pPlayer->mGameCamera.IsSpriteInBounds_45AEA0(pSprite, margin))
     {
         return true;
     }
 
-    if (pPlayer->field_2D0_aux_cam_active && pPlayer->field_208_aux_game_camera.IsSpriteInBounds_45AEA0(pSprite, margin))
+    if (pPlayer->mAuxCamActive && pPlayer->mAuxGameCamera.IsSpriteInBounds_45AEA0(pSprite, margin))
     {
         return true;
     }
@@ -760,13 +760,13 @@ bool Game::IsSpriteInPlayerBounds_4B9950(Sprite* pSprite, u8 player_idx, Fix16 m
 MATCH_FUNC(0x4B9A10)
 bool Game::IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 player_idx) const
 {
-    if (field_4_players[player_idx]->field_8E_in_use)
+    if (mPlayers[player_idx]->mInUse)
     {
-        if (field_4_players[player_idx]->field_90_game_camera.IsSpriteTheCameraSubject_4355D0(pSprite))
+        if (mPlayers[player_idx]->mGameCamera.IsSpriteTheCameraSubject_4355D0(pSprite))
         {
             return true;
         }
-        return field_4_players[player_idx]->field_2D0_aux_cam_active && field_4_players[player_idx]->field_208_aux_game_camera.IsSpriteTheCameraSubject_4355D0(pSprite) ? true : false;
+        return mPlayers[player_idx]->mAuxCamActive && mPlayers[player_idx]->mAuxGameCamera.IsSpriteTheCameraSubject_4355D0(pSprite) ? true : false;
     }
     return false;
 }
@@ -775,17 +775,17 @@ MATCH_FUNC(0x4B9A80)
 bool Game::IsPointOnScreen_4B9A80(Fix16 x, Fix16 y)
 {
     s32 i;
-    Player** ppPlayer = field_4_players;
-    for (i = 0; i < field_23_num_players; i++, ppPlayer++)
+    Player** ppPlayer = mPlayers;
+    for (i = 0; i < mNumPlayers; i++, ppPlayer++)
     {
         Player* pPlayer = *ppPlayer;
-        if (pPlayer->field_8E_in_use)
+        if (pPlayer->mInUse)
         {
-            if (pPlayer->field_90_game_camera.IsPointInViewBounds_40CF60(x, y))
+            if (pPlayer->mGameCamera.IsPointInViewBounds_40CF60(x, y))
             {
                 return true;
             }
-            if (pPlayer->field_2D0_aux_cam_active && pPlayer->field_208_aux_game_camera.IsPointInViewBounds_40CF60(x, y))
+            if (pPlayer->mAuxCamActive && pPlayer->mAuxGameCamera.IsPointInViewBounds_40CF60(x, y))
             {
                 return true;
             }
@@ -798,17 +798,17 @@ MATCH_FUNC(0x4B9B10)
 bool Game::IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds)
 {
     s32 i;
-    Player** ppPlayer = field_4_players;
-    for (i = 0; i < field_23_num_players; i++, ppPlayer++)
+    Player** ppPlayer = mPlayers;
+    for (i = 0; i < mNumPlayers; i++, ppPlayer++)
     {
         Player* pCurPlayer = *ppPlayer;
-        if (pCurPlayer->field_8E_in_use)
+        if (pCurPlayer->mInUse)
         {
-            if (pCurPlayer->field_90_game_camera.IsRectInBounds_45AF40(pBounds))
+            if (pCurPlayer->mGameCamera.IsRectInBounds_45AF40(pBounds))
             {
                 return true;
             }
-            if (pCurPlayer->field_2D0_aux_cam_active && pCurPlayer->field_208_aux_game_camera.IsRectInBounds_45AF40(pBounds))
+            if (pCurPlayer->mAuxCamActive && pCurPlayer->mAuxGameCamera.IsRectInBounds_45AF40(pBounds))
             {
                 return true;
             }
@@ -820,12 +820,12 @@ bool Game::IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds)
 MATCH_FUNC(0x4B9BC0)
 Camera* Game::IteratePlayerCamera_4B9BC0()
 {
-    for (field_21_camera_iter_idx = 0; field_21_camera_iter_idx < field_23_num_players; field_21_camera_iter_idx++)
+    for (mCameraIterIdx = 0; mCameraIterIdx < mNumPlayers; mCameraIterIdx++)
     {
-        if (field_4_players[field_21_camera_iter_idx]->field_8E_in_use)
+        if (mPlayers[mCameraIterIdx]->mInUse)
         {
-            field_22_aux_cam_iterated = false;
-            return &field_4_players[field_21_camera_iter_idx]->field_90_game_camera;
+            mAuxCamIterated = false;
+            return &mPlayers[mCameraIterIdx]->mGameCamera;
         }
     }
     return NULL;
@@ -849,33 +849,33 @@ bool Game::IsCarInAnyPlayerHistory_4B9C10(Car* pCar)
 MATCH_FUNC(0x4B9C50)
 Camera* Game::IterateNextPlayerCamera_4B9C50()
 {
-    if (!field_4_players[field_21_camera_iter_idx]->field_2D0_aux_cam_active || field_22_aux_cam_iterated)
+    if (!mPlayers[mCameraIterIdx]->mAuxCamActive || mAuxCamIterated)
     {
-        while (++field_21_camera_iter_idx < field_23_num_players)
+        while (++mCameraIterIdx < mNumPlayers)
         {
-            if (field_4_players[field_21_camera_iter_idx]->field_8E_in_use)
+            if (mPlayers[mCameraIterIdx]->mInUse)
             {
-                field_22_aux_cam_iterated = false;
-                return &field_4_players[field_21_camera_iter_idx]->field_90_game_camera;
+                mAuxCamIterated = false;
+                return &mPlayers[mCameraIterIdx]->mGameCamera;
             }
         }
         return NULL;
     }
     else
     {
-        field_22_aux_cam_iterated = true;
-        return &field_4_players[field_21_camera_iter_idx]->field_208_aux_game_camera;
+        mAuxCamIterated = true;
+        return &mPlayers[mCameraIterIdx]->mAuxGameCamera;
     }
 }
 
 MATCH_FUNC(0x4B9CD0)
 Player* Game::IterateFirstPlayer_4B9CD0()
 {
-    for (field_20_player_iter_idx = 0; field_20_player_iter_idx < field_23_num_players; field_20_player_iter_idx++)
+    for (mPlayerIterIdx = 0; mPlayerIterIdx < mNumPlayers; mPlayerIterIdx++)
     {
-        if (field_4_players[field_20_player_iter_idx]->field_8E_in_use)
+        if (mPlayers[mPlayerIterIdx]->mInUse)
         {
-            return field_4_players[field_20_player_iter_idx];
+            return mPlayers[mPlayerIterIdx];
         }
     }
     return NULL;
@@ -884,11 +884,11 @@ Player* Game::IterateFirstPlayer_4B9CD0()
 MATCH_FUNC(0x4B9D10)
 Player* Game::IterateNextPlayer_4B9D10()
 {
-    while (++field_20_player_iter_idx < field_23_num_players)
+    while (++mPlayerIterIdx < mNumPlayers)
     {
-        if (field_4_players[field_20_player_iter_idx]->field_8E_in_use)
+        if (mPlayers[mPlayerIterIdx]->mInUse)
         {
-            return field_4_players[field_20_player_iter_idx];
+            return mPlayers[mPlayerIterIdx];
         }
     }
     return NULL;
@@ -897,20 +897,20 @@ Player* Game::IterateNextPlayer_4B9D10()
 MATCH_FUNC(0x4B9D60)
 void Game::ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(Sprite* pSprite, Player* pExclude)
 {
-    for (u8 i = 0; i < GTA2_COUNTOF(field_4_players); i++)
+    for (u8 i = 0; i < GTA2_COUNTOF(mPlayers); i++)
     {
         Player* p = gGame_0x40_67E008->GetPlayer_4219E0(i);
         if (p && p != pExclude)
         {
             if (gGame_0x40_67E008->IsSpriteInPlayerBounds_4B9950(pSprite, i, kFpFive))
             {
-                if (p->field_680_traffic_spawn_counter > p->field_682_traffic_spawn_threshold)
+                if (p->mTrafficSpawnCounter > p->mTrafficSpawnThreshold)
                 {
-                    p->field_680_traffic_spawn_counter -= p->field_682_traffic_spawn_threshold;
+                    p->mTrafficSpawnCounter -= p->mTrafficSpawnThreshold;
                 }
                 else
                 {
-                    p->field_680_traffic_spawn_counter = 0;
+                    p->mTrafficSpawnCounter = 0;
                 }
             }
         }
@@ -924,27 +924,27 @@ Game::Game(u8 max_players, s8 player_idx)
 {
     gRng_6F6784.srand_4F7A40();
 
-    field_3C_skip_police = bSkip_police_67D4F9;
+    mSkipPolice = bSkip_police_67D4F9;
 
-    for (s32 ii = 0; ii < GTA2_COUNTOF(field_4_players); ii++)
+    for (s32 ii = 0; ii < GTA2_COUNTOF(mPlayers); ii++)
     {
-        field_4_players[ii] = NULL;
+        mPlayers[ii] = NULL;
     }
 
-    field_23_num_players = max_players;
-    field_24_local_player_idx = player_idx;
-    for (u32 i = 0; i < field_23_num_players; i++)
+    mNumPlayers = max_players;
+    mLocalPlayerIdx = player_idx;
+    for (u32 i = 0; i < mNumPlayers; i++)
     {
-        field_4_players[i] = new Player(i); // ctor call
-        if (!field_4_players[i])
+        mPlayers[i] = new Player(i); // ctor call
+        if (!mPlayers[i])
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1784);
         }
     }
-    Player* pPlayer = field_4_players[field_24_local_player_idx];
-    field_38_local_player = pPlayer;
-    pPlayer->field_0_is_user = true;
-    field_1C_draw_player = field_38_local_player;
+    Player* pPlayer = mPlayers[mLocalPlayerIdx];
+    mLocalPlayer = pPlayer;
+    pPlayer->mIsUser = true;
+    mDrawPlayer = mLocalPlayer;
 
     gpRng_67AB34 = new rng(); // inline
     if (!gpRng_67AB34)
@@ -1240,15 +1240,15 @@ Game::Game(u8 max_players, s8 player_idx)
         }
     }
 
-    field_21_camera_iter_idx = 0;
-    field_22_aux_cam_iterated = false;
-    field_0_game_state = GameState::Running_1;
+    mCameraIterIdx = 0;
+    mAuxCamIterated = false;
+    mGameState = GameState::Running_1;
     gbRngRemapTableDone_679C0A = false;
-    field_20_player_iter_idx = 0;
-    field_28_exit_timer = -1;
-    field_30_fast_forward = false;
-    field_2C_game_exit_type = GameExitType::None;
-    field_34_network_frame_ms = 0;
+    mPlayerIterIdx = 0;
+    mExitTimer = -1;
+    mFastForward = false;
+    mGameExitType = GameExitType::None;
+    mNetworkFrameMs = 0;
     if (!bSkip_audio_67D6BE)
     {
         gRoot_sound_66B038.InitMusicAndCopRadio_40F010();
@@ -1258,16 +1258,16 @@ Game::Game(u8 max_players, s8 player_idx)
 MATCH_FUNC(0x4BAE30)
 Game::~Game()
 {
-    bSkip_police_67D4F9 = field_3C_skip_police;
+    bSkip_police_67D4F9 = mSkipPolice;
 
     if (!bSkip_audio_67D6BE)
     {
         gRoot_sound_66B038.DeInitVocals_40F020();
     }
 
-    for (u32 i = 0; i < field_23_num_players; i++)
+    for (u32 i = 0; i < mNumPlayers; i++)
     {
-        GTA2_DELETE_AND_NULL(field_4_players[i]);
+        GTA2_DELETE_AND_NULL(mPlayers[i]);
     }
 
     GTA2_DELETE_AND_NULL(gpRng_67AB34);
@@ -1340,6 +1340,6 @@ Game::~Game()
         GTA2_DELETE_AND_NULL(gKanjiFont_6F5168);
     }
 
-    field_1C_draw_player = NULL;
-    field_38_local_player = NULL;
+    mDrawPlayer = NULL;
+    mLocalPlayer = NULL;
 }

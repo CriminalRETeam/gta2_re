@@ -43,271 +43,271 @@ class Char
     // 9.6f 0x41B080
     inline Fix16 get_velocity_41B080() const
     {
-        return field_38_velocity;
+        return mVelocity;
     }
 
     // 9.6f 0x433930
     inline void UseRunOrJumpSpeed_433930()
     {
-        field_38_velocity = field_3C_run_or_jump_speed;
+        mVelocity = mRunOrJumpSpeed;
     }
 
     // 9.6f 0x4338F0
     inline void SetSpriteNum_4338F0(s32 num)
     {
-        field_80_sprite_ptr->SetDrawLayer_40F7B0(num);
+        mSpritePtr->SetDrawLayer_40F7B0(num);
     }
 
     // 9.6f 0x41B090
     inline s32 get_ped_state_2_41B090() const
     {
-        return field_C_ped_state_2;
+        return mPedState2;
     }
 
     // 9.6f 0x4338D0
     inline Sprite* get_sprite_ptr_4338D0() const
     {
-        return field_80_sprite_ptr;
+        return mSpritePtr;
     }
 
     // 9.6f 0x4338E0
     inline void set_pPed_4338E0(Ped* v)
     {
-        field_7C_pPed = v;
+        mpPed = v;
     }
 
-    s32 field_0_id; // 0x0
-    s8 field_4_unused; // 0x4
-    u8 field_5_remap; // 0x5
-    s8 field_6_unused; // 0x6
-    s8 field_7_unused; // 0x7
-    s32 field_8_ped_state_1; // 0x8
-    s32 field_C_ped_state_2; // 0xC
-    s32 field_10_char_state; // 0x10
-    Ang16 field_14_target_rotation; // 0x14
-    bool field_16_state_init_pending; // 0x16
-    s8 field_17_unused; // 0x17
-    void* field_18_collided_entity; // 0x18
-    void* field_1C_prev_collided_entity; // 0x1C
-    s32 field_20_collided_entity_type; // 0x20
-    s32 field_24_slide_state; // 0x24
-    Ang16 field_28_slide_rotation; // 0x28
-    Ang16 field_2A_slide_turn; // 0x2A
-    Ang16 field_2C_ang; // 0x2C
-    s8 field_2E_unused; // 0x2E
-    s8 field_2F_unused; // 0x2F
-    s32 field_30_unused; // 0x30
-    s16 field_34_unused; // 0x34
-    s8 field_36_unused; // 0x36
-    s8 field_37_unused; // 0x37
-    Fix16 field_38_velocity; // 0x38
-    Fix16 field_3C_run_or_jump_speed; // 0x3C
-    Ang16 field_40_rotation; // 0x40
-    Ang16 field_42_rotation_jitter; // 0x42
-    s8 field_44_block_type; // 0x44
-    u8 field_45_slope_gradient_direction; // 0x45
-    u16 field_46_timer; // 0x46
-    s8 field_48_lying_on_floor_timer; // 0x48
-    s8 field_49_unused; // 0x49
-    u16 field_4A_timeout; // 0x4A
-    Fix16 field_4C_conveyor_dx; // 0x4C
-    Fix16 field_50_conveyor_dy; // 0x50
-    s8 field_54_jump_scale_counter; // 0x54
-    u8 field_55_next_tile_timer; // 0x55
-    s8 field_56_unused; // 0x56
-    s8 field_57_unused; // 0x57
+    s32 mId; // 0x0
+    s8 mUnused4; // 0x4
+    u8 mRemap; // 0x5
+    s8 mUnused6; // 0x6
+    s8 mUnused7; // 0x7
+    s32 mPedState1; // 0x8
+    s32 mPedState2; // 0xC
+    s32 mCharState; // 0x10
+    Ang16 mTargetRotation; // 0x14
+    bool mStateInitPending; // 0x16
+    s8 mUnused17; // 0x17
+    void* mCollidedEntity; // 0x18
+    void* mPrevCollidedEntity; // 0x1C
+    s32 mCollidedEntityType; // 0x20
+    s32 mSlideState; // 0x24
+    Ang16 mSlideRotation; // 0x28
+    Ang16 mSlideTurn; // 0x2A
+    Ang16 mAng; // 0x2C
+    s8 mUnused2E; // 0x2E
+    s8 mUnused2F; // 0x2F
+    s32 mUnused30; // 0x30
+    s16 mUnused34; // 0x34
+    s8 mUnused36; // 0x36
+    s8 mUnused37; // 0x37
+    Fix16 mVelocity; // 0x38
+    Fix16 mRunOrJumpSpeed; // 0x3C
+    Ang16 mRotation; // 0x40
+    Ang16 mRotationJitter; // 0x42
+    s8 mBlockType; // 0x44
+    u8 mSlopeGradientDirection; // 0x45
+    u16 mTimer; // 0x46
+    s8 mLyingOnFloorTimer; // 0x48
+    s8 mUnused49; // 0x49
+    u16 mTimeout; // 0x4A
+    Fix16 mConveyorDx; // 0x4C
+    Fix16 mConveyorDy; // 0x50
+    s8 mJumpScaleCounter; // 0x54
+    u8 mNextTileTimer; // 0x55
+    s8 mUnused56; // 0x56
+    s8 mUnused57; // 0x57
     union
     {
-        u32 field_58_flags; // 0x58
-        CharB4Flags32 field_58_flags_bf; // 0x58
+        u32 mFlags; // 0x58
+        CharB4Flags32 mFlagsBf; // 0x58
     };
-    u8 field_5C_jump_over_timer; // 0x5C
-    s8 field_5D_unused; // 0x5D
-    s8 field_5E_unused; // 0x5E
-    s8 field_5F_unused; // 0x5F
-    s32 field_60_unused; // 0x60
-    s32 field_64_unused; // 0x64
-    u8 field_68_animation_frame; // 0x68
-    s8 field_69_is_colliding_with_sprite; // 0x69
-    u8 field_6A_repulsion_timer; // 0x6A
-    s8 field_6b_unused; // 0x6B
-    s32 field_6C_animation_state; // 0x6C
-    s8 field_70_frame_timer; // 0x70
-    s8 field_71_frame_delay; // 0x71
-    u8 field_72_next_tile_x; // 0x72
-    u8 field_73_next_tile_y; // 0x73
-    Ang16 field_74_repulsion_rotation; // 0x74
-    s8 field_76_unused; // 0x76
-    s8 field_77_unused; // 0x77
+    u8 mJumpOverTimer; // 0x5C
+    s8 mUnused5D; // 0x5D
+    s8 mUnused5E; // 0x5E
+    s8 mUnused5F; // 0x5F
+    s32 mUnused60; // 0x60
+    s32 mUnused64; // 0x64
+    u8 mAnimationFrame; // 0x68
+    s8 mIsCollidingWithSprite; // 0x69
+    u8 mRepulsionTimer; // 0x6A
+    s8 mUnused6B; // 0x6B
+    s32 mAnimationState; // 0x6C
+    s8 mFrameTimer; // 0x70
+    s8 mFrameDelay; // 0x71
+    u8 mNextTileX; // 0x72
+    u8 mNextTileY; // 0x73
+    Ang16 mRepulsionRotation; // 0x74
+    s8 mUnused76; // 0x76
+    s8 mUnused77; // 0x77
     Char* mpNext;
-    Ped* field_7C_pPed; // 0x7C
-    Sprite* field_80_sprite_ptr; // 0x80
-    Car* field_84_target_car; // 0x84
-    SpriteList_4_dtor field_88_obj_2c; // 0x88
-    Fix16 field_8C_jump_base_z; // 0x8C
-    Fix16 field_90_fall_speed; // 0x90
-    Fix16 field_94_fall_z_speed; // 0x94
-    Fix16_Point_POD field_98_velocity_vector; // 0x98
-    bool field_A0_force_top_layer; // 0xA0
-    s8 field_A1_unused; // 0xA1
-    s8 field_A2_unused; // 0xA2
-    s8 field_A3_unused; // 0xA3
-    Fix16 field_A4_xpos; // 0xA4
-    Fix16 field_A8_ypos; // 0xA8
-    Fix16 field_AC_zpos; // 0xAC
-    s32 field_B0_scream_timer; // 0xB0
+    Ped* mpPed; // 0x7C
+    Sprite* mSpritePtr; // 0x80
+    Car* mTargetCar; // 0x84
+    SpriteList_4_dtor mObj2c; // 0x88
+    Fix16 mJumpBaseZ; // 0x8C
+    Fix16 mFallSpeed; // 0x90
+    Fix16 mFallZSpeed; // 0x94
+    Fix16_Point_POD mVelocityVector; // 0x98
+    bool mForceTopLayer; // 0xA0
+    s8 mUnusedA1; // 0xA1
+    s8 mUnusedA2; // 0xA2
+    s8 mUnusedA3; // 0xA3
+    Fix16 mXpos; // 0xA4
+    Fix16 mYpos; // 0xA8
+    Fix16 mZpos; // 0xAC
+    s32 mScreamTimer; // 0xB0
 
     // 9.6f 0x48A4C0
     inline s32 get_ped_state_1_48A4C0() const
     {
-        return field_8_ped_state_1;
+        return mPedState1;
     }
 
     inline void Set_F8_ped_state_1_433910(s32 ped_state)
     {
-        field_8_ped_state_1 = ped_state;
+        mPedState1 = ped_state;
     }
 
     inline Ang16 get_rotation_433A40() const
     {
-        return field_40_rotation;
+        return mRotation;
     }
 
     void set_rotation_433A30(Ang16 rotation)
     {
-        field_40_rotation = rotation;
+        mRotation = rotation;
     }
 
     // 9.6f 0x4339C0
     inline Fix16 get_sprite_xpos() const
     {
-        return field_80_sprite_ptr->field_14_xy.x;
+        return mSpritePtr->mXy.x;
     }
 
     // 9.6f 0x4339E0
     inline Fix16 get_sprite_ypos() const
     {
-        return field_80_sprite_ptr->field_14_xy.y;
+        return mSpritePtr->mXy.y;
     }
 
     // 9.6f 0x433A00
     inline Fix16 get_sprite_zpos() const
     {
-        return field_80_sprite_ptr->field_1C_zpos;
+        return mSpritePtr->mZpos;
     }
 
     inline void RegulateVelocity_433970(Fix16 threshold)
     {
-        if (field_38_velocity < threshold)
+        if (mVelocity < threshold)
         {
-            field_38_velocity += kFpOne256th_678620;
+            mVelocity += kFpOne256th_678620;
         }
-        else if (field_38_velocity > threshold)
+        else if (mVelocity > threshold)
         {
-            field_38_velocity -= kFpOne256th_678620;
+            mVelocity -= kFpOne256th_678620;
         }
     }
 
     // strange, the same 9.6f func but Ped::StayCloseToTargetPed_46B170 only matches if it pass by ref
     inline void RegulateVelocityByRef_433970(Fix16& threshold)
     {
-        if (field_38_velocity < threshold)
+        if (mVelocity < threshold)
         {
-            field_38_velocity += kFpOne256th_678620;
+            mVelocity += kFpOne256th_678620;
         }
-        else if (field_38_velocity > threshold)
+        else if (mVelocity > threshold)
         {
-            field_38_velocity -= kFpOne256th_678620;
+            mVelocity -= kFpOne256th_678620;
         }
     }
 
     inline void SetVelocity_433920(Fix16 max_speed)
     {
-        field_38_velocity = max_speed;
+        mVelocity = max_speed;
     }
 
     // strange, the same 9.6f func but Ped::StayCloseToTargetPed_46B170 only matches if it pass by ref
     inline void SetVelocityByRef_433920(Fix16& max_speed)
     {
-        field_38_velocity = max_speed;
+        mVelocity = max_speed;
     }
 
     inline Ped* get_ped_433A20() const
     {
-        return field_7C_pPed;
+        return mpPed;
     }
 
     inline void SetPedState1_433910(s32 new_state)
     {
-        field_8_ped_state_1 = new_state;
+        mPedState1 = new_state;
     }
 
     inline void SetPedState2_433A50(s32 new_state)
     {
-        field_C_ped_state_2 = new_state;
+        mPedState2 = new_state;
     }
 
     inline void VeerLeftFromWall_4923D0()
     {
-        field_40_rotation.SnapToAng4_405640();
-        field_40_rotation += kAng16_6FD940;
-        field_10_char_state = Char_B4_state::Veer_Left_From_Wall_9;
-        field_46_timer = 10;
+        mRotation.SnapToAng4_405640();
+        mRotation += kAng16_6FD940;
+        mCharState = Char_B4_state::Veer_Left_From_Wall_9;
+        mTimer = 10;
     }
 
     inline void VeerRightFromWall_4923A0()
     {
-        field_40_rotation.SnapToAng4_405640();
-        field_40_rotation += kAng344_6FD8F8;
-        field_10_char_state = Char_B4_state::Veer_Right_From_Wall_8;
-        field_46_timer = 10;
+        mRotation.SnapToAng4_405640();
+        mRotation += kAng344_6FD8F8;
+        mCharState = Char_B4_state::Veer_Right_From_Wall_8;
+        mTimer = 10;
     }
 
     inline s32 GetCharState_433A80() const
     {
-        return field_10_char_state;
+        return mCharState;
     }
 
     inline void SetCharState_433A60(s32 char_state)
     {
-        field_10_char_state = char_state;
+        mCharState = char_state;
     }
 
     // 9.6f 0x433A90
     inline s8 Get_F44_433A90() const
     {
-        return field_44_block_type;
+        return mBlockType;
     }
 
     // 9.6f 0x403900
     inline Car* Get_F84_403900() const
     {
-        return field_84_target_car;
+        return mTargetCar;
     }
 
     inline void Set_F84_433900(Car* pCar)
     {
-        field_84_target_car = pCar;
+        mTargetCar = pCar;
     }
 
     inline void IncreaseSpeedIfAllowed_433940()
     {
-        field_38_velocity += kFpOne128th_6784BC;
+        mVelocity += kFpOne128th_6784BC;
         
-        if (field_38_velocity > field_3C_run_or_jump_speed)
+        if (mVelocity > mRunOrJumpSpeed)
         {
-            field_38_velocity = field_3C_run_or_jump_speed;
+            mVelocity = mRunOrJumpSpeed;
         }
     }
 
     inline void AddAngle_4928A0(Ang16 ang)
     {
-        field_40_rotation += ang;
+        mRotation += ang;
     }
 
     inline bool IsCollidingWithASprite_433AA0() const
     {
-        if (field_69_is_colliding_with_sprite)
+        if (mIsCollidingWithSprite)
         {
             return true;
         }
@@ -329,10 +329,10 @@ class Char
     // Inlined copy of SetRemap_46DD50
     inline void SetRemap_Inline(u8 remap)
     {
-        this->field_5_remap = remap;
+        this->mRemap = remap;
         if (remap != 0xFF)
         {
-            field_80_sprite_ptr->SetRemap(remap);
+            mSpritePtr->SetRemap(remap);
         }
     }
 

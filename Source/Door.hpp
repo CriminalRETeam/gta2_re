@@ -38,12 +38,12 @@ enum
 
 struct DoorAnimInfo
 {
-    u16 field_0_start_frame; // 0x0
-    u16 field_2_end_frame; // 0x2
-    s16 field_4_internal_tile_idx; // 0x4
-    s16 field_6_open_internal_tile_idx; // 0x6
-    u8 field_8_speed; // 0x8
-    s8 field_9_unused; // 0x9
+    u16 mStartFrame; // 0x0
+    u16 mEndFrame; // 0x2
+    s16 mInternalTileIdx; // 0x4
+    s16 mOpenInternalTileIdx; // 0x6
+    u8 mSpeed8; // 0x8
+    s8 mUnused9; // 0x9
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(DoorAnimInfo, 0xA);
 
@@ -53,7 +53,7 @@ class Door
     // 9.6f 0x476A90
     inline s32 get_open_type_476A90() const
     {
-        return field_20_open_type;
+        return mOpenType;
     }
 
     EXPORT Door();
@@ -81,92 +81,92 @@ class Door
     // 9.6f 0x4895F0
     inline void ClearF2C_4895F0()
     {
-        field_2C_bCanAutoOpen = false;
+        mbCanAutoOpen = false;
     }
 
     // 9.6f 0x489600
     inline bool IsDoubleDoor_489600() const
     {
-        return field_0_primary_door_data && field_4_secondary_door_data;
+        return mPrimaryDoorData && mSecondaryDoorData;
     }
 
     // inlined in 0x476990
     // 9.6f 0x476990
     inline void SetOpenType_476990(u32 v)
     {
-        field_20_open_type = v;
+        mOpenType = v;
     }
 
     // inlined in 0x476a10
     inline void set_close_type(u32 v)
     {
-        field_24_close_type = v;
+        mCloseType = v;
     }
 
     // inlined in 0x476a20
     inline void set_close_delay(s16 v)
     {
-        field_1C_close_delay = v;
-        field_1E_close_timer = v;
+        mCloseDelay = v;
+        mCloseTimer = v;
     }
 
     // inlined in 0x4769e0
     inline void set_open_details_car_bc(u32 open, Car* car_bc_ptr)
     {
-        field_20_open_type = open;
-        field_10_car_bc = car_bc_ptr;
-        field_2C_bCanAutoOpen = true;
+        mOpenType = open;
+        mCarBc = car_bc_ptr;
+        mbCanAutoOpen = true;
     }
 
     // inlined in 0x4769a0
     inline void set_open_details_model_id(u32 open, s32 id)
     {
-        field_20_open_type = open;
-        field_10_model_id = id;
-        field_2C_bCanAutoOpen = true;
+        mOpenType = open;
+        mModelId = id;
+        mbCanAutoOpen = true;
     }
 
     // inlined in 0x4769c0
     inline void set_open_details_ped(u32 open, Ped* ped_ptr)
     {
-        field_20_open_type = open;
-        field_10_ped = ped_ptr;
-        field_2C_bCanAutoOpen = true;
+        mOpenType = open;
+        mPed = ped_ptr;
+        mbCanAutoOpen = true;
     }
 
     // inlined in 0x476a00
     inline void set_target_id(s32 id)
     {
-        field_14_target_id = id;
-        field_2C_bCanAutoOpen = true;
+        mTargetId = id;
+        mbCanAutoOpen = true;
     }
 
-    DoorData* field_0_primary_door_data; // 0x0
-    DoorData* field_4_secondary_door_data; // 0x4: Only active when this door is a double door
-    Object* field_8_door_obj; // 0x8
-    Object* field_C_trigger_obj; // 0xC
+    DoorData* mPrimaryDoorData; // 0x0
+    DoorData* mSecondaryDoorData; // 0x4: Only active when this door is a double door
+    Object* mDoorObj; // 0x8
+    Object* mTriggerObj; // 0xC
     union
     {
-        Ped* field_10_ped; // 0x10: Active when field_20_open_type is door_open_type::one_char_on_foot
-        Car* field_10_car_bc; // 0x10: Active when field_20_open_type is door_open_type::one_car
-        s32 field_10_model_id; // 0x10: Active when field_20_open_type is door_open_type::one_model
+        Ped* mPed; // 0x10: Active when mOpenType is door_open_type::one_char_on_foot
+        Car* mCarBc; // 0x10: Active when mOpenType is door_open_type::one_car
+        s32 mModelId; // 0x10: Active when mOpenType is door_open_type::one_model
     };
-    s32 field_14_target_id; // 0x14
-    s32 field_18_unused; // 0x18
-    s16 field_1C_close_delay; // 0x1C
-    u16 field_1E_close_timer; // 0x1E
-    s32 field_20_open_type; // 0x20
-    s32 field_24_close_type; // 0x24
-    bool field_28_bClosing; // 0x28
-    bool field_29_bAuto; // 0x29
-    char_type field_2A_bDoFlip; // 0x2A
-    char_type field_2B_bReversed; // 0x2B
-    bool field_2C_bCanAutoOpen; // 0x2C
-    bool field_2D_play_open_sound; // 0x2D
-    char_type field_2E_unused; // 0x2E
-    char_type field_2F_unused; // 0x2F
-    Fix16 field_30_x; // 0x30
-    Fix16 field_34_y; // 0x34
+    s32 mTargetId; // 0x14
+    s32 mUnused18; // 0x18
+    s16 mCloseDelay; // 0x1C
+    u16 mCloseTimer; // 0x1E
+    s32 mOpenType; // 0x20
+    s32 mCloseType; // 0x24
+    bool mbClosing; // 0x28
+    bool mbAuto; // 0x29
+    char_type mbDoFlip; // 0x2A
+    char_type mbReversed; // 0x2B
+    bool mbCanAutoOpen; // 0x2C
+    bool mPlayOpenSound; // 0x2D
+    char_type mUnused2E; // 0x2E
+    char_type mUnused2F; // 0x2F
+    Fix16 mX; // 0x30
+    Fix16 mY; // 0x34
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Door, 0x38);
 

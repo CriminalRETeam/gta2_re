@@ -53,7 +53,7 @@ u16 TextTable::RemapExtendedChar_5B58D0(u16 ch) const
         }
         else
         {
-            result = field_10_lang_code == 'r' ? kExtendedRussianCharMap_626490[ch - 128] : kExtendedWesternCharMap[ch - 128];
+            result = mLangCode == 'r' ? kExtendedRussianCharMap_626490[ch - 128] : kExtendedWesternCharMap[ch - 128];
             if (!result)
             {
                 result = '?';
@@ -84,26 +84,26 @@ void TextTable::RemapExtendedChars_5B5930(wchar_t* pStr)
 MATCH_FUNC(0x5B5960)
 void TextTable::TKEY_Load_5B5960(u32 chunk_size)
 {
-    field_0_tKey.field_4_tKey_count = chunk_size / sizeof(TextKeyEntry);
-    field_0_tKey.field_0_tKey = new TextKeyEntry[field_0_tKey.field_4_tKey_count];
-    if (!field_0_tKey.field_0_tKey)
+    mTKey.mTKeyCount = chunk_size / sizeof(TextKeyEntry);
+    mTKey.mTKey = new TextKeyEntry[mTKey.mTKeyCount];
+    if (!mTKey.mTKey)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\text.cpp", 218);
     }
 
-    File::Global_Read_4A71C0(field_0_tKey.field_0_tKey, chunk_size);
+    File::Global_Read_4A71C0(mTKey.mTKey, chunk_size);
 }
 
 MATCH_FUNC(0x5B59B0)
 void TextTable::TDAT_Offsets2Strings_5B59B0(u8* pDat)
 {
-    TextKeyEntry* ptKeyIter = field_0_tKey.field_0_tKey;
+    TextKeyEntry* ptKeyIter = mTKey.mTKey;
 
-    for (u32 idx = 0; idx < static_cast<u32>(field_0_tKey.field_4_tKey_count); idx++)
+    for (u32 idx = 0; idx < static_cast<u32>(mTKey.mTKeyCount); idx++)
     {
         // The raw file record is an offset, convert it to a pointer to the string data in the TDAT
-        const s32 offsetInBytes = reinterpret_cast<s32>(ptKeyIter->field_0_pwstr);
-        ptKeyIter->field_0_pwstr = reinterpret_cast<wchar_t*>(&pDat[offsetInBytes]);
+        const s32 offsetInBytes = reinterpret_cast<s32>(ptKeyIter->mPwstr);
+        ptKeyIter->mPwstr = reinterpret_cast<wchar_t*>(&pDat[offsetInBytes]);
         ptKeyIter++;
     }
 }
@@ -112,8 +112,8 @@ MATCH_FUNC(0x5B59E0)
 bool TextTable::TKeyFind_5B59E0(const char_type* pIdStr) const
 {
     return bsearch(pIdStr, // search key
-                   field_0_tKey.field_0_tKey, // array to search
-                   field_0_tKey.field_4_tKey_count, // array count
+                   mTKey.mTKey, // array to search
+                   mTKey.mTKeyCount, // array count
                    sizeof(TextKeyEntry), // element size
                    TKeySearch_5B5A10) ?
         true :
@@ -125,15 +125,15 @@ s32 __cdecl TextTable::TKeySearch_5B5A10(const void* a, const void* b)
 {
     const char_type* pIdStr = static_cast<const char_type*>(a);
     const TextKeyEntry* pEntry = static_cast<const TextKeyEntry*>(b);
-    return strcmp(pIdStr, reinterpret_cast<const char_type*>(&pEntry->field_4_key));
+    return strcmp(pIdStr, reinterpret_cast<const char_type*>(&pEntry->mKey));
 }
 
 MATCH_FUNC(0x5B5A50)
 wchar_t* TextTable::TKeyFind_5B5A50(const char_type* pIdStr) const
 {
     TextKeyEntry* pFound = static_cast<TextKeyEntry*>(bsearch(pIdStr, // key
-                                          field_0_tKey.field_0_tKey, // array
-                                          field_0_tKey.field_4_tKey_count, // array count
+                                          mTKey.mTKey, // array
+                                          mTKey.mTKeyCount, // array count
                                           sizeof(TextKeyEntry), // element size
                                           TKeySearch_5B5A10));
     if (!pFound)
@@ -142,22 +142,22 @@ wchar_t* TextTable::TKeyFind_5B5A50(const char_type* pIdStr) const
     }
     else
     {
-        return pFound->field_0_pwstr;
+        return pFound->mPwstr;
     }
 }
 
 MATCH_FUNC(0x5B5A80)
 void text_tdat::TDAT_Load_5B5A80(u32 size)
 {
-    field_4_len = size / sizeof(wchar_t);
-    field_0_data = new u8[field_4_len * sizeof(wchar_t)];
+    mLen = size / sizeof(wchar_t);
+    mData = new u8[mLen * sizeof(wchar_t)];
 
-    if (!field_0_data)
+    if (!mData)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\text.cpp", 378);
     }
 
-    File::Global_Read_4A71C0(field_0_data, size);
+    File::Global_Read_4A71C0(mData, size);
 }
 
 MATCH_FUNC(0x5B5AD0)
@@ -165,7 +165,7 @@ u16 TextTable::ToUpper_5B5AD0(wchar_t ch) const
 {
     // The original uppercase data uses kToUpperTable_626590[0..127] for 'g'/'i'/'r'/'s'
     // and kToUpperTable_626590[128..255] for French. Index both halves explicitly.
-    switch (field_10_lang_code)
+    switch (mLangCode)
     {
         case 'e':
             if (ch >= 'a' && ch <= 'z')
@@ -340,7 +340,7 @@ void TextTable::load_chunk_5B5E20(const char_type* chunk_type, u32 chunk_len)
     }
     else if (!strncmp(chunk_type, "TDAT", 4u))
     {
-        field_8_tDat.TDAT_Load_5B5A80(chunk_len);
+        mTDat.TDAT_Load_5B5A80(chunk_len);
     }
     else
     {
@@ -355,9 +355,9 @@ void TextTable::Load_5B5E90()
 
     chunk_header chunkHeader;
     char_type gxtFileName[20];
-    sprintf(gxtFileName, "data\\%c.gxt", field_10_lang_code);
+    sprintf(gxtFileName, "data\\%c.gxt", mLangCode);
 
-    sprintf(expected_code, "GBL%c", field_10_lang_code - ' ');
+    sprintf(expected_code, "GBL%c", mLangCode - ' ');
 
     File::Global_Open_4A7060(gxtFileName);
 
@@ -370,13 +370,13 @@ void TextTable::Load_5B5E90()
 
     for (len = sizeof(chunk_header); File::Global_Read_4A7210(&chunkHeader, &len); len = sizeof(chunk_header))
     {
-        if (chunkHeader.field_4_size != 0)
+        if (chunkHeader.mSize != 0)
         {
-            load_chunk_5B5E20(chunkHeader.field_0_type, chunkHeader.field_4_size);
+            load_chunk_5B5E20(chunkHeader.mType, chunkHeader.mSize);
         }
     }
     File::Global_Close_4A70C0();
-    TDAT_Offsets2Strings_5B59B0(field_8_tDat.field_0_data);
+    TDAT_Offsets2Strings_5B59B0(mTDat.mData);
 }
 
 MATCH_FUNC(0x5B5F90)
@@ -399,11 +399,11 @@ TextTable::TextTable()
     if (gTmpBuffer_67C598[0] == 'e' || gTmpBuffer_67C598[0] == 'f' || gTmpBuffer_67C598[0] == 'g' || gTmpBuffer_67C598[0] == 'i' ||
         gTmpBuffer_67C598[0] == 's' || gTmpBuffer_67C598[0] == 'j' || gTmpBuffer_67C598[0] == 'r')
     {
-        field_10_lang_code = gTmpBuffer_67C598[0];
+        mLangCode = gTmpBuffer_67C598[0];
     }
     else
     {
-        field_10_lang_code = 'e';
+        mLangCode = 'e';
     }
 }
 

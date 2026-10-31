@@ -14,9 +14,9 @@ class Object_8
     inline void PoolAllocate()
     {
         gObj8_count_6F8F18++;
-        field_6_frame_counter = 0;
-        field_7_frame_idx = 0;
-        field_4_timer = 0;
+        mFrameCounter = 0;
+        mFrameIdx = 0;
+        mTimer = 0;
     }
 
     // 9.6f 0x482AF0
@@ -27,7 +27,7 @@ class Object_8
     }
 
     Object_8* mpNext;
-    s16 field_4_timer; // 0x4
-    u8 field_6_frame_counter; // 0x6
-    u8 field_7_frame_idx; // 0x7
+    s16 mTimer; // 0x4
+    u8 mFrameCounter; // 0x6
+    u8 mFrameIdx; // 0x7
 };

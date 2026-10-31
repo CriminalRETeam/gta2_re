@@ -2,7 +2,7 @@
 
 #include "types.hpp"
 
-// Char::field_58_flags_bf. Same layout as CompilerBitField32 (the bit field form is needed to match). Bits named
+// Char::mFlagsBf. Same layout as CompilerBitField32 (the bit field form is needed to match). Bits named
 // bFlagN are never read: bits 1 and 2 are only cleared, the others are not used.
 struct CharB4Flags32
 {
