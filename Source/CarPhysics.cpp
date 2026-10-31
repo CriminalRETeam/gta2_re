@@ -298,7 +298,7 @@ void CarPhysics::ShowPhysicsDebug_559430()
         if (field_84_front_skid >= gCarInfo_2C_6FE0E4->field_24_skid_threshhold_1 ||
             (field_AC_drive_wheels_locked_q > 0 && gCarInfo_48_6FE258->field_8_front_drive_bias > kFP16Zero_6FE20C))
         {
-            pText->SetDrawKind8_45AFD0(5);
+            pText->SetFontRemap_45AFD0(5);
         }
 
         swprintf(tmpBuff_67BD9C, L"rear skid = %3.3f", field_88_rear_skid.to_float_410BA0());
@@ -306,7 +306,7 @@ void CarPhysics::ShowPhysicsDebug_559430()
         if (field_88_rear_skid >= gCarInfo_2C_6FE0E4->field_28_skid_threshhold_2 ||
             (field_AC_drive_wheels_locked_q > 0 && gCarInfo_2C_6FE0E4->field_20_rear_drive_bias > kFP16Zero_6FE20C))
         {
-            pText->SetDrawKind8_45AFD0(5);
+            pText->SetFontRemap_45AFD0(5);
         }
 
         swprintf(tmpBuff_67BD9C,

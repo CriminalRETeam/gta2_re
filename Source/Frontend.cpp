@@ -968,7 +968,7 @@ void Frontend::DrawScoreTable_4B5430(ScoreTableLine* pStrings,
     }
 }
 
-// sub_457920 in 9.6f
+// 9.6f 0x457920
 // https://decomp.me/scratch/jchxT
 MATCH_FUNC(0x4AD140)
 void Frontend::DrawMenu_4AD140()

@@ -238,7 +238,7 @@ EXPORT void __stdcall SpawnTestGroup_46DD70(char_type remap, u8 count)
     gLastTestPed_6787E8->field_26C_graphic_type = pPlayerPed->field_26C_graphic_type;
     gLastTestPed_6787E8->SetPedType_403920(ped_type::script_created_5);
     if (!gLastTestPed_6787E8->AllocCharB4_45C830(pPlayerPed->field_1AC_cam.x, pPlayerPed->field_1AC_cam.y, pPlayerPed->field_1AC_cam.z))
-    // 9.6f: Ped::get_cam_x/get_cam_y/sub_416B50 (inlined, using them changes the code)
+    // 9.6f: Ped::get_cam_x/get_cam_y/get_cam_z (inlined, using them changes the code)
     {
         gLastTestPed_6787E8->field_168_game_object->SetRemap_46DD50(gLastTestPed_6787E8->get_remap_433BA0());
     }
@@ -375,7 +375,7 @@ void Game::ShowDebugOverlay_4B9270()
     if (field_30_fast_forward)
     {
         Hud_TextEntry* pTextEntry = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(L"FF", 0, 440, gDebugFont_706600, 1);
-        pTextEntry->SetDrawKind8_45AFD0(6);
+        pTextEntry->SetFontRemap_45AFD0(6);
     }
 }
 

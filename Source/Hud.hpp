@@ -252,7 +252,7 @@ class Hud_TextEntry
     }
 
     // 9.6f 0x45AFD0
-    void SetDrawKind8_45AFD0(s16 palette)
+    void SetFontRemap_45AFD0(s16 palette)
     {
         field_B0_drawKind = 8;
         field_B4_palette = palette;
@@ -524,7 +524,7 @@ class Hud_Arrow
     EXPORT void SetPlayerArrowColour_5D0DC0(Ped* pPed);
 
     // 9.6f inline 0x4C6F80
-    inline bool IsType0_4C6F80() const
+    inline bool HasNeitherTarget_4C6F80() const
     {
         if (field_18_targets.field_18_primary_target.HasNoTarget_4C6F20() && field_18_targets.field_3C_secondary_target.HasNoTarget_4C6F20())
         {

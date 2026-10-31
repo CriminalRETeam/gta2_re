@@ -706,12 +706,12 @@ void Object::HandleCollisionOutcome_523440(Fix16_Point point, bool bHitFloorBelo
             {
                 if (bHitBlockAtZ && gCollisionTarget_679188.field_0_type != collision_target_type::sprite_3)
                 {
-                    gCollisionTarget_679188.SetType5_482A80();
+                    gCollisionTarget_679188.SetBlockAtZ_482A80();
                 }
             }
             else
             {
-                gCollisionTarget_679188.SetType4_482A70();
+                gCollisionTarget_679188.SetFloorBelow_482A70();
             }
 
             HandleImpact_528E50(gCollisionTarget_679188.field_20_pHitSprite);
@@ -721,11 +721,11 @@ void Object::HandleCollisionOutcome_523440(Fix16_Point point, bool bHitFloorBelo
         case 1:
             if (bHitFloorBelow)
             {
-                gCollisionTarget_679188.SetType4_482A70();
+                gCollisionTarget_679188.SetFloorBelow_482A70();
             }
             else if (bHitBlockAtZ)
             {
-                gCollisionTarget_679188.SetType5_482A80();
+                gCollisionTarget_679188.SetBlockAtZ_482A80();
             }
             HandleImpact_528E50(gCollisionTarget_679188.field_20_pHitSprite);
             return;

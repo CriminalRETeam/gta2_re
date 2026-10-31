@@ -123,12 +123,12 @@ static inline s32 Clamp2(s32 v, s32 center, s32 radius)
 }
 
 MATCH_FUNC(0x412240)
-void sound_obj::null_412240()
+void sound_obj::PreSoundInit_412240()
 {
 }
 
 MATCH_FUNC(0x412250)
-void sound_obj::null_412250()
+void sound_obj::PreSoundShutdown_412250()
 {
 }
 
@@ -601,7 +601,7 @@ void sound_obj::ProcessCar_412B80(Sound_Params* pParams)
 }
 
 MATCH_FUNC(0x412C90)
-bool sound_obj::SelectCollisionSound_412C90(CollisionEvent* pEvent, u8 base_sample)
+bool sound_obj::SelectCollisionSound_412C90(CollisionEvent* pEvent, u8 volume)
 {
     bool result;
 
@@ -612,16 +612,16 @@ bool sound_obj::SelectCollisionSound_412C90(CollisionEvent* pEvent, u8 base_samp
             result = sound_obj::SelectObjectImpactSound_1_10_412D30(pEvent);
             break;
         case collision_event_type::car_car_2:
-            result = sound_obj::SelectCarCarCollisionSound_412D40(base_sample);
+            result = sound_obj::SelectCarCarCollisionSound_412D40(volume);
             break;
         case collision_event_type::car_object_3:
             result = sound_obj::SelectCarObjectCollisionSound_413000(pEvent);
             break;
         case collision_event_type::car_ped_4:
-            result = sound_obj::SelectCarPedCollisionSound_413040(base_sample);
+            result = sound_obj::SelectCarPedCollisionSound_413040(volume);
             break;
         case collision_event_type::car_wall_5:
-            result = sound_obj::SelectCarWallCollisionSound_413090(base_sample);
+            result = sound_obj::SelectCarWallCollisionSound_413090(volume);
             break;
         case collision_event_type::ped_object_7:
             result = sound_obj::SelectPedObjectCollisionSound_4130E0(pEvent);
@@ -646,20 +646,20 @@ bool sound_obj::SelectObjectImpactSound_1_10_412D30(CollisionEvent* pEvent)
 }
 
 MATCH_FUNC(0x412D40)
-bool sound_obj::SelectCarCarCollisionSound_412D40(u8 roll)
+bool sound_obj::SelectCarCarCollisionSound_412D40(u8 volume)
 {
     s32 samp_idx;
 
-    if (roll < 15u)
+    if (volume < 15u)
     {
         return false;
     }
 
-    if (roll < 40u)
+    if (volume < 40u)
     {
         samp_idx = 37;
     }
-    else if (roll < 90u)
+    else if (volume < 90u)
     {
         samp_idx = 38;
     }
@@ -813,15 +813,15 @@ bool sound_obj::SelectCarObjectCollisionSound_413000(CollisionEvent* pEvent)
 }
 
 MATCH_FUNC(0x413040)
-bool sound_obj::SelectCarPedCollisionSound_413040(u8 roll)
+bool sound_obj::SelectCarPedCollisionSound_413040(u8 volume)
 {
-    if (roll < 15u)
+    if (volume < 15u)
     {
         return false;
     }
 
     s32 idx_to_use;
-    if (roll < 23)
+    if (volume < 23)
     {
         idx_to_use = 40;
     }
@@ -838,14 +838,14 @@ bool sound_obj::SelectCarPedCollisionSound_413040(u8 roll)
 }
 
 MATCH_FUNC(0x413090)
-bool sound_obj::SelectCarWallCollisionSound_413090(u8 roll)
+bool sound_obj::SelectCarWallCollisionSound_413090(u8 volume)
 {
     s32 idx_to_use;
-    if (roll < 40u)
+    if (volume < 40u)
     {
         idx_to_use = 37;
     }
-    else if (roll < 90u)
+    else if (volume < 90u)
     {
         idx_to_use = 38;
     }
@@ -1042,7 +1042,7 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
             switch (interactionType)
             {
                 case 3:
-                    // 9.6f: Car::sub_414F60 (field_78_flags & 0x100 via sub_411930, inlined, a bool helper changes the code)
+                    // 9.6f: Car::IsBulletproof_414F60 (field_78_flags & 0x100 via IsFlagSet_411930, inlined, a bool helper changes the code)
                     if ((pEvent->field_10_car->field_78_flags & car_flag::Bulletproof))
                     {
                         samp_idx = field_1454_anRandomTable[1] % 3 + 46;
@@ -1211,8 +1211,8 @@ void sound_obj::ProcessType6_CollisionSoundQueue_413760(s32 idx)
     for (u8 event_idx = 0; event_idx < pQueue->field_C84_count; event_idx++)
     {
         CollisionEvent* pEvent = &pQueue->field_4_events[event_idx];
-        u8 base_sample = GetCollisionVolume_413A10(pEvent);
-        if (SelectCollisionSound_412C90(pEvent, base_sample))
+        u8 volume = GetCollisionVolume_413A10(pEvent);
+        if (SelectCollisionSound_412C90(pEvent, volume))
         {
             if (this->field_30_sQueueSample.field_18_bIs2D)
             {
@@ -1241,7 +1241,7 @@ void sound_obj::ProcessType6_CollisionSoundQueue_413760(s32 idx)
                 return;
             }
 
-            if (base_sample > 0)
+            if (volume > 0)
             {
                 this->field_30_sQueueSample.field_8_obj.field_0_x = pQueue->field_4_events[event_idx].field_4_x;
                 this->field_30_sQueueSample.field_8_obj.field_4_y = pQueue->field_4_events[event_idx].field_8_y;
@@ -1250,7 +1250,7 @@ void sound_obj::ProcessType6_CollisionSoundQueue_413760(s32 idx)
                 this->field_2C_distCalculated = false;
                 if (CalculateDistance_419020(Fix16(25)))
                 {
-                    if (VolCalc_419070(base_sample,
+                    if (VolCalc_419070(volume,
                                        Fix16(5),
                                        gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(this->field_30_sQueueSample.field_8_obj.field_0_x,
                                                                                           this->field_30_sQueueSample.field_8_obj.field_4_y,
@@ -1259,7 +1259,7 @@ void sound_obj::ProcessType6_CollisionSoundQueue_413760(s32 idx)
                         nearest_idx = event_idx;
                         vol = this->field_30_sQueueSample.field_24_nVolume;
                         distance = this->field_30_sQueueSample.field_28_distance;
-                        emittingVol = base_sample;
+                        emittingVol = volume;
                     }
                 }
             }
@@ -3512,7 +3512,7 @@ void sound_obj::Init_419E10()
 {
     if (!field_0_bSoundInitialized)
     {
-        null_412240();
+        PreSoundInit_412240();
         field_0_bSoundInitialized = gSampManager_6FFF00.SoundInit_58D6C0(&field_5440_unused);
         if (field_0_bSoundInitialized)
         {
@@ -3549,7 +3549,7 @@ void sound_obj::DeinitializeAudio_419E50()
         }
         field_543C_444C_nAudioEntitiesCount = 0;
 
-        null_412250();
+        PreSoundShutdown_412250();
         gSampManager_6FFF00.Shutdown_58DB30();
         field_0_bSoundInitialized = false;
     }

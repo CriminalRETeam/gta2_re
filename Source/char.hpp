@@ -207,7 +207,7 @@ class Char
         }
     }
 
-    // strange, the same 9.6f func but Ped::ChaseTargetStateMachine_46B170 only matches if it pass by ref
+    // strange, the same 9.6f func but Ped::StayCloseToTargetPed_46B170 only matches if it pass by ref
     inline void RegulateVelocityByRef_433970(Fix16& threshold)
     {
         if (field_38_velocity < threshold)
@@ -225,7 +225,7 @@ class Char
         field_38_velocity = max_speed;
     }
 
-    // strange, the same 9.6f func but Ped::ChaseTargetStateMachine_46B170 only matches if it pass by ref
+    // strange, the same 9.6f func but Ped::StayCloseToTargetPed_46B170 only matches if it pass by ref
     inline void SetVelocityByRef_433920(Fix16& max_speed)
     {
         field_38_velocity = max_speed;

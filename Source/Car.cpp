@@ -909,7 +909,7 @@ Car* CarManager::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
                                                 Ped* pPed,
                                                 bool bIgnorePedRestrictions)
 {
-    // 9.6f calls sub_421D80 and sub_421DF0 here, which are HasSpriteZoom_43A230 and IsCarInAir_43A3C0 (not inlined in 10.5)
+    // 9.6f calls HasSpriteZoom_421D80 and IsCarInAir_421DF0 here, 10.5 calls HasSpriteZoom_43A230 and IsCarInAir_43A3C0 (not inlined)
     Fix16 smallestDist = Fix16(0x300);
     Car* pNearestCar = NULL;
     for (Car* pCarIter = gCar_BC_Pool_67792C->GetFirstCar_420E50(); pCarIter; pCarIter = pCarIter->mpNext)
@@ -3453,7 +3453,7 @@ bool Car::IsAreaDamaged_43D1C0(s32 damage_area)
     return false;
 }
 
-// 9.6f: the field_78_flags test is Car::sub_411930 (inlined, as a bool helper it changes the code)
+// 9.6f: the field_78_flags test is Car::IsFlagSet_411930 (inlined, as a bool helper it changes the code)
 MATCH_FUNC(0x43d2c0)
 void Car::TryDamageArea_43D2C0(u8 damage_area, s32 damageAmount)
 {
@@ -4953,7 +4953,7 @@ void Car::HandleUserInput_4418D0(char_type forward_gas_on,
         Car::DoDetachTrailer_4418A0();
     }
 
-    // 9.6f: Car::sub_425780 (field_78_flags & 0x1000 through sub_411930), as a bool helper it changes the code
+    // 9.6f: Car::IsAcceleratorJammed_425780 (field_78_flags & 0x1000 through IsFlagSet_411930), as a bool helper it changes the code
     if ((this->field_78_flags & car_flag::Flag12))
     {
         forward_gas_on = 1;

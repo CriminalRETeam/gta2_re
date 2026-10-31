@@ -250,8 +250,8 @@ class sound_obj
     EXPORT s32 samp_idx_for_model_417AC0(s32 car_model) const;
     EXPORT s32 GetSirenSampleIdx_417B80(s32 car_model, bool bHornOn) const;
 
-    EXPORT void null_412240();
-    EXPORT void null_412250();
+    EXPORT void PreSoundInit_412240();
+    EXPORT void PreSoundShutdown_412250();
     EXPORT bool InitSampleForType_412260(sound_0x68* pObj);
     EXPORT void ProcessEntity_4123A0(s32 idx);
     EXPORT void ProcessType2_Frontend_412490(s32 idx);
@@ -259,13 +259,13 @@ class sound_obj
     EXPORT void ProcessType8_Crane_412820(s32 idx);
     EXPORT void ProcessType9_Crusher_412A60(s32 idx);
     EXPORT void ProcessCar_412B80(Sound_Params* pParams);
-    EXPORT bool SelectCollisionSound_412C90(CollisionEvent* pEvent, u8 base_sample);
+    EXPORT bool SelectCollisionSound_412C90(CollisionEvent* pEvent, u8 volume);
     EXPORT bool SelectObjectImpactSound_1_10_412D30(CollisionEvent* pEvent);
-    EXPORT bool SelectCarCarCollisionSound_412D40(u8 roll);
+    EXPORT bool SelectCarCarCollisionSound_412D40(u8 volume);
     EXPORT void PlayPickupVoice_412D90(s32 model);
     EXPORT bool SelectCarObjectCollisionSound_413000(CollisionEvent* pEvent);
-    EXPORT bool SelectCarPedCollisionSound_413040(u8 roll);
-    EXPORT bool SelectCarWallCollisionSound_413090(u8 roll);
+    EXPORT bool SelectCarPedCollisionSound_413040(u8 volume);
+    EXPORT bool SelectCarWallCollisionSound_413090(u8 volume);
     EXPORT bool SelectPedObjectCollisionSound_4130E0(CollisionEvent* pEvent);
     EXPORT bool SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 interactionType);
     EXPORT bool SelectObjectObjectCollisionSound_413540(CollisionEvent* pEvent);

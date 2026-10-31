@@ -29,14 +29,14 @@ class CollisionTarget
     }
 
     // 9.6f 0x482A70
-    void SetType4_482A70()
+    void SetFloorBelow_482A70()
     {
         this->field_0_type = collision_target_type::floor_below_4;
         this->field_20_pHitSprite = NULL;
     }
 
     // 9.6f 0x482A80
-    void SetType5_482A80()
+    void SetBlockAtZ_482A80()
     {
         this->field_0_type = collision_target_type::block_at_z_5;
         this->field_20_pHitSprite = NULL;

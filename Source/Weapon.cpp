@@ -873,7 +873,7 @@ static inline Fix16 BeamLength_5DE910(Fix16_Point& d)
 // Draws the electro beam from `start_pos` (or the gun muzzle when gElectroChainDepth_706C94 is clear) to `end_pos` at height
 // `z_pos`: kFP16Quarter_706CF4 long segments with a random kink each, then straight segments for the rest.
 // `start_pos` is the base type: callers pass a get_x_y() temporary, which is sliced into it
-// (Fix16_Point here breaks the caller ChainShockTargets_5DFB60). 9.6f: sub_4CCBD0.
+// (Fix16_Point here breaks the caller ChainShockTargets_5DFB60). 9.6f: DrawElectricArc_4CCBD0.
 // The EH state is 0xA at entry and never changes: 11 Fix16_Point locals, two of them unused
 // (likely the original's by-value start_pos is one of them). `d` is reused for the rest of the way and
 // `len` for the straight segment count, as the original's frame shows.

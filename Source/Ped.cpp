@@ -5183,7 +5183,7 @@ void Ped::ProcessInternalObjective_463FB0()
                 Ped::FollowTargetStateMachine_46AC20();
                 break;
             case objectives_enum::stay_close_to_char_11:
-                Ped::ChaseTargetStateMachine_46B170();
+                Ped::StayCloseToTargetPed_46B170();
                 break;
             case objectives_enum::pull_driver_out_32:
                 Ped::PullDriverOutOfCarStateMachine_46B2F0();
@@ -5213,7 +5213,7 @@ void Ped::ProcessInternalObjective_463FB0()
                 Ped::WalkToTargetPoint_46C770();
                 break;
             case objectives_enum::goto_area_in_car_14:
-                Ped::EmptyState14_46CA60();
+                Ped::GotoAreaInCar_46CA60();
                 break;
             case objectives_enum::walk_to_car_door_18:
                 Ped::WalkToTargetThenStop_46C8A0();
@@ -8231,7 +8231,6 @@ void Ped::GotoAreaByAnyMeans_469060()
 
                         if (pCar)
                         {
-                            // 9.6f: Car::sub_421510 (allocates field_5C_AI if needed)
                             pCar->AllocateAI_421510();
                             pCar->field_5C_AI->SetCar_453BF0(pCar);
                             pCar->SpawnDriverPed();
@@ -9203,7 +9202,7 @@ void Ped::FollowTargetStateMachine_46AC20()
 }
 
 MATCH_FUNC(0x46b170)
-void Ped::ChaseTargetStateMachine_46B170()
+void Ped::StayCloseToTargetPed_46B170()
 {
     if (!field_14C_internal_target_ped->isDead_403B60() && field_14C_internal_target_ped->IsActive_433B40())
     {
@@ -10119,7 +10118,7 @@ void Ped::CrossRoad_46C9B0()
 }
 
 MATCH_FUNC(0x46ca60)
-void Ped::EmptyState14_46CA60()
+void Ped::GotoAreaInCar_46CA60()
 {
 }
 

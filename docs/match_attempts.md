@@ -4034,7 +4034,7 @@ Python diff.
 Follow-up (same round): tried each of the 6 `+ kAng90_6779E4` sites individually (not just in
 bulk) and the `v240`/`v244` one-offs individually - every single one regressed alone too, so it
 isn't a bulk-averaging artifact; these really shouldn't get the same transform. Checked the 9.6f
-pair (`sub_42D820`, already in `docs/inlines_96f.md` with its own prior note: "PolarToCartesian
+pair (`UpdateStateMachine_42D820`, already in `docs/inlines_96f.md` with its own prior note: "PolarToCartesian
 sites (many += into globals) and 4463C0..4465B0 helpers not done" - this session's finding is
 exactly that gap). `add_96f_target.py 0x44e560=0x42d820` + `show_96f.py 0x44e560` dumps it
 (needs `dump_fingerprints.py` and `match_96f.py` run first, since `match_96f.json`/

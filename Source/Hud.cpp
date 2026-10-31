@@ -266,7 +266,7 @@ void Hud_ShowCoords::ShowPlayerCoords_5CF970()
                  pZoneName);
 
         Hud_TextEntry* pTextEntry = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, -1, 16, gPickupTextFont_7064B8, 1);
-        pTextEntry->SetDrawKind8_45AFD0(0);
+        pTextEntry->SetFontRemap_45AFD0(0);
     }
 }
 
@@ -905,7 +905,7 @@ void Hud_Arrow::DrawArrow_5D0C90()
     Camera* pCam;
     s32 arrow_palette_type;
 
-    if (!IsType0_4C6F80())
+    if (!HasNeitherTarget_4C6F80())
     {
         if (IsVisible_4C7050())
         {
@@ -1021,7 +1021,7 @@ bool Hud_Arrow_7C_Array::IsThereAnyOtherArrowsInSameGang_5D0E40(Hud_Arrow* pArgA
     for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++)
     {
         Hud_Arrow* pArrow = &field_0_array[i];
-        if (pArrow != pArgArrow && !pArrow->IsType0_4C6F80() && pArrow->IsVisible_4C7050() &&
+        if (pArrow != pArgArrow && !pArrow->HasNeitherTarget_4C6F80() && pArrow->IsVisible_4C7050() &&
             pArrow->field_18_targets.field_10_gang_info.field_30_gang == pGang)
         {
             return true;
@@ -1062,7 +1062,7 @@ void Hud_Arrow_7C_Array::FindVisibleGangArrow_5D0EF0()
     Hud_Arrow* pIter = &field_0_array[0];
     while (idx < GTA2_COUNTOF_S(field_0_array))
     {
-        if (pIter->IsType0_4C6F80() ||
+        if (pIter->HasNeitherTarget_4C6F80() ||
             !pIter->field_18_targets.field_10_gang_info.field_30_gang || !pIter->field_18_targets.field_60_curr_target->field_20_bIsTargetVisible)
         {
             idx++;
@@ -1085,7 +1085,7 @@ bool Hud_Arrow_7C_Array::IsThereAnyMissionPhoneArrowForGang_5D0F40(Gang* pArgGan
     Hud_Arrow* pIter = &field_0_array[0];
     for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++, pIter++)
     {
-        if (!pIter->IsType0_4C6F80() &&
+        if (!pIter->HasNeitherTarget_4C6F80() &&
             (pIter->field_18_targets.field_10_gang_info.field_30_gang == pArgGang &&
              pIter->field_18_targets.field_60_curr_target->field_10_target_type != ArrowTargetType::InfoPhone_5))
         {
@@ -1100,7 +1100,7 @@ void Hud_Arrow_7C_Array::ClearOrphanInfoPhoneArrows_5D0F80()
 {
     for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++)
     {
-        if (!field_0_array[i].IsType0_4C6F80())
+        if (!field_0_array[i].HasNeitherTarget_4C6F80())
         {
             if (field_0_array[i].field_18_targets.field_10_gang_info.field_30_gang)
             {
@@ -1123,7 +1123,7 @@ void Hud_Arrow_7C_Array::UpdateArrows_5D0FD0()
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_0_array); i++)
     {
-        if (!field_0_array[i].IsType0_4C6F80())
+        if (!field_0_array[i].HasNeitherTarget_4C6F80())
         {
             field_0_array[i].Service_5D0C60();
         }

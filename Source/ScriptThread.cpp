@@ -2148,7 +2148,7 @@ void ScriptThread::SCRCMD_CREATE_OBJ_507CE0()
     }
     if (!field_118_in_level_start)
     {
-        gMiss2_25C_6F805C->push_type_2_502FF0(pPointer->field_8_obj, false);
+        gMiss2_25C_6F805C->push_type_2_non_pickup_object_502FF0(pPointer->field_8_obj, false);
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -6811,11 +6811,11 @@ void ScriptThread::SCRCMD_FORCE_CLEANUP_510660()
 
     if (ScriptThread::GetEntityTypeOfCommand_503410(pPointer->field_2_type) == script_entity_type::object_3)
     {
-        gMiss2_25C_6F805C->push_type_2_502FF0(pPointer->field_8_obj, true);
+        gMiss2_25C_6F805C->push_type_2_non_pickup_object_502FF0(pPointer->field_8_obj, true);
     }
     else if (ScriptThread::GetEntityTypeOfCommand_503410(pPointer->field_2_type) == script_entity_type::sound_10)
     {
-        gMiss2_25C_6F805C->push_type_2_503050(pPointer->field_8_obj);
+        gMiss2_25C_6F805C->push_type_2_object_503050(pPointer->field_8_obj);
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
